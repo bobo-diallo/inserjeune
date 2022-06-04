@@ -10,6 +10,8 @@ MYSQL_CONT = $(DOCKER) exec -it mysql-inserjeune-v2
 PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP_CONT) bin/console
+NPM  	 = $(PHP_CONT) npm
+SY  	 = $(PHP_CONT) symfony
 
 .DEFAULT_GOAL = help
 .PHONY        = Help build up start down logs sh composer vendor sf cc
@@ -17,13 +19,15 @@ SYMFONY  = $(PHP_CONT) bin/console
 help: ## Outputs this help screen
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-## —— Docker 🐳 ———————————————————————————————————————————————————————————————
+## —— Docker
 build: ## Builds the Docker images
 		@$(DOCKER_COMP) build --pull --no-cache
 
+build-cache: ## Builds the Docker images
+		@$(DOCKER_COMP) build --pull
+
 up: ## Start the docker hub in detached mod (no logs)
 		@$(DOCKER_COMP) up --detach
-		echo "App is running at http://127.0.0.1:8090"
 
 start: build up ## Build and start the containers
 
@@ -43,25 +47,27 @@ stop: ## Stop a container, pass the pass the parameter "c=" to run a given comma
 		@$(eval c ?=)
 		@$(DOCKER) stop $(c) || true && @$(DOCKER) rm $(c) || true
 
-## —— Composer 🧙 ——————————————————————————————————————————————————————————————
+## —— Composer
 composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c="req phpunit/phpunit"
 		@$(eval c ?=)
 		@$(COMPOSER) $(c)
 
-## —— Symfony ——————————————————————————————————————————————————————————————
-schema-update:
-	#make cache
+## —— Symfony
+server-run: ## Run symfony server with "symfony server:run"
+	@$(SY) server:start
+	echo "App is running at http://127.0.0.1:8090"
+
+server-watch: ## Run webpack with "npm run watch"
+	@$(NPM) run watch
+
+schema-update: ## Create database and run migrations
+	@$(SYMFONY) doctrine:database:drop --force
 	@$(SYMFONY) doctrine:database:create --if-not-exists
 	@$(SYMFONY) doctrine:migrations:migrate
 
-run-fixtures:
+run-fixtures: ## Load fixtures
 	@$(SYMFONY) doctrine:fixtures:load
 
-cache:
+cache: ## Clear cache
 	@$(SYMFONY) cache:clear --env=dev
 
-
-#exit:
-#	docker stop inserjeune-v2 || true && docker rm inserjeune-v2 || true
-#	docker stop mysql-8-inserjeune || true && docker rm mysql-8-inserjeune || true
-#

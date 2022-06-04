@@ -6,9 +6,9 @@ RUN apt-get install -y autoconf \
     libzip-dev  \
     libpng-dev  \
     libonig-dev \
-    git gcc make libc-dev vim unzip
+    git gcc make libc-dev vim unzip procps fish
 
-RUN docker-php-ext-install bcmath pdo pdo_mysql mysqli sockets zip ctype iconv gd mbstring
+RUN docker-php-ext-install bcmath pdo pdo_mysql mysqli sockets zip ctype iconv gd mbstring opcache
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
@@ -21,9 +21,13 @@ RUN curl -sS https://getcomposer.org/installer | php \
 RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list
 RUN apt-get update
 RUN apt-get install -y symfony-cli
+#RUN apt-get install -y symfony-cli php-symfony-polyfill-apcu
+
+# Install npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x  | bash -
+RUN apt-get -y install nodejs
 
 WORKDIR /home/inserjeune
 
-#ENTRYPOINT ["php", "-S", "0.0.0.0:8080", "-t", "/home/inserjeune/public"]
 # Run symfony on localhot:8000
-ENTRYPOINT ["symfony", "server:start"]
+#ENTRYPOINT ["symfony", "server:start"]
