@@ -21,6 +21,9 @@ security:
                 check_path: login
                 enable_csrf: true
                 default_target_path: homepage
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
