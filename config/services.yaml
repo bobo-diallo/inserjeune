@@ -3,6 +3,9 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+imports:
+    - { resource: 'cqrs/cqrs.yaml'}
+
 parameters:
     # Performance
     container.dumper.inline_factories: true
@@ -20,7 +23,28 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
+            - '../src/CQRS/'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Domain\User\Commands\:
+        resource: '../src/Domain/User/Commands/*{Handler}.php'
+        tags:
+            - { name: 'app_cqrs.command_handler' }
+        autowire: true
+
+    # Uploadable Annotation
+    upload.annotation_reader:
+        class: App\Config\Annotations\Uploadable\Annotation\UploadAnnotationReader
+        arguments: [ "@annotations.reader" ]
+
+    upload.handler:
+        class: App\Config\Annotations\Uploadable\Handler\UploadHandler
+
+    upload.subscriber:
+        class: App\Config\Annotations\Uploadable\Listener\UploadSubscriber
+        arguments: [ "@upload.annotation_reader", "@upload.handler" ]
+        tags:
+            - { name: doctrine.event_subscribe, connection: default }
