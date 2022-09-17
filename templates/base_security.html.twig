@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><title>IFEF</title>
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta content="template language" name="keywords">
+    <meta content="Tamerlan Soziev" name="author">
+    <meta content="Admin dashboard html template" name="description">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="{{ asset('build/images/favicon.png') }}" rel="shortcut icon">
+    <link href="apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="http://fast.fonts.net/cssapi/175a63a1-3f26-476a-ab32-4e21cbdb8be2.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+</head>
+<body class="auth-wrapper">
+<div class="all-wrapper with-pattern">
+    {% block body %}
+        <div class="auth-box-w">
+            <div class="logo-w" style="padding: 25px 3px;">
+                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>
+                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>
+            </div>
+            {% block fos_user_title %}
+            {% endblock fos_user_title %}
+
+
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+    {% endblock %}
+
+</div>
+</body>
+{% block fos_user_script %}
+{% endblock %}
+{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+</html>

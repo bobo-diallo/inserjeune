@@ -29,7 +29,7 @@ build-cache: ## Builds the Docker images
 up: ## Start the docker hub in detached mod (no logs)
 		@$(DOCKER_COMP) up --detach
 
-start: build up ## Build and start the containers
+start: build-cache up ## Build and start the containers
 
 down: ## Stop the docker hub
 		@$(DOCKER_COMP) down --remove-orphans
@@ -52,6 +52,10 @@ composer: ## Run composer, pass the parameter "c=" to run a given command, examp
 		@$(eval c ?=)
 		@$(COMPOSER) $(c)
 
+composer-install: ## Run composer install with no interaction
+		echo "Installing packages with composer..."
+		@$(COMPOSER) install --apcu-autoloader
+
 ## —— Symfony
 server-run: ## Run symfony server with "symfony server:run"
 	@$(SY) server:start
@@ -61,13 +65,17 @@ server-watch: ## Run webpack with "npm run watch"
 	@$(NPM) run watch
 
 schema-update: ## Create database and run migrations
+	echo "Creating database and schema..."
 	@$(SYMFONY) doctrine:database:drop --force
-	@$(SYMFONY) doctrine:database:create --if-not-exists
-	@$(SYMFONY) doctrine:migrations:migrate
+	@$(SYMFONY) doctrine:database:create --if-not-exists  --no-interaction
+	@$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 run-fixtures: ## Load fixtures
-	@$(SYMFONY) doctrine:fixtures:load
+	echo "Loading fixtures..."
+	@$(SYMFONY) doctrine:fixtures:load --no-interaction
 
 cache: ## Clear cache
+	echo "Clear cache..."
 	@$(SYMFONY) cache:clear --env=dev
 
+run-app: start composer-install cache schema-update run-fixtures server-run

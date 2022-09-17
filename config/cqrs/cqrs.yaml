@@ -1,0 +1,10 @@
+services:
+    app_core.command_bus.registry:
+        class: App\CQRS\InMemoryBus
+        public: false
+
+    App\CQRS\CommandBus:
+        alias: app_core.command_bus
+
+    app_core.command_bus:
+        alias: app_core.command_bus.registry
