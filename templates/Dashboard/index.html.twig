@@ -1,0 +1,441 @@
+{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% else %} {% set base = 'base.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% block title %}
+  {{ parent() }} Dashboard
+{% endblock %}
+
+{% block navigation %}
+  <li class="breadcrumb-item"><span>Tableau de bord</span></li>
+{% endblock %}
+
+{% block body %}
+  <div class="content-i">
+    <div class="content-box">
+      {% set pays = 'rien' %}
+      {% if idSelectedRegion == null %}
+        {% set idSelectedRegion = "0"%}
+      {% endif %}
+
+      {#Sélecteur de temps#}
+      {#/****************/#}
+      <div class="element-wrapper">
+        <div class="element-actions">
+          <form class="form-inline justify-content-sm-end" action="{{ path('dasboard_index') }}" method="post">
+            <select id="selectCountry" name="selectCountry" class="form-control form-control-sm select-dashboard rounded">
+              {% for country in countries %}
+                {% if country.id == idSelectedCountry %}
+                  <option selected value="{{ country.id }}">{{ country.name }}</option>
+                {% else %}
+                  <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+            <select id="selectRegion" name="selectRegion" class="form-control form-control-sm select-dashboard rounded">
+              {% if idSelectedRegion == "0" %}
+                <option selected value="0">Toutes Régions</option>
+              {% else %}
+                <option value="0">Toutes Régions</option>
+              {% endif %}
+              {% for region in regions %}
+                {% if region.country.id == idSelectedCountry %}
+                  {% if region.id == idSelectedRegion %}
+                    <option selected value="{{ region.id }}">{{ region.name }}</option>
+                  {% else %}
+                    <option value="{{ region.id }}">{{ region.name }}</option>
+                  {% endif %}
+                {% else %}
+                  <option hidden value="{{ region.id }}">{{ region.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+            {#creation du select pour le script onchange du pays#}
+            <select hidden id="regionCountry">
+              {% for region in regions %}
+                <option value="{{ region.id }}">{{ region.country.id }}</option>
+              {% endfor %}
+            </select>
+
+            <select d="selectDuration" name="selectDuration" class="form-control form-control-sm  select-dashboard rounded">
+              <option value="3m">3 mois</option>
+              <option value="6m">6 mois</option>
+              <option value="1a">1 an</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-dashboard rounded" >Valider</button>
+          </form>
+        </div>
+      </div>
+
+
+      {#moyennes sur les entreprises en chiffre#}
+      {#/*************************************/#}
+      <div class="element-wrapper">
+        <h6 class="element-header">{{ "Entreprises"|trans }}</h6>
+        <div class="row">
+          {#diagramme Anneau des secteurs d'activités Entreprises #}
+          {#/****************************************************/#}
+          {#/****************************************************/#}
+          <div class="col-sm-12">
+            <h6>{{ "Entreprises"|trans }} {{  "par secteurs d'activités"|trans }}</h6>
+            {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "Company", "SectorArea", true) }}
+          </div>
+        </div>
+        <div class="row">
+          {#diagramme Anneau des secteurs d'activités#}
+          {#/***************************************/#}
+          <div class="col-sm-12">
+            <h6>Entreprises par statuts juridiques</h6>
+            {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "Company", "LegalStatus", true) }}
+          </div>
+        </div>
+
+        <h6>Mesures de satisfaction des Entreprises qui ont embauché des diplômés</h6>
+        <div class="element-content satisfaction_value">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="element-box el-tablo">
+                <div class="label">Satisfaction globale: </div>
+                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", 'excellent'])}}</div>
+                {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="element-box el-tablo">
+                    <div class="label">Savoirs généraux:</div>
+                    <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelGlobalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"]) }}</div>
+                    {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="element-box el-tablo">
+                    <div class="label">Compétences techniques:</div>
+                    <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelTechnicalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"]) }}</div>
+                    {#<div class="trending trending-up-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="element-box el-tablo">
+                    <div class="label">Communication et HSE:</div>
+                    <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"]) }}</div>
+                    {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="element-wrapper">
+        <h6>Nombre moyen en terme de projection d'embauche dans les 6 prochains mois</h6>
+        <div class="element-content satisfaction_value">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="element-box el-tablo">
+                <div class="label">1-ouvrier: </div>
+                <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "ouvrier",["0", "de 1 à 5", "de 6 à 10", "> 10"])}}</div>
+                {#<div class="trending trending-up-basic"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="element-box el-tablo">
+                <div class="label">2-technicien:</div>
+                <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "technicien",["0", "de 1 à 5", "de 6 à 10", "> 10"])}}</div>
+                {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="element-box el-tablo">
+                <div class="label">3-apprenti:</div>
+                <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "apprenti",["0", "de 1 à 5", "de 6 à 10", "> 10"])}}</div>
+                {#<div class="trending trending-up-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="element-box el-tablo">
+                <div class="label">4-stagiaire:</div>
+                <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "stagiaire",["0", "de 1 à 5", "de 6 à 10", "> 10"])}}</div>
+                {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {#Taux de satisfactions en chiffre#}
+      {#/******************************/#}
+      <div class="element-wrapper">
+        <h6 class="element-header">Diplômés</h6>
+        <div class="check_person_degree">{{ check_person_degree_sector_area() }}</div>
+
+        {#Graph du taux des secteurs d'activités pour les diplômés #}
+        {#/*******************************************************/#}
+        <div class="element-wrapper">
+          <h6>Taux des diplômés par secteurs d'activités</h6>
+          {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "SectorArea", true) }}
+        {#</div>#}
+        {#<div>#}
+          <h6 style="margin-top: -15px; padding-left: 15px"><span >Détail par filières / métiers </span>
+            <button id="job_rate_btn" class="btn-dashboard">afficher</button></h6>
+        </div>
+
+        {#<div style="border: 2px solid red;"></div><p> Test idSelectedCountry :  {{ idSelectedCountry }} |end[</p></div>#}
+        {% if idSelectedCountry>0 %}
+          <div class="job_rate" >{{ show_activities_rate(idSelectedCountry) }}</div>
+        {% endif %}
+
+      </div>
+      <div class="element-wrapper">
+        <h6>Taux d'insertion professionnelle des diplômés</h6>
+        <div class="element-content satisfaction_value">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="element-box el-tablo">
+                <div class="label">Diplômés en emploi</div>
+                <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_EMPLOYED"]) }}</div>
+                {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="element-box el-tablo">
+                <div class="label">Diplômés entrepreneurs</div>
+                <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_CONTRACTOR"]) }}</div>
+                {#<div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-graph-down"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="element-box el-tablo">
+                <div class="label">Diplômés sans emploi</div>
+                <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"]) }}</div>
+                {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="element-box el-tablo">
+                <div class="label">Diplômés sans emploi en poursuite d'études<br><b>en lien</b> avec leur premier diplôme</div>
+                <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, true) }}</div>
+                {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="element-box el-tablo">
+                <div class="label">Diplômés sans emploi en poursuite d'études<br><b>sans lien</b> avec leur premier diplôme</div>
+                <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, false) }}</div>
+                {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {#Graph des raisons du chômage #}
+      {#/***************************/#}
+      <div class="element-wrapper">
+        <h6>Taux des raisons du chômage des diplômés sans emploi</h6>
+        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], "PersonDegreeUnemployed" ,false)}}
+      </div>
+
+      {#diagramme Anneau des type de contrats #}
+      {#/************************************/#}
+      <div class="element-wrapper">
+        <h6>Diplômés salariés par type de contrat</h6>
+        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Contract", false) }}
+      </div>
+
+
+      {#Graph des raisons de la formation prfessionelle utileà un entrepreneur #}
+      {#/*********************************************************************/#}
+      <div class="element-wrapper">
+        <h6>Taux des raisons relatives à ce qu'un diplômé en emploi exerce un métier sans lien avec son diplôme</h6>
+        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_EMPLOYED"], "PersonDegreeEmployed" ,false)}}
+      </div>
+
+
+      {#Graph des raisons de la formation prfessionelle utile à un entrepreneur #}
+      {#/**********************************************************************/#}
+      <div class="element-wrapper">
+        <h6>Taux des raisons relatives à ce que la formation professionnelle ait été utile à un diplômé entrepreneur</h6>
+        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,false)}}
+      </div>
+
+      {#Graph des métiers occupés par les diplômés entrepreneurs #}
+      {#/*******************************************************/#}
+      <div class="element-wrapper">
+        <div>
+          <h6><span>Taux des métiers occupés par les diplômés entrepreneurs</span>
+            <button id="activity_contractor_rate_btn"  class="btn-dashboard">afficher</button></h6>
+        </div>
+        <div class="activity_contractor_rate" >
+            {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Activity", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,true)}}
+        </div>
+      </div>
+
+      <div class="element-wrapper">
+        <div class="row">
+          {#Evolution du nombre d'enquêtes Diplômés par jour#}
+          {#/**********************************************/#}
+          <div class="col-sm-6">
+            <h6 class="element-header">Evolution du nombre d'enquêtes des Diplomés</h6>
+            <div class="element-box">
+              <div class="os-tabs-w">
+                <div class="os-tabs-controls">
+                  <ul class="nav nav-tabs smaller">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab"  href="index.html#tab_overview">Vue Globale</a>
+                    </li>
+                  </ul>
+                  <ul class="nav nav-pills smaller hidden-sm-down">
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                            href="index.html#">Aujourd'hui</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab"
+                                            href="index.html#">7 Jours</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                            href="index.html#">14 Jours</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                            href="index.html#">1 Mois</a></li>
+                  </ul>
+                </div>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_overview">
+                    <div class="el-tablo">
+                      <div class="label">Diplômés</div>
+                      <div class="value">242</div>
+                    </div>
+                    <div class="el-chart-w">
+                      <canvas height="90px" id="lineChartDegree" width="300px"></canvas>
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="tab_sales"></div>
+                  <div class="tab-pane" id="tab_conversion"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {#Evolution du nombre d'enquêtes Entreprises par jour#}
+          {#/*************************************************/#}
+          <div class="col-sm-6">
+            <h6 class="element-header">Evolution du nombre d'enquêtes des Entreprises</h6>
+            <div class="element-box">
+              <div class="os-tabs-w">
+                <div class="os-tabs-controls">
+                  <ul class="nav nav-tabs smaller">
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab"
+                                            href="index.html#tab_overview">Vue Globale</a></li>
+                    {#<li class="nav-item"><a class="nav-link" data-toggle="tab"#}
+                    {#href="index.html#tab_sales">Sales</a></li>#}
+                  </ul>
+                  <ul class="nav nav-pills smaller hidden-sm-down">
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                            href="index.html#">Aujourd'hui</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                            href="index.html#">7 Jours</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                            href="index.html#">14 Jours</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab"
+                                            href="index.html#">1 Mois</a></li>
+                  </ul>
+                </div>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_overview">
+                    <div class="el-tablo">
+                      <div class="label">Entreprises</div>
+                      <div class="value">68</div>
+                    </div>
+                    <div class="el-chart-w">
+                      <canvas height="90px" id="lineChartCompany" width="300px"></canvas>
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="tab_sales"></div>
+                  <div class="tab-pane" id="tab_conversion"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script type="application/javascript">
+     $(document).ready(function () {
+        donutCreation("Company", "SectorArea");
+        donutCreation("Company", "LegalStatus");
+        donutCreation("PersonDegree", "SectorArea");
+        donutCreation("PersonDegree", "Contract");
+        graphCreation("PersonDegreeUnemployed", "Reason");
+        graphCreation("PersonDegreeEmployed", "Reason");
+        graphCreation("PersonDegreeContractor", "Reason");
+        graphCreation("PersonDegreeContractor", "Activity");
+
+        $('.job_rate').attr('hidden', 'hidden');
+        $('#job_rate_btn').on('click', function () {
+           if($('.job_rate').is(":hidden")) {
+              $('.job_rate').removeAttr('hidden');
+              $('#job_rate_btn').text("occulter");
+           } else {
+              $('.job_rate').attr('hidden', 'hidden');
+              $('#job_rate_btn').text("afficher");
+           }
+        })
+
+        $('.activity_contractor_rate').attr('hidden', 'hidden');
+        $('#activity_contractor_rate_btn').on('click', function () {
+           if($('.activity_contractor_rate').is(":hidden")) {
+              $('.activity_contractor_rate').removeAttr('hidden');
+              $('#activity_contractor_rate_btn').text("occulter");
+           } else {
+              $('.activity_contractor_rate').attr('hidden', 'hidden');
+              $('#activity_contractor_rate_btn').text("afficher");
+           }
+        })
+
+        // Mise à jour du select région en fonction du pays
+        $('#selectCountry').on('change', function () {
+           activeRegion($('#selectCountry option:selected').val(), $('#selectRegion option:selected').val());
+        })
+        function activeRegion(idCountry) {
+           $('#selectRegion option').each(function () {
+              $(this).attr('hidden', 'hidden');
+           })
+           $('#regionCountry option').each(function () {
+              if($(this).text() == idCountry) {
+                 let selectedRegion = $(this).val();
+                 $('#selectRegion option').each(function () {
+                    if(selectedRegion == $(this).val()) {
+                       $(this).removeAttr('hidden');
+                    }
+                 })
+              }
+           })
+           $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));
+        }
+
+        $(".dnSlide-main").dnSlide({
+           "response": true,
+           "isOddShow": false,
+           "precentWidth": "40%",
+           // "width": 800,
+           // "height": 234,
+           // "dnSlideFirstWidth": 600,
+           // "dnSlideFirstHeight": 234,
+           "autoPlay": true,
+           "delay": 3000,
+           // "scale": 0.9,
+           "speed": 500,
+           "verticalAlign": "bottom", // or 'bottom', 'top'
+           // "afterClickBtnFn": null
+        });
+     })
+  </script>
+{% endblock %}
+

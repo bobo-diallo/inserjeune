@@ -1,0 +1,157 @@
+{% extends 'persondegree/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+              {%  if app.user.roles|role =="Administrateur" %}
+                <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+              {% endif %}
+                <h6 class="element-header">Liste des diplômés</h6>
+                <div class="element-box">
+                    {#<script>alert("role =" + {{ app.user.roles|role }})</script>#}
+                    {%  if app.user.roles|role =="Administrateur" %}
+                        <div class="controls-above-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                    {#<a class="btn btn-sm btn-primary" href="{{ path('persondegree_new') }}">#}
+                                        {#<i class="fa fa-plus"></i> Nouveau diplômé</a>#}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                {%  if app.user.roles|role == "Administrateur" %}
+                                  <th>Actions</th>
+                                  <th>Id</th>
+                                {% endif %}
+                                {%  if app.user.roles|role == "Etablissement" %}
+                                  <th>Actions</th>
+                                  <th>Immatriculation</th>
+                                {% endif %}
+                                <th>Prénom</th>
+                                <th>Nom</th>
+                                {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
+                                    <th>Etablissement</th>
+                                {% endif %}
+                                <th>Statut de<br>l'enquête</th>
+                                <th>Date<br>Naissance</th>
+                                <th>mobile</th>
+                                <th>Email</th>
+                                {%  if app.user.roles|role == "Administrateur" %}
+                                    <th>Pays</th>
+                                    <th>Etablissement</th>
+                                {% endif %}
+                                {%  if app.user.roles|role == "Etablissement" %}
+                                  <th>Diplôme</th>
+                                  <th>Filière</th>
+                                {% endif %}
+                                <th>mois/année<br>diplôme</th>
+                                <th>date de<br>création</th>
+                                <th>Situation<br>professionelle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for personDegree in personDegrees %}
+                                <tr>
+                                    {%  if app.user.roles|role == "Administrateur" %}
+                                        <td class="row-actions">
+                                            <a href="{{ path('persondegree_edit', { 'id': personDegree.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            <a href="{{ path('persondegree_show', { 'id': personDegree.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                            {#<a class="danger" onclick="deleteElement('{{ path('persondegree_delete', {'id': personDegree.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>#}
+                                        </td>
+                                        <td><a href="{{ path('persondegree_show', { 'id': personDegree.id }) }}">{{ personDegree.id }}</a></td>
+                                    {% endif %}
+
+                                    {%  if app.user.roles|role == "Etablissement" %}
+                                        <td class="row-actions">
+                                            {% if personDegree.registrationStudentSchool|length > 0 %}
+                                                {% if personDegree.checkSchool == true %}
+                                                  <button class="validStudent" id="validStudent{{ personDegree.id }}" value="1">Dévalider</button>
+                                                {% else %}
+                                                  <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0">Valider</button>
+                                                {% endif %}
+                                            {% else %}
+                                                <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0" disabled>Valider</button>
+                                            {% endif %}
+                                        </td>
+                                        {% if personDegree.checkSchool == true %}
+                                            <td id="immat{{ personDegree.id }}" style="color:green">{{ personDegree.registrationStudentSchool }}</td>
+                                        {% else %}
+                                            <td id="immat{{ personDegree.id }}" style="color:red">{{ personDegree.registrationStudentSchool }}</td>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    <td>{{ personDegree.firstname }}</td>
+                                    <td>{{ personDegree.lastname }}</td>
+                                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
+                                      <td>{{ personDegree.school}}</td>
+                                    {% endif %}
+                                    <td>{{ check_person_degree_satisfaction(personDegree) }}</td>
+                                    <td>{{ personDegree.birthDate|date('d/m/Y') }}</td>
+                                    <td>{{ personDegree.phoneMobile1 }}</td>
+                                    <td>{{ personDegree.email }}</td>
+                                    {%  if app.user.roles|role =="Administrateur" %}
+                                        <td>{{ personDegree.country }}</td>
+                                        {% if personDegree.school %} <td>{{ personDegree.school }}</td>
+                                        {% elseif personDegree.otherSchool %}<td  style="color: #ee0808;">Autre : {{ personDegree.otherSchool }}</td>
+                                        {% else %}  <td style="color: #0300ee;">Aucun</td>
+                                        {% endif %}
+                                    {% endif %}
+                                    {%  if app.user.roles|role == "Etablissement" %}
+                                        <td>{{ personDegree.degree }}</td>
+                                        <td>{{ personDegree.activity }}</td>
+                                    {% endif %}
+                                    {#<td>{{ personDegree.lastDegreeMonth }}/{{ personDegree.lastDegreeYear }}</td>#}
+                                    {%  if personDegree.type == "TYPE_TRAINING"%}
+                                      <td>{{ "En cours" }}</td>
+                                    {%  else %}
+                                      <td>{{ "%02d"|format(personDegree.lastDegreeMonth) }}/{{ personDegree.lastDegreeYear }}</td>
+                                    {% endif %}
+                                    <td>{{ personDegree.createdDate|date('d M Y H:i') }}</td>
+                                    <td>{{ personDegree.type | type_degree }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {#<table style="margin-top: 20px">#}
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; max-width: 600px;">
+                          <thead><tr>
+                            <th style="text-align: center" >LEGENDE</th>
+                            <th style="text-align: center" >En cours d'études</th>
+                            <th style="text-align: center" >Attente 6 mois</th>
+                            <th style="text-align: center" >1er Rappel</th>
+                            <th style="text-align: center" >2nd Rappel</th>
+                            <th style="text-align: center" >Réponse OK</th>
+                          </tr></thead>
+                          <tbody><tr>
+                            <td style="text-align: center;">Enquête</td>
+                            <td><div style="width: 60px; height: 10px; background-color: #FFABC4; margin: auto"></div></td>
+                            <td><div style="width: 60px; height: 10px; background-color: #FFFFFF; border: 1px solid #0c0c0c; margin: auto"></div></td>
+                            <td><div style="width: 60px; height: 10px; background-color: #FF7100; margin: auto"></div></td>
+                            <td><div style="width: 60px; height: 10px; background-color: #FF0000; margin: auto"></div></td>
+                            <td><div style="width: 60px; height: 10px; background-color: #00FF00; margin: auto"></div></td>
+                          </tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+       $(document).ready(function () {
+          let table = datatable(true)
+       });
+    </script>
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{{ form_widget(form._token) }}
+<div class="form-group">
+  <label for=""> Nom </label>
+  {{ form_widget(form.name) }}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name) }}</div>
+</div>
+<div class="form-group">
+  <label for=""> Secteur d'activité</label>
+  {{ form_widget(form.sectorArea) }}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+</div>
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="submit"> Valider</button>
+</div>

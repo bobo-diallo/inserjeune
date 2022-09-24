@@ -1,0 +1,162 @@
+{{ form_widget(form._token) }}
+<div class="form-group row">
+  <div class="col-sm-8">
+    Diplomé :   {{ satisfactionSalary.personDegree }}
+  </div>
+  {%  if app.user.roles|role =="ADMIN" %}
+    <div class="col-sm-2">
+      Id : {{ satisfactionSalary.id }}
+    </div>
+  {% endif %}
+</div>
+<div class="form-group row">
+  <div class="col-sm-6">
+    Date de création : {{ satisfactionSalary.createdDate|date("d/m/Y H:i") }}
+  </div>
+  <div class="col-sm-6">
+    Obtention du Diplôme : {{ satisfactionSalary.degreeDate }}
+  </div>
+</div>
+{#<p>{{ selectedCountry }}</p>#}
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-6 form-group">
+    <label for=""> Type de contrat de travail * </label>
+    {{ form_widget(form.contract) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.contract) }}</div>
+  </div>
+  <div class="col-sm-6 form-group hide_block_other_contract">
+    <label for=""> Autre Type</label>
+    {{ form_widget(form.otherContract) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherContract) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-4 form-group">
+    <label for=""> Votre rémunération par mois * </label>
+    {{ form_widget(form.monthlySalary) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.monthlySalary) }}</div>
+  </div>
+  <div class="col-sm-4 form-group">
+    <label for=""> Votre rémunération par jour </label>
+    {{ form_widget(form.daylySalary) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.daylySalary) }}</div>
+  </div>
+  <div class="col-sm-4 form-group">
+    <label for=""> Devise *</label>
+    {{ form_widget(form.currency) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.currency) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-4 form-group">
+    <label for=""> Filtre textuel</label>
+    <input class="form-control" id="searchCompany">
+  </div>
+  <div class="col-sm-6 form-group">
+    <label for=""> Recherche de l'entreprise qui vous emploie</label>
+    {{ form_widget(form.company) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.company) }}</div>
+  </div>
+  <div class="col-sm-2 form-group">
+    <label for=""> <br></label>
+    <input class="form-check" type="button" id="validCompany" value="Valider">
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4 form-group">
+    <label for=""> Nom de l'entreprise qui vous emploie *</label>
+    {{ form_widget(form.companyName) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.companyName) }}</div>
+  </div>
+  <div class="col-sm-4 form-group">
+    <label for=""> Tel (indicatif + N°) *</label>
+    {{ form_widget(form.companyPhone) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.companyPhone) }}</div>
+  </div>
+  <div class="col-sm-4 form-group">
+    <label for=""> Ville (la plus proche) *</label>
+    {{ form_widget(form.companyCity) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.companyCity) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-6 form-group">
+    <label for=""> Vous êtes employé depuis *</label>
+    {{ form_widget(form.jobTime) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobTime) }}</div>
+  </div>
+  <div class="col-sm-6 form-check">
+    <label for=""> Nombre d'heures de travail par jour *</label>
+    {{ form_widget(form.workHoursPerDay) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.workHoursPerDay) }}</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4 form-group">
+    <label for=""> Domaine d'activité *</label>
+    {{ form_widget(form.sectorArea) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+  </div>
+  <div class="col-sm-4 form-group">
+    <label for=""> Métier / Filière *</label>
+    {{ form_widget(form.activity) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
+  </div>
+  <div class="col-sm-4 form-group hide_flex_otherActivityName">
+    <label for=""> Autre Métier</label>
+    {{ form_widget(form.otherActivityName) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 form-group">
+    <label for=""> Poste occupé *</label>
+    {{ form_widget(form.jobStatus) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobStatus) }}</div>
+  </div>
+  <div class="col-sm-6 form-group hide_block_jobName">
+    <label for=""> Autre Poste occupé ?</label>
+    {{ form_widget(form.jobName) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobName) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-6 form-check">
+    <label for=""> Votre formation professionnelle a-t-elle<br>été utile pour le métier que vous exercez ?</label>
+    {{ form_widget(form.trainingSatisfied) }}
+    <div class="slider round">
+      <span class="non">Non</span>
+      <span class="oui">Oui</span>
+    </div>
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.trainingSatisfied) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row hide_flex_jobNotFound">
+  <div class="col-sm-12 form-group">
+    <label for=""> Si vous exercez un métier sans lien avec votre diplôme, c’est parce que :<br>plusieurs choix possibles (+ touche ctrl)</label>
+    {{ form_widget(form.jobNotFoundReasons) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundReasons) }}</div>
+  </div>
+  <div class="col-sm-12 form-group hide_flex_jobNotFoundOther">
+    <label for="">Autre raison </label>
+    {{ form_widget(form.jobNotFoundOther) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundOther) }}</div>
+  </div>
+</div>
+{#<select name="" id="allActivities" style="display: none">#}
+  {#{% for activity in allActivities %}#}
+    {#<option value="{{ activity.id }}" name="{{ activity.name }}">{{ activity.sectorArea.id }}</option>#}
+  {#{% endfor %}#}
+{#</select>#}
+{{ show_allactivities() }}
+<div><span><br>* : champ obligatoire</span></div>
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="button" id="buttonSatisfactionSalary" onclick="preventDefaultSubmit()"> Valider</button>
+  <button class="btn btn-primary" type="submit" id="submitSatisfactionSalary" hidden="hidden" > Valider</button>
+</div>

@@ -1,0 +1,25 @@
+{% extends 'contract/content.html.twig' %}
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/contract.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Ajout d'un contrat
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('contract_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidate" method="post" action="{{ path('contract_new') }}">
+                      {% include 'contract/_new.html.twig' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

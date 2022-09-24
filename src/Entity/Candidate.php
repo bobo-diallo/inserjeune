@@ -12,7 +12,7 @@ class Candidate {
 	#[ORM\Id]
 	#[ORM\Column(name: 'id', type: 'integer')]
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
-	private ?int $id;
+	private ?int $id = null;
 
 	private File $coverLetter;
 

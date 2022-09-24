@@ -15,7 +15,7 @@ class Activity {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255, unique: false, nullable: true)]
 	private string $name;
@@ -27,7 +27,7 @@ class Activity {
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
 	private SectorArea $sectorArea;
 
-	#[ORM\OneToMany(targetEntity: Country::class, mappedBy: 'activity')]
+	#[ORM\OneToMany(mappedBy: 'activity', targetEntity: Country::class)]
 	private Collection $country;
 
 	public function __construct() {

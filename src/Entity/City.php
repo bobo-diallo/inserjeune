@@ -13,7 +13,7 @@ class City {
 	#[ORM\Id]
 	#[ORM\Column(name: 'id', type: 'integer')]
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	#[Assert\NotBlank]
@@ -26,10 +26,10 @@ class City {
 	#[ORM\Column(name: 'is_capital', type: 'boolean')]
 	private bool $isCapital;
 
-	#[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'name')]
+	#[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'cities')]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
 	#[Assert\NotNull]
-	private Region $region;
+	private ?Region $region = null;
 
 	public function getId(): ?int {
 		return $this->id;
@@ -71,7 +71,7 @@ class City {
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 

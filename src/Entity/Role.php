@@ -16,9 +16,9 @@ class Role {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
-	#[ORM\Column(name: 'role', type: 'string', unique: true, length: 100)]
+	#[ORM\Column(name: 'role', type: 'string', length: 100, unique: true)]
 	private ?string $role;
 
 	/**

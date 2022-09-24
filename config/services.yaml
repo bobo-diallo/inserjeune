@@ -48,3 +48,89 @@ services:
         arguments: [ "@upload.annotation_reader", "@upload.handler" ]
         tags:
             - { name: doctrine.event_subscribe, connection: default }
+
+    ## Form Service
+    app.city:
+        class: App\Services\CityService
+
+    app.activity:
+        class: App\Services\AcitivityService
+        arguments: [
+            '@doctrine.orm.default_entity_manager',
+            '@App\Repository\ActivityRepository'
+        ]
+
+    app.company:
+        class: App\Services\CompanyService
+        arguments: [
+            '@security.token_storage',
+            '@doctrine.orm.default_entity_manager',
+            '@App\Repository\CompanyRepository'
+        ]
+
+    app.school:
+        class: App\Services\SchoolService
+        arguments: [
+            '@security.token_storage',
+            '@doctrine.orm.default_entity_manager' ,
+            '@App\Repository\SchoolRepository'
+        ]
+
+    app.persondegree:
+        class: App\Services\PersonDegreeService
+        arguments: [
+            '@security.token_storage',
+            '@doctrine.orm.default_entity_manager',
+            '@App\Repository\PersonDegreeRepository'
+        ]
+
+    app.email:
+        class: App\Services\EmailService
+
+    app.connectserverservice:
+        class: App\Services\ConnectServerService
+
+    ## EventListeners
+    # Ecoute
+    app.persondegree_listener:
+        class: App\EventListener\PersonDegreeListener
+        arguments: [
+            '@security.token_storage',
+            '@security.authorization_checker',
+            '@doctrine.orm.default_entity_manager',
+            '@request_stack',
+            '@router',
+            '@App\Repository\PersonDegreeRepository'
+        ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    # Ecoute
+    app.company_listener:
+        class: App\EventListener\CompanyListener
+        arguments: [
+            '@security.token_storage',
+            '@security.authorization_checker',
+            '@doctrine.orm.default_entity_manager',
+            '@request_stack',
+            '@router' ,
+            '@App\Repository\CompanyRepository'
+        ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    # Ecoute
+    app.school_listener:
+        class: App\EventListener\SchoolListener
+        arguments: [
+            '@security.token_storage',
+            '@security.authorization_checker',
+            '@doctrine.orm.default_entity_manager',
+            '@request_stack',
+            '@router' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+        # Satisfaction
+    app.satisfaction:
+        class: App\Services\SatisfactionService

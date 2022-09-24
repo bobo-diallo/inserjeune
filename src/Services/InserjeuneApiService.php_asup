@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Services;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use GuzzleHttp\Client;
+use JMS\Serializer\Serializer;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\Request;
+use GuzzleHttp\Psr7\Request;
+
+class InserjeuneApiService
+{
+   /**
+    * @var Client
+    */
+   private $inserjeuneApiClient;
+
+   /**
+    * @var Serializer
+    */
+   private $serializer;
+
+   /**
+    * @var TokenStorageInterface
+    */
+   private $tokenStorage;
+
+   public function __construct(Client $inserjeuneApiClient, Serializer $serializer, TokenStorageInterface $tokenStorage)
+   {
+      $this->inserjeuneApiClient = $inserjeuneApiClient;
+      $this->serializer = $serializer;
+      $this->tokenStorage = $tokenStorage;
+   }
+
+   public function connectGlobalServer() {
+      $apiKey= "";
+      $user = $this->tokenStorage->getToken()->getUser();
+      if($user) {
+         $apiKey = $user->getApiToken();
+      }
+
+      $uri = '?apikey='. $apiKey;
+      dump($uri);die();
+
+      try {
+         $response = $this->inserjeuneApiClient->get($uri);
+      } catch (\Exception $e) {
+         return ['error' => 'Vous n\'êtes pas autorisé à vous connecter'];
+      }
+//      return (true);
+      return ['error' => 'Cool'];
+   }
+
+}

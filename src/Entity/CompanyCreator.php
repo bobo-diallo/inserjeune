@@ -13,7 +13,7 @@ class CompanyCreator extends PersonDegree {
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	private Company $company;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionCreator::class, cascade: ["persist", "remove"], mappedBy: "companyCreator")]
+	#[ORM\OneToMany(mappedBy: "companyCreator", targetEntity: SatisfactionCreator::class, cascade: ["persist", "remove"])]
 	private Collection $satisfactions;
 
 	#[ORM\ManyToMany(targetEntity: InfoCreator::class, cascade: ['persist'])]

@@ -1,0 +1,115 @@
+{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% else %} {% set base = 'base_company.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% block title %}
+  {{ parent() }} Satisfactions Entreprises
+{% endblock %}
+
+
+{% block js %}
+  <script>
+     $(document).ready(function () {
+        $("input.single-daterange").daterangepicker({singleDatePicker: !0})
+     })
+
+     let idPrefix = '#appbundle_satisfactioncompany_';
+     let allActivities = getAllActivities('#allActivities');
+
+     // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
+     initActivities(allActivities, idPrefix, 'workerSectorArea', 'workerActivities', true, function () {
+        initChampsAutre(idPrefix, "workerActivities", "otherWorkerJob", ".hide_flex_otherWorkerJob", "Autre métier")
+        masquageChampsAutre(idPrefix, "workerActivities", "otherWorkerJob", ".hide_flex_otherWorkerJob")
+     });
+     initActivities(allActivities, idPrefix, 'technicianSectorArea', 'technicianActivities', true, function () {
+        initChampsAutre(idPrefix, "technicianActivities", "otherTechnicianJob", ".hide_flex_otherTechnicianJob", "Autre métier")
+        masquageChampsAutre(idPrefix, "technicianActivities", "otherTechnicianJob", ".hide_flex_otherTechnicianJob")
+     });
+
+     // cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
+     hideBlockFlexListener(idPrefix, 'completeTraining', 'completeGlobalTraining', 'oui');
+
+     // Event
+     // ecoute changement sur SectorArea
+     listenChangeSectorArea(allActivities, idPrefix, 'workerSectorArea', 'workerActivities', 'otherWorkerJob', '.hide_flex_otherWorkerJob', true);
+     listenChangeSectorArea(allActivities, idPrefix, 'technicianSectorArea', 'technicianActivities', 'otherTechnicianJob', '.hide_flex_otherTechnicianJob', true);
+
+     $(document).ready(function () {
+        // Si on renseigne autre compétences ou l'enleve
+        $('#appbundle_satisfactioncompany_levelOtherName').on('blur', function () {
+           let competence = $(this).val();
+
+           // supprime les espaces debut et fin de chaine sur competence
+           if(competence) {
+              competence = competence.replace(/(^\s*)|(\s*$)/g, "");
+              if(! competence) {
+                 $(this).val('');
+              }
+           }
+
+           if (competence) {
+              let skill = $('#appbundle_satisfactioncompany_levelOtherSkill>input:checked').val();
+              $('#completeOtherTrainingLabel').html($(this).val());
+              console.log(skill)
+              if (skill)
+                 $('#appbundle_satisfactioncompany_completeOtherTraining').attr('checked', 'checked');
+              else
+                 $('#appbundle_satisfactioncompany_completeOtherTraining').attr('checked', false);
+           } else {
+              $('#completeOtherTrainingLabel').html(' Autre Compétence ');
+              $('#appbundle_satisfactioncompany_completeOtherTraining').attr('checked', false);
+              $('#appbundle_satisfactioncompany_levelOtherSkill_placeholder').prop('checked', true);
+              $('#appbundle_satisfactioncompany_levelOtherSkill_0').prop('checked', false);
+              $('#appbundle_satisfactioncompany_levelOtherSkill_1').prop('checked', false);
+              $('#appbundle_satisfactioncompany_levelOtherSkill_2').prop('checked', false);
+              $('#appbundle_satisfactioncompany_levelOtherSkill_3').prop('checked', false);
+              $('#appbundle_satisfactioncompany_levelOtherSkill_4').prop('checked', false);
+           }
+        })
+        // Si on coche le niveau de Autre compétence
+        $('#appbundle_satisfactioncompany_levelOtherSkill>input').on('blur', function () {
+           let competence = $('#appbundle_satisfactioncompany_levelOtherName').val();
+
+           if (competence && $(this).val())
+              $('#appbundle_satisfactioncompany_completeOtherTraining').attr('checked', true)
+           else
+              $('#appbundle_satisfactioncompany_completeOtherTraining').attr('checked', false)
+        })
+
+        function checkedCompetence(idCheckbox, idRadio) {
+           $(idCheckbox).on('change', function () {
+              let value = $(idCheckbox + '>input:checked').val()
+              console.log(value)
+              let state = (value >= 1) ? 'checked' : false;
+              $(idRadio).attr('checked', state);
+           })
+        }
+
+        checkedCompetence('#appbundle_satisfactioncompany_levelGlobalSkill', '#appbundle_satisfactioncompany_completeGlobalTraining',true);
+        checkedCompetence('#appbundle_satisfactioncompany_levelTechnicalSkill', '#appbundle_satisfactioncompany_completeTechnicalTraining', true);
+        checkedCompetence('#appbundle_satisfactioncompany_levelCommunicationHygieneHealthEnvSkill', '#appbundle_satisfactioncompany_completeCommunicationHygieneHealthEnvTraining');
+        // checkedCompetence('#appbundle_satisfactioncompany_levelOtherSkill', '#appbundle_satisfactioncompany_completeOtherTraining');
+     })
+
+     function preventDefaultSubmit() {
+        // Suppression des champs Autre des select multiples
+        // ---------------------------------------------------
+        if (($("#appbundle_satisfactioncompany_workerActivities").text().indexOf("Autre")) != -1) {
+           $("#appbundle_satisfactioncompany_workerActivities option[value='']").remove();
+        }
+        if (($("#appbundle_satisfactioncompany_workerActivities").text().toLowerCase().replace('é','e').indexOf("selectionnez")) != -1) {
+           $("#appbundle_satisfactioncompany_workerActivities option[value='-1']").prop("selected", false);
+        }
+        if (($("#appbundle_satisfactioncompany_technicianActivities").text().indexOf("Autre")) != -1) {
+           $("#appbundle_satisfactioncompany_technicianActivities option[value='']").remove();
+        }
+        if (($("#appbundle_satisfactioncompany_technicianActivities").text().toLowerCase().replace('é','e').indexOf("selectionnez")) != -1) {
+           $("#appbundle_satisfactioncompany_technicianActivities option[value='-1']").prop("selected", false);
+        }
+
+        $('#submitSatisfactionCompany').trigger('click');
+     }
+  </script>
+{% endblock %}

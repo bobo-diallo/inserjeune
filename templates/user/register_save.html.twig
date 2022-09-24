@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head><title>IFEF Register</title>
+  <meta charset="utf-8">
+  <meta content="ie=edge" http-equiv="x-ua-compatible">
+  <meta content="template language" name="keywords">
+  <meta content="Tamerlan Soziev" name="author">
+  <meta content="Admin dashboard html template" name="description">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="{{ asset('template/pinsupreme/favicon.png') }}" rel="shortcut icon">
+  <link href="{{ asset('template/pinsupreme/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('template/pinsupreme/bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/http://fast.fonts.net/cssapi/175a63a1-3f26-476a-ab32-4e21cbdb8be2.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/bower_components/dropzone/dist/dropzone.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/bower_components/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/bower_components/datatables/media/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/bower_components/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('template/pinsupreme/css/main.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div class="all-wrapper with-pattern">
+  <div class="auth-box-w wider">
+    <div class="logo-w" style="padding: 11%; padding-left: 3px; padding-right: 3px;">
+      <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>
+      <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>
+    </div>
+    <h4 class="auth-header">Nouveau compte d'utilisateur</h4>
+
+    {%  if app.session.flashBag.has('danger') == true %}
+      <div class="alert alert-danger" role="alert">
+        {% for message in app.session.flashbag.get('danger') %}
+          <p class="text-center w-100 mb-0"><strong >{{ message }}</strong></p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {#{{ falsh_bag() }}#}
+    <form action="{{ path('register_create_account') }}" method="post">
+      {{ form_widget(form._token) }}
+      <div class="form-group">
+        <label for="">  Pays</label>
+        {{ form_widget(form.country) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+      </div>
+      <div class="form-group">
+        <label for=""> Téléphone : Indicatif pays (<span id="phone_code"></span> ) + N°</label>
+        {{ form_widget(form.phone) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.phone) }}</div>
+      </div>
+      <div class="form-group" style="display: none">
+        <label for=""> Pseudo (Optionnel)</label>
+        {{ form_widget(form.username) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+      </div>
+      <div class="form-group" style="display: none">
+        <label for=""> Email address (Optionnel)</label>
+        {{ form_widget(form.email) }}
+        <div class="pre-icon os-icon os-icon-email-2-at2"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for=""> Mot de passe</label>
+            {{ form_widget(form.plainPassword.first) }}
+            <div class="pre-icon os-icon os-icon-fingerprint"></div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="">Confirmer</label>
+            {{ form_widget(form.plainPassword.second) }}
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for=""> Type d'utilisateur</label>
+        {{ form_widget(form.typePerson) }}
+      </div>
+    {#</form>#}
+      <div class="row form-group">
+        <div class="col-xs-6 buttons-w">
+          <button class="btn btn-primary" id="submitRegister">Valider</button>
+        </div>
+        <div class="col-xs-6 buttons-w">
+          <a class="btn btn-primary" href="{{ path('logout') }}">Annuler</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<select hidden id="indTel">
+{% for country in countries %}
+  <option value="{{ country.id }}">{{ country.phoneCode }}</option>
+{% endfor %}
+</select>
+
+<script>
+   // $(document).ready(function () {
+      $('#userbundle_user_country').on('change', function (e) {
+         let selectedCountry = $('#userbundle_user_country option:selected').val();
+         let phoneCode = '+' + $('#indTel option[value=' +selectedCountry+ ']').text();
+
+         // alert($('#indTel option[value='+ selectedCountry +']').val() + " " + $('#indTel option[value=' +selectedCountry+ ']').text())
+         $('#phone_code').html('+' + $('#indTel option[value=' +selectedCountry+ ']').text());
+         $('#userbundle_user_phone').attr('placeholder', phoneCode  + '  + Numéro de Téléphone' );
+      })
+
+      $('#submitRegister').on('click', function (e) {
+         e.preventDefault();
+
+          // setTimeout(function() {
+            $('form').submit()
+          // , 5000});
+
+      })
+   // })
+</script>
+</body>
+</html>

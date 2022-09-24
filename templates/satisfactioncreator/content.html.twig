@@ -1,0 +1,57 @@
+{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% else %} {% set base = 'base_degree.html.twig' %}
+{% endif %}
+{% extends base %}
+
+{% block title %}
+  {{ parent() }} Enquête insertion : Diplômés entrepreneurs
+{% endblock %}
+
+{% block navigation %}
+  <li class="breadcrumb-item"><span>Satisfactions Diplômés Créateurs</span></li>
+{% endblock %}
+
+{% block js %}
+  <script>
+     $(document).ready(function () {
+        $("input.single-daterange").daterangepicker({singleDatePicker: !0})
+     })
+     let idPrefix = '#appbundle_satisfactioncreator_';
+     let allActivities = getAllActivities('#allActivities');
+
+     // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
+     initActivities(allActivities, idPrefix, 'sectorArea', 'activities', true, function () {
+        initChampsAutre(idPrefix, "activities", "otherActivity", ".hide_flex_other_activity", "Autre métier")
+        masquageChampsAutre(idPrefix, "activities", "otherActivity", ".hide_flex_other_activity")
+     });
+
+     // Initialisation des zones masquées et ajout de l'option Autre
+     initChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther", "Autre raison");
+
+     // Event, Masquage, affichage des chapitres Autres en fonction du select contenant Autre
+     masquageChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther");
+
+     // cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
+     hideBlockFlexListener(idPrefix, 'usefulTraining', 'jobNotFound', 'non', ["jobNotFoundReasons"], ["jobNotFoundOther"]);
+
+     // Event
+     // ecoute changement sur SectorArea
+     listenChangeSectorArea(allActivities, idPrefix, "sectorArea", "activities", "otherActivity", "hide_flex_other_activity", true);
+
+     function preventDefaultSubmit() {
+        // Suppression des champs Autre des select multiples
+        // ---------------------------------------------------
+        if (($("#appbundle_satisfactioncreator_jobNotFoundReasons").text().indexOf("Autre"))!=-1) {
+           $("#appbundle_satisfactioncreator_jobNotFoundReasons option[value='']").remove();
+        }
+
+        // Initialisation des zones cachées par les checkbox glissieres
+        // ------------------------------------------------------------
+        clearBlockFlex(idPrefix, "usefulTraining", "oui", ["jobNotFoundReasons"], ["jobNotFoundOther"])
+
+        // validation du questionnaire
+        // ---------------------------
+        $('#submitSatisfactionCreator').trigger('click');
+     }
+  </script>
+{% endblock %}

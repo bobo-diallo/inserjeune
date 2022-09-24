@@ -3,11 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Role;
-use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class RoleFixtures extends Fixture
+final class RoleFixtures extends AbstractFixtures
 {
 	public const ROLE_USER = 'ROLE_USER';
 	public const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -25,6 +23,8 @@ class RoleFixtures extends Fixture
 			$manager->persist($role);
 
 			$manager->flush();
+
+			$this->setRoleReference($role);
 		}
 	}
 }

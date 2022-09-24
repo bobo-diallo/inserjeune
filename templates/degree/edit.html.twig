@@ -1,0 +1,23 @@
+{% extends 'degree/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/certificate.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Modification d'un diplôme
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('degree_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidate" method="post">
+                      {% include 'degree/_new.html.twig' with {'form': edit_form} %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

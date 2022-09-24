@@ -1,0 +1,25 @@
+{% extends 'school/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+            {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Modification d'un établissement
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-sm btn-primary float-right" href="{{ path('school_index') }}">
+                            <i class="fa fa-arrow-left"></i> Retour à la liste
+                        </a>
+                    {% endif %}
+                </h6>
+                <div class="element-box">
+                    <form id="form_school" id="formValidate" method="post">
+                        {% include 'school/_new.html.twig' with {'form': edit_form} %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

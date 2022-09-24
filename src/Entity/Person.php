@@ -13,7 +13,7 @@ trait Person {
 	#[ORM\Id]
 	#[ORM\Column(name: 'id', type: 'integer')]
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'firstname', type: 'string', length: 255)]
 	private string $firstname;

@@ -1,0 +1,24 @@
+{{ form_widget(form._token) }}
+<div class="form-group">
+  <label for=""> Nom </label>
+  {{ form_widget(form.name) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Nom ISO </label>
+  {{ form_widget(form.isoName) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Num ISO </label>
+  {{ form_widget(form.isoNum) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Symbol ISO </label>
+  {{ form_widget(form.isoSymbol) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="submit"> Valider</button>
+</div>

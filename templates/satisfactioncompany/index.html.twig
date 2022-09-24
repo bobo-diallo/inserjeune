@@ -1,0 +1,110 @@
+{% extends 'satisfactioncompany/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">Liste des enquêtes de satisfaction</h6>
+                <div class="element-box">
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                                    <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                {% endif %}
+                                {%  if app.user.roles|role!="ENTREPRISE" %}
+                                <a class="btn btn-sm btn-primary" href="{{ path('satisfactioncompany_new'| route_company) }}">
+                                    <i class="fa fa-plus"></i> Nouvelle enquête</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="kz_tables" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Actions</th>
+                                {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                                    <th><div><span>N°</span></div></th>
+                                    <th><div><span><br>Entreprise</span></div></th>
+                                    <th><div><span><br>Tél.</span></div></th>
+                                    <th><div><span><br>Ville</span></div></th>
+                                {% endif %}
+
+                                <th><div><span>Date<br>Création</span></div></th>
+                                <th><div><span>Date<br>Modification</span></div></th>
+                                <th><div><span>Satisfaction<br>Compétences</span></div></th>
+                                <th><div><span>Nombre<br>Salariés</span></div></th>
+                                <th><div><span>Nombre<br>Apprentis</span></div></th>
+                                <th><div><span>Nombre<br>Stagiaires</span></div></th>
+                                <th><div><span>Métier<br>Ouvriers</span></div></th>
+                                <th><div><span>Métier<br>Tecniciens</span></div></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set rowNumber = 0 %}
+                            {% for satisfactionCompany in satisfactionCompanies %}
+                                {% set rowNumber = rowNumber+1 %}
+                                <tr>
+                                    <td class="row-actions">
+                                      {% if is_granted('ROLE_ADMIN') == true or is_granted('ROLE_ENTREPRISE') == true %}
+                                          <a href="{{ path('satisfactioncompany_edit'| route_company, { 'id': satisfactionCompany.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                      {% endif %}
+                                      <a href="{{ path('satisfactioncompany_show'| route_company, { 'id': satisfactionCompany.id }) }}#"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                      {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                                        {% if is_granted('ROLE_ADMIN') == true %}
+                                          <a class="danger" onclick="deleteElement('{{ path('satisfactioncompany_delete', {'id': satisfactionCompany.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                        {% endif %}
+                                      {% endif %}
+                                    </td>
+                                    {#<td><a href="{{ path('satisfactioncompany_show'| route_company, { 'id': satisfactionCompany.id }) }}">{{ satisfactionCompany.id }}</a></td>#}
+
+                                    {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                                        <td>{{ rowNumber }}</td>
+                                        <td>{{ satisfactionCompany.company }}</td>
+                                        <td>{{ satisfactionCompany.company.phoneStandard }}</td>
+                                        <td>{{ satisfactionCompany.company.city.name }}</td>
+                                    {% endif %}
+
+                                    <td>{{ satisfactionCompany.createdDate|date('d M Y H:i') }}</td>
+                                    <td>{{ satisfactionCompany.updatedDate|date('d M Y H:i') }}</td>
+
+                                    <td>{{ satisfactionCompany.levelSkill }}</td>
+
+                                    <td>{{ satisfactionCompany.salaryNumber }}</td>
+                                    <td>{{ satisfactionCompany.apprenticeNumber }}</td>
+                                    <td>{{ satisfactionCompany.studentNumber }}</td>
+                                    <td>{{ satisfactionCompany.otherWorkerJob }}</td>
+                                    <td>{{ satisfactionCompany.otherTechnicianJob }}</td>
+                                    {#<td>{% if satisfactionCompany.createdDate %}{{ satisfactionCompany.createdDate|date('Y-m-d H:i:s') }}{% endif %}</td>#}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+       let options = {
+          language: {
+             url: '../../build/locale/fr_FR.json'
+          },
+          initComplete: function () {
+             $('#kz_tables_wrapper input').addClass('form-control form-control-sm ')
+             $('#kz_tables_wrapper select').addClass('form-control form-control-sm ')
+             $('#kz_tables_wrapper .row').css('width', '100%')
+             $('#kz_tables').parent().css('width', '100%')
+          }
+       };
+       $('#kz_tables').DataTable(options);
+    </script>
+{% endblock %}

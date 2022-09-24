@@ -103,7 +103,7 @@ class PersonDegree {
 	#[ORM\JoinColumn(name: 'lasted_company_id', referencedColumnName: 'id', nullable: true)]
 	private Company $company;
 
-	#[ORM\OneToOne(targetEntity: User::class, inversedBy: 'personDegree')]
+	#[ORM\OneToOne(inversedBy: 'personDegree', targetEntity: User::class)]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
 	private User $user;
 
@@ -113,13 +113,13 @@ class PersonDegree {
 	#[ORM\InverseJoinColumn(name: 'info_creator_id', referencedColumnName: 'id')]
 	private Collection $infoCreators;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionSalary::class, cascade: ['persist', 'remove'], mappedBy: 'personDegree')]
+	#[ORM\OneToMany(mappedBy: 'personDegree', targetEntity: SatisfactionSalary::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactionSalaries;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionSearch::class, cascade: ['persist', 'remove'], mappedBy: 'personDegree')]
+	#[ORM\OneToMany(mappedBy: 'personDegree', targetEntity: SatisfactionSearch::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactionSearches;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionCreator::class, cascade: ['persist', 'remove'], mappedBy: 'personDegree')]
+	#[ORM\OneToMany(mappedBy: 'personDegree', targetEntity: SatisfactionCreator::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactionCreators;
 
 	public function __construct() {

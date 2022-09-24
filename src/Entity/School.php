@@ -13,7 +13,7 @@ class School {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
 	private \DateTime $createdDate;
@@ -84,7 +84,7 @@ class School {
 	#[ORM\Column(name: 'other_activity6', type: 'string', nullable: true)]
 	private string $otherActivity6;
 
-	#[ORM\OneToMany(targetEntity: PersonDegree::class, mappedBy: 'school')]
+	#[ORM\OneToMany(mappedBy: 'school', targetEntity: PersonDegree::class)]
 	private PersonDegree $personDegrees;
 
 	#[ORM\Column(name: 'registration', type: 'string', length: 255, nullable: true)]
@@ -639,7 +639,7 @@ class School {
 		$this->personDegrees->removeElement($personDegree);
 	}
 
-	public function getPersonDegrees(): ArrayCollection|PersonDegree {
+	public function getPersonDegrees(): ArrayCollection {
 		return $this->personDegrees;
 	}
 

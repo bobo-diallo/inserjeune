@@ -16,7 +16,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(type: 'string', length: 180, unique: true)]
 	private ?string $username;
@@ -27,30 +27,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\Column(type: 'string')]
 	private string $password;
 
+	#[ORM\Column(type: 'string')]
+	private string $plainPassword;
+
 	#[ORM\Column(name: 'api_token', type: 'string', unique: true, nullable: true)]
 	private string $apiToken;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	private ?Country $country;
 
-	#[ORM\Column(name: 'phone', type: 'string', nullable: false, unique: true)]
+	#[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
 	protected string $phone;
 
-	#[ORM\Column(name: 'email', type: 'string', nullable: false, unique: true)]
+	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
 	protected string $email;
 
 	#[ORM\Column(name: 'valid_code', type: 'string', nullable: true)]
 	protected string $validCode;
 
-	#[ORM\OneToOne(targetEntity: PersonDegree::class, cascade: ['persist', 'remove'], mappedBy: 'user')]
+	#[ORM\OneToOne(mappedBy: 'user', targetEntity: PersonDegree::class, cascade: ['persist', 'remove'])]
 	private ?PersonDegree $personDegree;
 
-	#[ORM\OneToOne(targetEntity: Company::class, cascade: ['persist', 'remove'], mappedBy: 'user')]
+	#[ORM\OneToOne(mappedBy: 'user', targetEntity: Company::class, cascade: ['persist', 'remove'])]
 	private ?Company $company;
 
-	#[ORM\OneToOne(targetEntity: School::class, cascade: ['persist', 'remove'], mappedBy: 'user')]
+	#[ORM\OneToOne(mappedBy: 'user', targetEntity: School::class, cascade: ['persist', 'remove'])]
 	private ?School $school;
 
 	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist'])]
@@ -151,6 +154,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 		return $this;
 	}
+
+	public function plainPassword(): string {
+		return $this->plainPassword;
+	}
+
+	/**
+	 * @param string $plainPassword
+	 */
+	public function setPlainPassword(string $plainPassword): void {
+		$this->plainPassword = $plainPassword;
+	}
+
 
 	/**
 	 * @see UserInterface

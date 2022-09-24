@@ -1,14 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
-    </body>
+<head>
+    <title>{% block title %}Admin {% endblock %}</title>
+    {{ include('_head.html.twig') }}
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+<div class="all-wrapper container-fluid">
+    {% include '_banner_top.html.twig' %}
+    <div class="layout-w ">
+        <div class="menu-w menu-activated-on-click">
+            <div class="logo-w logged-user-w">
+                <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/man.jpg') }}"></div>
+                <div class="logged-user-info-w">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="logged-user-name">{{ app.user.username }}</div>
+                        <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
+                    {% endif %}
+                </div>
+                <div class="mobile-menu-trigger">
+                    <div class="menu-title">Menu</div>
+                    <div class="os-icon os-icon-hamburger-menu-1"></div>
+                </div>
+            </div>
+            <div class="menu-and-user">
+                {# Menu lateral gauche #}
+                {% block menu %}{% include '_menu_sidebar_left.html.twig' %}{% endblock %}
+            </div>
+        </div>
+        <div class="content-w">
+            {# Message flashbag #}
+            {{ falsh_bag() }}
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{# Footer #}
+{{ include('_footer.html.twig') }}
+{% block js %}{% endblock %}
+</body>
 </html>
+

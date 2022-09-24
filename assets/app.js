@@ -9,21 +9,20 @@
 import './styles/app.scss';
 // import 'fullcalendar/main.min.css';
 
-// Import Bootstrap libray
-// import $ from 'jquery';
+// const $ = require('jquery');
+// global.$ = global.jQuery = $;
+
 import 'bootstrap';
-import 'fullcalendar';
-import 'fullcalendar/main.min.css';
-import 'select2';
-import 'select2/dist/css/select2.min.css';
-import 'bootstrap-daterangepicker';
-import 'bootstrap-daterangepicker/daterangepicker.css';
-import 'dropzone'
-import 'dropzone/dist/dropzone.css'
-import 'datatables'
-import 'datatables/media/css/jquery.dataTables.min.css'
-import 'datatables.net-bs4'
-import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './pinsupreme/bower_components/select2/dist/css/select2.min.css'
+import './pinsupreme/bower_components/bootstrap-daterangepicker/daterangepicker.css'
+import './pinsupreme/bower_components/dropzone/dist/dropzone.css'
+import './pinsupreme/bower_components/datatables/media/css/jquery.dataTables.min.css'
+import './pinsupreme/bower_components/datatables/media/css/dataTables.bootstrap4.min.css'
+import './pinsupreme/bower_components/fullcalendar/dist/fullcalendar.min.css'
+import './lib/bootstrap-fileinput/bootstrap-fileinput.css'
+import './lib/bootstrap-datepicker/bootstrap-datepicker.min.css'
+import './pinsupreme/lib/Coverflow-Carousel-jQuery-dnSlide/dist/css/dnSlide-e5b62df849.css'
 
 // start the Stimulus application
 import './bootstrap';

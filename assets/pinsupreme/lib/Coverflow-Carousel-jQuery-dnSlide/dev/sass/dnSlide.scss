@@ -1,0 +1,125 @@
+$zero : 0px;
+$wid  : 800px;
+$hei  : 234px;
+$precent   : 100%;
+$btn-hover : .5 .8; 
+$display   : block none ;
+
+@mixin direction($dir){
+  position:$dir;
+  @if($dir == absolute){
+    top:$zero;
+    left: $zero;
+  }
+}
+
+@mixin bgImgSet(){
+  z-index:10;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@mixin defaultSet(){
+  visibility: hidden;
+  padding:0px;
+  margin:0px;
+  list-style: none;
+}
+
+@mixin animate($opacity , $time){
+  transition: $opacity $time; 
+}
+
+.dnSlide-main{
+
+  @include direction(relative);
+  @include defaultSet();
+  width:$wid;
+  height: $hei;
+  margin-left:auto;
+  margin-right:auto;
+  -webkit-tap-highlight-color:transparent;
+
+  &.done{
+    visibility: visible;
+  }
+
+  &.dn-response{
+    width:$precent;
+    .dnSlide-list{
+      width:$precent;
+      height:$precent;
+      margin:$zero; 
+      margin-top: 35px;
+      margin-bottom: 35px;
+      padding-left:$zero;  
+    } 
+  }
+
+  a{
+    display: nth($display,1);
+    border:0px;
+  }
+
+  img{
+    @extend a;
+  }
+
+  .dnSlide-list{
+    width:$wid;
+    height: $hei;   
+    list-style:none;
+  }
+
+  .dnSlide-btn{
+    color:black;
+    height: $hei;
+    width:100px;
+    opacity : nth($btn-hover,1);
+    @include direction(absolute);
+    @include animate(opacity,.3s);
+    @include bgImgSet();
+
+    &:hover{
+      opacity : nth($btn-hover,2);
+      @include animate(opacity,.3s);
+    }
+
+  }
+
+  &.dnSlide-hide{
+    display: nth($display,2);
+  }
+
+  .dnSlide-item{
+    @include direction(absolute);
+  }
+
+  $btn-dir:left, right;
+  @each $dir in $btn-dir{
+    .dnSlide-#{$dir}-btn{
+      background-image: url('../images/#{$dir}.svg');
+      background-size: 35%;
+      @if( $dir == left){
+        left:0;
+      }@else{
+        right:0;
+        left:auto;
+      }
+    }
+  }
+}
+
+@media \0screen\,screen\9{
+  .dnSlide-main{
+    margin-top: 35px;
+    margin-bottom: 35px;
+  }
+  .dnSlide-main .dnSlide-right-btn{
+    background-image: url('../images/right.png');
+  }
+  .dnSlide-main .dnSlide-left-btn{
+    background-image: url('../images/left.png');
+  }
+}

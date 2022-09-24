@@ -1,0 +1,64 @@
+{% extends 'activity/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/sector-area.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Liste des filières / métiers
+                  {#{% include '_menu.html.twig' %}#}
+                </h6>
+                <div class="element-box">
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="{{ path('activity_new') }}">
+                                    <i class="fa fa-plus"></i> Ajouter filière / métier</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th class="col_action" >Actions</th>
+                                <th class="col_id" >Id</th>
+                                <th>Nom</th>
+                                <th>Secteur d'activité</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for activity in activities %}
+                                <tr>
+                                    <td class="row-actions">
+                                        <a href="{{ path('activity_edit', { 'id': activity.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                        <a href="{{ path('activity_show', { 'id': activity.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        <a class="danger" onclick="deleteElement('{{ path('activity_delete', {'id': activity.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                    </td>
+                                    <td><a href="{{ path('activity_show', { 'id': activity.id }) }}">{{ activity.id }}</a></td>
+                                    <td>{{ activity.name }}</td>
+                                    <td>{{ activity.sectorArea }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+       $(document).ready(function () {
+          let table = datatable()
+       });
+       makeSelected('activity')
+    </script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% else %} {% set base = 'base_company.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% block title %}
+  {{ parent() }} Company
+{% endblock %}
+
+
+
+{% block js %}
+   <script async defer
+       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"
+       type="text/javascript">
+   </script>
+   <script>
+      // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
+      if ($('#selectedCountry').val() !== '') {
+         countryEvent("#selectedCountry", "company");
+      }
+
+      let idPrefix = '#appbundle_company_';
+      let allActivities = getAllActivities('#allActivities');
+
+      // Event
+      // ecoute changement sur Pays et Region
+      listenChangeCountryRegion('#appbundle_company_country', '#appbundle_company_region', 'country', 'region', 'city')
+
+      // Event
+      // Vérifie le numero de téléphone si different du userName
+      // checkPhoneNumber($('#appbundle_company_phoneStandard').val());
+      $('#appbundle_company_phoneStandard').on('change', function () {
+          checkPhoneNumber($(this).val());
+      })
+      function checkPhoneNumber($phoneNumber) {
+         let usrname = $('.logged-user-name').html();
+
+         // verification de l'indicatif pays
+         let indCompany = '+' + $('#countryPhoneCode').val();
+         let indPhone = $phoneNumber.substr(0, indCompany.length);
+
+         if(indPhone != indCompany) {
+            alert("Attention, votre numéro de téléphone doit commencer par " + indCompany + ", veuillez le ressaisir");
+            $('#appbundle_company_phoneStandard').val(usrname);
+         } else if($phoneNumber != usrname) {
+            let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber)
+            if (confirmPhone == false) {
+               $('#appbundle_company_phoneStandard').val(usrname);
+            }
+         }
+      }
+      // Event
+      //Modification test of submit button for RGPD
+      if($('#role').val()=="ROLE_ENTREPRISE") {
+
+         //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
+         if($("#buttonCompany").html().replace(/ /g,"")=='Valider') {
+            if ($('#appbundle_company_agreeRgpd').prop('checked')) {
+               $('#buttonCompany').attr("disabled", false);
+               $("#buttonCompany").text("Valider");
+            } else {
+               $('#buttonCompany').attr("disabled", true);
+               $("#buttonCompany").text("Acceptez la notice PDP pour valider");
+            }
+         }
+
+         $('#appbundle_company_agreeRgpd').on('change', function () {
+            // si acceptation RGPD
+            if ($('#appbundle_company_agreeRgpd').prop('checked')) {
+               $('#buttonCompany').removeAttr("disabled");
+               $("#buttonCompany").text("Valider");
+               $("#buttonCompany").css("background-color", "#2177e0");
+               $("#buttonCompany").css("border-color", "#2177e0");
+            // si refus RGPD
+            } else {
+               // formulaire Valid, suppression du compte
+               if($("#form_company").valid()) {
+                  $("#buttonCompany").text("Supprimer mon compte");
+                  $("#buttonCompany").css("background-color", "red");
+                  $("#buttonCompany").css("border-color", "red");
+                  alert("Attention, vous êtes sur le point de supprimer toutes vos données personnelles")
+               // formulaire non rempli, retour situation initiale
+               } else {
+                  $('#buttonCompany').attr("disabled", true);
+                  $("#buttonCompany").text("Acceptez la notice PDP pour valider");
+               }
+            }
+         });
+      }
+
+      function preventDefaultSubmit() {
+         // mise à jour mapAdresse et calcul des lat et longitude
+         // -----------------------------------------------------
+         let number = $('#appbundle_company_addressNumber').val();
+         let road = $('#appbundle_company_addressRoad').val();
+         let locality = $('#appbundle_company_addressLocality').val();
+         let city = $('#appbundle_company_city option:selected').text();
+         let region = $('#appbundle_company_region option:selected').text();
+         let country = $('#appbundle_company_country option:selected').text();
+         //console.log('|' + number + '|' + road + '|' + locality + '|' + city + '|' + region + '|' + country + '|');
+         let mapAdresse = createMapsAddress(number, road, locality, city, region, country)
+
+         // console.log('Coordonnees map tests ....' + mapAdresse + "  " + $('#appbundle_company_mapsAddress').val());
+
+         if (($('#appbundle_company_mapsAddress').val() != mapAdresse) ||
+            ($('#appbundle_company_latitude').val().length == null) ||
+            ($('#appbundle_company_latitude').val().length == 0) ||
+            ($('#appbundle_company_longitude').val().length == null)||
+            ($('#appbundle_company_longitude').val().length == 0)) {
+            $('#appbundle_company_mapsAddress').val(mapAdresse);
+            geocodeAddressLocation(mapAdresse, '#appbundle_company_latitude', '#appbundle_company_longitude')
+            setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
+               console.log('Coordonnees map recupérées ....');
+               $('#submitCompany').trigger('click');
+            }, 2000)
+         } else {
+            // alert($('#appbundle_company_latitude').val() + "  " + $('#appbundle_company_longitude').val());
+            $('#submitCompany').trigger('click');
+         }
+      }
+  </script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base_company.html.twig' %}
+{% block title %}
+  {{ parent() }} Entreprise
+{% endblock %}
+
+
+{% block js %}
+  <script>
+     $(document).ready(function () {
+        $("input.single-daterange").daterangepicker({
+           singleDatePicker: !0,
+           "locale": {
+              "format": "MM/DD/YYYY",
+              "separator": " - ",
+              "applyLabel": "Valider",
+              "cancelLabel": "Annuler",
+              "fromLabel": "De",
+              "toLabel": "à",
+              "customRangeLabel": "Custom",
+              "daysOfWeek": [
+                 "D",
+                 "L",
+                 "M",
+                 "M",
+                 "J",
+                 "V",
+                 "S"
+              ],
+              "monthNames": [
+                 "Janvier",
+                 "Février",
+                 "Mars",
+                 "Avril",
+                 "Mai",
+                 "Juin",
+                 "Juillet",
+                 "Août",
+                 "Septembre",
+                 "Octobre",
+                 "Novembre",
+                 "Décembre"
+              ],
+              "firstDay": 8
+           }
+        })
+     })
+
+     // Event
+     $(document).on('change', '#appbundle_company_country, #appbundle_company_region', function () {
+        let $field = $(this)
+        let $regionField = $('#appbundle_company_country')
+        let $form = $field.closest('form')
+        let target = '#' + $field.attr('id').replace('region', 'city').replace('country', 'region')
+        // Les données à envoyer en Ajax
+        let data = {}
+        data[$regionField.attr('name')] = $regionField.val()
+        data[$field.attr('name')] = $field.val()
+        // On soumet les données
+        $.post($form.attr('action'), data).then(function (data) {
+           // On récupère le nouvmeeau <select>
+           let $input = $(data).find(target)
+           // On remplace notre <select> actuel
+           $(target).replaceWith($input)
+        })
+     });
+  </script>
+{% endblock %}

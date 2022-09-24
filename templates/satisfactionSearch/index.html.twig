@@ -1,0 +1,127 @@
+{% extends 'satisfactionSearch/content.html.twig' %}
+
+{% block body %}
+  <div class="content-i">
+    <div class="content-box">
+      {# Tableau 1 #}
+      <div class="element-wrapper">
+        <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon"
+             style="margin-bottom: -35px;">
+        <h6 class="element-header">Liste des enquêtes d'insertion : Diplômé en recherche d'emploi</h6>
+        <div class="element-box">
+          {% if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+            <div class="controls-above-table">
+              <div class="row">
+                <div class="col-sm-6">
+                  <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                  <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                  {#<a class="btn btn-sm btn-primary" href="{{ path('satisfaction_search_new'| route_persondegree) }}">#}
+                    {#<i class="fa fa-plus"></i> Nouvelle enquête d'insertion</a>#}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          <div class="table-responsive">
+            <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+              <thead>
+              <tr>
+                <th>Actions</th>
+
+                {% if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                  <th><div><span>N°</span></div></th>
+                  <th><div><span>Nom</span></div></th>
+                  <th><div><span>Tél.</span></div></th>
+                {% endif %}
+
+                <th><div><span>Date<br>Création</span></div></th>
+                <th><div><span>Date<br>Modification</span></div></th>
+                <th><div><span>Inscrit<br>Formation ?</span></div></th>
+                <th><div><span>En<br>Recherche<br>d'emploi ?</span></div></th>
+                <th><div><span>Bénévole ?</span></div></th>
+                <th><div><span>Emploi<br>refusé ?</span></div></th>
+                <th><div><span>Emploi<br>depuis<br>formation ?</span></div></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% set rowNumber = 0 %}
+              {% for satisfaction in satisfactionSearches %}
+                {% set rowNumber = rowNumber+1 %}
+                <tr>
+                  <td class="row-actions">
+                    <a href="{{ path('satisfaction_search_edit' | route_persondegree, { 'id': satisfaction.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                    <a href="{{ path('satisfaction_search_show' | route_persondegree, { 'id': satisfaction.id }) }}#"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                    {% if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                      <a class="danger"
+                         onclick="deleteElement('{{ path('satisfaction_search_delete' , {'id': satisfaction.id}) }}')"><img
+                            src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                    {% endif %}
+                    <div>
+                      {# On affiche tous les messages flash dont le nom est « info » #}
+                      {% for message in app.session.flashbag.get('info') %}
+                        <p>Message flash : {{ message }}</p>
+                      {% endfor %}
+                    </div>
+                  </td>
+                  {#<td><a href="{{ path('satisfaction_search_show', { 'id': satisfaction.id }) }}">{{ satisfaction.id }}</a></td>#}
+
+                  {% if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
+                    <td>{{ rowNumber }}</td>
+                    <td>{{ satisfaction.personDegree }}</td>
+                    <td>{{ satisfaction.personDegree.phoneMobile1 }}</td>
+                  {% endif %}
+
+                  <td>{{ satisfaction.createdDate|date('d M Y H:i') }}</td>
+                  <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
+
+                  {% if satisfaction.registeredTraining %}
+                    <td>Oui</td>
+                  {% else %}
+                    <td>Non</td>
+                  {% endif %}
+
+                  {% if satisfaction.searchWork %}
+                    <td>Oui</td>
+                  {% else %}
+                    <td>Non</td>
+                  {% endif %}
+
+                  {% if satisfaction.activeVolunteer %}
+                    <td>Oui</td>
+                  {% else %}
+                    <td>Non</td>
+                  {% endif %}
+
+                  {% if satisfaction.jobRefuse %}
+                    <td>Oui</td>
+                  {% else %}
+                    <td>Non</td>
+                  {% endif %}
+
+                  {% if satisfaction.jobFromFormation %}
+                    <td>Oui</td>
+                  {% else %}
+                    <td>Non</td>
+                  {% endif %}
+
+                  {#<td>{{ satisfaction.jobTime }}</td>#}
+                  {#<td>{{ satisfaction.jobNotFoundReasons[0] }}</td>#}
+
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+  <script>
+     $(document).ready(function () {
+        let table = datatable()
+     });
+  </script>
+{% endblock %}

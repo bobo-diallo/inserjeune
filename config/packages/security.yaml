@@ -20,7 +20,11 @@ security:
                 login_path: login
                 check_path: login
                 enable_csrf: true
-                default_target_path: homepage
+                default_target_path: dasboard_index
+            logout:
+                path: app_logout
+                target: app_homepage
+#            access_denied_handler: App\Security\AccessDeniedHandler
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
@@ -34,7 +38,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login, role: PUBLIC_ACCESS }
+        - { path: ^/register, role: PUBLIC_ACCESS }
+        - { path: ^/resetting, role: PUBLIC_ACCESS }
+#        - { path: ^/dashboard, role: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN }s
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

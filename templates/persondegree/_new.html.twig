@@ -1,0 +1,242 @@
+{{ form_widget(form._token) }}
+<div class="form-global">
+  <fieldset>
+    <legend><span>Identité</span></legend>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label for=""> Prénom *</label>
+        {{ form_widget(form.firstname) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.firstname) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Nom *</label>
+        {{ form_widget(form.lastname) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.lastname) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label for=""> Vous êtes *</label>
+        {{ form_widget(form.sex) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sex) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Date de naissance *</label>
+        {{ form_widget(form.birthDate) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.birthDate) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Adresse</span></legend>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label for="">Pays *</label>
+        {{ form_widget(form.country) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for="">Région / Province *</label>
+        {{ form_widget(form.region) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-6 form-group">
+        <label for="">Ville (la plus proche) *</label>
+        {{ form_widget(form.addressCity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressCity) }}</div>
+      </div>
+      <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
+        <label for=""> Autre ville</label>
+        {{ form_widget(form.otherCity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2 form-group">
+        <label for=""> N°</label>
+        {{ form_widget(form.addressNumber) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber) }}</div>
+      </div>
+      <div class="col-sm-5 form-group">
+        <label for=""> Rue</label>
+        {{ form_widget(form.addressRoad) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad) }}</div>
+      </div>
+      <div class="col-sm-5 form-group">
+        <label for=""> Localité</label>
+        {{ form_widget(form.addressLocality) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Coordonnées</span></legend>
+    <div class="row">
+      <div class="col-sm-4 form-group">
+        <label for="">Tél. de connexion (Indicatif pays + N°) *</label>
+        {{ form_widget(form.phoneMobile1) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneMobile1) }}</div>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label for="">Autre Tél. (Indicatif pays + N°) </label>
+        {{ form_widget(form.phoneHome) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneHome) }}</div>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label for=""> Email </label>
+        {{ form_widget(form.email) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.email) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label for="">Tél. portable d'un 1er parent *</label>
+        {{ form_widget(form.phoneMobile2) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneMobile2) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for="">Tél. portable d'un 2nd parent</label>
+        {{ form_widget(form.phoneMobile3) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneMobile3) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Situation professionnelle actuelle *</span></legend>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        {#<label for="">Situation professionnelle actuelle *</label>#}
+        {{ form_widget(form.type) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.type) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Qualification</span></legend>
+    <div class="row">
+      <div class="col-sm-3 form-group">
+        <label for="">Filtre par région</label>
+        <select id="regionSchoolFilter" class="form-control"></select>
+      </div>
+      <div class="col-sm-5 form-group">
+        <label for="">Etablissement / Ecole *</label>
+        {{ form_widget(form.school) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.school) }}</div>
+      </div>
+      <div class="col-sm-4 form-group hide_block_other_school">
+        <label for="">Autre établissement</label>
+        {{ form_widget(form.otherSchool) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherSchool) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 form-group">
+        <label for="">N° Immatriculation</label>
+        {{ form_widget(form.registrationStudentSchool) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.registrationStudentSchool) }}</div>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label for="">Diplôme *</label>
+        {{ form_widget(form.degree) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degree) }}</div>
+      </div>
+      <div class="col-sm-4 form-group hide_block_other_degree">
+        <label for="">Autre diplôme</label>
+        {{ form_widget(form.otherDegree) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherDegree) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label for="">Année Session diplôme *</label>
+        {{ form_widget(form.lastDegreeYear) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.lastDegreeYear) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for="">Mois Obtention diplôme *</label>
+        {{ form_widget(form.lastDegreeMonth) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.lastDegreeMonth) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 form-group">
+        <label for="">Secteur d'activité *</label>
+        {{ form_widget(form.sectorArea) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label for="">Métier / Filière *</label>
+        {{ form_widget(form.activity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
+      </div>
+      <div class="col-sm-4 form-group hide_block_other_activity">
+        <label for="">Autre métier</label>
+        {{ form_widget(form.otherActivity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Droit à la protection des données</span></legend>
+    <div class="row">
+      <div class="col-sm-12 form-check">
+        {#<label for=""> Vous acceptez de diffuser vos informations personnelles pour les statistiques ? </label>#}
+        {% if personDegree.agreeRgpd == false %}
+          <label for="appbundle_persondegree_agreeRgpd">Cliquez sur OUI si vous acceptez de diffuser vos informations personnelles pour les statistiques (PDP) </label>
+        {% else %}
+          <label style="color: red" for="appbundle_persondegree_agreeRgpd">Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles, vous supprimerez l'intégralité de votre compte </label>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-check persondegree_agree_rgpd">
+        {{ form_widget(form.agreeRgpd) }}
+        <div class="slider round">
+          <span class="non">Non</span>
+          <span class="oui">Oui</span>
+        </div>
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.agreeRgpd) }}</div>
+      </div>
+      <div class="col-sm-6">
+        <a target="_blank" href="{{ path('rgpd_informations') }}"> informations relatives à la protection des données personnelles (PDP)</a>
+        {#<a href="https://www.medialibs.com/formations/#linkFormationsDev" title="monLien">Mon lien ancré</a>#}
+      </div>
+    </div>
+  </fieldset>
+  {{ form_widget(form.mapsAddress) }}
+  {{ form_widget(form.latitude) }}
+  {{ form_widget(form.longitude) }}
+
+  {# Affichages des activities #}
+  {#{% include '_showActivities.twig' with {'allActivities': allActivities} %}#}
+  {{ show_allactivities() }}
+
+  {% if is_granted('ROLE_DIPLOME') %}
+    <input style="display: none" value="ROLE_DIPLOME" id="role">
+  {% else %}
+    <input style="display: none" value="ROLE_OTHER" id="role">
+  {% endif %}
+</div>
+
+<select hidden id="selectedCountry">
+  <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+</select>
+<input style="display: none" value="{{ personDegree.country.phoneCode }}" id="countryPhoneCode">
+<select hidden id="schoolRegion">
+  {% for region in selectedCountry.regions %}
+      {% for school in region.schools %}
+        <option value="{{ school.id }}">{{ school.region.name }}</option>
+      {% endfor %}
+  {% endfor %}
+</select>
+
+<div><span><br>* : champ obligatoire</span></div>
+<div><span>email conseillé pour répondre aux offres d'emplois</span></div>
+<div><span>l'immatriculation est en vert si elle est validée par l'établissement</span></div>
+
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="button" id="buttonPersonDegree" onclick="preventDefaultSubmit()"> Valider</button>
+  <button class="btn btn-primary" type="submit" hidden="hidden" id="submitPersonDegree"> Valider</button>
+</div>

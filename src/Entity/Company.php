@@ -13,7 +13,7 @@ class Company {
 	#[ORM\Id]
 	#[ORM\Column(name: 'id', type: 'integer')]
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
@@ -32,7 +32,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
-	private City $city;
+	private ?City $city = null;
 
 	#[ORM\Column(name: 'other_city', type: 'string', nullable: true)]
 	private string $otherCity;
@@ -43,7 +43,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
-	private Country $country;
+	private ?Country $country = null;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
 	private int $addressNumber;
@@ -75,19 +75,19 @@ class Company {
 	#[ORM\JoinColumn(name: 'id_legal_status', referencedColumnName: 'id')]
 	private LegalStatus $legalStatus;
 
-	#[ORM\OneToMany(targetEntity: JobOffer::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: JobOffer::class, cascade: ['persist', 'remove'])]
 	private Collection $jobOffers;
 
-	#[ORM\OneToMany(targetEntity: Publicity::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: Publicity::class, cascade: ['persist', 'remove'])]
 	private Collection $publicities;
 
-	#[ORM\OneToMany(targetEntity: PersonDegree::class, mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: PersonDegree::class)]
 	private Collection $salaries;
 
-	#[ORM\OneToMany(targetEntity: Apprentice::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: Apprentice::class, cascade: ['persist', 'remove'])]
 	private Collection $apprentices;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionCompany::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: SatisfactionCompany::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactionCompanies;
 
 	#[ORM\ManyToMany(targetEntity: SocialNetwork::class, cascade: ['persist', 'remove'])]
@@ -178,7 +178,7 @@ class Company {
 		return $this;
 	}
 
-	public function getCity(): City {
+	public function getCity(): ?City {
 		return $this->city;
 	}
 
@@ -462,7 +462,7 @@ class Company {
 		return $this;
 	}
 
-	public function getCountry(): Country {
+	public function getCountry(): ?Country {
 		return $this->country;
 	}
 

@@ -1,0 +1,177 @@
+{% extends 'satisfactionsalary/content.html.twig' %}
+
+{% block body %}
+<div class="content-i">
+    <div class="content-box">
+      {# Tableau 1 #}
+        <div class="element-wrapper">
+            <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+            <h6 class="element-header">
+                Details
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('satisfactionsalary_new'| route_persondegree) }}">
+                        <i class="fa fa-plus"></i> Ajouter une enquête d'insertion : diplômé en emploi
+                    </a>
+                {% endif %}
+                <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('satisfactionsalary_index'| route_persondegree) }}">
+                    <i class="fa fa-arrow-left"></i> Retour à la liste
+                </a>
+            </h6>
+            <div class="element-box form-show">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <label class="col-form-label col-sm-12">
+                            Diplomé :
+                            <input class="form-control" disabled value="{{ satisfactionSalary.personDegree }}">
+                        </label>
+                    </div>
+                  {%  if app.user.roles|role =="ADMIN" %}
+                      <div class="col-sm-4">
+                          <label class="col-form-label col-sm-12">
+                              Id :
+                              <input class="form-control" disabled value="{{ satisfactionSalary.id }}">
+                          </label>
+                      </div>
+                  {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-sm-12">
+                            Date de création :
+                            <input class="form-control" disabled value="{{ satisfactionSalary.createdDate|date("d/m/Y H:i") }}">
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-sm-12">
+                            Obtention du Diplôme :
+                            <input class="form-control" disabled value="{{ satisfactionSalary.degreeDate }}">
+                        </label>
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label for=""> Type de contrat de travail </label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.contract }}">
+                    </div>
+                    <div class="col-sm-6 form-group hide_block_other_contract">
+                        <label for=""> Autre Type</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.otherContract }}">
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Votre rémunération par mois </label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.monthlySalary }}">
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Votre rémunération par jour </label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.daylySalary }}">
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Devise </label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.currency }}">
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Nom de l'entreprise qui vous emploie</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.companyName }}">
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Tel (indicatif + N°)</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.companyPhone }}">
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Ville (la plus proche)</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.companyCity }}">
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label for=""> Vous êtes employé depuis</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.jobTime }}">
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for=""> Nombre d'heures de travail par jour</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.workHoursPerDay }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Domaine d'activité</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.sectorArea }}">
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for=""> Métier / Filière</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.activity }}">
+                    </div>
+                    <div class="col-sm-4 form-group hide_flex_otherActivityName">
+                        <label for=""> Autre Métier</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.otherActivityName }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label for=""> Poste occupé</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.jobStatus }}">
+                    </div>
+                    <div class="col-sm-6 form-group hide_block_jobName">
+                        <label for=""> Autre Poste occupé ?</label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.jobName }}">
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="row">
+                    <div class="col-sm-6 form-check">
+                      {% if satisfactionSalary.trainingSatisfied==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
+                        <label class="col-sm-12 col-form-label"> Etes vous satisfait de votre formation ?</label>
+                        <div class="col-sm-12">
+                            <input type="checkbox" class="form-control" disabled {{ checked }}>
+                            <div class="slider round">
+                                <span class="non">Non</span>
+                                <span class="oui">Oui</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label for=""> Si vous exercez un métier sans lien avec votre diplôme, c’est parce que :<br>plusieurs choix possibles (+ touche ctrl)</label>
+                        <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSalary.jobNotFoundReasons | join('\n')}}</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label for="">Autre raison </label>
+                        <input class="form-control" disabled value="{{ satisfactionSalary.jobNotFoundOther }}">
+                    </div>
+                </div>
+                <div class="line-separator"></div>
+                <div class="controls-above-table">
+                    <div class="row" id="actions">
+                        <div class="col-sm-6">
+                           {% if is_granted('ROLE_ADMIN') == true %}
+                              <a class="btn btn-sm btn-primary" href="{{ path('satisfactionsalary_edit', {'id': satisfactionSalary.id}) }}">
+                                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                           {% elseif is_granted('ROLE_DIPLOME') == true%}
+                              <a class="btn btn-sm btn-primary" href="{{ path('front_persondegree_satisfactionsalary_edit', {'id': satisfactionSalary.id}) }}">
+                                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                           {% endif %}
+
+                           {% if is_granted('ROLE_ADMIN') == true %}
+                              <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('satisfactionsalary_delete', {'id': satisfactionSalary.id}) }}')">
+                                <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                           {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

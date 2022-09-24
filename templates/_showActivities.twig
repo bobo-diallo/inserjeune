@@ -1,0 +1,5 @@
+<select name="" id="allActivities" style="display: none">
+  {% for activity in allActivities %}
+    <option value="{{ activity.id }}" name="{{ activity.name }}">{{ activity.sectorArea.id }}</option>
+  {% endfor %}
+</select>
