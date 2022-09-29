@@ -29,11 +29,11 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Domain\User\Commands\:
-        resource: '../src/Domain/User/Commands/*{Handler}.php'
-        tags:
-            - { name: 'app_cqrs.command_handler' }
-        autowire: true
+#    App\Domain\User\Commands\:
+#        resource: '../src/Domain/User/Commands/*{Handler}.php'
+#        tags:
+#            - { name: 'app_cqrs.command_handler' }
+#        autowire: true
 
     # Uploadable Annotation
     upload.annotation_reader:
@@ -54,7 +54,7 @@ services:
         class: App\Services\CityService
 
     app.activity:
-        class: App\Services\AcitivityService
+        class: App\Services\ActivityService
         arguments: [
             '@doctrine.orm.default_entity_manager',
             '@App\Repository\ActivityRepository'
