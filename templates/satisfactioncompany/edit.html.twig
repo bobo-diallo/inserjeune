@@ -1,0 +1,32 @@
+{% extends 'satisfactioncompany/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Modification d'une satisfaction des entreprises
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('satisfactioncompany_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidates" method="post">
+                      {% include 'satisfactioncompany/_new.html.twig' with {'form': edit_form} %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script>
+       // initialisation du titre pour completer la formation des autres compétences
+       $('#completeOtherTrainingLabel').html("{{ satisfactionCompany.levelOtherName }}");
+    </script>
+{% endblock %}
+

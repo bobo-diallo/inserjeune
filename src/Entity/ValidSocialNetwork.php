@@ -11,7 +11,7 @@ class ValidSocialNetwork {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
@@ -20,7 +20,7 @@ class ValidSocialNetwork {
 		return $this->id;
 	}
 
-	public function setName(string $name): static {
+	public function setName(string $name): self {
 		$this->name = $name;
 
 		return $this;

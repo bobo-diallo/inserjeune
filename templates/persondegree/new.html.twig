@@ -1,0 +1,30 @@
+{% extends 'persondegree/content.html.twig' %}
+
+{% block body %}
+
+  <div class="content-i">
+    <div class="content-box">
+      {# Tableau 1 #}
+      <div class="element-wrapper">
+        <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+        <h6 class="element-header">
+          Nouveau diplômé
+          {% if is_granted('ROLE_ADMIN') %}
+          <a class="btn btn-sm btn-primary float-right" href="{{ path('persondegree_index') }}">
+            <i class="fa fa-arrow-left"></i> Retour à la liste
+          </a>
+          {% endif %}
+        </h6>
+        <div class="element-box">
+          <form id="form_person_degree" method="post" action="{{ path('persondegree_new' | route_persondegree) }}">
+            {% include 'persondegree/_new.html.twig' %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+

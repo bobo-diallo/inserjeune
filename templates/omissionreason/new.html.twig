@@ -1,0 +1,22 @@
+{% extends 'omissionreason/content.html.twig' %}
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <h6 class="element-header">
+                    Ajout d'une lacune d'un employé
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('omissionreason_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidate" method="post" action="{{ path('omissionreason_new') }}">
+                      {% include 'omissionreason/_new.html.twig' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -19,14 +19,14 @@ class Country {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'valid', type: 'boolean')]
 	private bool $valid;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	#[Assert\NotBlank]
-	private string $name;
+	private ?string $name = null;
 
 	#[ORM\Column(name: 'iso_code', type: 'string', length: 3)]
 	#[Assert\NotBlank]
@@ -39,7 +39,7 @@ class Country {
 	#[ORM\Column(name: 'phone_digit', type: 'integer')]
 	private int $phoneDigit;
 
-	#[ORM\OneToMany(targetEntity: Region::class, mappedBy: 'country', cascade: ['remove', 'persist'])]
+	#[ORM\OneToMany(mappedBy: 'country', targetEntity: Region::class, cascade: ['remove', 'persist'])]
 	private Collection $regions;
 
 	#[ORM\ManyToOne(targetEntity: Currency::class, inversedBy: 'countries')]
@@ -66,7 +66,7 @@ class Country {
 		return $this->id;
 	}
 
-	public function getName(): string {
+	public function getName(): ?string {
 		return $this->name;
 	}
 
@@ -132,11 +132,26 @@ class Country {
 		$this->regions->removeElement($region);
 	}
 
-	public function getRegions(): ArrayCollection {
+	public function getRegions(): Collection {
 		return $this->regions;
 	}
 
 	public function __toString(): string {
 		return $this->getName();
+	}
+
+	public static function fromFixtures(
+		string $name,
+		string $isoCode,
+		string $phoneCode,
+		string $phoneDigit,
+		bool $isValid
+	): static {
+		return (new static())
+			->setName($name)
+			->setIsoCode($isoCode)
+			->setPhoneCode($phoneCode)
+			->setPhoneDigit($phoneDigit)
+			->setValid($isValid);
 	}
 }

@@ -1,0 +1,22 @@
+{{ form_widget(form._token) }}
+<div class="form-group">
+  <label for=""> Libelle </label>
+  {{ form_widget(form.name) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Description</label>
+  {{ form_widget(form.description) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Niveau</label>
+  {{ form_widget(form.level) }}
+</div>
+{#<div class="form-group">#}
+  {#<label for=""> Metier</label>#}
+  {#{{ form_widget(form.activity) }}#}
+{#</div>#}
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="submit"> Valider</button>
+</div>

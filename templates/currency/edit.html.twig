@@ -1,0 +1,26 @@
+{% extends 'currency/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/locality.png') }}" alt="devises" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Modification d'une devise
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('currency_new') }}">
+                        <i class="fa fa-plus"></i> Ajouter une devise
+                    </a>
+                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('currency_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidate" method="post">
+                      {% include 'currency/_new.html.twig' with {'form': edit_form} %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

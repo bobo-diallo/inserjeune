@@ -1,0 +1,86 @@
+{% extends 'company/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+            {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon"
+                     style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Liste des entreprises qui emploient vos diplômés
+                </h6>
+                <div class="element-box">
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" id="addCompanySchool"
+                                   href="{{ path('front_school_company_index') }}">
+                                    <i class="fa fa-plus"></i> Retour à vos partenaires</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Ville</th>
+                                <th>Telephone</th>
+                                <th>Nombre d'embauchés</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for employer in employers %}
+                                <tr>
+                                    <td>{{ employer["name"] }}</td>
+                                    <td>{{ employer["city"] }}</td>
+                                    <td>{{ employer["phone"] }}</td>
+                                    <td>{{ employer["NbPersonDegrees"] }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Attention, cette liste provient des données des diplômés </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function format(d) {
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Addresse Locality</td>' +
+                '<td>' + d[8] + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Date creation</td>' +
+                '<td>' + d[9] + '</td>' +
+                '</tr>' +
+                '</table>';
+        }
+
+        $(document).ready(function () {
+            let table = datatable(true)
+
+            $('#kz_table tbody').on('click', 'td.details-control', function () {
+                let tr = $(this).closest('tr');
+                let row = table.row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+        });
+        makeSelected('company')
+    </script>
+{% endblock %}

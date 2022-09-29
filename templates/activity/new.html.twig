@@ -1,0 +1,22 @@
+{% extends 'activity/content.html.twig' %}
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <h6 class="element-header">
+                    Ajout d'un secteur d'activité
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('activity_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidate" method="post" action="{{ path('activity_new') }}">
+                      {% include 'activity/_new.html.twig' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

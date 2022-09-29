@@ -19,7 +19,11 @@ class JobOfferRepository extends ServiceEntityRepository
 		parent::__construct($registry, JobOffer::class);
 	}
 
-   public function othersJobs(Company $company)
+	/**
+	 * @param Company $company
+	 * @return JobOffer[]
+	 */
+	public function othersJobs(Company $company): array
    {
       return $this->createQueryBuilder('j')
          ->where('j.company != :company')

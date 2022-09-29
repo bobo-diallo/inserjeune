@@ -1,0 +1,26 @@
+{% extends 'country/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Modification d'un pays
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('country_new') }}">
+                        <i class="fa fa-plus"></i> Ajouter un pays
+                    </a>
+                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('country_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="formValidate" method="post">
+                      {% include 'country/_new.html.twig' with {'form': edit_form} %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

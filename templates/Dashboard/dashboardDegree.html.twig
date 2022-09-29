@@ -1,0 +1,156 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+  {{ parent() }} Dashboard
+{% endblock %}
+
+{% block menu %}
+  {# Menu lateral gauche #}
+  <ul class="main-menu">
+    <li><a href="{{ path('dashboard_index') }}">
+        <div class="icon-w">
+          <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
+        </div>
+        <span>Tableau de bord</span></a></li>
+    <li class="has-sub-menu"><a href="{{ path('dashboard_index') }}">
+        <div class="icon-w">
+          <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
+        </div>
+        <span>Entreprises</span></a>
+      <ul class="sub-menu">
+        <li><a href="{{ path('company_index') }}">La liste des entreprises</a></li>
+        <li><a href="#">Les offre d'emplois**</a></li>
+        <li><a href="#">Les publicités**</a></li>
+        <li><a href="#">Les apprentis**</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="{{ path('satisfactionsalary_new') }}">
+        <div class="icon-w">
+          <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
+        </div>
+        <span>Enquêtes</span>
+      </a>
+    </li>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      <li>
+        <a href="{{ path('logout') }}">
+          <div class="icon-w">
+            <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
+          </div>
+          <span>Deconnexion</span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock %}
+
+
+{% block body %}
+  <div class="content-i">
+    <div class="content-box">
+      {# Liens #}
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="element-wrapper">
+            <div class="element-actions">
+              <form class="form-inline justify-content-sm-end">
+                <select class="form-control form-control-sm rounded">
+                  <option value="Pending">Aujourd'hui</option>
+                  <option value="Active">Dernière semaine</option>
+                  <option value="Cancelled">Derniers 30 Jours</option>
+                </select>
+              </form>
+            </div>
+            <h6 class="element-header"></h6>
+            <div class="element-content satisfaction_value">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="element-box el-tablo">
+                    <div class="label"><a href="{{ path('jobOffer_new') }}">Postuler</a></div>
+                    <div class="value">20 offres</div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="element-box el-tablo">
+                    <div class="label"><a href="{{ path('satisfaction_search_new') }}">Repondre aux enquêtes</a></div>
+                    <div class="value">40%</div>
+                    <div class="trending trending-down-basic"><span>12%</span><i
+                          class="os-icon os-icon-arrow-2-down"></i></div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="element-box el-tablo">
+                    <div class="label">Diplômés créateurs</div>
+                    <div class="value">89%</div>
+                    <div class="trending trending-down-basic"><span>9%</span><i
+                          class="os-icon os-icon-graph-down"></i></div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="element-box el-tablo">
+                    <div class="label">Entreprises</div>
+                    <div class="value">25%</div>
+                    <div class="trending trending-down-basic"><span>9%</span><i
+                          class="os-icon os-icon-graph-down"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Listes des offres d'emploi #}
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="element-wrapper">
+            <img src="{{ asset('build/images/icon/job.png') }}" alt="job" class="title-icon" style="margin-bottom: -35px;">
+            <h6 class="element-header">Liste des offres d'emploi</h6>
+            <div class="element-box-tp">
+              <div class="table-responsive">
+                <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap">
+                  <thead>
+                  <tr>
+                    <th>Titre</th>
+                    <th>Profession</th>
+                    <th>Entreprise</th>
+                    <th>Email </th>
+                    <th>Voir</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for jobOffer in jobOffers %}
+                    <tr>
+                      <td>{{ jobOffer.title }}</td>
+                      <td>{{ jobOffer.activity.name }}</td>
+                      <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }}{% endif %}</td>
+                      <td>{{ jobOffer.postedEmail }}</td>
+                      <td class="row-actions">
+                        <a href="{{ path('jobOffer_show', {'id': jobOffer.id }) }}">
+                          <img src="{{ asset('build/images/icon/show_16.png') }}" alt="show">
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script type="application/javascript">
+     $(document).ready(function () {
+        let table = datatable()
+     });
+  </script>
+{% endblock %}
+

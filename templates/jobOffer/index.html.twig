@@ -1,0 +1,93 @@
+{% extends 'jobOffer/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Liste des offres d'emploi
+                  {#{% include '_menu.html.twig' %}#}
+                </h6>
+                <div class="element-box">
+                    {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Entreprise"%}
+                        <div class="controls-above-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                    {#<a class="btn btn-sm btn-primary" href="{{ path('jobOffer_new') }}">#}
+                                        {#<i class="fa fa-plus"></i> Ajouter une offre</a>#}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                {%  if app.user.roles|role =="Diplômé"%}
+                                    <th>Postuler</th>
+                                {% endif %}
+                                {%  if app.user.roles|role =="Etablissement" or app.user.roles|role =="Diplômé"%}
+                                    <th>Détail</th>
+                                {%  elseif app.user.roles|role =="Administrateur" or app.user.roles|role =="Entreprise"%}
+                                    <th>Actions</th>
+                                {% endif %}
+                                {%  if app.user.roles|role =="Administrateur"%}
+                                    <th>Id</th>
+                                {% endif %}
+                                <th>Titre</th>
+                                <th>Métier</th>
+                                <th>Email</th>
+                                <th>Entreprise</th>
+                                <th>Ville</th>
+                                {#<th>Description</th>#}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for jobOffer in jobOffers %}
+                                <tr>
+                                    {% if app.user.roles|role == "Diplômé" %}
+                                        <td><a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}">Postuler </a></td>
+                                    {% endif %}
+                                    {% if app.user.roles|role =="Etablissement" or app.user.roles|role =="Diplômé"%}
+                                        <td><a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a></td>
+                                    {% endif %}
+                                    {% if app.user.roles|role =="Administrateur" or app.user.roles|role =="Entreprise"%}
+                                        <td class="row-actions">
+                                            <a href="{{ path('jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            <a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                            <a class="danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                         </td>
+                                    {% endif %}
+                                    {% if app.user.roles|role =="Administrateur" or app.user.roles|role =="Entreprise"%}
+                                        <td>{{ jobOffer.id }}</td>
+                                    {% endif %}
+                                    <td>{{ jobOffer.title }}</td>
+                                    <td>{{ jobOffer.activity }}</td>
+                                    <td>{{ jobOffer.postedEmail }}</td>
+                                    <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }} {% endif %}</td>
+                                    <td>{{ jobOffer.city.name }}</td>
+                                    {#<td>{{ jobOffer.description }}</td>#}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+       $(document).ready(function () {
+          let table = datatable(true)
+       });
+       makeSelected('jobOffer')
+    </script>
+{% endblock %}

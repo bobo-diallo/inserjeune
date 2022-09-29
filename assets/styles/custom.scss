@@ -3,3 +3,8 @@
 //$success:       #3A86FF;
 //$info:          #FF006E;
 //$light:         #8338EC;
+//.select2-container--default .select2-results__option[aria-disabled=true] {
+//  display: none;
+//}
+.select2-hidden-accessible { position: fixed !important; }
+

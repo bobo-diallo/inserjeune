@@ -1,0 +1,90 @@
+{% extends "base_security.html.twig" %}
+
+{% block fos_user_title %}
+  <h4 class="auth-header">Nouveau compte d'utilisateur</h4>
+{% endblock fos_user_title %}
+
+{% block fos_user_content %}
+    <form action="{{ path('register_create_account') }}" method="post">
+      {{ form_widget(form._token) }}
+      <div class="form-group">
+        <label for="">  Pays</label>
+        {{ form_widget(form.country) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+      </div>
+      <div class="form-group">
+        <label for=""> Téléphone : Indicatif pays (<span id="phone_code"></span> ) + N°</label>
+        {{ form_widget(form.phone) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.phone) }}</div>
+      </div>
+      <div class="form-group" style="display: none">
+        <label for=""> Pseudo (Optionnel)</label>
+        {{ form_widget(form.username) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+      </div>
+      <div class="form-group" style="display: none">
+        <label for=""> Email address (Optionnel)</label>
+        {{ form_widget(form.email) }}
+        <div class="pre-icon os-icon os-icon-email-2-at2"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for=""> Mot de passe</label>
+            {{ form_widget(form.plainPassword.first) }}
+            <div class="pre-icon os-icon os-icon-fingerprint"></div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="">Confirmer</label>
+            {{ form_widget(form.plainPassword.second) }}
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for=""> Type d'utilisateur</label>
+        {{ form_widget(form.typePerson) }}
+      </div>
+    {#</form>#}
+      <div class="row form-group">
+        <div class="col-xs-6 buttons-w">
+          <button class="btn btn-primary" id="submitRegister">Valider</button>
+        </div>
+        <div class="col-xs-6 buttons-w">
+          <a class="btn btn-primary" href="{{ path('logout') }}">Annuler</a>
+        </div>
+      </div>
+    </form>
+    <select hidden id="indTel">
+      {% for country in countries %}
+        <option value="{{ country.id }}">{{ country.phoneCode }}</option>
+      {% endfor %}
+    </select>
+{% endblock fos_user_content %}
+{% block fos_user_script %}
+<script>
+   // $(document).ready(function () {
+   $('#userbundle_user_country').on('change', function (e) {
+      let selectedCountry = $('#userbundle_user_country option:selected').val();
+      let phoneCode = '+' + $('#indTel option[value=' +selectedCountry+ ']').text();
+
+      // alert($('#indTel option[value='+ selectedCountry +']').val() + " " + $('#indTel option[value=' +selectedCountry+ ']').text())
+      $('#phone_code').html('+' + $('#indTel option[value=' +selectedCountry+ ']').text());
+      $('#userbundle_user_phone').attr('placeholder', phoneCode  + '  + Numéro de Téléphone' );
+      $('#userbundle_user_phone').val(phoneCode);
+   })
+
+   $('#submitRegister').on('click', function (e) {
+      e.preventDefault();
+
+      // setTimeout(function() {
+      $('form').submit()
+      // , 5000});
+
+   })
+   // })
+</script>
+{% endblock fos_user_script %}

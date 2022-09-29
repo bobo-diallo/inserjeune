@@ -15,7 +15,7 @@ class Region {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	#[Assert\NotBlank]
@@ -27,10 +27,10 @@ class Region {
 	#[Assert\NotBlank]
 	private Country $country;
 
-	#[ORM\OneToMany(targetEntity: City::class, mappedBy: 'region', cascade: ['persist'])]
+	#[ORM\OneToMany(mappedBy: 'region', targetEntity: City::class, cascade: ['persist'])]
 	private Collection $cities;
 
-	#[ORM\OneToMany(targetEntity: School::class, mappedBy: 'region', cascade: ['persist'])]
+	#[ORM\OneToMany(mappedBy: 'region', targetEntity: School::class, cascade: ['persist'])]
 	private Collection $schools;
 
 	public function __construct() {
@@ -72,7 +72,7 @@ class Region {
 		$this->cities->removeElement($city);
 	}
 
-	public function getCities(): ArrayCollection {
+	public function getCities(): Collection {
 		return $this->cities;
 	}
 
@@ -90,7 +90,12 @@ class Region {
 		$this->schools->removeElement($school);
 	}
 
-	public function getSchools(): ArrayCollection {
+	public function getSchools(): Collection {
 		return $this->schools;
+	}
+
+	public static function fromFixture(string $name): static {
+		return (new static())
+			->setName($name);
 	}
 }

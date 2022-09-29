@@ -1,0 +1,130 @@
+{{ form_widget(form._token) }}
+<div class="jobOfferCompany">
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <label class="col-form-label col-sm-6">Nom de l'entreprise</label>
+      <input class="col-sm-12 form-control" disabled value="{{ company.name }}">
+    </div>
+  </div>
+  <fieldset>
+    <legend><span>Offre d'emploi</span></legend>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label> Titre </label>
+        {{ form_widget(form.title) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.title) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label> Type de Contrat</label>
+        {{ form_widget(form.contract) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.contract) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label> Description</label>
+        {{ form_widget(form.description) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Activité</span></legend>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label> Secteur</label>
+        {{ form_widget(form.sectorArea) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label> Métier</label>
+        {{ form_widget(form.activity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label> Autre métier</label>
+        {{ form_widget(form.otherActivity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Localisation</span></legend>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label>Pays</label>
+        {{ form_widget(form.country) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Region</label>
+        {{ form_widget(form.region) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Ville</label>
+        {{ form_widget(form.city) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label> Autre ville</label>
+        {{ form_widget(form.otherCity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Contact</span></legend>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label>Nom du Contact</label>
+        {{ form_widget(form.postedContact) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedContact) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Téléphone fixe</label>
+        {{ form_widget(form.postedPhone) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedPhone) }}</div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Email</label>
+        {{ form_widget(form.postedEmail) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedEmail) }}</div>
+      </div>
+    </div>
+  </fieldset>
+
+
+  {# Affichage de l'image actuel #}
+  {% if attribute(form.file.vars, 'data') is defined and form.file.vars.data is not empty %}
+    <div class="form-group">
+      <label> Fichier actuels</label>
+      <div class="form-control"><img src="{{ asset(form.file.vars.data.pathname) }}" alt="image" style="max-width: 200px; max-height: 150px;"></div>
+    </div>
+  {% endif %}
+
+  {# Begin FileInput #}
+  <div class="form-group">
+    <label class="">Joindre une image</label>
+    <div style="border: 2px dashed #2177e0">
+      <div class="fileinput fileinput-new" data-provides="fileinput">
+        <div class="fileinput-new thumbnail"></div>
+        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+        <div>
+            <span class="btn default btn-file">
+              <button class="btn fileinput-new" style="text-transform: none"> Selectionner une nouvelle image </button>
+              <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> Changer </button>
+              {{ form_widget(form.file) }}
+            </span>
+          <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> Supprimer </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {# End FileInput #}
+{#</div>#}
+
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="submit"> Valider</button>
+</div>
+</div>

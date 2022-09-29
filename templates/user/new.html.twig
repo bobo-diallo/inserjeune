@@ -1,0 +1,46 @@
+{% extends 'user/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+            {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/users.png') }}" alt="locality" class="title-icon"
+                     style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    <i class="fa fa-user"></i>
+                    Nouveau utlisateur
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('user_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="" method="post" action="{{ path('user_new') }}">
+                        {% include 'user/_new.html.twig' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{# {% extends 'base.html.twig' %} #}
+
+{# {% block body %} #}
+    {# <h1>User creation</h1> #}
+
+  {# {{ form_start(form) }} #}
+  {# {{ form_widget(form) }} #}
+    {# <input type="submit" value="Create" /> #}
+  {# {{ form_end(form) }} #}
+
+    {# <ul> #}
+        {# <li> #}
+            {# <a href="{{ path('user_index') }}">Back to the list</a> #}
+        {# </li> #}
+    {# </ul> #}
+{# {% endblock %} #}
+

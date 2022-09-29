@@ -1,0 +1,102 @@
+{{ form_widget(form._token) }}
+<div class="form-group row">
+  <div class="col-sm-8">
+    Diplomé :   {{ satisfactionCreator.personDegree }}
+  </div>
+  {%  if app.user.roles|role =="ADMIN" %}
+    <div class="col-sm-2">
+      Id : {{ satisfactionCreator.id }}
+    </div>
+  {% endif %}
+</div>
+<div class="form-group row">
+  <div class="col-sm-6">
+    Date de création : {{ satisfactionCreator.createdDate|date("d/m/Y H:i") }}
+  </div>
+  <div class="col-sm-6">
+    Obtention du Diplôme : {{ satisfactionCreator.degreeDate }}
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label for=""> Dans secteur d'activité avez-vous créé votre entreprise ?</label>
+        {{ form_widget(form.sectorArea) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+      </div>
+    </div>
+    <div class="row hide_flex_other_activity">
+      <div class="col-sm-12 form-group">
+        <label for=""> Autre métier ?</label>
+        {{ form_widget(form.otherActivity) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity) }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 form-group">
+    <label for=""> Quel métier exercez-vous au sein de votre entreprise ?</label>
+    {{ form_widget(form.activities) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-6 form-check">
+    <label for=""> Votre entreprise a-t-elle une existence juridique ?</label>
+    {{ form_widget(form.legalCompany) }}
+    <div class="slider round">
+      <span class="non">Non</span>
+      <span class="oui">Oui</span>
+    </div>
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.legalCompany) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-6 form-group">
+    <label for="">Votre rémunération par mois en devise nationale</label>
+    {{ form_widget(form.monthlySalary) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.monthlySalary) }}</div>
+  </div>
+  <div class="col-sm-6 form-group">
+    <label for="">Devise</label>
+    {{ form_widget(form.currency) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.currency) }}</div>
+  </div>
+</div>
+<div class="line-separator"></div>
+<div class="row">
+  <div class="col-sm-12 form-check">
+    <label for=""> Votre formation a-t-elle été utile pour le métier que vous exercez ?</label>
+    {{ form_widget(form.usefulTraining) }}
+    <div class="slider round">
+      <span class="non">Non</span>
+      <span class="oui">Oui</span>
+    </div>
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.usefulTraining) }}</div>
+  </div>
+</div>
+<div class="row hide_flex_jobNotFound">
+  <div class="col-sm-12 form-group">
+    <label for=""> <br>pourquoi ? plusieurs choix possibles (+ touche ctrl)</label>
+    {{ form_widget(form.jobNotFoundReasons) }}
+    <div class="help-block form-text with-errors form-control-feedSi non, pourquoi ?back">{{ form_errors(form.jobNotFoundReasons) }}</div>
+  </div>
+  <div class="col-sm-12 form-group hide_flex_jobNotFoundOther">
+    <label for=""> Autre raison :</label>
+    {{ form_widget(form.jobNotFoundOther) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundOther) }}</div>
+  </div>
+</div>
+{#<select name="" id="allActivities" style="display: none">
+  {% for activity in allActivities %}
+    <option value="{{ activity.id }}" name="{{ activity.name }}">{{ activity.sectorArea.id }}</option>
+  {% endfor %}
+</select>#}
+{{ show_allactivities() }}
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="button" id="buttonSatisfactionCreator" onclick="preventDefaultSubmit()"> Valider</button>
+  <button class="btn btn-primary" type="submit" id="submitSatisfactionCreator" hidden="hidden"> Valider</button>
+</div>

@@ -18,7 +18,7 @@ class CandidateResearch extends PersonDegree {
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	private Company $lastedCompany;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionSearch::class, cascade: ['persist', 'remove'], mappedBy: 'candidateResearch')]
+	#[ORM\OneToMany(mappedBy: 'candidateResearch', targetEntity: SatisfactionSearch::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactions;
 
 	public function __construct() {

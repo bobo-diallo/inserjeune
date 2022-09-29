@@ -16,7 +16,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	protected ?int $id = null;
 
 	#[ORM\Column(type: 'string', length: 180, unique: true)]
 	private ?string $username;
@@ -25,7 +25,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	private array $roles = [];
 
 	#[ORM\Column(type: 'string')]
-	private string $password;
+	private ?string $password;
+
+	private ?string $plainPassword = null;
 
 	#[ORM\Column(name: 'api_token', type: 'string', unique: true, nullable: true)]
 	private string $apiToken;
@@ -33,24 +35,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	private ?Country $country;
 
-	#[ORM\Column(name: 'phone', type: 'string', nullable: false, unique: true)]
+	#[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
 	protected string $phone;
 
-	#[ORM\Column(name: 'email', type: 'string', nullable: false, unique: true)]
+	#[ORM\Column(name: 'enabled', type: 'boolean')]
+	protected bool $enabled = false;
+
+	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
 	protected string $email;
 
 	#[ORM\Column(name: 'valid_code', type: 'string', nullable: true)]
 	protected string $validCode;
 
-	#[ORM\OneToOne(targetEntity: PersonDegree::class, cascade: ['persist', 'remove'], mappedBy: 'user')]
+	#[ORM\OneToOne(mappedBy: 'user', targetEntity: PersonDegree::class, cascade: ['persist', 'remove'])]
 	private ?PersonDegree $personDegree;
 
-	#[ORM\OneToOne(targetEntity: Company::class, cascade: ['persist', 'remove'], mappedBy: 'user')]
+	#[ORM\OneToOne(mappedBy: 'user', targetEntity: Company::class, cascade: ['persist', 'remove'])]
 	private ?Company $company;
 
-	#[ORM\OneToOne(targetEntity: School::class, cascade: ['persist', 'remove'], mappedBy: 'user')]
+	#[ORM\OneToOne(mappedBy: 'user', targetEntity: School::class, cascade: ['persist', 'remove'])]
 	private ?School $school;
 
 	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist'])]
@@ -142,15 +147,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	/**
 	 * @see PasswordAuthenticatedUserInterface
 	 */
-	public function getPassword(): string {
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 
-	public function setPassword(string $password): self {
+	public function setPassword(?string $password): self {
 		$this->password = $password;
 
 		return $this;
 	}
+
+	public function getPlainPassword(): ?string {
+		return $this->plainPassword;
+	}
+
+	/**
+	 * @param string $plainPassword
+	 */
+	public function setPlainPassword(string $plainPassword): void {
+		$this->plainPassword = $plainPassword;
+	}
+
 
 	/**
 	 * @see UserInterface
@@ -170,7 +187,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->profils->removeElement($profil);
 	}
 
-	public function getProfils(): ArrayCollection {
+	public function getProfils(): Collection {
 		return $this->profils;
 	}
 
@@ -187,7 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->phone = $phone;
 	}
 
-	public function email(): string {
+	public function getEmail(): string {
 		return $this->email;
 	}
 
@@ -231,7 +248,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->school = $school;
 	}
 
-	public function getCompany(): ?CSchool {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
@@ -239,4 +256,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->company = $company;
 		return $this;
 	}
+
+	public function isEnabled(): bool {
+		return $this->enabled;
+	}
+
+	/**
+	 * @param bool $enabled
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
+	}
+
 }

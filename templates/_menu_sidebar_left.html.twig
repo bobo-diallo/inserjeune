@@ -1,0 +1,152 @@
+{# Menu lateral gauche #}
+<ul class="main-menu">
+  <li><a href="{{ path('dashboard_index') }}">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
+      </div>
+      <span>{{ 'Tableau de bord'|trans }}</span></a></li>
+  <li class="has-sub-menu"><a href="{{ path('dashboard_index') }}">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
+      </div>
+      <span>{{ 'Entreprises'|trans }}</span></a>
+    <ul class="sub-menu">
+      <li><a href="{{ path('company_index') }}">La liste des entreprises</a></li>
+      <li><a href="{{ path('jobOffer_index') }}">Les offre d'emplois</a></li>
+      <li><a href="#">Les publicités**</a></li>
+    </ul>
+  </li>
+  <li class="has-sub-menu"><a href="{{ path('degree_index') }}">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/degree.png') }}" alt="degree">
+      </div>
+      <span>{{ 'Diplômés'|trans }}</span></a>
+      <ul class="sub-menu">
+        <li><a href="{{ path('persondegree_index') }}">{{ 'Les Diplômés'|trans }}</a></li>
+        <li><a href="{{ path('school_index') }}">{{ 'Les Etablissements'|trans }}</a></li>
+        <li><a href="{{ path('degree_index') }}">{{ 'Les Diplômes'|trans }}</a></li>
+        <li><a href="#">{{ 'Les Réseaux sociaux'|trans }}**</a></li>
+        {#<li><a href="#">Les Infos pour la<br>création d'entreprise**</a></li>#}
+      </ul>
+  </li>
+  <li class="has-sub-menu">
+    <a href="#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
+      </div>
+      <span>{{ 'Enquêtes'|trans }}</span>
+    </a>
+    <ul class="sub-menu">
+      <li><a href="{{ path('satisfaction_search_index') }}">Diplômé en recherche d'emploi</a></li>
+      <li><a href="{{ path('satisfactionsalary_index') }}">Diplômé en emploi</a></li>
+      <li><a href="{{ path('satisfactioncreator_index') }}">Diplômé entrepreneur</a></li>
+      <li><a href="{{ path('satisfactioncompany_index') }}">Entreprise</a></li>
+
+      <div class="menu-line-separator"></div>
+      <li><a href="{{ path('job_not_found_reason_index') }}">Raisons emplois non trouvés</a></li>
+    </ul>
+  </li>
+  {#<li>#}
+    {#<a href="#">#}
+      {#<div class="icon-w">#}
+        {#<div class="os-icon os-icon-delivery-box-2"></div>#}
+      {#</div>#}
+      {#<span>Reseaux sociaux</span>#}
+    {#</a>#}
+  {#</li>#}
+  <li class="has-sub-menu">
+    <a href="#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality">
+        </div>
+      <span>{{ 'Pays'|trans }}, {{ 'Région'|trans }}s, {{ 'Villes'|trans }}<br>{{ 'et'|trans }} {{ 'Devises'|trans }}</span>
+    </a>
+    <ul class="sub-menu">
+      <li><a href="{{ path('country_index') }}">{{ 'Pays'|trans }}</a></li>
+      <li><a href="{{ path('region_index') }}">Régions</a></li>
+      <li><a href="{{ path('city_index') }}">{{ 'Villes'|trans }}</a></li>
+      <li><a href="{{ path('currency_index') }}">{{ 'Devises'|trans }}</a></li>
+    </ul>
+  </li>
+  <li class="has-sub-menu">
+    <a href="#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/sector-area.png') }}" alt="sectorarea">
+        {#<div class="os-icon os-icon-delivery-box-2"></div>#}
+      </div>
+      <span>Secteurs, Filières,<br>Contrats, Statuts</span>
+    </a>
+    <ul class="sub-menu">
+      <li><a href="{{ path('sectorarea_index') }}">Secteurs d'activité</a></li>
+      <li><a href="{{ path('activity_index') }}">Filières / Métiers</a></li>
+      <li><a href="{{ path('contract_index') }}">Contrats de travail</a></li>
+      <li><a href="{{ path('legalstatus_index') }}">Statuts juridiques</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/database2.png') }}" alt="database">
+      </div>
+      <span>Export & {{ 'Sauvegarde'|trans }}</span>
+    </a>
+  </li>
+  <li class="has-sub-menu">
+    <a href="index.html#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/users.png') }}" alt="users">
+      </div>
+      <span>{{ 'Utilisateur'|trans }}s</span>
+    </a>
+    <ul class="sub-menu">
+      <li><a href="{{ path('role_index') }}">Rôles</a></li>
+      <li><a href="{{ path('user_index') }}">{{ 'Utilisateurs'|trans }}</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="{{ path('geolocation') }}">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
+      </div>
+      <span>Géo-Localisation</span>
+    </a>
+  </li>
+  <li class="has-sub-menu">
+    <a href="#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
+      </div>
+      <span>Informations</span>
+    </a>
+    <ul class="sub-menu">
+      <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
+      <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
+      <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
+      <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+    </ul>
+  </li>
+  <li>
+    <div id="apropos" class="d-none text-center" style="color: #0275d8; font-size: .81rem" >
+      {% include '_apropos.html.twig' %}
+    </div>
+  </li>
+  {#<li>#}
+    {#<a href="#" id="locale">#}
+      {#<div class="icon-w">#}
+        {#<img src="{{ asset('build/images/icon/world.png') }}" alt="maps">#}
+      {#</div>#}
+      {#<span id="currentLocal">{{ 'Mettre le site en anglais'|trans }}</span>#}
+    {#</a>#}
+  {#</li>#}
+  {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <li>
+      <a href="{{ path('logout') }}">
+        <div class="icon-w">
+          <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
+        </div>
+        <span>{{ 'Déconnexion'|trans }}</span>
+      </a>
+    </li>
+  {% endif %}
+</ul>
+

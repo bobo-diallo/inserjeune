@@ -20,6 +20,16 @@ Encore
         // only copy files matching this pattern
         pattern: /\.(png|jpg|jpeg)$/
     })
+    .copyFiles({
+        from: './assets/locale',
+        to: 'locale/[path][name].[ext]',
+        pattern: /\.(json)$/
+    })
+    .copyFiles({
+        from: './assets/documentation',
+        to: 'documentation/[path][name].[ext]',
+        pattern: /\.(pdf)$/
+    })
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
 
@@ -29,7 +39,9 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+    .addEntry('newApp', './assets/new-app.js')
     .addEntry('app', './assets/app.js')
+    .addEntry('script', './assets/script.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -79,11 +91,11 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
-    // .autoProvideVariables({
-    //     $: 'jquery',
-    //     jQuery: 'jquery',
-    //     'window.jQuery': 'jquery'
-    // })
+    .autoProvideVariables({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();

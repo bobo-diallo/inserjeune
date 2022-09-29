@@ -1,0 +1,34 @@
+{{ form_widget(form._token) }}
+<div class="form-group">
+  <label for=""> Nom </label>
+  {{ form_widget(form.name) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Code iso</label>
+  {{ form_widget(form.isoCode) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Devise</label>
+  {{ form_widget(form.currency) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Ind. T&eacute;l.</label>
+  {{ form_widget(form.phoneCode) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Nb digits T&eacute;l.</label>
+  {{ form_widget(form.phoneDigit) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-group">
+  <label for=""> Valide</label>
+  {{ form_widget(form.valid) }}
+  <div class="help-block form-text with-errors form-control-feedback"></div>
+</div>
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="submit"> Valider</button>
+</div>

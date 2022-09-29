@@ -14,7 +14,7 @@ class SatisfactionSearch {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: "registered_training", type: "boolean")]
 	private bool $registeredTraining;
@@ -268,7 +268,7 @@ class SatisfactionSearch {
 		$this->jobNotFoundReasons->removeElement($jobNotFoundReason);
 	}
 
-	public function getJobNotFoundReasons(): ArrayCollection|Collection {
+	public function getJobNotFoundReasons(): Collection {
 		return $this->jobNotFoundReasons;
 	}
 
@@ -308,7 +308,7 @@ class SatisfactionSearch {
 		$this->activities->removeElement($activity);
 	}
 
-	public function getActivities(): ArrayCollection|Collection {
+	public function getActivities(): Collection {
 		return $this->activities;
 	}
 

@@ -14,7 +14,7 @@ class SatisfactionCompany {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	#[ORM\JoinColumn(nullable: false)]
@@ -56,10 +56,10 @@ class SatisfactionCompany {
 	private string $studentNumber;
 
 	#[ORM\Column(name: 'other_worker_job', type: 'string', length: 255, nullable: true)]
-	private string $otherWorkerJob;
+	private ?string $otherWorkerJob;
 
 	#[ORM\Column(name: 'other_technician_job', type: 'string', length: 255, nullable: true)]
-	private string $otherTechnicianJob;
+	private ?string $otherTechnicianJob;
 
 	#[ORM\Column(name: 'level_skill', type: 'string', length: 255)]
 	private string $levelSkill;
@@ -74,13 +74,13 @@ class SatisfactionCompany {
 	private int $levelCommunicationHygieneHealthEnvSkill;
 
 	#[ORM\Column(name: 'level_other_skill', type: 'integer', nullable: true)]
-	private int $levelOtherSkill;
+	private ?int $levelOtherSkill;
 
 	#[ORM\Column(name: 'level_other_name', type: 'string', length: 255, nullable: true)]
-	private string $levelOtherName;
+	private ?string $levelOtherName;
 
 	#[ORM\Column(name: 'other_omission_people', type: 'string', length: 255, nullable: true)]
-	private string $otherOmissionPeople;
+	private ?string $otherOmissionPeople;
 
 	#[ORM\Column(name: 'hiring_same_profile', type: 'boolean')]
 	private bool $hiringSameProfile;
@@ -113,7 +113,7 @@ class SatisfactionCompany {
 	private string $hiring6MonthsStudent;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
 	private \DateTime $updatedDate;
@@ -140,58 +140,58 @@ class SatisfactionCompany {
 		return $this->company;
 	}
 
-	public function setSalaryNumber(int $salaryNumber) {
+	public function setSalaryNumber(string $salaryNumber) {
 		$this->salaryNumber = $salaryNumber;
 
 		return $this;
 	}
 
-	public function getSalaryNumber(): int|string {
+	public function getSalaryNumber(): string {
 		return $this->salaryNumber;
 	}
 
-	public function setApprenticeNumber(int $apprenticeNumber) {
+	public function setApprenticeNumber(string $apprenticeNumber) {
 		$this->apprenticeNumber = $apprenticeNumber;
 
 		return $this;
 	}
 
-	public function getApprenticeNumber(): int|string {
+	public function getApprenticeNumber(): string {
 		return $this->apprenticeNumber;
 	}
 
-	public function getStudentNumber(): int|string {
+	public function getStudentNumber(): string {
 		return $this->studentNumber;
 	}
 
-	public function setStudentNumber(int $studentNumber): self {
+	public function setStudentNumber(string $studentNumber): self {
 		$this->studentNumber = $studentNumber;
 		return $this;
 	}
 
-	public function getOtherWorkerJob(): string {
+	public function getOtherWorkerJob(): ?string {
 		return $this->otherWorkerJob;
 	}
 
-	public function setOtherWorkerJob(string $otherWorkerJob): self {
+	public function setOtherWorkerJob(?string $otherWorkerJob): self {
 		$this->otherWorkerJob = $otherWorkerJob;
 		return $this;
 	}
 
-	public function getOtherTechnicianJob(): string {
+	public function getOtherTechnicianJob(): ?string {
 		return $this->otherTechnicianJob;
 	}
 
-	public function setOtherTechnicianJob(string $otherTechnicianJob): self {
+	public function setOtherTechnicianJob(?string $otherTechnicianJob): self {
 		$this->otherTechnicianJob = $otherTechnicianJob;
 		return $this;
 	}
 
-	public function getLevelSkill(): int|string {
+	public function getLevelSkill(): string {
 		return $this->levelSkill;
 	}
 
-	public function setLevelSkill(int $levelSkill): self {
+	public function setLevelSkill(string $levelSkill): self {
 		$this->levelSkill = $levelSkill;
 		return $this;
 	}
@@ -223,31 +223,31 @@ class SatisfactionCompany {
 		return $this;
 	}
 
-	public function getLevelOtherSkill(): int {
+	public function getLevelOtherSkill(): ?int {
 		return $this->levelOtherSkill;
 	}
 
-	public function setLevelOtherSkill(int $levelOtherSkill): self {
+	public function setLevelOtherSkill(?int $levelOtherSkill): self {
 		$this->levelOtherSkill = $levelOtherSkill;
 		return $this;
 	}
 
-	public function getLevelOtherName(): string {
+	public function getLevelOtherName(): ?string {
 		return $this->levelOtherName;
 	}
 
-	public function setLevelOtherName(string $levelOtherName): self {
+	public function setLevelOtherName(?string $levelOtherName): self {
 		$this->levelOtherName = $levelOtherName;
 		return $this;
 	}
 
-	public function setOtherOmissionPeople(string $otherOmissionPeople): self {
+	public function setOtherOmissionPeople(?string $otherOmissionPeople): self {
 		$this->otherOmissionPeople = $otherOmissionPeople;
 
 		return $this;
 	}
 
-	public function getOtherOmissionPeople(): string {
+	public function getOtherOmissionPeople(): ?string {
 		return $this->otherOmissionPeople;
 	}
 
@@ -255,7 +255,7 @@ class SatisfactionCompany {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate) {
+	public function setCreatedDate(?\DateTime $createdDate) {
 		$this->createdDate = $createdDate;
 	}
 
@@ -369,7 +369,7 @@ class SatisfactionCompany {
 		$this->omissionPeoples->removeElement($omissionPeople);
 	}
 
-	public function getOmissionPeoples(): ArrayCollection {
+	public function getOmissionPeoples(): Collection {
 		return $this->omissionPeoples;
 	}
 
@@ -404,7 +404,7 @@ class SatisfactionCompany {
 		$this->workerActivities->removeElement($workerActivity);
 	}
 
-	public function getWorkerActivities(): ArrayCollection {
+	public function getWorkerActivities(): Collection {
 		return $this->workerActivities;
 	}
 
@@ -418,7 +418,7 @@ class SatisfactionCompany {
 		$this->technicianActivities->removeElement($technicianActivity);
 	}
 
-	public function getTechnicianActivities(): ArrayCollection {
+	public function getTechnicianActivities(): Collection {
 		return $this->technicianActivities;
 	}
 

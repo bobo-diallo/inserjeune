@@ -1,0 +1,123 @@
+{#{% extends 'frontPersondegree/content.html.twig' %}#}
+{% extends 'persondegree/content.html.twig' %}
+{% block css %}
+{% endblock %}
+
+{% block body %}
+
+  <div class="content-i">
+    <div class="content-box">
+      {# Tableau 1 #}
+      <div class="element-wrapper">
+        <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+        <h6 class="element-header">
+          Postuler à une offre d'emploi
+          {#<a class="btn btn-sm btn-primary float-right" href="#">#}
+            {#<i class="fa fa-arrow-left"></i> Voir le profil#}
+          {#</a>#}
+        </h6>
+        <div class="element-box">
+          <form method="post" enctype="multipart/form-data" action="{{ path('front_persondegree_candidate', {'id': jobOffer.id }) }}">
+            {{ form_widget(form._token) }}
+            <div class="jobOfferCompany">
+              <fieldset>
+                <legend><span>Informations de contact</span></legend>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <label class="col-form-label col-sm-6">Titre de l'offre</label>
+                    <input class="col-sm-12 form-control" disabled value="{{ jobOffer.title }}">
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="col-form-label col-sm-6">Email</label>
+                    <input class="col-sm-12 form-control" disabled value="{{ jobOffer.postedEmail }}">
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="col-form-label col-sm-6">Tél.</label>
+                    <input class="col-sm-12 form-control" disabled value="{{ jobOffer.postedPhone }}">
+                  </div>
+                </div>
+              </fieldset>
+              <br>
+              <fieldset>
+                <legend><span>Vos documents</span></legend>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <label class="col-form-label col-sm-6">Message</label>
+                    {{ form_widget(form.message) }}
+                  </div>
+                </div>
+              </fieldset>
+              <br><br>
+              {# CV #}
+              <div class="form-group">
+                <label class="">Joindre un CV</label>
+                <div style="border: 2px dashed #2177e0">
+                  <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail"></div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                    <div>
+                    <span class="btn default btn-file">
+                      <button class="btn fileinput-new" style="text-transform: none"> Selectionner votre cv </button>
+                      <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> Changer </button>
+                      {{ form_widget(form.cv) }}
+                    </span>
+                      <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> Supprimer </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br><br>
+              {# Lettre de motivation #}
+              <div class="form-group">
+                <label class="">Joindre une lettre de motivation</label>
+                <div style="border: 2px dashed #2177e0">
+                  <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail"></div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                    <div>
+                    <span class="btn default btn-file">
+                      <button class="btn fileinput-new" style="text-transform: none"> Selectionner la lettre de motivation </button>
+                      <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> Changer </button>
+                      {{ form_widget(form.coverLetter) }}
+                    </span>
+                      <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> Supprimer </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {# End FileInput #}
+              {#</div>#}
+              <div class="form-buttons-w">
+                <button class="btn btn-primary" type="submit"> Valider</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+
+
+{% block js %}
+  <script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
+  <script>
+     $(document).ready(function () {
+        ClassicEditor
+           .create( document.querySelector( '#appbundle_candidate_message' ) )
+           .then( editor => {
+              console.log( editor );
+           } )
+           .catch( error => {
+              console.error( error );
+           } );
+     })
+  </script>
+
+
+  {#<script src="{{ asset('lib/jquery-steps/jquery.steps.min.js') }}"></script>#}
+
+{% endblock %}

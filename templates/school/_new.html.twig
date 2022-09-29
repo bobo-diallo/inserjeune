@@ -1,0 +1,343 @@
+{{ form_widget(form._token) }}
+<div class="form-global">
+  <fieldset>
+    <legend><span>Identité</span></legend>
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label for=""> Immatriculation</label>
+        {{ form_widget(form.registration) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.registration)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Type * </label>
+        {{ form_widget(form.type) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.type)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Nom * </label>
+        {{ form_widget(form.name) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name)}}</div>
+      </div>
+      {#<div class="form-group col-sm-4">#}
+        {#<label for=""> Logo</label>#}
+        {#{{ form_widget(form.image) }}#}
+      {#</div>#}
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for=""> Description </label>
+        {{ form_widget(form.description) }}
+        <div class="help-block form-text with-errors form-control-feedback"></div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Adresse</span></legend>
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label for=""> Pays * </label>
+        {{ form_widget(form.country) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Région / Province * </label>
+        {{ form_widget(form.region) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Ville * </label>
+        {{ form_widget(form.city) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city)}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label for=""> Numéro </label>
+        {{ form_widget(form.addressNumber) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Rue </label>
+        {{ form_widget(form.addressRoad) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Localité </label>
+        {{ form_widget(form.addressLocality) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality)}}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Contact</span></legend>
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label for=""> Tél. de connexion (Indicatif pays + N°) * </label>
+        {{ form_widget(form.phoneStandard) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneStandard)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Autre Tél. (Indicatif pays + N°) </label>
+        {{ form_widget(form.phoneOther) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneOther)}}</div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for=""> Email *</label>
+        {{ form_widget(form.email) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.email)}}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Certificats / diplômes proposés </span></legend>
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <label for="">  plusieurs choix possibles (+ touche ctrl) * </label>
+        {{ form_widget(form.degrees) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degrees)}}</div>
+      </div>
+      <div class="hide_flex_otherDegree col-sm-6">
+        <div class="form-group col-sm-12" style="padding: 0">
+          <label for="">  Autres diplômes (séparés par une virgule si plusieurs) </label>
+          {{ form_widget(form.otherDegree) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherDegree)}}</div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  {# SECTEURS D'ACTIVITES #}
+  <fieldset>
+    <legend><span>Offres de formation (1 secteur minimum et 6 maximum)</span></legend>
+    <div class="row">
+      {# Bouton de recherche d'activité #}
+      {#{{ include('_head.html.twig') }}#}
+      <div class="col-sm-12 form-group">
+        <label for=""> Recherchez vos filières</label>
+        <div class="input-group">
+          <input type="text" name="search"  id="activity_keyword" class="form-control" placeholder="Recherche de la filière ...">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-info" id="activity_search" data-toggle="modal" data-target="#find_activity"><span class="fa fa-search" style="color:#fff"></span></button>
+          </div>
+        </div>
+        <!-- Pop-up -->
+        <div id="find_activity" class="modal">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <p> Liste des filières </p>
+              </div>
+              <div class="modal-body">
+                <table class="dataTable table-bordered" id="activity_founded">
+                </table>
+                <p> Sélectionnez les filières à ajouter</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="activities_add" onclick="addActivities('#activity_founded')">Ajouter</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="line-separator"></div>
+    <div class="row">
+      {# Secteur d'activité 1 #}
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            <label for=""> Secteur d'activité 1 *</label>
+            {{ form_widget(form.sectorArea1) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea1) }}</div>
+          </div>
+          <div class="col-sm-12 form-group without-padding hide_flex_otherActivity1" hidden="hidden">
+            <label for=""> Autre Filière</label>
+            {{ form_widget(form.otherActivity1) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity1) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Filières - plusieurs choix possibles (+ touche ctrl) *</label>
+        {{ form_widget(form.activities1)}}
+        {#{{ show_activities(form.activities1, school.activities1, school.sectorArea1, "Autre filière")}}#}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities1) }}</div>
+      </div>
+    </div>
+    <div class="line-separator"></div>
+    {# Secteur d'activité 2 #}
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            {#<label for=""> Secteur d'activité (2)</label>#}
+            <label for=""> Secteur d'activité 2</label>
+            {{ form_widget(form.sectorArea2) }}
+            {% if not form.sectorArea2 %}
+              {{ form_widget(form.sectorArea2) }}
+            {% endif %}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea2) }}</div>
+          </div>
+          <div class="col-sm-12 form-group without-padding hide_flex_otherActivity2" hidden="hidden">
+            <label for=""> Autre Filière</label>
+            {{ form_widget(form.otherActivity2) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity2) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            <label for=""> Filières - plusieurs choix possibles (+ touche ctrl)</label>
+            {{ form_widget(form.activities2) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities2) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="line-separator"></div>
+    {# Secteur d'activité 3 #}
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            <label for=""> Secteur d'activité 3</label>
+            {{ form_widget(form.sectorArea3) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea3) }}</div>
+          </div>
+          <div class="col-sm-12 form-group without-padding hide_flex_otherActivity3" hidden="hidden">
+            <label for=""> Autre Filière</label>
+            {{ form_widget(form.otherActivity3) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity3) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Filières - plusieurs choix possibles (+ touche ctrl)</label>
+        {{ form_widget(form.activities3) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities3) }}</div>
+      </div>
+    </div>
+    <div class="line-separator"></div>
+    {# Secteur d'activité 4 #}
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            <label for=""> Secteur d'activité 4</label>
+            {{ form_widget(form.sectorArea4) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea4) }}</div>
+          </div>
+          <div class="col-sm-12 form-group without-padding hide_flex_otherActivity4" hidden="hidden">
+            <label for=""> Autre Filière</label>
+            {{ form_widget(form.otherActivity4) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity4) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Filières - plusieurs choix possibles (+ touche ctrl)</label>
+        {{ form_widget(form.activities4) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities4) }}</div>
+      </div>
+    </div>
+    <div class="line-separator"></div>
+    {# Secteur d'activité 5 #}
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            <label for=""> Secteur d'activité 5</label>
+            {{ form_widget(form.sectorArea5) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea5) }}</div>
+          </div>
+          <div class="col-sm-12 form-group without-padding hide_flex_otherActivity5" hidden="hidden">
+            <label for=""> Autre Filière</label>
+            {{ form_widget(form.otherActivity5) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity5) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Filières - plusieurs choix possibles (+ touche ctrl)</label>
+        {{ form_widget(form.activities5) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities4) }}</div>
+      </div>
+    </div>
+    <div class="line-separator"></div>
+    {#Secteur d'activité 6#}
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <div class="row" style="margin:0">
+          <div class="col-sm-12 form-group without-margin without-padding">
+            <label for=""> Secteur d'activité 6</label>
+            {{ form_widget(form.sectorArea6) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea6) }}</div>
+          </div>
+          <div class="col-sm-12 form-group without-padding hide_flex_otherActivity6" hidden="hidden">
+            <label for=""> Autre Filière</label>
+            {{ form_widget(form.otherActivity6) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity6) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for=""> Filières - plusieurs choix possibles (+ touche ctrl)</label>
+        {{ form_widget(form.activities6) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities6) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Droit à la protection des données</span></legend>
+    <div class="row">
+      <div class="col-sm-12 form-check">
+        <label for=""> Vous acceptez de diffuser vos informations personnelles pour les statistiques ? </label>
+        {% if school.agreeRgpd == false %}
+          <label for="appbundle_school_agreeRgpd">Cliquez sur OUI si vous acceptez de diffuser vos informations personnelles pour les statistiques </label>
+        {% else %}
+          <label style="color: red" for="appbundle_school_agreeRgpd">Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles,<br>Si des diplômés existent dans la rubrique Vos Diplômés,<br> seul le nom de l'établissement sera conservé </label>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-check school_agree_rgpd">
+        {{ form_widget(form.agreeRgpd) }}
+        <div class="slider round">
+          <span class="non">Non</span>
+          <span class="oui">Oui</span>
+        </div>
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.agreeRgpd) }}</div>
+      </div>
+      <div class="col-sm-6">
+        <a target="_blank" href="{{ path('rgpd_informations') }}">informations relatives à la protection des données personnelles (PDP)</a>
+      </div>
+    </div>
+  </fieldset>
+  {{ form_widget(form.mapsAddress) }}
+  {{ form_widget(form.locationFixed) }}
+  {{ form_widget(form.latitude) }}
+  {{ form_widget(form.longitude) }}
+
+  {# Affichages des activities #}
+  {{ show_allactivities() }}
+
+  {% if is_granted('ROLE_ETABLISSEMENT') %}
+    <input style="display: none" value="ROLE_ETABLISSEMENT" id="role">
+  {% else %}
+    <input style="display: none" value="ROLE_OTHER" id="role">
+  {% endif %}
+
+  <input style="display: none" value="{{ school.personDegrees|length }}" id="personDegrees">
+</div>
+
+<select hidden id="selectedCountry">
+  <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+</select>
+<input style="display: none" value="{{ school.country.phoneCode }}" id="countryPhoneCode">
+
+<div><span><br>* : champ obligatoire</span></div>
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="button" id="buttonSchool" onclick="preventDefaultSubmit()"> Valider</button>
+  <button class="btn btn-primary" type="submit" id="submitSchool" hidden="hidden"> Valider</button>
+</div>

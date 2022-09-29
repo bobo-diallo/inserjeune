@@ -1,0 +1,258 @@
+{% extends 'school/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <h6 class="element-header">
+                    Details
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('school_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box form-show">
+                    <fieldset>
+                        <legend><span>Identité</span></legend>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for=""> Type: </label>
+                                <input class="form-control" disabled value="{{ school.type }}">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for=""> Nom: </label>
+                                <input class="form-control" disabled value="{{ school.name }}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for=""> Immatriculation:</label>
+                                <input class="form-control" disabled value="{{ school.registration }}">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for=""> Date de création :</label>
+                                <input class="form-control" disabled value="{{ school.createdDate|date('d/m/Y H:i') }}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for=""> Description: </label>
+                                <textarea class="form-control" disabled >{{ school.description }}</textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend><span>Adresse</span></legend>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for=""> Pays: </label>
+                                <input class="form-control" disabled value="{{ school.country }}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for=""> Région: </label>
+                                <input class="form-control" disabled value="{{ school.region }}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for=""> Ville: </label>
+                                <input class="form-control" disabled value="{{ school.city }}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for=""> Numéro: </label>
+                                <input class="form-control" disabled value="{{ school.addressNumber }}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for=""> Rue: </label>
+                                <input class="form-control" disabled value="{{ school.addressRoad }}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for=""> Localité: </label>
+                                <input class="form-control" disabled value="{{ school.addressLocality }}">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend><span>Contact</span></legend>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for=""> Tél. de connexion (Indicatif pays + N°) </label>
+                                <input class="form-control" disabled value="{{ school.phoneStandard }}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for=""> Autre Tél. (Indicatif pays + N°) </label>
+                                <input class="form-control" disabled value="{{ school.phoneOther }}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for=""> Email</label>
+                                <input class="form-control" disabled value="{{ school.email }}">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend><span>Certificats / diplômes proposés </span></legend>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                {#<label for="">  plusieurs choix possibles (+ touche ctrl) </label>#}
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.degrees | join('\n')}}</textarea>
+                            </div>
+                            <div class="hide_flex_otherDegree col-sm-6">
+                                <div class="form-group col-sm-12" style="padding: 0">
+                                    <label for="">  Autre diplômes (séparés par une virgule si plusieurs) </label>
+                                    <input class="form-control" disabled value="{{ school.otherDegree }}">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend><span>Offres de formation (1 secteur minimum et 4 maximum)</span></legend>
+                        <div class="row">
+                          {# Secteur d'activité 1 #}
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Secteur d'activité 1</label>
+                                        <input class="form-control" disabled value="{{ school.sectorArea1 }}">
+                                    </div>
+                                    <div class="col-sm-12 form-group without-padding hide_flex_otherActivity1">
+                                        <label for=""> Autre Filière</label>
+                                        <input class="form-control" disabled value="{{ school.otherActivity1 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for=""> Filières - plusieurs choix possibles </label>
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities1 | join('\n')}}</textarea>
+                            </div>
+                        </div>
+                      {# Secteur d'activité 2 #}
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Secteur d'activité 2</label>
+                                        <input class="form-control" disabled value="{{ school.sectorArea2 }}">
+                                    </div>
+                                    <div class="col-sm-12 form-group without-padding hide_flex_otherActivity2">
+                                        <label for=""> Autre Filière</label>
+                                        <input class="form-control" disabled value="{{ school.otherActivity2 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Filières - plusieurs choix possibles</label>
+                                        <textarea class="form-control" disabled style="height: 120px">{{ school.activities2 | join('\n')}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      {# Secteur d'activité 3 #}
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Secteur d'activité 3</label>
+                                        <input class="form-control" disabled value="{{ school.sectorArea3 }}">
+                                    </div>
+                                    <div class="col-sm-12 form-group without-padding hide_flex_otherActivity3">
+                                        <label for=""> Autre Filière</label>
+                                        <input class="form-control" disabled value="{{ school.otherActivity3 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for=""> Filières - plusieurs choix possibles</label>
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities3 | join('\n')}}</textarea>
+                            </div>
+                        </div>
+                      {# Secteur d'activité 4 #}
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Secteur d'activité 4</label>
+                                        <input class="form-control" disabled value="{{ school.sectorArea4 }}">
+                                    </div>
+                                    <div class="col-sm-12 form-group without-padding hide_flex_otherActivity4">
+                                        <label for=""> Autre Filière</label>
+                                        <input class="form-control" disabled value="{{ school.otherActivity4 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for=""> Filières - plusieurs choix possibles</label>
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities4 | join('\n')}}</textarea>
+                            </div>
+                        </div>
+                      {# Secteur d'activité 5 #}
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Secteur d'activité 5</label>
+                                        <input class="form-control" disabled value="{{ school.sectorArea5 }}">
+                                    </div>
+                                    <div class="col-sm-12 form-group without-padding hide_flex_otherActivity5">
+                                        <label for=""> Autre Filière</label>
+                                        <input class="form-control" disabled value="{{ school.otherActivity5 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for=""> Filières - plusieurs choix possibles</label>
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities5 | join('\n')}}</textarea>
+                            </div>
+                        </div>
+                      {# Secteur d'activité 6 #}
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <div class="row" style="margin:0">
+                                    <div class="col-sm-12 form-group without-margin without-padding">
+                                        <label for=""> Secteur d'activité 6</label>
+                                        <input class="form-control" disabled value="{{ school.sectorArea6 }}">
+                                    </div>
+                                    <div class="col-sm-12 form-group without-padding hide_flex_otherActivity6">
+                                        <label for=""> Autre Filière</label>
+                                        <input class="form-control" disabled value="{{ school.otherActivity6 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for=""> Filières - plusieurs choix possibles</label>
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities6 | join('\n')}}</textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="line-separator"></div>
+                    <div class="controls-above-table">
+                        <div class="row" id="actions">
+                            <div class="col-sm-6">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                   <a class="btn btn-sm btn-primary"
+                                   href="{{ path('school_edit' | route_school, {'id': school.id}) }}"> <img
+                                        src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+
+                                   {#<button class="btn btn-sm btn-danger"#}
+                                            {#onclick="deleteElement('{{ path('school_delete', {'id': school.id}) }}')"><img#}
+                                            {#src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer#}
+                                   {#</button>#}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+       $('#actions form').css('display', 'inline-block');
+    </script>
+{% endblock %}

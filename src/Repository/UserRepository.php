@@ -51,28 +51,48 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 		}
 	}
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+	/**
+	 * @param $id
+	 * @return User[]
+	 */
+	public function getFromPersonDegree($id): array {
+		return $this->createQueryBuilder('u')
+			->addSelect('p')
+			->leftJoin('u.personDegree', 'p')
+			->where('p.id = :id ')
+			->setParameter('id', $id)
+			->setMaxResults(1)
+			->getQuery()
+			->getResult();
+	}
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+	/**
+	 * @param $id
+	 * @return User[]
+	 */
+	public function getFromCompany($id): array {
+		return $this->createQueryBuilder('u')
+			->addSelect('c')
+			->leftJoin('u.company', 'c')
+			->where('c.id = :id ')
+			->setParameter('id', $id)
+			->setMaxResults(1)
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param $id
+	 * @return User[]
+	 */
+	public function getFromSchool($id): array {
+		return $this->createQueryBuilder('u')
+			->addSelect('s')
+			->leftJoin('u.company', 's')
+			->where('s.id = :id ')
+			->setParameter('id', $id)
+			->setMaxResults(1)
+			->getQuery()
+			->getResult();
+	}
 }

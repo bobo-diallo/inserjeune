@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Législateur {% endblock %}</title>
+  {{ include('_head.html.twig') }}
+  {% block css %}{% endblock %}
+</head>
+<body>
+<div class="all-wrapper container-fluid">
+  {% include '_banner_top.html.twig' %}
+  <div class="layout-w ">
+    <div class="menu-w menu-activated-on-click">
+      <div class="logo-w logged-user-w">
+        <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/minister.jpg') }}"></div>
+        <div class="logged-user-info-w">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="logged-user-name">{{ app.user.username }}</div>
+            <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
+          {% endif %}
+        </div>
+        <div class="mobile-menu-trigger">
+          <div class="menu-title">Menu</div>
+          <div class="os-icon os-icon-hamburger-menu-1"></div>
+        </div>
+      </div>
+      <div class="menu-and-user">
+        {# Menu lateral gauche #}
+        <ul class="main-menu">
+          <li><a href="{{ path('dasboard_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
+              </div>
+              <span>{{ 'Tableau de bord'|trans }}</span></a>
+          </li>
+
+          <li><a href="{{ path('school_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/school.png') }}" alt="school">
+              </div>
+              <span>{{ 'Etablissements'|trans  }}</span></a>
+          </li>
+
+          <li><a href="{{ path('persondegree_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/degree.png') }}" alt="persondegree">
+              </div>
+              <span>{{ 'Diplômés'|trans  }}</span></a>
+          </li>
+
+          <li><a href="{{ path('company_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
+              </div>
+              <span>{{ 'Entreprises'|trans  }}</span></a>
+          </li>
+
+          <li>
+            <a href="{{ path('jobOffer_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
+              </div>
+              <span>Offres d'emploi</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ path('geolocation') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
+              </div>
+              <span>Géo-Localisation</span>
+            </a>
+          </li>
+          <li class="has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
+              </div>
+              <span>Informations</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
+              <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
+              <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
+              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+            </ul>
+          </li>
+          <li>
+            <div id="apropos" class="d-none text-center" style="color: #0275d8; font-size: .81rem" >
+              {% include'_apropos.html.twig' %}
+            </div>
+          </li>
+          {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+            <li>
+              <a href="{{ path('fos_user_security_logout') }}">
+                <div class="icon-w">
+                  <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
+                </div>
+                <span>{{ 'Déconnexion'|trans }}</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="content-w">
+
+      {# Message flashbag #}
+      {{ falsh_bag() }}
+
+      {% block body %}{% endblock %}
+    </div>
+  </div>
+</div>
+{# Footer #}
+{{ include('_footer.html.twig') }}
+<script>
+   $(document).ready(function () {
+      let table = datatable()
+   });
+</script>
+{% block js %}{% endblock %}
+</body>
+</html>

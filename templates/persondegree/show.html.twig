@@ -1,0 +1,240 @@
+{% extends 'persondegree/content.html.twig' %}
+
+{% block body %}
+  <div class="content-i">
+    <div class="content-box">
+      {# Tableau 1 #}
+      <div class="element-wrapper">
+        <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+        <h6 class="element-header">
+          Details
+          {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-sm btn-primary float-right" href="{{ path('persondegree_new') }}">
+              <i class="fa fa-plus"></i> Ajouter un diplômé
+            </a>
+            <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('persondegree_index') }}">
+              <i class="fa fa-arrow-left"></i> Retour à la liste
+            </a>
+          {% endif %}
+        </h6>
+        <div class="element-box">
+          <form>
+            <span>Identité</span>
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Prénom :
+                  <input class="form-control" disabled value="{{ personDegree.firstname }}">
+                </label>
+              </div>
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Nom :
+                  <input class="form-control" disabled value="{{ personDegree.lastname }}">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Vous êtes :
+                  <input class="form-control" disabled value="{{ personDegree.sex }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Date de naissance :
+                  <input class="form-control" disabled value="{{ personDegree.birthDate|date('d/m/Y') }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Date de création :
+                  <input class="form-control" disabled value="{{ personDegree.createdDate|date('d/m/Y H:i') }}">
+                </label>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <span>Adresse</span>
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Pays :
+                  <input class="form-control" disabled value="{{ personDegree.addressCity.region.country }}">
+                </label>
+              </div>
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Région :
+                  <input class="form-control" disabled value="{{ personDegree.addressCity.region }}">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Ville (la plus proche):
+                  <input class="form-control" disabled value="{{ personDegree.addressCity.name }}">
+                </label>
+              </div>
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Autre ville :
+                  <input class="form-control" disabled value="{{ personDegree.otherCity }}">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <label class="col-form-label col-sm-12">
+                  Numéro :
+                  <input class="form-control" disabled value="{{ personDegree.addressNumber }}">
+                </label>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-form-label col-sm-12">
+                  Rue :
+                  <input class="form-control" disabled value="{{ personDegree.addressRoad }}">
+                </label>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-form-label col-sm-12">
+                  Localité :
+                  <input class="form-control" disabled value="{{ personDegree.addressLocality }}">
+                </label>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <span>Coordonnées</span>
+            <div class="row">
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Tél. de connexion :
+                  <input class="form-control" disabled value="{{ personDegree.phoneMobile1 }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Autre Tél. :
+                  <input class="form-control" disabled value="{{ personDegree.phoneHome }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Email :
+                  <input class="form-control" disabled value="{{ personDegree.email }}">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Tél. portable d'un 1er parent :
+                  <input class="form-control" disabled value="{{ personDegree.phoneMobile2 }}">
+                </label>
+              </div>
+              <div class="col-sm-6">
+                <label class="col-form-label col-sm-12">
+                  Tél. portable d'un 2nd parent :
+                  <input class="form-control" disabled value="{{ personDegree.phoneMobile3 }}">
+                </label>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <span>Situation professionnelle actuelle :</span>
+            <div class="row">
+              <div class="col-sm-12">
+                <label class="col-form-label col-sm-12">
+                  <input class="form-control" disabled value="{{ personDegree.type | type_degree }}">
+                </label>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <span>Qualification</span>
+            <div class="row">
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Secteur d'activité :
+                  <input class="form-control" disabled value="{{ personDegree.sectorArea }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Métier / Filière :
+                  <input class="form-control" disabled value="{{ personDegree.activity }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Autre métier :
+                  <input class="form-control" disabled value="{{ personDegree.otherActivity }}">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Diplôme :
+                  <input class="form-control" disabled value="{{ personDegree.degree }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Autre :
+                  <input class="form-control" disabled value="{{ personDegree.otherDegree }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Mois / Année d'obtention du diplôme :
+                  <input class="form-control" disabled value="{{ "%02d"|format(personDegree.lastDegreeMonth) }} / {{ personDegree.lastDegreeYear }}">
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Etablissement / Ecole :
+                  <input class="form-control" disabled value="{{ personDegree.school }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  Autre :
+                  <input class="form-control" disabled value="{{ personDegree.otherSchool }}">
+                </label>
+              </div>
+              <div class="col-sm-4">
+                <label class="col-form-label col-sm-12">
+                  N° Immatriculation :
+                  {% if personDegree.checkSchool == false %}
+                    <input class="form-control" disabled style="color:red" value=" {{ personDegree.registrationStudentSchool }}">
+                  {% else %}
+                    <input class="form-control" disabled style="color:green" value=" {{ personDegree.registrationStudentSchool }}">
+                  {% endif %}
+                </label>
+              </div>
+            </div>
+            <div><span>l'immatriculation est en vert si elle est validée par l'établissement</span></div>
+            <div class="line-separator"></div>
+          </form>
+          <div class="controls-above-table">
+            <div class="row" id="actions">
+              <div class="col-sm-6">
+                <a class="btn btn-sm btn-primary"
+                   href="{{ path('persondegree_edit' | route_persondegree, {'id': personDegree.id}) }}"> <img
+                      src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                {#{% if is_granted('ROLE_ADMIN') %}
+                  <button class="btn btn-sm btn-danger"
+                          onclick="deleteElement('{{ path('persondegree_delete', {'id': personDegree.id}) }}')"><img
+                        src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer
+                  </button>
+                {% endif %}#}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

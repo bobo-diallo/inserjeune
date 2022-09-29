@@ -13,7 +13,7 @@ class Company {
 	#[ORM\Id]
 	#[ORM\Column(name: 'id', type: 'integer')]
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
@@ -32,10 +32,10 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
-	private City $city;
+	private ?City $city = null;
 
 	#[ORM\Column(name: 'other_city', type: 'string', nullable: true)]
-	private string $otherCity;
+	private ?string $otherCity;
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
@@ -43,7 +43,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
-	private Country $country;
+	private ?Country $country = null;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
 	private int $addressNumber;
@@ -55,13 +55,13 @@ class Company {
 	private string $addressRoad;
 
 	#[ORM\Column(name: 'phone_standard', type: 'string')]
-	private string $phoneStandard;
+	private ?string $phoneStandard = null;
 
 	#[ORM\Column(name: 'phone_other', type: 'string', nullable: true)]
-	private string $phoneOther;
+	private ?string $phoneOther;
 
 	#[ORM\Column(name: 'email', type: 'string')]
-	private string $email;
+	private ?string $email;
 
 	#[ORM\ManyToOne(targetEntity: ContactCompany::class)]
 	#[ORM\JoinColumn(name: 'id_contactCompany', referencedColumnName: 'id')]
@@ -75,19 +75,19 @@ class Company {
 	#[ORM\JoinColumn(name: 'id_legal_status', referencedColumnName: 'id')]
 	private LegalStatus $legalStatus;
 
-	#[ORM\OneToMany(targetEntity: JobOffer::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: JobOffer::class, cascade: ['persist', 'remove'])]
 	private Collection $jobOffers;
 
-	#[ORM\OneToMany(targetEntity: Publicity::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: Publicity::class, cascade: ['persist', 'remove'])]
 	private Collection $publicities;
 
-	#[ORM\OneToMany(targetEntity: PersonDegree::class, mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: PersonDegree::class)]
 	private Collection $salaries;
 
-	#[ORM\OneToMany(targetEntity: Apprentice::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: Apprentice::class, cascade: ['persist', 'remove'])]
 	private Collection $apprentices;
 
-	#[ORM\OneToMany(targetEntity: SatisfactionCompany::class, cascade: ['persist', 'remove'], mappedBy: 'company')]
+	#[ORM\OneToMany(mappedBy: 'company', targetEntity: SatisfactionCompany::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactionCompanies;
 
 	#[ORM\ManyToMany(targetEntity: SocialNetwork::class, cascade: ['persist', 'remove'])]
@@ -178,7 +178,7 @@ class Company {
 		return $this;
 	}
 
-	public function getCity(): City {
+	public function getCity(): ?City {
 		return $this->city;
 	}
 
@@ -188,11 +188,11 @@ class Company {
 		return $this;
 	}
 
-	public function getOtherCity(): string {
+	public function getOtherCity(): ?string {
 		return $this->otherCity;
 	}
 
-	public function setOtherCity(string $otherCity): self {
+	public function setOtherCity(?string $otherCity): self {
 		$this->otherCity = $otherCity;
 		return $this;
 	}
@@ -228,28 +228,29 @@ class Company {
 		return $this;
 	}
 
-	public function getPhoneStandard(): string {
+	public function getPhoneStandard(): ?string {
 		return $this->phoneStandard;
 	}
 
-	public function setPhoneStandard(string $phoneStandard) {
+	public function setPhoneStandard(?string $phoneStandard): void {
 		$this->phoneStandard = $phoneStandard;
+
 	}
 
-	public function getPhoneOther(): string {
+	public function getPhoneOther(): ?string {
 		return $this->phoneOther;
 	}
 
-	public function setPhoneOther(string $phoneOther): self {
+	public function setPhoneOther(?string $phoneOther): self {
 		$this->phoneOther = $phoneOther;
 		return $this;
 	}
 
-	public function getEmail(): string {
+	public function getEmail(): ?string {
 		return $this->email;
 	}
 
-	public function setEmail(string $email): void {
+	public function setEmail(?string $email): void {
 		$this->email = $email;
 	}
 
@@ -310,7 +311,7 @@ class Company {
 		$this->jobOffers->removeElement($jobOffer);
 	}
 
-	public function getJobOffers(): ArrayCollection {
+	public function getJobOffers(): Collection {
 		return $this->jobOffers;
 	}
 
@@ -324,7 +325,7 @@ class Company {
 		$this->publicities->removeElement($publicity);
 	}
 
-	public function getPublicities(): ArrayCollection {
+	public function getPublicities(): Collection {
 		return $this->publicities;
 	}
 
@@ -336,7 +337,7 @@ class Company {
 		$this->contactCompany = $contactCompany;
 	}
 
-	public function getSalaries(): ArrayCollection {
+	public function getSalaries(): Collection {
 		return $this->salaries;
 	}
 
@@ -344,7 +345,7 @@ class Company {
 		$this->salaries = $salaries;
 	}
 
-	public function getApprentices(): ArrayCollection {
+	public function getApprentices(): Collection {
 		return $this->apprentices;
 	}
 
@@ -383,7 +384,7 @@ class Company {
 		return $this->satisfactionCompanies->removeElement($satisfaction);
 	}
 
-	public function getSatisfactionCompanies(): ArrayCollection {
+	public function getSatisfactionCompanies(): Collection {
 		return $this->satisfactionCompanies;
 	}
 
@@ -462,7 +463,7 @@ class Company {
 		return $this;
 	}
 
-	public function getCountry(): Country {
+	public function getCountry(): ?Country {
 		return $this->country;
 	}
 
@@ -503,7 +504,7 @@ class Company {
 		$this->schools->removeElement($school);
 	}
 
-	public function getSchools(): ArrayCollection {
+	public function getSchools(): Collection {
 		return $this->schools;
 	}
 }

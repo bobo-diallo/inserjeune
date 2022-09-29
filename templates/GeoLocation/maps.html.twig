@@ -1,0 +1,587 @@
+{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
+{% elseif is_granted('ROLE_DIPLOME') == true %} {% set base = 'base_degree.html.twig' %}
+{% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% else %} {% set base = 'base.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% block title %}App:GeoLocation:index{% endblock %}
+
+{% block body %}
+   <div class="content-i">
+      <div class="content-box">
+        {# Tableau 1 #}
+         <div class="element-wrapper">
+            <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+            <h6 class="element-header">
+               Maps
+            </h6>
+           {{ form_widget(form._token) }}
+            <div class="row">
+               <div class="col-sm-3 form-group">
+                  <label for=""> {{ 'Pays' | trans }}</label>
+                 {{ form_widget(form.country) }}
+                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
+               </div>
+               <div class="col-sm-3 form-group">
+                  <label for="">Région</label>
+                 {{ form_widget(form.region) }}
+                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+               </div>
+               <div class="col-sm-3 form-group">
+                  <label for="">Ville</label>
+                 {{ form_widget(form.city) }}
+                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
+               </div>
+               <div class="col-sm-3 form-group">
+                  <label for="">Autre ville</label>
+                 {{ form_widget(form.otherCity) }}
+                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-6 form-group">
+                  <label for=""> Secteur d'activité </label>
+                 {{ form_widget(form.sectorArea) }}
+                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+               </div>
+               <div class="col-sm-6 form-group">
+                  <label for="">Métier / Filière</label>
+                 {{ form_widget(form.activity) }}
+                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-12">
+               <table class="table table-bordered dt-responsive nowrap table_geo">
+                  <tr><div><span class="table_geo_label">Afficher les données</span></div></tr>
+                  <thead>
+                  <tr>
+                     <th><div class="table_geo_titre ent"><span>Entreprises</span></div></th>
+                     <th><div class="table_geo_titre eta"><span>Etablissements</span></div></th>
+                     <th><div class="table_geo_titre dip"><span>Diplômés</span></div></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                     <td >
+                       {{ form_widget(form.showCompanies) }}
+                        <div class="slider round" id="sliderShowCompanies">
+                           <span class="non">Non</span>
+                           <span class="oui">Oui</span>
+                        </div>
+                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showCompanies) }}</div>
+                     </td>
+                     <td >
+                       {{ form_widget(form.showSchools) }}
+                        <div class="slider round" id="sliderShowSchools">
+                           <span class="non">Non</span>
+                           <span class="oui">Oui</span>
+                        </div>
+                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showSchools) }}</div>
+                     </td>
+                     <td >
+                       {{ form_widget(form.showPersonDegrees) }}
+                        <div class="slider round" id="sliderShowPersonDegrees">
+                           <span class="non">Non</span>
+                           <span class="oui">Oui</span>
+                        </div>
+                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showPersonDegrees) }}</div>
+                     </td>
+                  </tr>
+                  </tbody>
+               </table>
+               </div>
+            </div>
+
+           {# Google map #}
+            <div id="map" style="width: 100%; height: 600px; border: 1px solid #000; margin-top: 0px"></div>
+         </div>
+      </div>
+   </div>
+{% endblock %}
+
+
+{% block js %}
+   <script async defer
+       {#src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback=initMap"#}
+           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"
+           type="text/javascript"></script>
+   <script type="text/javascript"
+           src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+   <script>
+      // variables communes aux différentes scripts et functions
+      let dataCompanies = [];
+      let selectedDataCompanies = [];
+      let dataSchools = [];
+      let selectedDataSchools = [];
+      let dataPersonDegrees = [];
+      let selectedDataPersonDegrees = [];
+      let input_address_country = "";
+      let map = null;
+      let geocoder = null;
+      let school_icon = "{{ asset('build/images/maps/school.png') }}";
+      let company_icon = "{{ asset('build/images/maps/company.png') }}";
+      let persondegree_icon = "{{ asset('build/images/maps/degree.png') }}";
+      let company_cluster_icon = "{{ asset('build/images/maps/company_cluster/m') }}";
+      let persondegree_cluster_icon = "{{ asset('build/images/maps/persondegree_cluster/m') }}";
+      let school_cluster_icon = "{{ asset('build/images/maps/school_cluster/m') }}";
+      let company_markers = [];
+      let company_markerCluster = null;
+      let school_markers = [];
+      let school_markerCluster = null;
+      let persondegree_markers = [];
+      let persondegree_markerCluster = null;
+
+      /**
+       *  Event
+       *  Mise à jour du select métiers/filières en fonction du secteur d'activités
+       */
+      $(document).on('change', '#appbundle_geolocation_sectorArea', function () {
+         let $field = $(this)
+         let $sectorAreaField = $('#appbundle_geolocation_sectorArea')
+         let $form = $field.closest('form')
+         let target = '#' + $field.attr('id').replace('sectorArea', 'activity')
+
+         // Les données à envoyer en Ajax
+         let data = {}
+         data[$sectorAreaField.attr('name')] = $sectorAreaField.val()
+
+         // On soumet les données
+         $.post($form.attr('action'), data).then(function (data) {
+            // On récupère le nouveau <select>
+            let $input = $(data).find(target)
+            // On remplace notre <select> actuel
+            $(target).replaceWith($input)
+
+            // Affichage de la région choisie sur la carte googleMap
+            $("#appbundle_geolocation_activity").change(function () {
+               console.log('ddddddddddddd')
+               deleteAllMarkers();
+               selectData();
+               viewAllMarkers();
+            });
+         })
+      })
+
+      /**
+       *  Event
+       *  Mise à jour des selects region et ville en fonction du pays
+       */
+      $(document).on('change', '#appbundle_geolocation_country, #appbundle_geolocation_region', function () {
+         let $field = $(this)
+         let $regionField = $('#appbundle_geolocation_country')
+         let $form = $field.closest('form')
+         let target = '#' + $field.attr('id').replace('region', 'city').replace('country', 'region')
+         // Les données à envoyer en Ajax
+         let data = {}
+         data[$regionField.attr('name')] = $regionField.val()
+         data[$field.attr('name')] = $field.val()
+
+         // On soumet les données
+         $.post($form.attr('action'), data).then(function (data) {
+
+            // On récupère le nouvmeeau <select>
+            let $input = $(data).find(target)
+
+            // On remplace notre <select> actuel
+            $(target).replaceWith($input)
+
+            // Affichage de la région choisie sur la carte googleMap
+            $("#appbundle_geolocation_region").change(function () {
+               let input_address = $("#appbundle_geolocation_country > option:selected").text();
+               selectData();
+
+               if(! $("#appbundle_geolocation_region > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
+                  input_address = $("#appbundle_geolocation_region > option:selected").text();
+               }
+               // console.log("--> region= " + input_address);
+               if($("#appbundle_geolocation_region > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
+                  initMap(input_address_country + " " + input_address, 7);
+               } else {
+                  initMap(input_address_country + " " + input_address, 12);
+               }
+            });
+
+            // Affichage de la ville choisie sur la carte googleMap
+            $("#appbundle_geolocation_city").change(function () {
+               let input_address = $("#appbundle_geolocation_region > option:selected").text();
+               selectData();
+
+               if(! $("#appbundle_geolocation_city > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
+                  input_address = $("#appbundle_geolocation_city > option:selected").text();
+               }
+               if($("#appbundle_geolocation_city > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
+                  initMap(input_address_country + " " + input_address, 7);
+               } else {
+                  initMap(input_address_country + " " + input_address, 12);
+               }
+            });
+         })
+      });
+
+      /**
+       *  Event
+       *  Affichage du pays choisi sur la carte googleMap
+       */
+      $("#appbundle_geolocation_country").change(function () {
+         input_address_country = $("#appbundle_geolocation_country > option:selected").text();
+         // initMap(input_address_country, 7);
+         findDataByCountry();
+         setTimeout(function () {
+            selectData();
+            setTimeout(function () {
+               initMap(input_address_country, 7);
+               console.log("datas selected");
+            }, 3000);
+         }, 4000);
+      });
+
+      /**
+       *  Event
+       *  Affichage d'une autre ville choisie sur la carte googleMap
+       */
+      $("#appbundle_geolocation_otherCity").change(function () {
+         let input_address = $("#appbundle_geolocation_otherCity").val();
+         selectData();
+         initMap(input_address_country + " " + input_address, 16);
+      });
+
+      /**
+       *  Event
+       *  Affichage d'un secteur d'activité choisie sur la carte googleMap
+       */
+      $("#appbundle_geolocation_sectorArea").change(function () {
+         deleteAllMarkers();
+         selectData();
+         viewAllMarkers();
+      });
+
+      /**
+       *  Event
+       *  Affichage des entreprises sur la carte
+       *  L'affichage se fait soit par pays, region ou ville
+       */
+      $('#appbundle_geolocation_showCompanies').change(function () {
+         company_markerCluster = showMapData("#appbundle_geolocation_showCompanies", company_markers, company_icon, company_markerCluster, company_cluster_icon, selectedDataCompanies)
+      })
+
+      /**
+       *  Event
+       *  Affichage des ecoles sur la carte
+       *  L'affichage se fait soit par pays, region ou ville
+       */
+      $('#appbundle_geolocation_showSchools').change(function () {
+         school_markerCluster = showMapData("#appbundle_geolocation_showSchools", school_markers, school_icon, school_markerCluster, school_cluster_icon, selectedDataSchools)
+      })
+
+      /**
+       *  Event
+       *  Affichage des diplômés sur la carte
+       *  L'affichage se fait soit par pays, region ou ville
+       */
+      $('#appbundle_geolocation_showPersonDegrees').change(function () {
+         persondegree_markerCluster = showMapData("#appbundle_geolocation_showPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees)
+      })
+
+      /**
+       *  Function
+       *  Definition initMap
+       *  Paramètres d'initiations de l'API Google Maps
+       */
+      function initMap(input_address, zoomSize) {
+         if(input_address) {
+            // console.log('Adresse Choisie: ' + input_address);
+            // console.log('Zoom: ' + zoomSize);
+
+            map = new google.maps.Map(document.getElementById('map'), {zoom: zoomSize});
+            geocoder = new google.maps.Geocoder;
+
+            geocoder.geocode({'address': input_address}, function (results, status) {
+               if (status == 'OK') {
+                  map.setCenter(results[0].geometry.location);
+               } else {
+                  window.alert('Echec de recherche Geocode : ' + status);
+               }
+            });
+
+            // initialisation des Clusters
+            if(company_markerCluster == null) {
+               company_markerCluster = createClusterData(company_markers, company_cluster_icon);
+            }
+            if(school_markerCluster == null) {
+               school_markerCluster = createClusterData(school_markers, school_cluster_icon);
+            }
+            if(persondegree_markerCluster == null) {
+               persondegree_markerCluster = createClusterData(persondegree_markers, persondegree_cluster_icon);
+            }
+
+            viewAllMarkers();
+         }
+      }
+
+      /**
+       *  Génère les tables entreprise, établissements et
+       *  diplômé en fonction du pays sélectionné
+       */
+      function findDataByCountry() {
+         // initialisation des tables de données
+         dataCompanies = [];
+         dataPersonDegrees = [];
+         dataSchools = [];
+
+         let idCountry = $('#appbundle_geolocation_country option:selected').val()
+         let url = window.location.href;
+         if (idCountry) {
+            url += 'country/' + idCountry ;
+         }
+         console.log("-->" + url);
+
+         if (url != window.location.href) {
+            // Recupère les entreprises en Bdd
+            $.get((url+'/company'), function (data) {
+               dataCompanies = [];
+               dataCompanies = data;
+               console.log(url+'/company' + "  compagnies récupérées : " + dataCompanies.length)
+            })
+
+            // Recupère les établissements en Bdd
+            $.get((url+'/school'), function (data) {
+               dataSchools = [];
+               dataSchools = data;
+               console.log("etablissements récupérées: " + dataSchools.length)
+            })
+
+            // Recupère les diplômés en Bdd
+            $.get((url+'/persondegree'), function (data) {
+               dataPersonDegrees = [];
+               dataPersonDegrees = data;
+               console.log("diplômés récupérés: " + dataPersonDegrees.length)
+            })
+
+         }
+      }
+
+      /**
+       *  Génère les tables entreprise, établissements et
+       *  diplômé en fonction des autres inputs que country
+       */
+      function selectData() {
+         // initialisation des tables de données
+         selectedDataCompanies = [];
+         selectedDataSchools = [];
+         selectedDataPersonDegrees = [];
+
+         let valueRegion = $('#appbundle_geolocation_region option:selected').text()
+         let valueCity = $('#appbundle_geolocation_city option:selected').text()
+         let valueSectorArea = $('#appbundle_geolocation_sectorArea option:selected').text()
+         let valueActivity = $('#appbundle_geolocation_activity option:selected').text()
+
+         // console.log("valueCity= " + valueCity + " valueSectorArea= " + valueSectorArea)
+
+         // Selection des Entreprises
+         // -------------------------
+         $.each(dataCompanies, function (index, value) {
+            let selected = true;
+            // console.log(index + " region=" + value.region + " city=" + value.city  + " sa=" + value.sector_area);
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.sector_area != valueSectorArea)
+                  selected = false;
+            }
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.city != valueCity)
+                  selected = false;
+            }
+            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez'))) {
+               if(value.region != valueRegion)
+                  selected = false;
+            }
+
+            if (selected) {
+               selectedDataCompanies.push(dataCompanies[index]);
+            }
+         })
+         console.log("compagnies sélectionnées : " + selectedDataCompanies.length)
+
+         // Selection des Etablissements
+         // -----------------------------
+         $.each(dataSchools, function (index, value) {
+            let selected = true;
+
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               let activityexist = false;
+               $.each(value.activity1, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
+               $.each(value.activity2, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
+               $.each(value.activity3, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
+               $.each(value.activity3, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
+               if (activityexist==false)
+                  selected = false;
+            }
+
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if((value.sector_area1 != valueSectorArea) &&
+                  (value.sector_area2 != valueSectorArea) &&
+                  (value.sector_area3 != valueSectorArea) &&
+                  (value.sector_area4 != valueSectorArea))
+                  selected = false;
+            }
+
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.city != valueCity)
+                  selected = false;
+            }
+
+            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez'))) {
+               if(value.region != valueRegion)
+                  selected = false;
+            }
+
+            if (selected) {
+               selectedDataSchools.push(dataSchools[index]);
+            }
+         })
+         console.log("etablissements sélectionnées: " + selectedDataSchools.length)
+
+         // Selection des Dipômés
+         // ---------------------
+         // console.log("dataPersonDegrees = " + dataPersonDegrees.length);
+         $.each(dataPersonDegrees, function (index, value) {
+            let selected = true;
+
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.sector_area != valueSectorArea)
+                  selected = false;
+            }
+
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.activity != valueActivity)
+                  selected = false;
+            }
+
+            if (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.region != valueRegion)
+                  selected = false;
+               // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
+            }
+
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.city != valueCity)
+                  selected = false;
+            }
+
+            if (selected) {
+               selectedDataPersonDegrees.push(dataPersonDegrees[index]);
+            }
+         })
+         console.log("diplômés sélectionnées: " + selectedDataPersonDegrees.length)
+         console.log("--------------------------");
+      }
+
+      /**
+       *  Affichage des entreprises sur la carte
+       *  L'affichage se fait soit par pays, region ou ville
+       */
+      function showMapData(idCheckbox, markers, markerIcon, markerCluster, markerClusterIcon, selectedData) {
+         if(map) {
+            let isChecked = $(idCheckbox + ':checked').val();
+            if (isChecked == 1) {
+               markers = createMarkersData(selectedData, markerIcon);
+               markerCluster = createClusterData(markers, markerClusterIcon);
+
+            } else {
+               deleteMarkersData(markers);
+               deleteClusterData(markerCluster);
+            }
+            return markerCluster;
+         }
+      }
+
+      /**
+       *  Creation des Markers pour Maps
+       *  en fonction des données sélectionnées
+       */
+      function createMarkersData(SelectedData, icon) {
+         markers = [];
+         infoWindows = [];
+         $.each(SelectedData, function (index, value) {
+            // console.log("|" + value.name + " -> " + value.lat + ',' + value.lng + "|");
+            let marker = new google.maps.Marker({
+               map: map,
+               position: new google.maps.LatLng(value.lat, value.lng),
+               icon: icon,
+               title: value.name
+            });
+
+            let contentString  = '<h3 class="infoMapsHead">' + value.name + '</h3>'
+            contentString  += '<p class="infoMapsemail"> email:' + value.email + '</p>'
+            contentString  += '<p class="infoMapsPhone"> tel.:' + value.phone + '</p>'
+            contentString  += '<p class="infoMapsSectorArea"> Secteur:' + value.sector_area + '</p>'
+            let infowindow = new google.maps.InfoWindow({
+               content: contentString
+            });
+
+            marker.addListener('click', function() {
+               infowindow.open(map, marker);
+            });
+
+            markers.push(marker);
+            infoWindows.push(infowindow);
+         })
+         return markers;
+      }
+
+      /**
+       *  Suppression des Markers pour Maps
+       */
+      function deleteMarkersData(markers) {
+         $.each(markers , function (index, value) {
+            markers[index].setMap(null);
+         })
+      }
+
+      /**
+       *  Creation des Clusters de Markers pour Maps
+       */
+      function createClusterData(markers, icon) {
+         let markerClusterOptions = {
+            maxZoom: 9,
+            imagePath: icon
+         };
+         let markerCluster = new MarkerClusterer(map, markers, markerClusterOptions);
+
+         return markerCluster;
+      }
+
+      /**
+       *  Suppression des Clusters de Markers pour Maps
+       */
+      function deleteClusterData(clusterData) {
+         if(clusterData != null) {
+            if(clusterData.getMarkers().length) {
+               clusterData.clearMarkers();
+            }
+         }
+      }
+
+      /**
+       *  Affiche tous les markeurs et clusters
+       */
+      function viewAllMarkers() {
+         persondegree_markerCluster = showMapData("#appbundle_geolocation_showPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees)
+         company_markerCluster = showMapData("#appbundle_geolocation_showCompanies", company_markers, company_icon, company_markerCluster, company_cluster_icon, selectedDataCompanies)
+         school_markerCluster = showMapData("#appbundle_geolocation_showSchools", school_markers, school_icon, school_markerCluster, school_cluster_icon, selectedDataSchools)
+      }
+
+      function deleteAllMarkers() {
+         deleteMarkersData(persondegree_markers);
+         deleteClusterData(persondegree_markerCluster);
+         deleteMarkersData(company_markers);
+         deleteClusterData(company_markerCluster);
+         deleteMarkersData(school_markers);
+         deleteClusterData(school_markerCluster);
+      }
+   </script>
+{% endblock %}

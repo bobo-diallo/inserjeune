@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Etablissement {% endblock %}</title>
+  {{ include('_head.html.twig') }}
+  {% block css %}{% endblock %}
+</head>
+<body>
+<div class="all-wrapper container-fluid">
+  {% include '_banner_top.html.twig' %}
+  <div class="layout-w ">
+    <div class="menu-w menu-activated-on-click">
+      <div class="logo-w logged-user-w">
+        <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/university.jpg') }}"></div>
+        <div class="logged-user-info-w">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="logged-user-name">{{ app.user.username }}</div>
+            <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
+          {% endif %}
+        </div>
+        <div class="mobile-menu-trigger">
+          <div class="menu-title">Menu</div>
+          <div class="os-icon os-icon-hamburger-menu-1"></div>
+        </div>
+      </div>
+      <div class="menu-and-user">
+        {# Menu lateral gauche #}
+        <ul class="main-menu">
+          <li>
+            <a href="{{ path('front_school_edit') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/users.png') }}" alt="satisfaction">
+              </div>
+              <span>Compte</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('front_school_persondegree_index') }}">
+            {#<a href="#">#}
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/degree.png') }}" alt="persondegrees">
+              </div>
+              <span>Vos diplômés</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('front_school_company_index') }}">
+              {#<a href="#">#}
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/company.png') }}" alt="companies">
+              </div>
+              <span>Vos partenaires</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('jobOffer_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
+              </div>
+              <span>Offres d'emploi</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('geolocation') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
+              </div>
+              <span>Géo-Localisation</span>
+            </a>
+          </li>
+          <li class="has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
+              </div>
+              <span>Informations</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_etablissement_inserjeune_v2.0.pdf') }}>Guide de l'utilisateur</a></li>
+              <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
+              <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
+              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+            </ul>
+          </li>
+          <li>
+            <div id="apropos" class="d-none text-center" style="color: #0275d8; font-size: .81rem" >
+              {% include '_apropos.html.twig' %}
+            </div>
+          </li>
+          {#%  if  check_os('n') != "vps417868.ovh.net" and check_os('n') != "inserjeune" %#}
+          {%  if  check_os('n') != "vps417868" and check_os('n') != "inserjeune" %}
+            <li>
+              <a href="{{ path('client_school_update') }}">
+                <div class="icon-w">
+                  <img src="{{ asset('build/images/icon/update_data.png') }}" alt="dataupdate">
+                </div>
+                {#<span>clé api</span></a>#}
+                <span> Synchro Serveur </span></a>
+            </li>
+          {% endif %}
+          {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <li>
+              <a href="{{ path('check_logout_school') }}">
+                <div class="icon-w">
+                  <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
+                </div>
+                <span>Déconnexion</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="content-w">
+
+      {# Message flashbag #}
+      {{ falsh_bag() }}
+
+      {% block body %}{% endblock %}
+    </div>
+  </div>
+</div>
+{# Footer #}
+{{ include('_footer.html.twig') }}
+<script>
+   $(document).ready(function () {
+      let table = datatable()
+   });
+</script>
+{% block js %}{% endblock %}
+</body>
+</html>

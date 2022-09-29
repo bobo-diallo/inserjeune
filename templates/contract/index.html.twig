@@ -1,0 +1,65 @@
+{% extends 'contract/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/contract.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Contrats de travail
+                  {#{% include '_menu.html.twig' %}#}
+                </h6>
+                <div class="element-box">
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="{{ path('contract_new') }}">
+                                    <i class="fa fa-plus"></i> ajouter un contract</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th >Actions</th>
+                                <th><div><span>Id</span></div></th>
+                                <th><div><span>Nom</span></div></th>
+                                <th><div><span>Description</span></div></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for contract in contracts %}
+                                <tr>
+                                    <td class="row-actions">
+                                        <a href="{{ path('contract_edit', { 'id': contract.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                        <a href="{{ path('contract_show', { 'id': contract.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        <a class="danger" onclick="deleteElement('{{ path('contract_delete', {'id': contract.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                    </td>
+                                    <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.id }}</a></td>
+                                    <td>{{ contract.name }}</td>
+                                    <td>{{ contract.description }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+       $(document).ready(function () {
+          let table = datatable()
+       });
+       makeSelected('contract')
+    </script>
+{% endblock %}
+

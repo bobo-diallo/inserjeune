@@ -13,7 +13,7 @@ class SectorArea {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
@@ -21,7 +21,7 @@ class SectorArea {
 	#[ORM\Column(name: 'description', type: 'string', length: 255)]
 	private string $description;
 
-	#[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'sectorArea')]
+	#[ORM\OneToMany(mappedBy: 'sectorArea', targetEntity: Activity::class)]
 	private Collection $activities;
 
 	public function getId(): ?int {
@@ -66,7 +66,7 @@ class SectorArea {
 		$this->activities->removeElement($activity);
 	}
 
-	public function getActivities(): ArrayCollection|Collection {
+	public function getActivities(): Collection {
 		return $this->activities;
 	}
 }

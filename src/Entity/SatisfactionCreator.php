@@ -15,7 +15,7 @@ class SatisfactionCreator {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id;
+	private ?int $id = null;
 
 	#[ORM\ManyToOne(targetEntity: PersonDegree::class)]
 	#[ORM\JoinColumn(nullable: false)]
@@ -198,7 +198,7 @@ class SatisfactionCreator {
 		$this->jobNotFoundReasons->removeElement($jobNotFoundReason);
 	}
 
-	public function getJobNotFoundReasons(): ArrayCollection {
+	public function getJobNotFoundReasons(): Collection {
 		return $this->jobNotFoundReasons;
 	}
 
@@ -212,7 +212,7 @@ class SatisfactionCreator {
 		$this->activities->removeElement($activity);
 	}
 
-	public function getActivities(): ArrayCollection {
+	public function getActivities(): Collection {
 		return $this->activities;
 	}
 }

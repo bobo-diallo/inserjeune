@@ -1,0 +1,58 @@
+{% extends 'currency/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    Details
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('currency_new') }}">
+                        <i class="fa fa-plus"></i> Ajouter une devise
+                    </a>
+                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('currency_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Id</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ currency.id }}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Nom</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ currency.name }}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Nom ISO</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ currency.isoName }}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Num ISO</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ currency.isoNum }}"></div>
+                        </div>
+                    </form>
+                    <div class="controls-above-table">
+                        <div class="row" id="actions">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" href="{{ path('currency_edit', {'id': currency.id}) }}">
+                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('currency_delete', {'id': currency.id}) }}')">
+                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+       $('#actions form').css('display', 'inline-block');
+    </script>
+{% endblock %}

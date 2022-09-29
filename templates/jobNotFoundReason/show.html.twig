@@ -1,0 +1,42 @@
+{% extends 'jobNotFoundReason/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <h6 class="element-header">
+                    Details
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('job_not_found_reason_new') }}">
+                        <i class="fa fa-plus"></i> Ajouter une raison
+                    </a>
+                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('job_not_found_reason_index') }}">
+                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Id</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ jobNotFoundReason.id }}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Name</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ jobNotFoundReason.name }}"></div>
+                        </div>
+                    </form>
+                    <div class="controls-above-table">
+                        <div class="row" id="actions">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" href="{{ path('job_not_found_reason_edit', {'id': jobNotFoundReason.id}) }}">
+                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('job_not_found_reason_delete', {'id': jobNotFoundReason.id}) }}')">
+                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
