@@ -9,6 +9,11 @@
 6. Generate public assets: ````npm run build ````
 7. Run server: ````symfony server:start ````
 
+### Simple installation
+1. Setup project fixtures: ````make install````
+2. Setup front: `````make install-front`````
+
+
 ### Setup with docker
 1. Run server app with docker: `make start`
 2. Install packages: `make composer-install`
