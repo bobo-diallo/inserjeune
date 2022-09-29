@@ -5,7 +5,8 @@
 2. Install database with: ````php bin/console d:d:c ````
 3. Excecute migrations with: ````php bin/console d:m:m ````
 4. Add fixtures with: ````php bin/console d:f:l ````
-5. Run server: ````symfony server:start ````
+5. Generate public assets: ````npm run build ````
+6. Run server: ````symfony server:start ````
 
 ### Setup with docker
 1. Run server app with docker: `make start`
