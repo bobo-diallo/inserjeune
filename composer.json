@@ -42,7 +42,7 @@
         "symfony/validator": "6.0.*",
         "symfony/web-link": "6.0.*",
         "symfony/webapp-meta": "^1.0",
-        "symfony/webpack-encore-bundle": "^1.12",
+        "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "6.0.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
@@ -79,7 +79,8 @@
     },
     "scripts": {
         "auto-scripts": {
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "cache:clear": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
