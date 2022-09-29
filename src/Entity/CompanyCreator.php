@@ -41,7 +41,7 @@ class CompanyCreator extends PersonDegree {
 		return $this->satisfactions->removeElement($satisfaction);
 	}
 
-	public function getSatisfactions(): ArrayCollection {
+	public function getSatisfactions(): Collection {
 		return $this->satisfactions;
 	}
 
@@ -55,7 +55,7 @@ class CompanyCreator extends PersonDegree {
 		return $this->infoCreators->removeElement($infoCreator);
 	}
 
-	public function getInfoCreators(): ArrayCollection|Collection {
+	public function getInfoCreators(): Collection {
 		return $this->infoCreators;
 	}
 }

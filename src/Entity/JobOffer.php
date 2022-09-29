@@ -36,7 +36,7 @@ class JobOffer {
 	private string $postedContact;
 
 	#[ORM\Column(name: 'posted_phone', type: 'string', length: 255, nullable: true)]
-	private string $postedPhone;
+	private ?string $postedPhone;
 
 	#[ORM\Column(name: 'posted_email', type: 'string', length: 255)]
 	#[Assert\Email]
@@ -61,7 +61,7 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Activity $activity;
+	private ?Activity $activity = null;
 
 	#[ORM\ManyToOne(targetEntity: Contract::class)]
 	#[ORM\JoinColumn(name: 'lasted_contract_id', referencedColumnName: 'id', nullable: true)]
@@ -73,10 +73,10 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
-	private City $city;
+	private ?City $city = null;
 
 	#[ORM\Column(name: 'other_city', type: 'string', length: 255, nullable: true)]
-	private string $otherCity;
+	private ?string $otherCity;
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
@@ -88,7 +88,7 @@ class JobOffer {
 
 	#[UploadableField(filename: 'filename', path: 'uploads')]
 	#[Assert\Image(maxWidth: '2000', maxHeight: '2000')]
-	private ?File $file;
+	private ?File $file = null;
 
 	public function __construct() {
 		$this->createdDate = new \DateTime();
@@ -102,7 +102,7 @@ class JobOffer {
 		return $this->title;
 	}
 
-	public function setTitle(string $title): static {
+	public function setTitle(string $title): self {
 		$this->title = $title;
 
 		return $this;
@@ -112,7 +112,7 @@ class JobOffer {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): static {
+	public function setCreatedDate(\DateTime $createdDate): self {
 		$this->createdDate = $createdDate;
 
 		return $this;
@@ -122,7 +122,7 @@ class JobOffer {
 		return $this->closedDate;
 	}
 
-	public function setClosedDate(\DateTime $closedDate): static {
+	public function setClosedDate(\DateTime $closedDate): self {
 		$this->closedDate = $closedDate;
 
 		return $this;
@@ -132,7 +132,7 @@ class JobOffer {
 		return $this->company;
 	}
 
-	public function setCompany(Company $company = null): static {
+	public function setCompany(Company $company = null): self {
 		$this->company = $company;
 
 		return $this;
@@ -142,7 +142,7 @@ class JobOffer {
 		return $this->description;
 	}
 
-	public function setDescription(string $description): static {
+	public function setDescription(string $description): self {
 		$this->description = $description;
 
 		return $this;
@@ -152,7 +152,7 @@ class JobOffer {
 		return $this->postedEmail;
 	}
 
-	public function setPostedEmail(string $postedEmail): static {
+	public function setPostedEmail(string $postedEmail): self {
 		$this->postedEmail = $postedEmail;
 
 		return $this;
@@ -162,16 +162,16 @@ class JobOffer {
 		return $this->postedContact;
 	}
 
-	public function setPostedContact(string $postedContact): static {
+	public function setPostedContact(string $postedContact): self {
 		$this->postedContact = $postedContact;
 		return $this;
 	}
 
-	public function getPostedPhone(): string {
+	public function getPostedPhone(): ?string {
 		return $this->postedPhone;
 	}
 
-	public function setPostedPhone(string $postedPhone): static {
+	public function setPostedPhone(?string $postedPhone): self {
 		$this->postedPhone = $postedPhone;
 		return $this;
 	}
@@ -180,7 +180,7 @@ class JobOffer {
 		return $this->coverLetter;
 	}
 
-	public function setCoverLetter(string $coverLetter): static {
+	public function setCoverLetter(string $coverLetter): self {
 		$this->coverLetter = $coverLetter;
 		return $this;
 	}
@@ -189,16 +189,16 @@ class JobOffer {
 		return $this->sectorArea;
 	}
 
-	public function setSectorArea(SectorArea $sectorArea): static {
+	public function setSectorArea(SectorArea $sectorArea): self {
 		$this->sectorArea = $sectorArea;
 		return $this;
 	}
 
-	public function getActivity(): Activity {
+	public function getActivity(): ?Activity {
 		return $this->activity;
 	}
 
-	public function setActivity(Activity $activity): static {
+	public function setActivity(?Activity $activity): self {
 		$this->activity = $activity;
 		return $this;
 	}
@@ -207,7 +207,7 @@ class JobOffer {
 		return $this->otherActivity;
 	}
 
-	public function setOtherActivity(string $otherActivity): static {
+	public function setOtherActivity(string $otherActivity): self {
 		$this->otherActivity = $otherActivity;
 		return $this;
 	}
@@ -216,7 +216,7 @@ class JobOffer {
 		return $this->contract;
 	}
 
-	public function setContract(Contract $contract): static {
+	public function setContract(Contract $contract): self {
 		$this->contract = $contract;
 		return $this;
 	}
@@ -225,25 +225,25 @@ class JobOffer {
 		return $this->image;
 	}
 
-	public function setImage(Image $image): static {
+	public function setImage(Image $image): self {
 		$this->image = $image;
 		return $this;
 	}
 
-	public function getOtherCity(): string {
+	public function getOtherCity(): ?string {
 		return $this->otherCity;
 	}
 
-	public function setOtherCity(string $otherCity): static {
+	public function setOtherCity(?string $otherCity): self {
 		$this->otherCity = $otherCity;
 		return $this;
 	}
 
-	public function getCity(): City {
+	public function getCity(): ?City {
 		return $this->city;
 	}
 
-	public function setCity(City $city): static {
+	public function setCity(?City $city): self {
 		$this->city = $city;
 		return $this;
 	}
@@ -252,7 +252,7 @@ class JobOffer {
 		return $this->region;
 	}
 
-	public function setRegion(Region $region): static {
+	public function setRegion(Region $region): self {
 		$this->region = $region;
 		return $this;
 	}
@@ -261,12 +261,12 @@ class JobOffer {
 		return $this->country;
 	}
 
-	public function setCountry(Country $country): static {
+	public function setCountry(Country $country): self {
 		$this->country = $country;
 		return $this;
 	}
 
-	public function setFilename(string $filename): static {
+	public function setFilename(string $filename): self {
 		$this->filename = $filename;
 
 		return $this;

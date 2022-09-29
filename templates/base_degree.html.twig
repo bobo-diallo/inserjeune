@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Diplomé {% endblock %}</title>
+  {{ include('_head.html.twig') }}
+  {% block css %}{% endblock %}
+</head>
+<body>
+<div class="all-wrapper container-fluid">
+  {% include '_banner_top.html.twig' %}
+  <div class="layout-w ">
+    <div class="menu-w menu-activated-on-click">
+      <div class="logo-w logged-user-w">
+        <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/graduated.jpg') }}"></div>
+        <div class="logged-user-info-w">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="logged-user-name">{{ app.user.username }}</div>
+            <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
+          {% endif %}
+        </div>
+        <div class="mobile-menu-trigger">
+          <div class="menu-title">Menu</div>
+          <div class="os-icon os-icon-hamburger-menu-1"></div>
+        </div>
+      </div>
+      <div class="menu-and-user">
+        {# Menu lateral gauche #}
+        <ul class="main-menu">
+
+          <li>
+            <a href="{{ path('front_persondegree_edit') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/users.png') }}" alt="satisfaction">
+              </div>
+              <span>Compte</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('front_persondegree_satisfaction_new') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
+              </div>
+              <span>Enquête en cours</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('front_persondegree_satisfactions_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
+              </div>
+              <span>Liste des enquêtes</span>
+            </a>
+          </li>
+          <li>
+            {#<a href="{{ path('front_persondegree_joboffers') }}">#}
+            <a href="{{ path('jobOffer_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
+              </div>
+              <span>Offres d'emploi</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('geolocation') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
+              </div>
+              <span>Géo-Localisation</span>
+            </a>
+          </li>
+          <li class="has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
+              </div>
+              <span>Informations</span>
+            </a>
+            <ul class="sub-menu">
+              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_diplome_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
+              <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
+              <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
+              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+            </ul>
+          </li>
+          <li>
+            <div id="apropos" class="d-none text-center" style="color: #0275d8; font-size: .81rem" >
+              {% include '_apropos.html.twig' %}
+            </div>
+          </li>
+          {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+            <li>
+              <a href="{{ path('check_logout_persondegree') }}">
+                <div class="icon-w">
+                  <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
+                </div>
+                <span>Déconnexion</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+
+    </div>
+    <div class="content-w">
+
+      {# Message flashbag #}{#
+      {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+          <p class="btn-{{ type }} kz-flashbag" style="padding: 5px; margin: 15px;">{{ message }}</p>
+        {% endfor %}
+      {% endfor %}#}
+      {{ falsh_bag() }}
+
+      {% block body %}{% endblock %}
+    </div>
+  </div>
+</div>
+{# Footer #}
+{{ include('_footer.html.twig') }}
+{% block js %}{% endblock %}
+</body>
+</html>

@@ -35,7 +35,7 @@ class SectorAreaController extends AbstractController {
 		]);
 	}
 
-	#[Route(path: '/new', name: 'sectorarea_new', methods: ['GET'])]
+	#[Route(path: '/new', name: 'sectorarea_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request) {
 		$sectorArea = new Sectorarea();
 		$form = $this->createForm(SectorAreaType::class, $sectorArea);
@@ -61,7 +61,7 @@ class SectorAreaController extends AbstractController {
 		]);
 	}
 
-	#[Route(path: '/{id}/edit', name: 'sectorarea_edit', methods: ['GET'])]
+	#[Route(path: '/{id}/edit', name: 'sectorarea_edit', methods: ['GET', 'POST', 'PUT'])]
 	public function editAction(Request $request, SectorArea $sectorArea): RedirectResponse|Response {
 		$editForm = $this->createForm(SectorAreaType::class, $sectorArea);
 		$editForm->handleRequest($request);
@@ -79,7 +79,7 @@ class SectorAreaController extends AbstractController {
 	}
 
 	#[Route(path: '/delete/{id}', name: 'sectorarea_delete', methods: ['GET'])]
-	public function deleteAction(Request $request, ?SectorArea $sectorArea) {
+	public function deleteAction(Request $request, ?SectorArea $sectorArea): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($sectorArea) {
 				$this->em->remove($sectorArea);

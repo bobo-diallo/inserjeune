@@ -72,7 +72,7 @@ class Region {
 		$this->cities->removeElement($city);
 	}
 
-	public function getCities(): ArrayCollection {
+	public function getCities(): Collection {
 		return $this->cities;
 	}
 
@@ -90,7 +90,7 @@ class Region {
 		$this->schools->removeElement($school);
 	}
 
-	public function getSchools(): ArrayCollection {
+	public function getSchools(): Collection {
 		return $this->schools;
 	}
 

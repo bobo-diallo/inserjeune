@@ -103,9 +103,8 @@ class SatisfactionSearchController extends AbstractController {
 	public function deleteElementAction(Request $request, ?SatisfactionSearch $satisfactionSearch): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($satisfactionSearch) {
-				$em = $this->getDoctrine()->getManager();
-				$em->remove($satisfactionSearch);
-				$em->flush();
+				$this->em->remove($satisfactionSearch);
+				$this->em->flush();
 				$this->addFlash('success', 'La suppression est faite avec success');
 			} else {
 				$this->addFlash('warning', 'Impossible de suppression la satisfaction');

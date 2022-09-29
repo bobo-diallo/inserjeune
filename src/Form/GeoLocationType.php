@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\GeoLocation;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use App\Services\CityService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,9 +18,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class GeoLocationType extends AbstractType {
 
 	private CityService $cityService;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 
-	public function __construct(CityService $cityService, AcitivityService $activityService) {
+	public function __construct(CityService $cityService, ActivityService $activityService) {
 		$this->cityService = $cityService;
 		$this->activityService = $activityService;
 	}

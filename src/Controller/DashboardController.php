@@ -34,7 +34,7 @@ class DashboardController extends AbstractController {
 		$this->regionRepository = $regionRepository;
 	}
 
-	#[Route(path: '/', name: 'dasboard_index', methods: ['GET'])]
+	#[Route(path: '/', name: 'dashboard_index', methods: ['GET'])]
 	public function indexAction(Request $request): Response {
 		$validCountries = $this->countryRepository->findBy(['valid' => 'true']);
 

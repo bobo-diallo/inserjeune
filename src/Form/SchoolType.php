@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\Degree;
 use App\Entity\School;
 use App\Entity\SectorArea;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use App\Services\CityService;
 use Symfony\Component\Form\AbstractType;
 use App\Entity\Image;
@@ -23,10 +23,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
 class SchoolType extends AbstractType {
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private CityService $cityService;
 
-	public function __construct(AcitivityService $activityService, CityService $cityService) {
+	public function __construct(ActivityService $activityService, CityService $cityService) {
 		$this->activityService = $activityService;
 		$this->cityService = $cityService;
 	}

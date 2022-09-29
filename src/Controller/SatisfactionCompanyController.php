@@ -104,9 +104,8 @@ class SatisfactionCompanyController extends AbstractController {
 	public function deleteElementAction(Request $request, ?SatisfactionCompany $satisfactionCompany): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($satisfactionCompany) {
-				$em = $this->getDoctrine()->getManager();
-				$em->remove($satisfactionCompany);
-				$em->flush();
+				$this->em->remove($satisfactionCompany);
+				$this->em->flush();
 				$this->addFlash('success', 'La suppression est faite avec success');
 			} else {
 				$this->addFlash('warning', 'Impossible de suppression la satisfaction');

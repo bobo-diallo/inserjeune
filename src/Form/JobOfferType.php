@@ -7,7 +7,7 @@ use App\Entity\Country;
 use App\Entity\Image;
 use App\Entity\JobOffer;
 use App\Entity\SectorArea;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use App\Services\CityService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,9 +22,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class JobOfferType extends AbstractType {
 
 	private CityService $cityService;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 
-	public function __construct(CityService $cityService, AcitivityService $activityService) {
+	public function __construct(CityService $cityService, ActivityService $activityService) {
 		$this->cityService = $cityService;
 		$this->activityService = $activityService;
 	}

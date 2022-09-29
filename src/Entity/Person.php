@@ -13,7 +13,7 @@ trait Person {
 	#[ORM\Id]
 	#[ORM\Column(name: 'id', type: 'integer')]
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
-	private ?int $id = null;
+	protected ?int $id = null;
 
 	#[ORM\Column(name: 'firstname', type: 'string', length: 255)]
 	private string $firstname;
@@ -25,20 +25,20 @@ trait Person {
 	private ?\DateTime $birthDate;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
-	private int $addressNumber;
+	private ?int $addressNumber;
 
 	#[ORM\Column(name: 'address_locality', type: 'string', nullable: true)]
-	private string $addressLocality;
+	private ?string $addressLocality;
 
 	#[ORM\Column(name: 'address_road', type: 'string', nullable: true)]
-	private string $addressRoad;
+	private ?tring $addressRoad;
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
-	private City $addressCity;
+	private ?City $addressCity = null;
 
 	#[ORM\Column(name: 'other_city', type: 'string', nullable: true)]
-	private string $otherCity;
+	private ?string $otherCity;
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
@@ -58,22 +58,22 @@ trait Person {
 	private string $mapsAddress;
 
 	#[ORM\Column(name: 'phone_mobile1', type: 'string')]
-	private string $phoneMobile1;
+	private ?string $phoneMobile1;
 
 	#[ORM\Column(name: 'phone_mobile2', type: 'string', nullable: true)]
-	private string $phoneMobile2;
+	private ?string $phoneMobile2;
 
 	#[ORM\Column(name: 'phone_mobile3', type: 'string', nullable: true)]
-	private string $phoneMobile3;
+	private ?string $phoneMobile3;
 
 	#[ORM\Column(name: 'phone_home', type: 'string', nullable: true)]
-	private string $phoneHome;
+	private ?string $phoneHome;
 
 	#[ORM\Column(name: 'phone_office', type: 'string', nullable: true)]
 	private string $phoneOffice;
 
 	#[ORM\Column(name: 'email', type: 'string', nullable: true)]
-	private string $email;
+	private ?string $email;
 
 	#[ORM\Column(name: 'sex', type: 'string', length: 10)]
 	private string $sex;
@@ -153,82 +153,53 @@ trait Person {
 		return $this;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getAddressNumber(): int {
+	public function getAddressNumber(): ?int {
 		return $this->addressNumber;
 	}
 
-	/**
-	 * @param int $addressNumber
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setAddressNumber(int $addressNumber): self {
+	public function setAddressNumber(?int $addressNumber): self {
 		$this->addressNumber = $addressNumber;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getAddressLocality(): string {
+	public function getAddressLocality(): ?string {
 		return $this->addressLocality;
 	}
 
-	/**
-	 * @param string $addressLocality
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setAddressLocality(string $addressLocality): self {
+	public function setAddressLocality(?string $addressLocality): self {
 		$this->addressLocality = $addressLocality;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getAddressRoad(): string {
+	public function getAddressRoad(): ?string {
 		return $this->addressRoad;
 	}
 
-	/**
-	 * @param string $addressRoad
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setAddressRoad(string $addressRoad): self {
+	public function setAddressRoad(?string $addressRoad): self {
 		$this->addressRoad = $addressRoad;
 		return $this;
 	}
 
 	/**
-	 * @return City
+	 * @return City|null
 	 */
-	public function getAddressCity(): City {
+	public function getAddressCity(): ?City {
 		return $this->addressCity;
 	}
 
-	/**
-	 * @param City $addressCity
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setAddressCity(City $addressCity): self {
+	public function setAddressCity(?City $addressCity): self {
 		$this->addressCity = $addressCity;
 		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getOtherCity(): string {
+	public function getOtherCity(): ?string {
 		return $this->otherCity;
 	}
 
-	/**
-	 * @param string $otherCity
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setOtherCity(string $otherCity): self {
+	public function setOtherCity(?string $otherCity): self {
 		$this->otherCity = $otherCity;
 		return $this;
 	}
@@ -237,10 +208,6 @@ trait Person {
 		return $this->region;
 	}
 
-	/**
-	 * @param Region $region
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
 	public function setRegion(Region $region): self {
 		$this->region = $region;
 		return $this;
@@ -311,65 +278,58 @@ trait Person {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPhoneMobile1() {
+	public function getPhoneMobile1(): ?string {
 		return $this->phoneMobile1;
 	}
 
 	/**
-	 * @param string $phoneMobile1
+	 * @param string|null $phoneMobile1
 	 * @return ContactCompany|Apprentice|Person|PersonDegree
 	 */
-	public function setPhoneMobile1(string $phoneMobile1): self {
+	public function setPhoneMobile1(?string $phoneMobile1): self {
 		$this->phoneMobile1 = $phoneMobile1;
 		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPhoneMobile2() {
+	public function getPhoneMobile2(): ?string {
 		return $this->phoneMobile2;
 	}
 
-	/**
-	 * @param string $phoneMobile2
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setPhoneMobile2(string $phoneMobile2): self {
+	public function setPhoneMobile2(?string $phoneMobile2): self {
 		$this->phoneMobile2 = $phoneMobile2;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPhoneMobile3() {
+	public function getPhoneMobile3(): ?string {
 		return $this->phoneMobile3;
 	}
 
 	/**
-	 * @param string $phoneMobile3
+	 * @param string|null $phoneMobile3
 	 * @return ContactCompany|Apprentice|Person|PersonDegree
 	 */
-	public function setPhoneMobile3(string $phoneMobile3): self {
+	public function setPhoneMobile3(?string $phoneMobile3): self {
 		$this->phoneMobile3 = $phoneMobile3;
 		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPhoneHome() {
+	public function getPhoneHome(): ?string {
 		return $this->phoneHome;
 	}
 
 	/**
-	 * @param string $phoneHome
+	 * @param string|null $phoneHome
 	 * @return ContactCompany|Apprentice|Person|PersonDegree
 	 */
-	public function setPhoneHome(string $phoneHome): self {
+	public function setPhoneHome(?string $phoneHome): self {
 		$this->phoneHome = $phoneHome;
 		return $this;
 	}
@@ -390,11 +350,11 @@ trait Person {
 		return $this;
 	}
 
-	public function getEmail(): string {
+	public function getEmail(): ?string {
 		return $this->email;
 	}
 
-	public function setEmail(string $email): self {
+	public function setEmail(?string $email): self {
 		$this->email = $email;
 		return $this;
 	}

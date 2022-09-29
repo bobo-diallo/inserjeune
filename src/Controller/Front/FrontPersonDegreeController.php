@@ -12,7 +12,7 @@ use App\Form\PersonDegreeType;
 use App\Entity\School;
 use App\Repository\JobOfferRepository;
 use App\Repository\UserRepository;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use App\Services\EmailService;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +30,7 @@ use App\Entity\User;
 #[IsGranted('ROLE_DIPLOME')]
 class FrontPersonDegreeController extends AbstractController {
 	private EntityManagerInterface $em;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private PersonDegreeService $personDegreeService;
 	private JobOfferRepository $jobOfferRepository;
 	private EmailService $emailService;
@@ -38,7 +38,7 @@ class FrontPersonDegreeController extends AbstractController {
 
 	public function __construct(
 		EntityManagerInterface $em,
-		AcitivityService       $activityService,
+		ActivityService        $activityService,
 		PersonDegreeService    $personDegreeService,
 		JobOfferRepository     $jobOfferRepository,
 		EmailService           $emailService,
@@ -67,7 +67,7 @@ class FrontPersonDegreeController extends AbstractController {
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$agreeRgpd = $form->get('agreeRgpd')->getData();
-			if ($agreeRgpd == true) {
+			if ($agreeRgpd) {
 				$personDegree->setUser($user);
 				$personDegree->setCreatedDate(new \DateTime());
 				$personDegree->setUpdatedDate(new \DateTime());
@@ -131,7 +131,7 @@ class FrontPersonDegreeController extends AbstractController {
 				if (php_uname('n') != $dnsServer)
 					$personDegree->setClientUpdateDate(new \DateTime());
 
-				$this->getDoctrine()->getManager()->flush();
+				$this->em->flush();
 
 				return $this->redirectToRoute('front_persondegree_satisfaction_new');
 			} else {
@@ -142,7 +142,7 @@ class FrontPersonDegreeController extends AbstractController {
 		return $this->render('persondegree/edit.html.twig', [
 			'personDegree' => $personDegree,
 			'edit_form' => $editForm->createView(),
-			'allActivities' => $this->get('app.activity')->getAllActivities(),
+			'allActivities' => $this->activityService->getAllActivities(),
 			'selectedCountry' => $selectedCountry
 		]);
 	}
@@ -338,7 +338,7 @@ class FrontPersonDegreeController extends AbstractController {
 
 			//envoi du mail des paramètres de connexion
 			if ($user->getEmail()) {
-				if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(), $personDegree->getFirstname(),
+				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $personDegree->getFirstname(),
 					"Paramètres de votre compte InserJeune", "Diplômé", $user->getPhone())) {
 					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
 				} else {

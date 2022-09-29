@@ -24,9 +24,9 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 
 	/**
 	 * @param Country $country
-	 * @return array
+	 * @return PersonDegree[]
 	 */
-	public function getNameByCountry(Country $country) {
+	public function getNameByCountry(Country $country): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country')
 			->setParameter('country', $country)
@@ -36,9 +36,9 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 
 	/**
 	 * @param Region $region
-	 * @return array
+	 * @return PersonDegree[]
 	 */
-	public function getNameByRegion(Region $region) {
+	public function getNameByRegion(Region $region): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region')
 			->setParameter('region', $region)

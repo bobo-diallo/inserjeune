@@ -37,22 +37,22 @@ class School {
 	private string $description;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
-	private int $addressNumber;
+	private ?int $addressNumber;
 
 	#[ORM\Column(name: 'address_locality', type: 'string', nullable: true)]
-	private string $addressLocality;
+	private ?string $addressLocality;
 
 	#[ORM\Column(name: 'address_road', type: 'string', nullable: true)]
-	private string $addressRoad;
+	private ?string $addressRoad;
 
 	#[ORM\Column(name: 'phone_standard', type: 'string')]
-	private string $phoneStandard;
+	private ?string $phoneStandard = null;
 
 	#[ORM\Column(name: 'phone_other', type: 'string', nullable: true)]
-	private string $phoneOther;
+	private ?string $phoneOther;
 
 	#[ORM\Column(name: 'email', type: 'string')]
-	private string $email;
+	private ?string $email;
 
 	#[ORM\Column(name: 'latitude', type: 'string', nullable: true)]
 	private string $latitude;
@@ -67,36 +67,36 @@ class School {
 	private bool $locationFixed = false;
 
 	#[ORM\Column(name: 'other_activity1', type: 'string', nullable: true)]
-	private string $otherActivity1;
+	private ?string $otherActivity1;
 
 	#[ORM\Column(name: 'other_activity2', type: 'string', nullable: true)]
-	private string $otherActivity2;
+	private ?string $otherActivity2;
 
 	#[ORM\Column(name: 'other_activity3', type: 'string', nullable: true)]
-	private string $otherActivity3;
+	private ?string $otherActivity3;
 
 	#[ORM\Column(name: 'other_activity4', type: 'string', nullable: true)]
-	private string $otherActivity4;
+	private ?string $otherActivity4;
 
 	#[ORM\Column(name: 'other_activity5', type: 'string', nullable: true)]
-	private string $otherActivity5;
+	private ?string $otherActivity5;
 
 	#[ORM\Column(name: 'other_activity6', type: 'string', nullable: true)]
-	private string $otherActivity6;
+	private ?string $otherActivity6;
 
 	#[ORM\OneToMany(mappedBy: 'school', targetEntity: PersonDegree::class)]
-	private PersonDegree $personDegrees;
+	private Collection $personDegrees;
 
 	#[ORM\Column(name: 'registration', type: 'string', length: 255, nullable: true)]
 	private string $registration;
 
 	#[ORM\Column(name: 'other_degree', type: 'string', nullable: true)]
-	private string $otherDegree;
+	private ?string $otherDegree;
 
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
-	private City $city;
+	private ?City $city = null;
 
 	#[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'schools')]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
@@ -134,7 +134,7 @@ class School {
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sector_area1', referencedColumnName: 'id')]
-	private SectorArea $sectorArea1;
+	private ?SectorArea $sectorArea1 = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sector_area2', referencedColumnName: 'id', nullable: true)]
@@ -272,11 +272,11 @@ class School {
 		$this->description = $description;
 	}
 
-	public function getCity(): City {
+	public function getCity(): ?City {
 		return $this->city;
 	}
 
-	public function setCity(City $city = null): self {
+	public function setCity(?City $city = null): self {
 		$this->city = $city;
 		return $this;
 	}
@@ -299,52 +299,52 @@ class School {
 		return $this;
 	}
 
-	public function getAddressNumber(): int {
+	public function getAddressNumber(): ?int {
 		return $this->addressNumber;
 	}
 
-	public function setAddressNumber(int $addressNumber): void {
+	public function setAddressNumber(?int $addressNumber): void {
 		$this->addressNumber = $addressNumber;
 	}
 
-	public function getAddressLocality(): string {
+	public function getAddressLocality(): ?string {
 		return $this->addressLocality;
 	}
 
-	public function setAddressLocality(string $addressLocality): void {
+	public function setAddressLocality(?string $addressLocality): void {
 		$this->addressLocality = $addressLocality;
 	}
 
-	public function getAddressRoad(): string {
+	public function getAddressRoad(): ?string {
 		return $this->addressRoad;
 	}
 
-	public function setAddressRoad(string $addressRoad) {
+	public function setAddressRoad(?string $addressRoad): void {
 		$this->addressRoad = $addressRoad;
 	}
 
-	public function getPhoneStandard(): string {
+	public function getPhoneStandard(): ?string {
 		return $this->phoneStandard;
 	}
 
-	public function setPhoneStandard(string $phoneStandard) {
+	public function setPhoneStandard(?string $phoneStandard): void {
 		$this->phoneStandard = $phoneStandard;
 	}
 
-	public function getPhoneOther(): string {
+	public function getPhoneOther(): ?string {
 		return $this->phoneOther;
 	}
 
-	public function setPhoneOther(string $phoneOther): self {
+	public function setPhoneOther(?string $phoneOther): self {
 		$this->phoneOther = $phoneOther;
 		return $this;
 	}
 
-	public function getEmail(): string {
+	public function getEmail(): ?string {
 		return $this->email;
 	}
 
-	public function setEmail(string $email): void {
+	public function setEmail(?string $email): void {
 		$this->email = $email;
 	}
 
@@ -375,7 +375,7 @@ class School {
 		return $this->socialNetworks->removeElement($socialNetwork);
 	}
 
-	public function getSocialNetworks(): ArrayCollection {
+	public function getSocialNetworks(): Collection {
 		return $this->socialNetworks;
 	}
 
@@ -429,56 +429,56 @@ class School {
 		return $this->user;
 	}
 
-	public function getSectorArea1(): SectorArea {
+	public function getSectorArea1(): ?SectorArea {
 		return $this->sectorArea1;
 	}
 
-	public function setSectorArea1(SectorArea $sectorArea1): self {
+	public function setSectorArea1(?SectorArea $sectorArea1): self {
 		$this->sectorArea1 = $sectorArea1;
 		return $this;
 	}
 
-	public function getSectorArea2(): SectorArea {
+	public function getSectorArea2(): ?SectorArea {
 		return $this->sectorArea2;
 	}
 
-	public function setSectorArea2(SectorArea $sectorArea2): self {
+	public function setSectorArea2(?SectorArea $sectorArea2): self {
 		$this->sectorArea2 = $sectorArea2;
 		return $this;
 	}
 
-	public function getSectorArea3(): SectorArea {
+	public function getSectorArea3(): ?SectorArea {
 		return $this->sectorArea3;
 	}
 
-	public function setSectorArea3(SectorArea $sectorArea3): self {
+	public function setSectorArea3(?SectorArea $sectorArea3): self {
 		$this->sectorArea3 = $sectorArea3;
 		return $this;
 	}
 
-	public function getSectorArea4(): SectorArea {
+	public function getSectorArea4(): ?SectorArea {
 		return $this->sectorArea4;
 	}
 
-	public function setSectorArea4(SectorArea $sectorArea4): self {
+	public function setSectorArea4(?SectorArea $sectorArea4): self {
 		$this->sectorArea4 = $sectorArea4;
 		return $this;
 	}
 
-	public function getSectorArea5(): SectorArea {
+	public function getSectorArea5(): ?SectorArea {
 		return $this->sectorArea5;
 	}
 
-	public function setSectorArea5(SectorArea $sectorArea5): self {
+	public function setSectorArea5(?SectorArea $sectorArea5): self {
 		$this->sectorArea5 = $sectorArea5;
 		return $this;
 	}
 
-	public function getSectorArea6(): SectorArea {
+	public function getSectorArea6(): ?SectorArea {
 		return $this->sectorArea6;
 	}
 
-	public function setSectorArea6(SectorArea $sectorArea6): self {
+	public function setSectorArea6(?SectorArea $sectorArea6): self {
 		$this->sectorArea6 = $sectorArea6;
 		return $this;
 	}
@@ -493,7 +493,7 @@ class School {
 		$this->activities1->removeElement($activities1);
 	}
 
-	public function getActivities1(): ArrayCollection {
+	public function getActivities1(): Collection {
 		return $this->activities1;
 	}
 
@@ -507,7 +507,7 @@ class School {
 		$this->activities2->removeElement($activities2);
 	}
 
-	public function getActivities2(): ArrayCollection {
+	public function getActivities2(): Collection {
 		return $this->activities2;
 	}
 
@@ -521,7 +521,7 @@ class School {
 		$this->activities3->removeElement($activities3);
 	}
 
-	public function getActivities3(): ArrayCollection|Collection {
+	public function getActivities3(): Collection {
 		return $this->activities3;
 	}
 
@@ -535,7 +535,7 @@ class School {
 		$this->activities4->removeElement($activities4);
 	}
 
-	public function getActivities4(): ArrayCollection {
+	public function getActivities4(): Collection {
 		return $this->activities4;
 	}
 
@@ -549,73 +549,73 @@ class School {
 		$this->degrees->removeElement($degree);
 	}
 
-	public function getDegrees(): ArrayCollection|Collection {
+	public function getDegrees(): Collection {
 		return $this->degrees;
 	}
 
-	public function getOtherDegree(): string {
+	public function getOtherDegree(): ?string {
 		return $this->otherDegree;
 	}
 
-	public function setOtherDegree(string $otherDegree): self {
+	public function setOtherDegree(?string $otherDegree): self {
 		$this->otherDegree = $otherDegree;
 		return $this;
 	}
 
-	public function setOtherActivity1(string $otherActivity1): self {
+	public function setOtherActivity1(?string $otherActivity1): self {
 		$this->otherActivity1 = $otherActivity1;
 
 		return $this;
 	}
 
-	public function getOtherActivity1(): string {
+	public function getOtherActivity1(): ?string {
 		return $this->otherActivity1;
 	}
 
-	public function setOtherActivity2(string $otherActivity2): self {
+	public function setOtherActivity2(?string $otherActivity2): self {
 		$this->otherActivity2 = $otherActivity2;
 
 		return $this;
 	}
 
-	public function getOtherActivity2(): string {
+	public function getOtherActivity2(): ?string {
 		return $this->otherActivity2;
 	}
 
-	public function setOtherActivity3(string $otherActivity3): self {
+	public function setOtherActivity3(?string $otherActivity3): self {
 		$this->otherActivity3 = $otherActivity3;
 
 		return $this;
 	}
 
-	public function getOtherActivity3(): string {
+	public function getOtherActivity3(): ?string {
 		return $this->otherActivity3;
 	}
 
-	public function setOtherActivity4(string $otherActivity4): self {
+	public function setOtherActivity4(?string $otherActivity4): self {
 		$this->otherActivity4 = $otherActivity4;
 
 		return $this;
 	}
 
-	public function getOtherActivity4(): string {
+	public function getOtherActivity4(): ?string {
 		return $this->otherActivity4;
 	}
 
-	public function getOtherActivity5(): string {
+	public function getOtherActivity5(): ?string {
 		return $this->otherActivity5;
 	}
 
-	public function setOtherActivity5(string $otherActivity5): self {
+	public function setOtherActivity5(?string $otherActivity5): self {
 		$this->otherActivity5 = $otherActivity5;
 		return $this;
 	}
 
-	public function getOtherActivity6(): string {
+	public function getOtherActivity6(): ?string {
 		return $this->otherActivity6;
 	}
 
-	public function setOtherActivity6(string $otherActivity6): self {
+	public function setOtherActivity6(?string $otherActivity6): self {
 		$this->otherActivity6 = $otherActivity6;
 		return $this;
 	}
@@ -639,7 +639,7 @@ class School {
 		$this->personDegrees->removeElement($personDegree);
 	}
 
-	public function getPersonDegrees(): ArrayCollection {
+	public function getPersonDegrees(): Collection {
 		return $this->personDegrees;
 	}
 
@@ -653,7 +653,7 @@ class School {
 		$this->companies->removeElement($company);
 	}
 
-	public function getCompanies(): ArrayCollection|Collection {
+	public function getCompanies(): Collection {
 		return $this->companies;
 	}
 
@@ -667,7 +667,7 @@ class School {
 		return $this->activities5->removeElement($activities5);
 	}
 
-	public function getActivities5(): ArrayCollection {
+	public function getActivities5(): Collection {
 		return $this->activities5;
 	}
 
@@ -681,7 +681,7 @@ class School {
 		return $this->activities6->removeElement($activities6);
 	}
 
-	public function getActivities6(): ArrayCollection|Collection {
+	public function getActivities6(): Collection {
 		return $this->activities6;
 	}
 }

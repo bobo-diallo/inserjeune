@@ -7,7 +7,7 @@ use App\Entity\Country;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,15 +21,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')")]
 class CompanyController extends AbstractController {
 	private EntityManagerInterface $em;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private UserRepository $userRepository;
 	private CompanyRepository $companyRepository;
 
 	public function __construct(
 		EntityManagerInterface $em,
-		AcitivityService $activityService,
-		UserRepository $userRepository,
-		CompanyRepository $companyRepository
+		ActivityService        $activityService,
+		UserRepository         $userRepository,
+		CompanyRepository      $companyRepository
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;

@@ -15,7 +15,7 @@ class GeoLocation {
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
-	private City $city;
+	private ?City $city = null;
 
 	#[ORM\Column(name: 'other_city', type: 'string', length: 255, nullable: true)]
 	private string $otherCity;
@@ -48,7 +48,7 @@ class GeoLocation {
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Activity $activity;
+	private ?Activity $activity = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
@@ -91,7 +91,7 @@ class GeoLocation {
 		return $this;
 	}
 
-	public function getCity(): City {
+	public function getCity(): ?City {
 		return $this->city;
 	}
 
@@ -124,7 +124,7 @@ class GeoLocation {
 		return $this->country;
 	}
 
-	public function getActivity(): Activity {
+	public function getActivity(): ?Activity {
 		return $this->activity;
 	}
 

@@ -25,6 +25,11 @@ Encore
         to: 'locale/[path][name].[ext]',
         pattern: /\.(json)$/
     })
+    .copyFiles({
+        from: './assets/documentation',
+        to: 'documentation/[path][name].[ext]',
+        pattern: /\.(pdf)$/
+    })
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
 

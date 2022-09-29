@@ -5,9 +5,10 @@ global.$ = global.jQuery = $;
 // import
 import './pinsupreme/bower_components/jquery/dist/jquery.min'
 import './lib/bootstrap-bundle/bootstrap.bundle.min'
-// import './pinsupreme/bower_components/moment/moment'
-import './pinsupreme/bower_components/chart.js/dist/Chart.min'
+import './pinsupreme/bower_components/moment/moment'
+// import 'moment/dist/moment'
 import './pinsupreme/bower_components/select2/dist/js/select2.full.min'
+import './pinsupreme/bower_components/chart.js/dist/Chart.min'
 import './pinsupreme/bower_components/ckeditor/ckeditor'
 import './pinsupreme/bower_components/bootstrap-validator/dist/validator.min'
 import './pinsupreme/bower_components/bootstrap-daterangepicker/daterangepicker'

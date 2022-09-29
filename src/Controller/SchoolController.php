@@ -6,7 +6,7 @@ use App\Entity\School;
 use App\Form\SchoolType;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,13 +22,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class SchoolController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SchoolRepository $schoolRepository;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private UserRepository $userRepository;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		SchoolRepository       $schoolRepository,
-		AcitivityService       $activityService,
+		ActivityService        $activityService,
 		UserRepository         $userRepository
 	) {
 		$this->em = $em;

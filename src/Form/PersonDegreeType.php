@@ -10,7 +10,7 @@ use App\Entity\PersonDegree;
 use App\Entity\School;
 use App\Entity\SectorArea;
 use App\Entity\User;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use App\Services\CityService;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityRepository;
@@ -26,12 +26,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PersonDegreeType extends AbstractType {
 	private CityService $cityService;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private PersonDegreeService $degreeService;
 
 	public function __construct(
 		CityService         $cityService,
-		AcitivityService    $activityService,
+		ActivityService     $activityService,
 		PersonDegreeService $degreeService) {
 		$this->cityService = $cityService;
 		$this->activityService = $activityService;

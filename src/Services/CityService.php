@@ -58,9 +58,9 @@ class CityService {
 	private function addRegionField(
 		FormInterface $form,
 		              $country = null,
-		string        $cityName,
-		string        $regionName,
-		bool          $regionMapped): void {
+		?string        $cityName = null,
+		?string        $regionName = null,
+		?bool          $regionMapped = false): void {
 		$builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
 			$regionName,
 			EntityType::class,
@@ -88,7 +88,7 @@ class CityService {
 	/**
 	 * Rajoute un champ city au formulaire
 	 */
-	private function addCityField(FormInterface $form, $region = null, string $cityName): void {
+	private function addCityField(FormInterface $form, $region = null, ?string $cityName = null): void {
 		$form->add($cityName, EntityType::class, [
 			'class' => City::class,
 			'choice_label' => 'name',

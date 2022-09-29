@@ -35,7 +35,7 @@ class ActivityController extends AbstractController {
 		return $this->render('activity/index.html.twig', ['activities' => $activities]);
 	}
 
-	#[Route(path: '/new', name: 'activity_new', methods: ['GET'])]
+	#[Route(path: '/new', name: 'activity_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$activity = new Activity();
 		$form = $this->createForm(ActivityType::class, $activity);
@@ -67,7 +67,7 @@ class ActivityController extends AbstractController {
 		$editForm->handleRequest($request);
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
-			$this->getDoctrine()->getManager()->flush();
+			$this->manager->flush();
 
 			return $this->redirectToRoute('activity_edit', ['id' => $activity->getId()]);
 		}

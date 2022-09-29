@@ -25,7 +25,7 @@
       {#/****************/#}
       <div class="element-wrapper">
         <div class="element-actions">
-          <form class="form-inline justify-content-sm-end" action="{{ path('dasboard_index') }}" method="post">
+          <form class="form-inline justify-content-sm-end" action="{{ path('dashboard_index') }}" method="post">
             <select id="selectCountry" name="selectCountry" class="form-control form-control-sm select-dashboard rounded">
               {% for country in countries %}
                 {% if country.id == idSelectedCountry %}

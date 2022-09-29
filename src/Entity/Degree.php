@@ -22,7 +22,7 @@ class Degree {
 	private string $name;
 
 	#[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
-	private string $description;
+	private ?string $description;
 
 	#[ORM\Column(name: 'level', type: 'integer')]
 	private int $level;
@@ -32,7 +32,7 @@ class Degree {
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Activity $activity;
+	private ?Activity $activity = null;
 
 	public function __construct() {
 		$this->schools = new ArrayCollection();
@@ -42,7 +42,7 @@ class Degree {
 		return $this->id;
 	}
 
-	public function setName(string $name): static {
+	public function setName(string $name): self {
 		$this->name = $name;
 
 		return $this;
@@ -52,11 +52,11 @@ class Degree {
 		return $this->name;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 
-	public function setDescription(string $description): static {
+	public function setDescription(?string $description): self {
 		$this->description = $description;
 		return $this;
 	}
@@ -65,16 +65,16 @@ class Degree {
 		return $this->level;
 	}
 
-	public function setLevel($level): static {
+	public function setLevel($level): self {
 		$this->level = $level;
 		return $this;
 	}
 
-	public function getActivity(): Activity {
+	public function getActivity(): ?Activity {
 		return $this->activity;
 	}
 
-	public function setActivity($activity): static {
+	public function setActivity(?Activity $activity): self {
 		$this->activity = $activity;
 		return $this;
 	}
@@ -83,7 +83,7 @@ class Degree {
 		return $this->name;
 	}
 
-	public function addSchool(School $school): static {
+	public function addSchool(School $school): self {
 		$this->schools->add($school);
 
 		return $this;
@@ -93,7 +93,7 @@ class Degree {
 		$this->schools->removeElement($school);
 	}
 
-	public function getSchools(): ArrayCollection {
+	public function getSchools(): Collection {
 		return $this->schools;
 	}
 }

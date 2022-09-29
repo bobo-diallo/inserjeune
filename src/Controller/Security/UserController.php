@@ -43,7 +43,7 @@ class UserController extends AbstractController {
 		]);
 	}
 
-	#[Route(path: '/new', name: 'user_new', methods: ['GET'])]
+	#[Route(path: '/new', name: 'user_new', methods: ['POST', 'GET'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$user = new User();
 		$form = $this->createForm(UserType::class, $user);
@@ -51,6 +51,7 @@ class UserController extends AbstractController {
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
+			$user->setEnabled(true);
 
 			$this->em->persist($user);
 			$this->em->flush();
@@ -71,12 +72,13 @@ class UserController extends AbstractController {
 		]);
 	}
 
-	#[Route(path: '/{id}/edit', name: 'user_edit', methods: ['GET'])]
+	#[Route(path: '/{id}/edit', name: 'user_edit', methods: ['GET', 'POST', 'PUT'])]
 	public function editAction(Request $request, User $user): RedirectResponse|Response {
 		$editForm = $this->createForm(UserType::class, $user);
 		$editForm->handleRequest($request);
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
+			$user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
 			$this->em->flush();
 
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);

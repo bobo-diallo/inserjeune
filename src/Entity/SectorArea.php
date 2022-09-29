@@ -66,7 +66,7 @@ class SectorArea {
 		$this->activities->removeElement($activity);
 	}
 
-	public function getActivities(): ArrayCollection|Collection {
+	public function getActivities(): Collection {
 		return $this->activities;
 	}
 }

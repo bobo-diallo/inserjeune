@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityRepository;
 
-class AcitivityService {
+class ActivityService {
 
 	private EntityManager $entityManager;
 	private ActivityRepository $activityRepository;
@@ -107,8 +107,8 @@ class AcitivityService {
 	private function addActivityField(
 		FormInterface $form,
 		              $activities = null,
-		string        $activityName,
-		bool          $multiple
+		string        $activityName = null,
+		bool          $multiple = false
 	): void {
 		$builder = ($multiple) ?
 			$this->addMultipleActivity($form, $activities, $activityName) :
@@ -120,7 +120,7 @@ class AcitivityService {
 	private function addUniqueActivity(
 		FormInterface &$form,
 		              $activities = null,
-		string        $activityName
+		?string        $activityName = null
 	): FormBuilderInterface {
 
 		if ($activities instanceof Activity) {
@@ -148,7 +148,7 @@ class AcitivityService {
 		);
 	}
 
-	private function addMultipleActivity(FormInterface &$form, $activities = null, string $activityName): FormBuilderInterface {
+	private function addMultipleActivity(FormInterface &$form, $activities = null, ?string $activityName = null): FormBuilderInterface {
 		return $form->getConfig()->getFormFactory()->createNamedBuilder(
 			$activityName,
 			EntityType::class,

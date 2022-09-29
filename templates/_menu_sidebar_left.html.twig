@@ -1,11 +1,11 @@
 {# Menu lateral gauche #}
 <ul class="main-menu">
-  <li><a href="{{ path('dasboard_index') }}">
+  <li><a href="{{ path('dashboard_index') }}">
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
       </div>
       <span>{{ 'Tableau de bord'|trans }}</span></a></li>
-  <li class="has-sub-menu"><a href="{{ path('dasboard_index') }}">
+  <li class="has-sub-menu"><a href="{{ path('dashboard_index') }}">
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
       </div>
@@ -119,7 +119,7 @@
       <span>Informations</span>
     </a>
     <ul class="sub-menu">
-      <li><a target="_blank" href={{ asset('documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
+      <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
       <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
       <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
       <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>

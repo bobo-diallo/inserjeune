@@ -12,7 +12,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\SatisfactionSalaryRepository;
 use App\Repository\UserRepository;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use App\Services\SchoolService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -29,7 +29,7 @@ use App\Entity\User;
 #[IsGranted('ROLE_ETABLISSEMENT')]
 class FrontSchoolController extends AbstractController {
 	private EntityManagerInterface $em;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private SchoolService $schoolService;
 	private CompanyRepository $companyRepository;
 	private SatisfactionSalaryRepository $satisfactionSalaryRepository;
@@ -38,7 +38,7 @@ class FrontSchoolController extends AbstractController {
 
 	public function __construct(
 		EntityManagerInterface       $em,
-		AcitivityService             $activityService,
+		ActivityService              $activityService,
 		SchoolService                $schoolService,
 		CompanyRepository            $companyRepository,
 		SatisfactionSalaryRepository $satisfactionSalaryRepository,

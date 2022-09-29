@@ -31,10 +31,10 @@ class PersonDegree {
 	private int $lastDegreeMonth;
 
 	#[ORM\Column(name: 'other_degree', type: 'string', length: 255, nullable: true)]
-	private string $otherDegree;
+	private ?string $otherDegree;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
 	private \DateTime $updatedDate;
@@ -46,19 +46,19 @@ class PersonDegree {
 	private \DateTime $previousEndedContract;
 
 	#[ORM\Column(name: 'registration_student_school', type: 'string', length: 255, nullable: true)]
-	private string $registrationStudentSchool;
+	private ?string $registrationStudentSchool;
 
 	#[ORM\Column(name: 'check_school', type: 'boolean', length: 255, nullable: true)]
 	private bool $checkSchool = false;
 
 	#[ORM\Column(name: 'other_school', type: 'string', length: 255, nullable: true)]
-	private string $otherSchool;
+	private ?string $otherSchool;
 
 	#[ORM\Column(name: 'monthly_salary', type: 'integer', nullable: true)]
 	private int $monthlySalary;
 
 	#[ORM\Column(name: 'other_activity', type: 'string', length: 255, nullable: true)]
-	private string $otherActivity;
+	private ?string $otherActivity;
 
 	#[ORM\Column(name: 'lastIdSatisfactionSalary', type: 'integer', nullable: true)]
 	private int $lastIdSatisfactionSalary;
@@ -89,7 +89,7 @@ class PersonDegree {
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Activity $activity;
+	private ?Activity $activity = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
@@ -123,6 +123,7 @@ class PersonDegree {
 	private Collection $satisfactionCreators;
 
 	public function __construct() {
+		$this->createdDate = new \DateTime();
 		$this->socialNetworks = new ArrayCollection();
 		$this->satisfactionSearches = new ArrayCollection();
 		$this->satisfactionSalaries = new ArrayCollection();
@@ -164,7 +165,7 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function setStatus(bool $status = true) {
+	public function setStatus(?bool $status = true) {
 		if (!is_bool($status)) $status = true;
 		$this->status = $status;
 	}
@@ -207,20 +208,20 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getOtherDegree(): string {
+	public function getOtherDegree(): ?string {
 		return $this->otherDegree;
 	}
 
-	public function setOtherDegree(string $otherDegree): self {
+	public function setOtherDegree(?string $otherDegree): self {
 		$this->otherDegree = $otherDegree;
 		return $this;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): self {
+	public function setCreatedDate(?\DateTime $createdDate): self {
 		$this->createdDate = $createdDate;
 		return $this;
 	}
@@ -261,11 +262,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getRegistrationStudentSchool(): string {
+	public function getRegistrationStudentSchool(): ?string {
 		return $this->registrationStudentSchool;
 	}
 
-	public function setRegistrationStudentSchool(string $registrationStudentSchool): self {
+	public function setRegistrationStudentSchool(?string $registrationStudentSchool): self {
 		$this->registrationStudentSchool = $registrationStudentSchool;
 		return $this;
 	}
@@ -279,11 +280,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getOtherSchool(): string {
+	public function getOtherSchool(): ?string {
 		return $this->otherSchool;
 	}
 
-	public function setOtherSchool(string $otherSchool): self {
+	public function setOtherSchool(?string $otherSchool): self {
 		$this->otherSchool = $otherSchool;
 		return $this;
 	}
@@ -306,11 +307,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getActivity(): Activity {
+	public function getActivity(): ?Activity {
 		return $this->activity;
 	}
 
-	public function setActivity(Activity $activity): self {
+	public function setActivity(?Activity $activity): self {
 		$this->activity = $activity;
 		return $this;
 	}
@@ -342,11 +343,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getOtherActivity(): string {
+	public function getOtherActivity(): ?string {
 		return $this->otherActivity;
 	}
 
-	public function setOtherActivity(string $otherActivity): self {
+	public function setOtherActivity(?string $otherActivity): self {
 		$this->otherActivity = $otherActivity;
 		return $this;
 	}
@@ -361,7 +362,7 @@ class PersonDegree {
 		return $this->socialNetworks->removeElement($socialNetwork);
 	}
 
-	public function getSocialNetworks(): ArrayCollection {
+	public function getSocialNetworks(): Collection {
 		return $this->socialNetworks;
 	}
 
@@ -389,7 +390,7 @@ class PersonDegree {
 		return $this->satisfactionSalaries->removeElement($satisfactionSalary);
 	}
 
-	public function getSatisfactionSalaries(): ArrayCollection {
+	public function getSatisfactionSalaries(): Collection {
 		return $this->satisfactionSalaries;
 	}
 
@@ -403,7 +404,7 @@ class PersonDegree {
 		return $this->satisfactionSearches->removeElement($satisfactionSearch);
 	}
 
-	public function getSatisfactionSearches(): ArrayCollection {
+	public function getSatisfactionSearches(): Collection {
 		return $this->satisfactionSearches;
 	}
 
@@ -417,7 +418,7 @@ class PersonDegree {
 		return $this->satisfactionCreators->removeElement($satisfactionCreator);
 	}
 
-	public function getSatisfactionCreators(): ArrayCollection {
+	public function getSatisfactionCreators(): Collection {
 		return $this->satisfactionCreators;
 	}
 

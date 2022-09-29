@@ -308,7 +308,7 @@ class SatisfactionSalary {
 		$this->jobNotFoundReasons->removeElement($jobNotFoundReason);
 	}
 
-	public function getJobNotFoundReasons(): ArrayCollection {
+	public function getJobNotFoundReasons(): Collection {
 		return $this->jobNotFoundReasons;
 	}
 

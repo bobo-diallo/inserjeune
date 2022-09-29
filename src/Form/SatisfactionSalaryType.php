@@ -8,7 +8,7 @@ use App\Entity\JobNotFoundReason;
 use App\Entity\SatisfactionSalary;
 use App\Entity\Company;
 use App\Entity\SectorArea;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,9 +21,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SatisfactionSalaryType extends AbstractType {
 
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 
-	public function __construct(AcitivityService $activityService) {
+	public function __construct(ActivityService $activityService) {
 		$this->activityService = $activityService;
 	}
 

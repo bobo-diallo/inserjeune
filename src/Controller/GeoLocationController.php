@@ -44,7 +44,7 @@ class GeoLocationController extends AbstractController {
 		$this->personDegreeRepository = $personDegreeRepository;
 	}
 
-	#[Route(path: '/', name: 'geolocation', methods: ['GET'])]
+	#[Route(path: '/', name: 'geolocation', methods: ['GET', 'POST'])]
 	public function indexAction(Request $request): Response {
 		$geoLocation = new GeoLocation();
 		$selectedCountry = $this->getUser()->getCountry();

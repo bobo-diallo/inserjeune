@@ -88,7 +88,7 @@ class FrontCompanyController extends AbstractController {
 		return $this->render('company/show.html.twig', ['company' => $company]);
 	}
 
-	#[Route(path: '/edit', name: 'front_company_edit', methods: ['GET'])]
+	#[Route(path: '/edit', name: 'front_company_edit', methods: ['GET', 'POST', 'PUT'])]
 	public function editAction(Request $request): RedirectResponse|Response {
 		$company = $this->companyService->getCompany();
 		$createdDate = $company->getCreatedDate();

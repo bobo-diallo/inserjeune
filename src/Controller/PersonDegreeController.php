@@ -7,7 +7,7 @@ use App\Entity\School;
 use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -25,13 +25,13 @@ use App\Entity\User;
 class PersonDegreeController extends AbstractController {
 	private EntityManagerInterface $em;
 	private PersonDegreeRepository $personDegreeRepository;
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 	private UserRepository $userRepository;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		PersonDegreeRepository $personDegreeRepository,
-		AcitivityService       $activityService,
+		ActivityService        $activityService,
 		UserRepository         $userRepository
 	) {
 		$this->em = $em;

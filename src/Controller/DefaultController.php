@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends AbstractController {
 	#[Route(path: '/', name: 'homepage', methods: ['GET'])]
 	public function indexAction(Request $request): RedirectResponse {
-		return $this->redirectToRoute('dasboard_index');
+		return $this->redirectToRoute('dashboard_index');
 	}
 
 	#[Route(path: '/rgpd_informations', name: 'rgpd_informations', methods: ['GET'])]

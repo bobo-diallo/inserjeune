@@ -23,7 +23,7 @@ class Activity {
 	#[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
 	private string $description;
 
-	#[ORM\ManyToMany(targetEntity: SectorArea::class, inversedBy: 'activities')]
+	#[ORM\ManyToOne(targetEntity: SectorArea::class, inversedBy: 'activities')]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
 	private SectorArea $sectorArea;
 
@@ -78,7 +78,7 @@ class Activity {
 		$this->country->removeElement($country);
 	}
 
-	public function getCountry(): ArrayCollection|Collection {
+	public function getCountry(): Collection {
 		return $this->country;
 	}
 

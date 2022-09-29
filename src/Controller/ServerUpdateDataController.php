@@ -1054,7 +1054,6 @@ class ServerUpdateDataController extends AbstractController {
 		return new ArrayCollection([$serverObject, $response]);
 	}
 
-	#[Route(path: '/', name: 'sectorarea_index', methods: ['GET'])]
 	public function checkGetMethod(string $attributeName, \ReflectionClass $class): ?string {
 		$getMethod = null;
 		$getMethodName = "get" . ucfirst($attributeName);

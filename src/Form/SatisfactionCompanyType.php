@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\SatisfactionCompany;
 use App\Entity\SectorArea;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -15,9 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
 class SatisfactionCompanyType extends AbstractType {
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 
-	public function __construct(AcitivityService $activityService) {
+	public function __construct(ActivityService $activityService) {
 		$this->activityService = $activityService;
 	}
 
@@ -95,7 +95,7 @@ class SatisfactionCompanyType extends AbstractType {
 					'excellent' => 'excellent',
 				],
 				'expanded' => true,
-				'choices_as_values' => true,
+				// 'choices_as_values' => false,
 				'attr' => ['class' => 'form-check']
 			])
 			->add('levelGlobalSkill', ChoiceType::class, [

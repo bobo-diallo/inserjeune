@@ -36,7 +36,7 @@ class RoleController extends AbstractController {
 		));
 	}
 
-	#[Route('/new', name: 'role_new', methods: ['GET'])]
+	#[Route('/new', name: 'role_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$role = new Role();
 		$form = $this->createForm(RoleType::class, $role);

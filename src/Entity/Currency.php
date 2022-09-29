@@ -85,7 +85,7 @@ class Currency {
 		$this->countries->removeElement($country);
 	}
 
-	public function getCountries(): ArrayCollection {
+	public function getCountries(): Collection {
 		return $this->countries;
 	}
 

@@ -16,7 +16,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column(type: 'integer')]
-	private ?int $id = null;
+	protected ?int $id = null;
 
 	#[ORM\Column(type: 'string', length: 180, unique: true)]
 	private ?string $username;
@@ -25,10 +25,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	private array $roles = [];
 
 	#[ORM\Column(type: 'string')]
-	private string $password;
+	private ?string $password;
 
-	#[ORM\Column(type: 'string')]
-	private string $plainPassword;
+	private ?string $plainPassword = null;
 
 	#[ORM\Column(name: 'api_token', type: 'string', unique: true, nullable: true)]
 	private string $apiToken;
@@ -39,6 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
 	protected string $phone;
+
+	#[ORM\Column(name: 'enabled', type: 'boolean')]
+	protected bool $enabled = false;
 
 	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
@@ -145,17 +147,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	/**
 	 * @see PasswordAuthenticatedUserInterface
 	 */
-	public function getPassword(): string {
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 
-	public function setPassword(string $password): self {
+	public function setPassword(?string $password): self {
 		$this->password = $password;
 
 		return $this;
 	}
 
-	public function plainPassword(): string {
+	public function getPlainPassword(): ?string {
 		return $this->plainPassword;
 	}
 
@@ -185,7 +187,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->profils->removeElement($profil);
 	}
 
-	public function getProfils(): ArrayCollection {
+	public function getProfils(): Collection {
 		return $this->profils;
 	}
 
@@ -202,7 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->phone = $phone;
 	}
 
-	public function email(): string {
+	public function getEmail(): string {
 		return $this->email;
 	}
 
@@ -246,7 +248,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->school = $school;
 	}
 
-	public function getCompany(): ?CSchool {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
@@ -254,4 +256,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->company = $company;
 		return $this;
 	}
+
+	public function isEnabled(): bool {
+		return $this->enabled;
+	}
+
+	/**
+	 * @param bool $enabled
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
+	}
+
 }

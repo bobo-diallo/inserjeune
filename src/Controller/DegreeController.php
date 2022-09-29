@@ -58,7 +58,7 @@ class DegreeController extends AbstractController {
 		]);
 	}
 
-	#[Route(path: '/{id}/edit', name: 'homepage', methods: ['GET', 'POST'])]
+	#[Route(path: '/{id}/edit', name: 'degree_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, Degree $degree): RedirectResponse|Response {
 		$editForm = $this->createForm(DegreeType::class, $degree);
 		$editForm->handleRequest($request);

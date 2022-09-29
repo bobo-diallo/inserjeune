@@ -6,7 +6,7 @@ use App\Entity\Degree;
 use App\Entity\JobNotFoundReason;
 use App\Entity\SatisfactionSearch;
 use App\Entity\SectorArea;
-use App\Services\AcitivityService;
+use App\Services\ActivityService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\AbstractType;
@@ -19,9 +19,9 @@ use Doctrine\ORM\EntityRepository;
 
 class SatisfactionSearchType extends AbstractType
 {
-	private AcitivityService $activityService;
+	private ActivityService $activityService;
 
-	public function __construct(AcitivityService $activityService)
+	public function __construct(ActivityService $activityService)
    {
 	   $this->activityService = $activityService;
    }
