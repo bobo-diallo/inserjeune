@@ -188,7 +188,14 @@ class FrontCompanyJobOfferController extends AbstractController {
 		return $message;
 	}
 
-	public function attachFile($message, string $fileType = 'image/jpeg', $filename, $attachement, $boundary, $nextLine): string {
+	public function attachFile(
+		$message,
+		string $fileType = 'image/jpeg',
+		$filename = null,
+		$attachement = null,
+		$boundary = null,
+		$nextLine = null
+	): string {
 		$message .= "Content-Type: $fileType; name=\"$filename\"$nextLine";
 		$message .= "Content-Transfer-Encoding: base64$nextLine";
 		$message .= "Content-Disposition: attachment; filename=\"$filename\"$nextLine";

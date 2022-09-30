@@ -17,7 +17,7 @@ class Contract {
 	private string $name;
 
 	#[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
-	private string $description;
+	private ?string $description;
 
 
 	public function getId(): ?int {
@@ -34,13 +34,13 @@ class Contract {
 		return $this->name;
 	}
 
-	public function setDescription($description): self {
+	public function setDescription(?string $description): self {
 		$this->description = $description;
 
 		return $this;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 

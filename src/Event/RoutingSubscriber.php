@@ -54,21 +54,21 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 	}
 
 	public function onKernelLoginRequest(RequestEvent $event) {
-		// $route = $event->getRequest()->attributes->get('_route');
-		// $request = $event->getRequest()->request;
-		//
-		// if ($route === 'check_path') {
-		// 	$phone = $request->get('_username');
-		// 	$user = $this->userRepository->findOneBy(['phone' => $phone]);
-		//
-		// 	if ($user) {
-		// 		$username = $user->getUsername();
-		// 	} else {
-		// 		$username = ($this->userRepository->findOneBy(['username' => $phone])) ? ' ' : $phone;
-		// 	}
-		//
-		// 	$request->set('_username', $username);
-		// }
+		$route = $event->getRequest()->attributes->get('_route');
+		$request = $event->getRequest()->request;
+
+		if ($route === 'login' && $event->getRequest()->getMethod() === 'POST') {
+			$phone = $request->get('_username');
+			$user = $this->userRepository->findOneBy(['phone' => $phone]);
+
+			if ($user) {
+				$username = $user->getUsername();
+			} else {
+				$username = ($this->userRepository->findOneBy(['username' => $phone])) ? ' ' : $phone;
+			}
+
+			$request->set('_username', $username);
+		}
 	}
 
 	public function onKernelCompanyRequest(RequestEvent $event) {

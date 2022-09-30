@@ -24,7 +24,7 @@ class Country {
 	#[ORM\Column(name: 'valid', type: 'boolean')]
 	private bool $valid;
 
-	#[ORM\Column(name: 'name', type: 'string', length: 255)]
+	#[ORM\Column(name: 'name', type: 'string', length: 255, unique: false)]
 	#[Assert\NotBlank]
 	private ?string $name = null;
 

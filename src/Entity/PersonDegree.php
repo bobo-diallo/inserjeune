@@ -19,16 +19,16 @@ class PersonDegree {
 	private bool $status = true;
 
 	#[ORM\Column(name: 'type', type: 'string', nullable: true)]
-	private string $type;
+	private ?string $type;
 
 	#[ORM\Column(name: 'agree_rgpd', type: 'boolean', nullable: true)]
 	private bool $agreeRgpd = false;
 
 	#[ORM\Column(name: 'last_degree_year', type: 'integer', nullable: true)]
-	private int $lastDegreeYear;
+	private ?int $lastDegreeYear;
 
 	#[ORM\Column(name: 'last_degree_month', type: 'integer', nullable: true)]
-	private int $lastDegreeMonth;
+	private ?int $lastDegreeMonth;
 
 	#[ORM\Column(name: 'other_degree', type: 'string', length: 255, nullable: true)]
 	private ?string $otherDegree;
@@ -37,41 +37,41 @@ class PersonDegree {
 	private ?\DateTime $createdDate;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate = null;
 
 	#[ORM\Column(name: 'client_updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $clientUpdateDate;
+	private ?\DateTime $clientUpdateDate = null;
 
 	#[ORM\Column(name: 'previousEndedContract', type: 'datetime', nullable: true)]
-	private \DateTime $previousEndedContract;
+	private ?\DateTime $previousEndedContract = null;
 
 	#[ORM\Column(name: 'registration_student_school', type: 'string', length: 255, nullable: true)]
 	private ?string $registrationStudentSchool;
 
 	#[ORM\Column(name: 'check_school', type: 'boolean', length: 255, nullable: true)]
-	private bool $checkSchool = false;
+	private ?bool $checkSchool = false;
 
 	#[ORM\Column(name: 'other_school', type: 'string', length: 255, nullable: true)]
 	private ?string $otherSchool;
 
 	#[ORM\Column(name: 'monthly_salary', type: 'integer', nullable: true)]
-	private int $monthlySalary;
+	private ?int $monthlySalary;
 
 	#[ORM\Column(name: 'other_activity', type: 'string', length: 255, nullable: true)]
 	private ?string $otherActivity;
 
 	#[ORM\Column(name: 'lastIdSatisfactionSalary', type: 'integer', nullable: true)]
-	private int $lastIdSatisfactionSalary;
+	private ?int $lastIdSatisfactionSalary;
 
 	#[ORM\Column(name: 'lastIdSatisfactionSearch', type: 'integer', nullable: true)]
-	private int $lastIdSatisfactionSearch;
+	private ?int $lastIdSatisfactionSearch;
 
 	#[ORM\Column(name: 'lastIdSatisfactionCreato', type: 'integer', nullable: true)]
-	private int $lastIdSatisfactionCreator;
+	private ?int $lastIdSatisfactionCreator;
 
 	#[ORM\ManyToOne(targetEntity: Degree::class)]
 	#[ORM\JoinColumn(name: 'id_degree', referencedColumnName: 'id', nullable: true)]
-	private Degree $degree;
+	private ?Degree $degree = null;
 
 	#[ORM\ManyToMany(targetEntity: SocialNetwork::class, cascade: ['persist', 'remove'])]
 	#[ORM\JoinTable(name: 'persons_socials')]
@@ -81,11 +81,11 @@ class PersonDegree {
 
 	#[ORM\ManyToOne(targetEntity: School::class)]
 	#[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id', nullable: true)]
-	private School $school;
+	private ?School $school = null;
 
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	#[ORM\JoinColumn(name: 'lasted_company_id', referencedColumnName: 'id', nullable: true)]
-	private Company $lastedCompany;
+	private ?Company $lastedCompany = null;
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
@@ -101,11 +101,11 @@ class PersonDegree {
 
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	#[ORM\JoinColumn(name: 'lasted_company_id', referencedColumnName: 'id', nullable: true)]
-	private Company $company;
+	private ?Company $company = null;
 
 	#[ORM\OneToOne(inversedBy: 'personDegree', targetEntity: User::class)]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
-	private User $user;
+	private ?User $user = null;
 
 	#[ORM\ManyToMany(targetEntity: InfoCreator::class, cascade: ['persist'])]
 	#[ORM\JoinTable(name: 'person_degree_info_creators')]
@@ -174,36 +174,36 @@ class PersonDegree {
 		return $this->type;
 	}
 
-	public function getType(): string {
+	public function getType(): ?string {
 		return $this->type;
 	}
 
-	public function setType(string $type): void {
+	public function setType(?string $type): void {
 		$this->type = $type;
 	}
 
-	public function getLastDegreeYear(): int {
+	public function getLastDegreeYear(): ?int {
 		return $this->lastDegreeYear;
 	}
 
-	public function setLastDegreeYear(int $lastDegreeYear): void {
+	public function setLastDegreeYear(?int $lastDegreeYear): void {
 		$this->lastDegreeYear = $lastDegreeYear;
 	}
 
-	public function getLastDegreeMonth(): int {
+	public function getLastDegreeMonth(): ?int {
 		return $this->lastDegreeMonth;
 	}
 
-	public function setLastDegreeMonth(int $lastDegreeMonth): self {
+	public function setLastDegreeMonth(?int $lastDegreeMonth): self {
 		$this->lastDegreeMonth = $lastDegreeMonth;
 		return $this;
 	}
 
-	public function getDegree(): Degree {
+	public function getDegree(): ?Degree {
 		return $this->degree;
 	}
 
-	public function setDegree(Degree $degree): self {
+	public function setDegree(?Degree $degree): self {
 		$this->degree = $degree;
 		return $this;
 	}
@@ -226,38 +226,38 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}
 
-	public function getClientUpdateDate(): \DateTime {
+	public function getClientUpdateDate(): ?\DateTime {
 		return $this->clientUpdateDate;
 	}
 
-	public function setClientUpdateDate(\DateTime $clientUpdateDate): self {
+	public function setClientUpdateDate(?\DateTime $clientUpdateDate): self {
 		$this->clientUpdateDate = $clientUpdateDate;
 		return $this;
 	}
 
-	public function getPreviousEndedContract(): \DateTime {
+	public function getPreviousEndedContract(): ?\DateTime {
 		return $this->previousEndedContract;
 	}
 
-	public function setPreviousEndedContract(\DateTime $previousEndedContract): self {
+	public function setPreviousEndedContract(?\DateTime $previousEndedContract): self {
 		$this->previousEndedContract = $previousEndedContract;
 		return $this;
 	}
 
-	public function getSchool(): School {
+	public function getSchool(): ?School {
 		return $this->school;
 	}
 
-	public function setSchool(School $school): self {
+	public function setSchool(?School $school): self {
 		$this->school = $school;
 		return $this;
 	}
@@ -271,11 +271,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function isCheckSchool(): bool {
+	public function isCheckSchool(): ?bool {
 		return $this->checkSchool;
 	}
 
-	public function setCheckSchool(bool $checkSchool): self {
+	public function setCheckSchool(?bool $checkSchool = false): self {
 		$this->checkSchool = $checkSchool;
 		return $this;
 	}
@@ -289,20 +289,20 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getLastedCompany(): Company {
+	public function getLastedCompany(): ?Company {
 		return $this->lastedCompany;
 	}
 
-	public function setLastedCompany(Company $lastedCompany): self {
+	public function setLastedCompany(?Company $lastedCompany): self {
 		$this->lastedCompany = $lastedCompany;
 		return $this;
 	}
 
-	public function getMonthlySalary(): int {
+	public function getMonthlySalary(): ?int {
 		return $this->monthlySalary;
 	}
 
-	public function setMonthlySalary(int $monthlySalary): self {
+	public function setMonthlySalary(?int $monthlySalary): self {
 		$this->monthlySalary = $monthlySalary;
 		return $this;
 	}
@@ -325,11 +325,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getCompany(): Company {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
-	public function setCompany(Company $company): self {
+	public function setCompany(?Company $company): self {
 		$this->company = $company;
 		return $this;
 	}
@@ -438,39 +438,39 @@ class PersonDegree {
 		return $this->status;
 	}
 
-	public function setUser(User $user = null): self {
+	public function setUser(?User $user = null): self {
 		$this->user = $user;
 
 		return $this;
 	}
 
-	public function getUser(): User {
+	public function getUser(): ?User {
 		return $this->user;
 	}
 
-	public function getLastIdSatisfactionSalary(): int {
+	public function getLastIdSatisfactionSalary(): ?int {
 		return $this->lastIdSatisfactionSalary;
 	}
 
-	public function setLastIdSatisfactionSalary(int $lastIdSatisfactionSalary): self {
+	public function setLastIdSatisfactionSalary(?int $lastIdSatisfactionSalary): self {
 		$this->lastIdSatisfactionSalary = $lastIdSatisfactionSalary;
 		return $this;
 	}
 
-	public function getLastIdSatisfactionSearch(): int {
+	public function getLastIdSatisfactionSearch(): ?int {
 		return $this->lastIdSatisfactionSearch;
 	}
 
-	public function setLastIdSatisfactionSearch(int $lastIdSatisfactionSearch): self {
+	public function setLastIdSatisfactionSearch(?int $lastIdSatisfactionSearch): self {
 		$this->lastIdSatisfactionSearch = $lastIdSatisfactionSearch;
 		return $this;
 	}
 
-	public function getLastIdSatisfactionCreator(): int {
+	public function getLastIdSatisfactionCreator(): ?int {
 		return $this->lastIdSatisfactionCreator;
 	}
 
-	public function setLastIdSatisfactionCreator(int $lastIdSatisfactionCreator): self {
+	public function setLastIdSatisfactionCreator(?int $lastIdSatisfactionCreator): self {
 		$this->lastIdSatisfactionCreator = $lastIdSatisfactionCreator;
 		return $this;
 	}

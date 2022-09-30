@@ -18,16 +18,16 @@ class GeoLocation {
 	private ?City $city = null;
 
 	#[ORM\Column(name: 'other_city', type: 'string', length: 255, nullable: true)]
-	private string $otherCity;
+	private ?string $otherCity;
 
 	#[ORM\Column(name: 'address_locality', type: 'string', nullable: true)]
-	private string $locality;
+	private ?string $locality;
 
 	#[ORM\Column(name: 'address_road', type: 'string', nullable: true)]
-	private string $road;
+	private ?string $road;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
-	private int $number;
+	private ?int $number;
 
 	#[ORM\Column(name: 'show_companies', type: 'boolean')]
 	private bool $showCompanies;
@@ -58,34 +58,34 @@ class GeoLocation {
 		return $this->id;
 	}
 
-	public function getLocality(): string {
+	public function getLocality(): ?string {
 		return $this->locality;
 	}
 
-	public function setLocality(string $locality): self {
+	public function setLocality(?string $locality): self {
 		$this->locality = $locality;
 		return $this;
 	}
 
-	public function getRoad(): string {
+	public function getRoad(): ?string {
 		return $this->road;
 	}
 
-	public function setRoad($road): self {
+	public function setRoad(?string $road): self {
 		$this->road = $road;
 		return $this;
 	}
 
-	public function getNumber(): int {
+	public function getNumber(): ?int {
 		return $this->number;
 	}
 
-	public function setNumber(int $number): self {
+	public function setNumber(?int $number): self {
 		$this->number = $number;
 		return $this;
 	}
 
-	public function setCity(City $city = null): self {
+	public function setCity(?City $city = null): self {
 		$this->city = $city;
 
 		return $this;
@@ -95,22 +95,22 @@ class GeoLocation {
 		return $this->city;
 	}
 
-	public function getOtherCity(): string {
+	public function getOtherCity(): ?string {
 		return $this->otherCity;
 	}
 
-	public function setOtherCity(string $otherCity): self {
+	public function setOtherCity(?string $otherCity): self {
 		$this->otherCity = $otherCity;
 		return $this;
 	}
 
-	public function setRegion(Region $region = null): self {
+	public function setRegion(?Region $region = null): self {
 		$this->region = $region;
 
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 

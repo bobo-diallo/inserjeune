@@ -79,7 +79,7 @@ cache: ## Clear cache
 	@$(SYMFONY) cache:clear --env=dev
 
 install: ## Install the project on local (remove/create database, run migrations, load fixture)
-	 php bin/console d:d:d --force && php bin/console d:d:c && php bin/console d:m:m -n && php bin/console d:f:l -n
+	 composer install && php bin/console d:d:d --force && php bin/console d:d:c && php bin/console d:m:m -n && php bin/console d:f:l -n
 
 install-front: ## Install npm packages and build
 	 npm install && npm run build

@@ -132,7 +132,7 @@
 </div>
 
 <select hidden id="selectedCountry">
-  {%  if selectedCountry %}
+  {%  if selectedCountry is not null %}
     <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
   {%  endif %}
 </select>

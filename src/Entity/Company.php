@@ -19,16 +19,16 @@ class Company {
 	private string $name;
 
 	#[ORM\Column(name: 'url', type: 'string', length: 255, nullable: true)]
-	private string $url;
+	private ?string $url;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime')]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate = null;
 
 	#[ORM\Column(name: 'client_updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $clientUpdateDate;
+	private ?\DateTime $clientUpdateDate = null;
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
@@ -46,13 +46,13 @@ class Company {
 	private ?Country $country = null;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
-	private int $addressNumber;
+	private ?int $addressNumber;
 
 	#[ORM\Column(name: 'address_locality', type: 'string', nullable: true)]
-	private string $addressLocality;
+	private ?string $addressLocality;
 
 	#[ORM\Column(name: 'address_road', type: 'string', nullable: true)]
-	private string $addressRoad;
+	private ?string $addressRoad;
 
 	#[ORM\Column(name: 'phone_standard', type: 'string')]
 	private ?string $phoneStandard = null;
@@ -69,7 +69,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
-	private SectorArea $sectorArea;
+	private ?SectorArea $sectorArea = null;
 
 	#[ORM\ManyToOne(targetEntity: LegalStatus::class)]
 	#[ORM\JoinColumn(name: 'id_legal_status', referencedColumnName: 'id')]
@@ -97,20 +97,20 @@ class Company {
 	private Collection $socialNetworks;
 
 	#[ORM\Column(name: 'latitude', type: 'string', nullable: true)]
-	private string $latitude;
+	private ?string $latitude;
 
 	#[ORM\Column(name: 'longitude', type: 'string', nullable: true)]
-	private string $longitude;
+	private ?string $longitude;
 
 	#[ORM\Column(name: 'maps_address', type: 'string', nullable: true)]
-	private string $mapsAddress;
+	private ?string $mapsAddress;
 
 	#[ORM\Column(name: 'location_fixed', type: 'boolean')]
 	private bool $locationFixed = false;
 
 	#[ORM\ManyToOne(targetEntity: 'User')]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
-	private User $user;
+	private ?User $user = null;
 
 	#[ORM\Column(name: 'agree_rgpd', type: 'boolean', nullable: true)]
 	private bool $agreeRgpd = false;
@@ -141,39 +141,39 @@ class Company {
 		return $this;
 	}
 
-	public function getUrl(): string {
+	public function getUrl(): ?string {
 		return $this->url;
 	}
 
-	public function setUrl(string $url): self {
+	public function setUrl(?string $url): self {
 		$this->url = $url;
 		return $this;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): self {
+	public function setCreatedDate(?\DateTime $createdDate): self {
 		$this->createdDate = $createdDate;
 
 		return $this;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}
 
-	public function getClientUpdateDate(): \DateTime {
+	public function getClientUpdateDate(): ?\DateTime {
 		return $this->clientUpdateDate;
 	}
 
-	public function setClientUpdateDate(\DateTime $clientUpdateDate): self {
+	public function setClientUpdateDate(?\DateTime $clientUpdateDate): self {
 		$this->clientUpdateDate = $clientUpdateDate;
 		return $this;
 	}
@@ -197,32 +197,32 @@ class Company {
 		return $this;
 	}
 
-	public function getAddressNumber(): int {
+	public function getAddressNumber(): ?int {
 		return $this->addressNumber;
 	}
 
-	public function setAddressNumber(int $addressNumber) {
+	public function setAddressNumber(?int $addressNumber) {
 		$this->addressNumber = $addressNumber;
 
 		return $this;
 	}
 
-	public function getAddressLocality(): string {
+	public function getAddressLocality(): ?string {
 		return $this->addressLocality;
 	}
 
-	public function setAddressLocality(string $addressLocality): self {
+	public function setAddressLocality(?string $addressLocality): self {
 		$this->addressLocality = $addressLocality;
 
 		return $this;
 	}
 
 
-	public function getAddressRoad(): string {
+	public function getAddressRoad(): ?string {
 		return $this->addressRoad;
 	}
 
-	public function setAddressRoad(string $addressRoad): self {
+	public function setAddressRoad(?string $addressRoad): self {
 		$this->addressRoad = $addressRoad;
 
 		return $this;
@@ -254,11 +254,11 @@ class Company {
 		$this->email = $email;
 	}
 
-	public function getSectorArea(): SectorArea {
+	public function getSectorArea(): ?SectorArea {
 		return $this->sectorArea;
 	}
 
-	public function setSectorArea(SectorArea $sectorArea = null): self {
+	public function setSectorArea(?SectorArea $sectorArea = null): self {
 		$this->sectorArea = $sectorArea;
 
 		return $this;
@@ -402,29 +402,29 @@ class Company {
 		return $this->socialNetworks;
 	}
 
-	public function getLatitude(): string {
+	public function getLatitude(): ?string {
 		return $this->latitude;
 	}
 
-	public function setLatitude(string $latitude): self {
+	public function setLatitude(?string $latitude): self {
 		$this->latitude = $latitude;
 		return $this;
 	}
 
-	public function getLongitude(): string {
+	public function getLongitude(): ?string {
 		return $this->longitude;
 	}
 
-	public function setLongitude(string $longitude): self {
+	public function setLongitude(?string $longitude): self {
 		$this->longitude = $longitude;
 		return $this;
 	}
 
-	public function getMapsAddress(): string {
+	public function getMapsAddress(): ?string {
 		return $this->mapsAddress;
 	}
 
-	public function setMapsAddress(string $mapsAddress): self {
+	public function setMapsAddress(?string $mapsAddress): self {
 		$this->mapsAddress = $mapsAddress;
 		return $this;
 	}
@@ -467,13 +467,13 @@ class Company {
 		return $this->country;
 	}
 
-	public function setUser(User $user = null): self {
+	public function setUser(?User $user = null): self {
 		$this->user = $user;
 
 		return $this;
 	}
 
-	public function getUser(): User {
+	public function getUser(): ?User {
 		return $this->user;
 	}
 

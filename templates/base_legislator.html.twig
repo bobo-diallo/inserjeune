@@ -26,7 +26,7 @@
       <div class="menu-and-user">
         {# Menu lateral gauche #}
         <ul class="main-menu">
-          <li><a href="{{ path('dasboard_index') }}">
+          <li><a href="{{ path('dashboard_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
               </div>
@@ -92,7 +92,7 @@
           </li>
           {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
             <li>
-              <a href="{{ path('fos_user_security_logout') }}">
+              <a href="{{ path('logout') }}">
                 <div class="icon-w">
                   <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
                 </div>
