@@ -27,29 +27,29 @@ class JobOffer {
 	private string $description;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'closed_date', type: 'datetime', nullable: true)]
-	private \DateTime $closedDate;
+	private ?\DateTime $closedDate = null;
 
 	#[ORM\Column(name: 'posted_contact', type: 'string', length: 255, nullable: true)]
-	private string $postedContact;
+	private ?string $postedContact;
 
 	#[ORM\Column(name: 'posted_phone', type: 'string', length: 255, nullable: true)]
 	private ?string $postedPhone;
 
 	#[ORM\Column(name: 'posted_email', type: 'string', length: 255)]
 	#[Assert\Email]
-	private string $postedEmail;
+	private ?string $postedEmail;
 
 	#[ORM\Column(name: 'cover_letter', type: 'string', nullable: true)]
-	private string $coverLetter;
+	private ?string $coverLetter;
 
 	#[ORM\Column(name: 'other_activity', type: 'string', length: 255, nullable: true)]
-	private string $otherActivity;
+	private ?string $otherActivity;
 
 	#[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
-	private string $filename;
+	private ?string $filename;
 
 	#[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'jobOffers')]
 	#[ORM\JoinColumn(name: 'id_company', referencedColumnName: 'id')]
@@ -65,11 +65,11 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: Contract::class)]
 	#[ORM\JoinColumn(name: 'lasted_contract_id', referencedColumnName: 'id', nullable: true)]
-	private Contract $contract;
+	private ?Contract $contract = null;
 
 	#[ORM\ManyToOne(targetEntity: Image::class)]
 	#[ORM\JoinColumn(name: 'id_image', referencedColumnName: 'id', nullable: true)]
-	private Image $image;
+	private ?Image $image = null;
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
@@ -108,21 +108,21 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): self {
+	public function setCreatedDate(?\DateTime $createdDate): self {
 		$this->createdDate = $createdDate;
 
 		return $this;
 	}
 
-	public function getClosedDate(): \DateTime {
+	public function getClosedDate(): ?\DateTime {
 		return $this->closedDate;
 	}
 
-	public function setClosedDate(\DateTime $closedDate): self {
+	public function setClosedDate(?\DateTime $closedDate): self {
 		$this->closedDate = $closedDate;
 
 		return $this;
@@ -148,21 +148,21 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getPostedEmail(): string {
+	public function getPostedEmail(): ?string {
 		return $this->postedEmail;
 	}
 
-	public function setPostedEmail(string $postedEmail): self {
+	public function setPostedEmail(?string $postedEmail): self {
 		$this->postedEmail = $postedEmail;
 
 		return $this;
 	}
 
-	public function getPostedContact(): string {
+	public function getPostedContact(): ?string {
 		return $this->postedContact;
 	}
 
-	public function setPostedContact(string $postedContact): self {
+	public function setPostedContact(?string $postedContact): self {
 		$this->postedContact = $postedContact;
 		return $this;
 	}
@@ -176,11 +176,11 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getCoverLetter(): string {
+	public function getCoverLetter(): ?string {
 		return $this->coverLetter;
 	}
 
-	public function setCoverLetter(string $coverLetter): self {
+	public function setCoverLetter(?string $coverLetter): self {
 		$this->coverLetter = $coverLetter;
 		return $this;
 	}
@@ -203,29 +203,29 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getOtherActivity(): string {
+	public function getOtherActivity(): ?string {
 		return $this->otherActivity;
 	}
 
-	public function setOtherActivity(string $otherActivity): self {
+	public function setOtherActivity(?string $otherActivity): self {
 		$this->otherActivity = $otherActivity;
 		return $this;
 	}
 
-	public function getContract(): Contract {
+	public function getContract(): ?Contract {
 		return $this->contract;
 	}
 
-	public function setContract(Contract $contract): self {
+	public function setContract(?Contract $contract): self {
 		$this->contract = $contract;
 		return $this;
 	}
 
-	public function getImage(): Image {
+	public function getImage(): ?Image {
 		return $this->image;
 	}
 
-	public function setImage(Image $image): self {
+	public function setImage(?Image $image): self {
 		$this->image = $image;
 		return $this;
 	}
@@ -266,13 +266,13 @@ class JobOffer {
 		return $this;
 	}
 
-	public function setFilename(string $filename): self {
+	public function setFilename(?string $filename): self {
 		$this->filename = $filename;
 
 		return $this;
 	}
 
-	public function getFilename(): string {
+	public function getFilename(): ?string {
 		return $this->filename;
 	}
 

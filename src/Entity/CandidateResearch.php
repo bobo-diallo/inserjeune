@@ -25,7 +25,7 @@ class CandidateResearch extends PersonDegree {
 		$this->satisfactions = new ArrayCollection();
 	}
 
-	public function setPreviousEndedContract(\DateTime $previousEndedContract): self {
+	public function setPreviousEndedContract(?\DateTime $previousEndedContract): self {
 		$this->previousEndedContract = $previousEndedContract;
 
 		return $this;
@@ -35,7 +35,7 @@ class CandidateResearch extends PersonDegree {
 		return $this->previousEndedContract;
 	}
 
-	public function setLastedCompany(Company $lastedCompany): self {
+	public function setLastedCompany(?Company $lastedCompany): self {
 		$this->lastedCompany = $lastedCompany;
 
 		return $this;

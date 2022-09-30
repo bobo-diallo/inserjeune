@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\JobNotFoundReasonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'JobNotFoundReasonRepository')]
+#[ORM\Table(name: 'job_not_found_reason')]
 #[ORM\Entity(repositoryClass: JobNotFoundReasonRepository::class)]
 class JobNotFoundReason {
 	#[ORM\Id]

@@ -23,25 +23,25 @@ class SatisfactionSearch {
 	private bool $formationPursuitLastDegree = false;
 
 	#[ORM\Column(name: "other_formation_degree_name", type: "string", length: 255, nullable: true)]
-	private string $otherFormationDegreeName;
+	private ?string $otherFormationDegreeName;
 
 	#[ORM\Column(name: "other_formation_activity_name", type: "string", length: 255, nullable: true)]
-	private string $otherFormationActivityName;
+	private ?string $otherFormationActivityName;
 
 	#[ORM\Column(name: "search_work", type: "boolean")]
 	private bool $searchWork = false;
 
 	#[ORM\Column(name: "no_search_work_reason", type: "string", length: 255, nullable: true)]
-	private string $noSearchWorkReason;
+	private ?string $noSearchWorkReason;
 
 	#[ORM\Column(name: "active_volunteer", type: "boolean")]
 	private bool $activeVolunteer = false;
 
 	#[ORM\Column(name: "other_domain_volunteer", type: "string", length: 255, nullable: true)]
-	private string $otherDomainVolunteer;
+	private ?string $otherDomainVolunteer;
 
 	#[ORM\Column(name: "job_volunteer", type: "string", length: 255, nullable: true)]
-	private string $jobVolunteer;
+	private ?string $jobVolunteer;
 
 	#[ORM\Column(name: "job_refuse", type: "boolean")]
 	private bool $jobRefuse = false;
@@ -53,22 +53,22 @@ class SatisfactionSearch {
 	private string $jobTime;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
-	private SectorArea $sectorAreaVolunteer;
+	private ?SectorArea $sectorAreaVolunteer = null;
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
-	private Activity $activityVolunteer;
+	private ?Activity $activityVolunteer = null;
 
 	#[ORM\ManyToOne(targetEntity: PersonDegree::class)]
 	#[ORM\JoinColumn(nullable: false)]
-	private PersonDegree $personDegree;
+	private ?PersonDegree $personDegree = null;
 
 	#[ORM\ManyToOne(targetEntity: Degree::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Degree $degree;
+	private ?Degree $degree = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
-	private SectorArea $sectorArea;
+	private ?SectorArea $sectorArea = null;
 
 	#[ORM\ManyToMany(targetEntity: Activity::class)]
 	#[ORM\JoinTable(name: 'satisfaction_search_activities')]
@@ -83,27 +83,27 @@ class SatisfactionSearch {
 	private Collection $jobNotFoundReasons;
 
 	#[ORM\Column(name: 'job_not_found_other', type: 'string', length: 255, nullable: true)]
-	private string $jobNotFoundOther;
+	private ?string $jobNotFoundOther;
 
 	#[ORM\Column(name: 'degree_date', type: 'string', length: 255, nullable: true)]
-	private string $degreeDate;
+	private ?string $degreeDate = null;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime')]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate;
 
 	public function __construct() {
 		$this->jobNotFoundReasons = new ArrayCollection();
 		$this->activities = new ArrayCollection();
 	}
 
-	public function getPersonDegree(): PersonDegree {
+	public function getPersonDegree(): ?PersonDegree {
 		return $this->personDegree;
 	}
 
-	public function setPersonDegree(PersonDegree $personDegree): self {
+	public function setPersonDegree(?PersonDegree $personDegree): self {
 		$this->personDegree = $personDegree;
 
 		return $this;
@@ -132,29 +132,29 @@ class SatisfactionSearch {
 		return $this;
 	}
 
-	public function getDegree(): Degree {
+	public function getDegree(): ?Degree {
 		return $this->degree;
 	}
 
-	public function setDegree(Degree $degree): self {
+	public function setDegree(?Degree $degree): self {
 		$this->degree = $degree;
 		return $this;
 	}
 
-	public function getOtherFormationDegreeName(): string {
+	public function getOtherFormationDegreeName(): ?string {
 		return $this->otherFormationDegreeName;
 	}
 
-	public function setOtherFormationDegreeName(string $otherFormationDegreeName): self {
+	public function setOtherFormationDegreeName(?string $otherFormationDegreeName): self {
 		$this->otherFormationDegreeName = $otherFormationDegreeName;
 		return $this;
 	}
 
-	public function getOtherFormationActivityName(): string {
+	public function getOtherFormationActivityName(): ?string {
 		return $this->otherFormationActivityName;
 	}
 
-	public function setOtherFormationActivityName(string $otherFormationActivityName): self {
+	public function setOtherFormationActivityName(?string $otherFormationActivityName): self {
 		$this->otherFormationActivityName = $otherFormationActivityName;
 		return $this;
 	}
@@ -169,11 +169,11 @@ class SatisfactionSearch {
 		return $this;
 	}
 
-	public function getNoSearchWorkReason(): string {
+	public function getNoSearchWorkReason(): ?string {
 		return $this->noSearchWorkReason;
 	}
 
-	public function setNoSearchWorkReason(string $noSearchWorkReason): self {
+	public function setNoSearchWorkReason(?string $noSearchWorkReason): self {
 		$this->noSearchWorkReason = $noSearchWorkReason;
 		return $this;
 	}
@@ -187,29 +187,29 @@ class SatisfactionSearch {
 		return $this;
 	}
 
-	public function getSectorArea(): SectorArea {
+	public function getSectorArea(): ?SectorArea {
 		return $this->sectorArea;
 	}
 
-	public function setSectorArea(SectorArea $sectorArea): self {
+	public function setSectorArea(?SectorArea $sectorArea): self {
 		$this->sectorArea = $sectorArea;
 		return $this;
 	}
 
-	public function getOtherDomainVolunteer(): string {
+	public function getOtherDomainVolunteer(): ?string {
 		return $this->otherDomainVolunteer;
 	}
 
-	public function setOtherDomainVolunteer(string $otherDomainVolunteer): self {
+	public function setOtherDomainVolunteer(?string $otherDomainVolunteer): self {
 		$this->otherDomainVolunteer = $otherDomainVolunteer;
 		return $this;
 	}
 
-	public function getJobVolunteer(): string {
+	public function getJobVolunteer(): ?string {
 		return $this->jobVolunteer;
 	}
 
-	public function setJobVolunteer(string $jobVolunteer): self {
+	public function setJobVolunteer(?string $jobVolunteer): self {
 		$this->jobVolunteer = $jobVolunteer;
 		return $this;
 	}
@@ -240,20 +240,20 @@ class SatisfactionSearch {
 		return $this;
 	}
 
-	public function getJobTime(): string {
+	public function getJobTime(): ?string {
 		return $this->jobTime;
 	}
 
-	public function setJobTime(int $jobTime): self {
+	public function setJobTime(?string $jobTime): self {
 		$this->jobTime = $jobTime;
 		return $this;
 	}
 
-	public function getJobNotFoundOther(): string {
+	public function getJobNotFoundOther(): ?string {
 		return $this->jobNotFoundOther;
 	}
 
-	public function setJobNotFoundOther(string $jobNotFoundOther): self {
+	public function setJobNotFoundOther(?string $jobNotFoundOther): self {
 		$this->jobNotFoundOther = $jobNotFoundOther;
 		return $this;
 	}
@@ -272,28 +272,28 @@ class SatisfactionSearch {
 		return $this->jobNotFoundReasons;
 	}
 
-	public function getDegreeDate(): string {
+	public function getDegreeDate(): ?string {
 		return $this->degreeDate;
 	}
 
-	public function setDegreeDate(string $degreeDate): self {
+	public function setDegreeDate(?string $degreeDate): self {
 		$this->degreeDate = $degreeDate;
 		return $this;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): void {
+	public function setCreatedDate(?\DateTime $createdDate): void {
 		$this->createdDate = $createdDate;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}
@@ -324,23 +324,23 @@ class SatisfactionSearch {
 		return $this->id;
 	}
 
-	public function setSectorAreaVolunteer(SectorArea $sectorAreaVolunteer = null): self {
+	public function setSectorAreaVolunteer(?SectorArea $sectorAreaVolunteer = null): self {
 		$this->sectorAreaVolunteer = $sectorAreaVolunteer;
 
 		return $this;
 	}
 
-	public function getSectorAreaVolunteer(): SectorArea {
+	public function getSectorAreaVolunteer(): ?SectorArea {
 		return $this->sectorAreaVolunteer;
 	}
 
-	public function setActivityVolunteer(Activity $activityVolunteer = null): self {
+	public function setActivityVolunteer(?Activity $activityVolunteer = null): self {
 		$this->activityVolunteer = $activityVolunteer;
 
 		return $this;
 	}
 
-	public function getActivityVolunteer(): Activity {
+	public function getActivityVolunteer(): ?Activity {
 		return $this->activityVolunteer;
 	}
 

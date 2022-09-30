@@ -21,7 +21,7 @@ class City {
 	private string $name;
 
 	#[ORM\Column(name: 'post_code', type: 'integer', nullable: true)]
-	private int $postCode;
+	private ?int $postCode;
 
 	#[ORM\Column(name: 'is_capital', type: 'boolean')]
 	private bool $isCapital;
@@ -45,11 +45,11 @@ class City {
 		return $this->name;
 	}
 
-	public function getPostCode(): int {
+	public function getPostCode(): ?int {
 		return $this->postCode;
 	}
 
-	public function setPostCode(int $postCode): self {
+	public function setPostCode(?int $postCode): self {
 		$this->postCode = $postCode;
 
 		return $this;

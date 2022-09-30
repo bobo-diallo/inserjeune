@@ -20,7 +20,7 @@ class SatisfactionSalary {
 
 	#[ORM\ManyToOne(targetEntity: PersonDegree::class)]
 	#[ORM\JoinColumn(nullable: false)]
-	private PersonDegree $personDegree;
+	private ?PersonDegree $personDegree = null;
 
 	#[ORM\Column(name: 'monthly_salary', type: 'integer')]
 	#[Assert\GreaterThan(0)]
@@ -28,10 +28,10 @@ class SatisfactionSalary {
 
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	#[ORM\JoinColumn(name: 'id_company', referencedColumnName: 'id', nullable: true)]
-	private Company $company;
+	private ?Company $company = null;
 
 	#[ORM\Column(name: 'dayly_salary', type: 'integer', nullable: true)]
-	private int $daylySalary;
+	private ?int $daylySalary;
 
 	#[ORM\Column(name: 'company_name', type: 'string', length: 255)]
 	private string $companyName;
@@ -43,16 +43,16 @@ class SatisfactionSalary {
 	private string $companyPhone;
 
 	#[ORM\Column(name: 'job_name', type: 'string', length: 255, nullable: true)]
-	private string $jobName;
+	private ?string $jobName;
 
 	#[ORM\Column(name: 'job_status', type: 'string', length: 255, nullable: true)]
-	private string $jobStatus;
+	private ?string $jobStatus;
 
 	#[ORM\Column(name: 'job_time', type: 'datetime')]
-	private datetime $jobTime;
+	private ?\DateTime $jobTime = null;
 
 	#[ORM\Column(name: 'work_hours_per_day', type: 'string', nullable: true)]
-	private string $workHoursPerDay;
+	private ?string $workHoursPerDay;
 
 	#[ORM\Column(name: 'job_satisfied', type: 'boolean')]
 	private bool $jobSatisfied = false;
@@ -62,9 +62,9 @@ class SatisfactionSalary {
 
 	#[ORM\ManyToOne(targetEntity: Currency::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Currency $currency;
+	private ?Currency $currency = null;
 
-	#[ORM\ManyToOne(targetEntity: JobNotFoundReason::class)]
+	#[ORM\ManyToMany(targetEntity: JobNotFoundReason::class)]
 	#[ORM\JoinTable(name: 'satisfaction_salary_reasons')]
 	#[ORM\joinColumn(name: 'satisfaction_salary_id', referencedColumnName: 'id')]
 	#[ORM\InverseJoinColumn(name: 'job_not_found_reason_id', referencedColumnName: 'id')]
@@ -72,22 +72,22 @@ class SatisfactionSalary {
 
 	#[ORM\ManyToOne(targetEntity: Contract::class)]
 	#[ORM\JoinColumn(name: 'lasted_contract_id', referencedColumnName: 'id', nullable: true)]
-	private Contract $contract;
+	private ?Contract $contract = null;
 
 	#[ORM\Column(name: 'job_not_found_other', type: 'string', length: 255, nullable: true)]
-	private string $jobNotFoundOther;
+	private ?string $jobNotFoundOther;
 
 	#[ORM\Column(name: 'other_contract', type: 'string', length: 255, nullable: true)]
-	private string $otherContract;
+	private ?string $otherContract;
 
 	#[ORM\Column(name: 'degree_date', type: 'string', length: 255, nullable: true)]
-	private string $degreeDate;
+	private ?string $degreeDate = null;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
@@ -95,10 +95,10 @@ class SatisfactionSalary {
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Activity $activity;
+	private ?Activity $activity = null;
 
 	#[ORM\Column(name: 'other_activity_name', type: 'string', length: 255, nullable: true)]
-	private string $otherActivityName;
+	private ?string $otherActivityName;
 
 	public function __construct() {
 		$this->jobNotFoundReasons = new ArrayCollection();
@@ -108,13 +108,13 @@ class SatisfactionSalary {
 		return $this->id;
 	}
 
-	public function setPersonDegree(PersonDegree $personDegree): self {
+	public function setPersonDegree(?PersonDegree $personDegree): self {
 		$this->personDegree = $personDegree;
 
 		return $this;
 	}
 
-	public function getPersonDegree(): PersonDegree {
+	public function getPersonDegree(): ?PersonDegree {
 		return $this->personDegree;
 	}
 
@@ -128,21 +128,21 @@ class SatisfactionSalary {
 		return $this->monthlySalary;
 	}
 
-	public function setDaylySalary(int $daylySalary): self {
+	public function setDaylySalary(?int $daylySalary): self {
 		$this->daylySalary = $daylySalary;
 
 		return $this;
 	}
 
-	public function getDaylySalary(): int {
+	public function getDaylySalary(): ?int {
 		return $this->daylySalary;
 	}
 
-	public function getCompany(): Company {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
-	public function setCompany(Company $company): self {
+	public function setCompany(?Company $company): self {
 		$this->company = $company;
 		return $this;
 	}
@@ -177,13 +177,13 @@ class SatisfactionSalary {
 		return $this->companyPhone;
 	}
 
-	public function setJobName(string $jobName): self {
+	public function setJobName(?string $jobName): self {
 		$this->jobName = $jobName;
 
 		return $this;
 	}
 
-	public function getJobName(): string {
+	public function getJobName(): ?string {
 		return $this->jobName;
 	}
 
@@ -200,18 +200,18 @@ class SatisfactionSalary {
 		return ($this->jobTime) ? $this->jobTime->format('m/d/Y') : null;
 	}
 
-	public function setJobTime(\DateTime $jobTime): self {
+	public function setJobTime(?\DateTime $jobTime): self {
 		$this->jobTime = \DateTime::createFromFormat('d/m/Y', $jobTime);
 		return $this;
 	}
 
-	public function setWorkHoursPerDay(string $workHoursPerDay): self {
+	public function setWorkHoursPerDay(?string $workHoursPerDay): self {
 		$this->workHoursPerDay = $workHoursPerDay;
 
 		return $this;
 	}
 
-	public function getWorkHoursPerDay(): string {
+	public function getWorkHoursPerDay(): ?string {
 		return $this->workHoursPerDay;
 	}
 
@@ -235,46 +235,46 @@ class SatisfactionSalary {
 		return $this->trainingSatisfied;
 	}
 
-	public function getJobNotFoundOther(): string {
+	public function getJobNotFoundOther(): ?string {
 		return $this->jobNotFoundOther;
 	}
 
-	public function setJobNotFoundOther(string $jobNotFoundOther): self {
+	public function setJobNotFoundOther(?string $jobNotFoundOther): self {
 		$this->jobNotFoundOther = $jobNotFoundOther;
 		return $this;
 	}
 
-	public function getOtherContract(): string {
+	public function getOtherContract(): ?string {
 		return $this->otherContract;
 	}
 
-	public function setOtherContract(string $otherContract): self {
+	public function setOtherContract(?string $otherContract): self {
 		$this->otherContract = $otherContract;
 		return $this;
 	}
 
-	public function getDegreeDate(): string {
+	public function getDegreeDate(): ?string {
 		return $this->degreeDate;
 	}
 
-	public function setDegreeDate(string $degreeDate) {
+	public function setDegreeDate(?string $degreeDate): self {
 		$this->degreeDate = $degreeDate;
 		return $this;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): void {
+	public function setCreatedDate(?\DateTime $createdDate): void {
 		$this->createdDate = $createdDate;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}
@@ -288,13 +288,13 @@ class SatisfactionSalary {
 		);
 	}
 
-	public function setContract(Contract $contract = null): self {
+	public function setContract(?Contract $contract = null): self {
 		$this->contract = $contract;
 
 		return $this;
 	}
 
-	public function getContract(): Contract {
+	public function getContract(): ?Contract {
 		return $this->contract;
 	}
 
@@ -321,32 +321,32 @@ class SatisfactionSalary {
 		return $this;
 	}
 
-	public function setActivity(Activity $activity = null): self {
+	public function setActivity(?Activity $activity = null): self {
 		$this->activity = $activity;
 
 		return $this;
 	}
 
-	public function getActivity(): Activity {
+	public function getActivity(): ?Activity {
 		return $this->activity;
 	}
 
-	public function getOtherActivityName(): string {
+	public function getOtherActivityName(): ?string {
 		return $this->otherActivityName;
 	}
 
-	public function setOtherActivityName(string $otherActivityName): self {
+	public function setOtherActivityName(?string $otherActivityName): self {
 		$this->otherActivityName = $otherActivityName;
 		return $this;
 	}
 
-	public function setCurrency(Currency $currency = null): self {
+	public function setCurrency(?Currency $currency = null): self {
 		$this->currency = $currency;
 
 		return $this;
 	}
 
-	public function getCurrency(): Currency {
+	public function getCurrency(): ?Currency {
 		return $this->currency;
 	}
 

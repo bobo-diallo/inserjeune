@@ -21,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\Column(type: 'string', length: 180, unique: true)]
 	private ?string $username;
 
-	#[ORM\Column(type: 'json')]
+	#[ORM\Column(type: 'array')]
 	private array $roles = [];
 
 	#[ORM\Column(type: 'string')]
@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	private ?string $plainPassword = null;
 
 	#[ORM\Column(name: 'api_token', type: 'string', unique: true, nullable: true)]
-	private string $apiToken;
+	private ?string $apiToken;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	private ?Country $country;
@@ -47,7 +47,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	protected string $email;
 
 	#[ORM\Column(name: 'valid_code', type: 'string', nullable: true)]
-	protected string $validCode;
+	protected ?string $validCode;
+
+	#[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
+	protected ?\DateTime $lastLogin;
+
+	#[ORM\Column(name: 'password_requested_at', type: 'datetime', nullable: true)]
+	protected ?\DateTime $passwordRequestedAt;
+
+	#[ORM\Column(name: 'salt', type: 'string', nullable: true)]
+	protected ?string $salt;
+
+	#[ORM\Column(name: 'email_canonical', type: 'string', nullable: true)]
+	protected ?string $emailCanonical;
+
+	#[ORM\Column(name: 'username_canonical', type: 'string', nullable: true)]
+	protected ?string $usernameCanonical;
+
+	#[ORM\Column(name: 'confirmation_token', type: 'string', nullable: true)]
+	protected ?string $confirmationToken;
 
 	#[ORM\OneToOne(mappedBy: 'user', targetEntity: PersonDegree::class, cascade: ['persist', 'remove'])]
 	private ?PersonDegree $personDegree;
@@ -215,19 +233,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		$this->email = $email;
 	}
 
-	public function getValidCode(): string {
+	public function getValidCode(): ?string {
 		return $this->validCode;
 	}
 
-	public function setValidCode(string $validCode): void {
+	public function setValidCode(?string $validCode): void {
 		$this->validCode = $validCode;
 	}
 
-	public function getApiToken(): string {
+	public function getApiToken(): ?string {
 		return $this->apiToken;
 	}
 
-	public function setApiToken(string $apiToken): self {
+	public function setApiToken(?string $apiToken): self {
 		$this->apiToken = $apiToken;
 		return $this;
 	}
@@ -267,5 +285,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
 	}
+
+	public function lastLogin(): ?\DateTime {
+		return $this->lastLogin;
+	}
+
+	public function setLastLogin(?\DateTime $lastLogin): self {
+		$this->lastLogin = $lastLogin;
+
+		return $this;
+	}
+
+	public function passwordRequestedAt(): ?\DateTime {
+		return $this->passwordRequestedAt;
+	}
+
+	public function setPasswordRequestedAt(?\DateTime $passwordRequestedAt): self {
+		$this->passwordRequestedAt = $passwordRequestedAt;
+
+		return $this;
+	}
+
+	public function salt(): ?string {
+		return $this->salt;
+	}
+
+	public function setSalt(?string $salt): self {
+		$this->salt = $salt;
+
+		return $this;
+	}
+
+	public function emailCanonical(): ?string {
+		return $this->emailCanonical;
+	}
+
+	public function setEmailCanonical(?string $emailCanonical): self {
+		$this->emailCanonical = $emailCanonical;
+
+		return $this;
+	}
+
+	public function usernameCanonical(): ?string {
+		return $this->usernameCanonical;
+	}
+
+	public function setUsernameCanonical(?string $usernameCanonical): self {
+		$this->usernameCanonical = $usernameCanonical;
+
+		return $this;
+	}
+
+	public function confirmationToken(): ?string {
+		return $this->confirmationToken;
+	}
+
+	public function setConfirmationToken(?string $confirmationToken): self {
+		$this->confirmationToken = $confirmationToken;
+
+		return $this;
+	}
+
 
 }

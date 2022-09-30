@@ -16,13 +16,13 @@ class School {
 	private ?int $id = null;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate = null;
 
 	#[ORM\Column(name: 'client_updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $clientUpdateDate;
+	private ?\DateTime $clientUpdateDate = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
@@ -34,7 +34,7 @@ class School {
 	private bool $agreeRgpd = false;
 
 	#[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
-	private string $description;
+	private ?string $description;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]
 	private ?int $addressNumber;
@@ -55,13 +55,13 @@ class School {
 	private ?string $email;
 
 	#[ORM\Column(name: 'latitude', type: 'string', nullable: true)]
-	private string $latitude;
+	private ?string $latitude;
 
 	#[ORM\Column(name: 'longitude', type: 'string', nullable: true)]
-	private string $longitude;
+	private ?string $longitude;
 
 	#[ORM\Column(name: 'maps_address', type: 'string', nullable: true)]
-	private string $mapsAddress;
+	private ?string $mapsAddress;
 
 	#[ORM\Column(name: 'location_fixed', type: 'boolean')]
 	private bool $locationFixed = false;
@@ -88,7 +88,7 @@ class School {
 	private Collection $personDegrees;
 
 	#[ORM\Column(name: 'registration', type: 'string', length: 255, nullable: true)]
-	private string $registration;
+	private ?string $registration;
 
 	#[ORM\Column(name: 'other_degree', type: 'string', nullable: true)]
 	private ?string $otherDegree;
@@ -100,11 +100,11 @@ class School {
 
 	#[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'schools')]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
-	private Region $region;
+	private ?Region $region = null;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
-	private Country $country;
+	private ?Country $country = null;
 
 	#[ORM\ManyToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
 	#[ORM\JoinColumn(name: 'id_image', referencedColumnName: 'id')]
@@ -209,29 +209,29 @@ class School {
 		return $this->id;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate): self {
+	public function setCreatedDate(?\DateTime $createdDate): self {
 		$this->createdDate = $createdDate;
 		return $this;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}
 
-	public function getClientUpdateDate(): \DateTime {
+	public function getClientUpdateDate(): ?\DateTime {
 		return $this->clientUpdateDate;
 	}
 
-	public function setClientUpdateDate(\DateTime $clientUpdateDate): self {
+	public function setClientUpdateDate(?\DateTime $clientUpdateDate): self {
 		$this->clientUpdateDate = $clientUpdateDate;
 		return $this;
 	}
@@ -264,11 +264,11 @@ class School {
 		return $this;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 
-	public function setDescription(string $description): void {
+	public function setDescription(?string $description): void {
 		$this->description = $description;
 	}
 
@@ -281,20 +281,20 @@ class School {
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 
-	public function setRegion(Region $region): self {
+	public function setRegion(?Region $region): self {
 		$this->region = $region;
 		return $this;
 	}
 
-	public function getCountry(): Country {
+	public function getCountry(): ?Country {
 		return $this->country;
 	}
 
-	public function setCountry(Country $country): self {
+	public function setCountry(?Country $country): self {
 		$this->country = $country;
 		return $this;
 	}
@@ -356,11 +356,11 @@ class School {
 		$this->image = $image;
 	}
 
-	public function getRegistration(): string {
+	public function getRegistration(): ?string {
 		return $this->registration;
 	}
 
-	public function setRegistration(string $registration): self {
+	public function setRegistration(?string $registration): self {
 		$this->registration = $registration;
 		return $this;
 	}
@@ -379,29 +379,29 @@ class School {
 		return $this->socialNetworks;
 	}
 
-	public function getLatitude(): string {
+	public function getLatitude(): ?string {
 		return $this->latitude;
 	}
 
-	public function setLatitude(string $latitude): self {
+	public function setLatitude(?string $latitude): self {
 		$this->latitude = $latitude;
 		return $this;
 	}
 
-	public function getLongitude(): string {
+	public function getLongitude(): ?string {
 		return $this->longitude;
 	}
 
-	public function setLongitude(string $longitude): self {
+	public function setLongitude(?string $longitude): self {
 		$this->longitude = $longitude;
 		return $this;
 	}
 
-	public function getMapsAddress(): string {
+	public function getMapsAddress(): ?string {
 		return $this->mapsAddress;
 	}
 
-	public function setMapsAddress(string $mapsAddress): self {
+	public function setMapsAddress(?string $mapsAddress): self {
 		$this->mapsAddress = $mapsAddress;
 		return $this;
 	}

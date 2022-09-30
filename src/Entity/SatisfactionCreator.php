@@ -32,7 +32,7 @@ class SatisfactionCreator {
 	private Collection $activities;
 
 	#[ORM\Column(name: 'other_activity', type: 'string', length: 255, nullable: true)]
-	private string $otherActivity;
+	private ?string $otherActivity;
 
 	#[ORM\Column(name: 'legal_company', type: 'boolean')]
 	private bool $legalCompany = false;
@@ -43,8 +43,7 @@ class SatisfactionCreator {
 
 	#[ORM\ManyToOne(targetEntity: Currency::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private Currency $currency;
-
+	private ?Currency $currency = null;
 
 	#[ORM\ManyToMany(targetEntity: JobNotFoundReason::class)]
 	#[ORM\JoinTable(name: 'satisfaction_creator_reasons')]
@@ -57,16 +56,16 @@ class SatisfactionCreator {
 
 
 	#[ORM\Column(name: 'job_not_found_other', type: 'string', length: 255, nullable: true)]
-	private string $jobNotFoundOther;
+	private ?string $jobNotFoundOther;
 
 	#[ORM\Column(name: 'degree_date', type: 'string', length: 255, nullable: true)]
-	private string $degreeDate;
+	private ?string $degreeDate;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
-	private \DateTime $createdDate;
+	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate = null;
 
 	public function __construct() {
 		$this->jobNotFoundReasons = new ArrayCollection();
@@ -83,7 +82,7 @@ class SatisfactionCreator {
 		return $this;
 	}
 
-	public function getOtherActivity(): string {
+	public function getOtherActivity(): ?string {
 		return $this->otherActivity;
 	}
 
@@ -96,7 +95,7 @@ class SatisfactionCreator {
 		return $this;
 	}
 
-	public function setOtherActivity(string $otherActivity): self {
+	public function setOtherActivity(?string $otherActivity): self {
 		$this->otherActivity = $otherActivity;
 		return $this;
 	}
@@ -121,11 +120,11 @@ class SatisfactionCreator {
 		return $this->monthlySalary;
 	}
 
-	public function getCurrency(): Currency {
+	public function getCurrency(): ?Currency {
 		return $this->currency;
 	}
 
-	public function setCurrency(Currency $currency): self {
+	public function setCurrency(?Currency $currency): self {
 		$this->currency = $currency;
 		return $this;
 	}
@@ -136,11 +135,11 @@ class SatisfactionCreator {
 		return $this;
 	}
 
-	public function getJobNotFoundOther(): string {
+	public function getJobNotFoundOther(): ?string {
 		return $this->jobNotFoundOther;
 	}
 
-	public function setJobNotFoundOther(string $jobNotFoundOther): self {
+	public function setJobNotFoundOther(?string $jobNotFoundOther): self {
 		$this->jobNotFoundOther = $jobNotFoundOther;
 		return $this;
 	}
@@ -149,28 +148,28 @@ class SatisfactionCreator {
 		return $this->usefulTraining;
 	}
 
-	public function getDegreeDate(): string {
+	public function getDegreeDate(): ?string {
 		return $this->degreeDate;
 	}
 
-	public function setDegreeDate(string $degreeDate): self {
+	public function setDegreeDate(?string $degreeDate): self {
 		$this->degreeDate = $degreeDate;
 		return $this;
 	}
 
-	public function getCreatedDate(): \DateTime {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(\DateTime $createdDate) {
+	public function setCreatedDate(?\DateTime $createdDate): void {
 		$this->createdDate = $createdDate;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}

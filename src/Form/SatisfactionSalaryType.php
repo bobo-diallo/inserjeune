@@ -31,7 +31,7 @@ class SatisfactionSalaryType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$selectedCountry = $options['selectedCountry'];
+		$selectedCountry  = $options['selectedCountry'] ?? null;
 		$builder
 			->add('monthlySalary', IntegerType::class, [
 				'attr' => ['class' => 'form-control', 'placeholder' => 'Salaire Mensuel', 'min' => 0],
@@ -155,7 +155,7 @@ class SatisfactionSalaryType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
-		$resolver->setDefaults(array('data_class' => SatisfactionSalary::class))
+		$resolver->setDefaults(['data_class' => SatisfactionSalary::class])
 			->setRequired(['selectedCountry']);
 	}
 

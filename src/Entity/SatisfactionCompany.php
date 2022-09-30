@@ -18,15 +18,15 @@ class SatisfactionCompany {
 
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	#[ORM\JoinColumn(nullable: false)]
-	private Company $company;
+	private ?Company $company = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private SectorArea $workerSectorArea;
+	private ?SectorArea $workerSectorArea = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(nullable: true)]
-	private SectorArea $technicianSectorArea;
+	private ?SectorArea $technicianSectorArea = null;
 
 	#[ORM\ManyToMany(targetEntity: Activity::class)]
 	#[ORM\JoinTable(name: 'satisfaction_company_activities')]
@@ -116,7 +116,7 @@ class SatisfactionCompany {
 	private ?\DateTime $createdDate = null;
 
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
-	private \DateTime $updatedDate;
+	private ?\DateTime $updatedDate = null;
 
 	public function __construct() {
 		$this->createdDate = new \DateTime();
@@ -130,13 +130,13 @@ class SatisfactionCompany {
 		return $this->id;
 	}
 
-	public function setCompany(Company $company): self {
+	public function setCompany(?Company $company): self {
 		$this->company = $company;
 
 		return $this;
 	}
 
-	public function getCompany(): Company {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
@@ -251,19 +251,19 @@ class SatisfactionCompany {
 		return $this->otherOmissionPeople;
 	}
 
-	public function getCreatedDate(): \DateTime|string {
+	public function getCreatedDate(): ?\DateTime {
 		return $this->createdDate;
 	}
 
-	public function setCreatedDate(?\DateTime $createdDate) {
+	public function setCreatedDate(?\DateTime $createdDate): void {
 		$this->createdDate = $createdDate;
 	}
 
-	public function getUpdatedDate(): \DateTime {
+	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate;
 	}
 
-	public function setUpdatedDate(\DateTime $updatedDate): self {
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
 		$this->updatedDate = $updatedDate;
 		return $this;
 	}
@@ -373,23 +373,23 @@ class SatisfactionCompany {
 		return $this->omissionPeoples;
 	}
 
-	public function setWorkerSectorArea(SectorArea $workerSectorArea = null): self {
+	public function setWorkerSectorArea(?SectorArea $workerSectorArea = null): self {
 		$this->workerSectorArea = $workerSectorArea;
 
 		return $this;
 	}
 
-	public function getWorkerSectorArea(): SectorArea {
+	public function getWorkerSectorArea(): ?SectorArea {
 		return $this->workerSectorArea;
 	}
 
-	public function setTechnicianSectorArea(SectorArea $technicianSectorArea = null): self {
+	public function setTechnicianSectorArea(?SectorArea $technicianSectorArea = null): self {
 		$this->technicianSectorArea = $technicianSectorArea;
 
 		return $this;
 	}
 
-	public function getTechnicianSectorArea(): SectorArea {
+	public function getTechnicianSectorArea(): ?SectorArea {
 		return $this->technicianSectorArea;
 	}
 

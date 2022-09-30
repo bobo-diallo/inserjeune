@@ -31,7 +31,7 @@ trait Person {
 	private ?string $addressLocality;
 
 	#[ORM\Column(name: 'address_road', type: 'string', nullable: true)]
-	private ?tring $addressRoad;
+	private ?string $addressRoad;
 
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
@@ -49,13 +49,13 @@ trait Person {
 	private Country $country;
 
 	#[ORM\Column(name: 'latitude', type: 'string', nullable: true)]
-	private string $latitude;
+	private ?string $latitude;
 
 	#[ORM\Column(name: 'longitude', type: 'string', nullable: true)]
-	private string $longitude;
+	private ?string $longitude;
 
 	#[ORM\Column(name: 'maps_address', type: 'string', nullable: true)]
-	private string $mapsAddress;
+	private ?string $mapsAddress;
 
 	#[ORM\Column(name: 'phone_mobile1', type: 'string')]
 	private ?string $phoneMobile1;
@@ -70,7 +70,7 @@ trait Person {
 	private ?string $phoneHome;
 
 	#[ORM\Column(name: 'phone_office', type: 'string', nullable: true)]
-	private string $phoneOffice;
+	private ?string $phoneOffice;
 
 	#[ORM\Column(name: 'email', type: 'string', nullable: true)]
 	private ?string $email;
@@ -80,7 +80,7 @@ trait Person {
 
 	#[ORM\ManyToOne(targetEntity: Image::class)]
 	#[ORM\JoinColumn(name: 'id_image', referencedColumnName: 'id', nullable: true)]
-	private Image $image;
+	private ?Image $image = null;
 
 	/**
 	 * @return ?int
@@ -229,73 +229,42 @@ trait Person {
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getLatitude(): string {
+	public function getLatitude(): ?string {
 		return $this->latitude;
 	}
 
-	/**
-	 * @param string $latitude
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setLatitude(string $latitude): self {
+	public function setLatitude(?string $latitude): self {
 		$this->latitude = $latitude;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getLongitude(): string {
+	public function getLongitude(): ?string {
 		return $this->longitude;
 	}
 
-	/**
-	 * @param string $longitude
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setLongitude(string $longitude): self {
+	public function setLongitude(?string $longitude): self {
 		$this->longitude = $longitude;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getMapsAddress() {
+	public function getMapsAddress(): ?string {
 		return $this->mapsAddress;
 	}
 
-	/**
-	 * @param string $mapsAddress
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setMapsAddress(string $mapsAddress): self {
+	public function setMapsAddress(?string $mapsAddress): self {
 		$this->mapsAddress = $mapsAddress;
 		return $this;
 	}
 
-	/**
-	 * @return string|null
-	 */
 	public function getPhoneMobile1(): ?string {
 		return $this->phoneMobile1;
 	}
 
-	/**
-	 * @param string|null $phoneMobile1
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
 	public function setPhoneMobile1(?string $phoneMobile1): self {
 		$this->phoneMobile1 = $phoneMobile1;
 		return $this;
 	}
 
-	/**
-	 * @return string|null
-	 */
 	public function getPhoneMobile2(): ?string {
 		return $this->phoneMobile2;
 	}
@@ -309,43 +278,25 @@ trait Person {
 		return $this->phoneMobile3;
 	}
 
-	/**
-	 * @param string|null $phoneMobile3
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
 	public function setPhoneMobile3(?string $phoneMobile3): self {
 		$this->phoneMobile3 = $phoneMobile3;
 		return $this;
 	}
 
-	/**
-	 * @return string|null
-	 */
 	public function getPhoneHome(): ?string {
 		return $this->phoneHome;
 	}
 
-	/**
-	 * @param string|null $phoneHome
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
 	public function setPhoneHome(?string $phoneHome): self {
 		$this->phoneHome = $phoneHome;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPhoneOffice(): string {
+	public function getPhoneOffice(): ?string {
 		return $this->phoneOffice;
 	}
 
-	/**
-	 * @param string $phoneOffice
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setPhoneOffice(string $phoneOffice): self {
+	public function setPhoneOffice(?string $phoneOffice): self {
 		$this->phoneOffice = $phoneOffice;
 		return $this;
 	}
@@ -363,23 +314,16 @@ trait Person {
 		return $this->sex;
 	}
 
-	/**
-	 * @param string $sex
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
 	public function setSex(string $sex): self {
 		$this->sex = $sex;
 		return $this;
 	}
 
-	public function getImage(): Image {
+	public function getImage(): ?Image {
 		return $this->image;
 	}
 
-	/**
-	 * @param Image $image
-	 */
-	public function setImage(Image $image) {
+	public function setImage(?Image $image) {
 		$this->image = $image;
 	}
 }

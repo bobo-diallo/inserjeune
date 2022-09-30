@@ -17,7 +17,7 @@ class OmissionReason {
 	private string $name;
 
 	#[ORM\Column(name: 'level', type: 'integer', nullable: true)]
-	private int $level;
+	private ?int $level;
 
 	#[ORM\Column(name: 'complete_training', type: 'boolean')]
 	private bool $completeTraining;
@@ -36,11 +36,11 @@ class OmissionReason {
 		return $this->name;
 	}
 
-	public function getLevel(): int {
+	public function getLevel(): ?int {
 		return $this->level;
 	}
 
-	public function setLevel($level): self {
+	public function setLevel(?int $level): self {
 		$this->level = $level;
 		return $this;
 	}
