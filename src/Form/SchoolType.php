@@ -81,12 +81,16 @@ class SchoolType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Email invalide', 'placeholder' => 'Email'],
 				'required' => true
 			])
-			->add('latitude', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Latidude'],
+			->add('latitude', TextType::class, [
+				'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la latitude', 'placeholder' => 'latitude'],
 				'required' => false
 			])
-			->add('longitude', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Longitude'],
+			->add('longitude', TextType::class, [
+				'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la longitude', 'placeholder' => 'longitude'],
+				'required' => false
+			])
+			->add('locationMode', CheckboxType::class, [
+				'attr' => ['class' => 'form-control', 'label' => 'Location Mode ?'],
 				'required' => false
 			])
 			->add('image', EntityType::class, [
@@ -102,10 +106,7 @@ class SchoolType extends AbstractType {
 				'class' => SocialNetwork::class,
 				'multiple' => true,
 			])
-			->add('latitude', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
-			->add('longitude', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
 			->add('mapsAddress', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
-			->add('locationFixed', CheckboxType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
 			->add('country', EntityType::class, [
 				'class' => Country::class,
 				'required' => true,

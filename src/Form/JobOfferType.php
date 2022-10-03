@@ -42,9 +42,17 @@ class JobOfferType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner la description ', 'rows' => 6, 'placeholder' => 'Minimum 20 caractères'],
 				'required' => true
 			])
+			->add('candidateProfile', TextareaType::class, [
+				'attr' => ['class' => 'form-control', 'placeholder' => 'Veuillez renseigner le profil du candidat ', 'rows' => '6'],
+				'required' => false
+			])
+			->add('closedDate', TextType::class, [
+				'attr' => ['class' => 'datepicker form-control', 'placeholder' => 'Date d\'expiration' ],
+				'required' => true
+			])
 			->add('postedContact', TextType::class, [
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom du contact ', 'placeholder' => 'Nom du contact'],
-				'required' => false
+				'required' => true
 			])
 			->add('postedPhone', TextType::class, [
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le numéro de téléphone ', 'placeholder' => 'Numéro de téléphone'],
@@ -77,11 +85,12 @@ class JobOfferType extends AbstractType {
 			->add('contract', EntityType::class, [
 				'class' => Contract::class,
 				'attr' => ['class' => 'form-control'],
-				'required' => false
+				'required' => true
 			])
 			->add('country', EntityType::class, [
 				'class' => Country::class,
 				'choice_label' => 'name',
+				'required' => true,
 				'attr' => ['class' => 'form-control'],
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')

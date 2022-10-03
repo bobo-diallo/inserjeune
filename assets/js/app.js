@@ -861,3 +861,85 @@ global.graphCreation = function graphCreation(actorName, tableName) {
       })
    }
 }
+
+/**
+ * permet de créer un graphe temporel d'une activité de questionnaires en fonction d'une durée
+ * @param actorName
+ * @param duration
+ */
+global.timeGraphCreation = function timeGraphCreation(type, actorName, duration) {
+   /* Recupération des datas */
+   let labelsTableDataName = [];
+   let labelsTableDataValue = [];
+   let maxValue = 0;
+
+   $('#'+ type + actorName + 'DataChart'+ ' option').each(function () {
+      labelsTableDataValue.push($(this).text());
+      labelsTableDataName.push($(this).val()) ;
+
+      if( parseInt($(this).text()) > maxValue)
+         maxValue = parseInt($(this).text());
+   });
+   maxValue +=  5;
+
+   /* Affichage lineChartDegree */
+   let lineChartName = "#lineChart" + type + actorName;
+   if ($(lineChartName).length) {
+      let i = $(lineChartName),
+          n = {
+             labels: labelsTableDataName,
+             datasets: [{
+                label: "Nombre",
+                fill: !1,
+                lineTension: 0,
+                backgroundColor: "#fff",
+                borderColor: "#6896f9",
+                borderCapStyle: "butt",
+                borderDash: [],
+                borderDashOffset: 0,
+                borderJoinStyle: "miter",
+                pointBorderColor: "#fff",
+                pointBackgroundColor: "#2a2f37",
+                pointBorderWidth: 3,
+                pointHoverRadius: 10,
+                pointHoverBackgroundColor: "#FC2055",
+                pointHoverBorderColor: "#fff",
+                pointHoverBorderWidth: 3,
+                pointRadius: 6,
+                pointHitRadius: 10,
+                data: labelsTableDataValue,
+                spanGaps: !1
+             }]
+          }, s = new Chart(i, {
+             type: "line",
+             data: n,
+             options: {
+                legend: {display: !1},
+                scales: {
+                   xAxes: [{
+                      ticks: {fontSize: "10", fontColor: "#969da5"},
+                      gridLines: {color: "rgba(0,0,0,0.05)", zeroLineColor: "rgba(0,0,0,0.05)"}
+                   }], yAxes: [{display: !1, ticks: {beginAtZero: !0, max: maxValue}}]
+                }
+             }
+          });
+   }
+}
+
+global.datatable2 = function datatable2(retrieve = false) {
+   let options = {
+      language: {
+         url: '../build/locale/fr_FR.json'
+      },
+      initComplete: function () {
+         $('#kz_table2_wrapper input').addClass('form-control form-control-sm kz_table2_input')
+         $('#kz_table2_wrapper select').addClass('form-control form-control-sm kz_table2_select')
+         $('#kz_table2_wrapper .row').css('width', '100%')
+         $('#kz_table2').parent().css('width', '100%')
+      }
+   };
+   if (retrieve == true) {
+      options = {retrieve: true}
+   }
+   return $('#kz_table2').DataTable(options);
+}

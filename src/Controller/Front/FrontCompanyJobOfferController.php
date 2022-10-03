@@ -66,6 +66,7 @@ class FrontCompanyJobOfferController extends AbstractController {
 		return $this->render('frontCompanyJobOffer/new.html.twig', [
 			'company' => $company,
 			'form' => $form->createView(),
+			'jobOffer' => $jobOffer
 
 		]);
 	}
@@ -90,6 +91,7 @@ class FrontCompanyJobOfferController extends AbstractController {
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 			$jobOffer->setCompany($company);
+			$jobOffer->setUpdatedDate(new \DateTime());
 			$this->em->flush();
 
 			return $this->redirectToRoute('front_company_jobOffer_show', ['id' => $jobOffer->getId()]);
@@ -98,6 +100,7 @@ class FrontCompanyJobOfferController extends AbstractController {
 		return $this->render('frontCompanyJobOffer/edit.html.twig', [
 			'company' => $this->companyService->getCompany(),
 			'edit_form' => $editForm->createView(),
+			'jobOffer' => $jobOffer
 		]);
 	}
 

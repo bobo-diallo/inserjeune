@@ -62,6 +62,7 @@ class FrontSchoolController extends AbstractController {
 		$school->setEmail($user->getEmail());
 		$school->setPhoneStandard($user->getPhone());
 		$school->setCountry($user->getCountry());
+		$school->setLocationMode(true);
 
 		$form = $this->createForm(SchoolType::class, $school);
 		$form->handleRequest($request);
@@ -220,9 +221,30 @@ class FrontSchoolController extends AbstractController {
 		]);
 	}
 
-	private function notifSatisfaction(string $message = "Merci d'avoir répondu à l'enquête.") {
-		$this->addFlash('success', $message);
+
+	#[Route(path: '/persondegreesEnroll', name: 'front_school_persondegrees_enroll', methods: ['GET'])]
+	public function personDegreesEnrollAction(): Response {
+		$school = $this->schoolService->getSchool();
+		$personDegrees = $this->personDegreeRepository->getBySchoolAndByUnlocked($school, true);
+
+		return $this->render('school/personDegreesEnroll.html.twig', ['personDegrees' => $personDegrees]);
 	}
+
+	#[Route(path: '/companiesEnroll', name: 'front_school_companies_enroll', methods: ['GET'])]
+	public function companiesEnrollAction(): Response {
+		$school = $this->schoolService->getSchool();
+
+		$companies = $this->companyRepository->getBySchool($school);
+		$companiesUnlocked = [];
+
+		foreach ($companies as $company)
+			if ($company->isUnlocked()) {
+				$companiesUnlocked[] = $company;
+			}
+
+		return $this->render('school/companiesEnroll.html.twig', ['companies' => $companiesUnlocked]);
+	}
+
 
 	#[Route(path: '/user_delete/{id}', name: 'user_delete_school', methods: ['GET', 'POST'])]
 	public function deleteUserAction(School $school): RedirectResponse {
@@ -344,7 +366,7 @@ class FrontSchoolController extends AbstractController {
 			$this->em->persist($user);
 			$this->em->flush();
 
-			//envoi du mail des paramètres de connexion
+			// envoi du mail des paramètres de connexion
 			if ($user->getEmail()) {
 				if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
 					"Paramètres de votre compte InserJeune", "Etablissement", $user->getPhone())) {
@@ -355,5 +377,10 @@ class FrontSchoolController extends AbstractController {
 			}
 		}
 		return $this->redirectToRoute('logout');
+	}
+
+	#[Route(path: '/personDegreeUpdateAjax', name: 'person_degree_update_ajax', methods: ['GET', 'POST'])]
+	public function personDegreeUpdateAjaxAction(Request $request): JsonResponse|Response {
+		return new JsonResponse($request->getContent());
 	}
 }

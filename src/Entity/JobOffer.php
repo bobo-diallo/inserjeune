@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\JobOfferRepository;
+use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -90,8 +91,17 @@ class JobOffer {
 	#[Assert\Image(maxWidth: '2000', maxHeight: '2000')]
 	private ?File $file = null;
 
+	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
+	private ?\DateTime $updatedDate;
+
+	#[ORM\Column(name: 'candidate_profile', type: 'text', nullable: true)]
+	private ?string $candidateProfile;
+
 	public function __construct() {
 		$this->createdDate = new \DateTime();
+		$this->updatedDate = new \DateTime();
+		// Closed after 3 months
+		$this->closedDate = (new \DateTime())->add(new \DateInterval('P3M'));
 	}
 
 	public function getId(): ?int {
@@ -119,7 +129,7 @@ class JobOffer {
 	}
 
 	public function getClosedDate(): ?\DateTime {
-		return $this->closedDate;
+		return ($this->closedDate) ? $this->closedDate->format(Utils::FORMAT_FR): null;
 	}
 
 	public function setClosedDate(?\DateTime $closedDate): self {
@@ -282,5 +292,23 @@ class JobOffer {
 
 	public function setFile($file): void {
 		$this->file = $file;
+	}
+
+	public function getUpdatedDate(): ?\DateTime {
+		return $this->updatedDate ?: $this->createdDate;
+	}
+
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
+		$this->updatedDate = $updatedDate;
+		return $this;
+	}
+
+	public function getCandidateProfile(): ?string {
+		return $this->candidateProfile;
+	}
+
+	public function setCandidateProfile(?string $candidateProfile): self {
+		$this->candidateProfile = $candidateProfile;
+		return $this;
 	}
 }

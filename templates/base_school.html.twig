@@ -14,6 +14,7 @@
         <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/university.jpg') }}"></div>
         <div class="logged-user-info-w">
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="logged-school-name">{{ app.user.school.name }}</div>
             <div class="logged-user-name">{{ app.user.username }}</div>
             <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
           {% endif %}
@@ -36,7 +37,7 @@
           </li>
           <li>
             <a href="{{ path('front_school_persondegree_index') }}">
-            {#<a href="#">#}
+              {#<a href="#">#}
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/degree.png') }}" alt="persondegrees">
               </div>
@@ -45,7 +46,6 @@
           </li>
           <li>
             <a href="{{ path('front_school_company_index') }}">
-              {#<a href="#">#}
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="companies">
               </div>
@@ -61,11 +61,35 @@
             </a>
           </li>
           <li>
+            <a href=" {{ path('front_school_persondegrees_enroll') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/degree-enroll.png') }}" alt="adddegree">
+              </div>
+              <span>{{ 'Enrollement Diplômés'|trans }}</span>
+            </a>
+          </li>
+          <li>
+            <a href=" {{ path('front_school_companies_enroll') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/company-enroll.png') }}" alt="addcompany">
+              </div>
+              <span>{{ 'Enrollement Entreprises'|trans }}</span>
+            </a>
+          </li>
+          <li>
             <a href="{{ path('geolocation') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
               </div>
               <span>Géo-Localisation</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('dashboard_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
+              </div>
+              <span>{{ 'Tableau de bord'|trans }}</span>
             </a>
           </li>
           <li class="has-sub-menu">
@@ -87,14 +111,12 @@
               {% include '_apropos.html.twig' %}
             </div>
           </li>
-          {#%  if  check_os('n') != "vps417868.ovh.net" and check_os('n') != "inserjeune" %#}
           {%  if  check_os('n') != "vps417868" and check_os('n') != "inserjeune" %}
             <li>
               <a href="{{ path('client_school_update') }}">
                 <div class="icon-w">
                   <img src="{{ asset('build/images/icon/update_data.png') }}" alt="dataupdate">
                 </div>
-                {#<span>clé api</span></a>#}
                 <span> Synchro Serveur </span></a>
             </li>
           {% endif %}
@@ -112,8 +134,6 @@
       </div>
     </div>
     <div class="content-w">
-
-      {# Message flashbag #}
       {{ falsh_bag() }}
 
       {% block body %}{% endblock %}
@@ -123,9 +143,9 @@
 {# Footer #}
 {{ include('_footer.html.twig') }}
 <script>
-   $(document).ready(function () {
-      let table = datatable()
-   });
+  $(document).ready(function () {
+    let table = datatable()
+  });
 </script>
 {% block js %}{% endblock %}
 </body>

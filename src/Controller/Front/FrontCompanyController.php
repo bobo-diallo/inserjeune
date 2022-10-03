@@ -51,6 +51,7 @@ class FrontCompanyController extends AbstractController {
 		$company->setEmail($user->getEmail());
 		$company->setPhoneStandard($user->getPhone());
 		$company->setCountry($user->getCountry());
+		$company->setLocationMode(true);
 
 		// set country dans la company
 		$selectedCountry = $this->getUser()->getCountry();
@@ -61,9 +62,9 @@ class FrontCompanyController extends AbstractController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$company->setCreatedDate(new \DateTime());
 			$company->setUpdatedDate(new \DateTime());
-
 			$agreeRgpd = $form->get('agreeRgpd')->getData();
-			if ($agreeRgpd == true) {
+
+			if ($agreeRgpd) {
 				$company->setUser($user);
 				$company->setPhoneStandard($user->getPhone());
 				$this->em->persist($company);

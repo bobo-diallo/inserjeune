@@ -8,106 +8,110 @@
 
 {% extends base %}
 
-{% block title %}App:GeoLocation:index{% endblock %}
+{% block title %}AppBundle:GeoLocation:index{% endblock %}
 
 {% block body %}
    <div class="content-i">
       <div class="content-box">
-        {# Tableau 1 #}
+         {# Tableau 1 #}
          <div class="element-wrapper">
             <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
             <h6 class="element-header">
                Maps
             </h6>
-           {{ form_widget(form._token) }}
+            {{ form_widget(form._token) }}
             <div class="row">
                <div class="col-sm-3 form-group">
                   <label for=""> {{ 'Pays' | trans }}</label>
-                 {{ form_widget(form.country) }}
+                  {{ form_widget(form.country) }}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
                </div>
                <div class="col-sm-3 form-group">
                   <label for="">Région</label>
-                 {{ form_widget(form.region) }}
+                  {{ form_widget(form.region) }}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
                </div>
                <div class="col-sm-3 form-group">
                   <label for="">Ville</label>
-                 {{ form_widget(form.city) }}
+                  {{ form_widget(form.city) }}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
                </div>
                <div class="col-sm-3 form-group">
                   <label for="">Autre ville</label>
-                 {{ form_widget(form.otherCity) }}
+                  {{ form_widget(form.otherCity) }}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
                </div>
             </div>
             <div class="row">
                <div class="col-sm-6 form-group">
                   <label for=""> Secteur d'activité </label>
-                 {{ form_widget(form.sectorArea) }}
+                  {{ form_widget(form.sectorArea) }}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
                </div>
                <div class="col-sm-6 form-group">
                   <label for="">Métier / Filière</label>
-                 {{ form_widget(form.activity) }}
+                  {{ form_widget(form.activity) }}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
                </div>
             </div>
             <div class="row">
                <div class="col-sm-12">
-               <table class="table table-bordered dt-responsive nowrap table_geo">
-                  <tr><div><span class="table_geo_label">Afficher les données</span></div></tr>
-                  <thead>
-                  <tr>
-                     <th><div class="table_geo_titre ent"><span>Entreprises</span></div></th>
-                     <th><div class="table_geo_titre eta"><span>Etablissements</span></div></th>
-                     <th><div class="table_geo_titre dip"><span>Diplômés</span></div></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                     <td >
-                       {{ form_widget(form.showCompanies) }}
-                        <div class="slider round" id="sliderShowCompanies">
-                           <span class="non">Non</span>
-                           <span class="oui">Oui</span>
-                        </div>
-                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showCompanies) }}</div>
-                     </td>
-                     <td >
-                       {{ form_widget(form.showSchools) }}
-                        <div class="slider round" id="sliderShowSchools">
-                           <span class="non">Non</span>
-                           <span class="oui">Oui</span>
-                        </div>
-                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showSchools) }}</div>
-                     </td>
-                     <td >
-                       {{ form_widget(form.showPersonDegrees) }}
-                        <div class="slider round" id="sliderShowPersonDegrees">
-                           <span class="non">Non</span>
-                           <span class="oui">Oui</span>
-                        </div>
-                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showPersonDegrees) }}</div>
-                     </td>
-                  </tr>
-                  </tbody>
-               </table>
+                  <table class="table table-bordered dt-responsive nowrap table_geo">
+                     <tr><div><span class="table_geo_label">Afficher les données</span></div></tr>
+                     <thead>
+                     <tr>
+                        <th><div class="table_geo_titre ent"><span>Entreprises</span></div></th>
+                        <th><div class="table_geo_titre eta"><span>Etablissements</span></div></th>
+                        <th><div class="table_geo_titre dip"><span>Diplômés (recherche d'emploi)</span></div></th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     <tr>
+                        <td >
+                           {{ form_widget(form.showCompanies) }}
+                           <div class="slider round" id="sliderShowCompanies">
+                              <span class="non">Non</span>
+                              <span class="oui">Oui</span>
+                           </div>
+                           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showCompanies) }}</div>
+                        </td>
+                        <td >
+                           {{ form_widget(form.showSchools) }}
+                           <div class="slider round" id="sliderShowSchools">
+                              <span class="non">Non</span>
+                              <span class="oui">Oui</span>
+                           </div>
+                           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showSchools) }}</div>
+                        </td>
+                        <td >
+                           {{ form_widget(form.showPersonDegrees) }}
+                           <div class="slider round" id="sliderShowPersonDegrees">
+                              <span class="non">Non</span>
+                              <span class="oui">Oui</span>
+                           </div>
+                           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showPersonDegrees) }}</div>
+                        </td>
+                     </tr>
+                     </tbody>
+                  </table>
                </div>
             </div>
 
-           {# Google map #}
+            {# Google map #}
             <div id="map" style="width: 100%; height: 600px; border: 1px solid #000; margin-top: 0px"></div>
          </div>
       </div>
+      <select hidden id="selectedCountry">
+         {%  if selectedCountry %}
+            <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+         {%  endif %}
+      </select>
    </div>
 {% endblock %}
 
 
 {% block js %}
    <script async defer
-       {#src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback=initMap"#}
            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"
            type="text/javascript"></script>
    <script type="text/javascript"
@@ -229,15 +233,7 @@
        */
       $("#appbundle_geolocation_country").change(function () {
          input_address_country = $("#appbundle_geolocation_country > option:selected").text();
-         // initMap(input_address_country, 7);
          findDataByCountry();
-         setTimeout(function () {
-            selectData();
-            setTimeout(function () {
-               initMap(input_address_country, 7);
-               console.log("datas selected");
-            }, 3000);
-         }, 4000);
       });
 
       /**
@@ -287,6 +283,11 @@
          persondegree_markerCluster = showMapData("#appbundle_geolocation_showPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees)
       })
 
+      // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
+      if (($('#selectedCountry').val() !== '') &&
+              ($('#selectedCountry').val() !== null)) {
+         countryEvent("#selectedCountry", "geolocation");
+      }
       /**
        *  Function
        *  Definition initMap
@@ -327,7 +328,7 @@
        *  Génère les tables entreprise, établissements et
        *  diplômé en fonction du pays sélectionné
        */
-      function findDataByCountry() {
+      async function findDataByCountry() {
          // initialisation des tables de données
          dataCompanies = [];
          dataPersonDegrees = [];
@@ -342,26 +343,33 @@
 
          if (url != window.location.href) {
             // Recupère les entreprises en Bdd
-            $.get((url+'/company'), function (data) {
+            await $.get((url+'/company'), function (data) {
                dataCompanies = [];
                dataCompanies = data;
                console.log(url+'/company' + "  compagnies récupérées : " + dataCompanies.length)
             })
 
             // Recupère les établissements en Bdd
-            $.get((url+'/school'), function (data) {
+            await $.get((url+'/school'), function (data) {
                dataSchools = [];
                dataSchools = data;
                console.log("etablissements récupérées: " + dataSchools.length)
             })
 
             // Recupère les diplômés en Bdd
-            $.get((url+'/persondegree'), function (data) {
+            console.log("Ajax personDegreesGeo : " + url +'/unemployedpersondegree');
+            await $.get((url+'/unemployedpersondegree'), function (data) {
                dataPersonDegrees = [];
                dataPersonDegrees = data;
-               console.log("diplômés récupérés: " + dataPersonDegrees.length)
+               console.log("diplômés récupérés: " + dataPersonDegrees.length);
+               setTimeout(function () {
+                  selectData();
+                  setTimeout(function () {
+                     initMap(input_address_country, 7);
+                     console.log("datas selected");
+                  }, 1000);
+               }, 1000);
             })
-
          }
       }
 
@@ -416,16 +424,20 @@
                $.each(value.activity1, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
                $.each(value.activity2, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
                $.each(value.activity3, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
-               $.each(value.activity3, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
+               $.each(value.activity4, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
+               $.each(value.activity5, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
+               $.each(value.activity6, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
                if (activityexist==false)
                   selected = false;
             }
 
             if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
                if((value.sector_area1 != valueSectorArea) &&
-                  (value.sector_area2 != valueSectorArea) &&
-                  (value.sector_area3 != valueSectorArea) &&
-                  (value.sector_area4 != valueSectorArea))
+                       (value.sector_area2 != valueSectorArea) &&
+                       (value.sector_area3 != valueSectorArea) &&
+                       (value.sector_area4 != valueSectorArea) &&
+                       (value.sector_area5 != valueSectorArea) &&
+                       (value.sector_area6 != valueSectorArea))
                   selected = false;
             }
 
@@ -514,11 +526,15 @@
                icon: icon,
                title: value.name
             });
-
-            let contentString  = '<h3 class="infoMapsHead">' + value.name + '</h3>'
-            contentString  += '<p class="infoMapsemail"> email:' + value.email + '</p>'
-            contentString  += '<p class="infoMapsPhone"> tel.:' + value.phone + '</p>'
-            contentString  += '<p class="infoMapsSectorArea"> Secteur:' + value.sector_area + '</p>'
+            let contentString  = '<div class="infoMaps">';
+            contentString += '<h3>' + value.name + '</h3>';
+            contentString  += '<p> <span> email: </span> <span>' + value.email + '</span></p>';
+            contentString  += '<p> <span>tel.:</span> <span>' + value.phone + '</span></p>';
+            contentString  += '<p> <span>Secteur:</span> <span>' + value.sector_area + '</span></p>';
+            if((value.activity != '')&&(value.activity != null)) {
+               contentString  += '<p> <span>Filière:</span> <span>' + value.activity + '</span></p>';
+            };
+            contentString += '</div>';
             let infowindow = new google.maps.InfoWindow({
                content: contentString
             });

@@ -10,21 +10,46 @@
     <legend><span>Offre d'emploi</span></legend>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label> Titre </label>
+        <label> Titre *</label>
         {{ form_widget(form.title) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.title) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label> Type de Contrat</label>
+        <label> Type de Contrat *</label>
         {{ form_widget(form.contract) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.contract) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 form-group">
-        <label> Description</label>
+        <label> Description *</label>
         {{ form_widget(form.description) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label> Profil du candidat</label>
+        {{ form_widget(form.candidateProfile) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><span>Dates de l'offre</span></legend>
+    <div class="row">
+      <div class="col-sm-4 form-group">
+        <label> Date de création</label>
+        <p class="form-control">{{ jobOffer.createdDate|date('d/m/Y H:i') }}</p>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label> Date de Mise à jour</label>
+        <p class="form-control"> {{ jobOffer.updatedDate|date('d/m/Y H:i') }}</p>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label> Date d'expiration de l'offre *</label>
+        {{ form_widget(form.closedDate) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.closedDate) }}</div>
       </div>
     </div>
   </fieldset>
@@ -32,12 +57,12 @@
     <legend><span>Activité</span></legend>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label> Secteur</label>
+        <label> Secteur *</label>
         {{ form_widget(form.sectorArea) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label> Métier</label>
+        <label> Métier *</label>
         {{ form_widget(form.activity) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
       </div>
@@ -52,17 +77,17 @@
     <legend><span>Localisation</span></legend>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label>Pays</label>
+        <label>Pays *</label>
         {{ form_widget(form.country) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label>Region</label>
+        <label>Region *</label>
         {{ form_widget(form.region) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label>Ville</label>
+        <label>Ville *</label>
         {{ form_widget(form.city) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
       </div>
@@ -77,7 +102,7 @@
     <legend><span>Contact</span></legend>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label>Nom du Contact</label>
+        <label>Nom du Contact *</label>
         {{ form_widget(form.postedContact) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedContact) }}</div>
       </div>
@@ -87,7 +112,7 @@
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedPhone) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label>Email</label>
+        <label>Email *</label>
         {{ form_widget(form.postedEmail) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedEmail) }}</div>
       </div>
@@ -122,9 +147,9 @@
     </div>
   </div>
   {# End FileInput #}
-{#</div>#}
+  {#</div>#}
 
-<div class="form-buttons-w">
-  <button class="btn btn-primary" type="submit"> Valider</button>
-</div>
+  <div class="form-buttons-w">
+    <button class="btn btn-primary" type="submit"> Valider</button>
+  </div>
 </div>

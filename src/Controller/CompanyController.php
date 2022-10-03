@@ -51,6 +51,8 @@ class CompanyController extends AbstractController {
 	#[Route(path: '/new', name: 'company_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$company = new Company();
+		$company->setLocationMode(true);
+
 		$form = $this->createForm(CompanyType::class, $company);
 		$form->handleRequest($request);
 		$selectedCountry = new Country();
@@ -59,6 +61,7 @@ class CompanyController extends AbstractController {
 			$company->setCreatedDate(new \DateTime());
 			$company->setUpdatedDate(new \DateTime());
 			$dnsServer = $this->getParameter('dnsServer');
+
 			if (php_uname('n') != $dnsServer)
 				$company->setClientUpdateDate(new \DateTime());
 

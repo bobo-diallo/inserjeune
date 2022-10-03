@@ -72,7 +72,7 @@ class CompanyType extends AbstractType
          ])
          ->add('sectorArea', EntityType::class, [
             'class' => SectorArea::class,
-            'required' => false,
+            'required' => true,
             'placeholder' => 'Sélectionnez',
             'attr' => ['class' => 'form-control'],
             'query_builder' => function (EntityRepository $entityRepository) {
@@ -91,11 +91,19 @@ class CompanyType extends AbstractType
             'mapped' => false, 'choice_label' =>
                'name', 'attr' => ['class' => 'form-control']
          ])
-         ->add('latitude', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
-         ->add('longitude', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
-         ->add('mapsAddress', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
-         ->add('locationFixed', CheckboxType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
 
+	      ->add('latitude', TextType::class, [
+		      'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la latitude', 'placeholder' => 'latitude'],
+		      'required' => false
+	      ])
+	      ->add('longitude', TextType::class, [
+		      'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la longitude', 'placeholder' => 'longitude'],
+		      'required' => false
+	      ])
+	      ->add('locationMode', CheckboxType::class, [
+		      'attr' => ['class' => 'form-control', 'label' => 'Location Mode ?'],
+		      'required' => false
+	      ])
          ->add('country', EntityType::class, [
             'class' => Country::class,
             'required' => false,

@@ -16,6 +16,16 @@
            type="text/javascript">
    </script>
    <script>
+      //Contrôle du bouton check de localisation pour switch manuel - automatique
+      $('#appbundle_school_locationMode').on('click', function() {
+         if($('#appbundle_school_locationMode').is(":checked")) {
+            if(!confirm ("Attention, les coordonnées seront recalculées" )) {
+               $('#appbundle_school_locationMode').prop("checked", false);
+            };
+         } else {
+            alert ("Mode manuel activé" );
+         }
+      });
       // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
       if ($('#selectedCountry').val() !== '') {
          countryEvent("#selectedCountry", "school");
@@ -92,7 +102,7 @@
                if(currentOption != $(this).val())
                   $(this).hide();
 
-            //montre l'option sinon
+               //montre l'option sinon
             } else {
                $(this).show();
             }
@@ -106,10 +116,10 @@
       // Event
       // Vérifie le numero de téléphone si different du userName
       {% if is_granted('ROLE_ETABLISSEMENT') == true %}
-         checkPhoneNumber($('#appbundle_school_phoneStandard').val());
-         $('#appbundle_school_phoneStandard').on('change', function () {
-            checkPhoneNumber($(this).val());
-         })
+      checkPhoneNumber($('#appbundle_school_phoneStandard').val());
+      $('#appbundle_school_phoneStandard').on('change', function () {
+         checkPhoneNumber($(this).val());
+      })
       {% endif %}
       function checkPhoneNumber($phoneNumber) {
          let usrname = $('.logged-user-name').html();
@@ -151,7 +161,7 @@
                $("#buttonSchool").text("Valider");
                $("#buttonSchool").css("background-color", "#2177e0");
                $("#buttonSchool").css("border-color", "#2177e0");
-            // si refus RGPD
+               // si refus RGPD
             } else {
                // formulaire Valid, suppression du compte
                if ($("#form_school").valid()) {
@@ -217,9 +227,9 @@
 
                // ajout de la filière dans la table
                let $activity = "<tr><td><input " + $disabledActivity +
-                  " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
-                  $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
-                  this.sectorArea + "</td></tr>";
+                       " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
+                       $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
+                       this.sectorArea + "</td></tr>";
                $('table#activity_founded').append($activity);
             });
          }
@@ -277,7 +287,7 @@
                            $(this).attr('selected', 'selected').trigger('change'); //simulation du click
                         }
                      });
-                  // Alert ajout de secteur d'activité impossible
+                     // Alert ajout de secteur d'activité impossible
                   } else {
                      alert("Ajout de secteur d'activité impossible, les 6 secteurs sont déjà utilisés");
                   }
@@ -352,32 +362,32 @@
             // $("#appbundle_school_activities2 option[value='']").remove();
          }
 
-
-
-
          // mise à jour mapAdresse et calcul des lat et longitude
          // -----------------------------------------------------
-         let number = $('#appbundle_school_addressNumber').val();
-         let road = $('#appbundle_school_addressRoad').val();
-         let locality = $('#appbundle_school_addressLocality').val();
-         let city = $('#appbundle_school_city option:selected').text();
-         let region = $('#appbundle_school_region option:selected').text();
-         let country = $('#appbundle_school_country option:selected').text();
-         //console.log('|' + number + '|' + road + '|' + locality + '|' + city + '|' + region + '|' + country + '|');
-         let mapAdresse = createMapsAddress(number, road, locality, city, region, country)
+         if($('#appbundle_school_locationMode').is(":checked")) {
+            let number = $('#appbundle_school_addressNumber').val();
+            let road = $('#appbundle_school_addressRoad').val();
+            let locality = $('#appbundle_school_addressLocality').val();
+            let city = $('#appbundle_school_city option:selected').text();
+            let region = $('#appbundle_school_region option:selected').text();
+            let country = $('#appbundle_school_country option:selected').text();
+            //console.log('|' + number + '|' + road + '|' + locality + '|' + city + '|' + region + '|' + country + '|');
+            let mapAdresse = createMapsAddress(number, road, locality, city, region, country)
 
-         //console.log('-->  ' + $('#appbundle_school_mapsAddress').val());
-         //alert('mapsAddress = ' + mapAdresse);
+            //console.log('-->  ' + $('#appbundle_school_mapsAddress').val());
+            //alert('mapsAddress = ' + mapAdresse);
 
-         if ((!$('#appbundle_school_locationFixed').is(':checked')) &&
-            (($('#appbundle_school_mapsAddress').val() != mapAdresse) ||
-               ($('#appbundle_school_latitude').val().length == 0) ||
-               ($('#appbundle_school_longitude').val().length == 0))) {
-            $('#appbundle_school_mapsAddress').val(mapAdresse);
-            geocodeAddressLocation(mapAdresse, '#appbundle_school_latitude', '#appbundle_school_longitude')
-            setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
+            if (($('#appbundle_school_mapsAddress').val() != mapAdresse) ||
+                    ($('#appbundle_school_latitude').val().length == 0) ||
+                    ($('#appbundle_school_longitude').val().length == 0)) {
+               $('#appbundle_school_mapsAddress').val(mapAdresse);
+               geocodeAddressLocation(mapAdresse, '#appbundle_school_latitude', '#appbundle_school_longitude')
+               setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
+                  $('#submitSchool').trigger('click');
+               }, 1000)
+            } else {
                $('#submitSchool').trigger('click');
-            }, 1000)
+            }
          } else {
             $('#submitSchool').trigger('click');
          }

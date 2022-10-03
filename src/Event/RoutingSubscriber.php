@@ -99,6 +99,7 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 					$route = $this->_getGoodRoute($event);
 					if (!str_contains($route, 'front_company') &&
 						!str_contains($route, 'user_delete') &&
+						!str_contains($route, 'dashboard_index') &&
 						!str_contains($route, 'rgpd_informations') &&
 						!str_contains($route, 'check_logout') &&
 						!str_contains($route, 'geolocation')) {
@@ -134,6 +135,7 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 					if (!str_contains($route, 'front_persondegree') &&
 						!str_contains($route, 'user_delete') &&
 						!str_contains($route, 'rgpd_informations') &&
+						!str_contains($route, 'updateAjax') &&
 						!str_contains($route, 'filters') &&
 						!str_contains($route, 'geolocation') &&
 						!str_contains($route, 'check_logout') &&
@@ -181,6 +183,7 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 						!str_contains($route, 'clientUpdate') &&
 						!str_contains($route, 'client_school_update') &&
 						!str_contains($route, 'geolocation') &&
+						!str_contains($route, 'dashboard_index') &&
 						!str_contains($route, 'jobOffer')) {
 						$this->_redirect($event, 'front_school_show');
 					}

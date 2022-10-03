@@ -70,6 +70,27 @@
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-sm-4 form-group">
+        <label for=""> Latitude </label>
+        {{ form_widget(form.latitude) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.latitude) }}</div>
+      </div>
+      <div class="col-sm-4 form-group">
+        <label for="">Longitude</label>
+        {{ form_widget(form.longitude) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.longitude) }}</div>
+      </div>
+      <div class="col-sm-4 form-check">
+        <label class="center" for="">Mode</label>
+        {{ form_widget(form.locationMode) }}
+        <div class="slider round">
+          <span class="manual">Manuel</span>
+          <span class="auto">Auto</span>
+        </div>
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.locationMode) }}</div>
+      </div>
+    </div>
   </fieldset>
   <fieldset>
     <legend><span>Coordonnées</span></legend>
@@ -107,7 +128,6 @@
     <legend><span>Situation professionnelle actuelle *</span></legend>
     <div class="row">
       <div class="col-sm-12 form-group">
-        {#<label for="">Situation professionnelle actuelle *</label>#}
         {{ form_widget(form.type) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.type) }}</div>
       </div>
@@ -182,7 +202,6 @@
     <legend><span>Droit à la protection des données</span></legend>
     <div class="row">
       <div class="col-sm-12 form-check">
-        {#<label for=""> Vous acceptez de diffuser vos informations personnelles pour les statistiques ? </label>#}
         {% if personDegree.agreeRgpd == false %}
           <label for="appbundle_persondegree_agreeRgpd">Cliquez sur OUI si vous acceptez de diffuser vos informations personnelles pour les statistiques (PDP) </label>
         {% else %}
@@ -201,16 +220,10 @@
       </div>
       <div class="col-sm-6">
         <a target="_blank" href="{{ path('rgpd_informations') }}"> informations relatives à la protection des données personnelles (PDP)</a>
-        {#<a href="https://www.medialibs.com/formations/#linkFormationsDev" title="monLien">Mon lien ancré</a>#}
       </div>
     </div>
   </fieldset>
   {{ form_widget(form.mapsAddress) }}
-  {{ form_widget(form.latitude) }}
-  {{ form_widget(form.longitude) }}
-
-  {# Affichages des activities #}
-  {#{% include '_showActivities.twig' with {'allActivities': allActivities} %}#}
   {{ show_allactivities() }}
 
   {% if is_granted('ROLE_DIPLOME') %}
@@ -226,9 +239,9 @@
 <input style="display: none" value="{{ personDegree.country.phoneCode }}" id="countryPhoneCode">
 <select hidden id="schoolRegion">
   {% for region in selectedCountry.regions %}
-      {% for school in region.schools %}
-        <option value="{{ school.id }}">{{ school.region.name }}</option>
-      {% endfor %}
+    {% for school in region.schools %}
+      <option value="{{ school.id }}">{{ school.region.name }}</option>
+    {% endfor %}
   {% endfor %}
 </select>
 
@@ -240,3 +253,4 @@
   <button class="btn btn-primary" type="button" id="buttonPersonDegree" onclick="preventDefaultSubmit()"> Valider</button>
   <button class="btn btn-primary" type="submit" hidden="hidden" id="submitPersonDegree"> Valider</button>
 </div>
+

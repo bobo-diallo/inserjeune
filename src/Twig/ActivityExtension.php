@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Entity\Activity;
+use App\Entity\School;
 use App\Entity\SectorArea;
 use App\Repository\ActivityRepository;
 use App\Repository\CountryRepository;
@@ -14,7 +15,7 @@ use Symfony\Component\Form\FormView;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ActivityExention extends AbstractExtension {
+class ActivityExtension extends AbstractExtension {
 
 	/**
 	 * @var EntityManagerInterface
@@ -158,13 +159,26 @@ class ActivityExention extends AbstractExtension {
 	}
 
 	/**
-	 * @param integer $idCountry
+	 * @param int $idCountry
+	 * @param ?School $school
+	 * @param \DateTime $beginDate
+	 * @param \DateTime $endDate
 	 * @return string
 	 */
-	public function showActivitiesRate(int $idCountry): string {
+	public function showActivitiesRate(
+		int       $idCountry,
+		?School    $school,
+		\DateTime $beginDate,
+		\DateTime $endDate): string {
 		$country = $this->countryRepository->find($idCountry);
 		$sectorAreas = $this->sectorAreaRepository->findAll();
-		$personDegrees = $this->personDegreeRepository->findByCountry($country);
+
+		if (!$school) {
+			$personDegrees = $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($idCountry, $beginDate, $endDate);
+		} else {
+			$personDegrees = $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($idCountry, $school, $beginDate, $endDate);
+		}
+
 		$html = '';
 
 		// Recherche des personDegree dans les sectorArea
@@ -187,9 +201,13 @@ class ActivityExention extends AbstractExtension {
 
 			// Impression des infos sur le secteur d'activités
 			$activities = $sectorArea->getActivities();
-			$sectorAreaPersonDegrees = $this->personDegreeRepository->getBySectorArea($sectorArea);
+			if (!$school) {
+				$sectorAreaPersonDegrees = $this->personDegreeRepository->getBySectorAreaBetweenCreatedDateAndEndDate($sectorArea, $beginDate, $endDate);
+			} else {
+				$sectorAreaPersonDegrees = $this->personDegreeRepository->getBySectorAreaAndSchoolBetweenCreatedDateAndEndDate($sectorArea, $school, $beginDate, $endDate);
+			}
 
-			$validPersons = array();
+			$validPersons = [];
 			foreach ($sectorAreaPersonDegrees as $sectorAreaPersonDegree) {
 				if ($sectorAreaPersonDegree->getCountry() == $country)
 					$validPersons[] = $sectorAreaPersonDegree;
@@ -200,21 +218,25 @@ class ActivityExention extends AbstractExtension {
 			$html .= '<div class="element-box el-tablo">';
 
 			$sectorAreaPersonDegreesRate = 0;
-			if (count($personDegrees) > 0)
+			if (count($personDegrees) > 0) {
 				$sectorAreaPersonDegreesRate = count($sectorAreaPersonDegrees) / count($personDegrees) * 100;
+			}
 			$html .= sprintf('<div class="label"><span>%s = (%s/%s) </span><span>%s%%</span></div>',
 				$sectorArea->getName(),
 				count($sectorAreaPersonDegrees),
 				count($personDegrees),
-				number_format($sectorAreaPersonDegreesRate, 2, ',', ' '));
-
+				number_format($sectorAreaPersonDegreesRate, 2, ',', ' ')
+			);
 
 			// Recherche des personDegree dans les activities
 			foreach ($activities as $activity) {
-				$activityPersonDegrees = $this->personDegreeRepository
-					->getByActivity($activity);
+				if (!$school) {
+					$activityPersonDegrees = $this->personDegreeRepository->getByActivityBetweenCreatedDateAndEndDate($activity, $beginDate, $endDate);
+				} else {
+					$activityPersonDegrees = $this->personDegreeRepository->getByActivityAndSchoolBetweenCreatedDateAndEndDate($activity, $school, $beginDate, $endDate);
+				}
 
-				$validPersons = array();
+				$validPersons = [];
 				foreach ($activityPersonDegrees as $activityPersonDegree) {
 					if ($activityPersonDegree->getCountry() == $country)
 						$validPersons[] = $activityPersonDegree;

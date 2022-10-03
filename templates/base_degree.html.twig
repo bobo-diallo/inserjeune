@@ -14,6 +14,7 @@
         <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/graduated.jpg') }}"></div>
         <div class="logged-user-info-w">
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="logged-persondegree-name">{{ app.user.personDegree.firstName }} {{ app.user.personDegree.lastname }} </div>
             <div class="logged-user-name">{{ app.user.username }}</div>
             <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
           {% endif %}

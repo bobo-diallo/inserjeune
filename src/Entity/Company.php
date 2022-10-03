@@ -115,8 +115,19 @@ class Company {
 	#[ORM\Column(name: 'agree_rgpd', type: 'boolean', nullable: true)]
 	private bool $agreeRgpd = false;
 
-	#[ORM\ManyToMany(targetEntity: 'App\Entity\School', mappedBy: 'companies')]
+	#[ORM\ManyToMany(targetEntity: School::class, mappedBy: 'companies')]
 	private Collection $schools;
+
+	#[ORM\Column(name: 'location_mode', type: 'boolean', nullable: true)]
+	private ?bool $locationMode;
+
+	#[ORM\OneToOne(targetEntity: Image::class)]
+	#[ORM\JoinColumn(name: 'id_image', referencedColumnName: 'id', nullable: true)]
+	private ?Image $logo = null;
+
+	#[ORM\Column(name: 'unlocked', type: 'boolean', nullable: true)]
+	private ?bool $unlocked = true;
+
 
 	public function __construct() {
 		$this->jobOffers = new ArrayCollection();
@@ -507,4 +518,29 @@ class Company {
 	public function getSchools(): Collection {
 		return $this->schools;
 	}
+
+	public function isLocationMode(): ?bool {
+		return $this->locationMode;
+	}
+
+	public function setLocationMode(?bool $locationMode): void {
+		$this->locationMode = $locationMode;
+	}
+
+	public function getLogo(): ?Image {
+		return $this->logo;
+	}
+
+	public function setLogo(?Image $logo): void {
+		$this->logo = $logo;
+	}
+
+	public function isUnlocked(): ?bool {
+		return $this->unlocked;
+	}
+
+	public function setUnlocked(?bool $unlocked): void {
+		$this->unlocked = $unlocked;
+	}
+
 }

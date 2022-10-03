@@ -21,13 +21,12 @@
         <img src="{{ asset('build/images/icon/degree.png') }}" alt="degree">
       </div>
       <span>{{ 'Diplômés'|trans }}</span></a>
-      <ul class="sub-menu">
-        <li><a href="{{ path('persondegree_index') }}">{{ 'Les Diplômés'|trans }}</a></li>
-        <li><a href="{{ path('school_index') }}">{{ 'Les Etablissements'|trans }}</a></li>
-        <li><a href="{{ path('degree_index') }}">{{ 'Les Diplômes'|trans }}</a></li>
-        <li><a href="#">{{ 'Les Réseaux sociaux'|trans }}**</a></li>
-        {#<li><a href="#">Les Infos pour la<br>création d'entreprise**</a></li>#}
-      </ul>
+    <ul class="sub-menu">
+      <li><a href="{{ path('persondegree_index') }}">{{ 'Les Diplômés'|trans }}</a></li>
+      <li><a href="{{ path('school_index') }}">{{ 'Les Etablissements'|trans }}</a></li>
+      <li><a href="{{ path('degree_index') }}">{{ 'Les Diplômes'|trans }}</a></li>
+      <li><a href="#">{{ 'Les Réseaux sociaux'|trans }}**</a></li>
+    </ul>
   </li>
   <li class="has-sub-menu">
     <a href="#">
@@ -46,19 +45,11 @@
       <li><a href="{{ path('job_not_found_reason_index') }}">Raisons emplois non trouvés</a></li>
     </ul>
   </li>
-  {#<li>#}
-    {#<a href="#">#}
-      {#<div class="icon-w">#}
-        {#<div class="os-icon os-icon-delivery-box-2"></div>#}
-      {#</div>#}
-      {#<span>Reseaux sociaux</span>#}
-    {#</a>#}
-  {#</li>#}
   <li class="has-sub-menu">
     <a href="#">
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality">
-        </div>
+      </div>
       <span>{{ 'Pays'|trans }}, {{ 'Région'|trans }}s, {{ 'Villes'|trans }}<br>{{ 'et'|trans }} {{ 'Devises'|trans }}</span>
     </a>
     <ul class="sub-menu">
@@ -72,7 +63,6 @@
     <a href="#">
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/sector-area.png') }}" alt="sectorarea">
-        {#<div class="os-icon os-icon-delivery-box-2"></div>#}
       </div>
       <span>Secteurs, Filières,<br>Contrats, Statuts</span>
     </a>
@@ -83,13 +73,17 @@
       <li><a href="{{ path('legalstatus_index') }}">Statuts juridiques</a></li>
     </ul>
   </li>
-  <li>
+  <li class="has-sub-menu">
     <a href="#">
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/database2.png') }}" alt="database">
       </div>
       <span>Export & {{ 'Sauvegarde'|trans }}</span>
     </a>
+    <ul class="sub-menu">
+      <button type="button" id="create_pdf" class="btn btn-primary btn-pdf rounded" value="Generate PDF" >Export Pdf</button>
+      <button type="button" class="btn btn-primary btn-csv rounded" >Export Csv</button>
+    </ul>
   </li>
   <li class="has-sub-menu">
     <a href="index.html#">
@@ -130,14 +124,6 @@
       {% include '_apropos.html.twig' %}
     </div>
   </li>
-  {#<li>#}
-    {#<a href="#" id="locale">#}
-      {#<div class="icon-w">#}
-        {#<img src="{{ asset('build/images/icon/world.png') }}" alt="maps">#}
-      {#</div>#}
-      {#<span id="currentLocal">{{ 'Mettre le site en anglais'|trans }}</span>#}
-    {#</a>#}
-  {#</li>#}
   {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     <li>
       <a href="{{ path('logout') }}">

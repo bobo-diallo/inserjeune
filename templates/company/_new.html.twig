@@ -75,6 +75,27 @@
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <label for=""> Latitude </label>
+          {{ form_widget(form.latitude) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.latitude) }}</div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <label for="">Longitude</label>
+          {{ form_widget(form.longitude) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.longitude) }}</div>
+        </div>
+        <div class="col-sm-4 form-check">
+          <label class="center" for="">Mode</label>
+          {{ form_widget(form.locationMode) }}
+          <div class="slider round">
+            <span class="manual">Manuel</span>
+            <span class="auto">Auto</span>
+          </div>
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.locationMode) }}</div>
+        </div>
+      </div>
   </fieldset>
   <fieldset>
     <legend><span>Caractéristiques</span></legend>
@@ -118,9 +139,6 @@
     </div>
   </fieldset>
   {{ form_widget(form.mapsAddress) }}
-  {{ form_widget(form.locationFixed) }}
-  {{ form_widget(form.latitude) }}
-  {{ form_widget(form.longitude) }}
 
   {{ show_allactivities() }}
 

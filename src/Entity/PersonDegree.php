@@ -122,6 +122,9 @@ class PersonDegree {
 	#[ORM\OneToMany(mappedBy: 'personDegree', targetEntity: SatisfactionCreator::class, cascade: ['persist', 'remove'])]
 	private Collection $satisfactionCreators;
 
+	#[ORM\Column(name: 'unlocked', type: 'boolean', nullable: true)]
+	private ?bool $unlocked = true;
+
 	public function __construct() {
 		$this->createdDate = new \DateTime();
 		$this->socialNetworks = new ArrayCollection();
@@ -473,5 +476,14 @@ class PersonDegree {
 	public function setLastIdSatisfactionCreator(?int $lastIdSatisfactionCreator): self {
 		$this->lastIdSatisfactionCreator = $lastIdSatisfactionCreator;
 		return $this;
+	}
+
+	public function setUnlocked(?bool $unlocked): self {
+		$this->unlocked = $unlocked;
+		return $this;
+	}
+
+	public function isUnlocked(): ?bool {
+		return $this->unlocked;
 	}
 }

@@ -56,6 +56,7 @@ class PersonDegreeController extends AbstractController {
 	#[Route(path: '/new', name: 'persondegree_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$personDegree = new Persondegree();
+		$personDegree->setLocationMode(true);
 		$selectedCountry = $personDegree->getCountry();
 
 		$form = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);

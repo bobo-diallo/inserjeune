@@ -3,7 +3,7 @@
 {% block body %}
     <div class="content-i">
         <div class="content-box">
-          {# Tableau 1 #}
+            {# Tableau 1 #}
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
@@ -13,8 +13,6 @@
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                {#<a class="btn btn-sm btn-primary" href="#">Export CSV</a>#}
-                                {#<a class="btn btn-sm btn-primary" href="#">Archiver</a>#}
                                 <a class="btn btn-sm btn-primary" href="{{ path('front_company_jobOffer_new') }}">
                                     <i class="fa fa-plus"></i> Ajouter une offre</a>
                             </div>
@@ -27,6 +25,8 @@
                                 <th>Actions</th>
                                 <th>Id</th>
                                 <th>Titre</th>
+                                <th>Modifié le</th>
+                                <th>Expire le</th>
                                 <th>Métier</th>
                                 <th>Email</th>
                                 <th>Ville</th>
@@ -43,10 +43,12 @@
                                     </td>
                                     <td><a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}">{{ jobOffer.id }}</a></td>
                                     <td>{{ jobOffer.title }}</td>
+                                    <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
+                                    <td>{{ jobOffer.closedDate }}</td>
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
-                                    <td>{{ jobOffer.description }}</td>
+                                    <td>{{ jobOffer.description |slice(0, 40) ~ '...'  }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -54,7 +56,6 @@
                     </div>
                 </div>
             </div>
-
             <hr>
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
@@ -69,6 +70,8 @@
                                 <th>Voir</th>
                                 <th>Entreprise</th>
                                 <th>Titre</th>
+                                <th>Modifié le</th>
+                                <th>Expire le</th>
                                 <th>Métier</th>
                                 <th>Email</th>
                                 <th>Ville</th>
@@ -81,13 +84,14 @@
                                     <td class="row-actions">
                                         <a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                     </td>
-                                    {#<td><a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}">{{ jobOffer.company }}</a></td>#}
                                     <td>{{ jobOffer.company }}</td>
                                     <td>{{ jobOffer.title }}</td>
+                                    <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
+                                    <td>{{ jobOffer.closedDate }}</td>
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
-                                    <td>{{ jobOffer.description }}</td>
+                                    <td>{{ jobOffer.description|slice(0, 40) ~ '...' }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -97,4 +101,25 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            let tables = datatable2(true)
+
+            $('#kz_table2 tbody').on('click', 'td.details-control', function () {
+                let tr = $(this).closest('tr');
+                let row = table.row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+        });
+    </script>
 {% endblock %}
