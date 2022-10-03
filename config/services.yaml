@@ -9,6 +9,7 @@ imports:
 parameters:
     # Performance
     container.dumper.inline_factories: true
+    dnsServer: vps417868
 
 services:
     # default configuration for services in *this* file
