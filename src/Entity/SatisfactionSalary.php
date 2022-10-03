@@ -200,7 +200,7 @@ class SatisfactionSalary {
 		return ($this->jobTime) ? $this->jobTime->format('m/d/Y') : null;
 	}
 
-	public function setJobTime(?\DateTime $jobTime): self {
+	public function setJobTime(?string $jobTime): self {
 		$this->jobTime = \DateTime::createFromFormat('d/m/Y', $jobTime);
 		return $this;
 	}
