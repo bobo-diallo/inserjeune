@@ -354,6 +354,6 @@ class FrontSchoolController extends AbstractController {
 				}
 			}
 		}
-		return $this->redirect('/logout');
+		return $this->redirectToRoute('logout');
 	}
 }
