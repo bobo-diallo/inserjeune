@@ -93,11 +93,11 @@ class PersonDegree {
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
-	private SectorArea $sectorArea;
+	private ?SectorArea $sectorArea;
 
 	#[ORM\ManyToOne(targetEntity: Contract::class)]
 	#[ORM\JoinColumn(name: 'lasted_contract_id', referencedColumnName: 'id', nullable: true)]
-	private Contract $contract;
+	private ?Contract $contract;
 
 	#[ORM\ManyToOne(targetEntity: Company::class)]
 	#[ORM\JoinColumn(name: 'lasted_company_id', referencedColumnName: 'id', nullable: true)]
@@ -316,11 +316,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getContract(): Contract {
+	public function getContract(): ?Contract {
 		return $this->contract;
 	}
 
-	public function setContract(Contract $contract): self {
+	public function setContract(?Contract $contract): self {
 		$this->contract = $contract;
 		return $this;
 	}
@@ -334,11 +334,11 @@ class PersonDegree {
 		return $this;
 	}
 
-	public function getSectorArea(): SectorArea {
+	public function getSectorArea(): ?SectorArea {
 		return $this->sectorArea;
 	}
 
-	public function setSectorArea(SectorArea $sectorArea): self {
+	public function setSectorArea(?SectorArea $sectorArea): self {
 		$this->sectorArea = $sectorArea;
 		return $this;
 	}

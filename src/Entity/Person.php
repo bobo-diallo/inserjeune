@@ -16,10 +16,10 @@ trait Person {
 	protected ?int $id = null;
 
 	#[ORM\Column(name: 'firstname', type: 'string', length: 255)]
-	private string $firstname;
+	private ?string $firstname;
 
 	#[ORM\Column(name: 'lastname', type: 'string', length: 255)]
-	private string $lastname;
+	private ?string $lastname;
 
 	#[ORM\Column(name: 'birth_date', type: 'datetime')]
 	private ?\DateTime $birthDate;
@@ -76,7 +76,7 @@ trait Person {
 	private ?string $email;
 
 	#[ORM\Column(name: 'sex', type: 'string', length: 10)]
-	private string $sex;
+	private ?string $sex;
 
 	#[ORM\ManyToOne(targetEntity: Image::class)]
 	#[ORM\JoinColumn(name: 'id_image', referencedColumnName: 'id', nullable: true)]
@@ -98,26 +98,16 @@ trait Person {
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getFirstname(): string {
+	public function getFirstname(): ?string {
 		return $this->firstname;
 	}
 
-	/**
-	 * @param string $firstname
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setFirstname(string $firstname): self {
+	public function setFirstname(?string $firstname): self {
 		$this->firstname = $firstname;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getLastname(): string {
+	public function getLastname(): ?string {
 		return $this->lastname;
 	}
 
@@ -128,11 +118,7 @@ trait Person {
 		return ($this->lastname . ' ' . $this->firstname);
 	}
 
-	/**
-	 * @param string $lastname
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setLastname(string $lastname): self {
+	public function setLastname(?string $lastname): self {
 		$this->lastname = $lastname;
 		return $this;
 	}
@@ -144,12 +130,10 @@ trait Person {
 		return ($this->birthDate) ? $this->birthDate->format('m/d/Y') : null;
 	}
 
-	/**
-	 * @param string $birthDate
-	 * @return ContactCompany|Apprentice|Person|PersonDegree
-	 */
-	public function setBirthDate(string $birthDate): self {
-		$this->birthDate = \DateTime::createFromFormat('d/m/Y', $birthDate);
+	public function setBirthDate(?string $birthDate): self {
+		if ($birthDate) {
+			$this->birthDate = \DateTime::createFromFormat('d/m/Y', $birthDate);
+		}
 		return $this;
 	}
 
@@ -310,11 +294,11 @@ trait Person {
 		return $this;
 	}
 
-	public function getSex(): string {
+	public function getSex(): ?string {
 		return $this->sex;
 	}
 
-	public function setSex(string $sex): self {
+	public function setSex(?string $sex): self {
 		$this->sex = $sex;
 		return $this;
 	}

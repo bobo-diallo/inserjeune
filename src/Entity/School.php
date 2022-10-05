@@ -25,7 +25,7 @@ class School {
 	private ?\DateTime $clientUpdateDate = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
-	private string $name;
+	private ?string $name;
 
 	#[ORM\Column(name: 'type', type: 'string', length: 255)]
 	private string $type;
@@ -122,7 +122,7 @@ class School {
 	#[ORM\InverseJoinColumn(name: 'social_id', referencedColumnName: 'id')]
 	private Collection $socialNetworks;
 
-	#[ORM\ManyToOne(targetEntity: User::class)]
+	#[ORM\OneToOne(targetEntity: User::class)]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
 	private User $user;
 
@@ -236,11 +236,11 @@ class School {
 		return $this;
 	}
 
-	public function getName(): string {
+	public function getName(): ?string {
 		return $this->name;
 	}
 
-	public function setName(string $name): self {
+	public function setName(?string $name): self {
 		$this->name = $name;
 
 		return $this;
