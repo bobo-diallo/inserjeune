@@ -16,7 +16,7 @@ class Company {
 	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
-	private string $name;
+	private ?string $name;
 
 	#[ORM\Column(name: 'url', type: 'string', length: 255, nullable: true)]
 	private ?string $url;
@@ -39,7 +39,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
-	private Region $region;
+	private ?Region $region;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
@@ -65,7 +65,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: ContactCompany::class)]
 	#[ORM\JoinColumn(name: 'id_contactCompany', referencedColumnName: 'id')]
-	private ContactCompany $contactCompany;
+	private ?ContactCompany $contactCompany = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
@@ -73,7 +73,7 @@ class Company {
 
 	#[ORM\ManyToOne(targetEntity: LegalStatus::class)]
 	#[ORM\JoinColumn(name: 'id_legal_status', referencedColumnName: 'id')]
-	private LegalStatus $legalStatus;
+	private ?LegalStatus $legalStatus = null;
 
 	#[ORM\OneToMany(mappedBy: 'company', targetEntity: JobOffer::class, cascade: ['persist', 'remove'])]
 	private Collection $jobOffers;
@@ -108,7 +108,7 @@ class Company {
 	#[ORM\Column(name: 'location_fixed', type: 'boolean')]
 	private bool $locationFixed = false;
 
-	#[ORM\ManyToOne(targetEntity: 'User')]
+	#[ORM\OneToOne(inversedBy: 'company', targetEntity: 'User')]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
 	private ?User $user = null;
 
@@ -131,11 +131,11 @@ class Company {
 		return $this->id;
 	}
 
-	public function getName(): string {
+	public function getName(): ?string {
 		return $this->name;
 	}
 
-	public function setName(string $name): self {
+	public function setName(?string $name): self {
 		$this->name = $name;
 
 		return $this;
@@ -264,11 +264,11 @@ class Company {
 		return $this;
 	}
 
-	public function getLegalStatus(): LegalStatus {
+	public function getLegalStatus(): ?LegalStatus {
 		return $this->legalStatus;
 	}
 
-	public function setLegalStatus(LegalStatus $legalStatus = null): self {
+	public function setLegalStatus(?LegalStatus $legalStatus = null): self {
 		$this->legalStatus = $legalStatus;
 
 		return $this;
@@ -329,11 +329,11 @@ class Company {
 		return $this->publicities;
 	}
 
-	public function getContactCompany(): ContactCompany {
+	public function getContactCompany(): ?ContactCompany {
 		return $this->contactCompany;
 	}
 
-	public function setContactCompany(ContactCompany $contactCompany) {
+	public function setContactCompany(?ContactCompany $contactCompany) {
 		$this->contactCompany = $contactCompany;
 	}
 
@@ -447,13 +447,13 @@ class Company {
 		);
 	}
 
-	public function setRegion(Region $region = null): self {
+	public function setRegion(?Region $region = null): self {
 		$this->region = $region;
 
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 

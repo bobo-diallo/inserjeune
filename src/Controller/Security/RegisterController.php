@@ -19,6 +19,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use App\Entity\Role;
 use App\Entity\User;
@@ -35,6 +37,9 @@ class RegisterController extends AbstractController {
 	private RequestStack $requestStack;
 	private EventDispatcherInterface $dispatcher;
 	private EmailService $emailService;
+	private UserAuthenticatorInterface $authenticator;
+	private UserAuthenticatorInterface $userAuthenticator;
+	private FormLoginAuthenticator $formLoginAuthenticator;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -45,7 +50,10 @@ class RegisterController extends AbstractController {
 		TokenStorageInterface $tokenStorage,
 		RequestStack $requestStack,
 		EventDispatcherInterface $dispatcher,
-		EmailService $emailService
+		EmailService $emailService,
+		UserAuthenticatorInterface $authenticator,
+		UserAuthenticatorInterface $userAuthenticator,
+		FormLoginAuthenticator $formLoginAuthenticator
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
@@ -56,6 +64,9 @@ class RegisterController extends AbstractController {
 		$this->requestStack = $requestStack;
 		$this->dispatcher = $dispatcher;
 		$this->emailService = $emailService;
+		$this->authenticator = $authenticator;
+		$this->userAuthenticator = $userAuthenticator;
+		$this->formLoginAuthenticator = $formLoginAuthenticator;
 	}
 
 	#[Route(path: '/createAccount', name: 'register_create_account', methods: ['GET', 'POST'])]
@@ -64,7 +75,6 @@ class RegisterController extends AbstractController {
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 
-		$typePerson = $request->request->get('userbundle_user')['typePerson'];
 		$countries = $this->countryRepository->findByValid(true);
 
 		$isValidPhone = false;
@@ -127,6 +137,7 @@ class RegisterController extends AbstractController {
 			// ecriture en base
 			if ($isValidPhone) {
 				if ($existUser == null) {
+					$typePerson = $request->get('userbundle_user')['typePerson'];
 					$redirection = $this->addRoleAndGererateRedirection($user, $typePerson);
 
 					// Supprime les espaces du numéro de téléphone
@@ -150,7 +161,11 @@ class RegisterController extends AbstractController {
 					$this->em->flush();
 
 					// Authentification de l'utilisateur
-					$this->authenticateUser($request, $user);
+					$this->authenticator->authenticateUser(
+						$user,
+						$this->formLoginAuthenticator,
+						$request
+					);
 					return $redirection;
 				} else {
 					$errorMessage = "Ce numéro de téléphone est déja utilisé";
@@ -208,7 +223,7 @@ class RegisterController extends AbstractController {
 	 * @param User $user
 	 */
 	private function authenticateUser(Request $request, User $user) {
-		$token = new UsernamePasswordToken($user, null, 'main');
+		$token = new UsernamePasswordToken($user, 'main');
 		$this->tokenStorage->setToken($token);
 
 		$this->requestStack->getSession()->set('_security_main', serialize($token));
@@ -227,9 +242,9 @@ class RegisterController extends AbstractController {
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 
-		$submitPhone = $request->request->get('userbundle_user')['phone'];
-		$submitEmail = $request->request->get('userbundle_user')['email'];
-		$submitCode = $request->request->get('userbundle_user')['validCode'];
+		$submitPhone = $request->get('userbundle_user')['phone'] ?? null;
+		$submitEmail = $request->get('userbundle_user')['email'] ?? null;
+		$submitCode = $request->get('userbundle_user')['validCode'] ?? null;
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$isValidEmail = false;
@@ -272,8 +287,8 @@ class RegisterController extends AbstractController {
 				if ($isValidEmail) {
 					// creation du code d'activation
 					$code = rand(1002, 8902);
-					$this->get('session')->set('code', $code);
-					$this->get('session')->set('refu', $existUser->getId());
+					$this->requestStack->getSession()->set('code', $code);
+					$this->requestStack->getSession()->set('refu', $existUser->getId());
 
 					if ($this->emailService->sendMailPasswd($submitEmail, $code, "modif mdp inserjeune")) {
 						$this->addFlash('warning', 'Votre code est envoyée par mail');

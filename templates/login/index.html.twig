@@ -1,8 +1,7 @@
 {% extends "base_security.html.twig" %}
 
 {% block fos_user_title %}
-{#    <h4 class="auth-header">Connexion <a href="{{ path('register_create_account') }}">Créer un compte</a></h4>#}
-    <h4 class="auth-header">Connexion <a href="#">Créer un compte</a></h4>
+    <h4 class="auth-header">Connexion <a href="{{ path('register_create_account') }}">Créer un compte</a></h4>
 {% endblock fos_user_title %}
 
 {% block fos_user_content %}
@@ -39,8 +38,7 @@
                            value="on" /> Se rappeler de moi
                 </label>
                 <div >
-{#                    <a href="{{ path('register_ask_new_password') }}">Mot de passe oublié ?</a>#}
-                    <a href="#">Mot de passe oublié ?</a>
+                    <a href="{{ path('register_ask_new_password') }}">Mot de passe oublié ?</a>
                 </div>
             </div>
         </div>

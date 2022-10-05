@@ -242,7 +242,7 @@ class PersonDegreeType extends AbstractType {
 				'attr' => ['class' => 'form-control']
 			]);
 
-		$this->cityService->addCity($builder, 'addressCity', true, 'region', 'country');
+		$this->cityService->addCity($builder, 'addressCity', true);
 		$this->activityService->addActivity($builder, 'activity', 'sectorArea', false);
 	}
 
