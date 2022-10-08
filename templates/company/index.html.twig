@@ -1,183 +1,181 @@
 {% extends 'company/content.html.twig' %}
 
+{#<p>#}
+{#    {{ app.request.pathInfo }}#}
+{#</p>#}
 {% block body %}
-  <div class="content-i">
-    <div class="content-box">
-      {# Tableau 1 #}
-      <div class="element-wrapper">
-        <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
-        <h6 class="element-header">
-          {% if app.request.pathinfo == '/front/school/companies'%}
-            Liste des entreprises partenaires
-          {% elseif app.request.pathinfo == '/front/school/all_companies'%}
-            Liste de toutes les entreprises
-          {% else %}
-            Liste des entreprises
-          {%  endif %}
-          {#{% include '_menu.html.twig' %}#}
-        </h6>
-        <div class="element-box">
-          {%  if app.user.roles|role =="Administrateur" %}
-          {#{%  if app.user.roles|role =="Entreprise" %}#}
-            <div class="controls-above-table">
-              <div class="row">
-                <div class="col-sm-6">
-                  <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
-                  <a class="btn btn-sm btn-primary" href="#">Archiver</a>
-                  <a class="btn btn-sm btn-primary" href="{{ path('company_new') }}">
-                  <i class="fa fa-plus"></i> Ajouter une entreprise</a>
-                </div>
-              </div>
-            </div>
-          {%  elseif app.user.roles|role =="Etablissement" %}
-            {% if app.request.pathinfo == '/front/school/companies'%}
-              <div class="controls-above-table">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <a class="btn btn-sm btn-primary" id="addCompanySchool" href="{{ path('front_school_all_company_index') }}">
-                      <i class="fa fa-plus"></i> Administrer vos partenaires</a>
-                    <a class="btn btn-sm btn-primary" id="companiesEmployer" href="{{ path('front_school_persondegrees_company_index') }}">
-                      <i class="fa fa-plus"></i> Entreprises qui emploient vos diplômés</a>
-                  </div>
-                </div>
-              </div>
-            {% elseif app.request.pathinfo == '/front/school/all_companies'%}
-              <div class="controls-above-table">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <a class="btn btn-sm btn-primary" id="addCompanySchool" href="{{ path('front_school_company_index') }}">
-                      <i class="fa fa-plus"></i> Retour à vos partenaires</a>
-                  </div>
-                </div>
-              </div>
-            {% endif %}
-          {% endif %}
-          <div class="table-responsive">
-            <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
-              <thead>
-              <tr>
-                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
-                  <th>Actions</th>
-                {% endif %}
-
-                {% if app.user.roles|role =="Administrateur" %}
-                  <th>Id</th>
-                {% endif %}
-
-                {% if app.user.roles|role =="Etablissement" %}
-                  <th>Entreprise</th>
-                {%  else  %}
-                  <th>Nom</th>
-                {% endif %}
-
-                {%  if app.user.roles|role =="Administrateur" %}
-                  <th>Pays</th>
-                {% endif %}
-                <th>Ville</th>
-                <th>Telephone</th>
-                <th>Email</th>
-
-                {% if app.user.roles|role =="Administrateur" %}
-                  <th>Date création</th>
-                {% endif %}
-
-                {#{% if app.user.roles|role =="Etablissement" %}#}
-                  <th>Secteur d'activité</th>
-                {#{% endif %}#}
-              </tr>
-              </thead>
-              <tbody>
-              {% for company in companies %}
-                <tr>
-                  {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
-                    <td class="row-actions">
-                      {%  if app.user.roles|role =="Administrateur" %}
-                          <a href="{{ path('company_edit', { 'id': company.id }) }}#"><img
-                            src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                      {% endif %}
-                      <a href="{{ path('company_show', { 'id': company.id }) }}"><img
-                            src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                      {#<a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img#}
-                            {#src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>#}
-                    </td>
-                  {% endif %}
-                  {%  if app.user.roles|role =="Administrateur" %}
-                    <td><a href="{{ path('company_show', { 'id': company.id }) }}">{{ company.id }}</a></td>
-                  {% endif %}
-                  {% if app.user.roles|role =="Etablissement" %}
-                    {% if app.request.pathinfo == "/front/school/all_companies" %}
-                      <td>
-                        <div class="checkbox-inline" style="text-align:center;">
-                          <input style="opacity: 1.0; margin: auto; transform: none" type="checkbox" class="updateCompanySchool" id="companySchool{{ company.id }}" >
+    <div class="content-i">
+        <div class="content-box">
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    {% if app.request.pathinfo == '/front/school/companies'%}
+                        Liste des entreprises partenaires
+                    {% elseif app.request.pathinfo == '/front/school/all_companies'%}
+                        Liste de toutes les entreprises
+                    {% else %}
+                        Liste des entreprises
+                    {%  endif %}
+                </h6>
+                <div class="element-box">
+                    {%  if app.user.roles|role == 'Administrateur' %}
+                        <div class="controls-above-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('company_new') }}">
+                                        <i class="fa fa-plus"></i> Ajouter une entreprise</a>
+                                </div>
+                            </div>
                         </div>
-                      </td>
+                    {%  elseif app.user.roles|role == 'Etablissement' %}
+                        {% if app.request.pathinfo == '/front/school/companies'%}
+                            <div class="controls-above-table">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a class="btn btn-sm btn-primary" id="addCompanySchool" href="{{ path('front_school_all_company_index') }}">
+                                            <i class="fa fa-plus"></i> Administrer vos partenaires</a>
+                                        <a class="btn btn-sm btn-primary" id="companiesEmployer" href="{{ path('front_school_persondegrees_company_index') }}">
+                                            <i class="fa fa-plus"></i> Entreprises qui emploient vos diplômés</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif app.request.pathinfo == '/front/school/all_companies'%}
+                            <div class="controls-above-table">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a class="btn btn-sm btn-primary" id="addCompanySchool" href="{{ path('front_school_company_index') }}">
+                                            <i class="fa fa-plus"></i> Retour à vos partenaires</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
-                  {% endif %}
-                  <td>{{ company.name }}</td>
-                  {%  if app.user.roles|role =="Administrateur" %}
-                    <td>{{ company.country }}</td>
-                  {% endif %}
-                  <td>{{ company.city.name }}</td>
-                  <td>{{ company.phoneStandard }}</td>
-                  <td>{{ company.email }}</td>
-                  {% if app.user.roles|role =="Administrateur" %}
-                    <td>{{ company.createdDate|date('d/m/Y H:i') }}</td>
-                  {% endif %}
-                  {#{% if app.user.roles|role =="Etablissement" %}#}
-                    <td>{{ company.sectorarea }}</td>
-                  {#{% endif %}#}
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          </div>
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
+                                    <th>Actions</th>
+                                {% elseif app.user.roles|role == "Etablissement" %}
+                                    {% if app.request.pathinfo == '/front/school/all_companies'%}
+                                        <th>Selection</th>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if app.user.roles|role == 'Administrateur' %}
+                                    <th>Id</th>
+                                {% endif %}
+
+                                {% if app.user.roles|role == 'Etablissement' %}
+                                    <th>Entreprise</th>
+                                {%  else  %}
+                                    <th>Nom</th>
+                                {% endif %}
+
+                                {%  if app.user.roles|role == 'Administrateur' %}
+                                    <th>Pays</th>
+                                {% endif %}
+                                <th>Ville</th>
+                                <th>Telephone</th>
+                                <th>Email</th>
+
+                                {% if app.user.roles|role == "Administrateur" %}
+                                    <th>Date création</th>
+                                {% endif %}
+
+                                <th>Secteur d'activité</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for company in companies %}
+                                <tr>
+                                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
+                                        <td class="row-actions">
+                                            {%  if app.user.roles|role == "Administrateur" %}
+                                                <a href="{{ path('company_edit', { 'id': company.id }) }}#"><img
+                                                            src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            {% endif %}
+                                            <a href="{{ path('company_show', { 'id': company.id }) }}"><img
+                                                        src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        </td>
+                                    {% endif %}
+                                    {%  if app.user.roles|role == "Administrateur" %}
+                                        <td><a href="{{ path('company_show', { 'id': company.id }) }}">{{ company.id }}</a></td>
+                                    {% endif %}
+                                    {% if app.user.roles|role == "Etablissement" %}
+                                        {% if app.request.pathinfo == "/front/school/all_companies" %}
+                                            <td>
+                                                <div class="checkbox-inline" style="text-align:center;">
+                                                    <input style="opacity: 1.0; margin: auto; transform: none" type="checkbox" class="updateCompanySchool" id="companySchool{{ company.id }}" >
+                                                </div>
+                                            </td>
+                                        {% endif %}
+                                    {% endif %}
+                                    <td>{{ company.name }}</td>
+                                    {%  if app.user.roles|role == "Administrateur" %}
+                                        <td>{{ company.country }}</td>
+                                    {% endif %}
+                                    <td>{{ company.city.name }}</td>
+                                    <td>{{ company.phoneStandard }}</td>
+                                    <td>{{ company.email }}</td>
+                                    {% if app.user.roles|role == 'Administrateur' %}
+                                        <td>{{ company.createdDate|date('d/m/Y H:i') }}</td>
+                                    {% endif %}
+                                    <td>{{ company.sectorarea }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        {% if app.user.roles | role == 'Etablissement' %}
+            {% if app.request.pathinfo == '/front/school/all_companies'%}
+                <select hidden id="selectedCompanies">
+                    {% for company in selectedCompanies %}
+                        <option value="{{ company.id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+        {% endif %}
     </div>
-    {% if app.user.roles|role =="Etablissement" %}
-      {% if app.request.pathinfo == '/front/school/all_companies'%}
-        <select hidden id="selectedCompanies">
-          {% for company in selectedCompanies %}
-            <option value="{{ company.id }}">{{ company.name }}</option>
-          {% endfor %}
-        </select>
-      {% endif %}
-    {% endif %}
-  </div>
 {% endblock %}
 
 {% block js %}
-  <script>
-     function format(d) {
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-           '<tr>' +
-           '<td>Addresse Locality</td>' +
-           '<td>' + d[8] + '</td>' +
-           '</tr>' +
-           '<tr>' +
-           '<td>Date creation</td>' +
-           '<td>' + d[9] + '</td>' +
-           '</tr>' +
-           '</table>';
-     }
+    <script>
+        function format(d) {
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Addresse Locality</td>' +
+                '<td>' + d[8] + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Date creation</td>' +
+                '<td>' + d[9] + '</td>' +
+                '</tr>' +
+                '</table>';
+        }
 
-     $(document).ready(function () {
-        let table = datatable(true)
+        $(document).ready(function () {
+            let table = datatable(true);
 
-        $('#kz_table tbody').on('click', 'td.details-control', function () {
-           let tr = $(this).closest('tr');
-           let row = table.row(tr);
-           if (row.child.isShown()) {
-              // This row is already open - close it
-              row.child.hide();
-              tr.removeClass('shown');
-           } else {
-              // Open this row
-              row.child(format(row.data())).show();
-              tr.addClass('shown');
-           }
+            $('#kz_table tbody').on('click', 'td.details-control', function () {
+                let tr = $(this).closest('tr');
+                let row = table.row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
         });
-     });
-     makeSelected('company')
-  </script>
+        makeSelected('company')
+    </script>
 {% endblock %}

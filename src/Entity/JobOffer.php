@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\JobOfferRepository;
+use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,11 +21,11 @@ class JobOffer {
 
 	#[ORM\Column(name: 'title', type: 'string', length: 255)]
 	#[Assert\NotBlank]
-	private string $title;
+	private ?string $title;
 
 	#[ORM\Column(name: 'description', type: 'text', length: 512)]
 	#[Assert\Length(min: '20')]
-	private string $description;
+	private ?string $description;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
 	private ?\DateTime $createdDate = null;
@@ -53,11 +54,11 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'jobOffers')]
 	#[ORM\JoinColumn(name: 'id_company', referencedColumnName: 'id')]
-	private Company $company;
+	private ?Company $company = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
-	private SectorArea $sectorArea;
+	private ?SectorArea $sectorArea = null;
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
@@ -80,29 +81,38 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
-	private Region $region;
+	private ?Region $region = null;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
-	private Country $country;
+	private ?Country $country = null;
 
 	#[UploadableField(filename: 'filename', path: 'uploads')]
 	#[Assert\Image(maxWidth: '2000', maxHeight: '2000')]
 	private ?File $file = null;
 
+	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
+	private ?\DateTime $updatedDate;
+
+	#[ORM\Column(name: 'candidate_profile', type: 'text', nullable: true)]
+	private ?string $candidateProfile;
+
 	public function __construct() {
 		$this->createdDate = new \DateTime();
+		$this->updatedDate = new \DateTime();
+		// Closed after 3 months
+		$this->closedDate = (new \DateTime())->add(new \DateInterval('P3M'));
 	}
 
 	public function getId(): ?int {
 		return $this->id;
 	}
 
-	public function getTitle(): string {
+	public function getTitle(): ?string {
 		return $this->title;
 	}
 
-	public function setTitle(string $title): self {
+	public function setTitle(?string $title): self {
 		$this->title = $title;
 
 		return $this;
@@ -118,31 +128,33 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getClosedDate(): ?\DateTime {
-		return $this->closedDate;
+	public function getClosedDate(): ?string {
+		return ($this->closedDate) ? $this->closedDate->format(Utils::FORMAT_FR): null;
 	}
 
-	public function setClosedDate(?\DateTime $closedDate): self {
-		$this->closedDate = $closedDate;
+	public function setClosedDate(?string $closedDate): self {
+		if ($closedDate) {
+			$this->closedDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $closedDate);
+		}
 
 		return $this;
 	}
 
-	public function getCompany(): Company {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
-	public function setCompany(Company $company = null): self {
+	public function setCompany(?Company $company = null): self {
 		$this->company = $company;
 
 		return $this;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 
-	public function setDescription(string $description): self {
+	public function setDescription(?string $description): self {
 		$this->description = $description;
 
 		return $this;
@@ -185,11 +197,11 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getSectorArea(): SectorArea {
+	public function getSectorArea(): ?SectorArea {
 		return $this->sectorArea;
 	}
 
-	public function setSectorArea(SectorArea $sectorArea): self {
+	public function setSectorArea(?SectorArea $sectorArea): self {
 		$this->sectorArea = $sectorArea;
 		return $this;
 	}
@@ -248,20 +260,20 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 
-	public function setRegion(Region $region): self {
+	public function setRegion(?Region $region): self {
 		$this->region = $region;
 		return $this;
 	}
 
-	public function getCountry(): Country {
+	public function getCountry(): ?Country {
 		return $this->country;
 	}
 
-	public function setCountry(Country $country): self {
+	public function setCountry(?Country $country): self {
 		$this->country = $country;
 		return $this;
 	}
@@ -282,5 +294,23 @@ class JobOffer {
 
 	public function setFile($file): void {
 		$this->file = $file;
+	}
+
+	public function getUpdatedDate(): ?\DateTime {
+		return $this->updatedDate ?: $this->createdDate;
+	}
+
+	public function setUpdatedDate(?\DateTime $updatedDate): self {
+		$this->updatedDate = $updatedDate;
+		return $this;
+	}
+
+	public function getCandidateProfile(): ?string {
+		return $this->candidateProfile;
+	}
+
+	public function setCandidateProfile(?string $candidateProfile): self {
+		$this->candidateProfile = $candidateProfile;
+		return $this;
 	}
 }

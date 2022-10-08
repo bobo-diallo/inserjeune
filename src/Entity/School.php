@@ -63,9 +63,6 @@ class School {
 	#[ORM\Column(name: 'maps_address', type: 'string', nullable: true)]
 	private ?string $mapsAddress;
 
-	#[ORM\Column(name: 'location_fixed', type: 'boolean')]
-	private bool $locationFixed = false;
-
 	#[ORM\Column(name: 'other_activity1', type: 'string', nullable: true)]
 	private ?string $otherActivity1;
 
@@ -191,6 +188,9 @@ class School {
 	#[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id')]
 	#[ORM\InverseJoinColumn(name: 'activity_id', referencedColumnName: 'id')]
 	private Collection $activities6;
+
+	#[ORM\Column(name: 'location_mode', type: 'boolean', nullable: true)]
+	private ?bool $locationMode;
 
 	public function __construct() {
 		$this->socialNetworks = new ArrayCollection();
@@ -406,15 +406,6 @@ class School {
 		return $this;
 	}
 
-	public function isLocationFixed(): bool {
-		return $this->locationFixed;
-	}
-
-	public function setLocationFixed(bool $locationFixed): self {
-		$this->locationFixed = $locationFixed;
-		return $this;
-	}
-
 	public function __toString() {
 		return $this->name . ', ' . $this->city->getName();
 	}
@@ -625,10 +616,6 @@ class School {
 		return $this->agreeRgpd;
 	}
 
-	public function getLocationFixed(): bool {
-		return $this->locationFixed;
-	}
-
 	public function addPersonDegree(PersonDegree $personDegree) {
 		$this->personDegrees->add($personDegree);
 
@@ -684,4 +671,14 @@ class School {
 	public function getActivities6(): Collection {
 		return $this->activities6;
 	}
+
+	public function isLocationMode(): ?bool {
+		return $this->locationMode;
+	}
+
+	public function setLocationMode(?bool $locationMode): void {
+		$this->locationMode = $locationMode;
+	}
+
+
 }

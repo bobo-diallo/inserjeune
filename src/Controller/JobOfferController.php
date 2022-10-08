@@ -30,9 +30,9 @@ class JobOfferController extends AbstractController {
 	#[IsGranted('ROLE_USER')]
 	#[Route(path: '/', name: 'jobOffer_index', methods: ['GET'])]
 	public function indexAction(): Response {
-		return $this->render('jobOffer/index.html.twig', array(
-			'jobOffers' => $this->jobOfferRepository->findAll(),
-		));
+		return $this->render('jobOffer/index.html.twig', [
+			'jobOffers' => $this->jobOfferRepository->findAll()
+		]);
 	}
 
 	#[IsGranted('ROLE_ADMIN')]
@@ -71,6 +71,7 @@ class JobOfferController extends AbstractController {
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 			$jobOffer->setCompany($company);
+			$jobOffer->setUpdatedDate(new \DateTime());
 			$this->em->flush();
 
 			return $this->redirectToRoute('jobOffer_show', ['id' => $jobOffer->getId()]);

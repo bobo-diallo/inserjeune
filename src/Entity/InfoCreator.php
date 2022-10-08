@@ -14,32 +14,32 @@ class InfoCreator {
 	private ?int $id = null;
 
 	#[ORM\Column(name: 'name', type: 'string', length: 255, unique: true)]
-	private string $name;
+	private ?string $name;
 
 	#[ORM\Column(name: 'description', type: 'string', length: 510)]
-	private string $description;
+	private ?string $description;
 
 	public function getId(): ?int {
 		return $this->id;
 	}
 
-	public function setName(string $name): static {
+	public function setName(?string $name): static {
 		$this->name = $name;
 
 		return $this;
 	}
 
-	public function getName(): string {
+	public function getName(): ?string {
 		return $this->name;
 	}
 
-	public function setDescription(string $description): static {
+	public function setDescription(?string $description): static {
 		$this->description = $description;
 
 		return $this;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 }

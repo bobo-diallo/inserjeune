@@ -152,6 +152,16 @@ class GeoLocationController extends AbstractController {
 	}
 
 	/**
+	 * Affichage des diplômes par pays
+	 */
+	#[Route(path: '/country/{id}/unemployedpersondegree', name: 'geolocation_map_country_unemployed_persondegrees', methods: ['GET'])]
+	public function getUnemployedPersonDegreesCountryAction(Request $request, Country $country): JsonResponse|Response {
+		$personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_UNEMPLOYED');
+		return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
+	}
+
+
+	/**
 	 * @param Company[] $companies
 	 * @return array
 	 */
@@ -236,7 +246,7 @@ class GeoLocationController extends AbstractController {
 
 			//sectorAreas pour infoWindows dans Maps
 			$sectorAreas = $sectorArea1;
-			if (sizeof($sectorArea2) > 0) {
+			if ($sectorArea2) {
 				$sectorAreas .= ', ' . $sectorArea2;
 			}
 			if ($sectorArea3) {

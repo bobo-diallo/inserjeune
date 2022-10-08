@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Repository\CountryRepository;
 use App\Repository\JobOfferRepository;
 use App\Repository\RegionRepository;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/dashboard')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')")]
+#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') or is_granted('ROLE_ETABLISSEMENT') or is_granted('ROLE_ENTREPRISE')")]
 class DashboardController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
@@ -51,26 +53,51 @@ class DashboardController extends AbstractController {
 			$validRegions = array_merge($validRegions, $regions);
 		}
 
-		$idSelectCountry = $request->request->get('selectCountry');
-		if ($idSelectCountry) {
-			$request->getSession()->set('pays', $idSelectCountry);
+		// Récupération de la date de référence pour l'intervalle de temps, par défaut = date courante
+		$referenceDateTxt =  $request->request->get('referenceDate');
+		$session = $request->getSession();
+
+		if (!$referenceDateTxt && $session->has('referenceDate')) {
+			$referenceDateTxt = $session->get('referenceDate');
 		}
 
-		if (!$idSelectCountry) {
-			if ($request->getSession()->has('pays')) {
-				$idSelectCountry = $request->getSession()->get('pays');
+		if (!$referenceDateTxt) {
+			$referenceDateTxt = (new DateTime())->format('Y-m-d');
+		}
+		$session->set('referenceDate', $referenceDateTxt);
+		$referenceDate = (new \DateTime($referenceDateTxt))->format('Y-m-d');
+
+		// Récupération de l'intervalle de temps sélectionné par le formulaire et renvoie la date du premier jour  */
+		$selectedDuration = $request->request->get('selectDuration');
+		if ($selectedDuration) {
+			$session->set('selectDuration', $selectedDuration);
+		}
+
+		// Sinon récupération par la variable de session, sinon paramétrage à 3 mois
+		if (!$selectedDuration) {
+			$selectedDuration = ($session->has('selectDuration')) ? $session->get('selectDuration') : '2 ans';
+		}
+
+		$idSelectCountry = $request->request->get('selectCountry');
+		if ($idSelectCountry) {
+			$session->set('pays', $idSelectCountry);
+		} else {
+			if ($session->has('pays')) {
+				$idSelectCountry = $session->get('pays');
 			}
 		}
 
 		if (!$idSelectCountry) {
-			foreach ($validCountries as $country)
-				if ($country->isValid())
+			foreach ($validCountries as $country) {
+				if ($country->isValid()) {
 					$idSelectCountry = $country->getId();
+				}
+			}
 		}
 
 		$idSelectRegion = $request->request->get('selectRegion');
 		if ($idSelectRegion) {
-			$request->getSession()->set('region', $idSelectRegion);
+			$session->set('region', $idSelectRegion);
 		}
 
 		return $this->render('Dashboard/index.html.twig', [
@@ -78,21 +105,14 @@ class DashboardController extends AbstractController {
 			'regions' => $validRegions,
 			'idSelectedCountry' => $idSelectCountry,
 			'idSelectedRegion' => $idSelectRegion,
+			'selectedDuration'  => $selectedDuration,
+			'referenceDate' => $referenceDate,
 		]);
+	}
 
-		// if (!$idSelectCountry) {
-		// 	return $this->render('Dashboard/index.html.twig', [
-		// 		'idSelectedRegion' => $idSelectRegion
-		// 	]);
-		//
-		// } else {
-		// 	return $this->render('Dashboard/index.html.twig', [
-		// 		'countries' => $validCountries,
-		// 		'regions' => $validRegions,
-		// 		'idSelectedCountry' => $idSelectCountry,
-		// 		'idSelectedRegion' => $idSelectRegion,
-		// 	]);
-		// }
+	#[Route(path: '/export_pdf', name: 'export_pdf_index', methods: ['GET'])]
+	public function exportPdfAction(): Response {
+		return $this->redirectToRoute('dashboard_index');
 	}
 
 	#[Route(path: '/maps', name: 'dasboard_map', methods: ['GET'])]
@@ -101,14 +121,14 @@ class DashboardController extends AbstractController {
 		return $this->render('Dashboard/maps.html.twig');
 	}
 
-	#[Route(path: '/degree', name: 'dasboard_degree', methods: ['GET'])]
+	#[Route(path: '/degree', name: 'dashboard_degree', methods: ['GET'])]
 	public function dashboardDegreeAction(Request $request): Response {
 		return $this->render('Dashboard/dashboardDegree.html.twig', [
 			'jobOffers' => $this->jobOfferRepository->findAll()
 		]);
 	}
 
-	#[Route(path: '/company', name: 'dasboard_company', methods: ['GET'])]
+	#[Route(path: '/company', name: 'dashboard_company', methods: ['GET'])]
 	public function dashboardCompanyAction(Request $request): Response {
 		return $this->render('Dashboard/index.html.twig');
 	}

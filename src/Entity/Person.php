@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -72,6 +73,9 @@ trait Person {
 	#[ORM\Column(name: 'phone_office', type: 'string', nullable: true)]
 	private ?string $phoneOffice;
 
+	#[ORM\Column(name: 'location_mode', type: 'boolean', nullable: true)]
+	private ?bool $locationMode;
+
 	#[ORM\Column(name: 'email', type: 'string', nullable: true)]
 	private ?string $email;
 
@@ -127,12 +131,12 @@ trait Person {
 	 * @return string|null
 	 */
 	public function getBirthDate(): ?string {
-		return ($this->birthDate) ? $this->birthDate->format('m/d/Y') : null;
+		return ($this->birthDate) ? $this->birthDate->format(Utils::FORMAT_US) : null;
 	}
 
 	public function setBirthDate(?string $birthDate): self {
 		if ($birthDate) {
-			$this->birthDate = \DateTime::createFromFormat('d/m/Y', $birthDate);
+			$this->birthDate = \DateTime::createFromFormat(Utils::FORMAT_US, $birthDate);
 		}
 		return $this;
 	}
@@ -310,4 +314,16 @@ trait Person {
 	public function setImage(?Image $image) {
 		$this->image = $image;
 	}
+
+	public function isLocationMode(): ?bool {
+		return $this->locationMode;
+	}
+
+	public function setLocationMode(?bool $locationMode): self {
+		$this->locationMode = $locationMode;
+
+		return $this;
+	}
+
+
 }

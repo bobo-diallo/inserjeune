@@ -170,4 +170,146 @@ class CompanyRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
+
+	public function getByCountryBetweenCreatedDateAndEndDate(
+		Country $country,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('c')
+			->where('c.country = :country')
+			->andWhere ('c.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'country' => $country,
+				'beginDate' => $beginDate,
+				'endDate' => $endDate
+			] )
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param Region $region
+	 * @param \DateTime $beginDate
+	 * @param \DateTime $endDate
+	 * @return Company[]
+	 */
+	public function getByRegionBetweenCreatedDateAndEndDate(
+		Region $region,
+		\DateTime $beginDate,
+		\DateTime $endDate): array {
+		return $this->createQueryBuilder('c')
+			->where('c.region = :region')
+			->andWhere ('c.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'region' => $region,
+				'beginDate'=> $beginDate,
+				'endDate' => $endDate
+			])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param Country $country
+	 * @param SectorArea $sectorArea
+	 * @param \DateTime $beginDate
+	 * @param \DateTime $endDate
+	 * @return Company[]
+	 */
+	public function getByCountryAndSectorAreaBetweenCreatedDateAndEndDate(
+		Country $country,
+		SectorArea $sectorArea,
+		\DateTime $beginDate,
+		\DateTime $endDate): array {
+		return $this->createQueryBuilder('c')
+			->where('c.country = :country')
+			->andWhere('c.sectorArea = :sectorArea')
+			->andWhere ('c.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'country' => $country,
+				'sectorArea'=> $sectorArea,
+				'beginDate' => $beginDate,
+				'endDate' => $endDate
+			])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param Region $region
+	 * @param SectorArea $sectorArea
+	 * @param \DateTime $beginDate
+	 * @param \DateTime $endDate
+	 * @return Company[]
+	 */
+	public function getByRegionAndSectorAreaBetweenCreatedDateAndEndDate(
+		Region $region,
+		SectorArea $sectorArea,
+		\DateTime $beginDate,
+		\DateTime $endDate): array {
+		return $this->createQueryBuilder('c')
+			->where('c.region = :region')
+			->andWhere('c.sectorArea = :sectorArea')
+			->andWhere('c.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'region' => $region,
+				'sectorArea' => $sectorArea,
+				'beginDate' => $beginDate,
+				'endDate' => $endDate
+			])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param Country $country
+	 * @param LegalStatus $legalStatus
+	 * @param \DateTime $beginDate
+	 * @param \DateTime $endDate
+	 * @return Company[]
+	 */
+	public function getByCountryAndLegalStatusBetweenCreatedDateAndEndDate(
+		Country     $country,
+		LegalStatus $legalStatus,
+		\DateTime   $beginDate,
+		\DateTime   $endDate): array {
+		return $this->createQueryBuilder('c')
+			->where('c.country = :country')
+			->andWhere('c.legalStatus = :legalStatus')
+			->andWhere('c.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'country' => $country,
+				'legalStatus' => $legalStatus,
+				'beginDate' => $beginDate,
+				'endDate' => $endDate
+			])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param Region $region
+	 * @param LegalStatus $legalStatus
+	 * @param \DateTime $beginDate
+	 * @param \DateTime $endDate
+	 * @return Company[]
+	 */
+	public function getByRegionAndLegalStatusBetweenCreatedDateAndEndDate(
+		Region $region,
+		LegalStatus $legalStatus,
+		\DateTime $beginDate,
+		\DateTime $endDate): array {
+		return $this->createQueryBuilder('c')
+			->where('c.region = :region')
+			->andWhere('c.legalStatus = :legalStatus')
+			->andWhere ('c.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'region' => $region,
+				'legalStatus'=> $legalStatus,
+				'beginDate'=> $beginDate,
+				'endDate'=>$endDate
+			])
+			->getQuery()
+			->getResult();
+	}
 }

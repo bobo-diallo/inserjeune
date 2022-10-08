@@ -1,0 +1,237 @@
+{% extends 'school/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+            {% set rowNumber = 0 %}
+            <div class="element-wrapper">
+                {% if app.user.roles|role == "Administrateur" %}
+                    <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon"
+                         style="margin-bottom: -35px;">
+                {% endif %}
+                <h6 class="element-header">Enrollement de diplômés</h6>
+                <div class="element-box">
+                    {# <script>alert("role =" + {{ app.user.roles|role }})</script> #}
+                    {% if app.user.roles|role == "Etablissement" %}
+                        <div class="controls-above-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {% set lien_images = asset('build/images/icon/') %}
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
+                                    <button class="btn btn-sm btn-primary" id="addPersonDegree"
+                                            onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé
+                                    </button>
+
+                                    <!--a class="btn btn-sm btn-primary" href="#">Archiver</a-->
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap"
+                               style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th>Immatriculation</th>
+                                <th>Prénom</th>
+                                <th>Nom</th>
+                                <th>Date<br>Naissance</th>
+                                <th>Genre</th>
+                                <th>Région</th>
+                                <th>Ville</th>
+                                <th>portable</th>
+                                <th>portable parent</th>
+                                <th>Email</th>
+                                <th>Diplôme</th>
+                                <th>Secteur</th>
+                                <th>Filière</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyPersonDegree">
+                            {% for personDegree in personDegrees %}
+                                {% set rowNumber = rowNumber + 1 %}
+                                {{ app.session.set('rowNumber', rowNumber) }}
+                                {{ add_row_person_degree(rowNumber, personDegree, asset('build/images/icon/')) }}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll('')">Editer tout</button>
+                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll('')">Sauvegarder Selection</button>
+            </div>
+            <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        /*$(document).ready(function () {
+           let table = datatable(true)
+        });*/
+    </script>
+
+    <script>
+        function addRowPersonDegree(assetLocationIcon) {
+            let rowNumber = $('#rowNumber').val();
+            rowNumber++;
+            $('#rowNumber').val(rowNumber);
+            let colorBack = "odd";
+
+            let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree' + rowNumber + '" role="row">';
+            html += '    <td class="row-actions sorting_1">';
+            html += '        <span style="display: none" >undefined</span>';
+            html += '        <button id="edit' + rowNumber + '" onclick="displayButton(\'edit\',' + rowNumber + ')"><img src="' + assetLocationIcon + 'edit_16.png"></button>';
+            html += '        <button style="display: none"  id="remove' + rowNumber + '" onclick="displayButton(\'remove\',' + rowNumber + ')"><img src="' + assetLocationIcon + 'delete.png"></button>';
+            html += '        <button style="display: none"  id="save' + rowNumber + '" onclick="displayButton(\'save\',' + rowNumber + ')"><img src="' + assetLocationIcon + 'save_16.png"></button>';
+            html += '        <button style="display: none"  id="cancel' + rowNumber + '" onclick="displayButton(\'cancel\',' + rowNumber + ')"><img src="' + assetLocationIcon + 'cancel_16.png"></button>';
+            html += '    </td>';
+            html += '    <td><input id="registrationStudentSchool' + rowNumber + '" style="display:none" value="1234"><p>1234</p></td>';
+            html += '    <td><input id="firstname' + rowNumber + '" style="display:none" value="mon prénom"><p>mon prénom</p></td>';
+            html += '    <td><input id="lastname' + rowNumber + '" style="display:none" value="mon nom"><p>mon nom</p></td>';
+
+            html += '    <td><input id="birthDate' + rowNumber + '" type="Date" style="display:none" value="2022-10-14"><p>22-10-2022</p></td>';
+
+            html += '    <td><input id="sex' + rowNumber + '" style="display:none" value="un homme"><p>un homme</p></td>';
+            html += '    <td><input id="region' + rowNumber + '" style="display:none" value="Thiès"><p>Thiès</p></td>';
+            html += '    <td><input id="city' + rowNumber + '" style="display:none" value="Thiès"><p>Thiès</p></td>';
+            html += '    <td><input id="phoneMobile1' + rowNumber + '" style="display:none" value="+221444440292"<p>+221444440292</p></td>';
+            html += '    <td><input id="phoneMobile2' + rowNumber + '" style="display:none" value="+221444440299"><p>+221444440299</p></td>';
+            html += '    <td><input id="email' + rowNumber + '" style="display:none" value="monemail@mail.com"><p>monemail@mail.com</p></td>';
+            html += '    <td><input id="degree' + rowNumber + '" style="display:none" value="Brevet de Technicien (BT)"><p>Brevet de Technicien (BT)</p></td>';
+            html += '    <td><input id="sectorarea' + rowNumber + '" style="display:none" value="CONSTRUCTION, BÂTIMENT ET TRAVAUX PUBLICS"><p>CONSTRUCTION, BÂTIMENT ET TRAVAUX PUBLICS</p></td>';
+            html += '    <td><input id="activity' + rowNumber + '" style="display:none" value="Electricité bâtiment"><p>Electricité bâtiment</p></td>';
+
+            html += '</tr>';
+
+            $('#tbodyPersonDegree').append(html);
+            let idtest = "#edit" + rowNumber;
+            $(idtest).addClass("editPersonDegree");
+        }
+
+        function displayButton(action, rowNumber) {
+            let save = "#save" + rowNumber;
+            let cancel = "#cancel" + rowNumber;
+            let edit = "#edit" + rowNumber;
+            let remove = "#remove" + rowNumber;
+
+            /* récupération de l'id du diplômé si existant */
+            personDegreeId = $("#id" + rowNumber).text();
+
+            /* Affichage des buttons */
+            /* --------------------- */
+            if (action == "edit") {
+                $(save).css("display", "inline-block");
+                $(cancel).css("display", "inline-block");
+                $(edit).css("display", "none");
+                $(remove).css("display", "none");
+            } else if ((action == "save") || (action == "cancel")) {
+                $(save).css("display", "none");
+                $(cancel).css("display", "none");
+                $(edit).css("display", "inline-block");
+                if (personDegreeId)
+                    $(remove).css("display", "inline-block");
+            }
+            /* Affichage des inputs et des p */
+            /* ----------------------------- */
+            row = $(edit).attr('id').replace("edit", "#personDegree");
+            //console.log(row);
+            $(row).each(function () {
+                if (action == "edit") {
+                    $(this).find('input').each(function () {
+                        $(this).css("display", "inline-block");
+                    });
+                    $(this).find('p').each(function () {
+                        $(this).css("display", "none");
+                    });
+                } else if ((action == "save") || (action == "cancel")) {
+                    $(this).find('input').each(function () {
+                        $(this).css("display", "none");
+                    });
+                    $(this).find('p').each(function () {
+                        $(this).css("display", "inline-block");
+                    });
+                }
+            });
+
+            /* Appels Ajax pour la sauvegarde et la suppression  */
+            /* ------------------------------------------------- */
+            if (action == "save") {
+                if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                    /* creation de la table des données */
+                    /* -------------------------------- */
+                    let personDegree = [];
+                    //console.log("row=" + row);
+                    personDegree = {};
+
+                    /* récupération de l'id du diplômé si existant */
+                    personDegree["id"] = $("#id" + rowNumber).text();
+
+                    /* récupération des données saisies dans les inputs */
+                    /*------------------------------------------------- */
+                    $(row).each(function () {
+                        $(this).find('input').each(function () {
+                            /*récupération du Label en enlevant le numero du rowNumber */
+                            let nbDigitsRowNumber = rowNumber.toString().length;
+
+                            let inputLabel = $(this).attr('id');
+                            inputLabel = inputLabel.substring(0, inputLabel.length - nbDigitsRowNumber);
+                            //console.log(inputLabel + " | " + nbDigitsRowNumber + " | " + rowNumber);
+
+                            personDegree[inputLabel] = $(this).val();
+                        });
+                    });
+
+                    console.log(personDegree)
+
+                    /* appel ajax en get pour sauvegarder le Diplômé */
+                    /* --------------------------------------------- */
+                    data = {"test1": "toto", "test2": "tata"};
+                    let dirs = window.location.href.split('/');
+                    let $locationRef = "";
+                    for (let i = 0; i < dirs.length - 1; i++)
+                        $locationRef += dirs[i] + '/';
+                    console.log($locationRef + 'personDegreeUpdateAjax');
+
+                    $.get($locationRef + 'personDegreeUpdateAjax/', data).done(function (res) {
+                        console.log(res)
+                        /*
+                         FONCTION A REALISER:
+                         ENVOYER LES DONNEES AU SERVEUR
+                         SI ID EST NULL : CREER LE DIPLOMé
+                         SI ID EST NON NULL : UPDATE DIPLOMé
+                         METTRE 0 JOUR LES <P> de LA TABLE AVEC LES VALEURS DE LA REPONSE JSON (DIPLOMé)
+                         ATTENTION, METTRE A JOUR L'ID
+                         */
+                    }, "json");
+                }
+
+            } else if (action == "remove") {
+                if (confirm("Etes vous sûr de supprimer cette entrée ?")) {
+                    /* creation de la table des données */
+                    /* -------------------------------- */
+                    let personDegree = [];
+                    personDegree = {};
+
+                    /* récupération de l'id du diplômé si existant */
+                    personDegreeId = $("#id" + rowNumber).text();
+
+                    if (personDegreeId) {
+                        $.get($locationRef + 'personDegreeDeleteAjax/', personDegreeId).done(function (res) {
+                            console.log(res)
+                            /*
+                             FONCTION A REALISER:
+                             ENVOYER L'ID DU DIPLOMé A SUPPRIMER
+                             SI DIPLOMé SUPPRIMé (REPONSE AJAX), SUPPRIMER LIGNE DANS LA TABLE
+                             */
+                        }, "json");
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}
+

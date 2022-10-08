@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Degree;
 use App\Entity\PersonDegree;
+use App\Entity\School;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\Activity;
 use App\Entity\City;
@@ -175,15 +177,12 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	/**
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param \DateTime $birthDate
 	 * @return PersonDegree[]
 	 */
 	public function getByFirstNameAndLastNameAndBirthDate(
 		string    $firstName,
 		string    $lastName,
-		\DateTime $birthDate
+		?\DateTime $birthDate
 	): array {
 		return $this->createQueryBuilder('s')
 			->where('s.firstname = :firstname ')
@@ -195,17 +194,13 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	/**
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param \DateTime $birthDate
-	 * @param \DateTime $createdDate
 	 * @return PersonDegree[]
 	 */
 	public function getByFirstNameAndLastNameAndBirthDateAndCreatedDate(
 		string    $firstName,
 		string    $lastName,
-		\DateTime $birthDate,
-		\DateTime $createdDate
+		?\DateTime $birthDate,
+		?\DateTime $createdDate
 	): array {
 		return $this->createQueryBuilder('s')
 			->where('s.firstname = :firstname ')
@@ -223,21 +218,439 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	/**
-	 * @param string $firstname
-	 * @param string $lastname
-	 * @param \DateTime $createdDate
 	 * @return PersonDegree[]
 	 */
 	public function getByFirstnameAndLastameAndCreatedDate(
 		string    $firstname,
 		string    $lastname,
-		\DateTime $createdDate
+		?\DateTime $createdDate
 	): array {
 		return $this->createQueryBuilder('s')
 			->where('s.firstname = :firstname')
 			->andWhere('s.lastname = :lastname')
 			->andWhere('s.createdDate = :createdDate')
 			->setParameters(['firstname' => $firstname, 'lastname' => $lastname, 'createdDate' => $createdDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByCountryAndSchool(Country $country, School $school): array {
+		return $this->createQueryBuilder('pd')
+			->where('pd.country = :country ')
+			->andWhere('pd.school = :school')
+			->setParameters(['country' => $country, 'school' => $school])
+			->getQuery()
+			->getResult();
+	}
+
+	public function getByCountryBetweenCreatedDateAndEndDate (
+		Country $country,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'beginDate'=> $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	public function getByCountryAndSchoolBetweenCreatedDateAndEndDate (
+		Country $country,
+		?School $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere ('s.school = :school ')
+			->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters([
+				'country' => $country,
+				'school' => $school,
+				'beginDate'=> $beginDate,
+				'endDate' => $endDate
+			])
+			->getQuery()
+			->getResult();
+	}
+
+	public function getByRegionBetweenCreatedDateAndEndDate (
+		Region $region,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+			->getQuery()
+			->getResult();
+	}
+
+
+	public function getByRegionAndSchoolBetweenCreatedDateAndEndDate(
+		Region $region,
+		?School $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere ('s.school = :school ')
+			->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'school' => $school, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	public function getByCountryAndTypeBetweenCreatedDateAndEndDate(
+		Country $country,
+		string $type,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere('s.type = :type')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'type' => $type, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate(
+		Country   $country,
+		string    $type,
+		School    $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere('s.type = :type')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'type' => $type, 'school' => $school, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndTypeBetweenCreatedDateAndEndDate(
+		Region    $region,
+		string    $type,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.type = :type')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'type' => $type, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+			->getQuery()
+			->getResult();
+	}
+
+
+	/**
+	 * @param Region $region
+	 * @param School $school
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndSchool(Region $region, School $school): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.school = :school')
+			->setParameters(['region' => $region, 'school' => $school])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate(
+		Region    $region,
+		string    $type,
+		School    $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.type = :type')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'type' => $type, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByCountryAndSectorAreaBetweenCreatedDateAndEndDate(
+		Country    $country,
+		SectorArea $sectorArea,
+		?\DateTime  $beginDate,
+		?\DateTime  $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere('s.sectorArea = :sectorArea')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'sectorArea' => $sectorArea, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByCountryAndSectorAreaAndSchoolBetweenCreatedDateAndEndDate(
+		Country    $country,
+		SectorArea $sectorArea,
+		School     $school,
+		?\DateTime  $beginDate,
+		?\DateTime  $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere('s.sectorArea = :sectorArea')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'sectorArea' => $sectorArea, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndSectorAreaBetweenCreatedDateAndEndDate(
+		Region     $region,
+		SectorArea $sectorArea,
+		?\DateTime  $beginDate,
+		?\DateTime  $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.sectorArea = :sectorArea')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'sectorArea' => $sectorArea, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndSectorAreaAndSchoolBetweenCreatedDateAndEndDate(
+		Region     $region,
+		SectorArea $sectorArea,
+		School     $school,
+		?\DateTime  $beginDate,
+		?\DateTime  $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.sectorArea = :sectorArea')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'sectorArea' => $sectorArea, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getBySectorAreaBetweenCreatedDateAndEndDate(
+		SectorArea $sectorArea,
+		?\DateTime  $beginDate,
+		?\DateTime  $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.sectorArea = :sector_area')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['sector_area' => $sectorArea, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getBySectorAreaAndSchoolBetweenCreatedDateAndEndDate(
+		SectorArea $sectorArea,
+		School     $school,
+		?\DateTime  $beginDate,
+		?\DateTime  $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.sectorArea = :sector_area')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->andWhere('s.school = :school')
+			->setParameters(['sector_area' => $sectorArea, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByActivityBetweenCreatedDateAndEndDate(
+		Activity  $activity,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.activity = :activity')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['activity' => $activity, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByActivityAndSchoolBetweenCreatedDateAndEndDate(
+		Activity  $activity,
+		School    $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.activity = :activity')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['activity' => $activity, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByTypeBetweenCreatedDateAndEndDate(
+		string    $type,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.type = :type')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['type' => $type, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+	/**
+	 * @param string $type
+	 * @param School $school
+	 * @return PersonDegree[]
+	 */
+	public function getByTypeAndSchool(string $type, School $school): array {
+		return $this->createQueryBuilder('s')
+			->where('s.type = :type')
+			->andWhere('s.school = :school')
+			->setParameters(['type'=> $type, 'school' => $school])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByTypeAndSchoolBetweenCreatedDateAndEndDate(
+		string    $type,
+		School    $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.type = :type')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['type' => $type, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByCountryAndDegreeBetweenCreatedDateAndEndDate(
+		Country   $country,
+		Degree    $degree,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere('s.degree = :degree')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'degree' => $degree, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByCountryAndDegreeAndSchoolBetweenCreatedDateAndEndDate(
+		Country   $country,
+		Degree    $degree,
+		School    $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.country = :country ')
+			->andWhere('s.degree = :degree')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['country' => $country, 'degree' => $degree, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndDegreeBetweenCreatedDateAndEndDate(
+		Region    $region,
+		Degree    $degre,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.degree = :degree')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'degree' => $degre, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return PersonDegree[]
+	 */
+	public function getByRegionAndDegreeAndSchoolBetweenCreatedDateAndEndDate(
+		Region    $region,
+		Degree    $degree,
+		School    $school,
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
+		return $this->createQueryBuilder('s')
+			->where('s.region = :region ')
+			->andWhere('s.degree = :degree')
+			->andWhere('s.school = :school')
+			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+			->setParameters(['region' => $region, 'degree' => $degree, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param School $school
+	 * @param boolean $unlocked
+	 * @return PersonDegree[]
+	 */
+	public function getBySchoolAndByUnlocked(School $school, bool $unlocked): array {
+		return $this->createQueryBuilder('s')
+			->where('s.school = :school ')
+			->andWhere('s.unlocked = :unlocked')
+			->setParameters(['school' => $school, 'unlocked' => $unlocked])
 			->getQuery()
 			->getResult();
 	}

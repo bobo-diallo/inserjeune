@@ -59,6 +59,7 @@ class FrontPersonDegreeController extends AbstractController {
 		$user = $this->getUser();
 		$personDegree->setPhoneMobile1($user->getPhone());
 		$personDegree->setCountry($user->getCountry());
+		$personDegree->setLocationMode(true);
 
 		$selectedCountry = $this->getUser()->getCountry();
 
@@ -149,11 +150,11 @@ class FrontPersonDegreeController extends AbstractController {
 
 	#[Route(path: '/jobOffers', name: 'front_persondegree_joboffers', methods: ['GET'])]
 	public function listJobOffersAction(): Response {
-		if (!$this->personDegreeService->getPersonDegree()) return $this->redirectToRoute('front_persondegree_new');
-
-		return $this->render('frontPersondegree/jobOffers.html.twig', [
-			'jobOffers' => $this->jobOfferRepository->findAll()
-		]);
+		if (!$this->personDegreeService->getPersonDegree()) {
+			return $this->redirectToRoute('front_persondegree_new');
+		} else {
+			return $this->redirectToRoute('jobOffer_index');
+		}
 	}
 
 
@@ -175,12 +176,13 @@ class FrontPersonDegreeController extends AbstractController {
 			$candidate->setCandidateName(preg_replace('/ /', '_', strtolower($personDegree->getFirstname() . '_' . $personDegree->getLastname())));
 			$candidate->setEmailDestination($jobOffer->getPostedEmail());
 
-			if ($this->emailService->sendMail($candidate, $jobOffer->getTitle()))
+			if ($this->emailService->sendMail($candidate, $jobOffer->getTitle())) {
 				$this->notifSatisfaction("Votre candididature est envoyée avec success.");
-			else
+			} else {
 				$this->notifSatisfaction("Erreur envoi candidature");
+			}
 
-			return $this->redirectToRoute('front_persondegree_joboffers');
+			return $this->redirectToRoute('jobOffer_index');
 		}
 		return $this->render('frontPersondegree/candidate.html.twig', [
 			'form' => $form->createView(),

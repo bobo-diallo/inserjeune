@@ -53,6 +53,8 @@ class SchoolController extends AbstractController {
 	#[Route(path: '/new', name: 'school_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$school = new School();
+		$school->setLocationMode(true);
+
 		$form = $this->createForm(SchoolType::class, $school);
 		$form->handleRequest($request);
 		$selectedCountry = $school->getCountry();

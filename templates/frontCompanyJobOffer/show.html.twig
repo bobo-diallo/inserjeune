@@ -1,4 +1,4 @@
-{% extends 'frontCompanyJobOffer/content.html.twig' %}
+{% extends 'jobOffer/content.html.twig' %}
 
 {% block body %}
   <div class="content-i">
@@ -8,55 +8,116 @@
         <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
           Details de l'offre {{ jobOffer.id }}
-          <a class="btn btn-sm btn-primary float-right" href="{{ path('front_company_jobOffer_new') }}">
-            <i class="fa fa-plus"></i> Ajouter une offre
-          </a>
-          <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('front_company_jobOffer_index') }}">
+          {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise" %}
+            <a class="btn btn-sm btn-primary float-right" href="{{ path('jobOffer_new') }}">
+              <i class="fa fa-plus"></i> Ajouter une offre
+            </a>
+          {% endif %}
+          <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
             <i class="fa fa-arrow-left"></i> Retour à la liste
           </a>
         </h6>
-        <div class="element-box">
-          <form>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-4">Id</label>
-              <div class="col-sm-8"><input class="form-control" disabled value="{{ jobOffer.id }}"></div>
-            </div>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-4">Titre</label>
-              <div class="col-sm-8"><input class="form-control" disabled value="{{ jobOffer.title }}"></div>
-            </div>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-4">Métier</label>
-              <div class="col-sm-8"><input class="form-control" disabled value="{{ jobOffer.activity }}"></div>
-            </div>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-4">Email</label>
-              <div class="col-sm-8"><input class="form-control" disabled value="{{ jobOffer.postedEmail }}"></div>
-            </div>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-4">Description</label>
-              <div class="col-sm-8"><textarea rows="6" class="form-control"
-                                              disabled>{{ jobOffer.description }}</textarea></div>
-            </div>
-            {% if attribute(jobOffer.file.vars, 'data') is defined and jobOffer.file.vars.data is not empty %}
-              <div class="form-group row">
-                <label class="col-form-label col-sm-4">Fichier</label>
-                <div class="col-sm-8">
-                  <img src="{{ asset(jobOffer.file.path ~ '/' ~ jobOffer.file.filename) }}" alt="image" style="max-width: 200px; max-height: 150px;">
-                </div>
-              </div>
+        <div class="element-box jobOffer">
+          <div class="form-group row jobOfferBanner">
+            {% if jobOffer.company.logo %}
+              <img src="{#{ jobOffer.company.logo }#}" alt="Logo entreprise">
+            {%  else %}
+              <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
             {% endif %}
-          </form>
-          {% if company == jobOffer.company %}
+            <span>Offre d'emploi</span>
+          </div>
+          <div class="form-group row jobOfferTitle">
+            <h2>{{ jobOffer.title }}</h2>
+          </div>
+          <div class="form-group row jobOfferDates">
+            <p class="col-sm-12">Publiée le {{ jobOffer.createdDate|date('d/m/Y') }}</p>
+            {%  if jobOffer.updatedDate > jobOffer.createdDate %}
+              <p class="col-sm-12">Mise à jour le {{ jobOffer.updatedDate|date('d/m/Y') }}</p>
+            {% endif %}
+            {#%  if jobOffer.closedDate > jobOffer.createdDate %#}
+            <p class="col-sm-12">Expire le {{ jobOffer.closedDate }}</p>
+            {#% endif %#}
+            <p class="col-sm-12">Type de contrat : {{ jobOffer.contract }}</p>
+            {% if jobOffer.otherCity %}
+              <p class="col-sm-12">Localisation : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>
+            {% else %}
+              <p class="col-sm-12">Localisation : {{ jobOffer.country }}-{{ jobOffer.city.name }}</p>
+            {% endif %}
+          </div>
+
+          <div class="form-group row jobOfferCompanyName">
+            <a href="https://{{ jobOffer.company.url }}">
+              <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>
+            </a>
+          </div>
+
+          <div class="row">
+            <fieldset class="col-form-label col-sm-6">
+              <legend>
+                <span>Description de l'entreprise</span>
+              </legend>
+              <div class="form-group row ">
+                <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>
+              </div>
+            </fieldset>
+            <fieldset class="col-form-label col-sm-6">
+              <legend>
+                <span> Description du poste </span>
+              </legend>
+              <div class="form-group row ">
+                <p class="col-sm-12">{{  jobOffer.description | raw }}</p>
+              </div>
+            </fieldset>
+          </div>
+          <div class="row">
+            <fieldset class="col-form-label col-sm-6">
+              <legend>
+                <span>Profile du candidat</span>
+              </legend>
+              <div class="form-group row ">
+                <p class="col-sm-12">{{ jobOffer.candidateProfile | raw }}</p>
+              </div>
+            </fieldset>
+            <fieldset class="col-form-label col-sm-6">
+              <legend >
+                <span>Personne en charge du recrutement</span>
+              </legend>
+              <div class="form-group row ">
+                <!--div class="form-group row "-->
+                {% if jobOffer.postedContact %}
+                  <p class="col-sm-12">{{ jobOffer.postedContact }}</p>
+                {% endif %}
+                {% if jobOffer.postedPhone %}
+                  <p class="col-sm-12"><i class="fa fa-phone"></i>    {{ jobOffer.postedPhone }}</p>
+                {% endif %}
+                {% if jobOffer.postedEmail %}
+                  <p class="col-sm-12"><i class="fa fa-envelope"></i>   {{ jobOffer.postedEmail }}</p>
+                {% endif %}
+              </div>
+            </fieldset>
+          </div>
+
+{#          {%  if app.user.roles|role == "Diplômé"%}#}
+          {%  if app.user.roles|role == "Diplômé"%}
+            <a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}" class="btn btn-lg btn-success" role="button">Postuler</a>
+
+          {% endif %}
+          {% if attribute(jobOffer.file.vars, 'data') is defined and jobOffer.file.vars.data is not empty %}
+            <div class="form-group row">
+              <label class="col-form-label col-sm-4">Fichier</label>
+              <div class="col-sm-8">
+                <img src="{{ asset(jobOffer.file.path ~ '/' ~ jobOffer.file.filename) }}" alt="image" style="max-width: 200px; max-height: 150px;">
+              </div>
+            </div>
+          {% endif %}
+          {%  if app.user.roles|role == "Administrateur" %}
             <div class="controls-above-table">
               <div class="row" id="actions">
                 <div class="col-sm-6">
-                  <a class="btn btn-sm btn-primary" href="{{ path('front_company_jobOffer_edit', {'id': jobOffer.id}) }}">
+                  <a class="btn btn-sm btn-primary" href="{{ path('jobOffer_edit', {'id': jobOffer.id}) }}">
                     <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
-                  <button class="btn btn-sm btn-danger"
-                          onclick="deleteElement('{{ path('front_company_jobOffer_delete', {'id': jobOffer.id}) }}')">
-                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer
-                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')">
+                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
                 </div>
               </div>
             </div>
@@ -70,6 +131,6 @@
 
 {% block js %}
   <script>
-     $('#actions form').css('display', 'inline-block');
+    $('#actions form').css('display', 'inline-block');
   </script>
 {% endblock %}

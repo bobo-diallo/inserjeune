@@ -14,6 +14,10 @@
         <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/factory.jpg') }}"></div>
         <div class="logged-user-info-w">
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user.company is not null %}
+              <div class="logged-company-name">{{ app.user.company.name }}</div>
+            {% endif %}
+{#            <div class="logged-company-name">{{ app.user.company.name }}</div>#}
             <div class="logged-user-name">{{ app.user.username }}</div>
             <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
           {% endif %}
@@ -56,6 +60,14 @@
                 <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
               </div>
               <span>Géo-Localisation</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('dashboard_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
+              </div>
+              <span>{{ 'Tableau de bord'|trans }}</span>
             </a>
           </li>
           <li class="has-sub-menu">
@@ -103,9 +115,9 @@
 {# Footer #}
 {{ include('_footer.html.twig') }}
 <script>
-   $(document).ready(function () {
-      let table = datatable()
-   });
+  $(document).ready(function () {
+    let table = datatable()
+  });
 </script>
 {% block js %}{% endblock %}
 </body>

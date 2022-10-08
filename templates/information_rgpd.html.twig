@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Diplomé {% endblock %}</title>
+  {{ include('_head.html.twig') }}
+  {% block css %}{% endblock %}
+</head>
+<body>
+<div class="all-wrapper container-fluid">
+  {% include '_banner_top.html.twig' %}
+  <div class="layout-w ">
+    <div class="content-w infos_rgpd">
+      <div class="element-wrapper">
+        <div class="content-box">
+          <div class="element-box">
+            <p>Les informations recueillies sur ce formulaire sont enregistrées dans une base de données centralisée et sécurisée par l'Institut de la Francophonie pour l'éducation et la formation (IFEF), situé à Dakar, Sénégal
+              (personne en charge : Mme Léna WATT,  <mailto:lena.watt@francophonie.org> lena.watt@francophonie.org), afin de mesurer le taux d'insertion des diplômés de l'enseignement technique et de la formation professionnelle.
+            </p>
+            <p>Les données collectées seront communiquées aux seuls utilisateurs de l'application, sauf les données des questionnaires qui restent confidentielles et ne servent qu'aux statistiques générales.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="element-wrapper">
+        <div class="content-box">
+          <div class="element-box">
+            <p>Les données sont conservées pendant une durée de maximum 5 ans par le responsable du traitement.
+              Vous pouvez accéder aux données vous concernant, les rectifier, les effacer à tout moment en éditant votre compte.
+            </p>
+            <p>Vous pouvez également retirer à tout moment votre consentement ou vous opposer au traitement de vos données.
+              Vous pouvez, en outre, exercer votre droit à la portabilité de vos données.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="element-wrapper">
+        <div class="content-box">
+          <div class="element-box">
+            <p>Pour exercer ces droits ou pour toute question sur le traitement de vos données dans ce dispositif, vous pouvez contacter, le cas échéant, la personne en charge de la protection de ces données :
+              (Mme Léna WATT,<mailto:lena.watt@francophonie.org> lena.watt@francophonie.org, tél. + + 221 33 859 25 53, IFEF, Boite postale 29437, Dakar-Yoff, CP 12000, Dakar, Sénégal).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{# Footer #}
+{{ include('_footer.html.twig') }}
+{% block js %}{% endblock %}
+</body>
+</html>
