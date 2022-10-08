@@ -131,11 +131,12 @@ class DashboardExtension extends AbstractExtension {
 		DateTime $endDate
 	): string {
 		$region = $this->regionRepository->find($idRegion);
+		$country = $this->countryRepository->find($idCountry);
 
 		if (!$region) {
-			$companies = $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($idCountry, $beginDate, $endDate);
+			$companies = $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
 		} else {
-			$companies = $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($idRegion, $beginDate, $endDate);
+			$companies = $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
 		}
 
 		$html = '';
@@ -190,13 +191,14 @@ class DashboardExtension extends AbstractExtension {
 		int $idRegion,
 		string $skillName,
 		array $skillLevels,
-		DateTime $beginDate,
-		DateTime $endDate): string {
+		?DateTime $beginDate,
+		?DateTime $endDate): string {
 
 		$region = $this->regionRepository->find($idRegion);
+		$country = $this->countryRepository->find($idCountry);
 		$companies = ($region) ?
 			$this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($idRegion, $beginDate, $endDate) :
-			$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($idCountry, $beginDate, $endDate);
+			$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
 
 		$html = '';
 		$nbSatisfactionCompany = 0;
@@ -265,15 +267,16 @@ class DashboardExtension extends AbstractExtension {
 		DateTime $beginDate,
 		DateTime $endDate): string {
 		$region = $this->regionRepository->find($idRegion);
+		$country = $this->countryRepository->find($idCountry);
 
 		if (!$region) {
 			$personDegrees = ($school) ?
-				$this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($idCountry, $school, $beginDate, $endDate) :
-				$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($idCountry, $beginDate, $endDate);
+				$this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
+				$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
 		} else {
 			$personDegrees = ($school) ?
-				$this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($idRegion, $school, $beginDate, $endDate) :
-				$this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($idRegion, $beginDate, $endDate);
+				$this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
+				$this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
 		}
 
 		$situationsPersonDegrees = [];
@@ -789,7 +792,7 @@ class DashboardExtension extends AbstractExtension {
 		return $html;
 	}
 
-	public function convertDateFromDuration(DateTime $endDate, string $duration): array {
+	public function convertDateFromDuration(string $endDate, string $duration): array {
 		$datas = explode(' ', $duration);
 		$beginDuration = new \DateTime($endDate);
 		$endDuration = new \DateTime($endDate);

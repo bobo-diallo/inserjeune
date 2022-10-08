@@ -14,7 +14,10 @@
         <div class="avatar-w"><img alt="" src="{{ asset('build/images/avatar/factory.jpg') }}"></div>
         <div class="logged-user-info-w">
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="logged-company-name">{{ app.user.company.name }}</div>
+            {% if app.user.company is not null %}
+              <div class="logged-company-name">{{ app.user.company.name }}</div>
+            {% endif %}
+{#            <div class="logged-company-name">{{ app.user.company.name }}</div>#}
             <div class="logged-user-name">{{ app.user.username }}</div>
             <div class="logged-user-role" style="color: #ffffff">{{ app.user.roles | role }}</div>
           {% endif %}

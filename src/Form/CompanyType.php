@@ -104,6 +104,7 @@ class CompanyType extends AbstractType
 		      'attr' => ['class' => 'form-control', 'label' => 'Location Mode ?'],
 		      'required' => false
 	      ])
+	      ->add('mapsAddress', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
          ->add('country', EntityType::class, [
             'class' => Country::class,
             'required' => false,

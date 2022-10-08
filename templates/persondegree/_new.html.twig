@@ -234,7 +234,9 @@
 </div>
 
 <select hidden id="selectedCountry">
-  <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+  {%  if selectedCountry is not null %}
+    <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+  {%  endif %}
 </select>
 <input style="display: none" value="{{ personDegree.country.phoneCode }}" id="countryPhoneCode">
 <select hidden id="schoolRegion">

@@ -346,9 +346,14 @@
 </div>
 
 <select hidden id="selectedCountry">
-  <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+  {%  if selectedCountry is not null %}
+    <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+  {%  endif %}
 </select>
-<input style="display: none" value="{{ school.country.phoneCode }}" id="countryPhoneCode">
+
+{% if school is not null and school.country is not null %}
+  <input style="display: none" value="{{ school.country.phoneCode }}" id="countryPhoneCode">
+{% endif %}
 
 <div><span><br>* : champ obligatoire</span></div>
 <div class="form-buttons-w">

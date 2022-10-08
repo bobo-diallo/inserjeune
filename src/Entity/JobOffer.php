@@ -21,11 +21,11 @@ class JobOffer {
 
 	#[ORM\Column(name: 'title', type: 'string', length: 255)]
 	#[Assert\NotBlank]
-	private string $title;
+	private ?string $title;
 
 	#[ORM\Column(name: 'description', type: 'text', length: 512)]
 	#[Assert\Length(min: '20')]
-	private string $description;
+	private ?string $description;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
 	private ?\DateTime $createdDate = null;
@@ -54,11 +54,11 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'jobOffers')]
 	#[ORM\JoinColumn(name: 'id_company', referencedColumnName: 'id')]
-	private Company $company;
+	private ?Company $company = null;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
-	private SectorArea $sectorArea;
+	private ?SectorArea $sectorArea = null;
 
 	#[ORM\ManyToOne(targetEntity: Activity::class)]
 	#[ORM\JoinColumn(nullable: true)]
@@ -81,11 +81,11 @@ class JobOffer {
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
-	private Region $region;
+	private ?Region $region = null;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
-	private Country $country;
+	private ?Country $country = null;
 
 	#[UploadableField(filename: 'filename', path: 'uploads')]
 	#[Assert\Image(maxWidth: '2000', maxHeight: '2000')]
@@ -108,11 +108,11 @@ class JobOffer {
 		return $this->id;
 	}
 
-	public function getTitle(): string {
+	public function getTitle(): ?string {
 		return $this->title;
 	}
 
-	public function setTitle(string $title): self {
+	public function setTitle(?string $title): self {
 		$this->title = $title;
 
 		return $this;
@@ -128,31 +128,33 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getClosedDate(): ?\DateTime {
+	public function getClosedDate(): ?string {
 		return ($this->closedDate) ? $this->closedDate->format(Utils::FORMAT_FR): null;
 	}
 
-	public function setClosedDate(?\DateTime $closedDate): self {
-		$this->closedDate = $closedDate;
+	public function setClosedDate(?string $closedDate): self {
+		if ($closedDate) {
+			$this->closedDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $closedDate);
+		}
 
 		return $this;
 	}
 
-	public function getCompany(): Company {
+	public function getCompany(): ?Company {
 		return $this->company;
 	}
 
-	public function setCompany(Company $company = null): self {
+	public function setCompany(?Company $company = null): self {
 		$this->company = $company;
 
 		return $this;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 
-	public function setDescription(string $description): self {
+	public function setDescription(?string $description): self {
 		$this->description = $description;
 
 		return $this;
@@ -195,11 +197,11 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getSectorArea(): SectorArea {
+	public function getSectorArea(): ?SectorArea {
 		return $this->sectorArea;
 	}
 
-	public function setSectorArea(SectorArea $sectorArea): self {
+	public function setSectorArea(?SectorArea $sectorArea): self {
 		$this->sectorArea = $sectorArea;
 		return $this;
 	}
@@ -258,20 +260,20 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 
-	public function setRegion(Region $region): self {
+	public function setRegion(?Region $region): self {
 		$this->region = $region;
 		return $this;
 	}
 
-	public function getCountry(): Country {
+	public function getCountry(): ?Country {
 		return $this->country;
 	}
 
-	public function setCountry(Country $country): self {
+	public function setCountry(?Country $country): self {
 		$this->country = $country;
 		return $this;
 	}

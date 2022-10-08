@@ -657,6 +657,7 @@ global.changeSchoolInputs = function changeSchoolInputs(idSchoolHTML, idDegree, 
          $locationRef += dirs[i] + '/';
 
       // appelle en Ajax les données liées à l'établissement
+      console.log('REKKKKKKKK', $locationRef + 'filters/' + idSchool + '/school');
       $.get($locationRef + 'filters/' + idSchool + '/school').done(function (data) {
          // on cache tous les données (diplômes ou secteurs) sauf pour les values vides
          $(idDegree + ' option[value!=""]').prop("hidden", true);
@@ -936,7 +937,11 @@ global.datatable2 = function datatable2(retrieve = false) {
          $('#kz_table2_wrapper select').addClass('form-control form-control-sm kz_table2_select')
          $('#kz_table2_wrapper .row').css('width', '100%')
          $('#kz_table2').parent().css('width', '100%')
-      }
+      },
+      dom: 'Bfrtip',
+      buttons: [
+         'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
    };
    if (retrieve == true) {
       options = {retrieve: true}

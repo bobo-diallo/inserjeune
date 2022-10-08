@@ -171,16 +171,10 @@ class CompanyRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
-	/**
-	 * @param Country $country
-	 * @param \DateTime $beginDate
-	 * @param \DateTime $endDate
-	 * @return Company[]
-	 */
 	public function getByCountryBetweenCreatedDateAndEndDate(
 		Country $country,
-		\DateTime $beginDate,
-		\DateTime $endDate): array {
+		?\DateTime $beginDate,
+		?\DateTime $endDate): array {
 		return $this->createQueryBuilder('c')
 			->where('c.country = :country')
 			->andWhere ('c.createdDate BETWEEN :beginDate AND :endDate')
