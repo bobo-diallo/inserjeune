@@ -14,7 +14,6 @@
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Export CSV</a>
                                 <a class="btn btn-sm btn-primary" href="#">Archiver</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('legalstatus_new') }}">
                                     <i class="fa fa-plus"></i> Ajouter un statut juridique</a>
@@ -25,7 +24,7 @@
                         <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Actions</th>
+                                <th class="no-print">Actions</th>
                                 <th>Id</th>
                                 <th>Nom</th>
                                 <th>Description</th>
@@ -58,9 +57,6 @@
 
 {% block js %}
     <script>
-       $(document).ready(function () {
-          let table = datatable()
-       });
        makeSelected('legalstatus')
     </script>
 {% endblock %}

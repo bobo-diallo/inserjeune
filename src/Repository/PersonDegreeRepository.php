@@ -277,7 +277,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
-	public function getByRegionBetweenCreatedDateAndEndDate (
+	public function getByRegionBetweenCreatedDateAndEndDate(
 		Region $region,
 		?\DateTime $beginDate,
 		?\DateTime $endDate): array {

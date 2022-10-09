@@ -64,7 +64,11 @@ global.datatable = function datatable(retrieve=false) {
          $('#kz_table_wrapper select').addClass('form-control form-control-sm ')
          $('#kz_table_wrapper .row').css('width', '100%')
          $('#kz_table').parent().css('width', '100%')
-      }
+      },
+      dom: 'Bfrtip',
+      buttons: [
+         'csv', 'excel', 'pdf', 'print'
+      ]
    };
    if(retrieve==true) {
       options = {retrieve: true}
@@ -947,4 +951,15 @@ global.datatable2 = function datatable2(retrieve = false) {
       options = {retrieve: true}
    }
    return $('#kz_table2').DataTable(options);
+}
+
+global.datatableWithExport = function () {
+   $(document).ready(function() {
+      $('#kz_table_with_export').DataTable( {
+         dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+         ]
+      } );
+   } );
 }
