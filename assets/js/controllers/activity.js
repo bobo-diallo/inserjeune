@@ -1,6 +1,6 @@
 const $ = require('jquery');
 
 $(document).ready(function () {
-    let table = datatable()
+    // let table = datatable()
 });
 makeSelected('activity');

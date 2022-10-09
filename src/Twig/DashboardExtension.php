@@ -136,7 +136,7 @@ class DashboardExtension extends AbstractExtension {
 		if (!$region) {
 			$companies = $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
 		} else {
-			$companies = $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+			$companies = $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
 		}
 
 		$html = '';
@@ -197,7 +197,7 @@ class DashboardExtension extends AbstractExtension {
 		$region = $this->regionRepository->find($idRegion);
 		$country = $this->countryRepository->find($idCountry);
 		$companies = ($region) ?
-			$this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($idRegion, $beginDate, $endDate) :
+			$this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
 			$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
 
 		$html = '';

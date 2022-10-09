@@ -13,8 +13,6 @@ import './styles/app.scss';
 global.$ = global.jQuery = $;
 
 import './pinsupreme/bower_components/select2/dist/css/select2.min.css'
-// import 'bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import './pinsupreme/bower_components/bootstrap-daterangepicker/daterangepicker.css'
 import './pinsupreme/bower_components/dropzone/dist/dropzone.css'
 import './pinsupreme/bower_components/datatables/media/css/jquery.dataTables.min.css'
