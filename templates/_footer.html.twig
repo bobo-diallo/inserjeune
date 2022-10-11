@@ -13,6 +13,7 @@
 <script>
 
     $(document).ready(function () {
+        // DataTable with export csv/excel/PDF
         let options = {
             language: {
                 url: '../build/locale/fr_FR.json'
@@ -72,6 +73,12 @@
         $('#kz_table').DataTable(options);
         $('#kz_table_retrieve').DataTable(optionsWithRetrieve);
         $('#kz_table_with_export').DataTable(options);
+
+        // Export Dashboard to PDF
+
+        $('#printDashboard').on('click', function (e) {
+            printDashboardToPDF(e);
+        })
 
     });
 </script>

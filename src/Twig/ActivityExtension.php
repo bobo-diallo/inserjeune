@@ -176,7 +176,7 @@ class ActivityExtension extends AbstractExtension {
 		if (!$school) {
 			$personDegrees = $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
 		} else {
-			$personDegrees = $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($idCountry, $school, $beginDate, $endDate);
+			$personDegrees = $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate);
 		}
 
 		$html = '';

@@ -963,3 +963,44 @@ global.datatableWithExport = function () {
       } );
    } );
 }
+
+global.printDashboardToPDF = function printDashboardToPDF(e) {
+   $('#printDashboardLoading').removeAttr('hidden');
+   e.preventDefault();
+
+   var node = document.getElementById('dashboardToPrint');
+   var width = $('#dashboardToPrint').width();
+   var height = $('#dashboardToPrint').height();
+   var options = {
+      quality: 1
+   };
+
+   domToImage.toPng(node, options)
+       .then(function (blob) {
+          var pdf = new jsPDF('p', 'mm', [(width + 50), height]);
+
+          pdf.addImage(blob, 'PNG', 20, 10, width, height);
+          pdf.save($('title').text() + '.pdf');
+          console.log('enddDd....');
+          $('#printDashboardLoading').attr('hidden', 'hidden');
+       });
+
+   // with higth quality
+   /*var scale = 2;
+   var options = {
+      width: node.clientWidth * scale,
+      height: node.clientHeight * scale,
+      style: {
+         transform: 'scale('+scale+')',
+         transformOrigin: 'top left'
+      }
+   };
+
+   domToImage.toPng(node, options)
+       .then(function (blob) {
+          var pdf = new jsPDF('p', 'mm', [(width + 160), height]);
+
+          pdf.addImage(blob, 'PNG', 20, 10, (width + 40), height);
+          pdf.save("test-png.pdf");
+       });*/
+}
