@@ -1,6 +1,10 @@
+const {jsPDF} = require('jspdf');
+const domToImage = require('dom-to-image');
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
+global.jsPDF = jsPDF;
+global.domToImage = domToImage;
 
 // import
 import './pinsupreme/bower_components/jquery/dist/jquery.min'

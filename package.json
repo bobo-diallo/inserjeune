@@ -26,9 +26,11 @@
         "bootstrap-fileinput": "^5.5.1",
         "datatables": "^1.10.18",
         "datatables.net-bs4": "^1.12.1",
+        "dom-to-image": "^2.6.0",
         "dropzone": "^6.0.0-beta.2",
         "fullcalendar": "^5.11.0",
         "jquery": "^3.6.0",
+        "jspdf": "^2.5.1",
         "postcss-loader": "^7.0.1",
         "select2": "^4.1.0-rc.0"
     }
