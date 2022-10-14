@@ -11,7 +11,6 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
 <script>
-
     $(document).ready(function () {
         // DataTable with export csv/excel/PDF
         let options = {
@@ -25,9 +24,6 @@
                 $('#kz_table').parent().css('width', '100%')
             },
             dom: 'lBfrtip',
-            /*buttons: [
-                'csv', 'excel', 'pdf'
-            ],*/
             buttons: {
                 buttons: [{
                     extend: 'csv',
@@ -56,13 +52,23 @@
                     exportOptions: {
                         columns: ':not(.no-print)'
                     },
+                }, {
+                    extend: 'pdf',
+                    text: '<i class="fa fa-file-pdf"></i>export Pdf',
+                    orientation: 'landscape',
+                    pageSize: 'A3',
+                    title: $('h6.element-header').text(),
+                    className: 'printDashboardPdf',
+                    exportOptions: {
+                        columns: ':not(.no-print)',
+                    },
                 }],
                 dom: {
                     container: {
-                        className: 'dt-buttons'
+                        className: 'dt-buttons kz-print-tools'
                     },
                     button: {
-                        className: 'btn btn-default'
+                        className: 'btn btn-primary btn-dashboard rounded'
                     }
                 }
             },

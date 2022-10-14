@@ -968,6 +968,7 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
    $('#printDashboardLoading').removeAttr('hidden');
    e.preventDefault();
 
+   //var node = document.getElementById('dashboardToPrint');
    var node = document.getElementById('dashboardToPrint');
    var width = $('#dashboardToPrint').width();
    var height = $('#dashboardToPrint').height();
@@ -975,7 +976,7 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
       quality: 1
    };
 
-   domToImage.toPng(node, options)
+   /*domToImage.toPng(node, options)
        .then(function (blob) {
           var pdf = new jsPDF('p', 'mm', [(width + 50), height]);
 
@@ -983,10 +984,10 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
           pdf.save($('title').text() + '.pdf');
           console.log('enddDd....');
           $('#printDashboardLoading').attr('hidden', 'hidden');
-       });
+       });*/
 
    // with higth quality
-   /*var scale = 2;
+   var scale = 2;
    var options = {
       width: node.clientWidth * scale,
       height: node.clientHeight * scale,
@@ -1001,6 +1002,8 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
           var pdf = new jsPDF('p', 'mm', [(width + 160), height]);
 
           pdf.addImage(blob, 'PNG', 20, 10, (width + 40), height);
-          pdf.save("test-png.pdf");
-       });*/
+          // pdf.save("test-png.pdf");
+          pdf.save($('title').text() + '.pdf');
+          $('#printDashboardLoading').attr('hidden', 'hidden');
+       });
 }

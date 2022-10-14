@@ -25,7 +25,7 @@
       <li><a href="{{ path('persondegree_index') }}">{{ 'Les Diplômés'|trans }}</a></li>
       <li><a href="{{ path('school_index') }}">{{ 'Les Etablissements'|trans }}</a></li>
       <li><a href="{{ path('degree_index') }}">{{ 'Les Diplômes'|trans }}</a></li>
-      <li><a href="#">{{ 'Les Réseaux sociaux'|trans }}**</a></li>
+{#      <li><a href="#">{{ 'Les Réseaux sociaux'|trans }}**</a></li>#}
     </ul>
   </li>
   <li class="has-sub-menu">
@@ -71,18 +71,6 @@
       <li><a href="{{ path('activity_index') }}">Filières / Métiers</a></li>
       <li><a href="{{ path('contract_index') }}">Contrats de travail</a></li>
       <li><a href="{{ path('legalstatus_index') }}">Statuts juridiques</a></li>
-    </ul>
-  </li>
-  <li class="has-sub-menu">
-    <a href="#">
-      <div class="icon-w">
-        <img src="{{ asset('build/images/icon/database2.png') }}" alt="database">
-      </div>
-      <span>Export & {{ 'Sauvegarde'|trans }}</span>
-    </a>
-    <ul class="sub-menu">
-      <button type="button" id="create_pdf" class="btn btn-primary btn-pdf rounded" value="Generate PDF" >Export Pdf</button>
-      <button type="button" class="btn btn-primary btn-csv rounded" >Export Csv</button>
     </ul>
   </li>
   <li class="has-sub-menu">

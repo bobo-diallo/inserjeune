@@ -15,7 +15,7 @@
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+{#                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>#}
                                     {#<a class="btn btn-sm btn-primary" href="{{ path('persondegree_new') }}">#}
                                         {#<i class="fa fa-plus"></i> Nouveau diplômé</a>#}
                                 </div>
@@ -63,7 +63,7 @@
                                         <td class="row-actions">
                                             <a href="{{ path('persondegree_edit', { 'id': personDegree.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
                                             <a href="{{ path('persondegree_show', { 'id': personDegree.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                            {#<a class="danger" onclick="deleteElement('{{ path('persondegree_delete', {'id': personDegree.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>#}
+                                            <a class="danger" onclick="deleteElement('{{ path('persondegree_delete', {'id': personDegree.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                         </td>
                                         <td><a href="{{ path('persondegree_show', { 'id': personDegree.id }) }}">{{ personDegree.id }}</a></td>
                                     {% endif %}

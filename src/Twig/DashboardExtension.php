@@ -563,8 +563,8 @@ class DashboardExtension extends AbstractExtension {
 			} else {
 				if (!$region) {
 					$globalEntities = ($school) ?
-						$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate) :
-						$this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate);
+                        $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate):
+						$this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate) ;
 				} else {
 					$globalEntities = ($school) ?
 						$this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :

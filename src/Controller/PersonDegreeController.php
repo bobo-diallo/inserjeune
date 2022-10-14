@@ -8,6 +8,7 @@ use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
 use App\Services\ActivityService;
+use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -26,17 +27,20 @@ class PersonDegreeController extends AbstractController {
 	private PersonDegreeRepository $personDegreeRepository;
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
+    private PersonDegreeService $personDegreeService;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		PersonDegreeRepository $personDegreeRepository,
 		ActivityService        $activityService,
-		UserRepository         $userRepository
+		UserRepository         $userRepository,
+		PersonDegreeService    $personDegreeService
 	) {
 		$this->em = $em;
 		$this->personDegreeRepository = $personDegreeRepository;
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
+        $this->personDegreeService = $personDegreeService;
 	}
 
 	#[Route(path: '/', name: 'persondegree_index', methods: ['GET'])]
@@ -136,14 +140,22 @@ class PersonDegreeController extends AbstractController {
 	#[Route(path: '/delete/{id}', name: 'persondegree_delete', methods: ['GET'])]
 	public function deleteElementAction(Request $request, ?PersonDegree $personDegree): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
-			if ($personDegree) {
-				$this->em->remove($personDegree);
-				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
-			} else {
-				$this->addFlash('warning', 'Impossible de suppression le diplômé');
-				return $this->redirect($request->server->all()['HTTP_REFERER']);
-			}
+            if($personDegree) {
+                $user = $personDegree->getUser();
+                if ($user) {
+                    $this->personDegreeService->removeRelations($user);
+                    $this->em->remove($user);
+                    $this->em->flush();
+                    $this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+
+                } else {
+                    $this->addFlash('warning', 'Impossible de suppression l\'utilisateur');
+                    return $this->redirect($request->server->all()['HTTP_REFERER']);
+                }
+            } else {
+                $this->addFlash('warning', 'Impossible de suppression le diplômé');
+                return $this->redirect($request->server->all()['HTTP_REFERER']);
+            }
 		}
 		return $this->redirectToRoute('persondegree_index');
 	}
