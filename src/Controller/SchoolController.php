@@ -7,6 +7,7 @@ use App\Form\SchoolType;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Services\ActivityService;
+use App\Services\SchoolService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,17 +25,20 @@ class SchoolController extends AbstractController {
 	private SchoolRepository $schoolRepository;
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
+    private SchoolService $schoolService;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		SchoolRepository       $schoolRepository,
 		ActivityService        $activityService,
-		UserRepository         $userRepository
+		UserRepository         $userRepository,
+        SchoolService          $schoolService
 	) {
 		$this->em = $em;
 		$this->schoolRepository = $schoolRepository;
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
+        $this->schoolService = $schoolService;
 	}
 
 	#[Route(path: '/', name: 'school_index', methods: ['GET'])]
@@ -138,9 +142,15 @@ class SchoolController extends AbstractController {
 	public function deleteElementAction(Request $request, ?School $school): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($school) {
-				$this->em->remove($school);
-				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+                $user = $school->getUser();
+                if($user) {
+                    $this->schoolService->removeRelations($user);
+                    $this->em->remove($user);
+                    $this->em->flush();
+                    $this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+                } else {
+                    $this->addFlash('warning', 'Impossible de suppression l\'utilisateur');
+                }
 			} else {
 				$this->addFlash('warning', 'Impossible de suppression de l\'école');
 				return $this->redirect($request->server->all()['HTTP_REFERER']);

@@ -24,8 +24,8 @@
             {% endif %}
 
             <div class="element-wrapper">
-                <div class="element-actions">
-                    <form class="form-inline justify-content-sm-end" action="{{ path('dashboard_index') }}" method="post">
+                <div class="dashboardFilter">
+                    <form class="form-inline justify-content-sm-end form-dashboard" action="{{ path('dashboard_index') }}" method="post">
                         <select id="selectCountry" name="selectCountry" class="form-control form-control-sm select-dashboard rounded">
                             {% for country in countries %}
                                 {% if country.id == idSelectedCountry %}
@@ -48,8 +48,6 @@
                                     {% else %}
                                         <option value="{{ region.id }}">{{ region.name }}</option>
                                     {% endif %}
-                                {% else %}
-                                    <option hidden value="{{ region.id }}">{{ region.name }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -58,6 +56,13 @@
                         <select hidden id="regionCountry">
                             {% for region in regions %}
                                 <option value="{{ region.id }}">{{ region.country.id }}</option>
+                            {% endfor %}
+                        </select>
+
+                        {#creation du select allRegions pour le script onchange du pays#}
+                        <select hidden id="allRegion">
+                            {% for region in regions %}
+                                <option value="{{ region.id }}">{{ region.name }}</option>
                             {% endfor %}
                         </select>
 
@@ -88,9 +93,11 @@
                         </select>
                         <input type="date" name="referenceDate" value="{{referenceDate}}" class="form-control form-control-sm input-dashboard rounded">
                         <button type="submit" class="btn btn-primary btn-dashboard rounded" >Valider</button>
-                        <button id="printDashboard" class="btn btn-default" ><i class="fa fa-print"></i></button>
-                        <img src="{{ asset('build/images/loading.gif') }}" id="printDashboardLoading" hidden="hidden">
                     </form>
+                    <div class="printTools">
+                        <button id="printDashboard" class="btn btn-primary btn-dashboard rounded" ><i class="fa fa-print"></i><span>Export PDF</span></button>
+                        <img src="{{ asset('build/images/loading.gif') }}" id="printDashboardLoading" hidden="hidden">
+                    </div>
                 </div>
                 {% set beginDate = convert_date_from_duration(referenceDate, selectedDuration)[0] %}
                 {% set endDate = convert_date_from_duration(referenceDate, selectedDuration)[1] %}
@@ -209,15 +216,13 @@
                         {% else %}
                             <h6>Taux de vos diplômés par secteurs d'activités</h6>
                         {% endif %}
+
                         {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "SectorArea", true, app.user.school, beginDate, endDate) }}
 
-                        {#</div>#}
-                        {#<div>#}
                         <h6 style="margin-top: -15px; padding-left: 15px"><span >Détail par filières / métiers </span>
                             <button id="job_rate_btn" class="btn-dashboard">afficher</button></h6>
                     </div>
 
-                    {#<div style="border: 2px solid red;"></div><p> Test idSelectedCountry :  {{ idSelectedCountry }} |end[</p></div>#}
                     {% if idSelectedCountry>0 %}
                         <div class="job_rate" >{{ show_activities_rate(idSelectedCountry, app.user.school, beginDate, endDate) }}</div>
                     {% endif %}
@@ -536,16 +541,22 @@
             })
             function activeRegion(idCountry) {
                 $('#selectRegion option').each(function () {
-                    $(this).attr('hidden', 'hidden');
+                    $(this).remove();
                 })
                 $('#regionCountry option').each(function () {
                     if($(this).text() == idCountry) {
                         let selectedRegion = $(this).val();
-                        $('#selectRegion option').each(function () {
+                        $('#allRegion option').each(function () {
+                            if($(this).val() ==  selectedRegion) {
+                                $('#selectRegion').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
+                            }
+                        })
+
+                        /*$('#selectRegion option').each(function () {
                             if(selectedRegion == $(this).val()) {
                                 $(this).removeAttr('hidden');
                             }
-                        })
+                        })*/
                     }
                 })
                 $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));

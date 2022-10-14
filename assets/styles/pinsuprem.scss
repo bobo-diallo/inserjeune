@@ -2460,6 +2460,7 @@ pre code {
 }
 
 .table-responsive {
+  padding-top: 50px;
   display: block;
   width: 100%;
   overflow-x: auto;
@@ -2581,7 +2582,8 @@ select.form-control:focus::-ms-value {
 }
 
 select.form-control-sm:not([size]):not([multiple]), .input-group-sm > select.form-control:not([size]):not([multiple]), .input-group-sm > select.input-group-addon:not([size]):not([multiple]), .input-group-sm > .input-group-btn > select.btn:not([size]):not([multiple]), .all-wrapper .input-group-sm > .input-group-btn > select.fc-button:not([size]):not([multiple]) {
-  height: 1.501rem
+  //height: 1.501rem
+  height: 2.0rem
 }
 
 .form-control-lg, .input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn, .all-wrapper .input-group-lg > .input-group-btn > .fc-button {
@@ -7688,7 +7690,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 }
 
 .table .row-actions a {
-  margin-right: 0.6rem;
+  margin-right: 0.2rem;
   color: #3E4B5B
 }
 

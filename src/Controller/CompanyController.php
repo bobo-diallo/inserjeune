@@ -8,6 +8,7 @@ use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
 use App\Services\ActivityService;
+use App\Services\CompanyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route(path: '/company')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')")]
 class CompanyController extends AbstractController {
@@ -24,17 +26,20 @@ class CompanyController extends AbstractController {
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
 	private CompanyRepository $companyRepository;
+    private CompanyService $companyService;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		ActivityService        $activityService,
 		UserRepository         $userRepository,
-		CompanyRepository      $companyRepository
+		CompanyRepository      $companyRepository,
+        CompanyService         $companyService
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
 		$this->companyRepository = $companyRepository;
+		$this->companyService = $companyService;
 	}
 
 	#[Route(path: '/', name: 'company_index', methods: ['GET'])]
@@ -130,9 +135,15 @@ class CompanyController extends AbstractController {
 	public function deleteElementAction(Request $request, ?Company $company): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($company) {
-				$this->em->remove($company);
-				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+                $user = $company->getUser();
+                if($user) {
+                    $this->companyService->removeRelations($user);
+                    $this->em->remove($user);
+                    $this->em->flush();
+                    $this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+                } else {
+                    $this->addFlash('warning', 'Impossible de suppression l\'utilisateur');
+                }
 			} else {
 				$this->addFlash('warning', 'Impossible de suppression l\'entreprise');
 				return $this->redirect($request->server->all()['HTTP_REFERER']);

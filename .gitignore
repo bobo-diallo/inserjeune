@@ -22,3 +22,8 @@ composer.lock
 .env
 .env.test
 .env.dist
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
