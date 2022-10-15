@@ -63,6 +63,9 @@ class Company {
 	#[ORM\Column(name: 'email', type: 'string')]
 	private ?string $email;
 
+    #[ORM\Column(name: 'temporary_passwd', type: 'string')]
+    private ?string $temporaryPasswd;
+
 	#[ORM\ManyToOne(targetEntity: ContactCompany::class)]
 	#[ORM\JoinColumn(name: 'id_contactCompany', referencedColumnName: 'id')]
 	private ?ContactCompany $contactCompany = null;
@@ -264,6 +267,14 @@ class Company {
 	public function setEmail(?string $email): void {
 		$this->email = $email;
 	}
+
+    public function getTemporaryPasswd(): ?string {
+        return $this->temporaryPasswd;
+    }
+
+    public function setTemporaryPasswd(?string $temporaryPasswd): void {
+        $this->temporaryPasswd = $temporaryPasswd;
+    }
 
 	public function getSectorArea(): ?SectorArea {
 		return $this->sectorArea;

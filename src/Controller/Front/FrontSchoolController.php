@@ -4,7 +4,10 @@ namespace App\Controller\Front;
 
 use App\Entity\PersonDegree;
 use App\Entity\Company;
+use App\Entity\Region;
 use App\Entity\SatisfactionSchool;
+use App\Entity\Country;
+use App\Entity\Role;
 use App\Entity\School;
 use App\Form\SchoolType;
 use App\Form\SatisfactionSchoolType;
@@ -12,6 +15,14 @@ use App\Repository\CompanyRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\SatisfactionSalaryRepository;
 use App\Repository\UserRepository;
+use App\Repository\RoleRepository;
+use App\Repository\CountryRepository;
+use App\Repository\RegionRepository;
+use App\Repository\CityRepository;
+use App\Repository\DegreeRepository;
+use App\Repository\LegalStatusRepository;
+use App\Repository\SectorAreaRepository;
+use App\Repository\ActivityRepository;
 use App\Services\ActivityService;
 use App\Services\SchoolService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +34,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 
 #[Route(path: 'front/school')]
@@ -35,23 +47,50 @@ class FrontSchoolController extends AbstractController {
 	private SatisfactionSalaryRepository $satisfactionSalaryRepository;
 	private PersonDegreeRepository $personDegreeRepository;
 	private UserRepository $userRepository;
+	private RoleRepository $roleRepository;
+	private RegionRepository $regionRepository;
+	private CountryRepository $countryRepository;
+	private CityRepository $cityRepository;
+	private DegreeRepository $degreeRepository;
+	private LegalStatusRepository $legalStatusRepository;
+	private SectorAreaRepository $sectorAreaRepository;
+	private ActivityRepository $activityRepository;
+    private UserPasswordHasherInterface $hasher;
 
 	public function __construct(
 		EntityManagerInterface       $em,
 		ActivityService              $activityService,
 		SchoolService                $schoolService,
 		CompanyRepository            $companyRepository,
+        UserPasswordHasherInterface  $hasher,
 		SatisfactionSalaryRepository $satisfactionSalaryRepository,
 		PersonDegreeRepository       $personDegreeRepository,
-		UserRepository               $userRepository
+		UserRepository               $userRepository,
+		RoleRepository               $roleRepository,
+		RegionRepository             $regionRepository,
+        CountryRepository            $countryRepository,
+        CityRepository               $cityRepository,
+        DegreeRepository             $degreeRepository,
+		LegalStatusRepository        $legalStatusRepository,
+		SectorAreaRepository         $sectorAreaRepository,
+		ActivityRepository           $activityRepository
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
 		$this->schoolService = $schoolService;
 		$this->companyRepository = $companyRepository;
+        $this->hasher = $hasher;
 		$this->satisfactionSalaryRepository = $satisfactionSalaryRepository;
 		$this->personDegreeRepository = $personDegreeRepository;
 		$this->userRepository = $userRepository;
+		$this->roleRepository = $roleRepository;
+		$this->regionRepository = $regionRepository;
+		$this->countryRepository = $countryRepository;
+		$this->cityRepository = $cityRepository;
+		$this->degreeRepository = $degreeRepository;
+		$this->legalStatusRepository = $legalStatusRepository;
+		$this->sectorAreaRepository = $sectorAreaRepository;
+		$this->activityRepository = $activityRepository;
 	}
 
 	#[Route(path: '/new', name: 'front_school_new', methods: ['GET', 'POST'])]
@@ -225,28 +264,44 @@ class FrontSchoolController extends AbstractController {
 	#[Route(path: '/persondegreesEnroll', name: 'front_school_persondegrees_enroll', methods: ['GET'])]
 	public function personDegreesEnrollAction(): Response {
 		$school = $this->schoolService->getSchool();
+        $selectedCountry = $this->getUser()->getCountry();
+
+        $regions = $this->regionRepository->findByCountry($selectedCountry);
 		$personDegrees = $this->personDegreeRepository->getBySchoolAndByUnlocked($school, true);
 
-		return $this->render('school/personDegreesEnroll.html.twig', ['personDegrees' => $personDegrees]);
+		return $this->render('school/personDegreesEnroll.html.twig', [
+            'personDegrees' => $personDegrees,
+            'regions' =>$regions,
+            ]);
 	}
 
 	#[Route(path: '/companiesEnroll', name: 'front_school_companies_enroll', methods: ['GET'])]
 	public function companiesEnrollAction(): Response {
 		$school = $this->schoolService->getSchool();
+        $selectedCountry = $this->getUser()->getCountry();
 
+        $regions = $this->regionRepository->findByCountry($selectedCountry);
+        $legalStatus = $this->legalStatusRepository->findAll();
+        $sectorAreas = $this->sectorAreaRepository->findAll();
 		$companies = $this->companyRepository->getBySchool($school);
-		$companiesUnlocked = [];
 
+		$companiesUnlocked = [];
 		foreach ($companies as $company)
 			if ($company->isUnlocked()) {
 				$companiesUnlocked[] = $company;
 			}
 
-		return $this->render('school/companiesEnroll.html.twig', ['companies' => $companiesUnlocked]);
+		return $this->render('school/companiesEnroll.html.twig', [
+            'companies' => $companiesUnlocked,
+            'selectedCountry' => $selectedCountry,
+            'regions' =>$regions,
+            'sectorAreas' =>$sectorAreas,
+            'legalStatus' =>$legalStatus,
+        ]);
 	}
 
 
-	#[Route(path: '/user_delete/{id}', name: 'user_delete_school', methods: ['GET', 'POST'])]
+	#[Route(path: '/user_delete/{id}', name: 'front_school_user_delete_school', methods: ['GET', 'POST'])]
 	public function deleteUserAction(School $school): RedirectResponse {
 		$user = $school->getUser();
 
@@ -282,6 +337,53 @@ class FrontSchoolController extends AbstractController {
 
 		return new JsonResponse([$responsePersonDegree]);
 	}
+
+    #[Route(path: '/{id}/personDegreeDelete/', name: 'front_school_person_degree_delete', methods: ['GET'])]
+    public function personDegreeDeleteAction(Request $request,int $id): JsonResponse {
+        $school = $this->schoolService->getSchool();
+        $res = [];
+        $err = [];
+        $personDegree = $this->personDegreeRepository->find($id);
+        if(!$personDegree)
+            array_push($err , "Diplômé inexistant en Base ");
+        else {
+            $user = $personDegree->getUser();
+
+            if($user->getPersonDegree()) {
+                foreach ($user->getPersonDegree() as $diplome) {
+                    $this->em->remove($diplome);
+                }
+            }
+            $this->em->remove($user);
+            $this->em->flush();
+        }
+
+        return new JsonResponse([$res, $err]);
+    }
+
+    #[Route(path: '/{id}/companyDelete/', name: 'front_school_company_delete', methods: ['GET'])]
+    public function companyDeleteAction(Request $request,int $id): JsonResponse {
+        $school = $this->schoolService->getSchool();
+        $res = [];
+        $err = [];
+
+        $company = $this->companyRepository->find($id);
+        if(!$company)
+            array_push($err , "Entreprise inexistante en Base ");
+        else {
+            $user = $company->getUser();
+
+            if($user->getPersonDegree()) {
+                foreach ($user->getCompany() as $entreprise) {
+                    $this->em->remove($entreprise);
+                }
+            }
+            $this->em->remove($user);
+            $this->em->flush();
+        }
+
+        return new JsonResponse([$res, $err]);
+    }
 
 	#[Route(path: '/companies/{id}/updateCompany', name: 'front_school_update_company', methods: ['GET'])]
 	public function updateCompanyAction(Company $company, Request $request): JsonResponse {
@@ -379,8 +481,450 @@ class FrontSchoolController extends AbstractController {
 		return $this->redirectToRoute('logout');
 	}
 
-	#[Route(path: '/personDegreeUpdateAjax', name: 'person_degree_update_ajax', methods: ['GET', 'POST'])]
-	public function personDegreeUpdateAjaxAction(Request $request): JsonResponse|Response {
-		return new JsonResponse($request->getContent());
+	#[Route(path: '/{id}/enrollPersonDegreeUpdate/', name: 'front_school_enroll_person_degree_update', methods: ['GET', 'POST'])]
+	public function enrollPersonDegreeUpdateAction(Request $request, int $id): JsonResponse|Response {
+        $school = $this->schoolService->getSchool();
+        $datas=$request->query->all();
+        $phoneNumber = "";
+        $res = [];
+        $err = [];
+
+        $personDegree = $this->personDegreeRepository->find($id);
+        if(!$personDegree)
+            $personDegree = new PersonDegree();
+        $actorClass = new \ReflectionClass($personDegree);
+
+        //verification de l'indicatif pays
+        $selectedCountry= null;
+        if($datas["selectedCountry"]) {
+            $selectedCountry = $this->countryRepository->find($datas["selectedCountry"]);
+            $personDegree->setCountry($selectedCountry);
+        }
+        if(!$selectedCountry)
+            return (["",["erreur serveur de country"]]);
+
+        if($selectedCountry)
+            foreach ($datas as $key => $value) {
+                $setProp = "set".ucfirst($key);
+                $getProp = "get".ucfirst($key);
+                ;
+                if(($setProp == "setPhoneMobile1") || ($setProp == "setPhoneMobile2")) {
+                    // number phone syntax control
+                    $phoneSyntax = $this->checkPhoneSyntax($value, $selectedCountry);
+                    if(($setProp == "setPhoneMobile2") && ($value==""))
+                        $phoneSyntax ="ok";
+                    if($phoneSyntax == "ok") {
+                        $personDegree->$setProp($value);
+                        $this->em->persist($personDegree);
+                        //$res .= $key . "=" . $value . " | ";
+                        $res[$key] = $value;
+                        if($setProp == "setPhoneMobile1") {
+                            $phoneNumber = $value;
+                        }
+                    } else {
+                        array_push($err , "Mauvaise syntaxe " .$setProp . " : " . $phoneSyntax);
+                    }
+
+                } else if ($setProp == "setBirthDate") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $birthDate = new \DateTime($value);
+                    if($birthDate) {
+                        $personDegree->$setProp($birthDate->format('m/d/Y'));
+                        $this->em->persist($personDegree);
+                    } else {
+                        array_push($err , "No BirthDate found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setRegion") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $region = $this->regionRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($region) {
+                        $personDegree->$setProp($region);
+                        $this->em->persist($personDegree);
+                    } else {
+                        array_push($err , "No Region found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setAddressCity") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $city = $this->cityRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($city) {
+                        $personDegree->$setProp($city);
+                        $this->em->persist($personDegree);
+                    }else {
+                        array_push($err , "No City found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setDegree") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $degree = $this->degreeRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($degree) {
+                        $personDegree->$setProp($degree);
+                        $this->em->persist($personDegree);
+                    } else {
+                        array_push($err , "No Degree found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setSectorArea") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $sectorArea = $this->sectorAreaRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($sectorArea) {
+                        $personDegree->$setProp($sectorArea);
+                        $this->em->persist($personDegree);
+                    } else {
+                        array_push($err , "No SectorArea found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setActivity") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $activity = $this->activityRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($activity) {
+                        $personDegree->$setProp($activity);
+                        $this->em->persist($personDegree);
+                    } else {
+                        array_push($err , "No Activity found for Id:" . $value);
+                    }
+
+                } else if($setProp == "setSelectedCountry") {
+                } else if($setProp == "setId") {
+                } else {
+                    if ($actorClass->hasMethod($setProp)) {
+                        $personDegree->$setProp($value);
+                        $this->em->persist($personDegree);
+                        //$res .= $key . "=" . $value . " | ";
+                        $res[$key] = $value;
+
+                    } else {
+                        array_push($err, "Bad property:" . $setProp);
+                    }
+                }
+            }
+
+        if(count($err)==0) {
+            /* verification si le user existe */
+            /* ------------------------------ */
+            $user = $personDegree->getUser();
+            if(!$user) {
+
+                $resRegister = $this->actorRegister("personDegree", $phoneNumber, $selectedCountry);
+                if(count($resRegister[2])>0)
+                    array_push($err, "Erreur User: " . $resRegister[2][0]);
+
+                if ($resRegister[1] != "") {
+                    $personDegree->setCreatedDate(new \DateTime());
+                    $personDegree->setUpdatedDate(new \DateTime());
+                    $personDegree->setType("TYPE_TRAINING");
+                    $personDegree->setSchool($school);
+                    $personDegree->setUser($resRegister[0]);
+                    $personDegree->setTemporaryPasswd($resRegister[1]);
+                    $res = ["id" => $personDegree->getId(), "userId" => $resRegister[0]->getId(), "pwd" => $resRegister[1], "err" => $resRegister[2]];
+                } else {
+                    array_push($err, "phoneNumber:" . $resRegister[1]);
+                }
+            }
+            if(count($err)==0) {
+                $this->em->flush();
+                $res = ["id" => $personDegree->getId(), "userId" => $personDegree->getUser()->getId(), "pwd" => $personDegree->getTemporaryPasswd()];
+            }
+        }
+        return new JsonResponse([$res, $err]);
 	}
+
+    #[Route(path: '/{id}/enrollCompanyUpdate/', name: 'front_school_enroll_company_update', methods: ['GET'])]
+    public function enrollCompanyUpdateAction(Request $request, int $id): JsonResponse|Response {
+        $school = $this->schoolService->getSchool();
+        $datas=$request->query->all();
+        $phoneNumber = "";
+        $res = [];
+        $err = [];
+
+        $company = $this->companyRepository->find($id);
+        if(!$company)
+            $company = new Company();
+        $actorClass = new \ReflectionClass($company);
+
+        //verification de l'indicatif pays
+        $selectedCountry= null;
+        if($datas["selectedCountry"]) {
+            $selectedCountry = $this->countryRepository->find($datas["selectedCountry"]);
+            $company->setCountry($selectedCountry);
+        }
+        if(!$selectedCountry)
+            return (["",["erreur serveur de country"]]);
+
+        if($selectedCountry)
+            foreach ($datas as $key => $value) {
+                $setProp = "set".ucfirst($key);
+                $getProp = "get".ucfirst($key);
+                ;
+                if($setProp == "setPhoneStandard"){
+                    // number phone syntax control
+                    $phoneSyntax = $this->checkPhoneSyntax($value, $selectedCountry);
+                    if($phoneSyntax == "ok") {
+                        $company->$setProp($value);
+                        $this->em->persist($company);
+                        //$res .= $key . "=" . $value . " | ";
+                        $res[$key] = $value;
+                        $phoneNumber = $value;
+                    } else {
+                        array_push($err , "Mauvaise syntaxe " .$setProp . " : " . $phoneSyntax);
+                    }
+
+                } else if ($setProp == "setRegion") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $region = $this->regionRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($region) {
+                        $company->$setProp($region);
+                        $this->em->persist($company);
+                    } else {
+                        array_push($err , "No Region found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setCity") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $city = $this->cityRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($city) {
+                        $company->$setProp($city);
+                        $this->em->persist($company);
+                    }else {
+                        array_push($err , "No City found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setSectorArea") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $sectorArea = $this->sectorAreaRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($sectorArea) {
+                        $company->$setProp($sectorArea);
+                        $this->em->persist($company);
+                    } else {
+                        array_push($err , "No SectorArea found for Id:" . $value);
+                    }
+
+                } else if ($setProp == "setLegalStatus") {
+                    //$res .=  $setProp . ":". $value. ";";
+                    $res[$key] = $value;
+                    $legalStatus = $this->legalStatusRepository->find($value);
+                    //echo $city->getName() . " " . $city->getId(). "\n";
+                    if($legalStatus) {
+                        $company->$setProp($legalStatus);
+                        $this->em->persist($company);
+                    } else {
+                        array_push($err , "No LegalStatus found for Id:" . $value);
+                    }
+
+                } else if($setProp == "setSelectedCountry") {
+                } else if($setProp == "setId") {
+                } else {
+                    if ($actorClass->hasMethod($setProp)) {
+                        $company->$setProp($value);
+                        $this->em->persist($company);
+                        //$res .= $key . "=" . $value . " | ";
+                        $res[$key] = $value;
+
+                    } else {
+                        array_push($err, "Bad property:" . $setProp);
+                    }
+                }
+            }
+
+        if(count($err)==0) {
+            /* verification si le user existe */
+            /* ------------------------------ */
+            $user = $company->getUser();
+
+            if(!$user) {
+                $resRegister = $this->actorRegister("company", $phoneNumber, $selectedCountry);
+                if(count($resRegister[2])>0)
+                    array_push($err, "Erreur User: " . $resRegister[2][0]);
+                if ($resRegister[1] != "") {
+                    $company->setCreatedDate(new \DateTime());
+                    $company->setUpdatedDate(new \DateTime());
+                    $company->setUser($resRegister[0]);
+                    $company->setTemporaryPasswd($resRegister[1]);
+                    $school->addCompany($company);
+                    $res = ["id" => $company->getId(), "userId" => $resRegister[0]->getId(), "pwd" => $resRegister[1], "err" => $resRegister[2]];
+                } else {
+                    array_push($err, "phoneNumber:" . $resRegister[1]);
+                }
+            }
+            if(count($err)==0) {
+                $this->em->flush();
+                $res = ["id" => $company->getId(), "userId" => $company->getUser()->getId(), "pwd" => $company->getTemporaryPasswd()];
+            }
+        }
+        return new JsonResponse([$res, $err]);
+    }
+
+    #[Route(path: '/{id}/cityByRegion/', name: 'front_school_city_by_region', methods: ['GET'])]
+    public function cityByRegionAction(int $id): JsonResponse|Response {
+
+        $cities = $this->cityRepository->getByRegionId($id);
+
+        //$region = $this->regionRepository->find($id);
+        //$cities = $region->getCities();
+        /*var_dump($cities);die();
+        $res=[];
+        foreach ($cities as $city) {
+            $data = array('name' => $city->getName(), 'id' => $city->getId());
+            $res[] = $data;
+        }*/
+        return new JsonResponse($cities);
+    }
+
+    #[Route(path: '/{id}/activityBySchoolSectorArea/', name: 'front_school_activity_by_school_sector_area', methods: ['GET'])]
+    public function activityBySchoolSectorArea(int $id): JsonResponse|Response {
+        $school = $this->schoolService->getSchool();
+
+        // find which school sectorarea (1 to 6) used by $id
+        $sectorAreaNumber = 0;
+        for ($i=1; $i<=6; $i++) {
+            $getSectorArea = "getSectorArea" . (string)$i;
+
+            if ($school->$getSectorArea()) {
+                if ($school->$getSectorArea()->getId() == $id) {
+                    $sectorAreaNumber = $i;
+                    $i = 7; //end of loop
+                }
+            }
+        }
+
+        // Find Activities used by School
+        $getActivities = "getActivities" . $sectorAreaNumber;
+        $activities = $school->$getActivities();
+        $res=[];
+        foreach ($activities as $activity) {
+            $data = array('name' => $activity->getName(), 'id' => $activity->getId());
+            array_push($res, $data);
+        }
+
+        //dump($res);
+        return new JsonResponse($res);
+    }
+
+     public function checkPhoneSyntax(string $phoneNumber, Country $country): string {
+        $res = "ok";
+
+        //verification de l'indicatif pays
+        $phoneCode = '+' . $country->getPhoneCode();
+        $nationalPhone = "";
+        $isValidPhone = false;
+
+        //verification du nombre de digits téléphonique du pays
+        $phoneDigit = '+' . $country->getPhoneDigit();
+
+        if (strncmp($phoneCode, $phoneNumber, strlen($phoneCode)) === 0) {
+            $nationalPhone = substr($phoneNumber, strlen($phoneCode));
+            $isValidPhone = true;
+        } else {
+            $res = "Le numéro doit commencer par " . $phoneCode . "\n";
+        }
+
+        if($isValidPhone==true && strlen($nationalPhone)>0) {
+            // suppression du 0 pour le national
+            if ($nationalPhone[0] == '0') {
+                $nationalPhone = substr($nationalPhone, 1);
+            }
+
+            // reconstruit le numéro de téléphone sans le 0 national
+            $validPhone = $phoneCode . $nationalPhone;
+            if ($validPhone !== $phoneNumber) {
+                $res = "Suggestion pour le numéro " . $validPhone;
+            }
+        }
+        // vérification de la conformité du numéro de téléphone
+        if($isValidPhone==true ) {
+
+            if(strlen($nationalPhone)!=$phoneDigit) {
+                $isValidPhone = false;
+                $res = "Le numéro sans l'indicatif pays doit avoir " . (int)$phoneDigit . " chiffres";
+            }
+            if(!ctype_digit($nationalPhone)) {
+                $res = "mauvaise syntaxe du numéro de téléphone";
+            }
+        }
+        return ($res);
+    }
+
+    public function actorRegister(string $typePerson, string $phoneNumber, Country $country): array {
+        $existUser = $this->userRepository->findOneByPhone($phoneNumber);
+        $user = new User();
+        $err = [];
+
+        //Création du mot de passe temporaire
+        $comb = 'abcdefghijklmnopqrstuvwxyz1234567890';
+        $password = "";
+        $combLen = strlen($comb) - 1;
+        for ($i = 0; $i < 6; $i++) {
+            $n = rand(0, $combLen);
+            $password .= $comb[$n];
+        }
+
+         // Mise a jour du Role
+         if (!$existUser) {
+             switch ($typePerson) {
+                 case "company":
+                     {
+                         $role = $this->roleRepository->findOneBy(["role" => "ROLE_ENTREPRISE"]);
+                         $user->addProfil($role);
+                     }
+                     break;
+                 case "personDegree":
+                     {
+                         $role = $this->roleRepository->findOneBy(["role" => "ROLE_DIPLOME"]);
+                         $user->addProfil($role);
+                     }
+                     break;
+                 default:
+                     throw new NotFoundHttpException('Impossible de créer un compte');
+             }
+
+             // Supprime les espaces du numéro de téléphone
+             $user->setPhone(preg_replace('/\s/', '', $phoneNumber));
+
+             // Encode le password
+             $user->setPassword($this->hasher->hashPassword($user, $password));
+
+             // synchronise le username avec le phone
+             $user->setUsername($phoneNumber);
+
+             // envoi du mail de confirmation
+             //               if($user->getEmail()) {
+             //                  if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(),
+             //                           "confirmation de création de compte InserJeune", $typePerson, $user->getPhone(), $user->getPlainPassword())) {
+             //                     $this->get('session')->getFlashBag()->add('success', 'Une confirmation de création de compte est envoyée par mail');
+             //                  } else {
+             //                     $this->get('session')->getFlashBag()->add('danger', 'Erreur d\'envoi de mail');
+             //                  }
+             //               }
+
+             // créé l'adresse mail fictive
+             $user->setEmail($phoneNumber . "@domaine.extension");
+
+             $user->setCountry($country);
+
+             // Persistance en base
+             $this->em->persist($user);
+
+         } else {
+             array_push($err, "Ce numéro de téléphone est déja utilisé");
+         }
+         return ([$user, $password, $err]);
+    }
 }
