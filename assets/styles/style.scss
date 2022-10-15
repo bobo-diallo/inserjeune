@@ -750,3 +750,84 @@ table#activity_founded th{
 .kz-print-tools span i {
   margin-right: 5px;
 }
+
+/* Enrollment */
+#tbodyPersonDegree button,
+#tbodyCompany button,
+#tbodyPersonDegree button:active ,
+#tbodyCompany button:active {
+  border: none;
+  padding: 0;
+  background-color: Transparent;
+}
+
+#tbodyPersonDegree select,
+#tbodyCompany select,
+#tbodyPersonDegree input,
+#tbodyCompany input {
+  width: 100%;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  min-width: 150px;
+}
+
+#tbodyPersonDegree select option,
+#tbodyCompany select option{
+  margin-left: 25px;
+  text-align: left;
+}
+
+#tbodyPersonDegree input,
+#tbodyCompany input {
+  text-align: center;
+  min-width: 100px;
+}
+
+#tbodyPersonDegree .tdselect,
+#tbodyCompany .tdselect,
+#tbodyPersonDegree .tdinput,
+#tbodyCompany .tdinput {
+  padding: 0 3px 0 0;
+}
+
+#tbodyPersonDegree button img,
+#tbodyCompany button img{
+  width: 100%;
+  height: auto;
+}
+
+.region {
+  display: none;
+}
+.enrollpersondegree .row-actions,
+.enrollcompany .row-actions{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.enrollpersondegree img ,
+.enrollcompany img {
+  margin: auto;
+}
+.enrollpersondegree input ,
+.enrollpersondegree select ,
+.enrollcompany input ,
+.enrollcompany select {
+  border: none;
+  padding: 0;
+  font-weight: 600;
+  color: black;
+  font-size: 0.8rem;
+  width: 100%!important;
+}
+
+.enrollpersondegree p ,
+.enrollcompany p {
+  display: block;
+  padding: 0;
+  margin: auto 20px;
+  text-align: center;
+}
+
+

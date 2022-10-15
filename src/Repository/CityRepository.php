@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\QueryString;
 
 /**
  * CityRepository
@@ -17,4 +18,13 @@ class CityRepository extends ServiceEntityRepository
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, City::class);
 	}
+
+    public function getByRegionId(int $regionId): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.id, c.name')
+            ->where('c.region = :region')
+            ->setParameter('region',$regionId)
+            ->getQuery()
+            ->getResult();
+    }
 }

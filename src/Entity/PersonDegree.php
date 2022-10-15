@@ -60,6 +60,9 @@ class PersonDegree {
 	#[ORM\Column(name: 'other_activity', type: 'string', length: 255, nullable: true)]
 	private ?string $otherActivity;
 
+    #[ORM\Column(name: 'temporary_passwd', type: 'string', length: 255, nullable: true)]
+    private ?string $temporaryPasswd;
+
 	#[ORM\Column(name: 'lastIdSatisfactionSalary', type: 'integer', nullable: true)]
 	private ?int $lastIdSatisfactionSalary;
 
@@ -354,6 +357,16 @@ class PersonDegree {
 		$this->otherActivity = $otherActivity;
 		return $this;
 	}
+
+
+    public function getTemporaryPasswd(): ?string {
+        return $this->temporaryPasswd;
+    }
+
+    public function setTemporaryPasswd(?string $temporaryPasswd): self {
+        $this->temporaryPasswd = $temporaryPasswd;
+        return $this;
+    }
 
 	public function addSocialNetwork(SocialNetwork $socialNetwork): self {
 		$this->socialNetworks->add($socialNetwork);
