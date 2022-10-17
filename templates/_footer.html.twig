@@ -9,6 +9,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -23,11 +25,11 @@
                 $('#kz_table_wrapper .row').css('width', '100%')
                 $('#kz_table').parent().css('width', '100%')
             },
-            dom: 'lBfrtip',
+            dom: 'Blfrtip',
             buttons: {
                 buttons: [{
                     extend: 'csv',
-                    text: '<i class="fas fa-file-csv"></i> Csv',
+                    text: '<i class="fas fa-file-csv"></i>Export Csv',
                     title: $('h6.element-header').text(),
                     exportOptions: {
                         columns: ':not(.no-print)'
@@ -40,21 +42,21 @@
                     autoPrint: false*/
                 }, {
                     extend: 'excel',
-                    text: '<i class="fa fa-file-excel"></i> Excel',
+                    text: '<i class="fa fa-file-excel"></i>Export Excel',
                     title: $('h6.element-header').text(),
                     exportOptions: {
                         columns: ':not(.no-print)'
                     },
                 }, {
                     extend: 'print',
-                    text: '<i class="fa fa-print"></i> Print',
+                    text: '<i class="fa fa-print"></i>Export Print',
                     title: $('h6.element-header').text(),
                     exportOptions: {
                         columns: ':not(.no-print)'
                     },
                 }, {
                     extend: 'pdf',
-                    text: '<i class="fa fa-file-pdf"></i>export Pdf',
+                    text: '<i class="fa fa-file-pdf"></i>Export Pdf',
                     orientation: 'landscape',
                     pageSize: 'A3',
                     title: $('h6.element-header').text(),

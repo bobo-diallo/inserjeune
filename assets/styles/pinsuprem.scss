@@ -2460,7 +2460,6 @@ pre code {
 }
 
 .table-responsive {
-  padding-top: 50px;
   display: block;
   width: 100%;
   overflow-x: auto;
@@ -7915,11 +7914,11 @@ fieldset {
 }
 
 legend {
-  font-size: .99rem;
+  font-size: .99rem!important;
   display: block;
   margin-bottom: 1.5rem;
   position: relative;
-  color: #2177e0
+  color: #2177e0!important;
   /*color: #2177e0*/
 }
 
