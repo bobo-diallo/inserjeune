@@ -5,8 +5,25 @@
 
 
 {% block js %}
-
   <script>
+     $(document).ready(function () {
+        ClassicEditor
+            .create( document.querySelector( '#appbundle_joboffer_description' ) )
+            .then( editor => {
+               console.log( editor );
+            } )
+            .catch( error => {
+               console.error( error );
+            } );
+        ClassicEditor
+            .create( document.querySelector( '#appbundle_joboffer_candidateProfile' ) )
+            .then( editor => {
+               console.log( editor );
+            } )
+            .catch( error => {
+               console.error( error );
+            } );
+     })
      // Event
      $(document).on('change', '#appbundle_joboffer_country, #appbundle_joboffer_region', function () {
         let $field = $(this)

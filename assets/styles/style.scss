@@ -366,7 +366,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 .btn-dashboard {
-  margin-left: 15px;
+  margin-right: 15px;
   height: 1.9rem;
   padding: 0 1.2rem !important;
   border-radius: 1rem;
@@ -374,10 +374,61 @@ table.dataTable tbody th, table.dataTable tbody td {
   background-color: #2177e0;
   border-color: #2177e0;
 }
+#importCSV,
+#addPersonDegree,
+#addCompany {
+  margin-right: 15px!important;
+  padding: 0.3rem 1.2rem !important;
+}
+
+.kz-print-tools {
+  float: none!important;
+  margin-bottom: 15px;
+  //display: flex!important;
+  //justify-content: space-between;
+}
+.kz-print-tools  span {
+  color: #ffffff;
+  margin-left: 7px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.kz-print-tools span i {
+  margin-right: 8px;
+  font-size: 18px;
+}
 
 .select-dashboard,
 .input-dashboard {
   margin-left: 5px;
+}
+
+#editAll{
+  margin-left: 30px;
+}
+
+@media screen and (max-width: 640px) {
+  .kz-print-tools {
+    text-align: left!important;
+    margin-bottom: 10px;
+  }
+  .kz-print-tools .btn-dashboard {
+    margin-right: 0;
+    width: 48%;
+    margin-bottom: 5px;
+  }
+  #importCSV,
+  #addPersonDegree,
+  #addCompany {
+    width: 48%;
+    margin-right: 1px!important;
+    margin-bottom: 0;
+    padding: 0 1.2rem !important;
+  }
+  #editAll{
+    margin-left: 20px;
+  }
 }
 
 /* La notation ETOILE */
@@ -734,23 +785,6 @@ table#activity_founded th{
   color: #f5f5f6;
 }
 
-.kz-print-tools {
-  position: absolute!important;
-  top: -50px;
-  left: -15px;
-}
-
-.kz-print-tools  span {
-  color: #ffffff;
-  margin-left: 7px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.kz-print-tools span i {
-  margin-right: 5px;
-}
-
 /* Enrollment */
 #tbodyPersonDegree button,
 #tbodyCompany button,
@@ -830,4 +864,83 @@ table#activity_founded th{
   text-align: center;
 }
 
+/* Offre d'emplois */
+/* --------------- */
+.jobOfferBanner img {
+  max-width: 80px;
+  height: auto;
+}
+.jobOfferBanner span {
+  margin: 20px auto 0 auto;
+  font-size: 14px;
+  text-align: center ;
+}
 
+.jobOfferTitle {
+  margin-bottom: 20px;
+}
+.jobOfferTitle h2 {
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #800000;
+}
+
+.jobOffer .jobOfferDates p{
+  margin: 0;
+  font-size: 14px;
+  color: #001580;
+  text-align: left;
+}
+
+.jobOffer fieldset {
+  margin-top: 0;
+}
+.jobOffer fieldset Legend {
+  margin-bottom: 0;
+}
+
+.jobOffer fieldset Legend span{
+  font-size: 16px;
+  font-weight: bold;
+  color: #001580;
+}
+
+.jobOffer fieldset>div h2 {
+  font-size: 10px;
+  font-weight: bold;
+  color: #800000;
+  margin: 15px 0 0 0;
+  text-align: center;
+}
+
+.jobOffer fieldset>div p {
+  text-align: left;
+  margin: 0 0 0 20px;
+}
+.jobOfferCompanyName {
+  width: 100%;
+  margin: 20px 0;
+  background: #d5e8ff;
+}
+.jobOfferCompanyName h2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #800000;
+  text-align: center;
+}
+
+.jobOfferCompanyName a {
+  width: 100%;
+}
+
+.jobOfferCompanyName a:hover {
+  text-decoration: none;
+}
+/*.jobOfferDesc p {
+    font-size: 14px;
+    color: #001580;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 10px;
+}*/
