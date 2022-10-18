@@ -1,24 +1,24 @@
 {{ form_widget(form._token) }}
 <div class="form-group">
-  <label for=""> Nom </label>
+  <label for=""> {{ 'menu.name' | trans }} </label>
   {{ form_widget(form.name) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
 <div class="form-group">
-  <label for=""> Nom ISO </label>
+  <label for=""> {{ 'currency.iso_name' | trans }} </label>
   {{ form_widget(form.isoName) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
 <div class="form-group">
-  <label for=""> Num ISO </label>
+  <label for=""> {{ 'currency.iso_number' | trans }} </label>
   {{ form_widget(form.isoNum) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
 <div class="form-group">
-  <label for=""> Symbol ISO </label>
+  <label for=""> {{ 'currency.iso_symbol' | trans }} </label>
   {{ form_widget(form.isoSymbol) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="submit"> Valider</button>
+  <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>

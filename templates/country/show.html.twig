@@ -7,12 +7,12 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Details
+                    {{ 'menu.detail' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('country_new') }}">
-                        <i class="fa fa-plus"></i> Ajouter un pays
+                        <i class="fa fa-plus"></i> {{ 'country.add_a_country' | trans }}
                     </a>
                     <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('country_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box">
@@ -22,23 +22,23 @@
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ country.id }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Name</label>
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.name' | trans }}</label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ country.name }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Code ISO</label>
+                            <label class="text-uppercase col-form-label col-sm-4">{{ 'currency.iso_code' | trans }}</label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ country.isoCode }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Devise</label>
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.currency' | trans }} } </label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ country.currency }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Ind. T&eacute;l.</label>
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.phone_indicator' | trans }} .</label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ country.phoneCode }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Valide</label>
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.valid' | trans }} </label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ country.valid }}"></div>
                         </div>
                     </form>
@@ -46,9 +46,9 @@
                         <div class="row" id="actions">
                             <div class="col-sm-6">
                                 <a class="btn btn-sm btn-primary" href="{{ path('country_edit', {'id': country.id}) }}">
-                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                                 <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('country_delete', {'id': country.id}) }}')">
-                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
                             </div>
                         </div>
                     </div>

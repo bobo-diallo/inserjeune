@@ -11,7 +11,7 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
-          Postuler à une offre d'emploi
+          {{ 'job.apply_for_a_job_offer' | trans }}
           {#<a class="btn btn-sm btn-primary float-right" href="#">#}
             {#<i class="fa fa-arrow-left"></i> Voir le profil#}
           {#</a>#}
@@ -21,25 +21,25 @@
             {{ form_widget(form._token) }}
             <div class="jobOfferCompany">
               <fieldset>
-                <legend><span>Informations de contact</span></legend>
+                <legend><span>{{ 'job.contact_information' | trans }} </span></legend>
                 <div class="row">
                   <div class="col-sm-4">
-                    <label class="col-form-label col-sm-6">Titre de l'offre</label>
+                    <label class="col-form-label col-sm-6">{{ 'job.offer_title' | trans }} </label>
                     <input class="col-sm-12 form-control" disabled value="{{ jobOffer.title }}">
                   </div>
                   <div class="col-sm-4">
-                    <label class="col-form-label col-sm-6">Email</label>
+                    <label class="col-form-label col-sm-6">{{ 'menu.email' | trans }}</label>
                     <input class="col-sm-12 form-control" disabled value="{{ jobOffer.postedEmail }}">
                   </div>
                   <div class="col-sm-4">
-                    <label class="col-form-label col-sm-6">Tél.</label>
+                    <label class="col-form-label col-sm-6">{{ 'menu.phone' | trans }}.</label>
                     <input class="col-sm-12 form-control" disabled value="{{ jobOffer.postedPhone }}">
                   </div>
                 </div>
               </fieldset>
               <br>
               <fieldset>
-                <legend><span>Vos documents</span></legend>
+                <legend><span>{{ 'job.your_documents' | trans }} </span></legend>
                 <div class="row">
                   <div class="col-sm-12">
                     <label class="col-form-label col-sm-6">Message</label>
@@ -50,18 +50,18 @@
               <br><br>
               {# CV #}
               <div class="form-group">
-                <label class="">Joindre un CV</label>
+                <label class="">{{ 'job.attach_a_resume' | trans }} </label>
                 <div style="border: 2px dashed #2177e0">
                   <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new thumbnail"></div>
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                     <div>
                     <span class="btn default btn-file">
-                      <button class="btn fileinput-new" style="text-transform: none"> Selectionner votre cv </button>
+                      <button class="btn fileinput-new" style="text-transform: none"> {{ 'job.select_your_resume' | trans }}  </button>
                       <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> Changer </button>
                       {{ form_widget(form.cv) }}
                     </span>
-                      <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> Supprimer </a>
+                      <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> {{ 'menu.delete' | trans }} </a>
                     </div>
                   </div>
                 </div>
@@ -76,11 +76,11 @@
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                     <div>
                     <span class="btn default btn-file">
-                      <button class="btn fileinput-new" style="text-transform: none"> Selectionner la lettre de motivation </button>
+                      <button class="btn fileinput-new" style="text-transform: none"> {{ 'job.attach_a_cover_letter' | trans }}  </button>
                       <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> Changer </button>
                       {{ form_widget(form.coverLetter) }}
                     </span>
-                      <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> Supprimer </a>
+                      <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> {{ 'menu.delete' | trans }} </a>
                     </div>
                   </div>
                 </div>
@@ -88,7 +88,7 @@
               {# End FileInput #}
               {#</div>#}
               <div class="form-buttons-w">
-                <button class="btn btn-primary" type="submit"> Valider</button>
+                <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
               </div>
             </div>
           </form>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Diplomé {% endblock %}</title>
+  <title>{% block title %}{{ 'menu.graduate' | trans }} {% endblock %}</title>
   {{ include('_head.html.twig') }}
   {% block css %}{% endblock %}
 </head>
@@ -33,7 +33,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/users.png') }}" alt="satisfaction">
               </div>
-              <span>Compte</span>
+              <span>{{ 'menu.account' | trans }}</span>
             </a>
           </li>
           <li>
@@ -41,7 +41,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
               </div>
-              <span>Enquête en cours</span>
+              <span>{{ 'survey.investigation_in_progress' | trans }}</span>
             </a>
           </li>
           <li>
@@ -49,7 +49,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
               </div>
-              <span>Liste des enquêtes</span>
+              <span>{{ 'survey.list_of_surveys' | trans}}</span>
             </a>
           </li>
           <li>
@@ -58,7 +58,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
               </div>
-              <span>Offres d'emploi</span>
+              <span>{{ 'menu.job_offer' | trans }}</span>
             </a>
           </li>
           <li>
@@ -66,7 +66,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
               </div>
-              <span>Géo-Localisation</span>
+              <span>{{ 'menu.geolocation' | trans }}</span>
             </a>
           </li>
           <li class="has-sub-menu">
@@ -74,13 +74,13 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
               </div>
-              <span>Informations</span>
+              <span>{{ 'menu.information' | trans }}</span>
             </a>
             <ul class="sub-menu">
-              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_diplome_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
-              <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
-              <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
-              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_diplome_inserjeune_v1.2.pdf') }}>{{ 'menu.user_guide' | trans }}</a></li>
+              <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
+              <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
+              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>
             </ul>
           </li>
           <li>
@@ -94,7 +94,7 @@
                 <div class="icon-w">
                   <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
                 </div>
-                <span>Déconnexion</span>
+                <span>{{ 'menu.logout' | trans }}</span>
               </a>
             </li>
           {% endif %}

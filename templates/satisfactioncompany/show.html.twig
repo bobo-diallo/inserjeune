@@ -7,38 +7,38 @@
     <div class="element-wrapper">
       <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
       <h6 class="element-header">
-        Details
+        {{ 'menu.detail' | trans }}
         <a class="btn btn-sm btn-primary float-right" href="{{ path('satisfactioncompany_new' | route_company) }}">
-          <i class="fa fa-plus"></i> Ajouter une satisfaction d'entreprise
+          <i class="fa fa-plus"></i> {{ 'survey.add_a_company_satisfaction' | trans }}
         </a>
         <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('satisfactioncompany_index' | route_company) }}">
-          <i class="fa fa-arrow-left"></i> Retour à la liste
+          <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
         </a>
       </h6>
       <div class="element-box form-show">
         <form>
           <div class="row">
             <div class="col-sm-7 form-group">
-              <label for=""> Entreprise :</label>
+              <label for=""> {{ 'menu.company' | trans }} :</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.company }}">
             </div>
             <div class="col-sm-5 form-group">
-              <label for=""> Date de Création </label>
+              <label for=""> {{ 'menu.created_date' | trans }} </label>
               <input class="form-control" disabled value="{{ satisfactionCompany.createdDate|date("m/d/Y H:i") }}">
             </div>
           </div>
           <div class="line-separator"></div>
           <div class="row">
             <div class="col-sm-4 form-group">
-              <label for=""> Combien de salariés employez-vous ?</label>
+              <label for=""> {{ 'survey.how_many_employees_do_you_have' | trans }} ?</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.salaryNumber }}">
             </div>
             <div class="col-sm-4 form-group">
-              <label for=""> Combien d'apprentis employez-vous ?</label>
+              <label for=""> {{ 'survey.how_many_apprentices_do_you_employ' | trans }} ?</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.apprenticeNumber }}">
             </div>
             <div class="col-sm-4 form-group">
-              <label for=""> Combien de stagiaires employez-vous  ?</label>
+              <label for=""> {{ 'survey.how_many_interns_do_you_employ' | trans }}  ?</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.studentNumber }}">
             </div>
           </div>
@@ -47,19 +47,19 @@
             <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-12 form-group">
-                  <label for="">Quels sont les secteurs d'activités de spécialisation de vos ouvriers ?</label>
+                  <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_workers' | trans }} ?</label>
                   <input class="form-control" disabled value="{{ satisfactionCompany.workerSectorArea }}">
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12 form-group hide_flex_otherWorkerJob">
-                  <label for="">Autre domaines de spécialisation de vos ouvriers ?</label>
+                  <label for="">{{ 'survey.other_areas_of_specialization_for_your_workers' | trans }} ?</label>
                   <input class="form-control" disabled value="{{ satisfactionCompany.otherWorkerJob }}">
                 </div>
               </div>
             </div>
             <div class="col-sm-6 form-group">
-              <label for="">Quels sont les métiers / domaines de spécialisation de vos ouvriers ?</label>
+              <label for="">{{ 'survey.what_are_the_trades_areas_of_specialization_of_your_workers' | trans }} ?</label>
               <textarea class="form-control" disabled >{{ satisfactionCompany.workerActivities | join('\n')}}</textarea>
             </div>
           </div>
@@ -68,19 +68,19 @@
             <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-12 form-group">
-                  <label for="">Quels sont les secteurs d'activités de spécialisation de vos techniciens ?</label>
+                  <label for="">{{ 'survey.what_are_the_areas_of_specialization_of_your_technicians' | trans }} ?</label>
                   <input class="form-control" disabled value="{{ satisfactionCompany.technicianSectorArea }}">
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12 form-group hide_flex_otherTechnicianJob">
-                  <label for="">Autre domaines de spécialisation de vos techniciens ?</label>
+                  <label for="">{{ 'survey.other_areas_of_specialization_for_your_technicians' | trans }} ?</label>
                   <input class="form-control" disabled value="{{ satisfactionCompany.otherTechnicianJob }}">
                 </div>
               </div>
             </div>
             <div class="col-sm-6 form-group">
-              <label for="">Quels sont les métiers / domaines de spécialisation de vos techniciens ?</label>
+              <label for="">{{ 'survey.what_are_the_professions_fields_of_specialization_of_your_technicians' | trans }} ?</label>
               {#<input class="form-control" disabled value="{{ satisfactionCompany.technicianActivities }}">#}
               <textarea class="form-control" disabled >{{ satisfactionCompany.technicianActivities | join('\n')}}</textarea>
             </div>
@@ -88,7 +88,7 @@
           <div class="line-separator"></div>
           <div class="row ">
             <div class="col-sm-12">
-              <label for=""> Vous venez d’embaucher un ou des jeune(s) diplômé(s) en formation professionnelle et technique.<br>Etes-vous satisfaits de ses / leurs compétences ?</label>
+              <label for=""> {{ 'survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills' | trans({'%tag_br%': '<br/>'}) }} ?</label>
             {#</div>#}
             {#<div class="col-sm-12 form-check ">#}
               {#{{ satisfactionCompany.levelSkill }}#}
@@ -96,11 +96,11 @@
             </div>
           </div>
           <div class="line-separator"></div>
-          <span>Evaluez ses / leurs compétences sur une échelle de 1 à 5 <br> 1 = très insatisfaisant, 2 = insatisfaisant, 3 = satisfaisant, 4 = bon et 5 = excellent :</span>
+          <span>{{ 'survey.indication_evaluation_satisfaction_company_with_tag' | trans({'%tag_br%': '<br/>'}) }} :</span>
           <div class="table_skill">
             <div class="row table_skill_row">
               <div class="col-sm-4">
-                <div class="row"> Savoirs Généraux </div>
+                <div class="row"> {{ 'company.general_knowledge' | trans }} </div>
               </div>
               <div class="col-sm-8">
                 <div class="row table_skill_checkbox">
@@ -110,7 +110,7 @@
             </div>
             <div class="row table_skill_row">
               <div class="col-sm-4">
-                <div class="row"> Compétences techniques </div>
+                <div class="row"> {{ 'company.technical_skills' | trans }} </div>
               </div>
               <div class="col-sm-8">
                 <div class="row table_skill_checkbox">
@@ -120,7 +120,7 @@
             </div>
             <div class="row table_skill_row">
               <div class="col-sm-4">
-                <div class="row"> Communication, Hygiène, Sécurité & Environnement </div>
+                <div class="row"> {{ 'menu.communication_health_safety_environment' | trans }} </div>
               </div>
               <div class="col-sm-8">
                 <div class="row table_skill_checkbox">
@@ -144,14 +144,14 @@
           <div class="line-separator"></div>
           <div class="row ">
             <div class="col-sm-12 form-check">
-              <label for=""> Seriez-vous prêt à engager des diplômés ayant le même profil / cursus scolaire que celui / ceux que vous avez embauché(s) ?</label>
+              <label for=""> {{ 'company.would_you_be_willing_to_hire_graduates_with_the_same_profile_educational_background_as_the_one_you_hired' | trans }} ?</label>
               {#<input class="form-control" disabled value="{{ satisfactionCompany.hiringSameProfile }}">#}
               <div class="col-sm-12">
                 {% if satisfactionCompany.hiringSameProfile==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                 <input type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
-                  <span class="non">Non</span>
-                  <span class="oui">Oui</span>
+                  <span class="non">{{ 'menu.no' | trans }}</span>
+                  <span class="oui">{{ 'menu.yes' | trans }}</span>
                 </div>
               </div>
             </div>
@@ -159,13 +159,13 @@
           <div class="line-separator"></div>
           <div class="row label_center">
             <div class="col-sm-12 form-check">
-              <label for=""> En cas de lacunes, seriez-vous prêts à compléter la formation du ou des jeune(s) embauché(s) ?</label>
+              <label for=""> {{ 'company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired' | trans }} ?</label>
               <div class="col-sm-12">
                 {% if satisfactionCompany.completeTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                 <input type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
-                  <span class="non">Non</span>
-                  <span class="oui">Oui</span>
+                  <span class="non">{{ 'menu.no' | trans }}</span>
+                  <span class="oui">{{ 'menu.yes' | trans }}</span>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@
           <div class="hide_flex_completeGlobalTraining">
             <div class="row hide_flex_completeGlobalTraining">
               <div class="col-sm-12 form-group">
-                <span><br>Si oui, pour quelles compétences ?</span>
+                <span><br>{{ 'company.if_yes_for_which_skills' | trans }} ?</span>
               </div>
             </div>
             <table class="complete_skill">
@@ -181,7 +181,7 @@
                 <td class="complete_skill_marge"></td>
                 <td class="complete_skill_title">
                   <div class="form-check">
-                    <label for=""> Savoirs Généraux : </label>
+                    <label for=""> {{ 'company.general_knowledge' | trans }} : </label>
                   </div>
                 </td>
                 <td class="complete_skill_check">
@@ -189,8 +189,8 @@
                     {% if satisfactionCompany.completeGlobalTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
-                      <span class="non">Non</span>
-                      <span class="oui">Oui</span>
+                      <span class="non">{{ 'menu.no' | trans }}</span>
+                      <span class="oui">{{ 'menu.yes' | trans }}</span>
                     </div>
                   </div>
                 </td>
@@ -200,7 +200,7 @@
                 <td class="complete_skill_marge"></td>
                 <td class="complete_skill_title">
                   <div class="form-check">
-                    <label for=""> Compétences techniques : </label>
+                    <label for=""> {{ 'company.technical_skills' | trans }} : </label>
                   </div>
                 </td>
                 <td class="complete_skill_check">
@@ -208,8 +208,8 @@
                     {% if satisfactionCompany.completeTechnicalTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
-                      <span class="non">Non</span>
-                      <span class="oui">Oui</span>
+                      <span class="non">{{ 'menu.no' | trans }}</span>
+                      <span class="oui">{{ 'menu.yes' | trans }}</span>
                     </div>
                   </div>
                 </td>
@@ -219,7 +219,7 @@
                 <td class="complete_skill_marge_left"></td>
                 <td class="complete_skill_title">
                   <div class="form-check">
-                    <label for=""> Communication, Hygiène, Sécurité & Environnement : </label>
+                    <label for=""> {{ 'menu.communication_health_safety_environment' | trans }} : </label>
                   </div>
                 </td>
                 <td class="complete_skill_check">
@@ -227,8 +227,8 @@
                     {% if satisfactionCompany.completeCommunicationHygieneHealthEnvTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
-                      <span class="non">Non</span>
-                      <span class="oui">Oui</span>
+                      <span class="non">{{ 'menu.no' | trans }}</span>
+                      <span class="oui">{{ 'menu.yes' | trans }}</span>
                     </div>
                   </div>
                 </td>
@@ -247,8 +247,8 @@
                     {% if satisfactionCompany.completeOtherTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
-                      <span class="non">Non</span>
-                      <span class="oui">Oui</span>
+                      <span class="non">{{ 'menu.no' | trans }}</span>
+                      <span class="oui">{{ 'menu.yes' | trans }}</span>
                     </div>
                   </div>
                 </td>
@@ -257,24 +257,24 @@
             </table>
           </div>
           <div class="line-separator"></div>
-          <p>Combien de personnes comptez-vous engager dans les 6 prochains mois ?</p>
+          <p>{{ 'company.how_many_people_do_you_expect_to_hire_in_the_next_6_months' | trans }} ?</p>
           <div class="row">
             <div class="col-sm-6 form-group">
-              <label for=""> Ouvrier-ère :</label>
+              <label for=""> {{ 'company.worker_female' | trans }} :</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsWorker }}">
             </div>
             <div class="col-sm-6 form-group">
-              <label for=""> Technicien-ne :</label>
+              <label for=""> {{ 'company.technician_female' | trans }} :</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsTechnician }}">
             </div>
           </div>
           <div class="row">
             <div class="col-sm-6 form-group">
-              <label for=""> Apprenti-e :</label>
+              <label for=""> {{ 'company.apprentice_female' | trans }} :</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsApprentice }}">
             </div>
             <div class="col-sm-6 form-group">
-              <label for=""> Stagiaire :</label>
+              <label for=""> {{ 'company.intern' | trans }} :</label>
               <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsStudent }}">
             </div>
           </div>
@@ -285,15 +285,15 @@
             <div class="col-sm-6">
               {% if is_granted('ROLE_ADMIN') == true %}
                 <a class="btn btn-sm btn-primary" href="{{ path('satisfactioncompany_edit', {'id': satisfactionCompany.id}) }}">
-                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
               {% elseif is_granted('ROLE_ENTREPRISE') == true%}
                 <a class="btn btn-sm btn-primary" href="{{ path('front_company_satisfactioncompany_edit', {'id': satisfactionCompany.id}) }}">
-                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
               {% endif %}
 
               {% if is_granted('ROLE_ADMIN') == true %}
                 <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('satisfactioncompany_delete', {'id': satisfactionCompany.id}) }}')">
-                  <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                  <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
             </div>
             {% endif %}
           </div>

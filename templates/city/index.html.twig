@@ -7,16 +7,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des villes
+                    {{ 'city.list_of_cities' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('city_new') }}">
-                                    <i class="fa fa-plus"></i> Nouvelle ville</a>
+                                    <i class="fa fa-plus"></i> {{ 'city.new_city' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -26,10 +26,10 @@
                             <tr>
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
-                                <th>Nom</th>
-                                <th>Capitale</th>
-                                <th>Région</th>
-                                <th>Pays</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'city.capital_city' | trans }}</th>
+                                <th>{{ 'menu.region' | trans}}</th>
+                                <th>{{ 'menu.country' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody>

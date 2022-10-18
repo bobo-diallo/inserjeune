@@ -7,10 +7,10 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Modification d'une entreprise
+                     {{ 'company.modification_of_a_company' | trans }}
                     {% if is_granted('ROLE_ADMIN') %}
                       <a class="btn btn-sm btn-primary float-right" href="{{ path('company_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                       </a>
                     {% endif %}
                 </h6>

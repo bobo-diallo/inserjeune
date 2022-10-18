@@ -7,14 +7,14 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
-          Details de l'offre {{ jobOffer.id }}
+          {{ 'job.details_of_the_offer' | trans }}  {{ jobOffer.id }}
           {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise" %}
             <a class="btn btn-sm btn-primary float-right" href="{{ path('jobOffer_new') }}">
-              <i class="fa fa-plus"></i> Ajouter une offre
+              <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
             </a>
           {% endif %}
           <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
-            <i class="fa fa-arrow-left"></i> Retour à la liste
+            <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
           </a>
         </h6>
         <div class="element-box jobOffer">
@@ -24,24 +24,24 @@
             {%  else %}
               <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
             {% endif %}
-            <span>Offre d'emploi</span>
+            <span>{{ 'menu.job_offer' | trans }}</span>
           </div>
           <div class="form-group row jobOfferTitle">
             <h2>{{ jobOffer.title }}</h2>
           </div>
           <div class="form-group row jobOfferDates">
-            <p class="col-sm-12">Publiée le {{ jobOffer.createdDate|date('d/m/Y') }}</p>
+            <p class="col-sm-12">{{ 'job.published_on' | trans }}  {{ jobOffer.createdDate|date('d/m/Y') }}</p>
             {%  if jobOffer.updatedDate > jobOffer.createdDate %}
-              <p class="col-sm-12">Mise à jour le {{ jobOffer.updatedDate|date('d/m/Y') }}</p>
+              <p class="col-sm-12">{{ 'job.updated_on' | trans }}  {{ jobOffer.updatedDate|date('d/m/Y') }}</p>
             {% endif %}
             {#%  if jobOffer.closedDate > jobOffer.createdDate %#}
-            <p class="col-sm-12">Expire le {{ jobOffer.closedDate }}</p>
+            <p class="col-sm-12">{{ 'menu.expires_on' | trans }} {{ jobOffer.closedDate }}</p>
             {#% endif %#}
-            <p class="col-sm-12">Type de contrat : {{ jobOffer.contract }}</p>
+            <p class="col-sm-12">{{ 'job.type_of_contract' | trans }} : {{ jobOffer.contract }}</p>
             {% if jobOffer.otherCity %}
-              <p class="col-sm-12">Localisation : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>
+              <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>
             {% else %}
-              <p class="col-sm-12">Localisation : {{ jobOffer.country }}-{{ jobOffer.city.name }}</p>
+              <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.city.name }}</p>
             {% endif %}
           </div>
 
@@ -54,7 +54,7 @@
           <div class="row">
             <fieldset class="col-form-label col-sm-6">
               <legend>
-                <span>Description de l'entreprise</span>
+                <span>{{ 'job.description_of_the_company' | trans }} </span>
               </legend>
               <div class="form-group row ">
                 <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>
@@ -62,7 +62,7 @@
             </fieldset>
             <fieldset class="col-form-label col-sm-6">
               <legend>
-                <span> Description du poste </span>
+                <span> {{ 'job.job_description' | trans }}  </span>
               </legend>
               <div class="form-group row ">
                 <p class="col-sm-12">{{  jobOffer.description | raw }}</p>
@@ -72,7 +72,7 @@
           <div class="row">
             <fieldset class="col-form-label col-sm-6">
               <legend>
-                <span>Profile du candidat</span>
+                <span>{{ 'job.candidate_profile' | trans }} </span>
               </legend>
               <div class="form-group row ">
                 <p class="col-sm-12">{{ jobOffer.candidateProfile | raw }}</p>
@@ -80,7 +80,7 @@
             </fieldset>
             <fieldset class="col-form-label col-sm-6">
               <legend >
-                <span>Personne en charge du recrutement</span>
+                <span>{{ 'job.person_in_charge_of_recruitment' | trans }} </span>
               </legend>
               <div class="form-group row ">
                 <!--div class="form-group row "-->
@@ -99,7 +99,7 @@
 
 {#          {%  if app.user.roles|role == "Diplômé"%}#}
           {%  if app.user.roles|role == "Diplômé"%}
-            <a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}" class="btn btn-lg btn-success" role="button">Postuler</a>
+            <a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}" class="btn btn-lg btn-success" role="button">{{ 'menu.apply' | trans }}</a>
 
           {% endif %}
           {% if attribute(jobOffer.file.vars, 'data') is defined and jobOffer.file.vars.data is not empty %}
@@ -115,9 +115,9 @@
               <div class="row" id="actions">
                 <div class="col-sm-6">
                   <a class="btn btn-sm btn-primary" href="{{ path('jobOffer_edit', {'id': jobOffer.id}) }}">
-                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                   <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')">
-                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
                 </div>
               </div>
             </div>

@@ -7,16 +7,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/sector-area.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des filières / métiers
+                    {{ 'activity.list_of_sectors_professions' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('activity_new') }}">
-                                    <i class="fa fa-plus"></i> Ajouter filière / métier</a>
+                                    <i class="fa fa-plus"></i> {{ 'activity.add_sector_profession' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                             <tr>
                                 <th class="col_action" >Actions</th>
                                 <th class="col_id" >Id</th>
-                                <th>Nom</th>
-                                <th>Secteur d'activité</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'menu.activity_area' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody>

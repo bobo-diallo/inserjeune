@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
-                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 {% endif %}
                                 {%  if app.user.roles|role!="ENTREPRISE" %}
                                 <a class="btn btn-sm btn-primary" href="{{ path('satisfactioncompany_new'| route_company) }}">
@@ -28,19 +28,19 @@
                                 <th class="no-print">Actions</th>
                                 {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
                                     <th><div><span>N°</span></div></th>
-                                    <th><div><span><br>Entreprise</span></div></th>
+                                    <th><div><span><br>{{ 'menu.company' | trans }}</span></div></th>
                                     <th><div><span><br>Tél.</span></div></th>
-                                    <th><div><span><br>Ville</span></div></th>
+                                    <th><div><span><br>{{ 'menu.city' | trans }}</span></div></th>
                                 {% endif %}
 
-                                <th><div><span>Date<br>Création</span></div></th>
-                                <th><div><span>Date<br>Modification</span></div></th>
-                                <th><div><span>Satisfaction<br>Compétences</span></div></th>
-                                <th><div><span>Nombre<br>Salariés</span></div></th>
-                                <th><div><span>Nombre<br>Apprentis</span></div></th>
-                                <th><div><span>Nombre<br>Stagiaires</span></div></th>
-                                <th><div><span>Métier<br>Ouvriers</span></div></th>
-                                <th><div><span>Métier<br>Tecniciens</span></div></th>
+                                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.satisfaction_skills_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.number_of_employees_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.number_of_apprentices_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.number_of_interns_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.occupation_workers_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.trade_technicians_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
                             </tr>
                             </thead>
                             <tbody>

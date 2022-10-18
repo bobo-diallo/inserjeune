@@ -7,14 +7,14 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des offres d'emploi
+                    {{ 'job.list_of_job_offers' | trans }}
                 </h6>
                 <div class="element-box">
                     {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 </div>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                             <thead>
                             <tr>
                                 {%  if app.user.roles|role == "Diplômé"%}
-                                    <th class="no-print">Postuler</th>
+                                    <th class="no-print">{{ 'menu.apply' | trans }}</th>
                                 {% endif %}
                                 {%  if app.user.roles|role == "Etablissement" or app.user.roles|role == "Diplômé"%}
                                     <th class="no-print">Détail</th>
@@ -34,21 +34,21 @@
                                 {%  if app.user.roles|role == "Administrateur"%}
                                     <th>Id</th>
                                 {% endif %}
-                                <th>Titre</th>
-                                <th>Modifié le</th>
-                                <th>Expire le</th>
-                                <th>Métier</th>
-                                <th>Email</th>
-                                <th>Entreprise</th>
-                                <th>Ville</th>
-                                <th>Description</th>
+                                <th>{{ 'menu.title' | trans }}</th>
+                                <th>{{ 'menu.modified_on' | trans }}</th>
+                                <th>{{ 'menu.expires_on' | trans }}</th>
+                                <th>{{ 'menu.job' | trans }}</th>
+                                <th>{{ 'menu.email' | trans }}</th>
+                                <th>{{ 'menu.company' | trans }}</th>
+                                <th>{{ 'menu.city' | trans }}</th>
+                                <th>{{ 'menu.description' | trans }} </th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for jobOffer in jobOffers %}
                                 <tr>
                                     {% if app.user.roles|role == "Diplômé" %}
-                                        <td><a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}">Postuler </a></td>
+                                        <td><a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}">{{ 'menu.apply' | trans }} </a></td>
                                     {% endif %}
                                     {% if app.user.roles|role == "Etablissement" or app.user.roles|role == "Diplômé"%}
                                         <td><a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a></td>

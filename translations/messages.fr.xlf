@@ -1,0 +1,1789 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="menu.create_an_account">
+        <source>menu.create_an_account</source>
+        <target>Créer un compte</target>
+      </trans-unit>
+      <trans-unit id="menu.connection">
+        <source>menu.connection</source>
+        <target>Connexion</target>
+      </trans-unit>
+      <trans-unit id="menu.new_user">
+        <source>menu.new_user</source>
+        <target>Nouvel utilisateur</target>
+      </trans-unit>
+      <trans-unit id="menu.language">
+        <source>menu.language</source>
+        <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="menu.french">
+        <source>menu.french</source>
+        <target>Français</target>
+      </trans-unit>
+      <trans-unit id="menu.english">
+        <source>menu.english</source>
+        <target>Anglais</target>
+      </trans-unit>
+      <trans-unit id="menu.spanish">
+        <source>menu.spanish</source>
+        <target>Espangnol</target>
+      </trans-unit>
+      <trans-unit id="menu.portuguese">
+        <source>menu.portuguese</source>
+        <target>Portugais</target>
+      </trans-unit>
+      <trans-unit id="menu.company">
+        <source>menu.company</source>
+        <target>Entreprise</target>
+      </trans-unit>
+      <trans-unit id="menu.companies">
+        <source>menu.companies</source>
+        <target>Entreprises</target>
+      </trans-unit>
+      <trans-unit id="menu.list_companies">
+        <source>menu.list_companies</source>
+        <target>La liste des entreprises</target>
+      </trans-unit>
+      <trans-unit id="menu.the_apprentices">
+        <source>menu.the_apprentices</source>
+        <target>Les apprentis</target>
+      </trans-unit>
+      <trans-unit id="menu.the_job_offers">
+        <source>menu.the_job_offers</source>
+        <target>Les offres d'emplois</target>
+      </trans-unit>
+      <trans-unit id="menu.ads">
+        <source>menu.ads</source>
+        <target>Les publicités</target>
+      </trans-unit>
+      <trans-unit id="menu.graduate">
+        <source>menu.graduate</source>
+        <target>Diplômé</target>
+      </trans-unit>
+      <trans-unit id="menu.graduates">
+        <source>menu.graduates</source>
+        <target>Diplômés</target>
+      </trans-unit>
+      <trans-unit id="menu.your_graduate">
+        <source>menu.your_graduate</source>
+        <target>Vos diplômés</target>
+      </trans-unit>
+      <trans-unit id="menu.dashboard">
+        <source>menu.dashboard</source>
+        <target>Tableau de bord</target>
+      </trans-unit>
+      <trans-unit id="menu.the_graduates">
+        <source>menu.the_graduates</source>
+        <target>Les Diplômés</target>
+      </trans-unit>
+      <trans-unit id="menu.the_establishments">
+        <source>menu.the_establishments</source>
+        <target>Les Etablissements</target>
+      </trans-unit>
+      <trans-unit id="menu.social_media">
+        <source>menu.social_media</source>
+        <target>Réseaux sociaux</target>
+      </trans-unit>
+      <trans-unit id="menu.the_social_media">
+        <source>menu.the_social_media</source>
+        <target>Les Réseaux sociaux</target>
+      </trans-unit>
+      <trans-unit id="menu.investigation">
+        <source>menu.investigation</source>
+        <target>Enquêtes</target>
+      </trans-unit>
+      <trans-unit id="menu.today">
+        <source>menu.today</source>
+        <target>Aujourd'hui</target>
+      </trans-unit>
+      <trans-unit id="menu.apply">
+        <source>menu.apply</source>
+        <target>Postuler</target>
+      </trans-unit>
+      <trans-unit id="menu.last_week">
+        <source>menu.last_week</source>
+        <target>Dernière semaine</target>
+      </trans-unit>
+      <trans-unit id="menu.last_30_days">
+        <source>menu.last_30_days</source>
+        <target>Derniers 30 Jours</target>
+      </trans-unit>
+      <trans-unit id="menu.country">
+        <source>menu.country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit id="menu.region">
+        <source>menu.region</source>
+        <target>Région</target>
+      </trans-unit>
+      <trans-unit id="menu.regions">
+        <source>menu.regions</source>
+        <target>Régions</target>
+      </trans-unit>
+      <trans-unit id="menu.city">
+        <source>menu.city</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit id="menu.description">
+        <source>menu.description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="menu.cities">
+        <source>menu.cities</source>
+        <target>Villes</target>
+      </trans-unit>
+      <trans-unit id="menu.and">
+        <source>menu.and</source>
+        <target>et</target>
+      </trans-unit>
+      <trans-unit id="menu.currency">
+        <source>menu.currency</source>
+        <target>Devise</target>
+      </trans-unit>
+      <trans-unit id="menu.currencies">
+        <source>menu.currencies</source>
+        <target>Devises</target>
+      </trans-unit>
+      <trans-unit id="menu.backup">
+        <source>menu.backup</source>
+        <target>Sauvegarde</target>
+      </trans-unit>
+      <trans-unit id="menu.user">
+        <source>menu.user</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="menu.users">
+        <source>menu.users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="menu.phone_indicator">
+        <source>menu.phone_indicator</source>
+        <target>Ind. Tél</target>
+      </trans-unit>
+      <trans-unit id="menu.number_phone_digit">
+        <source>menu.phone_indicator</source>
+        <target>Nb digits Tél</target>
+      </trans-unit>
+      <trans-unit id="menu.logout">
+        <source>menu.logout</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+      <trans-unit id="menu.enrollment_graduates">
+        <source>menu.enrollment_graduates</source>
+        <target>Enrollement Diplômés</target>
+      </trans-unit>
+      <trans-unit id="menu.enrollment_companies">
+        <source>menu.enrollment_companies</source>
+        <target>Enrollement Entreprises</target>
+      </trans-unit>
+      <trans-unit id="menu.establishment">
+        <source>menu.establishment</source>
+        <target>Etablissement</target>
+      </trans-unit>
+      <trans-unit id="menu.school">
+        <source>menu.school</source>
+        <target>Ecole</target>
+      </trans-unit>
+      <trans-unit id="menu.establishments">
+        <source>menu.establishments</source>
+        <target>Etablissements</target>
+      </trans-unit>
+      <trans-unit id="menu.qualification">
+        <source>menu.qualification</source>
+        <target>Qualification</target>
+      </trans-unit>
+      <trans-unit id="menu.degree">
+        <source>menu.degree</source>
+        <target>Diplôme</target>
+      </trans-unit>
+      <trans-unit id="menu.other_degree">
+        <source>menu.other_degree</source>
+        <target>Autre diplôme</target>
+      </trans-unit>
+      <trans-unit id="menu.degrees">
+        <source>menu.degrees</source>
+        <target>Diplômes</target>
+      </trans-unit>
+      <trans-unit id="menu.the_degrees">
+        <source>menu.the_degrees</source>
+        <target>Les Diplômes</target>
+      </trans-unit>
+      <trans-unit id="menu.occupation">
+        <source>menu.occupation</source>
+        <target>Profession</target>
+      </trans-unit>
+      <trans-unit id="menu.activity">
+        <source>menu.activity</source>
+        <target>Activité</target>
+      </trans-unit>
+      <trans-unit id="menu.activity_area">
+        <source>menu.activity_area</source>
+        <target>Secteur d'activité</target>
+      </trans-unit>
+      <trans-unit id="menu.job">
+        <source>menu.job</source>
+        <target>Métier</target>
+      </trans-unit>
+      <trans-unit id="menu.jobs">
+        <source>menu.jobs</source>
+        <target>Métiers</target>
+      </trans-unit>
+      <trans-unit id="menu.other_trade">
+        <source>menu.other_trade</source>
+        <target>Autre métier</target>
+      </trans-unit>
+      <trans-unit id="menu.pdf_of_the_ad">
+        <source>menu.pdf_of_the_ad</source>
+        <target>Pdf de l'annonce</target>
+      </trans-unit>
+      <trans-unit id="menu.display_data">
+        <source>menu.display_data</source>
+        <target>Afficher les données</target>
+      </trans-unit>
+      <trans-unit id="menu.position_held">
+        <source>menu.position_held</source>
+        <target>Poste occupé</target>
+      </trans-unit>
+      <trans-unit id="menu.other_position_held">
+        <source>menu.other_position_held</source>
+        <target>Autre Poste occupé</target>
+      </trans-unit>
+      <trans-unit id="menu.legals_status">
+        <source>menu.legals_status</source>
+        <target>Statut juridique</target>
+      </trans-unit>
+      <trans-unit id="menu.legals_status_with_tag">
+        <source>menu.legals_status_with_tag</source>
+        <target>Statut%tag_br%juridique</target>
+      </trans-unit>
+      <trans-unit id="menu.training_useful_with_tag">
+        <source>menu.training_useful_with_tag</source>
+        <target>Formation%tag_br%utile</target>
+      </trans-unit>
+      <trans-unit id="menu.right_to_data_protection">
+        <source>menu.right_to_data_protection</source>
+        <target>Droit à la protection des données</target>
+      </trans-unit>
+      <trans-unit id="menu.click_yes_if_you_agree">
+        <source>menu.click_yes_if_you_agree</source>
+        <target>Cliquez sur OUI si vous acceptez de diffuser vos informations personnelles pour les statistiques </target>
+      </trans-unit>
+      <trans-unit id="menu.click_no_if_you_no_longer_agree">
+        <source>menu.click_no_if_you_no_longer_agree</source>
+        <target>Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles, vous supprimerez l'intégralité de votre compte </target>
+      </trans-unit>
+      <trans-unit id="menu.information_on_the_protection_of_personal_data_pdp">
+        <source>menu.information_on_the_protection_of_personal_data_pdp</source>
+        <target>Informations relatives à la protection des données personnelles (PDP)</target>
+      </trans-unit>
+      <trans-unit id="menu.required_field">
+        <source>menu.required_field</source>
+        <target>champ obligatoire</target>
+      </trans-unit>
+      <trans-unit id="menu.job_offer">
+        <source>menu.job_offer</source>
+        <target>Offre d'emploi</target>
+      </trans-unit>
+      <trans-unit id="menu.branch">
+        <source>menu.branch</source>
+        <target>Filière</target>
+      </trans-unit>
+      <trans-unit id="menu.branchs">
+        <source>menu.branchs</source>
+        <target>Filières</target>
+      </trans-unit>
+      <trans-unit id="menu.sector">
+        <source>menu.sector</source>
+        <target>Secteur</target>
+      </trans-unit>
+      <trans-unit id="menu.sectors">
+        <source>menu.sectors</source>
+        <target>Secteurs</target>
+      </trans-unit>
+      <trans-unit id="menu.contract">
+        <source>menu.contract</source>
+        <target>Contract</target>
+      </trans-unit>
+      <trans-unit id="menu.contracts">
+        <source>menu.contracts</source>
+        <target>Contracts</target>
+      </trans-unit>
+      <trans-unit id="menu.status">
+        <source>menu.status</source>
+        <target>Statut</target>
+      </trans-unit>
+      <trans-unit id="menu.role">
+        <source>menu.role</source>
+        <target>Rôle</target>
+      </trans-unit>
+      <trans-unit id="menu.roles">
+        <source>menu.roles</source>
+        <target>Rôles</target>
+      </trans-unit>
+      <trans-unit id="menu.account">
+        <source>menu.account</source>
+        <target>Compte</target>
+      </trans-unit>
+      <trans-unit id="menu.geolocation">
+        <source>menu.geolocation</source>
+        <target>Géo-Localisation</target>
+      </trans-unit>
+      <trans-unit id="menu.localization">
+        <source>menu.localization</source>
+        <target>Localisation</target>
+      </trans-unit>
+      <trans-unit id="menu.information">
+        <source>menu.information</source>
+        <target>Informations</target>
+      </trans-unit>
+      <trans-unit id="menu.user_guide">
+        <source>menu.user_guide</source>
+        <target>Guide de l'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="menu.ifef_website">
+        <source>menu.ifef_website</source>
+        <target>Site de l'IFEF</target>
+      </trans-unit>
+      <trans-unit id="menu.oif_website">
+        <source>menu.oif_website</source>
+        <target>Site de l'OIF</target>
+      </trans-unit>
+      <trans-unit id="menu.yes">
+        <source>menu.yes</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="menu.no">
+        <source>menu.no</source>
+        <target>Non</target>
+      </trans-unit>
+      <trans-unit id="menu.firstname">
+        <source>menu.firstname</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="menu.lastname">
+        <source>menu.lastname</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="menu.you_are">
+        <source>menu.you_are</source>
+        <target>Vous êtes</target>
+      </trans-unit>
+      <trans-unit id="menu.date_of_birth">
+        <source>menu.date_of_birth</source>
+        <target>Date de naissance</target>
+      </trans-unit>
+      <trans-unit id="menu.date_of_birth_with_tag">
+        <source>menu.date_of_birth_with_tag</source>
+        <target>Date%tag_br%Naissance</target>
+      </trans-unit>
+      <trans-unit id="menu.coordinates">
+        <source>menu.coordinates</source>
+        <target>Coordonnées</target>
+      </trans-unit>
+      <trans-unit id="menu.cell_phone">
+        <source>menu.cell_phone</source>
+        <target>Portable</target>
+      </trans-unit>
+      <trans-unit id="menu.field_of_activity">
+        <source>menu.field_of_activity</source>
+        <target>Domaine d'activité</target>
+      </trans-unit>
+      <trans-unit id="menu.legend">
+        <source>menu.legend</source>
+        <target>LEGENDE</target>
+      </trans-unit>
+      <trans-unit id="menu.under_study">
+        <source>menu.under_study</source>
+        <target>En cours d'études</target>
+      </trans-unit>
+      <trans-unit id="menu.other_field">
+        <source>menu.other_field</source>
+        <target>Autre domaine</target>
+      </trans-unit>
+      <trans-unit id="menu.type">
+        <source>menu.type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="menu.close">
+        <source>menu.close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="menu.add">
+        <source>menu.add</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="menu.edit_all">
+        <source>menu.edit_all</source>
+        <target>Editer tout</target>
+      </trans-unit>
+      <trans-unit id="menu.password">
+        <source>menu.password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="menu.remember_me">
+        <source>menu.remember_me</source>
+        <target>Se rappeler de moi</target>
+      </trans-unit>
+      <trans-unit id="menu.forgot_your_password">
+        <source>menu.forgot_your_password</source>
+        <target>Mot de passe oublié ?</target>
+      </trans-unit>
+      <trans-unit id="menu.save_selection">
+        <source>menu.save_selection</source>
+        <target>Sauvegarder Selection</target>
+      </trans-unit>
+      <trans-unit id="menu.waiting_6_months">
+        <source>menu.waiting_6_months</source>
+        <target>Attente 6 mois</target>
+      </trans-unit>
+      <trans-unit id="menu.1st_reminder">
+        <source>menu.1st_reminder</source>
+        <target>1er Rappel</target>
+      </trans-unit>
+      <trans-unit id="menu.2nd_reminder">
+        <source>menu.2nd_reminder</source>
+        <target>2nd Rappel</target>
+      </trans-unit>
+      <trans-unit id="menu.why">
+        <source>menu.why</source>
+        <target>Pourquoi</target>
+      </trans-unit>
+      <trans-unit id="menu.answer_ok">
+        <source>menu.answer_ok</source>
+        <target>Réponse OK</target>
+      </trans-unit>
+      <trans-unit id="menu.text_filter">
+        <source>menu.text_filter</source>
+        <target>Filtre textuel</target>
+      </trans-unit>
+      <trans-unit id="menu.communication_health_safety_environment">
+        <source>menu.communication_health_safety_environment</source>
+        <target>Communication, Hygiène, Sécurité et Environnement</target>
+      </trans-unit>
+      <trans-unit id="menu.connection_phone_country_code_number">
+        <source>menu.connection_phone_country_code_number</source>
+        <target>Tél. de connexion (Indicatif pays + N°) *</target>
+      </trans-unit>
+      <trans-unit id="menu.other_phone_country_code_number">
+        <source>menu.other_phone_country_code_number</source>
+        <target>Autre Tél. (Indicatif pays + N°)</target>
+      </trans-unit>
+      <trans-unit id="menu.phone_country_code_number">
+        <source>menu.phone_country_code_number</source>
+        <target>Tel (indicatif + N°)</target>
+      </trans-unit>
+      <trans-unit id="menu.cell_phone_of_a_1st_parent">
+        <source>menu.cell_phone_of_a_1st_parent</source>
+        <target>Tél. portable d'un 1er parent</target>
+      </trans-unit>
+      <trans-unit id="menu.cell_phone_of_a_2nd_parent">
+        <source>menu.cell_phone_of_a_2nd_parent</source>
+        <target>Tél. portable d'un 2nd parent</target>
+      </trans-unit>
+      <trans-unit id="menu.current_work_situation">
+        <source>menu.current_work_situation</source>
+        <target>Situation professionnelle actuelle</target>
+      </trans-unit>
+      <trans-unit id="menu.current_situation_with_tag">
+        <source>menu.current_situation_with_tag</source>
+        <target>Situation%tag_br%professionelle</target>
+      </trans-unit>
+      <trans-unit id="menu.about">
+        <source>menu.about</source>
+        <target>A propos</target>
+      </trans-unit>
+      <trans-unit id="menu.reason">
+        <source>menu.reason</source>
+        <target>Raison</target>
+      </trans-unit>
+      <trans-unit id="menu.registration">
+        <source>menu.registration</source>
+        <target>Immatriculation</target>
+      </trans-unit>
+      <trans-unit id="menu.add_a_reason">
+        <source>menu.add_a_reason</source>
+        <target>Ajouter une raison</target>
+      </trans-unit>
+      <trans-unit id="menu.work_satisfactory_with_tag">
+        <source>menu.work_satisfactory_with_tag</source>
+        <target>Travail%tag_br%Satisfaisant</target>
+      </trans-unit>
+      <trans-unit id="menu.training_satisfactory_with_tag">
+        <source>menu.training_satisfactory_with_tag</source>
+        <target>Formation%tag_br%Satisfaisant</target>
+      </trans-unit>
+      <trans-unit id="menu.heading">
+        <source>menu.heading</source>
+        <target>Intitulé</target>
+      </trans-unit>
+      <trans-unit id="menu.label">
+        <source>menu.label</source>
+        <target>Libelle</target>
+      </trans-unit>
+      <trans-unit id="menu.level">
+        <source>menu.level</source>
+        <target>Niveau</target>
+      </trans-unit>
+      <trans-unit id="menu.show">
+        <source>menu.show</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit id="menu.global_view">
+        <source>menu.global_view</source>
+        <target>Vue globale</target>
+      </trans-unit>
+      <trans-unit id="menu.identity">
+        <source>menu.identity</source>
+        <target>Identité</target>
+      </trans-unit>
+      <trans-unit id="menu.contact">
+        <source>menu.contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="menu.contact_name">
+        <source>menu.contact_name</source>
+        <target>Nom du Contact</target>
+      </trans-unit>
+      <trans-unit id="menu.fixed_phone">
+        <source>menu.fixed_phone</source>
+        <target>fixed_phone</target>
+      </trans-unit>
+      <trans-unit id="menu.current_files">
+        <source>menu.current_files</source>
+        <target>Fichier actuels</target>
+      </trans-unit>
+      <trans-unit id="menu.attach_an_image">
+        <source>menu.attach_an_image</source>
+        <target>Joindre une image</target>
+      </trans-unit>
+      <trans-unit id="menu.select_a_new_image">
+        <source>menu.select_a_new_image</source>
+        <target>Selectionner une nouvelle image</target>
+      </trans-unit>
+      <trans-unit id="menu.employment_contact">
+        <source>menu.employment_contact</source>
+        <target>Contrat de travail</target>
+      </trans-unit>
+      <trans-unit id="menu.home">
+        <source>menu.home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="menu.name">
+        <source>menu.name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="menu.address">
+        <source>menu.address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit id="menu.phone">
+        <source>menu.phone</source>
+        <target>Téléphone</target>
+      </trans-unit>
+      <trans-unit id="menu.phone_abr">
+        <source>menu.phone_abr</source>
+        <target>Tél</target>
+      </trans-unit>
+      <trans-unit id="menu.email">
+        <source>menu.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="menu.address_number">
+        <source>menu.address_number</source>
+        <target>Numéro adresse</target>
+      </trans-unit>
+      <trans-unit id="menu.address_road">
+        <source>menu.address_road</source>
+        <target>Rue adresse</target>
+      </trans-unit>
+      <trans-unit id="menu.created_date">
+        <source>menu.created_date</source>
+        <target>Date de création</target>
+      </trans-unit>
+      <trans-unit id="menu.created_date_with_tag">
+        <source>menu.created_date_with_tag</source>
+        <target>Date%tag_br%Création</target>
+      </trans-unit>
+      <trans-unit id="menu.updated_date_with_tag">
+        <source>menu.updated_date_with_tag</source>
+        <target>Date%tag_br%Modification</target>
+      </trans-unit>
+      <trans-unit id="menu.updated_date">
+        <source>menu.updated_date</source>
+        <target>Date de modification</target>
+      </trans-unit>
+      <trans-unit id="menu.modified_on">
+        <source>menu.modified_on</source>
+        <target>Modifié le</target>
+      </trans-unit>
+      <trans-unit id="menu.expires_on">
+        <source>menu.expires_on</source>
+        <target>Expire le</target>
+      </trans-unit>
+      <trans-unit id="menu.address_locality">
+        <source>menu.address_locality</source>
+        <target>Lieu</target>
+      </trans-unit>
+      <trans-unit id="menu.street">
+        <source>menu.street</source>
+        <target>Rue</target>
+      </trans-unit>
+      <trans-unit id="menu.location">
+        <source>menu.location</source>
+        <target>Localité</target>
+      </trans-unit>
+      <trans-unit id="menu.latitude">
+        <source>menu.latitude</source>
+        <target>Latitude</target>
+      </trans-unit>
+      <trans-unit id="menu.longitude">
+        <source>menu.longitude</source>
+        <target>Longitude</target>
+      </trans-unit>
+      <trans-unit id="menu.mode">
+        <source>menu.mode</source>
+        <target>Mode</target>
+      </trans-unit>
+      <trans-unit id="menu.title">
+        <source>menu.title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="menu.profession">
+        <source>menu.profession</source>
+        <target>Profession</target>
+      </trans-unit>
+      <trans-unit id="menu.see">
+        <source>menu.see</source>
+        <target>Voir</target>
+      </trans-unit>
+      <trans-unit id="menu.characteristics">
+        <source>menu.characteristics</source>
+        <target>Caractéristiques</target>
+      </trans-unit>
+      <trans-unit id="menu.archive">
+        <source>menu.archive</source>
+        <target>Archiver</target>
+      </trans-unit>
+      <trans-unit id="menu.back_to_the_list">
+        <source>menu.back_to_the_list</source>
+        <target>Retour à la liste</target>
+      </trans-unit>
+      <trans-unit id="menu.complete_your_profile">
+        <source>menu.complete_your_profile</source>
+        <target>Completer votre profil</target>
+      </trans-unit>
+      <trans-unit id="menu.detail">
+        <source>menu.detail</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="menu.delete">
+        <source>menu.delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="menu.edit">
+        <source>menu.edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="menu.validate">
+        <source>menu.validate</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="menu.valid">
+        <source>menu.valid</source>
+        <target>Valide</target>
+      </trans-unit>
+      <trans-unit id="menu.province">
+        <source>menu.province</source>
+        <target>Province</target>
+      </trans-unit>
+      <trans-unit id="menu.all_regions">
+        <source>menu.all_regions</source>
+        <target>Toutes régions</target>
+      </trans-unit>
+      <trans-unit id="menu.connection_phone">
+        <source>menu.connection_phone</source>
+        <target>Tél. de connexion</target>
+      </trans-unit>
+      <trans-unit id="menu.other_phone">
+        <source>menu.other_phone</source>
+        <target>Autre Tél</target>
+      </trans-unit>
+      <trans-unit id="menu.other">
+        <source>menu.other</source>
+        <target>Autre</target>
+      </trans-unit>
+      <trans-unit id="menu.number">
+        <source>menu.number</source>
+        <target>Numéro</target>
+      </trans-unit>
+      <trans-unit id="menu.reasons_for_satisfaction_with_jobs_held">
+        <source>menu.reasons_for_satisfaction_with_jobs_held</source>
+        <target>Raisons satisfactions d'emplois occupés</target>
+      </trans-unit>
+      <trans-unit id="menu.modification_of_a_found_employment_reason">
+        <source>menu.modification_of_a_found_employment_reason</source>
+        <target>Modification d'une raison d'emploi trouvé</target>
+      </trans-unit>
+      <trans-unit id="menu.reasons_for_finding_a_job">
+        <source>menu.reasons_for_finding_a_job</source>
+        <target>Raisons emplois trouvés</target>
+      </trans-unit>
+      <trans-unit id="menu.add_a_reason_for_found_employment">
+        <source>menu.add_a_reason_for_found_employment</source>
+        <target>Ajout d'une raison d'emploi trouvé</target>
+      </trans-unit>
+      <trans-unit id="menu.other_reason">
+        <source>menu.other_reason</source>
+        <target>Autre raison</target>
+      </trans-unit>
+      <trans-unit id="menu.other_type">
+        <source>menu.other_type</source>
+        <target>Autre type</target>
+      </trans-unit>
+
+      <!-- Role      -->
+      <trans-unit id="role.editing_a_role">
+        <source>role.editing_a_role</source>
+        <target>Modification d'un rôle</target>
+      </trans-unit>
+      <trans-unit id="role.list_of_roles">
+        <source>role.list_of_roles</source>
+        <target>Liste des rôles</target>
+      </trans-unit>
+      <trans-unit id="role.new_role">
+        <source>role.new_role</source>
+        <target>Nouveau rôle</target>
+      </trans-unit>
+
+      <!-- Region      -->
+      <trans-unit id="region.editing_a_region">
+        <source>region.editing_a_region</source>
+        <target>Modification d'une region</target>
+      </trans-unit>
+      <trans-unit id="region.add_a_region">
+        <source>region.add_a_region</source>
+        <target>Ajouter une region</target>
+      </trans-unit>
+      <trans-unit id="region.adding_a_region">
+        <source>region.adding_a_region</source>
+        <target>Ajout d'une region</target>
+      </trans-unit>
+      <trans-unit id="region.list_of_regions">
+        <source>region.list_of_regions</source>
+        <target>Liste des régions</target>
+      </trans-unit>
+
+      <!-- Legal status      -->
+      <trans-unit id="legal_status.editing_a_legal_status">
+        <source>legal_status.editing_a_legal_status</source>
+        <target>Modification d'un statut juridique</target>
+      </trans-unit>
+      <trans-unit id="legal_status.list_of_legal_statuses">
+        <source>legal_status.list_of_legal_statuses</source>
+        <target>Liste des statuts juridiques</target>
+      </trans-unit>
+      <trans-unit id="legal_status.add_a_legal_status">
+        <source>legal_status.add_a_legal_status</source>
+        <target>Ajouter un statut juridique</target>
+      </trans-unit>
+      <trans-unit id="legal_status.adding_a_legal_status">
+        <source>legal_status.adding_a_legal_status</source>
+        <target>Ajout d'un statut juridique</target>
+      </trans-unit>
+
+      <!-- Gegree      -->
+      <trans-unit id="degree.editing_a_degree">
+        <source>degree.editing_a_degree</source>
+        <target>Modification d'un diplômé</target>
+      </trans-unit>
+      <trans-unit id="degree.list_of_degree">
+        <source>degree.list_of_degree</source>
+        <target>Liste des diplômés</target>
+      </trans-unit>
+      <trans-unit id="degree.add_a_degree">
+        <source>degree.add_a_degree</source>
+        <target>Ajouter un diplôme</target>
+      </trans-unit>
+      <trans-unit id="degree.adding_a_degree">
+        <source>degree.adding_a_degree</source>
+        <target>Ajout un diplôme</target>
+      </trans-unit>
+      <trans-unit id="degree.filter_by_region">
+        <source>degree.filter_by_region</source>
+        <target>Filtre par région</target>
+      </trans-unit>
+      <trans-unit id="degree.year_session_degree">
+        <source>degree.year_session_degree</source>
+        <target>Année Session diplôme</target>
+      </trans-unit>
+      <trans-unit id="degree.month_graduation">
+        <source>degree.month_graduation</source>
+        <target>Mois Obtention diplôme</target>
+      </trans-unit>
+      <trans-unit id="degree.email_advised_to_reply_to_job_offers">
+        <source>degree.email_advised_to_reply_to_job_offers</source>
+        <target>email conseillé pour répondre aux offres d'emplois</target>
+      </trans-unit>
+      <trans-unit id="degree.the_registration_is_in_green_if_it_is_validated_by_the_institution">
+        <source>degree.the_registration_is_in_green_if_it_is_validated_by_the_institution</source>
+        <target>l'immatriculation est en vert si elle est validée par l'établissement</target>
+      </trans-unit>
+      <trans-unit id="degree.graduates">
+        <source>degree.graduates</source>
+        <target>Personnes diplômées</target>
+      </trans-unit>
+      <trans-unit id="degree.month_year_degree_with_tag">
+        <source>degree.month_year_degree_with_tag</source>
+        <target>mois/année%tag_br%diplôme</target>
+      </trans-unit>
+
+      <!-- Diplômés      -->
+      <trans-unit id="graduate.graduate_looking_for_job">
+        <source>graduate.graduate_looking_for_job</source>
+        <target>Diplômé en recherche d'emploi</target>
+      </trans-unit>
+      <trans-unit id="graduate.graduate_in_employment">
+        <source>graduate.graduate_in_employment</source>
+        <target>Diplômé en emploi</target>
+      </trans-unit>
+      <trans-unit id="graduate.new_graduate">
+        <source>graduate.new_graduate</source>
+        <target>Nouveau diplômé</target>
+      </trans-unit>
+      <trans-unit id="graduate.business_graduate">
+        <source>graduate.business_graduate</source>
+        <target>Diplômé entrepreneur</target>
+      </trans-unit>
+      <trans-unit id="graduate.reasons_jobs_not_found">
+        <source>graduate.reasons_jobs_not_found</source>
+        <target>Raisons emplois non trouvés</target>
+      </trans-unit>
+      <trans-unit id="graduate.creative_graduates">
+        <source>graduate.creative_graduates</source>
+        <target>Diplômés créateurs</target>
+      </trans-unit>
+      <trans-unit id="graduate.editing_of_a_reason_for_not_finding_a_job">
+        <source>graduate.editing_of_a_reason_for_not_finding_a_job</source>
+        <target>Modification d'une raison d'emploi non trouvé</target>
+      </trans-unit>
+      <trans-unit id="graduate.add_a_reason_for_employment_not_found">
+        <source>graduate.add_a_reason_for_employment_not_found</source>
+        <target>Ajout d'une raison d'emploi non trouvée</target>
+      </trans-unit>
+      <trans-unit id="graduate.add_a_graduate">
+        <source>graduate.add_a_graduate</source>
+        <target>Ajouter un diplômé</target>
+      </trans-unit>
+      <trans-unit id="graduate.month_year_of_graduation">
+        <source>graduate.month_year_of_graduation</source>
+        <target>Mois / Année d'obtention du diplôme</target>
+      </trans-unit>
+      <trans-unit id="graduate.obtaining_the_diploma">
+        <source>graduate.obtaining_the_diploma</source>
+        <target>Obtention du Diplôme</target>
+      </trans-unit>
+      <trans-unit id="graduate.in_which_sector_of_activity_did_you_create_your_company">
+        <source>graduate.in_which_sector_of_activity_did_you_create_your_company</source>
+        <target>Dans secteur d'activité avez-vous créé votre entreprise</target>
+      </trans-unit>
+      <trans-unit id="graduate.what_job_do_you_do_in_your_company">
+        <source>graduate.what_job_do_you_do_in_your_company</source>
+        <target>Quel métier exercez-vous au sein de votre entreprise</target>
+      </trans-unit>
+      <trans-unit id="graduate.does_your_company_have_a_legal_existence">
+        <source>graduate.does_your_company_have_a_legal_existence</source>
+        <target>Votre entreprise a-t-elle une existence juridique</target>
+      </trans-unit>
+      <trans-unit id="graduate.your_remuneration_per_month_in_national_currency">
+        <source>graduate.your_remuneration_per_month_in_national_currency</source>
+        <target>Votre rémunération par mois en devise nationale</target>
+      </trans-unit>
+      <trans-unit id="graduate.has_your_training_been_useful_for_the_job_you_do">
+        <source>graduate.has_your_training_been_useful_for_the_job_you_do</source>
+        <target>Votre formation a-t-elle été utile pour le métier que vous exercez</target>
+      </trans-unit>
+      <trans-unit id="graduate.why_several_possible_choices">
+        <source>graduate.why_several_possible_choices</source>
+        <target>pourquoi ? plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+      <trans-unit id="graduate.if_not_why_not">
+        <source>graduate.if_not_why_not</source>
+        <target>Si non, pourquoi</target>
+      </trans-unit>
+      <trans-unit id="graduate.your_pay_per_month">
+        <source>graduate.your_pay_per_month</source>
+        <target>Votre rémunération par mois</target>
+      </trans-unit>
+      <trans-unit id="graduate.your_pay_per_day">
+        <source>graduate.your_pay_per_day</source>
+        <target>Votre rémunération par jour</target>
+      </trans-unit>
+      <trans-unit id="graduate.search_for_the_company_that_employs_you">
+        <source>graduate.search_for_the_company_that_employs_you</source>
+        <target>Recherche de l'entreprise qui vous emploie</target>
+      </trans-unit>
+      <trans-unit id="graduate.name_of_the_company_that_employs_you">
+        <source>graduate.name_of_the_company_that_employs_you</source>
+        <target>Nom de l'entreprise qui vous emploie</target>
+      </trans-unit>
+      <trans-unit id="graduate.you_have_been_employed_for">
+        <source>graduate.you_have_been_employed_for</source>
+        <target>Vous êtes employé depuis</target>
+      </trans-unit>
+      <trans-unit id="graduate.number_of_working_hours_per_day">
+        <source>graduate.number_of_working_hours_per_day</source>
+        <target>Nombre d'heures de travail par jour</target>
+      </trans-unit>
+      <trans-unit id="graduate.has_your_professional_training_been_useful_for_the_job_you_do_with_tag">
+        <source>graduate.has_your_professional_training_been_useful_for_the_job_you_do_with_tag</source>
+        <target>Votre formation professionnelle a-t-elle%tag_br%été utile pour le métier que vous exercez</target>
+      </trans-unit>
+      <trans-unit id="graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices">
+        <source>graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
+        <target>Si vous exercez un métier sans lien avec votre diplôme, c’est parce que :%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+
+      <!-- Time   -->
+      <trans-unit id="time.3_months">
+        <source>time.3_months</source>
+        <target>3 mois</target>
+      </trans-unit>
+      <trans-unit id="time.6_months">
+        <source>time.6_months</source>
+        <target>6 mois</target>
+      </trans-unit>
+      <trans-unit id="time.1_year">
+        <source>time.1_year</source>
+        <target>1 an</target>
+      </trans-unit>
+      <trans-unit id="time.2_years">
+        <source>time.2_years</source>
+        <target>2 ans</target>
+      </trans-unit>
+
+
+      <!-- city      -->
+      <trans-unit id="city.capital_city">
+        <source>city.capital_city</source>
+        <target>Capitale</target>
+      </trans-unit>
+      <trans-unit id="city.new_city">
+        <source>city.new_city</source>
+        <target>Nouvelle ville</target>
+      </trans-unit>
+      <trans-unit id="city.add_city">
+        <source>city.add_city</source>
+        <target>Ajouter une ville</target>
+      </trans-unit>
+      <trans-unit id="city.edit_city">
+        <source>city.edit_city</source>
+        <target>Modification d'une ville</target>
+      </trans-unit>
+      <trans-unit id="city.list_of_cities">
+        <source>city.list_of_cities</source>
+        <target>Liste des villes</target>
+      </trans-unit>
+      <trans-unit id="city.city_nearest">
+        <source>city.city_nearest</source>
+        <target>Ville (la plus proche)</target>
+      </trans-unit>
+      <trans-unit id="city.other_city">
+        <source>city.other_city</source>
+        <target>Autre ville</target>
+      </trans-unit>
+
+      <!-- Job      -->
+      <trans-unit id="job.20_offers">
+        <source>job.20_offers</source>
+        <target>20 Offres</target>
+      </trans-unit>
+      <trans-unit id="job.list_of_job_offers">
+        <source>job.list_of_job_offers</source>
+        <target>Liste des offres d'emploi</target>
+      </trans-unit>
+      <trans-unit id="job.type_of_contract">
+        <source>job.type_of_contract</source>
+        <target>Type de Contrat</target>
+      </trans-unit>
+      <trans-unit id="job.type_of_employment_contract">
+        <source>job.type_of_employment_contract</source>
+        <target>Type de contrat de travail</target>
+      </trans-unit>
+      <trans-unit id="job.candidate_profile">
+        <source>job.candidate_profile</source>
+        <target>Profil du candidat</target>
+      </trans-unit>
+      <trans-unit id="job.date_of_offer">
+        <source>job.date_of_offer</source>
+        <target>Date de l'offre</target>
+      </trans-unit>
+      <trans-unit id="job.expiry_date_of_the_offer">
+        <source>job.expiry_date_of_the_offer</source>
+        <target>Date d'expiration de l'offre</target>
+      </trans-unit>
+      <trans-unit id="job.editing_a_job_offer">
+        <source>job.editing_a_job_offer</source>
+        <target>Modification d'une offre d'emploi</target>
+      </trans-unit>
+      <trans-unit id="job.add_a_job_offer">
+        <source>job.add_a_job_offer</source>
+        <target>Ajouter une offre</target>
+      </trans-unit>
+      <trans-unit id="job.adding_a_job_offer">
+        <source>job.adding_a_job_offer</source>
+        <target>Ajout d'une offre d'emploi</target>
+      </trans-unit>
+      <trans-unit id="job.our_job_offers">
+        <source>job.our_job_offers</source>
+        <target>Nos offres d'emploi</target>
+      </trans-unit>
+      <trans-unit id="job.other_offers">
+        <source>job.other_offers</source>
+        <target>Autres offres</target>
+      </trans-unit>
+      <trans-unit id="job.details_of_the_offer">
+        <source>job.details_of_the_offer</source>
+        <target>Details de l'offre</target>
+      </trans-unit>
+      <trans-unit id="job.published_on">
+        <source>job.published_on</source>
+        <target>Publiée le</target>
+      </trans-unit>
+      <trans-unit id="job.updated_on">
+        <source>job.updated_on</source>
+        <target>Mise à jour le</target>
+      </trans-unit>
+      <trans-unit id="job.description_of_the_company">
+        <source>job.description_of_the_company</source>
+        <target>Description de l'entreprise</target>
+      </trans-unit>
+      <trans-unit id="job.job_description">
+        <source>job.job_description</source>
+        <target>Description du poste</target>
+      </trans-unit>
+      <trans-unit id="job.person_in_charge_of_recruitment">
+        <source>job.person_in_charge_of_recruitment</source>
+        <target>Personne en charge du recrutement</target>
+      </trans-unit>
+      <trans-unit id="job.apply_for_a_job_offer">
+        <source>job.apply_for_a_job_offer</source>
+        <target>Postuler à une offre d'emploi</target>
+      </trans-unit>
+      <trans-unit id="job.contact_information">
+        <source>job.contact_information</source>
+        <target>Informations de contact</target>
+      </trans-unit>
+      <trans-unit id="job.offer_title">
+        <source>job.offer_title</source>
+        <target>Titre de l'offre</target>
+      </trans-unit>
+      <trans-unit id="job.your_documents">
+        <source>job.your_documents</source>
+        <target>Vos documents</target>
+      </trans-unit>
+      <trans-unit id="job.attach_a_resume">
+        <source>job.attach_a_resume</source>
+        <target>Joindre un CV</target>
+      </trans-unit>
+      <trans-unit id="job.select_your_resume">
+        <source>job.select_your_resume</source>
+        <target>Selectionner votre CV</target>
+      </trans-unit>
+      <trans-unit id="job.attach_a_cover_letter">
+        <source>job.attach_a_cover_letter</source>
+        <target>Joindre une lettre de motivation</target>
+      </trans-unit>
+
+      <!-- activity      -->
+      <trans-unit id="activity.modification_of_a_job">
+        <source>activity.modification_of_a_job</source>
+        <target>Modification d'un métier</target>
+      </trans-unit>
+      <trans-unit id="activity.list_of_sectors_professions">
+        <source>activity.list_of_sectors_professions</source>
+        <target>Liste des filières / métiers</target>
+      </trans-unit>
+      <trans-unit id="activity.add_sector_profession">
+        <source>activity.add_sector_profession</source>
+        <target>Ajouter filière / métier</target>
+      </trans-unit>
+      <trans-unit id="activity.add_a_sector_of_activity">
+        <source>activity.add_a_sector_of_activity</source>
+        <target>Ajout d'un secteur d'activité</target>
+      </trans-unit>
+      <trans-unit id="activity.sector_profession">
+        <source>activity.sector_profession</source>
+        <target>filière / métier</target>
+      </trans-unit>
+      <trans-unit id="activity.other_sector_profession">
+        <source>activity.other_sector_profession</source>
+        <target>Autre filière / métier</target>
+      </trans-unit>
+
+      <!-- Company      -->
+      <trans-unit id="company.list_of_companies">
+        <source>company.list_of_companies</source>
+        <target>Liste des entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.new_company">
+        <source>company.new_company</source>
+        <target>Nouvelle entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.company_details">
+        <source>company.company_details</source>
+        <target>Details entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.add_company">
+        <source>company.add_company</source>
+        <target>Ajouter une entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.companies_by_sector_of_activity">
+        <source>company.companies_by_sector_of_activity</source>
+        <target>Entreprises par secteurs d'activités</target>
+      </trans-unit>
+      <trans-unit id="company.overall_satisfaction">
+        <source>company.overall_satisfaction</source>
+        <target>Satisfaction globale</target>
+      </trans-unit>
+      <trans-unit id="company.general_knowledge">
+        <source>company.general_knowledge</source>
+        <target>Savoirs généraux</target>
+      </trans-unit>
+      <trans-unit id="company.technical_skills">
+        <source>company.technical_skills</source>
+        <target>Compétences techniques</target>
+      </trans-unit>
+      <trans-unit id="company.communication_and_hse">
+        <source>company.communication_and_hse</source>
+        <target>Communication et HSE</target>
+      </trans-unit>
+      <trans-unit id="company.average_number_in_terms_of_projected_hiring_in_the_next_6_months">
+        <source>company.average_number_in_terms_of_projected_hiring_in_the_next_6_months</source>
+        <target>Nombre moyen en termes de projection d'embauche dans les 6 prochains mois</target>
+      </trans-unit>
+      <trans-unit id="company.worker">
+        <source>company.worker</source>
+        <target>ouvrier</target>
+      </trans-unit>
+      <trans-unit id="company.worker_female">
+        <source>company.worker_female</source>
+        <target>Ouvrier-ère</target>
+      </trans-unit>
+      <trans-unit id="company.technician">
+        <source>company.technician</source>
+        <target>technicien</target>
+      </trans-unit>
+      <trans-unit id="company.technician_female">
+        <source>company.technician_female</source>
+        <target>Technicien-ne</target>
+      </trans-unit>
+      <trans-unit id="company.apprentice">
+        <source>company.apprentice</source>
+        <target>Apprenti</target>
+      </trans-unit>
+      <trans-unit id="company.apprentice_female">
+        <source>company.apprentice_female</source>
+        <target>Apprenti-e</target>
+      </trans-unit>
+      <trans-unit id="company.intern">
+        <source>company.intern</source>
+        <target>Stagiaire</target>
+      </trans-unit>
+      <trans-unit id="company.companies_by_legal_status">
+        <source>company.companies_by_legal_status</source>
+        <target>Entreprises par statuts juridiques</target>
+      </trans-unit>
+      <trans-unit id="company.measures_of_satisfaction_of_companies_that_have_hired_graduates">
+        <source>company.measures_of_satisfaction_of_companies_that_have_hired_graduates</source>
+        <target>Mesures de satisfaction des Entreprises qui ont embauché des diplômés</target>
+      </trans-unit>
+      <trans-unit id="company.modification_of_a_company">
+        <source>company.modification_of_a_company</source>
+        <target>Modification d'une entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.companies_that_employ_your_graduates">
+        <source>company.companies_that_employ_your_graduates</source>
+        <target>Entreprises qui emploient vos diplômés</target>
+      </trans-unit>
+      <trans-unit id="company.list_of_companies_that_employ_your_graduates">
+        <source>company.list_of_companies_that_employ_your_graduates</source>
+        <target>Liste des entreprises qui emploient vos diplômés</target>
+      </trans-unit>
+      <trans-unit id="company.list_of_partner_companies">
+        <source>company.list_of_partner_companies</source>
+        <target>Liste des entreprises partenaires</target>
+      </trans-unit>
+      <trans-unit id="company.list_of_all_companies">
+        <source>company.list_of_all_companies</source>
+        <target>Liste de toutes les entreprises</target>
+      </trans-unit>
+      <trans-unit id="company.manage_your_partners">
+        <source>company.manage_your_partners</source>
+        <target>Administrer vos partenaires</target>
+      </trans-unit>
+      <trans-unit id="company.back_to_your_partners">
+        <source>company.back_to_your_partners</source>
+        <target>Retour à vos partenaires</target>
+      </trans-unit>
+      <trans-unit id="company.name_of_the_company">
+        <source>company.name_of_the_company</source>
+        <target>Nom de l'entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.number_of_people_hired">
+        <source>company.number_of_people_hired</source>
+        <target>Nombre d'embauchés</target>
+      </trans-unit>
+      <trans-unit id="company.name_of_the_company_with_tag">
+        <source>company.name_of_the_company_with_tag</source>
+        <target>Nom de%tag_br%l'Entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.company_business_with_tag">
+        <source>company.company_business_with_tag</source>
+        <target>Métier de%tag_br%l'Entreprise</target>
+      </trans-unit>
+      <trans-unit id="company.connection_phone_code_no">
+        <source>company.connection_phone_code_no</source>
+        <target>Tél. de connexion (Indicatif + N°)</target>
+      </trans-unit>
+      <trans-unit id="company.other_phone_code_no">
+        <source>company.other_phone_code_no</source>
+        <target>Autre Tél. (Indicatif + N°)</target>
+      </trans-unit>
+      <trans-unit id="company.companies_from_start_to_end">
+        <source>company.companies_from_start_to_end</source>
+        <target>Entreprises du %begin_date% au %end_date%</target>
+      </trans-unit>
+      <trans-unit id="company.evolution_of_the_number_of_companies_created">
+        <source>company.evolution_of_the_number_of_companies_created</source>
+        <target>Evolution du nombre création des Entreprises</target>
+      </trans-unit>
+      <trans-unit id="company.evolution_of_the_number_of_investigations_by_companies">
+        <source>company.evolution_of_the_number_of_investigations_by_companies</source>
+        <target>Evolution du nombre d'enquêtes des Entreprises</target>
+      </trans-unit>
+      <trans-unit id="company.reasons_for_employee_deficiencies">
+        <source>company.reasons_for_employee_deficiencies</source>
+        <target>Raisons des lacunes des employés</target>
+      </trans-unit>
+      <trans-unit id="company.editing_of_an_employee_deficiency">
+        <source>company.editing_of_an_employee_deficiency</source>
+        <target>Modification d'une lacune d'un employé</target>
+      </trans-unit>
+      <trans-unit id="company.adding_a_deficiency_of_an_employee">
+        <source>company.adding_a_deficiency_of_an_employee</source>
+        <target>Ajout d'une lacune d'un employé</target>
+      </trans-unit>
+      <trans-unit id="company.add_a_deficiency">
+        <source>company.add_a_deficiency</source>
+        <target>Ajouter une lacune</target>
+      </trans-unit>
+      <trans-unit id="company.employee_deficiencies">
+        <source>company.employee_deficiencies</source>
+        <target>Lacunes des employés</target>
+      </trans-unit>
+      <trans-unit id="company.would_you_be_willing_to_hire_graduates_with_the_same_profile_educational_background_as_the_one_you_hired">
+        <source>company.would_you_be_willing_to_hire_graduates_with_the_same_profile_educational_background_as_the_one_you_hired</source>
+        <target>Seriez-vous prêt à engager des diplômés ayant le même profil / cursus scolaire que celui / ceux que vous avez embauché(s)</target>
+      </trans-unit>
+      <trans-unit id="company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired">
+        <source>company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired</source>
+        <target>En cas de lacunes, seriez-vous prêts à compléter la formation du ou des jeune(s) embauché(s)</target>
+      </trans-unit>
+      <trans-unit id="company.if_yes_for_which_skills">
+        <source>company.if_yes_for_which_skills</source>
+        <target>Si oui, pour quelles compétences</target>
+      </trans-unit>
+      <trans-unit id="company.how_many_people_do_you_expect_to_hire_in_the_next_6_months">
+        <source>company.how_many_people_do_you_expect_to_hire_in_the_next_6_months</source>
+        <target>Combien de personnes comptez-vous engager dans les 6 prochains mois</target>
+      </trans-unit>
+      <trans-unit id="company.satisfactions_companies">
+        <source>company.satisfactions_companies</source>
+        <target>Satisfactions Entreprises</target>
+      </trans-unit>
+      <trans-unit id="company.editing_of_a_company_satisfaction">
+        <source>company.editing_of_a_company_satisfaction</source>
+        <target>Modification d'une satisfaction des entreprises</target>
+      </trans-unit>
+      <trans-unit id="company.satisfaction_skills_with_tag">
+        <source>company.satisfaction_skills_with_tag</source>
+        <target>Satisfaction%tag_br%Compétences</target>
+      </trans-unit>
+      <trans-unit id="company.number_of_employees_with_tag">
+        <source>company.number_of_employees_with_tag</source>
+        <target>Nombre%tag_br%Salariés</target>
+      </trans-unit>
+      <trans-unit id="company.number_of_apprentices_with_tag">
+        <source>company.number_of_apprentices_with_tag</source>
+        <target>Nombre%tag_br%Apprentis</target>
+      </trans-unit>
+      <trans-unit id="company.number_of_interns_with_tag">
+        <source>company.number_of_interns_with_tag</source>
+        <target>Nombre%tag_br%Stagiaires</target>
+      </trans-unit>
+      <trans-unit id="company.occupation_workers_with_tag">
+        <source>company.occupation_workers_with_tag</source>
+        <target>Métier%tag_br%Ouvriers</target>
+      </trans-unit>
+      <trans-unit id="company.trade_technicians_with_tag">
+        <source>company.trade_technicians_with_tag</source>
+        <target>Métier%tag_br%Tecniciens</target>
+      </trans-unit>
+
+      <!-- School     -->
+      <trans-unit id="school.graduates_from_start_to_end">
+        <source>school.graduates_from_start_to_end</source>
+        <target>Diplômés du %begin_date% au %end_date%</target>
+      </trans-unit>
+      <trans-unit id="school.your_graduates_from_start_to_end">
+        <source>school.your_graduates_from_start_to_end</source>
+        <target>Vos diplômés du %begin_date% au %end_date%</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_graduates_by_sector_of_activity">
+        <source>school.rate_of_graduates_by_sector_of_activity</source>
+        <target>Taux des diplômés par secteurs d'activités</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_your_graduates_by_sector_of_activity">
+        <source>school.rate_of_your_graduates_by_sector_of_activity</source>
+        <target>Taux de vos diplômés par secteurs d'activités</target>
+      </trans-unit>
+      <trans-unit id="school.editing_of_an_establishment">
+        <source>school.editing_of_an_establishment</source>
+        <target>Modification d'un établissement</target>
+      </trans-unit>
+      <trans-unit id="school.detail_by_sector_profession">
+        <source>school.detail_by_sector_profession</source>
+        <target>Détail par filières / métiers</target>
+      </trans-unit>
+      <trans-unit id="school.attention_this_list_comes_from_the_graduates_data">
+        <source>school.attention_this_list_comes_from_the_graduates_data</source>
+        <target>Attention, cette liste provient des données des diplômés</target>
+      </trans-unit>
+      <trans-unit id="school.enrolment_of_companies">
+        <source>school.enrolment_of_companies</source>
+        <target>Enrollement d'entreprises</target>
+      </trans-unit>
+      <trans-unit id="school.number_of_graduates_with_tag">
+        <source>school.number_of_graduates_with_tag</source>
+        <target>Nombre de%tag_br%diplômés</target>
+      </trans-unit>
+      <trans-unit id="school.list_of_establishments">
+        <source>school.list_of_establishments</source>
+        <target>Liste des établissements</target>
+      </trans-unit>
+      <trans-unit id="school.proposed_certificates_degrees">
+        <source>school.proposed_certificates_degrees</source>
+        <target>Certificats / diplômes proposés</target>
+      </trans-unit>
+      <trans-unit id="school.several_possible_choices">
+        <source>school.several_possible_choices</source>
+        <target>plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+      <trans-unit id="school.other_degree_separated_by_a_comma_if_more_than_one">
+        <source>school.other_degree_separated_by_a_comma_if_more_than_one</source>
+        <target>Autres diplômes (séparés par une virgule si plusieurs)</target>
+      </trans-unit>
+      <trans-unit id="school.training_offers_1_sector_minimum_and_6_maximum">
+        <source>school.training_offers_1_sector_minimum_and_6_maximum</source>
+        <target>Offres de formation (1 secteur minimum et 6 maximum)</target>
+      </trans-unit>
+      <trans-unit id="school.search_for_your_channels">
+        <source>school.search_for_your_channels</source>
+        <target>Rechercher vos filières</target>
+      </trans-unit>
+      <trans-unit id="school.list_of_courses_of_study">
+        <source>school.list_of_courses_of_study</source>
+        <target>Liste des filières</target>
+      </trans-unit>
+      <trans-unit id="school.select_the_channels_to_add">
+        <source>school.select_the_channels_to_add</source>
+        <target>Sélectionnez les filières à ajouter</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_your_graduates_by_degree">
+        <source>school.rate_of_your_graduates_by_degree</source>
+        <target>Taux de vos diplômés par diplômes</target>
+      </trans-unit>
+      <trans-unit id="school.graduation_rates_by_degree">
+        <source>school.graduation_rates_by_degree</source>
+        <target>Taux des diplômés par diplômes</target>
+      </trans-unit>
+      <trans-unit id="school.professional_integration_rate_of_graduates">
+        <source>school.professional_integration_rate_of_graduates</source>
+        <target>Taux d'insertion professionnelle des diplômés</target>
+      </trans-unit>
+      <trans-unit id="school.graduates_in_employment">
+        <source>school.graduates_in_employment</source>
+        <target>Diplômés en emploi</target>
+      </trans-unit>
+      <trans-unit id="school.entrepreneurship_graduates">
+        <source>school.entrepreneurship_graduates</source>
+        <target>Diplômés entrepreneurs</target>
+      </trans-unit>
+      <trans-unit id="school.unemployed_graduates">
+        <source>school.unemployed_graduates</source>
+        <target>Diplômés sans emploi</target>
+      </trans-unit>
+      <trans-unit id="school.unemployed_graduates_pursuing_studies_related_to_their_first_degree">
+        <source>school.unemployed_graduates_pursuing_studies_related_to_their_first_degree</source>
+        <target>Diplômés sans emploi en poursuite d'études%tag_br%%tag_a_start%en lien%tag_a_end% avec leur premier diplôme</target>
+      </trans-unit>
+      <trans-unit id="school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree">
+        <source>school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree</source>
+        <target>Diplômés sans emploi en poursuite d'études%tag_br%%tag_a_start%sans lien%tag_a_end% avec leur premier diplôme</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_reasons_for_unemployment_of_unemployed_graduates">
+        <source>school.rate_of_reasons_for_unemployment_of_unemployed_graduates</source>
+        <target>Taux des raisons du chômage des diplômés sans emploi</target>
+      </trans-unit>
+      <trans-unit id="school.employed_graduates_by_type_of_contract">
+        <source>school.employed_graduates_by_type_of_contract</source>
+        <target>Diplômés salariés par type de contrat</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree">
+        <source>school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree</source>
+        <target>Taux des raisons relatives à ce qu'un diplômé en emploi exerce un métier sans lien avec son diplôme</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate">
+        <source>school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate</source>
+        <target>Taux des raisons relatives à ce que la formation professionnelle ait été utile à un diplômé entrepreneur</target>
+      </trans-unit>
+      <trans-unit id="school.rate_of_occupations_held_by_entrepreneurial_graduates">
+        <source>school.rate_of_occupations_held_by_entrepreneurial_graduates</source>
+        <target>Taux des métiers occupés par les diplômés entrepreneurs</target>
+      </trans-unit>
+      <trans-unit id="school.evolution_of_the_number_of_creation_of_the_graduates">
+        <source>school.evolution_of_the_number_of_creation_of_the_graduates</source>
+        <target>Evolution du nombre de création des Diplomés</target>
+      </trans-unit>
+      <trans-unit id="school.evolution_of_the_number_of_surveys_of_graduates">
+        <source>school.evolution_of_the_number_of_surveys_of_graduates</source>
+        <target>Evolution du nombre d'enquêtes des Diplômés</target>
+      </trans-unit>
+      <trans-unit id="school.other_establishment">
+        <source>school.other_establishment</source>
+        <target>Autre établissement</target>
+      </trans-unit>
+      <trans-unit id="school.new_establishment">
+        <source>school.new_establishment</source>
+        <target>Nouvel établissement</target>
+      </trans-unit>
+
+      <!-- Country     -->
+      <trans-unit id="country.edit_a_country">
+        <source>country.edit_a_country</source>
+        <target>Modification d'un pays</target>
+      </trans-unit>
+      <trans-unit id="country.add_a_country">
+        <source>country.add_a_country</source>
+        <target>Ajouter un pays</target>
+      </trans-unit>
+      <trans-unit id="country.adding_a_country">
+        <source>country.adding_a_country</source>
+        <target>Ajout d'un pays</target>
+      </trans-unit>
+
+      <!-- Currency      -->
+      <trans-unit id="currency.iso_code">
+        <source>currency.iso_code</source>
+        <target>Code ISO</target>
+      </trans-unit>
+      <trans-unit id="currency.iso_name">
+        <source>currency.iso_name</source>
+        <target>Nom ISO</target>
+      </trans-unit>
+      <trans-unit id="currency.iso_number">
+        <source>currency.iso_number</source>
+        <target>Num ISO</target>
+      </trans-unit>
+      <trans-unit id="currency.iso_symbol">
+        <source>currency.iso_symbol</source>
+        <target>Symbole ISO</target>
+      </trans-unit>
+      <trans-unit id="currency.editing_a_currency">
+        <source>currency.editing_a_currency</source>
+        <target>Modification d'une devise</target>
+      </trans-unit>
+      <trans-unit id="currency.add_a_currency">
+        <source>currency.add_a_currency</source>
+        <target>Ajouter une devise</target>
+      </trans-unit>
+      <trans-unit id="currency.adding_a_currency">
+        <source>currency.adding_a_currency</source>
+        <target>Ajout d'une devise</target>
+      </trans-unit>
+      <trans-unit id="currency.list_of_currencies">
+        <source>currency.list_of_currencies</source>
+        <target>Liste des devises</target>
+      </trans-unit>
+
+      <!-- Contract      -->
+      <trans-unit id="contract.edit_contract">
+        <source>contract.edit_contract</source>
+        <target>Modification d'un contrat</target>
+      </trans-unit>
+      <trans-unit id="contract.employment_contracts">
+        <source>contract.employment_contracts</source>
+        <target>Contrats de travail</target>
+      </trans-unit>
+      <trans-unit id="contract.add_a_contract">
+        <source>contract.add_a_contract</source>
+        <target>Ajouter un contract</target>
+      </trans-unit>
+
+      <!-- Survey      -->
+      <trans-unit id="menu.surveys">
+        <source>menu.surveys</source>
+        <target>Enquêtes</target>
+      </trans-unit>
+      <trans-unit id="menu.survey">
+        <source>menu.survey</source>
+        <target>Enquête</target>
+      </trans-unit>
+      <trans-unit id="survey.investigation_in_progress">
+        <source>survey.investigation_in_progress</source>
+        <target>Enquête en cours</target>
+      </trans-unit>
+      <trans-unit id="survey.responding_to_surveys">
+        <source>survey.responding_to_surveys</source>
+        <target>Répondre aux enquêtes</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_surveys">
+        <source>survey.list_of_surveys</source>
+        <target>Liste des enquêtes</target>
+      </trans-unit>
+      <trans-unit id="survey.description_measurement_professional">
+        <source>survey.description_measurement_professional</source>
+        <target>Enquête relative à la mesure du taux d'insertion professionnelle des diplômés de l'enseignement technique et de la formation professionnelle et de la satisfaction des entreprises</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_insertion_surveys_in_employment">
+        <source>survey.list_of_insertion_surveys_in_employment</source>
+        <target>Liste des enquêtes d'insertion (En emploi)</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_insertion_surveys_looking_for_a_job">
+        <source>survey.list_of_insertion_surveys_looking_for_a_job</source>
+        <target>Liste des enquêtes d'insertion (En recherche d'emploi)</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_insertion_surveys_contractor">
+        <source>survey.list_of_insertion_surveys_contractor</source>
+        <target>Liste des enquêtes d'insertion (Entrepreneur)</target>
+      </trans-unit>
+      <trans-unit id="survey.survey_status_with_tag">
+        <source>survey.survey_status_with_tag</source>
+        <target>Statut de%tag_br%l'enquête</target>
+      </trans-unit>
+      <trans-unit id="survey.how_many_employees_do_you_have">
+        <source>survey.how_many_employees_do_you_have</source>
+        <target>Combien de salariés employez-vous</target>
+      </trans-unit>
+      <trans-unit id="survey.how_many_apprentices_do_you_employ">
+        <source>survey.how_many_apprentices_do_you_employ</source>
+        <target>Combien d'apprentis employez-vous</target>
+      </trans-unit>
+      <trans-unit id="survey.how_many_interns_do_you_employ">
+        <source>survey.how_many_interns_do_you_employ</source>
+        <target>Combien de stagiaires employez-vous</target>
+      </trans-unit>
+      <trans-unit id="survey.what_is_the_sector_of_activity_of_your_workers">
+        <source>survey.what_is_the_sector_of_activity_of_your_workers</source>
+        <target>Quel est le secteur d'activité de vos ouvriers</target>
+      </trans-unit>
+      <trans-unit id="survey.other_areas_of_specialization_for_your_workers">
+        <source>survey.other_areas_of_specialization_for_your_workers</source>
+        <target>Autre domaines de spécialisation de vos ouvriers</target>
+      </trans-unit>
+      <trans-unit id="survey.what_are_the_occupations_areas_of_specialization_of_your_workers_several_possible_choices">
+        <source>survey.what_are_the_occupations_areas_of_specialization_of_your_workers_several_possible_choices</source>
+        <target>Quels sont les métiers / domaines de spécialisation de vos ouvriers ? plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+      <trans-unit id="survey.what_is_the_sector_of_activity_of_your_technicians">
+        <source>survey.what_is_the_sector_of_activity_of_your_technicians</source>
+        <target>Quel est le secteur d'activité de vos techniciens</target>
+      </trans-unit>
+      <trans-unit id="survey.other_areas_of_specialization_for_your_technicians">
+        <source>survey.other_areas_of_specialization_for_your_technicians</source>
+        <target>Autre domaines de spécialisation de vos techniciens</target>
+      </trans-unit>
+      <trans-unit id="survey.what_are_the_professions_fields_of_specialization_of_your_technicians_several_possible_choices">
+        <source>survey.what_are_the_professions_fields_of_specialization_of_your_technicians_several_possible_choices</source>
+        <target>Quels sont les métiers / domaines de spécialisation de vos techniciens ? plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+      <trans-unit id="survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag">
+        <source>survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag</source>
+        <target>Vous venez d’embaucher un ou des jeune(s) diplômé(s) en formation professionnelle et technique.%tag_br%Etes-vous satisfaits de ses / leurs compétences</target>
+      </trans-unit>
+      <trans-unit id="survey.indication_evaluation_satisfaction_company_with_tag">
+        <source>survey.indication_evaluation_satisfaction_company_with_tag</source>
+        <target>Evaluez ses / leurs compétences sur une échelle de 1 à 5 %tag_br% 1 = très insatisfaisant, 2 = insatisfaisant, 3 = satisfaisant, 4 = bon et 5 = excellent</target>
+      </trans-unit>
+      <trans-unit id="survey.new_satisfaction_survey">
+        <source>survey.new_satisfaction_survey</source>
+        <target>Nouvelle enquête de satisfaction</target>
+      </trans-unit>
+      <trans-unit id="survey.add_a_company_satisfaction">
+        <source>survey.add_a_company_satisfaction</source>
+        <target>Ajouter une satisfaction d'entreprise</target>
+      </trans-unit>
+      <trans-unit id="survey.what_are_the_trades_areas_of_specialization_of_your_workers">
+        <source>survey.what_are_the_trades_areas_of_specialization_of_your_workers</source>
+        <target>Quels sont les métiers / domaines de spécialisation de vos ouvriers</target>
+      </trans-unit>
+      <trans-unit id="survey.what_are_the_areas_of_specialization_of_your_technicians">
+        <source>survey.what_are_the_areas_of_specialization_of_your_technicians</source>
+        <target>Quels sont les secteurs d'activités de spécialisation de vos techniciens</target>
+      </trans-unit>
+      <trans-unit id="survey.what_are_the_professions_fields_of_specialization_of_your_technicians">
+        <source>survey.what_are_the_professions_fields_of_specialization_of_your_technicians</source>
+        <target>Quels sont les métiers / domaines de spécialisation de vos techniciens</target>
+      </trans-unit>
+      <trans-unit id="survey.insertion_survey_entrepreneurial_graduates">
+        <source>survey.insertion_survey_entrepreneurial_graduates</source>
+        <target>Enquête insertion : Diplômés entrepreneurs</target>
+      </trans-unit>
+      <trans-unit id="survey.satisfactions_graduates_creators">
+        <source>survey.satisfactions_graduates_creators</source>
+        <target>Satisfactions Diplômés Créateurs</target>
+      </trans-unit>
+      <trans-unit id="survey.modification_of_an_insertion_survey_graduate_entrepreneur">
+        <source>survey.modification_of_an_insertion_survey_graduate_entrepreneur</source>
+        <target>Modification d'une enquête d'insertion : diplômé entrepreneur</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_insertion_surveys_entrepreneurial_graduates">
+        <source>survey.list_of_insertion_surveys_entrepreneurial_graduates</source>
+        <target>Liste des enquêtes d'insertion : diplômés entrepreneurs</target>
+      </trans-unit>
+      <trans-unit id="survey.new_insertion_survey_entrepreneurial_graduate">
+        <source>survey.new_insertion_survey_entrepreneurial_graduate</source>
+        <target>Nouvelle enquête d'insertion : Diplômé entrepreneur</target>
+      </trans-unit>
+      <trans-unit id="survey.add_an_insertion_survey_graduate_entrepreneur">
+        <source>survey.add_an_insertion_survey_graduate_entrepreneur</source>
+        <target>Ajouter une enquête d'insertion : diplômé entrepreneur</target>
+      </trans-unit>
+      <trans-unit id="survey.your_remuneration_per_month_in_fcfa">
+        <source>survey.your_remuneration_per_month_in_fcfa</source>
+        <target>Votre rémunération par mois en FCFA</target>
+      </trans-unit>
+      <trans-unit id="survey.insertion_survey_graduates_in_employment">
+        <source>survey.insertion_survey_graduates_in_employment</source>
+        <target>Enquête insertion : Diplômés en emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.editing_of_an_insertion_survey_graduate_in_employment">
+        <source>survey.editing_of_an_insertion_survey_graduate_in_employment</source>
+        <target>Modification d'une enquête d'insertion : diplômé en emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_insertion_surveys_graduates_in_employment">
+        <source>survey.list_of_insertion_surveys_graduates_in_employment</source>
+        <target>Liste des enquêtes d'insertion : diplômés en emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.new_insertion_survey_graduates_in_employment">
+        <source>survey.new_insertion_survey_graduates_in_employment</source>
+        <target>Nouvelle enquête d'insertion : Diplômé en emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.add_an_insertion_survey_graduate_in_employment">
+        <source>survey.add_an_insertion_survey_graduate_in_employment</source>
+        <target>Ajouter une enquête d'insertion : diplômé en emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.are_you_satisfied_with_your_training">
+        <source>survey.are_you_satisfied_with_your_training</source>
+        <target>Etes vous satisfait de votre formation</target>
+      </trans-unit>
+      <trans-unit id="survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices">
+        <source>survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
+        <target>Si vous exercez un métier sans lien avec votre diplôme, c’est parce que :%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+      <trans-unit id="survey.are_you_enrolled_in_a_course">
+        <source>survey.are_you_enrolled_in_a_course</source>
+        <target>Êtes-vous inscrit à une formation</target>
+      </trans-unit>
+      <trans-unit id="survey.is_this_training_a_continuation_of_your_last_degree">
+        <source>survey.is_this_training_a_continuation_of_your_last_degree</source>
+        <target>Est-ce que cette formation est une poursuite%tag_br%d’études en lien avec votre dernier diplôme</target>
+      </trans-unit>
+      <trans-unit id="survey.degree_sought">
+        <source>survey.degree_sought</source>
+        <target>diplôme recherché</target>
+      </trans-unit>
+      <trans-unit id="survey.chosen_profession_field_of_study">
+        <source>survey.chosen_profession_field_of_study</source>
+        <target>métier / filière choisie</target>
+      </trans-unit>
+      <trans-unit id="survey.are_you_looking_for_work">
+        <source>survey.are_you_looking_for_work</source>
+        <target>Cherchez-vous du travail</target>
+      </trans-unit>
+      <trans-unit id="survey.do_you_work_as_a_volunteer">
+        <source>survey.do_you_work_as_a_volunteer</source>
+        <target>travaillez-vous comme volontaire / bénévole</target>
+      </trans-unit>
+      <trans-unit id="survey.if_yes_in_what_area">
+        <source>survey.if_yes_in_what_area</source>
+        <target>Si oui, dans quel domaine</target>
+      </trans-unit>
+      <trans-unit id="survey.have_you_turned_down_a_job_offer_since_completing_your_training">
+        <source>survey.have_you_turned_down_a_job_offer_since_completing_your_training</source>
+        <target>Avez-vous refusé une offre d’emploi%tag_br%depuis la fin de votre formation ?</target>
+      </trans-unit>
+      <trans-unit id="survey.have_you_held_a_job_since_the_end_of_your_training">
+        <source>survey.have_you_held_a_job_since_the_end_of_your_training</source>
+        <target>Avez-vous occupé un emploi%tag_br%depuis la fin de votre formation ?</target>
+      </trans-unit>
+      <trans-unit id="survey.if_so_for_how_long">
+        <source>survey.if_so_for_how_long</source>
+        <target>Si oui, pendant combien de temps ?</target>
+      </trans-unit>
+      <trans-unit id="survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices">
+        <source>survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices</source>
+        <target>Pourquoi, à votre avis, n'avez-vous pas trouvé / retrouvé un travail ?%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
+      </trans-unit>
+      <trans-unit id="survey.insertion_survey_graduates_looking_for_work">
+        <source>survey.insertion_survey_graduates_looking_for_work</source>
+        <target>Enquête insertion : Diplômés en recherche d'emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.new_insertion_survey_graduates_looking_for_a_job">
+        <source>survey.new_insertion_survey_graduates_looking_for_a_job</source>
+        <target>Nouvelle enquête d'insertion : Diplômé en recherche d'emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.list_of_insertion_surveys_graduates_looking_for_a_job">
+        <source>survey.list_of_insertion_surveys_graduates_looking_for_a_job</source>
+        <target>Liste des enquêtes d'insertion : Diplômé en recherche d'emploi</target>
+      </trans-unit>
+      <trans-unit id="survey.registered_training_with_tag">
+        <source>survey.registered_training_with_tag</source>
+        <target>Inscrit%tag_br%Formation ?</target>
+      </trans-unit>
+      <trans-unit id="survey.looking_for_a_job_with_tag">
+        <source>survey.looking_for_a_job_with_tag</source>
+        <target>En%tag_br%Recherche%tag_br%d'emploi ?</target>
+      </trans-unit>
+      <trans-unit id="survey.volunteer">
+        <source>survey.volunteer</source>
+        <target>Bénévole ?</target>
+      </trans-unit>
+      <trans-unit id="survey.job_rejected_with_tag">
+        <source>survey.job_rejected_with_tag</source>
+        <target>Emploi%tag_br%refusé ?</target>
+      </trans-unit>
+      <trans-unit id="survey.employment_since_training_with_tag">
+        <source>survey.employment_since_training_with_tag</source>
+        <target>Emploi%tag_br%depuis%tag_br%formation ?</target>
+      </trans-unit>
+      <trans-unit id="survey.chosen_field_of_study">
+        <source>survey.chosen_field_of_study</source>
+        <target>filière choisie ?</target>
+      </trans-unit>
+      <trans-unit id="survey.have_you_held_a_job_since_completing_your_training">
+        <source>survey.have_you_held_a_job_since_completing_your_training</source>
+        <target>Avez-vous occupé un emploi%tag_br%depuis la fin de votre formation ?</target>
+      </trans-unit>
+      <trans-unit id="survey.why_do_you_think_you_haven_found_returned_to_work">
+        <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
+        <target>Pourquoi, à votre avis, n'avez-vous pas trouvé / retrouvé un travail ?</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

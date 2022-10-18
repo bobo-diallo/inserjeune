@@ -6,7 +6,7 @@
 {% extends base %}
 
 {% block title %}
-   {{ parent() }} Etablissement
+   {{ parent() }} {{ 'menu.establishment' | trans }}
 {% endblock %}
 
 
@@ -200,7 +200,7 @@
             $("table#activity_founded tr").remove();
 
             // Créé le titre des cellules
-            let $activityTitle = "<tr><th>Ajouter</th><th>Filière</th><th>Secteur d'activité</th></tr>";
+            let $activityTitle = "<tr><th>Ajouter</th><th>Filière</th><th>{{ 'menu.activity_area' | trans }}</th></tr>";
             $('table#activity_founded').append($activityTitle);
 
             // Ecrit le résultat de la recherche

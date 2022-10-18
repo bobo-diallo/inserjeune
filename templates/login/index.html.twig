@@ -1,7 +1,7 @@
 {% extends "base_security.html.twig" %}
 
 {% block fos_user_title %}
-    <h4 class="auth-header">Connexion <a href="{{ path('register_create_account') }}">Créer un compte</a></h4>
+    <h4 class="auth-header">{{ 'menu.connection' | trans }} <a href="{{ path('register_create_account') }}">{{ 'menu.create_an_account' | trans }}</a></h4>
 {% endblock fos_user_title %}
 
 {% block fos_user_content %}
@@ -11,34 +11,27 @@
 
     <form action="{{ path('login') }}" method="post">
         <div class="form-group">
-            <label for="">Téléphone</label>
+            <label for="">{{ 'menu.phone' | trans }}</label>
             <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Numéro de téléphone" required="required" />
             <div class="pre-icon os-icon os-icon-user-male-circle"></div>
         </div>
         <div class="form-group">
-            <label for="">Mot de passe</label>
+            <label for="">{{ 'menu.password' | trans }}</label>
             <input type="password" id="password" name="_password" class="form-control" placeholder="Entrez votre mot de passe" required="required" />
             <div class="pre-icon os-icon os-icon-fingerprint"></div>
         </div>
-        {#<div class="form-group">
-            <label for="">Langue</label>
-            <select name="langue" id="langue" class="form-control">
-                <option value="fr"><a href="{{ path('dashboard_index') }}">FR</a></option>
-                <option value="en">EN</option>
-            </select>
-        </div>#}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <div class="buttons-w">
-            <button class="btn btn-primary">Valider</button>
+            <button class="btn btn-primary"> {{ 'menu.validate' | trans }} </button>
             <div class="checkbox d-inline-block float-right">
                 <label>
                     <input type="checkbox"
                            id="remember_me"
                            name="_remember_me"
-                           value="on" /> Se rappeler de moi
+                           value="on" /> {{ 'menu.remember_me' | trans }}
                 </label>
                 <div >
-                    <a href="{{ path('register_ask_new_password') }}">Mot de passe oublié ?</a>
+                    <a href="{{ path('register_ask_new_password') }}">{{ 'menu.forgot_your_password' | trans }}</a>
                 </div>
             </div>
         </div>

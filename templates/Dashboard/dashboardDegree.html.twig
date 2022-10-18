@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-  {{ parent() }} Dashboard
+  {{ parent() }} {{ 'menu.dashboard' | trans }}
 {% endblock %}
 
 {% block menu %}
@@ -11,17 +11,17 @@
         <div class="icon-w">
           <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
         </div>
-        <span>Tableau de bord</span></a></li>
+        <span>{{ 'menu.dashboard' | trans }}</span></a></li>
     <li class="has-sub-menu"><a href="{{ path('dashboard_index') }}">
         <div class="icon-w">
           <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
         </div>
-        <span>Entreprises</span></a>
+        <span>{{ 'menu.companies' | trans }}</span></a>
       <ul class="sub-menu">
-        <li><a href="{{ path('company_index') }}">La liste des entreprises</a></li>
-        <li><a href="#">Les offre d'emplois**</a></li>
-        <li><a href="#">Les publicités**</a></li>
-        <li><a href="#">Les apprentis**</a></li>
+        <li><a href="{{ path('company_index') }}">{{ 'menu.list_companies' | trans }}</a></li>
+        <li><a href="#">{{ 'menu.the_job_offers' | trans }}**</a></li>
+        <li><a href="#">{{ 'menu.ads' | trans }}**</a></li>
+        <li><a href="#">{{ 'menu.the_apprentices' | trans }}**</a></li>
       </ul>
     </li>
     <li>
@@ -29,7 +29,7 @@
         <div class="icon-w">
           <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
         </div>
-        <span>Enquêtes</span>
+        <span>{{ 'menu.surveys' | trans }}</span>
       </a>
     </li>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -38,7 +38,7 @@
           <div class="icon-w">
             <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
           </div>
-          <span>Deconnexion</span>
+          <span>{{ 'menu.logout' | trans }}</span>
         </a>
       </li>
     {% endif %}
@@ -56,9 +56,9 @@
             <div class="element-actions">
               <form class="form-inline justify-content-sm-end">
                 <select class="form-control form-control-sm rounded">
-                  <option value="Pending">Aujourd'hui</option>
-                  <option value="Active">Dernière semaine</option>
-                  <option value="Cancelled">Derniers 30 Jours</option>
+                  <option value="Pending">{{ 'menu.today' | trans }}</option>
+                  <option value="Active">{{ 'menu.last_week' | trans }}</option>
+                  <option value="Cancelled">{{ 'menu.last_30_days' | trans }}</option>
                 </select>
               </form>
             </div>
@@ -67,13 +67,13 @@
               <div class="row">
                 <div class="col-sm-3">
                   <div class="element-box el-tablo">
-                    <div class="label"><a href="{{ path('jobOffer_new') }}">Postuler</a></div>
-                    <div class="value">20 offres</div>
+                    <div class="label"><a href="{{ path('jobOffer_new') }}">{{ 'menu.apply' | trans }}</a></div>
+                    <div class="value">{{ 'job.20_offers' | trans }}</div>
                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="element-box el-tablo">
-                    <div class="label"><a href="{{ path('satisfaction_search_new') }}">Repondre aux enquêtes</a></div>
+                    <div class="label"><a href="{{ path('satisfaction_search_new') }}">{{ 'survey.responding_to_surveys' | trans }}</a></div>
                     <div class="value">40%</div>
                     <div class="trending trending-down-basic"><span>12%</span><i
                           class="os-icon os-icon-arrow-2-down"></i></div>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-sm-3">
                   <div class="element-box el-tablo">
-                    <div class="label">Diplômés créateurs</div>
+                    <div class="label">{{ 'graduate.creative_graduates' | trans }}</div>
                     <div class="value">89%</div>
                     <div class="trending trending-down-basic"><span>9%</span><i
                           class="os-icon os-icon-graph-down"></i></div>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-sm-3">
                   <div class="element-box el-tablo">
-                    <div class="label">Entreprises</div>
+                    <div class="label">{{ 'menu.companies' | trans }}</div>
                     <div class="value">25%</div>
                     <div class="trending trending-down-basic"><span>9%</span><i
                           class="os-icon os-icon-graph-down"></i></div>
@@ -106,17 +106,17 @@
         <div class="col-sm-12">
           <div class="element-wrapper">
             <img src="{{ asset('build/images/icon/job.png') }}" alt="job" class="title-icon" style="margin-bottom: -35px;">
-            <h6 class="element-header">Liste des offres d'emploi</h6>
+            <h6 class="element-header">{{ 'job.list_of_job_offers' | trans }}</h6>
             <div class="element-box-tp">
               <div class="table-responsive">
                 <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap">
                   <thead>
                   <tr>
-                    <th>Titre</th>
-                    <th>Profession</th>
-                    <th>Entreprise</th>
-                    <th>Email </th>
-                    <th class="no-print">Voir</th>
+                    <th>{{ 'menu.title' | trans }}</th>
+                    <th>{{ 'menu.profession' | trans }}</th>
+                    <th>{{ 'menu.company' | trans }}</th>
+                    <th>{{ 'menu.email' | trans }} </th>
+                    <th class="no-print">{{ 'menu.see' | trans }}</th>
                   </tr>
                   </thead>
                   <tbody>

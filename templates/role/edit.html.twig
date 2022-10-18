@@ -7,9 +7,9 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/profile.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Modification d'un rôle
+                    {{ 'role.editing_a_role' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('role_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box">

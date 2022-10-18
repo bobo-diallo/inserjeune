@@ -7,19 +7,19 @@
         <div class="element-wrapper">
             <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
             <h6 class="element-header">
-                Détail de l'entreprise
+                 {{ 'company.company_details' | trans }}
                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') %}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('company_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 {% endif %}
             </h6>
             <div class="element-box form-show">
                 <fieldset>
-                    <legend><span>Identité</span></legend>
+                    <legend><span> {{ 'menu.identity' | trans }} </span></legend>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label for=""> Nom de l'entreprise</label>
+                            <label for=""> {{ 'company.name_of_the_company' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.name }}">
                         </div>
                         <div class="form-group col-sm-6">
@@ -29,38 +29,38 @@
                     </div>
                     <div class="row">
                         <div class="form-group  col-sm-4">
-                            <label for=""> Tél. de connexion (Indicatif + N°)</label>
+                            <label for=""> {{ 'company.connection_phone_code_no' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.phoneStandard }}">
                         </div>
                         <div class="form-group  col-sm-4">
-                            <label for=""> Autre Tél. (Indicatif + N°)</label>
+                            <label for=""> {{ 'company.other_phone_code_no' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.phoneOther }}">
                         </div>
                         <div class="form-group col-sm-4">
-                            <label for=""> Adresse Email</label>
+                            <label for=""> {{ 'menu.email' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.email }}">
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend><span>Adresse</span></legend>
+                    <legend><span> {{ 'menu.address' | trans }} </span></legend>
                     <div class="row">
                         <div class="col-sm-6 form-group">
-                            <label for=""> Pays </label>
+                            <label for=""> {{ 'menu.country' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.country }}">
                         </div>
                         <div class="col-sm-6 form-group">
-                            <label for="">Région</label>
+                            <label for=""> {{ 'menu.region' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.region }}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 form-group">
-                            <label for="">Ville (la plus proche)</label>
+                            <label for=""> {{ 'city.city_nearest' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.city }}">
                         </div>
                         <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
-                            <label for=""> Autre ville</label>
+                            <label for=""> {{ 'city.other_city' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.otherCity }}">
                         </div>
                     </div>
@@ -70,24 +70,24 @@
                             <input class="form-control" disabled value="{{ company.addressNumber }}">
                         </div>
                         <div class="col-sm-5 form-group">
-                            <label for="">Rue</label>
+                            <label for=""> {{ 'menu.street' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.addressRoad }}">
                         </div>
                         <div class="col-sm-5 form-group">
-                            <label for=""> Localité</label>
+                            <label for=""> {{ 'menu.location' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.addressLocality }}">
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend><span>Caractéristiques</span></legend>
+                    <legend><span> {{ 'menu.characteristics' | trans }} </span></legend>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label for=""> Secteur d'activité</label>
+                            <label for=""> {{ 'menu.activity_area' | trans }}</label>
                             <input class="form-control" disabled value="{{ company.sectorArea }}">
                         </div>
                         <div class="form-group col-sm-6">
-                            <label for=""> Statut juridique</label>
+                            <label for=""> {{ 'menu.legals_status' | trans }} </label>
                             <input class="form-control" disabled value="{{ company.legalStatus }}">
                         </div>
                     </div>
@@ -97,10 +97,10 @@
                     <div class="row" id="actions">
                         <div class="col-sm-6">
                             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ENTREPRISE') %}
-                                <a class="btn btn-sm btn-primary" href="{{ path('company_edit' | route_company, {'id': company.id}) }}"> <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                <a class="btn btn-sm btn-primary" href="{{ path('company_edit' | route_company, {'id': company.id}) }}"> <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
-                                <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"> <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"> <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
                             {% endif %}
                         </div>
                     </div>

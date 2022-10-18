@@ -7,29 +7,29 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
-          Details
+          {{ 'menu.detail' | trans }}
           {% if is_granted('ROLE_ADMIN') %}
             <a class="btn btn-sm btn-primary float-right" href="{{ path('persondegree_new') }}">
-              <i class="fa fa-plus"></i> Ajouter un diplômé
+              <i class="fa fa-plus"></i> {{ 'graduate.add_a_graduate' | trans }}
             </a>
             <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('persondegree_index') }}">
-              <i class="fa fa-arrow-left"></i> Retour à la liste
+              <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
             </a>
           {% endif %}
         </h6>
         <div class="element-box">
           <form>
-            <span>Identité</span>
+            <span> {{ 'menu.identity' | trans }} </span>
             <div class="row">
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Prénom :
+                  {{ 'menu.firstname' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.firstname }}">
                 </label>
               </div>
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Nom :
+                  {{ 'menu.name' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.lastname }}">
                 </label>
               </div>
@@ -37,35 +37,35 @@
             <div class="row">
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Vous êtes :
+                  {{ 'menu.you_are' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.sex }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Date de naissance :
+                  {{ 'menu.date_of_birth' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.birthDate|date('d/m/Y') }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Date de création :
+                  {{ 'menu.created_date' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.createdDate|date('d/m/Y H:i') }}">
                 </label>
               </div>
             </div>
             <div class="line-separator"></div>
-            <span>Adresse</span>
+            <span> {{ 'menu.address' | trans }} </span>
             <div class="row">
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Pays :
+                   {{ 'menu.country' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressCity.region.country }}">
                 </label>
               </div>
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Région :
+                   {{ 'menu.region' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressCity.region }}">
                 </label>
               </div>
@@ -73,13 +73,13 @@
             <div class="row">
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Ville (la plus proche):
+                    {{ 'city.city_nearest' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressCity.name }}">
                 </label>
               </div>
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Autre ville :
+                   {{ 'city.other_city' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.otherCity }}">
                 </label>
               </div>
@@ -87,41 +87,41 @@
             <div class="row">
               <div class="col-sm-2">
                 <label class="col-form-label col-sm-12">
-                  Numéro :
+                  {{ 'menu.number' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressNumber }}">
                 </label>
               </div>
               <div class="col-sm-5">
                 <label class="col-form-label col-sm-12">
-                  Rue :
+                   {{ 'menu.street' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressRoad }}">
                 </label>
               </div>
               <div class="col-sm-5">
                 <label class="col-form-label col-sm-12">
-                  Localité :
+                   {{ 'menu.location' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressLocality }}">
                 </label>
               </div>
             </div>
             <div class="line-separator"></div>
-            <span>Coordonnées</span>
+            <span>{{ 'menu.coordinates' | trans }}</span>
             <div class="row">
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Tél. de connexion :
+                  {{ 'menu.connection_phone' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.phoneMobile1 }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Autre Tél. :
+                  {{ 'menu.other_phone' | trans }}. :
                   <input class="form-control" disabled value="{{ personDegree.phoneHome }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Email :
+                  {{ 'menu.email' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.email }}">
                 </label>
               </div>
@@ -129,19 +129,19 @@
             <div class="row">
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Tél. portable d'un 1er parent :
+                  {{ 'menu.cell_phone_of_a_1st_parent' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.phoneMobile2 }}">
                 </label>
               </div>
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
-                  Tél. portable d'un 2nd parent :
+                  {{ 'menu.cell_phone_of_a_2nd_parent' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.phoneMobile3 }}">
                 </label>
               </div>
             </div>
             <div class="line-separator"></div>
-            <span>Situation professionnelle actuelle :</span>
+            <span>{{ 'menu.current_work_situation' | trans }} :</span>
             <div class="row">
               <div class="col-sm-12">
                 <label class="col-form-label col-sm-12">
@@ -150,23 +150,23 @@
               </div>
             </div>
             <div class="line-separator"></div>
-            <span>Qualification</span>
+            <span>{{ 'menu.qualification' | trans }}</span>
             <div class="row">
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Secteur d'activité :
+                  {{ 'menu.activity_area' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.sectorArea }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Métier / Filière :
+                  {{ 'menu.job' | trans }} / {{ 'menu.branch' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.activity }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Autre métier :
+                  {{ 'menu.other_trade' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.otherActivity }}">
                 </label>
               </div>
@@ -174,19 +174,19 @@
             <div class="row">
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Diplôme :
+                  {{ 'menu.degree' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.degree }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Autre :
+                  {{ 'menu.other' | trans }}:
                   <input class="form-control" disabled value="{{ personDegree.otherDegree }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Mois / Année d'obtention du diplôme :
+                  {{ 'graduate.month_year_of_graduation' | trans }} :
                   <input class="form-control" disabled value="{{ "%02d"|format(personDegree.lastDegreeMonth) }} / {{ personDegree.lastDegreeYear }}">
                 </label>
               </div>
@@ -194,19 +194,19 @@
             <div class="row">
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Etablissement / Ecole :
+                  {{ 'menu.establishment' | trans }} / {{ 'menu.school' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.school }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  Autre :
+                  {{ 'menu.other' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.otherSchool }}">
                 </label>
               </div>
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
-                  N° Immatriculation :
+                  N° {{ 'menu.registration' | trans }} :
                   {% if personDegree.checkSchool == false %}
                     <input class="form-control" disabled style="color:red" value=" {{ personDegree.registrationStudentSchool }}">
                   {% else %}
@@ -215,7 +215,7 @@
                 </label>
               </div>
             </div>
-            <div><span>l'immatriculation est en vert si elle est validée par l'établissement</span></div>
+            <div><span>{{ 'degree.the_registration_is_in_green_if_it_is_validated_by_the_institution' | trans }}</span></div>
             <div class="line-separator"></div>
           </form>
           <div class="controls-above-table">
@@ -223,7 +223,7 @@
               <div class="col-sm-6">
                 <a class="btn btn-sm btn-primary"
                    href="{{ path('persondegree_edit' | route_persondegree, {'id': personDegree.id}) }}"> <img
-                      src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                      src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                 {#{% if is_granted('ROLE_ADMIN') %}
                   <button class="btn btn-sm btn-danger"
                           onclick="deleteElement('{{ path('persondegree_delete', {'id': personDegree.id}) }}')"><img

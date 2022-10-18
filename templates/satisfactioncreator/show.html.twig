@@ -7,14 +7,14 @@
     <div class="element-wrapper">
       <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
       <h6 class="element-header">
-        Details
+        {{ 'menu.detail' | trans }}
         {% if is_granted('ROLE_ADMIN') %}
           <a class="btn btn-sm btn-primary float-right" href="{{ path('satisfactioncreator_new'| route_persondegree) }}">
-            <i class="fa fa-plus"></i> Ajouter une enquête d'insertion : diplômé entrepreneur
+            <i class="fa fa-plus"></i> {{ 'survey.add_an_insertion_survey_graduate_entrepreneur' | trans }}
           </a>
         {% endif %}
         <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('satisfactioncreator_index'| route_persondegree) }}">
-          <i class="fa fa-arrow-left"></i> Retour à la liste
+          <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
         </a>
       </h6>
       <div class="element-box form-show">
@@ -22,7 +22,7 @@
           <div class="row">
             <div class="col-sm-8">
               <label class="col-form-label col-sm-12">
-                Diplomé :
+                {{ 'menu.graduate' | trans }} :
                 <input class="form-control" disabled value="{{ satisfactionCreator.personDegree }}">
               </label>
             </div>
@@ -38,13 +38,13 @@
           <div class="row">
             <div class="col-sm-6">
               <label class="col-form-label col-sm-12">
-                Date de création :
+                {{ 'menu.created_date' | trans }} :
                 <input class="form-control" disabled value="{{ satisfactionCreator.createdDate|date("d/m/Y H:i") }}">
               </label>
             </div>
             <div class="col-sm-6">
               <label class="col-form-label col-sm-12">
-                Obtention du Diplôme :
+                {{ 'graduate.obtaining_the_diploma' | trans }} :
                 <input class="form-control" disabled value="{{ satisfactionCreator.degreeDate }}">
               </label>
             </div>
@@ -55,7 +55,7 @@
               <div class="row">
                 <div class="col-sm-12 form-group">
                   <label class="col-form-label col-sm-12">
-                    Dans secteur d'activité avez-vous créé votre entreprise ?
+                    {{ 'graduate.in_which_sector_of_activity_did_you_create_your_company' | trans }} ?
                   <input class="form-control" disabled value="{{ satisfactionCreator.sectorArea}}">
                   </label>
                 </div>
@@ -63,7 +63,7 @@
               <div class="row hide_flex_other_activity">
                 <div class="col-sm-12 form-group">
                   <label class="col-form-label col-sm-12">
-                    Autre métier ?
+                    {{ 'menu.other_trade' | trans }} ?
                     <input class="form-control" disabled value="{{ satisfactionCreator.otherActivity}}">
                   </label>
                 </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
-                Quel métier exercez-vous au sein de votre entreprise ?
+                {{ 'graduate.what_job_do_you_do_in_your_company' | trans }} ?
                 <textarea class="form-control" disabled >{{ satisfactionCreator.activities | join('\n')}}</textarea>
               </label>
             </div>
@@ -80,12 +80,12 @@
           <div class="row">
             <div class="col-sm-6 form-check">
               {% if satisfactionCreator.legalCompany==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-              <label class="col-sm-12 col-form-label"> Votre entreprise a-t-elle une existence juridique ?</label>
+              <label class="col-sm-12 col-form-label"> {{ 'graduate.does_your_company_have_a_legal_existence' | trans }} ?</label>
               <div class="col-sm-12">
                 <input type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
-                  <span class="non">Non</span>
-                  <span class="oui">Oui</span>
+                  <span class="non">{{ 'menu.no' | trans }}</span>
+                  <span class="oui">{{ 'menu.yes' | trans }}</span>
                 </div>
               </div>
               <div class="help-block form-text with-errors form-control-feedback"></div>
@@ -95,13 +95,13 @@
           <div class="row">
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
-                Votre rémunération par mois en FCFA :
+                {{ 'survey.your_remuneration_per_month_in_fcfa' | trans }} :
                 <input class="form-control" disabled value="{{ satisfactionCreator.monthlySalary}}">
               </label>
             </div>
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
-                Devise :
+                  {{ 'menu.currency' | trans }} }  :
                 <input class="form-control" disabled value="{{ satisfactionCreator.currency}}">
               </label>
             </div>
@@ -110,12 +110,12 @@
           <div class="row">
             <div class="col-sm-12 form-check">
               {% if satisfactionCreator.usefulTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-              <label class="col-sm-12 col-form-label"> Votre formation a-t-elle été utile pour le métier que vous exercez ?</label>
+              <label class="col-sm-12 col-form-label"> {{ 'graduate.has_your_training_been_useful_for_the_job_you_do' | trans }} ?</label>
               <div class="col-sm-12">
                 <input type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
-                  <span class="non">Non</span>
-                  <span class="oui">Oui</span>
+                  <span class="non">{{ 'menu.no' | trans }}</span>
+                  <span class="oui">{{ 'menu.yes' | trans }}</span>
                 </div>
               </div>
               <div class="help-block form-text with-errors form-control-feedback"></div>
@@ -124,14 +124,14 @@
           <div class="row">
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
-                Si non, pourquoi ?
+                {{ 'graduate.if_not_why_not' | trans }} ?
                 <textarea class="form-control" disabled>{{ satisfactionCreator.jobNotFoundReasons | join('\n')}}</textarea>
               </label>
               <div class="help-block form-text with-errors form-control-feedSi non, pourquoi ?back"></div>
             </div>
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
-                Autre raison :
+                {{ 'menu.other_reason' | trans }} :
                 <input class="form-control" disabled value="{{ satisfactionCreator.jobNotFoundOther}}">
               </label>
               <div class="help-block form-text with-errors form-control-feedback"></div>
@@ -144,15 +144,15 @@
             <div class="col-sm-6">
               {% if is_granted('ROLE_ADMIN') == true %}
                 <a class="btn btn-sm btn-primary" href="{{ path('satisfactioncreator_edit', {'id': satisfactionCreator.id}) }}">
-                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
               {% elseif is_granted('ROLE_DIPLOME') == true%}
                 <a class="btn btn-sm btn-primary" href="{{ path('front_persondegree_satisfactioncreator_edit', {'id': satisfactionCreator.id}) }}">
-                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                  <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
               {% endif %}
 
               {% if is_granted('ROLE_ADMIN') == true %}
                 <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('satisfactioncreator_delete', {'id': satisfactionCreator.id}) }}')">
-                  <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                  <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
               {% endif %}
             </div>
           </div>

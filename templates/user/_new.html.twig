@@ -1,6 +1,6 @@
 {{ form_widget(form._token) }}
 <div class="form-group">
-  <label for=""> Pays</label>
+  <label for=""> {{ 'menu.country' | trans }} </label>
   {{ form_widget(form.country) }}
   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
 </div>
@@ -42,5 +42,5 @@
   {{ form_widget(form.profils) }}
 </div>
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="submit"> Valider</button>
+  <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>

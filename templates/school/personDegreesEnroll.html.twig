@@ -28,19 +28,19 @@
                             <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th>Immatriculation</th>
-                                <th>Prénom</th>
-                                <th>Nom</th>
+                                <th>{{ 'menu.registration' | trans }}</th>
+                                <th>{{ 'menu.firstname' | trans }}</th>
+                                <th>{{ 'menu.name' | trans }}</th>
                                 <th>Date<br>Naissance</th>
                                 <th>Genre</th>
-                                <th>Région</th>
-                                <th>Ville</th>
-                                <th>portable</th>
+                                <th> {{ 'menu.region' | trans }} </th>
+                                <th>{{ 'menu.city' | trans }}</th>
+                                <th>{{ 'menu.cell_phone' | trans }}</th>
                                 <th>portable parent</th>
-                                <th>Email</th>
-                                <th>Diplôme</th>
-                                <th>Secteur</th>
-                                <th>Filière</th>
+                                <th>{{ 'menu.email' | trans }}</th>
+                                <th>{{ 'menu.degree' | trans }}</th>
+                                <th>{{ 'menu.sector' | trans }}</th>
+                                <th>{{ 'menu.branch' | trans }}</th>
                                 <th>Password</th>
                             </tr>
                             </thead>
@@ -54,8 +54,8 @@
                         </table>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">Editer tout</button>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll('')">Sauvegarder Selection</button>
+                <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
+                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll('')">{{ 'menu.save_selection' | trans }}</button>
             </div>
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
             <input style="display: none" id="selectedCountry" value="{{ app.user.country.id }}">

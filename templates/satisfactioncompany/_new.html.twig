@@ -2,7 +2,7 @@
 <div class="form-group row">
   <div class="col-sm-5">
     {% if satisfactionCompany.company|length > 0 %}
-       Entreprise :   {{ satisfactionCompany.company}}
+       {{ 'menu.company' | trans }} :   {{ satisfactionCompany.company}}
     {% endif %}
   </div>
   {%  if app.user.roles|role =="ADMIN" %}
@@ -11,23 +11,23 @@
     </div>
   {% endif %}
   <div class="col-sm-5">
-    Date de création : {{ satisfactionCompany.createdDate|date("d/m/Y H:i") }}
+    {{ 'menu.created_date' | trans }} : {{ satisfactionCompany.createdDate|date("d/m/Y H:i") }}
   </div>
 </div>
 <div class="line-separator"></div>
 <div class="row">
   <div class="col-sm-4 form-group">
-    <label for=""> Combien de salariés employez-vous ?</label>
+    <label for=""> {{ 'survey.how_many_employees_do_you_have' | trans }} ?</label>
     {{ form_widget(form.salaryNumber) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.salaryNumber) }}</div>
   </div>
   <div class="col-sm-4 form-group">
-    <label for=""> Combien d'apprentis employez-vous ?</label>
+    <label for=""> {{ 'survey.how_many_apprentices_do_you_employ' | trans }} ?</label>
     {{ form_widget(form.apprenticeNumber) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.apprenticeNumber) }}</div>
   </div>
   <div class="col-sm-4 form-group">
-    <label for=""> Combien de stagiaires employez-vous  ?</label>
+    <label for=""> {{ 'survey.how_many_interns_do_you_employ' | trans }}  ?</label>
     {{ form_widget(form.studentNumber) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.studentNumber) }}</div>
   </div>
@@ -37,21 +37,21 @@
   <div class="col-sm-6">
     <div class="row">
       <div class="col-sm-12 form-group">
-        <label for="">Quel est le secteur d'activité de vos ouvriers ?</label>
+        <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_workers' | trans }} ?</label>
         {{ form_widget(form.workerSectorArea) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.workerSectorArea) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 form-group hide_flex_otherWorkerJob">
-        <label for="">Autre domaines de spécialisation de vos ouvriers ?</label>
+        <label for="">{{ 'survey.other_areas_of_specialization_for_your_workers' | trans }} ?</label>
         {{ form_widget(form.otherWorkerJob) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherWorkerJob) }}</div>
       </div>
     </div>
   </div>
   <div class="col-sm-6 form-group">
-    <label for="">Quels sont les métiers / domaines de spécialisation de vos ouvriers ? plusieurs choix possibles (+ touche ctrl)</label>
+    <label for="">{{ 'what_are_the_occupations_areas_of_specialization_of_your_workers_several_possible_choices' | trans }}</label>
     {{ form_widget(form.workerActivities) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.workerActivities) }}</div>
   </div>
@@ -61,21 +61,21 @@
   <div class="col-sm-6">
     <div class="row">
       <div class="col-sm-12 form-group">
-        <label for="">Quel est le secteur d'activité de vos techniciens ?</label>
+        <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_technicians' | trans }} ?</label>
         {{ form_widget(form.technicianSectorArea) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.technicianSectorArea) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 form-group hide_flex_otherTechnicianJob">
-        <label for="">Autre domaines de spécialisation de vos techniciens ?</label>
+        <label for="">{{ 'survey.other_areas_of_specialization_for_your_technicians' | trans }} ?</label>
         {{ form_widget(form.otherTechnicianJob) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherTechnicianJob) }}</div>
       </div>
     </div>
   </div>
   <div class="col-sm-6 form-group">
-    <label for="">Quels sont les métiers / domaines de spécialisation de vos techniciens ? plusieurs choix possibles (+ touche ctrl)</label>
+    <label for="">{{ 'survey.what_are_the_professions_fields_of_specialization_of_your_technicians_several_possible_choices' | trans }}</label>
     {{ form_widget(form.technicianActivities) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.technicianActivities) }}</div>
   </div>
@@ -83,7 +83,7 @@
 <div class="line-separator"></div>
 <div class="row ">
   <div class="col-sm-12 form-check ">
-    <label for=""> Vous venez d’embaucher un ou des jeune(s) diplômé(s) en formation professionnelle et technique.<br>Etes-vous satisfaits de ses / leurs compétences ?</label>
+    <label for=""> {{ 'survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag' | trans({'%tag_br%': '<br/>'}) }} ?</label>
   </div>
   <div class="col-sm-12 form-check table_skill">
     {% for child in form.levelSkill %}
@@ -95,11 +95,11 @@
   </div>
 </div>
 <div class="line-separator"></div>
-<span>Evaluez ses / leurs compétences sur une échelle de 1 à 5 <br> 1 = très insatisfaisant, 2 = insatisfaisant, 3 = satisfaisant, 4 = bon et 5 = excellent :</span>
+<span>{{ 'survey.indication_evaluation_satisfaction_company_with_tag' | trans({'%tag_br%': '<br/>'}) }} :</span>
 <div class="table_skill">
   <div class="row table_skill_row">
     <div class="col-sm-4">
-      <div class="row"> Savoirs Généraux </div>
+      <div class="row"> {{ 'company.general_knowledge' | trans }} </div>
     </div>
     <div class="col-sm-8">
       <div class="row table_skill_checkbox">
@@ -110,7 +110,7 @@
   </div>
   <div class="row table_skill_row">
     <div class="col-sm-4">
-      <div class="row"> Compétences techniques </div>
+      <div class="row"> {{ 'company.technical_skills' | trans }} </div>
     </div>
     <div class="col-sm-8">
       <div class="row table_skill_checkbox">
@@ -121,7 +121,7 @@
   </div>
   <div class="row table_skill_row">
     <div class="col-sm-4">
-      <div class="row"> Communication, Hygiène, Sécurité & Environnement </div>
+      <div class="row"> {{ 'menu.communication_health_safety_environment' | trans }} </div>
     </div>
     <div class="col-sm-8">
       <div class="row table_skill_checkbox">
@@ -148,11 +148,11 @@
 <div class="line-separator"></div>
 <div class="row ">
   <div class="col-sm-12 form-check">
-    <label for=""> Seriez-vous prêt à engager des diplômés ayant le même profil / cursus scolaire que celui / ceux que vous avez embauché(s) ?</label>
+    <label for=""> {{ 'company.would_you_be_willing_to_hire_graduates_with_the_same_profile_educational_background_as_the_one_you_hired' | trans }} ?</label>
     {{ form_widget(form.hiringSameProfile) }}
     <div class="slider round">
-      <span class="non">Non</span>
-      <span class="oui">Oui</span>
+      <span class="non">{{ 'menu.no' | trans }}</span>
+      <span class="oui">{{ 'menu.yes' | trans }}</span>
     </div>
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.hiringSameProfile) }}</div>
   </div>
@@ -160,11 +160,11 @@
 <div class="line-separator"></div>
 <div class="row label_center">
   <div class="col-sm-12 form-check">
-    <label for=""> En cas de lacunes, seriez-vous prêts à compléter la formation du ou des jeune(s) embauché(s) ?</label>
+    <label for=""> {{ 'company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired' | trans }} ?</label>
     {{ form_widget(form.completeTraining) }}
     <div class="slider round">
-      <span class="non">Non</span>
-      <span class="oui">Oui</span>
+      <span class="non">{{ 'menu.no' | trans }}</span>
+      <span class="oui">{{ 'menu.yes' | trans }}</span>
     </div>
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.completeTraining) }}</div>
   </div>
@@ -172,7 +172,7 @@
 <div class="hide_flex_completeGlobalTraining">
   <div class="row hide_flex_completeGlobalTraining">
     <div class="col-sm-12 form-group">
-      <span><br>Si oui, pour quelles compétences ?</span>
+      <span><br>{{ 'company.if_yes_for_which_skills' | trans }} ?</span>
     </div>
   </div>
   <table class="complete_skill">
@@ -180,15 +180,15 @@
       <td class="complete_skill_marge"></td>
       <td class="complete_skill_title">
         <div class="form-check">
-          <label for=""> Savoirs Généraux : </label>
+          <label for=""> {{ 'company.general_knowledge' | trans }} : </label>
         </div>
       </td>
       <td class="complete_skill_check">
         <div class="form-check">
           {{ form_widget(form.completeGlobalTraining) }}
           <div class="slider round">
-            <span class="non">Non</span>
-            <span class="oui">Oui</span>
+            <span class="non">{{ 'menu.no' | trans }}</span>
+            <span class="oui">{{ 'menu.yes' | trans }}</span>
           </div>
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.completeGlobalTraining) }}</div>
         </div>
@@ -199,15 +199,15 @@
       <td class="complete_skill_marge"></td>
       <td class="complete_skill_title">
         <div class="form-check">
-          <label for=""> Compétences techniques : </label>
+          <label for=""> {{ 'company.technical_skills' | trans }} : </label>
         </div>
       </td>
       <td class="complete_skill_check">
         <div class="form-check">
           {{ form_widget(form.completeTechnicalTraining) }}
           <div class="slider round">
-            <span class="non">Non</span>
-            <span class="oui">Oui</span>
+            <span class="non">{{ 'menu.no' | trans }}</span>
+            <span class="oui">{{ 'menu.yes' | trans }}</span>
           </div>
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.completeTechnicalTraining) }}</div>
         </div>
@@ -218,15 +218,15 @@
       <td class="complete_skill_marge_left"></td>
       <td class="complete_skill_title">
         <div class="form-check">
-          <label for=""> Communication, Hygiène, Sécurité & Environnement : </label>
+          <label for=""> {{ 'menu.communication_health_safety_environment' | trans }} : </label>
         </div>
       </td>
       <td class="complete_skill_check">
         <div class="form-check">
           {{ form_widget(form.completeCommunicationHygieneHealthEnvTraining) }}
           <div class="slider round">
-            <span class="non">Non</span>
-            <span class="oui">Oui</span>
+            <span class="non">{{ 'menu.no' | trans }}</span>
+            <span class="oui">{{ 'menu.yes' | trans }}</span>
           </div>
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.completeCommunicationHygieneHealthEnvTraining) }}</div>
         </div>
@@ -245,8 +245,8 @@
         <div class="form-check">
           {{ form_widget(form.completeOtherTraining) }}
           <div class="slider round">
-            <span class="non">Non</span>
-            <span class="oui">Oui</span>
+            <span class="non">{{ 'menu.no' | trans }}</span>
+            <span class="oui">{{ 'menu.yes' | trans }}</span>
           </div>
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.completeOtherTraining) }}</div>
         </div>
@@ -256,15 +256,15 @@
   </table>
 </div>
 <div class="line-separator"></div>
-<p>Combien de personnes comptez-vous engager dans les 6 prochains mois ?</p>
+<p>{{ 'company.how_many_people_do_you_expect_to_hire_in_the_next_6_months' | trans }} ?</p>
 <div class="row">
   <div class="col-sm-6 form-group">
-    <label for=""> Ouvrier-ère :</label>
+    <label for=""> {{ 'company.worker_female' | trans }} :</label>
     {{ form_widget(form.hiring6MonthsWorker) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.hiring6MonthsWorker) }}</div>
   </div>
   <div class="col-sm-6 form-group">
-    <label for=""> Technicien-ne :</label>
+    <label for=""> {{ 'company.technician_female' | trans }} :</label>
     {{ form_widget(form.hiring6MonthsTechnician) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.hiring6MonthsTechnician) }}</div>
   </div>
@@ -272,12 +272,12 @@
 
 <div class="row">
   <div class="col-sm-6 form-group">
-    <label for=""> Apprenti-e :</label>
+    <label for=""> {{ 'company.apprentice_female' | trans }} :</label>
     {{ form_widget(form.hiring6MonthsApprentice) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.hiring6MonthsApprentice) }}</div>
   </div>
   <div class="col-sm-6 form-group">
-    <label for=""> Stagiaire :</label>
+    <label for=""> {{ 'company.intern' | trans }} :</label>
     {{ form_widget(form.hiring6MonthsStudent) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.hiring6MonthsStudent) }}</div>
   </div>
@@ -289,6 +289,6 @@
 {#</select>#}
 {{ show_allactivities() }}
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="button" id="buttonSatisfactionCompany" onclick="preventDefaultSubmit()"> Valider</button>
-  <button class="btn btn-primary" type="submit" id="submitSatisfactionCompany" hidden="hidden"> Valider</button>
+  <button class="btn btn-primary" type="button" id="buttonSatisfactionCompany" onclick="preventDefaultSubmit()"> {{ 'menu.validate' | trans }} </button>
+  <button class="btn btn-primary" type="submit" id="submitSatisfactionCompany" hidden="hidden"> {{ 'menu.validate' | trans }} </button>
 </div>

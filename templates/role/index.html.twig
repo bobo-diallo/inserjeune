@@ -8,7 +8,7 @@
                 <img src="{{ asset('build/images/icon/profile.png') }}" alt="locality" class="title-icon"
                      style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des rôles
+                    {{ 'role.list_of_roles' | trans }}
                 </h6>
                 <div class="element-box">
                     {# <div class="controls-above-table"> #}
@@ -27,7 +27,7 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Nom</th>
+                                <th>{{ 'menu.name' | trans }}</th>
                                 {# <th class="no-print">Actions</th> #}
                             </tr>
                             </thead>

@@ -6,13 +6,13 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
-                <h6 class="element-header">Liste des enquêtes d'insertion : diplômés entrepreneurs</h6>
+                <h6 class="element-header">{{ 'survey.list_of_insertion_surveys_entrepreneurial_graduates' | trans }}</h6>
                 <div class="element-box">
                     {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                     {#<a class="btn btn-sm btn-primary" href="{{ path('satisfactioncreator_new'| route_persondegree) }}">#}
                                         {#<i class="fa fa-plus"></i> Nouvelle enquête d'insertion</a>#}
                                 </div>
@@ -27,18 +27,15 @@
 
                                 {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
                                   <th><div><span>N°</span></div></th>
-                                  <th><div><span>Nom</span></div></th>
+                                  <th><div><span> {{ 'menu.name' | trans }} </span></div></th>
                                   <th><div><span>Tél.</span></div></th>
                                 {% endif %}
 
-                                <th><div><span>Date<br>Creation</span></div></th>
-                                <th><div><span>Date<br>Modification</span></div></th>
-                                <th><div><span>Métier de<br>l'Entreprise</span></div></th>
-                                <th><div><span>Statut<br>juridique </span></div></th>
-                                {#<th><div><span>Salaire<br>mensuel</span></div></th>#}
-                                <th><div><span>Formation<br>utile ?</span></div></th>
-                                {#<th><div><span>Raison ?</span></div></th>#}
-                                {#<th><div><span>Autre<br>raison </span></div></th>#}
+                                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'company.company_business_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'legals_status_with_tag' | trans({'%tag_br%': '<br/>'})}} </span></div></th>
+                                <th><div><span>{{ 'menu.training_useful_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,11 +62,8 @@
                                     <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
 
                                     <td>{{ satisfaction.activities | join(' | ') }}</td>
-                                    <td>{% if satisfaction.legalCompany %}Oui{% else %}Non{% endif %}</td>
-                                    {#<td>{{ satisfaction.monthlySalary }}</td>#}
-                                    <td>{% if satisfaction.usefulTraining %}Oui{% else %}Non{% endif %}</td>
-                                    {#<td>{{ satisfaction.jobNotFoundReasons | join(' | ') }}</td>#}
-                                    {#<td>{{ satisfaction.jobNotFoundOther }}</td>#}
+                                    <td>{% if satisfaction.legalCompany %}{{ 'menu.yes' | trans }}{% else %}{{ 'menu.no' | trans }}{% endif %}</td>
+                                    <td>{% if satisfaction.usefulTraining %}{{ 'menu.yes' | trans }}{% else %}{{ 'menu.no' | trans }}{% endif %}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

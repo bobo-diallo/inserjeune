@@ -6,13 +6,13 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Nouvelle enquête d'insertion : Diplômé en emploi
+                    {{ 'survey.new_insertion_survey_graduates_in_employment' | trans }}
                   {% if is_granted('ROLE_ADMIN') == true %}
                       <a class="btn btn-sm btn-primary float-right" href="{{ path('satisfactionsalary_index') }}">
-                          <i class="fa fa-arrow-left"></i> Retour à la liste</a>
+                          <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}</a>
                   {% elseif is_granted('ROLE_DIPLOME') == true %}
                       <a class="btn btn-sm btn-primary float-right" href="{{ path('front_persondegree_satisfactions_index') }}">
-                          <i class="fa fa-arrow-left"></i> Retour à la liste</a>
+                          <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}</a>
                   {% endif %}
                 </h6>
                 <div class="element-box">

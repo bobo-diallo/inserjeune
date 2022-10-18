@@ -13,9 +13,9 @@
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('user_new') }}">
-                                    <i class="fa fa-plus"></i> {{ 'Nouvel utilisateur' | trans }}</a>
+                                    <i class="fa fa-plus"></i> {{ 'menu.new_user' | trans }}</a>
 {#                                    <i class="fa fa-plus"></i> {% trans %}app.userbundle.new-user{% endtrans %}#}
                                 </a>
                             </div>
@@ -27,10 +27,10 @@
                             <tr>
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
-                                <th>Pays</th>
+                                <th>{{ 'menu.country' | trans }}</th>
                                 <th>Téléphone</th>
                                 <th>Pseudo</th>
-                                <th>Email</th>
+                                <th>{{ 'menu.email' | trans }}</th>
                                 <th>Roles</th>
                             </tr>
                             </thead>

@@ -2,7 +2,7 @@
 {#<div class="quiz">#}
   <div class="form-group row">
     <div class="col-sm-8">
-      Diplomé :   {{ satisfactionSearch.personDegree }}
+      {{ 'menu.graduate' | trans }} :   {{ satisfactionSearch.personDegree }}
     </div>
     {%  if app.user.roles|role =="ADMIN" %}
       <div class="col-sm-2">
@@ -12,29 +12,29 @@
   </div>
   <div class="form-group row">
     <div class="col-sm-6">
-      Date de création : {{ satisfactionSearch.createdDate|date("d/m/Y H:i") }}
+      {{ 'menu.created_date' | trans }} : {{ satisfactionSearch.createdDate|date("d/m/Y H:i") }}
     </div>
     <div class="col-sm-6">
-      Obtention du Diplôme : {{ satisfactionSearch.degreeDate }}
+      {{ 'graduate.obtaining_the_diploma' | trans }} : {{ satisfactionSearch.degreeDate }}
     </div>
   </div>
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-5 form-check registered_training">
-      <label for=""> <br>Êtes-vous inscrit à une formation ?</label>
+      <label for=""> <br>{{ 'survey.are_you_enrolled_in_a_course' | trans }} ?</label>
       {{ form_widget(form.registeredTraining) }}
       <div class="slider round">
-        <span class="non">Non</span>
-        <span class="oui">Oui</span>
+        <span class="non">{{ 'menu.no' | trans }}</span>
+        <span class="oui">{{ 'menu.yes' | trans }}</span>
       </div>
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.registeredTraining) }}</div>
     </div>
     <div class="col-sm-7 form-check hide_block_registered_training">
-      <label for=""> Est-ce que cette formation est une poursuite<br>d’études en lien avec votre dernier diplôme ? </label>
+      <label for=""> {{ 'survey.is_this_training_a_continuation_of_your_last_degree' | trans({'%tag_br%': '<br/>'})}} ? </label>
       {{ form_widget(form.formationPursuitLastDegree) }}
       <div class="slider round">
-        <span class="non">Non</span>
-        <span class="oui">Oui</span>
+        <span class="non">{{ 'menu.no' | trans }}</span>
+        <span class="oui">{{ 'menu.yes' | trans }}</span>
       </div>
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.formationPursuitLastDegree) }}</div>
     </div>
@@ -42,12 +42,12 @@
   <div class="line-separator hide_block_registered_training"></div>
   <div class="row hide_flex_registered_training">
     <div class="col-sm-6 form-group">
-      <label for=""> diplôme recherché * </label>
+      <label for=""> {{ 'survey.degree_sought' | trans }} * </label>
       {{ form_widget(form.degree) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degree) }}</div>
     </div>
     <div class="col-sm-6 form-group hide_block_other_degree_name">
-      <label for=""> Autre diplôme </label>
+      <label for=""> {{ 'menu.other_degree' | trans }} </label>
       {{ form_widget(form.otherFormationDegreeName) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherFormationDegreeName) }}</div>
     </div>
@@ -56,21 +56,21 @@
     <div class="col-sm-6">
       <div class="row">
         <div class="col-sm-12 form-group">
-          <label for=""> Secteur d'activité ? </label>
+          <label for=""> {{ 'menu.activity_area' | trans }} ? </label>
           {{ form_widget(form.sectorArea) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
         </div>
       </div>
       <div class="row hide_flex_other_activity">
         <div class="col-sm-12 form-group">
-          <label for=""> Autre métier </label>
+          <label for=""> {{ 'menu.other_trade' | trans }} </label>
           {{ form_widget(form.otherFormationActivityName) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherFormationActivityName) }}</div>
         </div>
       </div>
     </div>
     <div class="col-sm-6 form-group">
-      <label for=""> métier/filière choisie ? </label>
+      <label for=""> {{ 'survey.chosen_profession_field_of_study' | trans }} ? </label>
       {{ form_widget(form.activities) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities) }}</div>
     </div>
@@ -79,16 +79,16 @@
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-4 form-check">
-      <label for=""> Cherchez-vous du travail ?</label>
+      <label for=""> {{ 'survey.are_you_looking_for_work' | trans }} ?</label>
       {{ form_widget(form.searchWork) }}
       <div class="slider round">
-        <span class="non">Non</span>
-        <span class="oui">Oui</span>
+        <span class="non">{{ 'menu.no' | trans }}</span>
+        <span class="oui">{{ 'menu.yes' | trans }}</span>
       </div>
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.searchWork) }}</div>
     </div>
     <div class="col-sm-8 form-check hide_block_searchWork">
-      <label for=""> Pourquoi ?</label>
+      <label for=""> {{ 'menu.why' | trans }} ?</label>
       {{ form_widget(form.noSearchWorkReason) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.noSearchWorkReason) }}</div>
     </div>
@@ -96,33 +96,33 @@
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-4 form-check">
-      <label for=""> Travaillez-vous comme volontaire/bénévole ?</label>
+      <label for=""> {{ 'survey.do_you_work_as_a_volunteer' | trans }} ?</label>
       {{ form_widget(form.activeVolunteer) }}
       <div class="slider round">
-        <span class="non">Non</span>
-        <span class="oui">Oui</span>
+        <span class="non">{{ 'menu.no' | trans }}</span>
+        <span class="oui">{{ 'menu.yes' | trans }}</span>
       </div>
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activeVolunteer) }}</div>
     </div>
     <div class="col-sm-4 form-group hide_block_sectorAreaVolunteer">
-      <label for=""> Si oui, dans quel domaine ? </label>
+      <label for=""> {{ 'survey.if_yes_in_what_area' | trans }} ? </label>
       {{ form_widget(form.sectorAreaVolunteer) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorAreaVolunteer) }}</div>
     </div>
     <div class="col-sm-4 form-group hide_block_sectorAreaVolunteer">
-      <label for=""> filière / métier ? </label>
+      <label for=""> {{ 'activity.sector_profession' | trans }} ? </label>
       {{ form_widget(form.activityVolunteer) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activityVolunteer) }}</div>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6 form-group hide_block_sectorAreaVolunteer hide_block_otherDomainVolunteer">
-      <label for=""> Autre filière / métier: </label>
+      <label for=""> {{ 'activity.other_sector_profession' | trans }}: </label>
       {{ form_widget(form.otherDomainVolunteer) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherDomainVolunteer) }}</div>
     </div>
     <div class="col-sm-6 form-group hide_block_sectorAreaVolunteer">
-      <label for=""> Poste occupé ? </label>
+      <label for=""> {{ 'menu.position_held' | trans }} ? </label>
       {{ form_widget(form.jobVolunteer) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobVolunteer) }}</div>
     </div>
@@ -130,25 +130,25 @@
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-4 form-check">
-      <label for=""> Avez-vous refusé une offre d’emploi<br>depuis la fin de votre formation ?</label>
+      <label for=""> {{ 'survey.have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) }}</label>
       {{ form_widget(form.jobRefuse) }}
       <div class="slider round">
-        <span class="non">Non</span>
-        <span class="oui">Oui</span>
+        <span class="non">{{ 'menu.no' | trans }}</span>
+        <span class="oui">{{ 'menu.yes' | trans }}</span>
       </div>
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobRefuse) }}</div>
     </div>
     <div class="col-sm-4 form-check">
-      <label for=""> Avez-vous occupé un emploi<br>depuis la fin de votre formation ?</label>
+      <label for="">{{ 'survey.have_you_held_a_job_since_the_end_of_your_training' | trans({'%tag_br%': '<br/>'}) }}</label>
       {{ form_widget(form.jobFromFormation) }}
       <div class="slider round">
-        <span class="non">Non</span>
-        <span class="oui">Oui</span>
+        <span class="non">{{ 'menu.no' | trans }}</span>
+        <span class="oui">{{ 'menu.yes' | trans }}</span>
       </div>
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobFromFormation) }}</div>
     </div>
     <div class="col-sm-4 form-group hide_block_jobTime">
-      <label for=""> Si oui, pendant combien de temps ?</label>
+      <label for=""> {{ 'survey.if_so_for_how_long' | trans }}</label>
       {{ form_widget(form.jobTime) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobTime) }}</div>
     </div>
@@ -156,14 +156,14 @@
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <label for=""> Pourquoi, à votre avis, n'avez-vous pas trouvé / retrouvé un travail ?<br>plusieurs choix possibles (+ touche ctrl)</label>
+      <label for="">{{ 'survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices' | trans({'%tag_br%': '<br/>'}) }}</label>
       {{ form_widget(form.jobNotFoundReasons) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundReasons) }}</div>
     </div>
   </div>
   <div class="row hide_flex_jobNotFoundOther">
     <div class="col-sm-12 form-group">
-      <label for=""> Autre raison </label>
+      <label for=""> {{ 'menu.other_reason' | trans }} </label>
       {{ form_widget(form.jobNotFoundOther) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundOther) }}</div>
     </div>
@@ -172,6 +172,6 @@
 {{ show_allactivities() }}
 {#<div><span>* : champ obligatoire</span></div>#}
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="button" id="buttonSatisfactionSearch" onclick="preventDefaultSubmit()"> Valider</button>
-  <button class="btn btn-primary" type="submit" id="submitSatisfactionSearch" hidden="hidden" > Valider</button>
+  <button class="btn btn-primary" type="button" id="buttonSatisfactionSearch" onclick="preventDefaultSubmit()"> {{ 'menu.validate' | trans }} </button>
+  <button class="btn btn-primary" type="submit" id="submitSatisfactionSearch" hidden="hidden" > {{ 'menu.validate' | trans }} </button>
 </div>
