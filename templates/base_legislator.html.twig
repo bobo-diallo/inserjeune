@@ -30,28 +30,28 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
               </div>
-              <span>{{ 'Tableau de bord'|trans }}</span></a>
+              <span>{{ 'menu.dashboard' | trans }}</span></a>
           </li>
 
           <li><a href="{{ path('school_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/school.png') }}" alt="school">
               </div>
-              <span>{{ 'Etablissements'|trans  }}</span></a>
+              <span>{{ 'menu.establishments' | trans  }}</span></a>
           </li>
 
           <li><a href="{{ path('persondegree_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/degree.png') }}" alt="persondegree">
               </div>
-              <span>{{ 'Diplômés'|trans  }}</span></a>
+              <span>{{ 'menu.graduates' | trans  }}</span></a>
           </li>
 
           <li><a href="{{ path('company_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
               </div>
-              <span>{{ 'Entreprises'|trans  }}</span></a>
+              <span>{{ 'menu.companies' | trans  }}</span></a>
           </li>
 
           <li>
@@ -59,7 +59,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
               </div>
-              <span>Offres d'emploi</span>
+              <span>{{ 'menu.job_offer' | trans }}</span>
             </a>
           </li>
 
@@ -68,7 +68,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
               </div>
-              <span>Géo-Localisation</span>
+              <span>{{ 'menu.geolocation' | trans }}</span>
             </a>
           </li>
           <li class="has-sub-menu">
@@ -76,13 +76,13 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
               </div>
-              <span>Informations</span>
+              <span>{{ 'menu.information' | trans }}</span>
             </a>
             <ul class="sub-menu">
-              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
-              <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
-              <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
-              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>{{ 'menu.user_guide' | trans }}</a></li>
+              <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
+              <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
+              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>
             </ul>
           </li>
           <li>
@@ -96,7 +96,7 @@
                 <div class="icon-w">
                   <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
                 </div>
-                <span>{{ 'Déconnexion'|trans }}</span>
+                <span>{{ 'menu.logout' | trans }}</span>
               </a>
             </li>
           {% endif %}

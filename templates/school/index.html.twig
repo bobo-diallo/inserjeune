@@ -6,7 +6,7 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <h6 class="element-header">
-                    Liste des établissements
+                    {{ 'school.list_of_establishments' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
@@ -14,7 +14,7 @@
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-{#                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>#}
+{#                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
                                     {#<a class="btn btn-sm btn-primary" href="{{ path('school_new') }}">#}
                                         {#<i class="fa fa-plus"></i> Ajouter une école</a>#}
                                 </div>
@@ -30,19 +30,14 @@
                                     <th>Id</th>
                                 {% endif %}
                                 <th>Immat.</th>
-                                <th>Nom</th>
-                                <th>Ville</th>
-                                {#<th>Adresse numéro</th>#}
-                                {#<th>Adresse rue</th>#}
-                                {#<th>Adresse localité</th>#}
-                                <th>Téléphone</th>
-                                <th>Email</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'menu.city' | trans }}</th>
+                                <th>{{ 'menu.phone' | trans }}</th>
+                                <th>{{ 'menu.email' | trans }}</th>
                                 {%  if app.user.roles|role =="Législateur" %}
-                                    <th>Nombre de<br>diplômés</th>
+                                    <th>{{ 'school.number_of_graduates_with_tag' | trans({'%tag_br%': '<br />'}) }}</th>
                                 {% endif %}
-                                {#<th>Latitude</th>#}
-                                {#<th>Longitude</th>#}
-                                <th>date de<br>création</th>
+                                <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br />'}) }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,16 +60,11 @@
                                     {%  elseif app.user.roles|role =="Législateur" %}
                                         <td>{{ school.region.name }}, {{ school.city.name }}</td>
                                     {% endif %}
-                                    {#<td>{{ school.addressNumber }}</td>#}
-                                    {#<td>{{ school.addressLocality }}</td>#}
-                                    {#<td>{{ school.addressRoad }}</td>#}
                                     <td>{{ school.phoneStandard }}</td>
                                     <td>{{ school.email }}</td>
                                     {%  if app.user.roles|role =="Législateur" %}
                                       <td>{{ school.personDegrees | length }}</td>
                                     {% endif %}
-                                    {#<td>{{ school.latitude }}</td>#}
-                                    {#<td>{{ school.longitude }}</td>#}
                                     <td>{{ school.createdDate|date('d M Y H:i') }}</td>
                                 </tr>
                             {% endfor %}

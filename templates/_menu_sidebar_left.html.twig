@@ -9,23 +9,23 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/company.png') }}" alt="company">
       </div>
-      <span>{{ 'Entreprises'|trans }}</span></a>
+      <span>{{ 'menu.company'|trans }}</span></a>
     <ul class="sub-menu">
-      <li><a href="{{ path('company_index') }}">La liste des entreprises</a></li>
-      <li><a href="{{ path('jobOffer_index') }}">Les offre d'emplois</a></li>
-      <li><a href="#">Les publicités**</a></li>
+      <li><a href="{{ path('company_index') }}">{{ 'menu.list_companies' | trans }}</a></li>
+      <li><a href="{{ path('jobOffer_index') }}">{{ 'menu.the_job_offers' | trans }}</a></li>
+      <li><a href="#">{{ 'menu.ads' | trans }}**</a></li>
     </ul>
   </li>
   <li class="has-sub-menu"><a href="{{ path('degree_index') }}">
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/degree.png') }}" alt="degree">
       </div>
-      <span>{{ 'Diplômés'|trans }}</span></a>
+      <span>{{ 'menu.graduate'|trans }}</span></a>
     <ul class="sub-menu">
-      <li><a href="{{ path('persondegree_index') }}">{{ 'Les Diplômés'|trans }}</a></li>
-      <li><a href="{{ path('school_index') }}">{{ 'Les Etablissements'|trans }}</a></li>
-      <li><a href="{{ path('degree_index') }}">{{ 'Les Diplômes'|trans }}</a></li>
-{#      <li><a href="#">{{ 'Les Réseaux sociaux'|trans }}**</a></li>#}
+      <li><a href="{{ path('persondegree_index') }}">{{ 'menu.the_graduates' | trans }}</a></li>
+      <li><a href="{{ path('school_index') }}">{{ 'menu.the_establishments' | trans }}</a></li>
+      <li><a href="{{ path('degree_index') }}">{{ 'menu.the_degrees'| trans }}</a></li>
+{#      <li><a href="#">{{ 'menu.the_social_media'| trans }}**</a></li>#}
     </ul>
   </li>
   <li class="has-sub-menu">
@@ -33,16 +33,16 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
       </div>
-      <span>{{ 'Enquêtes'|trans }}</span>
+      <span>{{ 'menu.survey'|trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a href="{{ path('satisfaction_search_index') }}">Diplômé en recherche d'emploi</a></li>
-      <li><a href="{{ path('satisfactionsalary_index') }}">Diplômé en emploi</a></li>
-      <li><a href="{{ path('satisfactioncreator_index') }}">Diplômé entrepreneur</a></li>
-      <li><a href="{{ path('satisfactioncompany_index') }}">Entreprise</a></li>
+      <li><a href="{{ path('satisfaction_search_index') }}">{{ 'graduate.graduate_looking_for_job' | trans }}</a></li>
+      <li><a href="{{ path('satisfactionsalary_index') }}">{{ 'graduate.graduate_in_employment' | trans }}</a></li>
+      <li><a href="{{ path('satisfactioncreator_index') }}">{{ 'graduate.business_graduate' | trans }}</a></li>
+      <li><a href="{{ path('satisfactioncompany_index') }}">{{ 'menu.company' | trans }}</a></li>
 
       <div class="menu-line-separator"></div>
-      <li><a href="{{ path('job_not_found_reason_index') }}">Raisons emplois non trouvés</a></li>
+      <li><a href="{{ path('job_not_found_reason_index') }}">{{ 'graduate.reasons_jobs_not_found' | trans }}</a></li>
     </ul>
   </li>
   <li class="has-sub-menu">
@@ -50,13 +50,13 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality">
       </div>
-      <span>{{ 'Pays'|trans }}, {{ 'Région'|trans }}s, {{ 'Villes'|trans }}<br>{{ 'et'|trans }} {{ 'Devises'|trans }}</span>
+      <span>{{ 'menu.country' | trans }}, {{ 'menu.region' | trans }}s, {{ 'menu.cities' | trans }}<br>{{ 'menu.and' | trans }} {{ 'menu.currencies' | trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a href="{{ path('country_index') }}">{{ 'Pays'|trans }}</a></li>
-      <li><a href="{{ path('region_index') }}">Régions</a></li>
-      <li><a href="{{ path('city_index') }}">{{ 'Villes'|trans }}</a></li>
-      <li><a href="{{ path('currency_index') }}">{{ 'Devises'|trans }}</a></li>
+      <li><a href="{{ path('country_index') }}">{{ 'menu.country' | trans }}</a></li>
+      <li><a href="{{ path('region_index') }}">{{ 'menu.regions' | trans }}</a></li>
+      <li><a href="{{ path('city_index') }}">{{ 'menu.cities' | trans }}</a></li>
+      <li><a href="{{ path('currency_index') }}">{{ 'menu.currencies' | trans }}</a></li>
     </ul>
   </li>
   <li class="has-sub-menu">
@@ -64,13 +64,13 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/sector-area.png') }}" alt="sectorarea">
       </div>
-      <span>Secteurs, Filières,<br>Contrats, Statuts</span>
+      <span>{{ 'menu.sectors' | trans }}, {{ 'menu.branchs' | trans }},<br>{{ 'menu.contracts' | trans }}, {{ 'menu.status' | trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a href="{{ path('sectorarea_index') }}">Secteurs d'activité</a></li>
-      <li><a href="{{ path('activity_index') }}">Filières / Métiers</a></li>
-      <li><a href="{{ path('contract_index') }}">Contrats de travail</a></li>
-      <li><a href="{{ path('legalstatus_index') }}">Statuts juridiques</a></li>
+      <li><a href="{{ path('sectorarea_index') }}">{{ 'menu.activity_area' | trans }}</a></li>
+      <li><a href="{{ path('activity_index') }}">{{ 'menu.branchs' | trans }} / {{ 'menu.jobs' | trans }}</a></li>
+      <li><a href="{{ path('contract_index') }}">{{ 'menu.employment_contact' | trans }}</a></li>
+      <li><a href="{{ path('legalstatus_index') }}">{{ 'menu.legals_status' | trans }}</a></li>
     </ul>
   </li>
   <li class="has-sub-menu">
@@ -78,11 +78,11 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/users.png') }}" alt="users">
       </div>
-      <span>{{ 'Utilisateur'|trans }}s</span>
+      <span>{{ 'menu.user' | trans }}s</span>
     </a>
     <ul class="sub-menu">
-      <li><a href="{{ path('role_index') }}">Rôles</a></li>
-      <li><a href="{{ path('user_index') }}">{{ 'Utilisateurs'|trans }}</a></li>
+      <li><a href="{{ path('role_index') }}">{{ 'menu.roles' | trans }}</a></li>
+      <li><a href="{{ path('user_index') }}">{{ 'menu.users' | trans }}</a></li>
     </ul>
   </li>
   <li>
@@ -90,7 +90,7 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
       </div>
-      <span>Géo-Localisation</span>
+      <span>{{ 'menu.geolocation' | trans }}</span>
     </a>
   </li>
   <li class="has-sub-menu">
@@ -98,13 +98,13 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
       </div>
-      <span>Informations</span>
+      <span>{{ 'menu.information' | trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>Guide de l'utilisateur</a></li>
-      <li><a target="_blank" href="https://ifef.francophonie.org/">Site de l'IFEF</a></li>
-      <li><a target="_blank" href="https://www.francophonie.org/">Site de l'OIF</a></li>
-      <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">A propos</a></li>
+      <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v1.2.pdf') }}>{{ 'menu.user_guide' | trans }}</a></li>
+      <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
+      <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
+      <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>
     </ul>
   </li>
   <li>
@@ -112,13 +112,27 @@
       {% include '_apropos.html.twig' %}
     </div>
   </li>
+  <li class="has-sub-menu">
+    <a href="#">
+      <div class="icon-w">
+        <img src="{{ asset('build/images/icon/locality.png') }}" alt="langue">
+      </div>
+      <span>{{ 'menu.language' | trans }}</span>
+    </a>
+    <ul class="sub-menu">
+      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.french' | trans }} 🇫🇷</a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.english' | trans }} 🇺🇸</a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.spanish' | trans }} 🇪🇸</a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.portuguese' | trans }} 🇵🇹</a></li>
+    </ul>
+  </li>
   {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     <li>
       <a href="{{ path('logout') }}">
         <div class="icon-w">
           <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
         </div>
-        <span>{{ 'Déconnexion'|trans }}</span>
+        <span>{{ 'menu.logout' | trans }}</span>
       </a>
     </li>
   {% endif %}

@@ -38,12 +38,12 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <h6 class="element-header">
-                    Details
+                    {{ 'menu.detail' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('usefultrainingreason_new') }}">
-                        <i class="fa fa-plus"></i> Ajouter une raison
+                        <i class="fa fa-plus"></i> {{ 'menu.add_a_reason' | trans }}
                     </a>
                     <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('usefultrainingreason_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box">
@@ -61,10 +61,10 @@
                         <div class="row" id="actions">
                             <div class="col-sm-6">
                                 <a class="btn btn-sm btn-primary" href="{{ path('usefultrainingreason_edit', {'id': usefulTrainingReason.id}) }}">
-                                    <i class="fa fa-edit" aria-hidden="true"></i> Modifier</a>
+                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.edit' | trans }}</a>
                               {{ form_start(delete_form) }}
                                 <button class="btn btn-sm btn-danger" type="sumbit">
-                                    <i class="os-icon os-icon-database-remove" aria-hidden="true"></i>Supprimer</button>
+                                    <i class="os-icon os-icon-database-remove" aria-hidden="true"></i>{{ 'menu.delete' | trans }}</button>
                               {{ form_end(delete_form) }}
 
                             </div>

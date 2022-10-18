@@ -7,12 +7,12 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Modification d'une ville
+                    {{ 'city.edit_city' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('city_new') }}">
-                        <i class="fa fa-plus"></i> Ajouter une ville
+                        <i class="fa fa-plus"></i> {{ 'city.add_city' | trans }}
                     </a>
                     <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('city_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box">

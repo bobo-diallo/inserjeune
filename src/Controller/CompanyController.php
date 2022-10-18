@@ -43,7 +43,7 @@ class CompanyController extends AbstractController {
 	}
 
 	#[Route(path: '/', name: 'company_index', methods: ['GET'])]
-	public function indexAction(): Response {
+	public function indexAction(Request $request): Response {
 		$userCountry = $this->getUser()->getCountry();
 
 		$companies = $this->companyRepository->findAll();

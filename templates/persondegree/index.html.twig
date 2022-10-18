@@ -8,14 +8,14 @@
               {%  if app.user.roles|role =="Administrateur" %}
                 <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
               {% endif %}
-                <h6 class="element-header">Liste des diplômés</h6>
+                <h6 class="element-header">{{ 'degree.list_of_degree' | trans }}</h6>
                 <div class="element-box">
                     {#<script>alert("role =" + {{ app.user.roles|role }})</script>#}
                     {%  if app.user.roles|role =="Administrateur" %}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-{#                                    <a class="btn btn-sm btn-primary" href="#">Archiver</a>#}
+{#                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
                                     {#<a class="btn btn-sm btn-primary" href="{{ path('persondegree_new') }}">#}
                                         {#<i class="fa fa-plus"></i> Nouveau diplômé</a>#}
                                 </div>
@@ -32,28 +32,28 @@
                                 {% endif %}
                                 {%  if app.user.roles|role == "Etablissement" %}
                                   <th class="no-print">Actions</th>
-                                  <th>Immatriculation</th>
+                                  <th>{{ 'menu.registration' | trans }}</th>
                                 {% endif %}
-                                <th>Prénom</th>
-                                <th>Nom</th>
+                                <th>{{ 'menu.firstname' | trans }}</th>
+                                <th>{{ 'menu.name' | trans }}</th>
                                 {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
-                                    <th>Etablissement</th>
+                                    <th>{{ 'menu.establishment' | trans }}</th>
                                 {% endif %}
-                                <th>Statut de<br>l'enquête</th>
-                                <th>Date<br>Naissance</th>
-                                <th>portable</th>
-                                <th>Email</th>
+                                <th>{{ 'survey.survey_status_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
+                                <th>{{ 'menu.date_of_birth_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
+                                <th>{{ 'menu.cell_phone' | trans }}</th>
+                                <th>{{ 'menu.email' | trans }}</th>
                                 {%  if app.user.roles|role == "Administrateur" %}
-                                    <th>Pays</th>
-                                    <th>Etablissement</th>
+                                    <th>{{ 'menu.country' | trans }}</th>
+                                    <th>{{ 'menu.establishment' | trans }}</th>
                                 {% endif %}
                                 {%  if app.user.roles|role == "Etablissement" %}
-                                  <th>Diplôme</th>
-                                  <th>Filière</th>
+                                  <th>{{ 'menu.degree' | trans }}</th>
+                                  <th>{{ 'menu.branch' | trans }}</th>
                                 {% endif %}
-                                <th>mois/année<br>diplôme</th>
-                                <th>date de<br>création</th>
-                                <th>Situation<br>professionelle</th>
+                                <th>{{ 'degree.month_year_degree_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
+                                <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | lower }}</th>
+                                <th>{{ 'menu.current_situation_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -74,10 +74,10 @@
                                                 {% if personDegree.checkSchool == true %}
                                                   <button class="validStudent" id="validStudent{{ personDegree.id }}" value="1">Dévalider</button>
                                                 {% else %}
-                                                  <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0">Valider</button>
+                                                  <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0"> {{ 'menu.validate' | trans }} </button>
                                                 {% endif %}
                                             {% else %}
-                                                <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0" disabled>Valider</button>
+                                                <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0" disabled> {{ 'menu.validate' | trans }} </button>
                                             {% endif %}
                                         </td>
                                         {% if personDegree.checkSchool == true %}
@@ -122,15 +122,15 @@
                         {#<table style="margin-top: 20px">#}
                         <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; max-width: 600px;">
                           <thead><tr>
-                            <th style="text-align: center" >LEGENDE</th>
-                            <th style="text-align: center" >En cours d'études</th>
-                            <th style="text-align: center" >Attente 6 mois</th>
-                            <th style="text-align: center" >1er Rappel</th>
-                            <th style="text-align: center" >2nd Rappel</th>
-                            <th style="text-align: center" >Réponse OK</th>
+                            <th style="text-align: center" >{{ 'menu.legend' | trans }}</th>
+                            <th style="text-align: center" >{{ 'menu.under_study' | trans }}</th>
+                            <th style="text-align: center" >{{ 'menu.waiting_6_months' | trans }}</th>
+                            <th style="text-align: center" >{{ 'menu.1st_reminder' | trans }}</th>
+                            <th style="text-align: center" >{{ 'menu.2nd_reminder' | trans }}</th>
+                            <th style="text-align: center" >{{ 'menu.answer_ok' | trans }}</th>
                           </tr></thead>
                           <tbody><tr>
-                            <td style="text-align: center;">Enquête</td>
+                            <td style="text-align: center;">{{ 'menu.survey' | trans }}</td>
                             <td><div style="width: 60px; height: 10px; background-color: #FFABC4; margin: auto"></div></td>
                             <td><div style="width: 60px; height: 10px; background-color: #FFFFFF; border: 1px solid #0c0c0c; margin: auto"></div></td>
                             <td><div style="width: 60px; height: 10px; background-color: #FF7100; margin: auto"></div></td>

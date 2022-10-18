@@ -7,12 +7,12 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/legal-status.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Details
+                    {{ 'menu.detail' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('legalstatus_new') }}">
-                        <i class="fa fa-plus"></i> Ajouter un statut juridique
+                        <i class="fa fa-plus"></i> {{ 'legal_status.add_a_legal_status' | trans }}
                     </a>
                     <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('legalstatus_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box">
@@ -22,11 +22,11 @@
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ legalStatus.id }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Nom</label>
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.name' | trans }} </label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ legalStatus.name }}"></div>
                         </div>
                         <div class="form-group row">
-                            <label class="text-uppercase col-form-label col-sm-4">Description</label>
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.description' | trans }} </label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ legalStatus.description }}"></div>
                         </div>
                     </form>
@@ -34,9 +34,9 @@
                         <div class="row" id="actions">
                             <div class="col-sm-6">
                                 <a class="btn btn-sm btn-primary" href="{{ path('legalstatus_edit', {'id': legalStatus.id}) }}">
-                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                                 <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('legalstatus_delete', {'id': legalStatus.id}) }}')">
-                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer
+                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}
                                 </button>
 
                             </div>

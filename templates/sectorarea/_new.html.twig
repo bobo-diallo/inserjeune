@@ -1,14 +1,14 @@
 {{ form_widget(form._token) }}
 <div class="form-group">
-  <label for=""> Nom </label>
+  <label for=""> {{ 'menu.name' | trans }} </label>
   {{ form_widget(form.name) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
 <div class="form-group">
-  <label for=""> Description </label>
+  <label for=""> {{ 'menu.description' | trans }} </label>
   {{ form_widget(form.description) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="submit"> Valider</button>
+  <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>

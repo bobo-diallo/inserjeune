@@ -1,54 +1,54 @@
 {{ form_widget(form._token) }}
 <div class="form-global">
   <fieldset>
-    <legend><span>Identité</span></legend>
+    <legend><span> {{ 'menu.identity' | trans }} </span></legend>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label for=""> Prénom *</label>
+        <label for=""> {{ 'menu.firstname' | trans }} *</label>
         {{ form_widget(form.firstname) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.firstname) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Nom *</label>
+        <label for=""> {{ 'menu.lastname' | trans }} *</label>
         {{ form_widget(form.lastname) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.lastname) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label for=""> Vous êtes *</label>
+        <label for=""> {{ 'menu.you_are' | trans }} *</label>
         {{ form_widget(form.sex) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sex) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Date de naissance *</label>
+        <label for=""> {{ 'menu.date_of_birth' | trans }} *</label>
         {{ form_widget(form.birthDate) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.birthDate) }}</div>
       </div>
     </div>
   </fieldset>
   <fieldset>
-    <legend><span>Adresse</span></legend>
+    <legend><span> {{ 'menu.address' | trans }} </span></legend>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label for="">Pays *</label>
+        <label for=""> {{ 'menu.country' | trans }} *</label>
         {{ form_widget(form.country) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for="">Région / Province *</label>
+        <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
         {{ form_widget(form.region) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 col-xs-6 form-group">
-        <label for="">Ville (la plus proche) *</label>
+        <label for=""> {{ 'city.city_nearest' | trans }}  *</label>
         {{ form_widget(form.addressCity) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressCity) }}</div>
       </div>
       <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
-        <label for=""> Autre ville</label>
+        <label for=""> {{ 'city.other_city' | trans }} </label>
         {{ form_widget(form.otherCity) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
       </div>
@@ -60,29 +60,29 @@
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber) }}</div>
       </div>
       <div class="col-sm-5 form-group">
-        <label for=""> Rue</label>
+        <label for=""> {{ 'menu.street' | trans }} </label>
         {{ form_widget(form.addressRoad) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad) }}</div>
       </div>
       <div class="col-sm-5 form-group">
-        <label for=""> Localité</label>
+        <label for=""> {{ 'menu.location' | trans }} </label>
         {{ form_widget(form.addressLocality) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-4 form-group">
-        <label for=""> Latitude </label>
+        <label for=""> {{ 'menu.latitude' | trans }} </label>
         {{ form_widget(form.latitude) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.latitude) }}</div>
       </div>
       <div class="col-sm-4 form-group">
-        <label for="">Longitude</label>
+        <label for=""> {{ 'menu.longitude' | trans }} </label>
         {{ form_widget(form.longitude) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.longitude) }}</div>
       </div>
       <div class="col-sm-4 form-check">
-        <label class="center" for="">Mode</label>
+        <label class="center" for="">{{ 'menu.mode' | trans }}</label>
         {{ form_widget(form.locationMode) }}
         <div class="slider round">
           <span class="manual">Manuel</span>
@@ -93,39 +93,39 @@
     </div>
   </fieldset>
   <fieldset>
-    <legend><span>Coordonnées</span></legend>
+    <legend><span>{{ 'menu.coordinates' | trans }}</span></legend>
     <div class="row">
       <div class="col-sm-4 form-group">
-        <label for="">Tél. de connexion (Indicatif pays + N°) *</label>
+        <label for="">{{ 'menu.connection_phone_country_code_number' | trans }} *</label>
         {{ form_widget(form.phoneMobile1) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneMobile1) }}</div>
       </div>
       <div class="col-sm-4 form-group">
-        <label for="">Autre Tél. (Indicatif pays + N°) </label>
+        <label for="">{{ 'menu.other_phone_country_code_number' | trans }} </label>
         {{ form_widget(form.phoneHome) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneHome) }}</div>
       </div>
       <div class="col-sm-4 form-group">
-        <label for=""> Email </label>
+        <label for=""> {{ 'menu.email' | trans }} </label>
         {{ form_widget(form.email) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.email) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label for="">Tél. portable d'un 1er parent *</label>
+        <label for="">{{ 'menu.cell_phone_of_a_1st_parent' | trans }} *</label>
         {{ form_widget(form.phoneMobile2) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneMobile2) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for="">Tél. portable d'un 2nd parent</label>
+        <label for="">{{ 'menu.cell_phone_of_a_2nd_parent' | trans }}</label>
         {{ form_widget(form.phoneMobile3) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneMobile3) }}</div>
       </div>
     </div>
   </fieldset>
   <fieldset>
-    <legend><span>Situation professionnelle actuelle *</span></legend>
+    <legend><span>{{ 'menu.current_work_situation' | trans }} *</span></legend>
     <div class="row">
       <div class="col-sm-12 form-group">
         {{ form_widget(form.type) }}
@@ -134,78 +134,78 @@
     </div>
   </fieldset>
   <fieldset>
-    <legend><span>Qualification</span></legend>
+    <legend><span>{{ 'menu.qualification' | trans }}</span></legend>
     <div class="row">
       <div class="col-sm-3 form-group">
-        <label for="">Filtre par région</label>
+        <label for="">{{ 'degree.filter_by_region' | trans }}</label>
         <select id="regionSchoolFilter" class="form-control"></select>
       </div>
       <div class="col-sm-5 form-group">
-        <label for="">Etablissement / Ecole *</label>
+        <label for="">{{ 'menu.establishment' | trans }} / {{ 'menu.school' | trans }} *</label>
         {{ form_widget(form.school) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.school) }}</div>
       </div>
       <div class="col-sm-4 form-group hide_block_other_school">
-        <label for="">Autre établissement</label>
+        <label for="">{{ 'school.other_establishment' | trans }}</label>
         {{ form_widget(form.otherSchool) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherSchool) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-4 form-group">
-        <label for="">N° Immatriculation</label>
+        <label for="">N° {{ 'menu.registration' | trans }}</label>
         {{ form_widget(form.registrationStudentSchool) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.registrationStudentSchool) }}</div>
       </div>
       <div class="col-sm-4 form-group">
-        <label for="">Diplôme *</label>
+        <label for="">{{ 'menu.degree' | trans }} *</label>
         {{ form_widget(form.degree) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degree) }}</div>
       </div>
       <div class="col-sm-4 form-group hide_block_other_degree">
-        <label for="">Autre diplôme</label>
+        <label for="">{{ 'menu.other_degree' | trans }}</label>
         {{ form_widget(form.otherDegree) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherDegree) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 form-group">
-        <label for="">Année Session diplôme *</label>
+        <label for="">{{ 'degree.year_session_degree' | trans }} *</label>
         {{ form_widget(form.lastDegreeYear) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.lastDegreeYear) }}</div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for="">Mois Obtention diplôme *</label>
+        <label for="">{{ 'degree.month_graduation' | trans }} *</label>
         {{ form_widget(form.lastDegreeMonth) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.lastDegreeMonth) }}</div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-4 form-group">
-        <label for="">Secteur d'activité *</label>
+        <label for="">{{ 'menu.activity_area' | trans }} *</label>
         {{ form_widget(form.sectorArea) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
       </div>
       <div class="col-sm-4 form-group">
-        <label for="">Métier / Filière *</label>
+        <label for="">{{ 'menu.job' | trans }} / {{ 'menu.branch' | trans }} *</label>
         {{ form_widget(form.activity) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
       </div>
       <div class="col-sm-4 form-group hide_block_other_activity">
-        <label for="">Autre métier</label>
+        <label for="">{{ 'menu.other_trade' | trans }}</label>
         {{ form_widget(form.otherActivity) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity) }}</div>
       </div>
     </div>
   </fieldset>
   <fieldset>
-    <legend><span>Droit à la protection des données</span></legend>
+    <legend><span> {{ 'menu.right_to_data_protection' | trans }} </span></legend>
     <div class="row">
       <div class="col-sm-12 form-check">
         {% if personDegree.agreeRgpd == false %}
-          <label for="appbundle_persondegree_agreeRgpd">Cliquez sur OUI si vous acceptez de diffuser vos informations personnelles pour les statistiques (PDP) </label>
+          <label for="appbundle_persondegree_agreeRgpd"> {{ 'menu.click_yes_if_you_agree' | trans }} (PDP) </label>
         {% else %}
-          <label style="color: red" for="appbundle_persondegree_agreeRgpd">Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles, vous supprimerez l'intégralité de votre compte </label>
+          <label style="color: red" for="appbundle_persondegree_agreeRgpd"> {{ 'menu.click_no_if_you_no_longer_agree' | trans }} </label>
         {% endif %}
       </div>
     </div>
@@ -213,13 +213,13 @@
       <div class="col-sm-6 form-check persondegree_agree_rgpd">
         {{ form_widget(form.agreeRgpd) }}
         <div class="slider round">
-          <span class="non">Non</span>
-          <span class="oui">Oui</span>
+          <span class="non">{{ 'menu.no' | trans }}</span>
+          <span class="oui">{{ 'menu.yes' | trans }}</span>
         </div>
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.agreeRgpd) }}</div>
       </div>
       <div class="col-sm-6">
-        <a target="_blank" href="{{ path('rgpd_informations') }}"> informations relatives à la protection des données personnelles (PDP)</a>
+        <a target="_blank" href="{{ path('rgpd_informations') }}"> {{ 'menu.information_on_the_protection_of_personal_data_pdp' | trans }} </a>
       </div>
     </div>
   </fieldset>
@@ -247,12 +247,12 @@
   {% endfor %}
 </select>
 
-<div><span><br>* : champ obligatoire</span></div>
-<div><span>email conseillé pour répondre aux offres d'emplois</span></div>
-<div><span>l'immatriculation est en vert si elle est validée par l'établissement</span></div>
+<div><span><br>* :  {{ 'menu.required_field' | trans }} </span></div>
+<div><span>{{ 'degree.email_advised_to_reply_to_job_offers' | trans }}</span></div>
+<div><span>{{ 'degree.the_registration_is_in_green_if_it_is_validated_by_the_institution' | trans }}</span></div>
 
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="button" id="buttonPersonDegree" onclick="preventDefaultSubmit()"> Valider</button>
-  <button class="btn btn-primary" type="submit" hidden="hidden" id="submitPersonDegree"> Valider</button>
+  <button class="btn btn-primary" type="button" id="buttonPersonDegree" onclick="preventDefaultSubmit()"> {{ 'menu.validate' | trans }} </button>
+  <button class="btn btn-primary" type="submit" hidden="hidden" id="submitPersonDegree"> {{ 'menu.validate' | trans }} </button>
 </div>
 

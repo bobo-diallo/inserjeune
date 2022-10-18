@@ -7,9 +7,9 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/users.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Details
+                    {{ 'menu.detail' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('user_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box">
@@ -41,9 +41,9 @@
                         <div class="row" id="actions">
                             <div class="col-sm-6">
                                 <a class="btn btn-sm btn-primary" href="{{ path('user_edit', {'id': user.id}) }}">
-                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                                 <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('user_delete', {'id': user.id}) }}')">
-                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
                             </div>
                         </div>
                     </div>

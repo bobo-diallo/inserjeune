@@ -8,7 +8,7 @@
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon"
                      style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des entreprises qui emploient vos diplômés
+                    {{ 'company.list_of_companies_that_employ_your_graduates' | trans }}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
@@ -16,7 +16,7 @@
                             <div class="col-sm-6">
                                 <a class="btn btn-sm btn-primary" id="addCompanySchool"
                                    href="{{ path('front_school_company_index') }}">
-                                    <i class="fa fa-plus"></i> Retour à vos partenaires</a>
+                                    <i class="fa fa-plus"></i> {{ 'company.back_to_your_partners' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -24,10 +24,10 @@
                         <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Nom</th>
-                                <th>Ville</th>
-                                <th>Telephone</th>
-                                <th>Nombre d'embauchés</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'menu.city' | trans }}</th>
+                               <th>{{ 'menu.phone' | trans }}</th>
+                               <th>{{ 'company.number_of_people_hired' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -42,7 +42,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <p>Attention, cette liste provient des données des diplômés </p>
+                    <p>{{ 'school.attention_this_list_comes_from_the_graduates_data' | trans }} </p>
                 </div>
             </div>
         </div>

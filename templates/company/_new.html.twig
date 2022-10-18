@@ -1,10 +1,10 @@
 {{ form_widget(form._token) }}
 <div class="form-global">
   <fieldset>
-    <legend><span>Identité</span></legend>
+    <legend><span> {{ 'menu.identity' | trans }} </span></legend>
       <div class="row">
         <div class="form-group col-sm-6">
-          <label for=""> Nom de l'entreprise *</label>
+          <label for=""> {{ 'company.name_of_the_company' | trans }} *</label>
           {{ form_widget(form.name) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name) }}</div>
         </div>
@@ -16,44 +16,44 @@
       </div>
       <div class="row">
         <div class="form-group  col-sm-4">
-          <label for=""> Tél. de connexion (Indicatif + N°) *</label>
+          <label for=""> {{ 'company.connection_phone_code_no' | trans }} *</label>
           {{ form_widget(form.phoneStandard) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneStandard) }}</div>
         </div>
         <div class="form-group  col-sm-4">
-          <label for=""> Autre Tél. (Indicatif + N°)</label>
+          <label for=""> {{ 'company.other_phone_code_no' | trans }} </label>
           {{ form_widget(form.phoneOther) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.phoneOther) }}</div>
         </div>
         <div class="form-group col-sm-4">
-          <label for=""> Adresse Email *</label>
+          <label for=""> {{ 'menu.email' | trans }} *</label>
           {{ form_widget(form.email) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.email) }}</div>
         </div>
       </div>
   </fieldset>
   <fieldset>
-    <legend><span>Adresse</span></legend>
+    <legend><span>{{ 'menu.address' | trans }}</span></legend>
       <div class="row">
         <div class="col-sm-6 form-group">
-          <label for=""> Pays * </label>
+          <label for=""> {{ 'menu.country' | trans }} * </label>
           {{ form_widget(form.country) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
         </div>
         <div class="col-sm-6 form-group">
-          <label for="">Région / Province *</label>
+          <label for="">{{'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
           {{ form_widget(form.region) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-6 form-group">
-          <label for="">Ville (la plus proche) *</label>
+          <label for=""> {{ 'city.city_nearest' | trans }} *</label>
           {{ form_widget(form.city) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
         </div>
         <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
-          <label for=""> Autre ville</label>
+          <label for=""> {{ 'city.other_city' | trans }} </label>
           {{ form_widget(form.otherCity) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
         </div>
@@ -65,24 +65,24 @@
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber) }}</div>
         </div>
         <div class="col-sm-5 form-group">
-          <label for="">Rue</label>
+          <label for=""> {{ 'menu.street' | trans }} </label>
           {{ form_widget(form.addressRoad) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad) }}</div>
         </div>
         <div class="col-sm-5 form-group">
-          <label for=""> Localité</label>
+          <label for=""> {{ 'menu.location' | trans }} </label>
           {{ form_widget(form.addressLocality) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-4 form-group">
-          <label for=""> Latitude </label>
+          <label for=""> {{ 'menu.latitude' | trans }} </label>
           {{ form_widget(form.latitude) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.latitude) }}</div>
         </div>
         <div class="col-sm-4 form-group">
-          <label for="">Longitude</label>
+          <label for=""> {{ 'menu.longitude' | trans }} </label>
           {{ form_widget(form.longitude) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.longitude) }}</div>
         </div>
@@ -98,29 +98,29 @@
       </div>
   </fieldset>
   <fieldset>
-    <legend><span>Caractéristiques</span></legend>
+    <legend><span> {{ 'menu.characteristics' | trans }} </span></legend>
       <div class="row">
         <div class="form-group col-sm-6">
-          <label for=""> Secteur d'activité *</label>
+          <label for=""> {{ 'menu.activity_area' | trans }} *</label>
           {{ form_widget(form.sectorArea) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
         </div>
         <div class="form-group col-sm-6">
-          <label for=""> Statut juridique *</label>
+          <label for=""> {{ 'menu.legals_status' | trans }} *</label>
           {{ form_widget(form.legalStatus) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.legalStatus) }}</div>
         </div>
       </div>
   </fieldset>
   <fieldset>
-    <legend><span>Droit à la protection des données</span></legend>
+    <legend><span> {{ 'menu.right_to_data_protection' | trans }} </span></legend>
     <div class="row">
       <div class="col-sm-12 form-check">
         {#<label for=""> Vous acceptez de diffuser vos informations personnelles pour les statistiques ? </label>#}
         {% if company.agreeRgpd == false %}
-          <label for="appbundle_company_agreeRgpd">Cliquez sur OUI si vous acceptez de diffuser vos informations personnelles pour les statistiques </label>
+          <label for="appbundle_company_agreeRgpd"> {{ 'menu.click_yes_if_you_agree' | trans }} </label>
         {% else %}
-          <label style="color: red" for="appbundle_company_agreeRgpd">Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles, vous supprimerez l'intégralité de votre compte </label>
+          <label style="color: red" for="appbundle_company_agreeRgpd"> {{ 'menu.click_no_if_you_no_longer_agree' | trans }} </label>
         {% endif %}
       </div>
     </div>
@@ -128,13 +128,13 @@
       <div class="col-sm-6 form-check company_agree_rgpd">
         {{ form_widget(form.agreeRgpd) }}
         <div class="slider round">
-          <span class="non">Non</span>
-          <span class="oui">Oui</span>
+          <span class="non">{{ 'menu.no' | trans }}</span>
+          <span class="oui">{{ 'menu.yes' | trans }}</span>
         </div>
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.agreeRgpd) }}</div>
       </div>
       <div class="col-sm-6">
-        <a target="_blank" href="{{ path('rgpd_informations') }}">informations relatives à la protection des données personnelles (PDP)</a>
+        <a target="_blank" href="{{ path('rgpd_informations') }}"> {{ 'menu.information_on_the_protection_of_personal_data_pdp' | trans }} </a>
       </div>
     </div>
   </fieldset>
@@ -158,8 +158,8 @@
   <input style="display: none" value="{{ company.country.phoneCode }}" id="countryPhoneCode">
 {% endif %}
 
-<div><span><br>* : champ obligatoire</span></div>
+<div><span><br>* :  {{ 'menu.required_field' | trans }} </span></div>
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="button" id="buttonCompany" onclick="preventDefaultSubmit()"> Valider</button>
-  <button class="btn btn-primary" type="submit" id="submitCompany" hidden="hidden"> Valider</button>
+  <button class="btn btn-primary" type="button" id="buttonCompany" onclick="preventDefaultSubmit()"> {{ 'menu.validate' | trans }} </button>
+  <button class="btn btn-primary" type="submit" id="submitCompany" hidden="hidden"> {{ 'menu.validate' | trans }} </button>
 </div>

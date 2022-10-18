@@ -8,7 +8,7 @@
     <form action="{{ path('register_create_account') }}" method="post">
       {{ form_widget(form._token) }}
       <div class="form-group">
-        <label for="">  Pays</label>
+        <label for="">   {{ 'menu.country' | trans }} </label>
         {{ form_widget(form.country) }}
         <div class="pre-icon os-icon os-icon-user-male-circle"></div>
         <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
@@ -51,7 +51,7 @@
     {#</form>#}
       <div class="row form-group">
         <div class="col-xs-6 buttons-w">
-          <button class="btn btn-primary" id="submitRegister">Valider</button>
+          <button class="btn btn-primary" id="submitRegister"> {{ 'menu.validate' | trans }} </button>
         </div>
         <div class="col-xs-6 buttons-w">
           <a class="btn btn-primary" href="{{ path('logout') }}">Annuler</a>

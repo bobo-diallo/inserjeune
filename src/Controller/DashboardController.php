@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\CountryRepository;
 use App\Repository\JobOfferRepository;
 use App\Repository\RegionRepository;
-use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

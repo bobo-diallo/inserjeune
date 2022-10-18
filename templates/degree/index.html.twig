@@ -7,16 +7,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/certificate.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des Diplômes
+                    {{ 'degree.list_of_degree' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('degree_new') }}">
-                                    <i class="fa fa-plus"></i> Ajouter un diplôme</a>
+                                    <i class="fa fa-plus"></i> {{ 'degree.add_a_degree' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -26,10 +26,10 @@
                             <tr>
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
-                                <th>Intitulé</th>
-                                <th>Métier</th>
-                                <th>Niveau</th>
-                                <th>Description</th>
+                                <th>{{ 'menu.heading' | trans }}</th>
+                                <th>{{ 'menu.job' | trans }}</th>
+                                <th>{{ 'menu.level' | trans }}</th>
+                                <th>{{ 'menu.description' | trans }} </th>
                             </tr>
                             </thead>
                             <tbody>

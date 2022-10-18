@@ -10,7 +10,7 @@
                 {%  if app.user.roles|role =="Administrateur" %}
                     <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 {% endif %}
-                <h6 class="element-header">Enrollement d'entreprises</h6>
+                <h6 class="element-header">{{ 'school.enrolment_of_companies' | trans }}</h6>
                 <div class="element-box">
                     {#<script>alert("role =" + {{ app.user.roles|role }})</script>#}
                     {%  if app.user.roles|role =="Etablissement" %}
@@ -31,13 +31,13 @@
                             <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th>Nom</th>
-                                <th>Région</th>
-                                <th>Ville</th>
-                                <th>téléphone</th>
-                                <th>Email</th>
-                                <th>Secteur</th>
-                                <th>Statut juridique</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th> {{ 'menu.region' | trans }} </th>
+                                <th>{{ 'menu.city' | trans }}</th>
+                                <th>{{ 'menu.phone' | trans }}</th>
+                                <th>{{ 'menu.email' | trans }}</th>
+                                <th>{{ 'menu.sector' | trans }}</th>
+                                <th> {{ 'menu.legals_status' | trans }} </th>
                                 <th>Password</th>
                             </tr>
                             </thead>
@@ -51,8 +51,8 @@
                         </table>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">Editer tout</button>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll()">Sauvegarder Selection</button>
+                <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
+                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll()">{{ 'menu.save_selection' | trans }}</button>
             </div>
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
             <input style="display: none" id="selectedCountry" value="{{ app.user.country.id }}">

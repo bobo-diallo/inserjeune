@@ -6,82 +6,82 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <h6 class="element-header">
-                    Details
+                    {{ 'menu.detail' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('school_index') }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box form-show">
                     <fieldset>
-                        <legend><span>Identité</span></legend>
+                        <legend><span> {{ 'menu.identity' | trans }} </span></legend>
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for=""> Type: </label>
                                 <input class="form-control" disabled value="{{ school.type }}">
                             </div>
                             <div class="form-group col-sm-6">
-                                <label for=""> Nom: </label>
+                                <label for=""> {{ 'menu.name' | trans }} : </label>
                                 <input class="form-control" disabled value="{{ school.name }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                <label for=""> Immatriculation:</label>
+                                <label for=""> {{ 'menu.registration' | trans }}:</label>
                                 <input class="form-control" disabled value="{{ school.registration }}">
                             </div>
                             <div class="form-group col-sm-6">
-                                <label for=""> Date de création :</label>
+                                <label for=""> {{ 'menu.created_date' | trans }} :</label>
                                 <input class="form-control" disabled value="{{ school.createdDate|date('d/m/Y H:i') }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-12">
-                                <label for=""> Description: </label>
+                                <label for=""> {{ 'menu.description' | trans }} : </label>
                                 <textarea class="form-control" disabled >{{ school.description }}</textarea>
                             </div>
                         </div>
                     </fieldset>
 
                     <fieldset>
-                        <legend><span>Adresse</span></legend>
+                        <legend><span> {{ 'menu.address' | trans }} </span></legend>
                         <div class="row">
                             <div class="form-group col-sm-4">
-                                <label for=""> Pays: </label>
+                                <label for=""> {{ 'menu.country' | trans }} : </label>
                                 <input class="form-control" disabled value="{{ school.country }}">
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for=""> Région: </label>
+                                <label for=""> {{ 'menu.region' | trans }} : </label>
                                 <input class="form-control" disabled value="{{ school.region }}">
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for=""> Ville: </label>
+                                <label for=""> {{ 'menu.city' | trans }}: </label>
                                 <input class="form-control" disabled value="{{ school.city }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-4">
-                                <label for=""> Numéro: </label>
+                                <label for=""> {{ 'menu.number' | trans }}: </label>
                                 <input class="form-control" disabled value="{{ school.addressNumber }}">
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for=""> Rue: </label>
+                                <label for=""> {{ 'menu.street' | trans }} : </label>
                                 <input class="form-control" disabled value="{{ school.addressRoad }}">
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for=""> Localité: </label>
+                                <label for=""> {{ 'menu.location' | trans }} : </label>
                                 <input class="form-control" disabled value="{{ school.addressLocality }}">
                             </div>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend><span>Contact</span></legend>
+                        <legend><span>{{ 'menu.contact' | trans }}</span></legend>
                         <div class="row">
                             <div class="form-group col-sm-4">
-                                <label for=""> Tél. de connexion (Indicatif pays + N°) </label>
+                                <label for=""> {{ 'menu.connection_phone_country_code_number' | trans }} </label>
                                 <input class="form-control" disabled value="{{ school.phoneStandard }}">
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for=""> Autre Tél. (Indicatif pays + N°) </label>
+                                <label for=""> {{ 'menu.other_phone_country_code_number' | trans }} </label>
                                 <input class="form-control" disabled value="{{ school.phoneOther }}">
                             </div>
                             <div class="form-group col-sm-4">
@@ -91,7 +91,7 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend><span>Certificats / diplômes proposés </span></legend>
+                        <legend><span>{{ 'school.proposed_certificates_degrees' | trans }} </span></legend>
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 {#<label for="">  plusieurs choix possibles (+ touche ctrl) </label>#}
@@ -99,7 +99,7 @@
                             </div>
                             <div class="hide_flex_otherDegree col-sm-6">
                                 <div class="form-group col-sm-12" style="padding: 0">
-                                    <label for="">  Autre diplômes (séparés par une virgule si plusieurs) </label>
+                                    <label for="">  {{ 'menu.other_degree' | trans }}s (séparés par une virgule si plusieurs) </label>
                                     <input class="form-control" disabled value="{{ school.otherDegree }}">
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                             <div class="col-sm-6 form-group">
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> Secteur d'activité 1</label>
+                                        <label for=""> {{ 'menu.activity_area' | trans }} 1</label>
                                         <input class="form-control" disabled value="{{ school.sectorArea1 }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity1">
@@ -131,7 +131,7 @@
                             <div class="col-sm-6 form-group">
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> Secteur d'activité 2</label>
+                                        <label for=""> {{ 'menu.activity_area' | trans }} 2</label>
                                         <input class="form-control" disabled value="{{ school.sectorArea2 }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity2">
@@ -154,7 +154,7 @@
                             <div class="col-sm-6 form-group">
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> Secteur d'activité 3</label>
+                                        <label for=""> {{ 'menu.activity_area' | trans }} 3</label>
                                         <input class="form-control" disabled value="{{ school.sectorArea3 }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity3">
@@ -173,7 +173,7 @@
                             <div class="col-sm-6 form-group">
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> Secteur d'activité 4</label>
+                                        <label for=""> {{ 'menu.activity_area' | trans }} 4</label>
                                         <input class="form-control" disabled value="{{ school.sectorArea4 }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity4">
@@ -192,7 +192,7 @@
                             <div class="col-sm-6 form-group">
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> Secteur d'activité 5</label>
+                                        <label for=""> {{ 'menu.activity_area' | trans }} 5</label>
                                         <input class="form-control" disabled value="{{ school.sectorArea5 }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity5">
@@ -211,7 +211,7 @@
                             <div class="col-sm-6 form-group">
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> Secteur d'activité 6</label>
+                                        <label for=""> {{ 'menu.activity_area' | trans }} 6</label>
                                         <input class="form-control" disabled value="{{ school.sectorArea6 }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity6">
@@ -234,7 +234,7 @@
                                 {% if is_granted('ROLE_ADMIN') %}
                                    <a class="btn btn-sm btn-primary"
                                    href="{{ path('school_edit' | route_school, {'id': school.id}) }}"> <img
-                                        src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                        src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
 
                                    {#<button class="btn btn-sm btn-danger"#}
                                             {#onclick="deleteElement('{{ path('school_delete', {'id': school.id}) }}')"><img#}

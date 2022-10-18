@@ -7,16 +7,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des devises
+                    {{ 'currency.list_of_currencies' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('currency_new') }}">
-                                    <i class="fa fa-plus"></i> Ajouter une devise</a>
+                                    <i class="fa fa-plus"></i> {{ 'currency.add_a_currency' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -26,10 +26,10 @@
                             <tr>
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
-                                <th>Nom</th>
-                                <th>Nom ISO</th>
-                                <th>Num ISO</th>
-                                <th>Symbole ISO</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'currency.iso_name' | trans }}</th>
+                                <th>{{ 'currency.iso_number' | trans }}</th>
+                                <th>{{ 'currency.iso_symbol' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody>

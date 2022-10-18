@@ -7,13 +7,13 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon"
              style="margin-bottom: -35px;">
-        <h6 class="element-header">Liste des enquêtes d'insertion : Diplômé en recherche d'emploi</h6>
+        <h6 class="element-header">{{ 'survey.list_of_insertion_surveys_graduates_looking_for_a_job' | trans }}</h6>
         <div class="element-box">
           {% if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
             <div class="controls-above-table">
               <div class="row">
                 <div class="col-sm-6">
-                  <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                  <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                   {#<a class="btn btn-sm btn-primary" href="{{ path('satisfaction_search_new'| route_persondegree) }}">#}
                     {#<i class="fa fa-plus"></i> Nouvelle enquête d'insertion</a>#}
                 </div>
@@ -28,17 +28,17 @@
 
                 {% if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
                   <th><div><span>N°</span></div></th>
-                  <th><div><span>Nom</span></div></th>
-                  <th><div><span>Tél.</span></div></th>
+                  <th><div><span> {{ 'menu.name' | trans }} </span></div></th>
+                  <th><div><span>{{ 'menu.phone_abr' | trans }}.</span></div></th>
                 {% endif %}
 
-                <th><div><span>Date<br>Création</span></div></th>
-                <th><div><span>Date<br>Modification</span></div></th>
-                <th><div><span>Inscrit<br>Formation ?</span></div></th>
-                <th><div><span>En<br>Recherche<br>d'emploi ?</span></div></th>
-                <th><div><span>Bénévole ?</span></div></th>
-                <th><div><span>Emploi<br>refusé ?</span></div></th>
-                <th><div><span>Emploi<br>depuis<br>formation ?</span></div></th>
+                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'survey.registered_training_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'survey.looking_for_a_job_with_tag' | trans({'%tag_br%': '<br/>', '%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'survey.volunteer' | trans }}</span></div></th>
+                <th><div><span>{{ 'survey.job_rejected_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'survey.employment_since_training_with_tag' | trans({'%tag_br%': '<br/>', '%tag_br%': '<br/>'})}}</span></div></th>
               </tr>
               </thead>
               <tbody>
@@ -73,37 +73,34 @@
                   <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
 
                   {% if satisfaction.registeredTraining %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.searchWork %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.activeVolunteer %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.jobRefuse %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.jobFromFormation %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
-
-                  {#<td>{{ satisfaction.jobTime }}</td>#}
-                  {#<td>{{ satisfaction.jobNotFoundReasons[0] }}</td>#}
 
                 </tr>
               {% endfor %}

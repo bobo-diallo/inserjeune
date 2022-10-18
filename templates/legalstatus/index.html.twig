@@ -7,16 +7,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/legal-status.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Liste des statuts juridiques
+                    {{ 'legal_status.list_of_legal_statuses' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('legalstatus_new') }}">
-                                    <i class="fa fa-plus"></i> Ajouter un statut juridique</a>
+                                    <i class="fa fa-plus"></i> {{ 'legal_status.add_a_legal_status' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                             <tr>
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
-                                <th>Nom</th>
-                                <th>Description</th>
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'menu.description' | trans }} </th>
                             </tr>
                             </thead>
                             <tbody>

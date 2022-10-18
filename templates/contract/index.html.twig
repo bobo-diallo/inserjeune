@@ -7,16 +7,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/contract.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Contrats de travail
+                     {{ 'contract.employment_contracts' | trans }}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="#">Archiver</a>
+                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
                                 <a class="btn btn-sm btn-primary" href="{{ path('contract_new') }}">
-                                    <i class="fa fa-plus"></i> ajouter un contract</a>
+                                    <i class="fa fa-plus"></i> {{ 'contract.add_a_contract' | trans }} </a>
                             </div>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                             <tr>
                                 <th class="no-print">Actions</th>
                                 <th><div><span>Id</span></div></th>
-                                <th><div><span>Nom</span></div></th>
-                                <th><div><span>Description</span></div></th>
+                                <th><div><span> {{ 'menu.name' | trans }} </span></div></th>
+                                <th><div><span> {{ 'menu.description' | trans }} </span></div></th>
                             </tr>
                             </thead>
                             <tbody>

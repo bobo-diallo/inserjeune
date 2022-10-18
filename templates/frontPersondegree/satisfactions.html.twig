@@ -6,7 +6,7 @@
       {# Tableau 1 #}
       <div class="row" style="margin-left: 5px;">
         <a class="btn btn-sm btn-warning float-right" href="{{ path('front_persondegree_satisfaction_new') }}">
-          <i class="fa fa-alert"></i>Répondre aux enquêtes
+          <i class="fa fa-alert"></i>{{ 'survey.responding_to_surveys' | trans }}
         </a>
       </div>
       {#<hr>#}
@@ -14,7 +14,7 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
-          Liste des enquêtes d'insertion (En emploi)
+          {{ 'survey.list_of_insertion_surveys_in_employment' | trans }}
         </h6>
         <div class="element-box">
           <div class="table-responsive">
@@ -22,12 +22,12 @@
               {#<thead>#}
               <tr>
                 <th class="no-print">Actions</th>
-                <th><div><span>Date<br>Création</span></div></th>
-                <th><div><span>Date<br>Modification</span></div></th>
-                <th><div><span>Nom de<br>l'Entreprise</span></div></th>
-                <th><div><span>Travail<br>Satisfaisant ?</span></div></th>
-                <th><div><span>Formation<br>Satisfaisante ?</span></div></th>
-                <th><div><span>Type de Contrat</span></div></th>
+                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'company.name_of_the_company_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.work_satisfactory_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
+                <th><div><span>{{ 'menu.training_satisfactory_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
+                <th><div><span>{{ 'job.type_of_contract' | trans }}</span></div></th>
               </tr>
               {#</thead>#}
               <tbody>
@@ -43,14 +43,14 @@
                   <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
                   <td>{{ satisfaction.companyName }}</td>
                   {% if satisfaction.jobSatisfied %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
                   {% if satisfaction.trainingSatisfied %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
                   <td>{{ satisfaction.contract }}</td>
                 </tr>
@@ -66,7 +66,7 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
-          Liste des enquêtes d'insertion (En recherche d'emploi)
+          {{ 'survey.list_of_insertion_surveys_looking_for_a_job' | trans }}
         </h6>
         <div class="element-box" >
           <div class="table-responsive">
@@ -76,8 +76,8 @@
                 <th class="no-print">Actions</th>
                 {#<th><div><span>Id</span></div></th>#}
                 {#<th><div><span>Nom</span></div></th>#}
-                <th><div><span>Date<br>Création</span></div></th>
-                <th><div><span>Date<br>Modification</span></div></th>
+                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
                 <th><div><span>Inscrit<br>Formation ?</span></div></th>
                 <th><div><span>En<br>Recherche<br>d'emploi ?</span></div></th>
                 <th><div><span>Bénévole ?</span></div></th>
@@ -104,33 +104,33 @@
                   <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
 
                   {% if satisfaction.registeredTraining %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.searchWork %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.activeVolunteer %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.jobRefuse %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
 
                   {% if satisfaction.jobFromFormation %}
-                    <td>Oui</td>
+                    <td>{{ 'menu.yes' | trans }}</td>
                   {% else %}
-                    <td>Non</td>
+                    <td>{{ 'menu.no' | trans }}</td>
                   {% endif %}
                 </tr>
               {% endfor %}
@@ -145,7 +145,7 @@
       <div class="element-wrapper">
         <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
-          Liste des enquêtes d'insertion (Entrepreneur)
+          {{ 'survey.list_of_insertion_surveys_contractor' | trans }}
         </h6>
         <div class="element-box" >
           <div class="table-responsive">
@@ -153,11 +153,11 @@
               <thead>
               <tr>
                 <th class="no-print">Actions</th>
-                <th><div><span>Date<br>Création</span></div></th>
-                <th><div><span>Date<br>Modification</span></div></th>
-                <th><div><span>Métier de<br>l'Entreprise</span></div></th>
-                <th><div><span>Statut<br>juridique </span></div></th>
-                <th><div><span>Formation<br>utile ?</span></div></th>
+                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'company.company_business_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.legals_status_with_tag' | trans({'%tag_br%': '<br/>'})}} </span></div></th>
+                <th><div><span>{{ 'menu.training_useful_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
               </tr>
               </thead>
               <tbody>
@@ -171,8 +171,8 @@
                   <td>{{ satisfaction.createdDate|date('d M Y H:i') }}</td>
                   <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
                   <td>{{ satisfaction.activities | join(' | ') }}</td>
-                  <td>{% if satisfaction.legalCompany %}Oui{% else %}Non{% endif %}</td>
-                  <td>{% if satisfaction.usefulTraining %}Oui{% else %}Non{% endif %}</td>
+                  <td>{% if satisfaction.legalCompany %}{{ 'menu.yes' | trans }}{% else %}{{ 'menu.no' | trans }}{% endif %}</td>
+                  <td>{% if satisfaction.usefulTraining %}{{ 'menu.yes' | trans }}{% else %}{{ 'menu.no' | trans }}{% endif %}</td>
                 </tr>
               {% endfor %}
               </tbody>

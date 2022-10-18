@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Diplomé {% endblock %}</title>
+  <title>{% block title %}{{ 'menu.graduate' | trans }} {% endblock %}</title>
   {{ include('_head.html.twig') }}
   {% block css %}{% endblock %}
 </head>

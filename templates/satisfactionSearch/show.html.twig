@@ -7,21 +7,21 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Details
+                    {{ 'menu.detail' | trans }}
                     {% if is_granted('ROLE_ADMIN') %}
                         <a class="btn btn-sm btn-primary float-right" href="{{ path('satisfaction_search_new' | route_persondegree)  }}">
                             <i class="fa fa-plus"></i> Ajouter une enquête d'insertion : diplômé sans emploi
                         </a>
                     {% endif %}
                     <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('satisfaction_search_index' | route_persondegree) }}">
-                        <i class="fa fa-arrow-left"></i> Retour à la liste
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box form-show">
                     <form>
                         <div class="row">
                             <div class="col-sm-8 form-group">
-                                <label for=""> Diplomé </label>
+                                <label for=""> {{ 'menu.graduate' | trans }} </label>
                                 <input class="form-control" disabled value="{{ satisfactionSearch.personDegree }}">
                             </div>
                           {%  if app.user.roles|role =="ADMIN" %}
@@ -33,11 +33,11 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6 form-group">
-                                <label for=""> Date de création : </label>
+                                <label for=""> {{ 'menu.created_date' | trans }} : </label>
                                 <input class="form-control" disabled value="{{ satisfactionSearch.createdDate|date("d/m/Y H:i") }}">
                             </div>
                             <div class="col-sm-6 form-group ">
-                                <label for=""> Obtention du Diplôme</label>
+                                <label for=""> {{ 'graduate.obtaining_the_diploma' | trans }}</label>
                                 <input class="form-control" disabled value="{{ satisfactionSearch.degreeDate }}">
                             </div>
                         </div>
@@ -49,8 +49,8 @@
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -59,12 +59,12 @@
                         <div class="row">
                             <div class="col-sm-5">
                                 {% if satisfactionSearch.registeredTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> Êtes-vous inscrit à une formation ?</label>
+                                <label class="col-sm-12 col-form-label"> {{ 'survey.are_you_enrolled_in_a_course' | trans }} ?</label>
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                                 <div class="help-block form-text with-errors form-control-feedback"></div>
@@ -75,8 +75,8 @@
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                                 <div class="help-block form-text with-errors form-control-feedback"></div>
@@ -89,7 +89,7 @@
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.degree }}">
                             </div>
                             <div class="col-sm-6">
-                                <label class="col-form-label col-sm-12"> Autre diplôme ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'menu.other_degree' | trans }} ?</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.otherFormationDegreeName }}">
                             </div>
                         </div>
@@ -98,18 +98,18 @@
                             <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label class="col-form-label col-sm-12"> Secteur d'activité ?</label>
+                                        <label class="col-form-label col-sm-12"> {{ 'menu.activity_area' | trans }} ?</label>
                                         <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.sectorArea }}">
                                     </div>
                                     <div class="col-sm-12">
-                                        <label class="col-form-label col-sm-12"> Autre métier ? </label>
+                                        <label class="col-form-label col-sm-12"> {{ 'menu.other_trade' | trans }} ? </label>
                                         <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.otherFormationActivityName }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <label class="col-form-label col-sm-12">
-                                    filière choisie ?
+                                    {{ 'survey.chosen_field_of_study' | trans }}
                                 </label>
                                 <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSearch.activities | join('\n')}}</textarea>
                             </div>
@@ -118,18 +118,18 @@
                         <div class="row">
                             <div class="col-sm-4">
                               {% if satisfactionSearch.searchWork==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> Cherchez-vous du travail ?</label>
+                                <label class="col-sm-12 col-form-label"> {{ 'survey.are_you_looking_for_work' | trans }} ?</label>
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                             </div>
                             <div class="col-sm-8">
-                                <label class="col-form-label col-sm-12"> Pourquoi ? </label>
+                                <label class="col-form-label col-sm-12"> {{ 'menu.why' | trans }} ? </label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.noSearchWorkReason }}">
                             </div>
                         </div>
@@ -137,32 +137,32 @@
                         <div class="row">
                             <div class="col-sm-4">
                               {% if satisfactionSearch.activeVolunteer==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> Travaillez-vous comme volontaire/bénévole ?</label>
+                                <label class="col-sm-12 col-form-label"> T{{ 'survey.do_you_work_as_a_volunteer' | trans }} ?</label>
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                             </div>
                             <div class="col-sm-4">
-                                <label class="col-form-label col-sm-12"> Si oui, dans quel domaine ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'survey.if_yes_in_what_area' | trans }} ?</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.sectorAreaVolunteer }}">
                             </div>
                             <div class="col-sm-4">
-                                <label class="col-form-label col-sm-12"> Metier ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'menu.job' | trans }} ?</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.activityVolunteer }}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <label class="col-form-label col-sm-12"> Autre domaine ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'menu.other_field' | trans }} ?</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.otherDomainVolunteer }}">
                             </div>
                             <div class="col-sm-6">
-                                <label class="col-form-label col-sm-12"> Poste occupé ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'menu.position_held' | trans }} ?</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.jobVolunteer }}">
                             </div>
                         </div>
@@ -170,30 +170,30 @@
                         <div class="row">
                             <div class="col-sm-4">
                               {% if satisfactionSearch.jobRefuse==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> Avez-vous refusé une offre d’emploi<br>depuis la fin de votre formation ?</label>
+                                <label class="col-sm-12 col-form-label"> {{ 'have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) }}</label>
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                             </div>
                             <div class="col-sm-4">
                               {% if satisfactionSearch.jobFromFormation==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> Avez-vous occupé un emploi<br>depuis la fin de votre formation ?</label>
+                                <label class="col-sm-12 col-form-label"> {{ 'survey.have_you_held_a_job_since_completing_your_training' | trans({'%tag_br%': '<br />'}) }}</label>
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
-                                        <span class="non">Non</span>
-                                        <span class="oui">Oui</span>
+                                        <span class="non">{{ 'menu.no' | trans }}</span>
+                                        <span class="oui">{{ 'menu.yes' | trans }}</span>
                                     </div>
                                 </div>
                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                             </div>
                             <div class="col-sm-4">
-                                <label class="col-form-label col-sm-12"> Si oui, pendant combien de temps ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'survey.if_so_for_how_long' | trans }}</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.jobTime }}">
                             </div>
                         </div>
@@ -201,12 +201,12 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label class="col-form-label col-sm-12">
-                                    Pourquoi, à votre avis, n'avez-vous pas trouvé / retrouvé un travail ?
+                                    {{ 'why_do_you_think_you_haven_found_returned_to_work' | trans }}
                                 </label>
                                 <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSearch.jobNotFoundReasons | join('\n')}}</textarea>
                             </div>
                             <div class="col-sm-6">
-                                <label class="col-form-label col-sm-12"> Autre raison</label>
+                                <label class="col-form-label col-sm-12"> {{ 'menu.other_reason' | trans }}</label>
                                 <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.jobNotFoundOther }}">
                             </div>
                         </div>
@@ -217,14 +217,14 @@
                             <div class="col-sm-6">
                                 {% if is_granted('ROLE_ADMIN') == true %}
                                     <a class="btn btn-sm btn-primary" href="{{ path('satisfaction_search_edit', {'id': satisfactionSearch.id}) }}">
-                                        <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                        <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                                 {% elseif is_granted('ROLE_DIPLOME') == true%}
                                     <a class="btn btn-sm btn-primary" href="{{ path('front_persondegree_satisfaction_search_edit', {'id': satisfactionSearch.id}) }}">
-                                        <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> Modifier</a>
+                                        <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN') == true %}
                                     <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('satisfaction_search_delete', {'id': satisfactionSearch.id}) }}')">
-                                        <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">Supprimer</button>
+                                        <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
                                 {% endif %}
                             </div>
                         </div>

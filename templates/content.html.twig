@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-  {{ parent() }} Entreprises
+  {{ parent() }} {{ 'menu.companies' | trans }}
 {% endblock %}
 
 {% block navigation %}
     <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-        <li class="breadcrumb-item"><span>Entreprises</span></li>
+        <li class="breadcrumb-item"><a href="index.html">{{ 'menu.home' | trans }}</a></li>
+        <li class="breadcrumb-item"><span>{{ 'menu.companies' | trans }}</span></li>
     </ul>
 {% endblock %}
 {% block body %}
     <div class="content-i">
         <div class="content-box">
             {# Tableau 1 #}
-            <div class="element-wrapper"><h6 class="element-header">Liste des entreprises</h6>
+            <div class="element-wrapper"><h6 class="element-header">{{ 'company.list_of_companies' | trans }}</h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
                               <a class="btn btn-sm btn-primary" href="tables.html#">Export CSV</a>
-                              <a class="btn btn-sm btn-primary" href="tables.html#">Archiver</a>
+                              <a class="btn btn-sm btn-primary" href="tables.html#">{{ 'menu.archive' | trans }}</a>
                               <a class="btn btn-sm btn-primary" href="{{ path('company_new') }}">
-                                <i class="fa fa-plus"></i> Ajouter une entreprise</a>
+                                <i class="fa fa-plus"></i> {{ 'company.add_company' | trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -31,10 +31,10 @@
                         <tr>
                           <th></th>
                           <th>Id</th>
-                          <th>Nom</th>
+                          <th>{{ 'menu.name' | trans }}</th>
                           <th>Addresse</th>
-                          <th>Telephone</th>
-                          <th>Email</th>
+                         <th>{{ 'menu.phone' | trans }}</th>
+                          <th>{{ 'menu.email' | trans }}</th>
                           <th>Address Number</th>
                           <th>Addresse Road</th>
                           <th hidden>Addresse Locality</th>
