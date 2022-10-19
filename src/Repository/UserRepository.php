@@ -95,4 +95,43 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 			->getQuery()
 			->getResult();
 	}
+
+
+    /**
+     * @param string $beginPhoneNumber
+     * @return User[]
+     */
+    public function getByBeginPhoneNumber(string $beginPhoneNumber): array {
+        return $this->createQueryBuilder('u')
+            ->where('u.phone LIKE :beginPhoneNumber')
+            ->setParameter('beginPhoneNumber', $beginPhoneNumber)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param string $role
+     * @return User[]
+     */
+    public function getByRole(string $role): array {
+        // return $this->createQueryBuilder('u')
+        //     ->select('u.i')
+        //     ->join('u.profils', 'ur', 'WITH', 'ur.user_id = u.id')
+        //     ->join('u.role', 'r', 'WITH', 'ur.role_id = r.id')
+        //     ->where('r.role = :role_name ')
+        //     ->setParameter('role_name', $role)
+        //
+        //     ->getQuery()
+        //     ->getResult();
+
+        $statement = $this->_em->getConnection()->prepare('
+			SELECT u.id, u.phone
+			FROM user AS u, user_role ur, role r
+			WHERE u.id = ur.user_id 
+			  AND ur.role_id = r.id 
+			  AND r.role = :roleName
+		');
+        $result = $statement->executeQuery(['roleName' => $role]);
+        return $result->fetchAll();
+    }
 }
