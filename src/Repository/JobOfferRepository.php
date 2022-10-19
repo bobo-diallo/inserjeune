@@ -31,4 +31,15 @@ class JobOfferRepository extends ServiceEntityRepository
          ->getQuery()
          ->getResult();
    }
+
+    /**
+     * @return array
+     */
+   public function getByEmptyEndedDate() : array
+   {
+       return $this->createQueryBuilder('j')
+           ->where('j.closedDate IS NULL')
+           ->getQuery()
+           ->getResult();
+   }
 }

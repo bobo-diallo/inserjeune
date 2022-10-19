@@ -955,13 +955,6 @@ table#activity_founded th{
 .jobOfferCompanyName a:hover {
   text-decoration: none;
 }
-/*.jobOfferDesc p {
-    font-size: 14px;
-    color: #001580;
-    text-align: left;
-    margin-top: 10px;
-    margin-left: 10px;
-}*/
 
 .selection {
   width: 50px;
@@ -984,8 +977,71 @@ table#activity_founded th{
 }
 
 .purge {
-  margin-top: 50px!important;
+  margin-top: 30px!important;
 }
 .purge .kz-print-tools {
   display: none;
 }
+
+.userClean td {
+  vertical-align: bottom!important;
+  padding: 0!important;
+  margin: auto!important;
+}
+.userClean td p {
+  margin: 5px;
+  text-align: center;
+}
+
+.execute {
+  margin-top: 20px;
+}
+.execute button {
+  margin-right: 20px;
+}
+
+.userCheck,
+.offerCheck{
+  opacity: 1.0;
+  margin: auto;
+  transform: none;
+}
+
+.cleanMenu {
+  display : flex;
+  justify-content: space-around;
+}
+.cleanMenu #menuActor,
+.cleanMenu #menuOffer {
+  display : flex;
+  justify-content: space-around;
+  width: 45%;
+  border-radius: 5px ;
+  color: #ffffff;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.cleanMenu .menuDown {
+  background: #0d71bb;
+  box-shadow: none;
+}
+.cleanMenu .menuUp {
+  background: #0d3250;
+  box-shadow: 2px 2px 2px #0e4978;
+}
+
+.cleanMenu p {
+  margin: 0;
+  padding: 0;
+}
+
+#offerElement {
+  margin-top: 0;
+}
+
+.actorSearchZone {
+  overflow: hidden;
+}
+
