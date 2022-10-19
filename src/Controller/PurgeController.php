@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\JobOffer;
 use App\Entity\Role;
 use App\Entity\School;
 use App\Services\SchoolService;
@@ -13,6 +14,7 @@ use App\Repository\SchoolRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
+use App\Repository\JobOfferRepository;
 use App\Tools\Utils;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,6 +26,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
+use Symfony\Component\Validator\Constraints\Date;
 
 #[Route(path: '/purge')]
 #[Security("is_granted('ROLE_ADMIN')")]
@@ -34,6 +38,7 @@ class PurgeController extends AbstractController {
     private CompanyRepository $companyRepository;
 	private PersonDegreeRepository $personDegreeRepository;
 	private UserRepository $userRepository;
+	private JobOfferRepository $jobOfferRepository;
     private SchoolService $schoolService;
     private CompanyService $companyService;
     private PersonDegreeService $personDegreeService;
@@ -47,7 +52,8 @@ class PurgeController extends AbstractController {
         SchoolService           $schoolService,
         CompanyService          $companyService,
         PersonDegreeService     $personDegreeService,
-		UserRepository          $userRepository
+		UserRepository          $userRepository,
+		JobOfferRepository      $jobOfferRepository
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
@@ -55,6 +61,7 @@ class PurgeController extends AbstractController {
         $this->companyRepository = $companyRepository;
         $this->personDegreeRepository = $personDegreeRepository;
 		$this->userRepository = $userRepository;
+		$this->jobOfferRepository = $jobOfferRepository;
         $this->schoolService = $schoolService;
         $this->companyService = $companyService;
         $this->personDegreeService = $personDegreeService;
@@ -157,13 +164,103 @@ class PurgeController extends AbstractController {
         return new JsonResponse([$res, $err]);
     }
 
-    #[Route(path: '/purgeJobOffer', name: 'purge_job_offer', methods: ['GET', 'POST'])]
-    public function purgeJobOfferAction(Request $request): JsonResponse|Response {
+    #[Route(path: '/removeOffers', name: 'remove_offers', methods: ['GET'])]
+    public function removeOffers(Request $request): JsonResponse|Response
+    {
+        $ids = $request->query->all();
+        $offerIds = explode(',',$ids['ids']);
+        $res=[];
+        $err=[];
 
-        $datas = $request->getContent();
+        foreach ($offerIds as $offerId) {
+            $offer = $this->jobOfferRepository->find((int)$offerId);
+
+            if ($offer) {
+                try {
+                     if(count($err)==0) {
+                        $this->em->remove($offer);
+                        $this->em->flush();
+                    }
+
+                    $res[] = $offerId;
+                } catch (Exception $e){
+                    $err[] = "erreur lors de la suppression de l'offre " . $offerId . ": " . $e->getMessage();
+                }
+            } else {
+                $res[] = $offerId . ' non trouvé ';
+            }
+        }
+        return new JsonResponse([$res, $err]);
+    }
+
+    #[Route(path: '/findJobOffer', name: 'find_job_offer', methods: ['GET', 'POST'])]
+    public function findJobOfferAction(Request $request): JsonResponse|Response {
+
+        $query = $request->query->all();
+        $action = "";
+        if($query)
+            $action = $query['action'];
+
         $res = [];
+        $err = [];
+        $check = [];
+        $jobOffers = [];
 
-        return new JsonResponse($res);
+        $jobOffers = $this->jobOfferRepository->findAll();
+
+        if($action == "closedDate") {
+            $jobOffers = $this->jobOfferRepository->getByEmptyEndedDate();
+            foreach ($jobOffers as $jobOffer) {
+                if ($jobOffer->getUpdatedDate() == null) {
+                    $jobOffer->setUpdatedDate($jobOffer->getCreatedDate());
+                }
+                if ($jobOffer->getClosedDate() == null) {
+                    $date = clone $jobOffer->getUpdatedDate();
+                    $date = $date->add(new \DateInterval('P6M'));
+                    $jobOffer->setClosedDate($date->format(Utils::FORMAT_FR));
+                }
+                if(count($err)==0) {
+                    $this->em->persist($jobOffer);
+                    $this->em->flush();
+                }
+            }
+        }
+
+        if($action == "findObsoleteOffers") {
+            foreach ($jobOffers as $jobOffer) {
+                $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate());
+                $closeDate = new DateTime($closeDateStr);
+
+                //date courante moins 6 mois
+                $deleteDate = (new DateTime())->sub(new \DateInterval('P6M'));
+
+                if($closeDate < $deleteDate) {
+                    //var_dump("asup      " . $closeDate->format('Y-m-d') . ' | ' . $deleteDate->format('Y-m-d'));
+                    $check[] = $jobOffer->getId();
+                }
+                // else {
+                //     var_dump("conserver " . $closeDate->format('Y-m-d') . ' | ' . $deleteDate->format('Y-m-d'));
+                // }
+            }
+        }
+
+        foreach ($jobOffers as $jobOffer) {
+            $closeDate = "null";
+            if($jobOffer->getClosedDate() != null) {
+                $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate());
+                $closeDate = (new DateTime($closeDateStr))->format('Y-m-d');
+            }
+
+            $res[] = [
+                'id' => $jobOffer->getId(),
+                'country' => $jobOffer->getCountry()->getName(),
+                'company' => $jobOffer->getCompany()->getName(),
+                'title' => $jobOffer->getTitle(),
+                'updateDate' => $jobOffer->getUpdatedDate()->format('Y-m-d'),
+                'closedDate' => $closeDate
+            ];
+        }
+        return new JsonResponse([$res, $err, $check]);
     }
 
     public function findOrphansUser(User $user) {
