@@ -802,6 +802,28 @@ table#activity_founded th{
 #printDashboard .fa-print {
   color: #f5f5f6;
 }
+/* Geolocalisation */
+/* informations sur l'élément sélectionné */
+.infoMaps h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: darkblue;
+}
+.infoMaps p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+.infoMaps p span:first-child{
+  font-weight: bold;
+  color: darkblue;
+}
+.infoMaps p span:nth-child(2){
+  color: black;
+}
+.dataPersonDegree {
+  display: none;
+}
 
 /* Enrollment */
 #tbodyPersonDegree button,

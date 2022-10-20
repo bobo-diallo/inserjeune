@@ -178,6 +178,10 @@ class GeoLocationController extends AbstractController {
 					$company->getCountry()->getName()
 				));
 			}
+            $sectorAreaName = "";
+            if($company->getSectorArea())
+                $sectorAreaName = $company->getSectorArea()->getName();
+
 			$array[] = [
 				'type' => 'company',
 				'name' => $company->getName(),
@@ -188,7 +192,7 @@ class GeoLocationController extends AbstractController {
 				'lat' => $company->getLatitude(),
 				'lng' => $company->getLongitude(),
 				'address' => $company->getMapsAddress(),
-				'sector_area' => $company->getSectorArea()->getName()
+				'sector_area' => $sectorAreaName
 			];
 		}
 		return $array;
