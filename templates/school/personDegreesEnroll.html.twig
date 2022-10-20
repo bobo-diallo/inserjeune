@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll('')">{{ 'menu.save_selection' | trans }}</button>
+                <button class="btn btn-sm btn-primary" id="saveAll" onclick="saveAll('')">{{ 'menu.save_all' | trans }}</button>
             </div>
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
             <input style="display: none" id="selectedCountry" value="{{ app.user.country.id }}">
@@ -135,6 +135,29 @@
             }
         }
 
+        function saveAll() {
+            let rowNumber = $('#rowNumber').val();
+            let edits = [];
+            /*  sauvegarde des id à sauvegarder */
+            $('.savePersonDegree').each(function () {
+                if($(this).css("display") != "none")
+                    $id = $(this).attr('id')
+            })
+            for(let i =1; i<= rowNumber; i++)
+                if($("#save" + i).css("display") != "none")
+                    if($("#save" + i).attr("id") != null)
+                        edits.push($("#save" + i).attr("id").replace("save","")) ;
+            //console.log(edits);
+
+            if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
+                for(let i =0; i< edits.length; i++){
+                    if ($("#save" + edits[i]).css("display") != "none") {
+                        displayButton("save", edits[i], "all");
+                    }
+                }
+            }
+        }
+
         function addRowPersonDegree(assetLocationIcon) {
             let rowNumber = $('#rowNumber').val();
             rowNumber++;
@@ -144,10 +167,10 @@
             let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree'+ rowNumber + '" role="row">';
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
-            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
-            html += '        <button style="display: none"  id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
-            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
+            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
+            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
+            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
             html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="" placeholder="N° Identification"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="" placeholder="prénom"><p id="p_firstname'+ rowNumber + '"></p></td>';
@@ -212,7 +235,7 @@
             $("#edit" + rowNumber).click();
         }
 
-        function displayButton(action, rowNumber) {
+        function displayButton(action, rowNumber, type) {
             let save = "#save" + rowNumber;
             let cancel = "#cancel" + rowNumber;
             let edit = "#edit" + rowNumber;
@@ -350,7 +373,14 @@
                 /* sauvegarde */
                 /* ---------- */
                 if(check == true) {
-                    if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                    let resConfirm = false;
+                    if(type == "one") {
+                        resConfirm = true;
+                        if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                            resConfirm = false;
+                        }
+                    }
+                    if (!resConfirm) {
                         /* creation de la table des données */
                         /* -------------------------------- */
                         let personDegree = [];
@@ -429,8 +459,9 @@
                                 /* mise à jour de l'affichage des éléments en mode show */
                                 /* ---------------------------------------------------- */
                             } else {
+                                row = "#personDegree" + rowNumber;
+
                                 $(remove).css("display", "inline-block");
-                                /*personDegreeId = res[0]["id"];*/
                                 $("#p_password" + rowNumber).html(res[0]["pwd"]);
                                 $("#id" + rowNumber).text(res[0]["id"]);
                                 //console.log ("-->" + personDegreeId + " | " + res[0]["id"] + " | " + res[0]["pwd"]);

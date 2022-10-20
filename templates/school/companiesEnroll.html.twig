@@ -18,7 +18,7 @@
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-{#                                    {% set lien_images = asset('build/images/icon/')  %}#}
+                                    {#                                    {% set lien_images = asset('build/images/icon/')  %}#}
                                     <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')">Ajouter Entreprise</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
@@ -54,8 +54,7 @@
                     </div>
                 </div>
                 <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll()">{{ 'menu.save_selection' | trans }}</button>
-                <button class="btn btn-sm btn-primary" id="validImport" onclick="validImport()">{{ 'menu.valid_import' | trans }}</button>
+                <button class="btn btn-sm btn-primary" id="saveAll" onclick="saveAll()">{{ 'menu.save_all' | trans }}</button>
             </div>
             <input style="display: none" id="nbRowImported" value="0">
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
@@ -129,6 +128,29 @@
             }
         }
 
+        function saveAll() {
+            let rowNumber = $('#rowNumber').val();
+            let edits = [];
+            /*  sauvegarde des id à sauvegarder */
+            $('.saveCompany').each(function () {
+                if($(this).css("display") != "none")
+                    $id = $(this).attr('id')
+            })
+            for(let i =1; i<= rowNumber; i++)
+                if($("#save" + i).css("display") != "none")
+                    if($("#save" + i).attr("id") != null)
+                        edits.push($("#save" + i).attr("id").replace("save","")) ;
+            //console.log(edits);
+
+            if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
+                for(let i =0; i< edits.length; i++){
+                    if ($("#save" + edits[i]).css("display") != "none") {
+                        displayButton("save", edits[i], "all");
+                    }
+                }
+            }
+        }
+
         function addRowCompany(assetLocationIcon) {
             let rowNumber = $('#rowNumber').val();
             rowNumber++;
@@ -138,10 +160,10 @@
             let html = '<tr class="enrollcompany ' + colorBack + '" id="company'+ rowNumber + '" role="row">';
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
-            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
-            html += '        <button style="display: none"  id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
-            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
+            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
+            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <button style="display: none" class="saveCompany" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
+            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
             html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="" placeholder="nom"><p id="p_name'+ rowNumber + '"></p></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
@@ -192,10 +214,10 @@
             let html = '<tr class="enrollcompany ' + colorBack + '" id="company'+ rowNumber + '" role="row">';
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
-            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
-            html += '        <button style="display: none"  id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
-            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
+            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
+            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <button style="display: none" class="saveCompany"  id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ' , \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
+            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
             html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="nom"><p id="p_name'+ rowNumber + '"></p></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
@@ -229,7 +251,6 @@
             // Add option de sélection de la région de l'établissement
             ($('#selectCity' + rowNumber + " option").length === 0)
             $("#selectCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
-
 
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
@@ -338,7 +359,7 @@
             })
         }
 
-        function displayButton(action, rowNumber) {
+        function displayButton(action, rowNumber, type) {
             let save = "#save" + rowNumber;
             let cancel = "#cancel" + rowNumber;
             let edit = "#edit" + rowNumber;
@@ -463,11 +484,19 @@
                         })
                     })
                 }
+
                 //console.log("check=" + check);
                 /* sauvegarde */
                 /* ---------- */
                 if(check == true) {
-                    if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                    let resConfirm = false;
+                    if(type == "one") {
+                        resConfirm = true;
+                        if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                            resConfirm = false;
+                        }
+                    }
+                    if (!resConfirm) {
                         /* creation de la table des données */
                         /* -------------------------------- */
                         let company = [];
@@ -521,8 +550,6 @@
                             });
                         });
 
-                        //console.log(company)
-
                         /* appel ajax en get pour sauvegarder l'entreprise */
                         /* ----------------------------------------------- */
                         let dirs = window.location.href.split('/');
@@ -544,13 +571,12 @@
 
                                 /* mise à jour de l'affichage des éléments en mode show */
                                 /* ---------------------------------------------------- */
-                            } else {
-                                $("#id" + rowNumber).text();
+                            } else  {
+                                row = "#company" + rowNumber;
+
                                 $(remove).css("display", "inline-block");
-                                /*companyId = res[0]["id"];*/
                                 $("#p_password" + rowNumber).html(res[0]["pwd"]);
                                 $("#id" + rowNumber).text(res[0]["id"]);
-                                //console.log ("-->" + companyId + " | " + res[0]["id"] + " | " + res[0]["pwd"]);
 
                                 $(row).each(function () {
                                     $(this).find('input').each(function () {
@@ -562,8 +588,8 @@
                                         $(p_id).html(inputValue);
                                     });
                                     $(this).find('select option').each(function () {
-                                        if($(this).val() != "")
-                                            if($(this).attr("selected")=="selected") {
+                                        if($(this).val() != "") {
+                                            if ($(this).attr("selected") == "selected") {
                                                 /*récupération du Label en enlevant le numero du rowNumber */
                                                 companyId = $(this).parent().prop("id");
                                                 let inputValue = $(this).text();
@@ -572,12 +598,14 @@
                                                 $(p_id).text(inputValue);
                                                 //console.log(p_id + " Selected -->> " + inputValue);
                                             }
+                                        }
                                     });
                                 })
                             }
                         }, "json");
                     };
                 }
+
             } else if(action=="remove") {
                 /* appel ajax en get pour supprimer l'entreprise */
                 /* --------------------------------------------- */
@@ -612,59 +640,6 @@
             }
         };
 
-        function validImport() {
-            if (confirm("Etes vous sûr de modifier cette entrée ?")) {
-                let dirs = window.location.href.split('/');
-                let $locationRef = "";
-                for (let i = 0; i < dirs.length - 1; i++)
-                    $locationRef += dirs[i] + '/';
-                console.log($locationRef);
-
-                //console.log("Id company=" + company["id"]);
-
-                let nbRowImported = $('#nbRowImported').val();
-                if (nbRowImported == 0) {
-                    alert("Il n'y aucune donnée à valider");
-                    return;
-                }
-
-                let companies = [];
-                for (let i = 1; i <= nbRowImported; i++) {
-                    companies.push({
-                        'company_name': $(`#name${i}`).val(),
-                        'company_region': $(`#selectRegion${i}`).val(),
-                        'company_city': $(`#selectCity${i}`).val(),
-                        'company_phoneStandard': $(`#phoneStandard${i}`).val(),
-                        'company_email': $(`#email${i}`).val(),
-                        'company_selectSectorArea': $(`#selectSectorArea${i}`).val(),
-                        'company_selectLegalStatus': $(`#selectLegalStatus${i}`).val(),
-                    })
-                }
-                console.log('DATA...', companies);
-
-                $.ajax({
-                    url: $locationRef + 'validEnrollmentCompaniesByImported',
-                    type: 'POST',
-                    // dataType: 'text/json',
-                    data: {companies},
-                    success: (res) => {
-                        console.log('Import success', res);
-                    },
-                    error: (erro) => {
-                        alert('Erreur est survenu lors de la validation de l\'import');
-                    },
-                })
-                // On soumet les données
-                // $.post($locationRef + 'validEnrollmentCompaniesByImported', data).then(
-                //     (res) => {
-                //         console.log('Import success', res);
-                //     },
-                //     (error) => {
-                //         alert('Erreur est survenu lors de la validation de l\'import');
-                //     }
-                // )
-            }
-        };
     </script>
     <script>
         $(document).ready(function () {
@@ -690,8 +665,8 @@
 
             // // Gestion import CSV
             $('#importCSV').click(function (e) {
-               e.preventDefault();
-               $('#inputImportCSV').trigger('click');
+                e.preventDefault();
+                $('#inputImportCSV').trigger('click');
             });
             $('#inputImportCSV').change(function (e) {
                 e.preventDefault();
@@ -732,4 +707,3 @@
         });
     </script>
 {% endblock %}
-
