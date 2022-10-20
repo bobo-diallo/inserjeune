@@ -776,16 +776,36 @@ class FrontSchoolController extends AbstractController {
     public function cityByRegionAction(int $id): JsonResponse|Response {
 
         $cities = $this->cityRepository->getByRegionId($id);
-
-        //$region = $this->regionRepository->find($id);
-        //$cities = $region->getCities();
-        /*var_dump($cities);die();
-        $res=[];
-        foreach ($cities as $city) {
-            $data = array('name' => $city->getName(), 'id' => $city->getId());
-            $res[] = $data;
-        }*/
         return new JsonResponse($cities);
+    }
+
+    #[Route(path: '/validEnrollmentCompaniesByImported', name: 'front_school_valid_enrollment_companies_by_imported', methods: ['POST'])]
+    public function validEnrollmentCompaniesByImportedAction(Request $request): JsonResponse|Response {
+		$data = $request->request->all();
+		$country = $this->getUser()->getCountry();
+		if ($data) {
+			foreach ($data['companies'] as $companyData) {
+				$company = new Company();
+				$company->setName($companyData['company_name']);
+				$company->setCountry($country);
+
+				$phoneStandard = $companyData['company_phoneStandard'];
+				if ($this->checkPhoneSyntax($phoneStandard, $country) == 'ok') {
+
+				}
+				/*$company = (new Company())
+					->setName($companyData['company_name'])
+					->setPhoneStandard($companyData['company_phoneStandard'])
+					->setName($companyData['company_name'])
+					->setName($companyData['company_name'])
+					->setName($companyData['company_name'])
+				;*/
+			}
+		}
+		var_dump($data);
+		die();
+
+        return new JsonResponse();
     }
 
     #[Route(path: '/{id}/activityBySchoolSectorArea/', name: 'front_school_activity_by_school_sector_area', methods: ['GET'])]

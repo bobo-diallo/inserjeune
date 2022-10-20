@@ -5,21 +5,23 @@
         <div class="content-box">
             {% set rowNumber = 0 %}
             <div id="test1"></div>
-
+            {% set lien_images = asset('build/images/icon/')  %}
             <div class="element-wrapper">
                 {%  if app.user.roles|role =="Administrateur" %}
                     <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 {% endif %}
                 <h6 class="element-header">{{ 'school.enrolment_of_companies' | trans }}</h6>
+                <input id="lienImages" value="{{ lien_images }}" hidden="hidden">
                 <div class="element-box">
                     {#<script>alert("role =" + {{ app.user.roles|role }})</script>#}
                     {%  if app.user.roles|role =="Etablissement" %}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    {% set lien_images = asset('build/images/icon/')  %}
+{#                                    {% set lien_images = asset('build/images/icon/')  %}#}
                                     <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')">Ajouter Entreprise</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
+                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
 
                                     <!--a class="btn btn-sm btn-primary" href="#">Archiver</a-->
                                 </div>
@@ -53,7 +55,9 @@
                 </div>
                 <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
                 <button class="btn btn-sm btn-primary" id="editAll" onclick="saveAll()">{{ 'menu.save_selection' | trans }}</button>
+                <button class="btn btn-sm btn-primary" id="validImport" onclick="validImport()">{{ 'menu.valid_import' | trans }}</button>
             </div>
+            <input style="display: none" id="nbRowImported" value="0">
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
             <input style="display: none" id="selectedCountry" value="{{ app.user.country.id }}">
             <select style="display: none"  id="regions">
@@ -177,82 +181,160 @@
             $("#edit" + rowNumber).click();
         }
 
+        function addRowCompanyWithValue(values) {
+            let rowNumber = $('#rowNumber').val();
+            let assetLocationIcon = $('#lienImages').val();
+
+            rowNumber++;
+            $('#rowNumber').val(rowNumber);
+            let colorBack = "odd";
+
+            let html = '<tr class="enrollcompany ' + colorBack + '" id="company'+ rowNumber + '" role="row">';
+            html += '    <td class="row-actions sorting_1">';
+            html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
+            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
+            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <button style="display: none"  id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
+            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
+            html += '    </td>';
+            html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="nom"><p id="p_name'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectCity'+ rowNumber + '"></p><select required class="city" style="display:flex" value="" id="selectCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneStandard'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="Mobile 1"><p id="p_phoneStandard'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[4] + '" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '" placeholder="Sélectionnez un secteur"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectLegalStatus'+ rowNumber + '"></p><select style="display:none" required value="" id="selectLegalStatus'+ rowNumber + '"  placeholder="Sélectionnez un statut"></select></td>';
+            html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '">' + values[7] + '</p></td>';
+
+            html += '</tr>';
+
+            $('#tbodyCompany').append(html);
+            let idtest = "#edit"+ rowNumber;
+            $( idtest ).addClass( "editCompany" );
+
+            addOptionRegion(rowNumber);
+            addOptionSectorArea(rowNumber);
+            addOptionLegalStatus(rowNumber);
+
+
+            // Event
+            // Recherches de ville en fonction de la region
+            $('#selectRegion' + rowNumber).on('change', function() {
+                let $regionId = $('#selectRegion' + rowNumber + " option:selected" ).val();
+                if ($regionId) {
+                    addOptionCity($regionId, rowNumber, values[2]);
+                }
+            });
+
+            // Add option de sélection de la région de l'établissement
+            ($('#selectCity' + rowNumber + " option").length === 0)
+            $("#selectCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
+
+
+            //Lancement du mode édition
+            $("#edit" + rowNumber).click();
+
+            // Selectionn option by value
+            let regionSelectedId = '#selectRegion' + rowNumber;
+            changeSelectOptionByValue(regionSelectedId, values[1], () => alert(`La region de la ligne ${rowNumber} n'existe pas dans le system.`));
+            changeSelectOptionByValue('#selectSectorArea' + rowNumber, values[5], () => alert(`Le Secteur de la ligne ${rowNumber} n'existe pas dans le system.`));
+            changeSelectOptionByValue('#selectLegalStatus' + rowNumber, values[6], () => alert(`Le statut juridique de la ligne ${rowNumber} n'existe pas dans le system.`));
+
+        }
+
+        function changeSelectOptionByValue(selectId, textValue, callback) {
+            const $select = document.querySelector(selectId);
+            const $options = Array.from($select.options);
+            const optionToSelect = $options.find(item => item.text === textValue);
+
+            if (optionToSelect) {
+                optionToSelect.selected = true;
+                $(selectId).trigger('change');
+            } else {
+                callback();
+            }
+        }
+
         function addOptionRegion(rowNumber) {
-            $idSelected=-1;
-            if($('#selectRegion'+rowNumber+' option').length == 1 ) {
+            let $idSelected = -1;
+            if ($('#selectRegion' + rowNumber + ' option').length == 1) {
                 $idSelected = $('#selectRegion' + rowNumber + ' option:first').val();
                 $('#selectRegion' + rowNumber + ' option:first').remove();
             }
-            if($('#selectRegion'+rowNumber+' option').length == 0 ) {
-                $("#selectRegion"+rowNumber).append("<option value=\"\">Sélectionnez</option>");
+            if ($('#selectRegion' + rowNumber + ' option').length == 0) {
+                $("#selectRegion" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
                 $("#regions option").each(function (option) {
-                    if($idSelected == $(this).val())
-                        $("#selectRegion"+rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    if ($idSelected == $(this).val())
+                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                     else
-                        $("#selectRegion"+rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                 });
             }
         }
+
         function addOptionSectorArea(rowNumber) {
-            $idSelected=-1;
-            if($('#selectSectorArea'+rowNumber+' option').length == 1 ) {
+            let $idSelected = -1;
+            if ($('#selectSectorArea' + rowNumber + ' option').length == 1) {
                 $idSelected = $('#selectSectorArea' + rowNumber + ' option:first').val();
                 $('#selectSectorArea' + rowNumber + ' option:first').remove();
             }
 
-            if($('#selectSectorArea'+rowNumber+' option').length == 0 ) {
-                $("#selectSectorArea"+rowNumber).append("<option value=\"\">Sélectionnez</option>");
+            if ($('#selectSectorArea' + rowNumber + ' option').length == 0) {
+                $("#selectSectorArea" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
                 $("#sectorAreas option").each(function (option) {
-                    if($idSelected == $(this).val())
-                        $("#selectSectorArea"+rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    if ($idSelected == $(this).val())
+                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                     else
-                        $("#selectSectorArea"+rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                 });
             }
         }
 
         function addOptionLegalStatus(rowNumber) {
-            $idSelected=-1;
-            if($('#selectLegalStatus'+rowNumber+' option').length == 1 ) {
+            let $idSelected = -1;
+            if ($('#selectLegalStatus' + rowNumber + ' option').length == 1) {
                 $idSelected = $('#selectLegalStatus' + rowNumber + ' option:first').val();
                 $('#selectLegalStatus' + rowNumber + ' option:first').remove();
             }
 
-            if($('#selectLegalStatus'+rowNumber+' option').length == 0 ) {
-                $("#selectLegalStatus"+rowNumber).append("<option value=\"\">Sélectionnez</option>");
+            if ($('#selectLegalStatus' + rowNumber + ' option').length == 0) {
+                $("#selectLegalStatus" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
                 $("#legalStatus option").each(function (option) {
-                    //console.log("option:" + $(this).val() );
-                    if($idSelected == $(this).val())
+                    if ($idSelected == $(this).val())
 
-                        $("#selectLegalStatus"+rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectLegalStatus" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                     else
-                        $("#selectLegalStatus"+rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectLegalStatus" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                 });
             }
         }
 
-        function addOptionCity($region, rowNumber) {
+        function addOptionCity($region, rowNumber, optionValue) {
             let dirs = window.location.href.split('/');
             let $locationRef = "";
-            for (let i = 0; i < dirs.length - 1; i++)
+            for (let i = 0; i < dirs.length - 1; i++) {
                 $locationRef += dirs[i] + '/';
-            //console.log($locationRef + $region + '/cityByRegion');
+            }
 
             // appel Ajax sur bdd
             $.get($locationRef + $region + '/cityByRegion').done(function (cities) {
                 // recupere le Id du city existant
-                $idSelected=-1;
-                if($('#selectCity'+rowNumber+' option').length == 1 ) {
+                let $idSelected = -1;
+                if ($('#selectCity' + rowNumber + ' option').length == 1) {
                     $idSelected = $('#selectCity' + rowNumber + ' option:first').val();
                     $('#selectCity' + rowNumber + ' option:first').remove();
                 }
-                $("#selectCity"+rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                $("#selectCity" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
                 cities.forEach((city) => {
-                    if($idSelected == city['id'])
-                        $("#selectCity"+rowNumber).append("<option selected value=\"" + city['id'] + "\">" + city['name'] + "</option>");
+                    if ($idSelected == city['id'])
+                        $("#selectCity" + rowNumber).append("<option selected value=\"" + city['id'] + "\">" + city['name'] + "</option>");
                     else
-                        $("#selectCity"+rowNumber).append("<option value=\"" + city['id'] + "\">" + city['name'] + "</option>");
-                })
+                        $("#selectCity" + rowNumber).append("<option value=\"" + city['id'] + "\">" + city['name'] + "</option>");
+                });
+
+                if (optionValue !== undefined) {
+                    changeSelectOptionByValue('#selectCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
+                }
             })
         }
 
@@ -263,7 +345,7 @@
             let remove = "#remove" + rowNumber;
 
             /* récupération de l'id de l'entreprise si existant */
-            companyId = $("#id" + rowNumber).text();
+            let companyId = $("#id" + rowNumber).text();
 
             /* test si tout les champs sont remplis */
             /* ------------------------------------ */
@@ -529,6 +611,60 @@
                 }
             }
         };
+
+        function validImport() {
+            if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                let dirs = window.location.href.split('/');
+                let $locationRef = "";
+                for (let i = 0; i < dirs.length - 1; i++)
+                    $locationRef += dirs[i] + '/';
+                console.log($locationRef);
+
+                //console.log("Id company=" + company["id"]);
+
+                let nbRowImported = $('#nbRowImported').val();
+                if (nbRowImported == 0) {
+                    alert("Il n'y aucune donnée à valider");
+                    return;
+                }
+
+                let companies = [];
+                for (let i = 1; i <= nbRowImported; i++) {
+                    companies.push({
+                        'company_name': $(`#name${i}`).val(),
+                        'company_region': $(`#selectRegion${i}`).val(),
+                        'company_city': $(`#selectCity${i}`).val(),
+                        'company_phoneStandard': $(`#phoneStandard${i}`).val(),
+                        'company_email': $(`#email${i}`).val(),
+                        'company_selectSectorArea': $(`#selectSectorArea${i}`).val(),
+                        'company_selectLegalStatus': $(`#selectLegalStatus${i}`).val(),
+                    })
+                }
+                console.log('DATA...', companies);
+
+                $.ajax({
+                    url: $locationRef + 'validEnrollmentCompaniesByImported',
+                    type: 'POST',
+                    // dataType: 'text/json',
+                    data: {companies},
+                    success: (res) => {
+                        console.log('Import success', res);
+                    },
+                    error: (erro) => {
+                        alert('Erreur est survenu lors de la validation de l\'import');
+                    },
+                })
+                // On soumet les données
+                // $.post($locationRef + 'validEnrollmentCompaniesByImported', data).then(
+                //     (res) => {
+                //         console.log('Import success', res);
+                //     },
+                //     (error) => {
+                //         alert('Erreur est survenu lors de la validation de l\'import');
+                //     }
+                // )
+            }
+        };
     </script>
     <script>
         $(document).ready(function () {
@@ -544,10 +680,53 @@
             // Recherches de ville en fonction de la region
             $('.selectRegion').on('change', function() {
                 id= $(this).attr("id").replaceAll("selectRegion","");
-                $regionId = $('#selectRegion' + id + " option:selected" ).val();
+                let $regionId = $('#selectRegion' + id + " option:selected" ).val();
                 if($regionId) {
                     addOptionCity($regionId, id);
                     $("#selectAddressCity"+id).find('option').remove();
+                }
+            });
+
+
+            // // Gestion import CSV
+            $('#importCSV').click(function (e) {
+               e.preventDefault();
+               $('#inputImportCSV').trigger('click');
+            });
+            $('#inputImportCSV').change(function (e) {
+                e.preventDefault();
+                let file = document.getElementById("inputImportCSV").files[0];
+
+                if (file) {
+                    let reader = new FileReader();
+                    reader.readAsText(file, 'UTF-8');
+
+                    reader.onload = function (evt) {
+                        let data = evt.target.result.split("\n");
+                        // Valid file
+                        let header = data[0];
+                        let validHeader = '"Nom","Région","Ville","Téléphone","Email","Secteur","Statut juridique"';
+                        if (header !== validHeader) {
+                            alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                            return;
+                        }
+
+                        data.shift();
+                        data.forEach(function (row) {
+                            if (row) {
+                                let columnData = row.split(',').map(function (item) {
+                                    return item.replace(/['"]+/g, '');
+                                });
+                                addRowCompanyWithValue(columnData);
+                            }
+
+                        });
+
+                        $('#nbRowImported').val(data.length - 1);
+                    }
+                    reader.onerror = function (e) {
+                        alert('Le fichier contient des erreurs');
+                    }
                 }
             });
         });
