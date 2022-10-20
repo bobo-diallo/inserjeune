@@ -57,7 +57,11 @@ class SecurityController extends AbstractController
 	#[Route('/change_locale/{locale}', name: 'change_locale', methods: ['GET'])]
 	public function changeLocale(string $locale, Request $request): Response
 	{
-		$route = $this->router->matchRequest(Request::create($request->headers->get('referer')));
+		$host = $request->headers->get('host');
+		$referer = $request->headers->get('referer');
+		$route = substr($referer, strpos($referer, $host) + strlen($host));
+		$route = $this->router->matchRequest(Request::create($route));
+
 		$request->getSession()->set('_locale', $locale);
 		$request->setLocale($locale);
 		$routePath = $this->router->generate($route['_route'], ['_locale' => $locale]);
