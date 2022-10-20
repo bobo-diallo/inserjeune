@@ -6,14 +6,16 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    {% if app.request.pathinfo == '/front/school/companies'%}
-                    {{ 'company.list_of_partner_companies' | trans }}
-                    {% elseif app.request.pathinfo == '/front/school/all_companies'%}
-                    {{ 'menu.company.list_of_all_companies' | trans }}
+                    {% if app.request.attributes.get('_route') == 'front_school_company_index'%}
+                        {{ 'company.list_of_partner_companies' | trans }}
+                    {% elseif app.request.attributes.get('_route') == 'front_school_all_company_index'%}
+                        {{ 'menu.company.list_of_all_companies' | trans }}
                     {% else %}
                         {{ 'company.list_of_companies' | trans }}
                     {%  endif %}
                 </h6>
+
+
                 <div class="element-box">
                     {%  if app.user.roles|role == 'Administrateur' %}
                         <div class="controls-above-table">
@@ -28,7 +30,7 @@
                             </div>
                         </div>
                     {%  elseif app.user.roles|role == 'Etablissement' %}
-                        {% if app.request.pathinfo == '/front/school/companies'%}
+                        {% if app.request.attributes.get('_route') == 'front_school_company_index'%}
                             <div class="controls-above-table">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -39,7 +41,7 @@
                                     </div>
                                 </div>
                             </div>
-                        {% elseif app.request.pathinfo == '/front/school/all_companies'%}
+                        {% elseif app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                             <div class="controls-above-table">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -57,7 +59,7 @@
                                 {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
                                     <th class="no-print">Actions</th>
                                 {% elseif app.user.roles|role == "Etablissement" %}
-                                    {% if app.request.pathinfo == '/front/school/all_companies'%}
+                                    {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                                         <th>Selection</th>
                                     {% endif %}
                                 {% endif %}
@@ -107,7 +109,7 @@
                                         <td><a href="{{ path('company_show', { 'id': company.id }) }}">{{ company.id }}</a></td>
                                     {% endif %}
                                     {% if app.user.roles|role == "Etablissement" %}
-                                        {% if app.request.pathinfo == "/front/school/all_companies" %}
+                                        {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                                             <td>
                                                 <div class="checkbox-inline" style="text-align:center;">
                                                     <input style="opacity: 1.0; margin: auto; transform: none" type="checkbox" class="updateCompanySchool" id="companySchool{{ company.id }}" >
@@ -135,7 +137,7 @@
             </div>
         </div>
         {% if app.user.roles | role == 'Etablissement' %}
-            {% if app.request.pathinfo == '/front/school/all_companies'%}
+            {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                 <select hidden id="selectedCompanies">
                     {% for company in selectedCompanies %}
                         <option value="{{ company.id }}">{{ company.name }}</option>
