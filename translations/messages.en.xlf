@@ -437,6 +437,10 @@
         <source>menu.save_selection</source>
         <target>Save_selection</target>
       </trans-unit>
+      <trans-unit id="menu.valid_import">
+        <source>menu.valid_import</source>
+        <target>Valid import</target>
+      </trans-unit>
       <trans-unit id="menu.waiting_6_months">
         <source>menu.waiting_6_months</source>
         <target>Waiting_6_months</target>
