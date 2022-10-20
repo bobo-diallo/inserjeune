@@ -441,6 +441,10 @@
         <source>menu.forgot_your_password</source>
         <target>Forgot your password ?</target>
       </trans-unit>
+      <trans-unit id="menu.save_all">
+        <source>menu.save_all</source>
+        <target>Save_all</target>
+      </trans-unit>
       <trans-unit id="menu.save_selection">
         <source>menu.save_selection</source>
         <target>Save_selection</target>
