@@ -73,6 +73,10 @@
         <source>menu.your_graduate</source>
         <target>Your_graduate</target>
       </trans-unit>
+      <trans-unit id="menu.your_partners">
+        <source>menu.your_partners</source>
+        <target>Your partners</target>
+      </trans-unit>
       <trans-unit id="menu.dashboard">
         <source>menu.dashboard</source>
         <target>Dashboard</target>
@@ -288,6 +292,10 @@
       <trans-unit id="menu.job_offer">
         <source>menu.job_offer</source>
         <target>Job_offer</target>
+      </trans-unit>
+      <trans-unit id="menu.job_offers">
+        <source>menu.job_offers</source>
+        <target>Job offers</target>
       </trans-unit>
       <trans-unit id="menu.branch">
         <source>menu.branch</source>

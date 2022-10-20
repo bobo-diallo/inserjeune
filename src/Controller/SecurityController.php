@@ -60,6 +60,11 @@ class SecurityController extends AbstractController
 		$host = $request->headers->get('host');
 		$referer = $request->headers->get('referer');
 		$route = substr($referer, strpos($referer, $host) + strlen($host));
+		$baseUrl = $this->router->getContext()->getBaseUrl();
+		if ($baseUrl) {
+			$route = substr($route, strpos($route, $baseUrl) + strlen($baseUrl));
+		}
+
 		$route = $this->router->matchRequest(Request::create($route));
 
 		$request->getSession()->set('_locale', $locale);

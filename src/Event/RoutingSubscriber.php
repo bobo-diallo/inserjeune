@@ -81,6 +81,10 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 				die();
 			}
 
+			if ($route === 'change_locale') {
+				return;
+			}
+
 			// Empêcher un diplomé de faire autre autre chose tant qu'il n'a pas créer son profil
 			if ($route != 'front_company_new') {
 				$company = $this->_getCompany();
@@ -115,6 +119,10 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 
 			// Empêcher un diplomé de faire autre autre chose tant qu'il n'a pas créer son profil
 			$route = $this->_getGoodRoute($event);
+
+			if ($route === 'change_locale') {
+				return;
+			}
 
 			if ($route != 'front_persondegree_new') {
 				$personDegree = $this->_getPersonDegree();
@@ -152,6 +160,9 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 			$route = $this->_getGoodRoute($event);
 			$school = $this->_getSchool();
 
+			if ($route === 'change_locale') {
+				return;
+			}
 			// Empêcher un diplomé de faire autre autre chose tant qu'il n'a pas créer son profil
 			if ($route != 'front_school_new') {
 				// Forcer le diplomé à completer son profil
@@ -159,7 +170,8 @@ final class RoutingSubscriber implements EventSubscriberInterface {
 						'rgpd_informations',
 						'person_degree_update_api',
 						'api',
-						'check_logout_school'
+						'check_logout_school',
+						'change_locale'
 					])) {
 					if (stristr($route, 'user_delete') === false && stristr($route, 'check_logout') === false) {
 						$this->requestStack->getSession()->getFlashBag()->set('warning', 'Veuillez completer votre profil');
