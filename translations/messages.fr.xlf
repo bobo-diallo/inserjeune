@@ -73,6 +73,10 @@
         <source>menu.your_graduate</source>
         <target>Vos diplômés</target>
       </trans-unit>
+      <trans-unit id="menu.your_partners">
+        <source>menu.your_partners</source>
+        <target>Vos partenaires</target>
+      </trans-unit>
       <trans-unit id="menu.dashboard">
         <source>menu.dashboard</source>
         <target>Tableau de bord</target>
@@ -288,6 +292,10 @@
       <trans-unit id="menu.job_offer">
         <source>menu.job_offer</source>
         <target>Offre d'emploi</target>
+      </trans-unit>
+      <trans-unit id="menu.job_offers">
+        <source>menu.job_offers</source>
+        <target>Offres d'emploi</target>
       </trans-unit>
       <trans-unit id="menu.branch">
         <source>menu.branch</source>

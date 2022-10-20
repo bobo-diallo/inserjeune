@@ -34,7 +34,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/users.png') }}" alt="satisfaction">
               </div>
-              <span>Compte</span>
+              <span>{{ 'menu.account' | trans }}</span>
             </a>
           </li>
           <li>
@@ -43,7 +43,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/degree.png') }}" alt="persondegrees">
               </div>
-              <span>Vos diplômés</span>
+              <span>{{ 'menu.your_graduate' | trans }}</span>
             </a>
           </li>
           <li>
@@ -51,7 +51,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="companies">
               </div>
-              <span>Vos partenaires</span>
+              <span>{{ 'menu.your_partners' | trans }}</span>
             </a>
           </li>
           <li>
@@ -59,7 +59,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
               </div>
-              <span>Offres d'emploi</span>
+              <span>{{ 'menu.job_offers' | trans }}</span>
             </a>
           </li>
           <li>
@@ -67,7 +67,7 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/degree-enroll.png') }}" alt="adddegree">
               </div>
-              <span>{{ 'Enrollement Diplômés'|trans }}</span>
+              <span>{{ 'menu.enrollment_graduates'|trans }}</span>
             </a>
           </li>
           <li>
@@ -91,9 +91,10 @@
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
               </div>
-              <span>{{ 'Tableau de bord'|trans }}</span>
+              <span>{{ 'menu.dashboard'|trans }}</span>
             </a>
           </li>
+          {{ include('_menu_translation_left.html.twig') }}
           <li class="has-sub-menu">
             <a href="#">
               <div class="icon-w">

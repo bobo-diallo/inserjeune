@@ -128,10 +128,10 @@
       <span>{{ 'menu.language' | trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.french' | trans }} 🇫🇷</a></li>
-      <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.english' | trans }} 🇺🇸</a></li>
-      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.spanish' | trans }} 🇪🇸</a></li>
-      <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.portuguese' | trans }} 🇵🇹</a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.french' | trans }} <img src="{{ asset('build/images/icon/country/fr.png') }}" alt="French"></a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.english' | trans }} <img src="{{ asset('build/images/icon/country/en.png') }}" alt="English"></a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.spanish' | trans }} <img src="{{ asset('build/images/icon/country/es.png') }}" alt="English"></a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.portuguese' | trans }} <img src="{{ asset('build/images/icon/country/pt.png') }}" alt="English"></a></li>
     </ul>
   </li>
   {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}

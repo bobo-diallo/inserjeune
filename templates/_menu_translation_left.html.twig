@@ -1,0 +1,14 @@
+<li class="has-sub-menu">
+  <a href="#">
+    <div class="icon-w">
+      <img src="{{ asset('build/images/icon/locality.png') }}" alt="langue">
+    </div>
+    <span>{{ 'menu.language' | trans }}</span>
+  </a>
+  <ul class="sub-menu">
+    <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.french' | trans }} <img src="{{ asset('build/images/icon/country/fr.png') }}" alt="French"></a></li>
+    <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.english' | trans }} <img src="{{ asset('build/images/icon/country/en.png') }}" alt="English"></a></li>
+    <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.spanish' | trans }} <img src="{{ asset('build/images/icon/country/es.png') }}" alt="English"></a></li>
+    <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.portuguese' | trans }} <img src="{{ asset('build/images/icon/country/pt.png') }}" alt="English"></a></li>
+  </ul>
+</li>
