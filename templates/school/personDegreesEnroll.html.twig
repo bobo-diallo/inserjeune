@@ -18,7 +18,7 @@
                                     {% set lien_images = asset('build/images/icon/')  %}
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
-                                    <!--a class="btn btn-sm btn-primary" href="#">Archiver</a-->
+                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
                                 </div>
                             </div>
                         </div>
@@ -214,6 +214,94 @@
                     $("#selectActivity"+rowNumber).find('option').remove();
                 }
             });
+
+            // Add des options des diplômes de l'établissement
+            if($('#selectDegree' + rowNumber + " option").length == 0)
+                addOptionDegree(rowNumber);
+
+            // Add des options des SectorAreas de l'établissement
+            if($('#selectSectorArea' + rowNumber + " option").length == 0)
+                addOptionSectorArea(rowNumber);
+
+            // Add option de sélection de la région de l'établissement
+            ($('#selectAddressCity' + rowNumber + " option").length == 0)
+            $("#selectAddressCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
+
+            // Add option de sélection du SectorAreas de l'établissement
+            if($('#selectActivity' + rowNumber + " option").length == 0)
+                $("#selectActivity"+rowNumber).append("<option value=\"\">Sélectionnez un secteur</option>");
+
+            //Lancement du mode édition
+            $("#edit" + rowNumber).click();
+        }
+
+        function addRowPersonDegreeWithValue(values) {
+            let rowNumber = $('#rowNumber').val();
+            rowNumber++;
+            $('#rowNumber').val(rowNumber);
+            let colorBack = "odd";
+
+            let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree'+ rowNumber + '" role="row">';
+            html += '    <td class="row-actions sorting_1">';
+            html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
+            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
+            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
+            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
+            html += '    </td>';
+            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="N° Identification"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="prénom"><p id="p_firstname'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="nom"><p id="p_lastname'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" type="Date" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
+            //html += '    <td class="tdinput"><input id="sex'+ rowNumber + '" style="display:none" placeholder="genre"><p></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>Selectionnez</option><option>un homme</option><option>une femme</option></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" value="' + values[6] + '" id="selectAddressCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="" placeholder="Mobile 1"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="Mobile 1"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required value="' + values[9] + '" id="selectDegree'+ rowNumber + '" ></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="' + values[10] + '" id="selectSectorArea'+ rowNumber + '"  placeholder="Sélectionnez un secteur"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required value="' + values[11] + '" id="selectActivity'+ rowNumber + '"  placeholder="Sélectionnez une filière"></select></td>';
+            html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
+
+            html += '</tr>';
+
+            $('#tbodyPersonDegree').append(html);
+            let idtest = "#edit"+ rowNumber;
+            $( idtest ).addClass( "editPersonDegree" );
+            addOptionRegion(rowNumber);
+
+            // Event
+            // Recherches de ville en fonction de la region
+            $('#selectRegion' + rowNumber).on('change', function() {
+                $regionId = $('#selectRegion' + rowNumber + " option:selected" ).val();
+                if($regionId) {
+                    addOptionCity($regionId, rowNumber, values[5] );
+                }
+            });
+
+            // Event
+            // Recherches des filières en fonction des secteurs
+            $('#selectSectorArea' + rowNumber).on('change', function() {
+                $sectorAreaId = $('#selectSectorArea' + rowNumber + " option:selected" ).val();
+                if($sectorAreaId) {
+                    addOptionActivity($sectorAreaId, rowNumber);
+                    $("#selectActivity"+rowNumber).find('option').remove();
+                }
+            });
+            ' + values[4] + '
+            // Add des options du genre
+            if(values[4] == "un homme") {
+                $("#selectSex" + rowNumber).append("<option selected value=\"\">un homme</option>");
+                $("#selectSex" + rowNumber).append("<option value=\"\">une femme</option>");
+            } else {
+                $("#selectSex" + rowNumber).append("<option value=\"\">un homme</option>");
+                $("#selectSex" + rowNumber).append("<option selected value=\"\">une femme</option>");
+            }
+
+            if($('#selectDegree' + rowNumber + " option").length == 0)
+                addOptionDegree(rowNumber);
 
             // Add des options des diplômes de l'établissement
             if($('#selectDegree' + rowNumber + " option").length == 0)
@@ -672,6 +760,49 @@
                 if($sectorAreaId) {
                     addOptionActivity($sectorAreaId, id);
                     $("#selectActivity"+id).find('option').remove();
+                }
+            });
+
+
+            // // Gestion import CSV
+            $('#importCSV').click(function (e) {
+                e.preventDefault();
+                $('#inputImportCSV').trigger('click');
+            });
+            $('#inputImportCSV').change(function (e) {
+                e.preventDefault();
+                let file = document.getElementById("inputImportCSV").files[0];
+
+                if (file) {
+                    let reader = new FileReader();
+                    reader.readAsText(file, 'UTF-8');
+
+                    reader.onload = function (evt) {
+                        let data = evt.target.result.split("\n");
+                        // Valid file
+                        let header = data[0];
+                        let validHeader = '"immatriculation","prénom","nom","date naissance","genre","région","ville","portable","portable parent","email","diplôme","secteur","filière"';
+                        if (header !== validHeader) {
+                            alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                            return;
+                        }
+
+                        data.shift();
+                        data.forEach(function (row) {
+                            if (row) {
+                                let columnData = row.split(',').map(function (item) {
+                                    return item.replace(/['"]+/g, '');
+                                });
+                                addRowPersonDegreeWithValue(columnData);
+                            }
+
+                        });
+
+                        $('#nbRowImported').val(data.length - 1);
+                    }
+                    reader.onerror = function (e) {
+                        alert('Le fichier contient des erreurs');
+                    }
                 }
             });
         });
