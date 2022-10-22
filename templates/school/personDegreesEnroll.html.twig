@@ -4,18 +4,19 @@
     <div class="content-i">
         <div class="content-box">
             {% set rowNumber = 0 %}
+            {% set lien_images = asset('build/images/icon/')  %}
             <div class="element-wrapper">
                 {%  if app.user.roles|role =="Administrateur" %}
                     <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 {% endif %}
-                <h6 class="element-header">Enrollement de diplômés</h6>
+                <h6 class="element-header">{{ 'school.enrolment_of_graduates' | trans }}</h6>
+                <input id="lienImages" value="{{ lien_images }}" hidden="hidden">
                 <div class="element-box">
                     {#<script>alert("role =" + {{ app.user.roles|role }})</script>#}
                     {%  if app.user.roles|role =="Etablissement" %}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    {% set lien_images = asset('build/images/icon/')  %}
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
@@ -31,17 +32,17 @@
                                 <th>{{ 'menu.registration' | trans }}</th>
                                 <th>{{ 'menu.firstname' | trans }}</th>
                                 <th>{{ 'menu.name' | trans }}</th>
-                                <th>Date<br>Naissance</th>
-                                <th>Genre</th>
+                                <th>{{ 'menu.date_of_birth_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
+                                <th> {{ 'menu.gender' | trans }} </th>
                                 <th> {{ 'menu.region' | trans }} </th>
                                 <th>{{ 'menu.city' | trans }}</th>
                                 <th>{{ 'menu.cell_phone' | trans }}</th>
-                                <th>portable parent</th>
+                                <th>{{ 'menu.parent_cell_phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
                                 <th>{{ 'menu.degree' | trans }}</th>
                                 <th>{{ 'menu.sector' | trans }}</th>
                                 <th>{{ 'menu.branch' | trans }}</th>
-                                <th>Password</th>
+                                <th>{{ 'menu.password' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody id="tbodyPersonDegree">
@@ -92,7 +93,7 @@
             let rowNumber = $('#rowNumber').val();
             if($("#save1").css("display") == "none") {
                 for (let i = 1; i <= rowNumber; i++) {
-                    row = $("#edit" + i ).attr('id').replace("edit","#personDegree");
+                    let row = $("#edit" + i ).attr('id').replace("edit","#personDegree");
 
                     $("#save" + i).css("display", "inline-block");
                     $("#cancel" + i).css("display", "inline-block");
@@ -113,7 +114,7 @@
                 }
             } else {
                 for (let i = 1; i <= rowNumber; i++) {
-                    row = $("#edit" + i ).attr('id').replace("edit","#personDegree");
+                    let row = $("#edit" + i ).attr('id').replace("edit","#personDegree");
 
                     $("#save" + i).css("display", "none");
                     $("#cancel" + i).css("display", "none");
@@ -138,23 +139,24 @@
         function saveAll() {
             let rowNumber = $('#rowNumber').val();
             let edits = [];
-            /*  sauvegarde des id à sauvegarder */
-            $('.savePersonDegree').each(function () {
-                if($(this).css("display") != "none")
-                    $id = $(this).attr('id')
-            })
-            for(let i =1; i<= rowNumber; i++)
-                if($("#save" + i).css("display") != "none")
-                    if($("#save" + i).attr("id") != null)
-                        edits.push($("#save" + i).attr("id").replace("save","")) ;
-            //console.log(edits);
 
-            if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
-                for(let i =0; i< edits.length; i++){
-                    if ($("#save" + edits[i]).css("display") != "none") {
-                        displayButton("save", edits[i], "all");
+            for (let i = 1; i <= rowNumber; i++) {
+                let saveId = $('#save' + i);
+                if (saveId.css('display') != 'none' && saveId.attr('id') != null) {
+                    edits.push(saveId.attr('id').replace('save', ''));
+                }
+            }
+
+            if (edits.length > 0) {
+                if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
+                    for (let i = 0; i < edits.length; i++) {
+                        if ($('#save' + edits[i]).css('display') != 'none') {
+                            displayButton('save', edits[i], 'all');
+                        }
                     }
                 }
+            } else {
+                alert("Il n'y a aucune entrée à  valider");
             }
         }
 
@@ -237,10 +239,13 @@
 
         function addRowPersonDegreeWithValue(values) {
             let rowNumber = $('#rowNumber').val();
+            let assetLocationIcon = $('#lienImages').val();
+
             rowNumber++;
             $('#rowNumber').val(rowNumber);
             let colorBack = "odd";
 
+            // debugger;
             let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree'+ rowNumber + '" role="row">';
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
@@ -252,17 +257,16 @@
             html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="N° Identification"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="prénom"><p id="p_firstname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="nom"><p id="p_lastname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" type="Date" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
-            //html += '    <td class="tdinput"><input id="sex'+ rowNumber + '" style="display:none" placeholder="genre"><p></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>Selectionnez</option><option>un homme</option><option>une femme</option></select></td>';
+            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>Selectionnez</option><option value="un homme">un homme</option><option value="une femme">une femme</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" value="' + values[6] + '" id="selectAddressCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="" placeholder="Mobile 1"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="Mobile 1"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required value="' + values[9] + '" id="selectDegree'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="' + values[10] + '" id="selectSectorArea'+ rowNumber + '"  placeholder="Sélectionnez un secteur"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required value="' + values[11] + '" id="selectActivity'+ rowNumber + '"  placeholder="Sélectionnez une filière"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="selectAddressCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="Mobile 1"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="Mobile 1"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[9] + '" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required id="selectDegree'+ rowNumber + '" ></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required id="selectSectorArea'+ rowNumber + '"  placeholder="Sélectionnez un secteur"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required id="selectActivity'+ rowNumber + '"  placeholder="Sélectionnez une filière"></select></td>';
             html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
 
             html += '</tr>';
@@ -271,57 +275,51 @@
             let idtest = "#edit"+ rowNumber;
             $( idtest ).addClass( "editPersonDegree" );
             addOptionRegion(rowNumber);
+            addOptionSectorArea(rowNumber);
+            addOptionDegree(rowNumber);
 
-            // Event
             // Recherches de ville en fonction de la region
-            $('#selectRegion' + rowNumber).on('change', function() {
-                $regionId = $('#selectRegion' + rowNumber + " option:selected" ).val();
-                if($regionId) {
-                    addOptionCity($regionId, rowNumber, values[5] );
+            $('#selectRegion' + rowNumber).on('change', function () {
+                let $regionId = $('#selectRegion' + rowNumber + " option:selected").val();
+                if ($regionId) {
+                    addOptionCity($regionId, rowNumber, values[6]);
                 }
             });
 
-            // Event
             // Recherches des filières en fonction des secteurs
             $('#selectSectorArea' + rowNumber).on('change', function() {
-                $sectorAreaId = $('#selectSectorArea' + rowNumber + " option:selected" ).val();
+                let $sectorAreaId = $('#selectSectorArea' + rowNumber + " option:selected" ).val();
                 if($sectorAreaId) {
-                    addOptionActivity($sectorAreaId, rowNumber);
-                    $("#selectActivity"+rowNumber).find('option').remove();
+                    addOptionActivity($sectorAreaId, rowNumber, values[12]);
                 }
             });
-            ' + values[4] + '
-            // Add des options du genre
-            if(values[4] == "un homme") {
-                $("#selectSex" + rowNumber).append("<option selected value=\"\">un homme</option>");
-                $("#selectSex" + rowNumber).append("<option value=\"\">une femme</option>");
-            } else {
-                $("#selectSex" + rowNumber).append("<option value=\"\">un homme</option>");
-                $("#selectSex" + rowNumber).append("<option selected value=\"\">une femme</option>");
-            }
 
-            if($('#selectDegree' + rowNumber + " option").length == 0)
-                addOptionDegree(rowNumber);
+            changeSelectOptionByValue('#selectRegion' + rowNumber, values[5], () => alert(`La region de la ligne ${rowNumber} n'existe pas dans le system.`));
+            changeSelectOptionByValue('#selectDegree' + rowNumber, values[10], () => alert(`Le diplôme de la ligne ${rowNumber} n'existe pas dans le system.`));
+            changeSelectOptionByValue('#selectSectorArea' + rowNumber, values[11], () => alert(`Le Secteur de la ligne ${rowNumber} n'existe pas dans le system.`));
+            changeSelectOptionByValue('#selectSex' + rowNumber, values[4], () => alert(`Le sexe de la ligne ${rowNumber} n'existe pas dans le system.`));
 
-            // Add des options des diplômes de l'établissement
-            if($('#selectDegree' + rowNumber + " option").length == 0)
-                addOptionDegree(rowNumber);
-
-            // Add des options des SectorAreas de l'établissement
-            if($('#selectSectorArea' + rowNumber + " option").length == 0)
-                addOptionSectorArea(rowNumber);
-
-            // Add option de sélection de la région de l'établissement
-            ($('#selectAddressCity' + rowNumber + " option").length == 0)
-            $("#selectAddressCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
-
-            // Add option de sélection du SectorAreas de l'établissement
-            if($('#selectActivity' + rowNumber + " option").length == 0)
-                $("#selectActivity"+rowNumber).append("<option value=\"\">Sélectionnez un secteur</option>");
 
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
+            console.log('BrithDay', values[3]);
+            $('#birthDate' + rowNumber).datepicker('update', values[3]);
         }
+
+        function changeSelectOptionByValue(selectId, textValue, callback) {
+            // debugger;
+            const $select = document.querySelector(selectId);
+            const $options = Array.from($select.options);
+            const optionToSelect = $options.find(item => item.text === textValue);
+
+            if (optionToSelect) {
+                optionToSelect.selected = true;
+                $(selectId).trigger('change');
+            } else {
+                callback();
+            }
+        }
+
 
         function displayButton(action, rowNumber, type) {
             let save = "#save" + rowNumber;
@@ -616,87 +614,90 @@
         };
 
         function addOptionRegion(rowNumber) {
-            $idSelected=-1;
-            if($('#selectRegion'+rowNumber+' option').length == 1 ) {
+            let $idSelected = -1;
+            if ($('#selectRegion' + rowNumber + ' option').length == 1) {
                 $idSelected = $('#selectRegion' + rowNumber + ' option:first').val();
                 $('#selectRegion' + rowNumber + ' option:first').remove();
             }
-            if($('#selectRegion'+rowNumber+' option').length == 0 ) {
-                $("#selectRegion"+rowNumber).append("<option value=\"\">Sélectionnez</option>");
+            if ($('#selectRegion' + rowNumber + ' option').length == 0) {
+                $("#selectRegion" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
                 $("#regions option").each(function (option) {
-                    if($idSelected == $(this).val())
-                        $("#selectRegion"+rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    if ($idSelected == $(this).val())
+                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                     else
-                        $("#selectRegion"+rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                 });
             }
         }
 
         function addOptionDegree(rowNumber) {
-            $idSelected=-1;
-            if($('#selectDegree'+rowNumber+' option').length == 1 ) {
+            let $idSelected = -1;
+            if ($('#selectDegree' + rowNumber + ' option').length == 1) {
                 $idSelected = $('#selectDegree' + rowNumber + ' option:first').val();
                 $('#selectDegree' + rowNumber + ' option:first').remove();
             }
-            if($('#selectDegree'+rowNumber+' option').length == 0 ) {
-                $("#selectDegree"+rowNumber).append("<option value=\"\">Sélectionnez</option>");
+            if ($('#selectDegree' + rowNumber + ' option').length == 0) {
+                $("#selectDegree" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
                 $("#degrees option").each(function (option) {
-                    if($idSelected == $(this).val())
-                        $("#selectDegree"+rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    if ($idSelected == $(this).val())
+                        $("#selectDegree" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                     else
-                        $("#selectDegree"+rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectDegree" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
                 });
             }
         }
 
         function addOptionSectorArea(rowNumber) {
-            $idSelected=-1;
-            if($('#selectSectorArea'+rowNumber+' option').length == 1 ) {
+            let $idSelected = -1;
+            if ($('#selectSectorArea' + rowNumber + ' option').length == 1) {
                 $idSelected = $('#selectSectorArea' + rowNumber + ' option:first').val();
                 $('#selectSectorArea' + rowNumber + ' option:first').remove();
             }
 
-            if($('#selectSectorArea'+rowNumber+' option').length == 0 ) {
-                $("#selectSectorArea"+rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+            if ($('#selectSectorArea' + rowNumber + ' option').length == 0) {
+                $("#selectSectorArea" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
                 $("#sectorAreas option").each(function (option) {
-                    if($idSelected == $(this).val())
-                        $("#selectSectorArea"+rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
-                    else
-                        $("#selectSectorArea"+rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    if ($idSelected == $(this).val()) {
+                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    } else {
+                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    }
                 });
             }
         }
 
-        function addOptionCity($region, rowNumber) {
+        function addOptionCity($region, rowNumber, optionValue) {
             let dirs = window.location.href.split('/');
             let $locationRef = "";
             for (let i = 0; i < dirs.length - 1; i++)
                 $locationRef += dirs[i] + '/';
-            //console.log($locationRef + $region + '/cityByRegion');
 
             // appel Ajax sur bdd
             $.get($locationRef + $region + '/cityByRegion').done(function (cities) {
                 // recupere le Id du city existant
-                $idSelected=-1;
-                if($('#selectAddressCity'+rowNumber+' option').length == 1 ) {
+                let $idSelected = -1;
+                if ($('#selectAddressCity' + rowNumber + ' option').length == 1) {
                     $idSelected = $('#selectAddressCity' + rowNumber + ' option:first').val();
                     $('#selectAddressCity' + rowNumber + ' option:first').remove();
                 }
-                $("#selectAddressCity"+rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                $("#selectAddressCity" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
                 //console.log(cities);
-                if(cities) {
+                if (cities) {
                     cities.forEach((city) => {
-                        //console.log(city['name'] + ' ' + city['id'] + ' ' + $idSelected);
-                        if ($idSelected == city['id'])
+                        if ($idSelected == city['id']) {
                             $("#selectAddressCity" + rowNumber).append("<option selected value=\"" + city['id'] + "\">" + city['name'] + "</option>");
-                        else
+                        } else {
                             $("#selectAddressCity" + rowNumber).append("<option value=\"" + city['id'] + "\">" + city['name'] + "</option>");
+                        }
                     })
+                }
+                if (optionValue !== undefined) {
+                    changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
                 }
             })
         }
 
-        function addOptionActivity($sectorArea, rowNumber) {
+        function addOptionActivity($sectorArea, rowNumber, optionValue) {
             let dirs = window.location.href.split('/');
             let $locationRef = "";
             for (let i = 0; i < dirs.length - 1; i++)
@@ -706,20 +707,23 @@
             console.log($locationRef + $sectorArea + '/activityBySchoolSectorArea');
             $.get($locationRef + $sectorArea + '/activityBySchoolSectorArea').done(function (activities) {
                 // recupere le Id de l'activity existant
-                $idSelected=-1;
-                if($('#selectActivity'+rowNumber+' option').length == 1 ) {
+                let $idSelected = -1;
+                if ($('#selectActivity' + rowNumber + ' option').length == 1) {
                     $idSelected = $('#selectActivity' + rowNumber + ' option:first').val();
                     $('#selectActivity' + rowNumber + ' option:first').remove();
                 }
 
-                $("#selectActivity"+rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
-                if(activities) {
+                $("#selectActivity" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                if (activities) {
                     activities.forEach((activity) => {
                         if ($idSelected == activity['id'])
                             $("#selectActivity" + rowNumber).append("<option selected value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
                         else
                             $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
                     })
+                }
+                if (optionValue !== undefined) {
+                    changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue, () => alert(`Le secteur d'activité de la ligne ${rowNumber} n'existe pas dans le system.`));
                 }
             })
         }
@@ -728,38 +732,38 @@
         $(document).ready(function () {
             /* Mise à jour des options dans les selects de PersonDegrees existants */
             /* ------------------------------------------------------------------- */
-            for ($i = 1 ; $i <= $('#rowNumber').val(); $i++) {
+            for (let $i = 1 ; $i <= $('#rowNumber').val(); $i++) {
                 addOptionRegion($i);
                 addOptionSectorArea($i);
                 addOptionDegree($i);
 
-                $region = $('#selectRegion' + $i +' option:selected').val();
+                let $region = $('#selectRegion' + $i +' option:selected').val();
                 addOptionCity($region,$i);
 
-                $sector = $('#selectSectorArea' + $i +' option:selected').val();
+                let $sector = $('#selectSectorArea' + $i +' option:selected').val();
                 addOptionActivity($sector,$i);
             }
 
             // Event
             // Recherches de ville en fonction de la region
-            $('.selectRegion').on('change', function() {
-                id= $(this).attr("id").replaceAll("selectRegion","");
-                $regionId = $('#selectRegion' + id + " option:selected" ).val();
-                if($regionId) {
+            $('.selectRegion').on('change', function () {
+                let id = $(this).attr("id").replaceAll("selectRegion", "");
+                let $regionId = $('#selectRegion' + id + " option:selected").val();
+                if ($regionId) {
                     addOptionCity($regionId, id);
-                    $("#selectAddressCity"+id).find('option').remove();
+                    $("#selectAddressCity" + id).find('option').remove();
                 }
             });
 
             // Event
             // Recherches des filières en fonction des secteurs
-            $('.selectSectorArea').on('change', function() {
-                id= $(this).attr("id").replaceAll("selectSectorArea","");
+            $('.selectSectorArea').on('change', function () {
+                let id = $(this).attr("id").replaceAll("selectSectorArea", "");
                 //console.log("Sector Activity " + id);
-                $sectorAreaId = $('#selectSectorArea' + id + " option:selected" ).val();
-                if($sectorAreaId) {
+                let $sectorAreaId = $('#selectSectorArea' + id + " option:selected").val();
+                if ($sectorAreaId) {
                     addOptionActivity($sectorAreaId, id);
-                    $("#selectActivity"+id).find('option').remove();
+                    $("#selectActivity" + id).find('option').remove();
                 }
             });
 
@@ -781,7 +785,7 @@
                         let data = evt.target.result.split("\n");
                         // Valid file
                         let header = data[0];
-                        let validHeader = '"immatriculation","prénom","nom","date naissance","genre","région","ville","portable","portable parent","email","diplôme","secteur","filière"';
+                        let validHeader = '"Immatriculation","Prénom","Nom","DateNaissance","Genre","Région","Ville","Portable","portable parent","Email","Diplôme","Secteur","Filière"';
                         if (header !== validHeader) {
                             alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
                             return;

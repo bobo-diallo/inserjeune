@@ -40,7 +40,7 @@
                                 <th>{{ 'menu.email' | trans }}</th>
                                 <th>{{ 'menu.sector' | trans }}</th>
                                 <th> {{ 'menu.legals_status' | trans }} </th>
-                                <th>Password</th>
+                                <th>{{ 'menu.password' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody id="tbodyCompany">
@@ -131,23 +131,24 @@
         function saveAll() {
             let rowNumber = $('#rowNumber').val();
             let edits = [];
-            /*  sauvegarde des id à sauvegarder */
-            $('.saveCompany').each(function () {
-                if($(this).css("display") != "none")
-                    $id = $(this).attr('id')
-            })
-            for(let i =1; i<= rowNumber; i++)
-                if($("#save" + i).css("display") != "none")
-                    if($("#save" + i).attr("id") != null)
-                        edits.push($("#save" + i).attr("id").replace("save","")) ;
-            //console.log(edits);
 
-            if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
-                for(let i =0; i< edits.length; i++){
-                    if ($("#save" + edits[i]).css("display") != "none") {
-                        displayButton("save", edits[i], "all");
+            for (let i = 1; i <= rowNumber; i++) {
+                let saveId = $('#save' + i);
+                if (saveId.css('display') != 'none' && saveId.attr('id') != null) {
+                    edits.push(saveId.attr('id').replace('save', ''));
+                }
+            }
+
+            if (edits.length > 0) {
+                if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
+                    for (let i = 0; i < edits.length; i++) {
+                        if ($('#save' + edits[i]).css('display') != 'none') {
+                            displayButton('save', edits[i], 'all');
+                        }
                     }
                 }
+            } else {
+                alert("Il n'y a aucune entrée à  valider");
             }
         }
 
@@ -187,7 +188,7 @@
             // Event
             // Recherches de ville en fonction de la region
             $('#selectRegion' + rowNumber).on('change', function() {
-                $regionId = $('#selectRegion' + rowNumber + " option:selected" ).val();
+                let $regionId = $('#selectRegion' + rowNumber + " option:selected" ).val();
                 if($regionId) {
                     addOptionCity($regionId, rowNumber);
                     $("#selectCity"+rowNumber).find('option').remove();
@@ -645,7 +646,7 @@
         $(document).ready(function () {
             /* Mise à jour des options dans les selects de PersonDegrees existants */
             /* ------------------------------------------------------------------- */
-            for ($i = 1 ; $i <= $('#rowNumber').val(); $i++) {
+            for (let $i = 1 ; $i <= $('#rowNumber').val(); $i++) {
                 addOptionRegion($i);
                 addOptionSectorArea($i);
                 addOptionLegalStatus($i);

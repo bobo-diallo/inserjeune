@@ -39,8 +39,8 @@
                                 {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
                                     <th>{{ 'menu.establishment' | trans }}</th>
                                 {% endif %}
-                                <th>{{ 'survey.survey_status_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
-                                <th>{{ 'menu.date_of_birth_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
+                                <th>{{ 'survey.survey_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
+                                <th>{{ 'menu.date_of_birth_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
                                 <th>{{ 'menu.cell_phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
                                 {%  if app.user.roles|role == "Administrateur" %}
@@ -51,9 +51,9 @@
                                   <th>{{ 'menu.degree' | trans }}</th>
                                   <th>{{ 'menu.branch' | trans }}</th>
                                 {% endif %}
-                                <th>{{ 'degree.month_year_degree_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
-                                <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | lower }}</th>
-                                <th>{{ 'menu.current_situation_with_tag' | trans({'%tag_br%': '<br/>'}) }}</th>
+                                <th>{{ 'degree.month_year_degree_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
+                                <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw | lower }}</th>
+                                <th>{{ 'menu.current_situation_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
                             </tr>
                             </thead>
                             <tbody>

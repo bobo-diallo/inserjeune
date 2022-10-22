@@ -30,7 +30,7 @@
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.registeredTraining) }}</div>
     </div>
     <div class="col-sm-7 form-check hide_block_registered_training">
-      <label for=""> {{ 'survey.is_this_training_a_continuation_of_your_last_degree' | trans({'%tag_br%': '<br/>'})}} ? </label>
+      <label for=""> {{ 'survey.is_this_training_a_continuation_of_your_last_degree' | trans({'%tag_br%': '<br/>'}) | raw}} ? </label>
       {{ form_widget(form.formationPursuitLastDegree) }}
       <div class="slider round">
         <span class="non">{{ 'menu.no' | trans }}</span>
@@ -130,7 +130,7 @@
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-4 form-check">
-      <label for=""> {{ 'survey.have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) }}</label>
+      <label for=""> {{ 'survey.have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
       {{ form_widget(form.jobRefuse) }}
       <div class="slider round">
         <span class="non">{{ 'menu.no' | trans }}</span>
@@ -139,7 +139,7 @@
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobRefuse) }}</div>
     </div>
     <div class="col-sm-4 form-check">
-      <label for="">{{ 'survey.have_you_held_a_job_since_the_end_of_your_training' | trans({'%tag_br%': '<br/>'}) }}</label>
+      <label for="">{{ 'survey.have_you_held_a_job_since_the_end_of_your_training' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
       {{ form_widget(form.jobFromFormation) }}
       <div class="slider round">
         <span class="non">{{ 'menu.no' | trans }}</span>
@@ -156,7 +156,7 @@
   <div class="line-separator"></div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <label for="">{{ 'survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices' | trans({'%tag_br%': '<br/>'}) }}</label>
+      <label for="">{{ 'survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
       {{ form_widget(form.jobNotFoundReasons) }}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundReasons) }}</div>
     </div>

@@ -170,7 +170,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                               {% if satisfactionSearch.jobRefuse==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> {{ 'have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) }}</label>
+                                <label class="col-sm-12 col-form-label"> {{ 'have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
                                 <div class="col-sm-12">
                                     <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
