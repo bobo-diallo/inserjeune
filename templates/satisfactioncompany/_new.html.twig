@@ -83,7 +83,7 @@
 <div class="line-separator"></div>
 <div class="row ">
   <div class="col-sm-12 form-check ">
-    <label for=""> {{ 'survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag' | trans({'%tag_br%': '<br/>'}) }} ?</label>
+    <label for=""> {{ 'survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }} ?</label>
   </div>
   <div class="col-sm-12 form-check table_skill">
     {% for child in form.levelSkill %}
@@ -95,7 +95,7 @@
   </div>
 </div>
 <div class="line-separator"></div>
-<span>{{ 'survey.indication_evaluation_satisfaction_company_with_tag' | trans({'%tag_br%': '<br/>'}) }} :</span>
+<span>{{ 'survey.indication_evaluation_satisfaction_company_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }} :</span>
 <div class="table_skill">
   <div class="row table_skill_row">
     <div class="col-sm-4">

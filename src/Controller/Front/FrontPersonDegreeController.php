@@ -115,6 +115,10 @@ class FrontPersonDegreeController extends AbstractController {
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 			$agreeRgpd = $editForm->get('agreeRgpd')->getData();
 			if ($agreeRgpd) {
+                // remove autorization to edit for School during Enrollment
+                if($personDegree->isUnlocked()) {
+                    $personDegree->setUnlocked(false);
+                }
 				$personDegree->setUser($this->getUser());
 
 				// Patch if no createdDate found

@@ -141,7 +141,7 @@
                 <div class="line-separator"></div>
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <label for=""> {{ 'survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices' | trans({'%tag_br%': '<br/>'}) }}</label>
+                        <label for=""> {{ 'survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
                         <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSalary.jobNotFoundReasons | join('\n')}}</textarea>
                     </div>
                 </div>

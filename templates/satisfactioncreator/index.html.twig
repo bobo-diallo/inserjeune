@@ -31,11 +31,11 @@
                                   <th><div><span>Tél.</span></div></th>
                                 {% endif %}
 
-                                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                                <th><div><span>{{ 'company.company_business_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                                <th><div><span>{{ 'legals_status_with_tag' | trans({'%tag_br%': '<br/>'})}} </span></div></th>
-                                <th><div><span>{{ 'menu.training_useful_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
+                                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                                <th><div><span>{{ 'company.company_business_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                                <th><div><span>{{ 'legals_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} </span></div></th>
+                                <th><div><span>{{ 'menu.training_useful_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} ?</span></div></th>
                             </tr>
                             </thead>
                             <tbody>

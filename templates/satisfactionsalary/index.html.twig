@@ -29,12 +29,12 @@
                                   <th><div><span>{{ 'menu.phone_abr' | trans }}.</span></div></th>
                                 {% endif %}
 
-                                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
+                                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
 
-                                <th><div><span>{{ 'company.name_of_the_company_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                                <th><div><span>{{ 'menu.work_satisfactory_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
-                                <th><div><span>{{ 'menu.training_satisfactory_with_tag' | trans({'%tag_br%': '<br/>'})}} ?</span></div></th>
+                                <th><div><span>{{ 'company.name_of_the_company_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                                <th><div><span>{{ 'menu.work_satisfactory_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} ?</span></div></th>
+                                <th><div><span>{{ 'menu.training_satisfactory_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} ?</span></div></th>
                                 <th><div><span>{{ 'job.type_of_contract' | trans }}</span></div></th>
                             </tr>
                             </thead>

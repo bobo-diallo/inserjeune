@@ -81,6 +81,8 @@ class EnrollementExention extends AbstractExtension {
 
             return $html;
         }
+
+		return $html;
 	}
 
 	public function addRowCompany(int $rowNumber, ?Company $company, string $assetLocationIcon): string {
@@ -123,5 +125,7 @@ class EnrollementExention extends AbstractExtension {
 
             return $html;
         }
+
+		return $html;
 	}
 }

@@ -127,7 +127,7 @@
 <div class="line-separator"></div>
 <div class="row">
   <div class="col-sm-6 form-check">
-    <label for=""> {{ 'graduate.has_your_professional_training_been_useful_for_the_job_you_do_with_tag' | trans({'%tag_br%': '<br/>'}) }} ?</label>
+    <label for=""> {{ 'graduate.has_your_professional_training_been_useful_for_the_job_you_do_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }} ?</label>
     {{ form_widget(form.trainingSatisfied) }}
     <div class="slider round">
       <span class="non">{{ 'menu.no' | trans }}</span>
@@ -139,7 +139,7 @@
 <div class="line-separator"></div>
 <div class="row hide_flex_jobNotFound">
   <div class="col-sm-12 form-group">
-    <label for=""> {{ 'graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices' | trans({'%tag_br%': '<br/>'}) }}</label>
+    <label for=""> {{ 'graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
     {{ form_widget(form.jobNotFoundReasons) }}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundReasons) }}</div>
   </div>

@@ -397,6 +397,10 @@
         <source>menu.cell_phone</source>
         <target>Portable</target>
       </trans-unit>
+      <trans-unit id="menu.parent_cell_phone">
+        <source>menu.parent_cell_phone</source>
+        <target>Portable parent</target>
+      </trans-unit>
       <trans-unit id="menu.field_of_activity">
         <source>menu.field_of_activity</source>
         <target>Domaine d'activité</target>
@@ -420,6 +424,10 @@
       <trans-unit id="menu.close">
         <source>menu.close</source>
         <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="menu.gender">
+        <source>menu.gender</source>
+        <target>Genre</target>
       </trans-unit>
       <trans-unit id="menu.add">
         <source>menu.add</source>
@@ -1383,6 +1391,10 @@
       <trans-unit id="school.enrolment_of_companies">
         <source>school.enrolment_of_companies</source>
         <target>Enrollement d'entreprises</target>
+      </trans-unit>
+      <trans-unit id="school.enrolment_of_graduates">
+        <source>school.enrolment_of_graduates</source>
+        <target>Enrollement de diplômés</target>
       </trans-unit>
       <trans-unit id="school.number_of_graduates_with_tag">
         <source>school.number_of_graduates_with_tag</source>

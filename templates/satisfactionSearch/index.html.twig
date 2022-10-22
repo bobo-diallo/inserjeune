@@ -32,13 +32,13 @@
                   <th><div><span>{{ 'menu.phone_abr' | trans }}.</span></div></th>
                 {% endif %}
 
-                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                <th><div><span>{{ 'survey.registered_training_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                <th><div><span>{{ 'survey.looking_for_a_job_with_tag' | trans({'%tag_br%': '<br/>', '%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                <th><div><span>{{ 'survey.registered_training_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                <th><div><span>{{ 'survey.looking_for_a_job_with_tag' | trans({'%tag_br%': '<br/>', '%tag_br%': '<br/>'}) | raw}}</span></div></th>
                 <th><div><span>{{ 'survey.volunteer' | trans }}</span></div></th>
-                <th><div><span>{{ 'survey.job_rejected_with_tag' | trans({'%tag_br%': '<br/>'})}}</span></div></th>
-                <th><div><span>{{ 'survey.employment_since_training_with_tag' | trans({'%tag_br%': '<br/>', '%tag_br%': '<br/>'})}}</span></div></th>
+                <th><div><span>{{ 'survey.job_rejected_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
+                <th><div><span>{{ 'survey.employment_since_training_with_tag' | trans({'%tag_br%': '<br/>', '%tag_br%': '<br/>'}) | raw}}</span></div></th>
               </tr>
               </thead>
               <tbody>

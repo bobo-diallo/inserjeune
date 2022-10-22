@@ -115,6 +115,10 @@ class FrontCompanyController extends AbstractController {
 
 			$agreeRgpd = $editForm->get('agreeRgpd')->getData();
 			if ($agreeRgpd == true) {
+                // remove autorization to edit for School during Enrollment
+                if($company->isUnlocked()) {
+                    $company->setUnlocked(false);
+                }
 				$company->setUser($this->getUser());
 				$this->em->flush();
 
