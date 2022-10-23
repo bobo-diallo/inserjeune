@@ -36,90 +36,100 @@ class FrontCompanyJobOfferController extends AbstractController {
 
 	#[Route(path: '/', name: 'front_company_jobOffer_index', methods: ['GET'])]
 	public function indexAction(): Response {
-		$company = $this->companyService->getCompany();
-		$jobOffers = $this->jobOfferRepository->findByCompany($company);
-		$othersJobOffers = $this->jobOfferRepository->othersJobs($company);
+		return $this->companyService->checkUnCompletedAccountBefore(function () {
+			$company = $this->companyService->getCompany();
+			$jobOffers = $this->jobOfferRepository->findByCompany($company);
+			$othersJobOffers = $this->jobOfferRepository->othersJobs($company);
 
-		return $this->render('frontCompanyJobOffer/index.html.twig', [
-			'jobOffers' => $jobOffers,
-			'othersJobs' => $othersJobOffers,
-		]);
+			return $this->render('frontCompanyJobOffer/index.html.twig', [
+				'jobOffers' => $jobOffers,
+				'othersJobs' => $othersJobOffers,
+			]);
+		});
 	}
 
 	#[Route(path: '/new', name: 'front_company_jobOffer_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
-		$company = $this->companyService->getCompany();
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request) {
+			$company = $this->companyService->getCompany();
 
-		$jobOffer = new JobOffer();
-		$jobOffer->setCompany($company);
-		$form = $this->createForm(JobOfferType::class, $jobOffer);
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
+			$jobOffer = new JobOffer();
 			$jobOffer->setCompany($company);
-			$this->em->persist($jobOffer);
-			$this->em->flush();
+			$form = $this->createForm(JobOfferType::class, $jobOffer);
+			$form->handleRequest($request);
 
-			return $this->redirectToRoute('front_company_jobOffer_show', ['id' => $jobOffer->getId()]);
-		}
+			if ($form->isSubmitted() && $form->isValid()) {
+				$jobOffer->setCompany($company);
+				$this->em->persist($jobOffer);
+				$this->em->flush();
 
-		return $this->render('frontCompanyJobOffer/new.html.twig', [
-			'company' => $company,
-			'form' => $form->createView(),
-			'jobOffer' => $jobOffer
+				return $this->redirectToRoute('front_company_jobOffer_show', ['id' => $jobOffer->getId()]);
+			}
 
-		]);
+			return $this->render('frontCompanyJobOffer/new.html.twig', [
+				'company' => $company,
+				'form' => $form->createView(),
+				'jobOffer' => $jobOffer
+
+			]);
+		});
 	}
 
 	#[Route(path: '/{id}', name: 'front_company_jobOffer_show', methods: ['GET'])]
 	public function showAction(JobOffer $jobOffer): Response {
-		return $this->render('frontCompanyJobOffer/show.html.twig', [
-			'jobOffer' => $jobOffer,
-			'company' => $this->companyService->getCompany()
-		]);
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($jobOffer) {
+			return $this->render('frontCompanyJobOffer/show.html.twig', [
+				'jobOffer' => $jobOffer,
+				'company' => $this->companyService->getCompany()
+			]);
+		});
 	}
 
 	#[Route(path: '/{id}/edit', name: 'front_company_jobOffer_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, JobOffer $jobOffer): RedirectResponse|Response {
-		$company = $this->companyService->getCompany();
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request, $jobOffer) {
+			$company = $this->companyService->getCompany();
 
-		if ($jobOffer->getCompany() !== $company)
-			throw new NotFoundHttpException('Aucune offre trouvée');
+			if ($jobOffer->getCompany() !== $company)
+				throw new NotFoundHttpException('Aucune offre trouvée');
 
-		$editForm = $this->createForm(JobOfferType::class, $jobOffer);
-		$editForm->handleRequest($request);
+			$editForm = $this->createForm(JobOfferType::class, $jobOffer);
+			$editForm->handleRequest($request);
 
-		if ($editForm->isSubmitted() && $editForm->isValid()) {
-			$jobOffer->setCompany($company);
-			$jobOffer->setUpdatedDate(new \DateTime());
-			$this->em->flush();
+			if ($editForm->isSubmitted() && $editForm->isValid()) {
+				$jobOffer->setCompany($company);
+				$jobOffer->setUpdatedDate(new \DateTime());
+				$this->em->flush();
 
-			return $this->redirectToRoute('front_company_jobOffer_show', ['id' => $jobOffer->getId()]);
-		}
+				return $this->redirectToRoute('front_company_jobOffer_show', ['id' => $jobOffer->getId()]);
+			}
 
-		return $this->render('frontCompanyJobOffer/edit.html.twig', [
-			'company' => $this->companyService->getCompany(),
-			'edit_form' => $editForm->createView(),
-			'jobOffer' => $jobOffer
-		]);
+			return $this->render('frontCompanyJobOffer/edit.html.twig', [
+				'company' => $this->companyService->getCompany(),
+				'edit_form' => $editForm->createView(),
+				'jobOffer' => $jobOffer
+			]);
+		});
 	}
 
 	#[Route(path: '/delete/{id}', name: 'front_company_jobOffer_delete', methods: ['GET'])]
 	public function deleteAction(Request $request, ?JobOffer $jobOffer): RedirectResponse {
-		if ($jobOffer->getCompany() !== $this->companyService->getCompany())
-			throw new NotFoundHttpException('Aucune offre trouvée');
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request, $jobOffer) {
+			if ($jobOffer->getCompany() !== $this->companyService->getCompany())
+				throw new NotFoundHttpException('Aucune offre trouvée');
 
-		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
-			if ($jobOffer) {
-				$this->em->remove($jobOffer);
-				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
-			} else {
-				$this->addFlash('warning', 'Impossible de suppression l\'offre');
-				return $this->redirect($request->server->all()['HTTP_REFERER']);
+			if (array_key_exists('HTTP_REFERER', $request->server->all())) {
+				if ($jobOffer) {
+					$this->em->remove($jobOffer);
+					$this->em->flush();
+					$this->addFlash('success', 'La suppression est faite avec success');
+				} else {
+					$this->addFlash('warning', 'Impossible de suppression l\'offre');
+					return $this->redirect($request->server->all()['HTTP_REFERER']);
+				}
 			}
-		}
-		return $this->redirectToRoute('front_company_jobOffer_index');
+			return $this->redirectToRoute('front_company_jobOffer_index');
+		});
 	}
 
 	public function send(): bool {

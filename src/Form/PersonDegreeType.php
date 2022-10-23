@@ -245,12 +245,7 @@ class PersonDegreeType extends AbstractType {
 						->orderBy('sa.name', 'ASC');
 				}
 			])
-			->add('user', EntityType::class, [
-				'class' => User::class,
-				'choice_label' => 'email',
-				'required' => false,
-				'attr' => ['class' => 'form-control']
-			]);
+		;
 
 		$this->cityService->addCity($builder, 'addressCity', true);
 		$this->activityService->addActivity($builder, 'activity', 'sectorArea', false);

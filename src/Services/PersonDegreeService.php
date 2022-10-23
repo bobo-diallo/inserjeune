@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Entity\PersonDegree;
 use App\Repository\PersonDegreeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Entity\User;
 
@@ -23,11 +26,15 @@ class PersonDegreeService {
 	const TYPE_SEARCH = 'TYPE_SEARCH';
 	const TYPE_COMPANY = 'TYPE_COMPANY';
 	private PersonDegreeRepository $personDegreeRepository;
+	private RequestStack $requestStack;
+	private RouterInterface $router;
 
 	public function __construct(
 		TokenStorageInterface $tokenStorage,
 		EntityManagerInterface $manager,
-		PersonDegreeRepository $personDegreeRepository
+		PersonDegreeRepository $personDegreeRepository,
+		RequestStack $requestStack,
+		RouterInterface $router
 	) {
 		$this->tokenStorage = $tokenStorage;
 		$this->manager = $manager;
@@ -40,6 +47,8 @@ class PersonDegreeService {
 			self::TYPE_UNEMPLOYED => "Sans emploi",
 		];
 		$this->personDegreeRepository = $personDegreeRepository;
+		$this->requestStack = $requestStack;
+		$this->router = $router;
 	}
 
 	public function getPersonDegree(): ?PersonDegree {
@@ -64,6 +73,18 @@ class PersonDegreeService {
 		}
 		if ($user->getSchool()) {
 			$em->remove($user->getSchool());
+		}
+	}
+
+	public function checkUnCompletedAccountBefore(callable $executionActionController): mixed {
+		$personDegree = $this->getPersonDegree();
+
+		if (!$personDegree) {
+			$this->requestStack->getSession()->getFlashBag()->set('warning', 'Veuillez completer votre profil');
+
+			return new RedirectResponse($this->router->generate('front_persondegree_new'));
+		} else {
+			return $executionActionController();
 		}
 	}
 }

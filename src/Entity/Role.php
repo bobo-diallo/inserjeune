@@ -12,6 +12,7 @@ class Role {
 	const ROLE_DIPLOME = 'ROLE_DIPLOME';
 	const ROLE_ENTREPRISE = 'ROLE_ENTREPRISE';
 	const ROLE_ADMIN = 'ROLE_ADMIN';
+	const ROLE_ETABLISSEMENT = 'ROLE_ETABLISSEMENT';
 
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
