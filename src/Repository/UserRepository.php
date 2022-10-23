@@ -109,21 +109,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
-    /**
-     * @param string $role
-     * @return User[]
-     */
+	/**
+	 * @param string $role
+	 * @return User[]
+	 * @throws Exception
+	 */
     public function getByRole(string $role): array {
-        // return $this->createQueryBuilder('u')
-        //     ->select('u.i')
-        //     ->join('u.profils', 'ur', 'WITH', 'ur.user_id = u.id')
-        //     ->join('u.role', 'r', 'WITH', 'ur.role_id = r.id')
-        //     ->where('r.role = :role_name ')
-        //     ->setParameter('role_name', $role)
-        //
-        //     ->getQuery()
-        //     ->getResult();
-
         $statement = $this->_em->getConnection()->prepare('
 			SELECT u.id, u.phone
 			FROM user AS u, user_role ur, role r
@@ -132,6 +123,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 			  AND r.role = :roleName
 		');
         $result = $statement->executeQuery(['roleName' => $role]);
-        return $result->fetchAll();
+        return $result->fetchAllAssociative();
     }
 }

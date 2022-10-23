@@ -69,6 +69,7 @@ class FrontPersonDegreeController extends AbstractController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$agreeRgpd = $form->get('agreeRgpd')->getData();
 			if ($agreeRgpd) {
+				$user->setEmail($personDegree->getEmail());
 				$personDegree->setUser($user);
 				$personDegree->setCreatedDate(new \DateTime());
 				$personDegree->setUpdatedDate(new \DateTime());
@@ -91,65 +92,69 @@ class FrontPersonDegreeController extends AbstractController {
 
 	#[Route(path: '/', name: 'front_persondegree_show', methods: ['GET'])]
 	public function showAction(): Response {
-		$personDegree = $this->personDegreeService->getPersonDegree();
-		if (!$personDegree) return $this->redirectToRoute('front_persondegree_new');
+		return $this->personDegreeService->checkUnCompletedAccountBefore(function () {
+			$personDegree = $this->personDegreeService->getPersonDegree();
+			if (!$personDegree) return $this->redirectToRoute('front_persondegree_new');
 
-		return $this->render('persondegree/show.html.twig', [
-			'personDegree' => $personDegree,
-		]);
+			return $this->render('persondegree/show.html.twig', [
+				'personDegree' => $personDegree,
+			]);
+		});
 	}
 
 	#[Route(path: '/edit', name: 'front_persondegree_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request): RedirectResponse|Response {
-		$personDegree = $this->personDegreeService->getPersonDegree();
-		if (!$personDegree) return $this->redirectToRoute('front_persondegree_new');
-		$createdDate = $personDegree->getCreatedDate();
+		return $this->personDegreeService->checkUnCompletedAccountBefore(function () use ($request) {
+			$personDegree = $this->personDegreeService->getPersonDegree();
+			if (!$personDegree) return $this->redirectToRoute('front_persondegree_new');
+			$createdDate = $personDegree->getCreatedDate();
 
-		$selectedCountry = $this->getUser()->getCountry();
-		if (!$selectedCountry)
-			$selectedCountry = $personDegree->getCountry();
+			$selectedCountry = $this->getUser()->getCountry();
+			if (!$selectedCountry)
+				$selectedCountry = $personDegree->getCountry();
 
-		$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
-		$editForm->handleRequest($request);
+			$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
+			$editForm->handleRequest($request);
 
-		if ($editForm->isSubmitted() && $editForm->isValid()) {
-			$agreeRgpd = $editForm->get('agreeRgpd')->getData();
-			if ($agreeRgpd) {
-                // remove autorization to edit for School during Enrollment
-                if($personDegree->isUnlocked()) {
-                    $personDegree->setUnlocked(false);
-                }
-				$personDegree->setUser($this->getUser());
-
-				// Patch if no createdDate found
-				$personDegree->setCreatedDate($createdDate);
-				if ($personDegree->getCreatedDate() == null) {
-					if ($personDegree->getUpdatedDate()) {
-						$personDegree->setCreatedDate($personDegree->getUpdatedDate());
-					} else {
-						$personDegree->setCreatedDate(new \DateTime());
+			if ($editForm->isSubmitted() && $editForm->isValid()) {
+				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
+				if ($agreeRgpd) {
+					// remove autorization to edit for School during Enrollment
+					if($personDegree->isUnlocked()) {
+						$personDegree->setUnlocked(false);
 					}
-				}// end patch
-				$personDegree->setUpdatedDate(new \DateTime());
+					$personDegree->setUser($this->getUser());
 
-				$dnsServer = $this->getParameter('dnsServer');
-				if (php_uname('n') != $dnsServer)
-					$personDegree->setClientUpdateDate(new \DateTime());
+					// Patch if no createdDate found
+					$personDegree->setCreatedDate($createdDate);
+					if ($personDegree->getCreatedDate() == null) {
+						if ($personDegree->getUpdatedDate()) {
+							$personDegree->setCreatedDate($personDegree->getUpdatedDate());
+						} else {
+							$personDegree->setCreatedDate(new \DateTime());
+						}
+					}// end patch
+					$personDegree->setUpdatedDate(new \DateTime());
 
-				$this->em->flush();
+					$dnsServer = $this->getParameter('dnsServer');
+					if (php_uname('n') != $dnsServer)
+						$personDegree->setClientUpdateDate(new \DateTime());
 
-				return $this->redirectToRoute('front_persondegree_satisfaction_new');
-			} else {
-				return $this->redirectToRoute('user_delete_persondegree', ['id' => $personDegree->getId()]);
+					$this->em->flush();
+
+					return $this->redirectToRoute('front_persondegree_satisfaction_new');
+				} else {
+					return $this->redirectToRoute('user_delete_persondegree', ['id' => $personDegree->getId()]);
+				}
 			}
-		}
 
-		return $this->render('persondegree/edit.html.twig', [
-			'personDegree' => $personDegree,
-			'edit_form' => $editForm->createView(),
-			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
-		]);
+			return $this->render('persondegree/edit.html.twig', [
+				'personDegree' => $personDegree,
+				'edit_form' => $editForm->createView(),
+				'allActivities' => $this->activityService->getAllActivities(),
+				'selectedCountry' => $selectedCountry
+			]);
+		});
 	}
 
 	#[Route(path: '/jobOffers', name: 'front_persondegree_joboffers', methods: ['GET'])]
@@ -171,27 +176,29 @@ class FrontPersonDegreeController extends AbstractController {
 
 	#[Route(path: '/{id}/candidate', name: 'front_persondegree_candidate', methods: ['GET', 'POST'])]
 	public function candidateAction(Request $request, JobOffer $jobOffer): Response {
-		$candidate = new Candidate();
-		$form = $this->createForm(CandidateType::class, $candidate);
-		$form->handleRequest($request);
+		return $this->personDegreeService->checkUnCompletedAccountBefore(function () use ($request, $jobOffer) {
+			$candidate = new Candidate();
+			$form = $this->createForm(CandidateType::class, $candidate);
+			$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$personDegree = $this->personDegreeService->getPersonDegree();
-			$candidate->setCandidateName(preg_replace('/ /', '_', strtolower($personDegree->getFirstname() . '_' . $personDegree->getLastname())));
-			$candidate->setEmailDestination($jobOffer->getPostedEmail());
+			if ($form->isSubmitted() && $form->isValid()) {
+				$personDegree = $this->personDegreeService->getPersonDegree();
+				$candidate->setCandidateName(preg_replace('/ /', '_', strtolower($personDegree->getFirstname() . '_' . $personDegree->getLastname())));
+				$candidate->setEmailDestination($jobOffer->getPostedEmail());
 
-			if ($this->emailService->sendMail($candidate, $jobOffer->getTitle())) {
-				$this->notifSatisfaction("Votre candididature est envoyée avec success.");
-			} else {
-				$this->notifSatisfaction("Erreur envoi candidature");
+				if ($this->emailService->sendMail($candidate, $jobOffer->getTitle())) {
+					$this->notifSatisfaction("Votre candididature est envoyée avec success.");
+				} else {
+					$this->notifSatisfaction("Erreur envoi candidature");
+				}
+
+				return $this->redirectToRoute('jobOffer_index');
 			}
-
-			return $this->redirectToRoute('jobOffer_index');
-		}
-		return $this->render('frontPersondegree/candidate.html.twig', [
-			'form' => $form->createView(),
-			'jobOffer' => $jobOffer
-		]);
+			return $this->render('frontPersondegree/candidate.html.twig', [
+				'form' => $form->createView(),
+				'jobOffer' => $jobOffer
+			]);
+		});
 	}
 
 	/**
@@ -324,7 +331,6 @@ class FrontPersonDegreeController extends AbstractController {
 
 			// update de l'adrese email du compte si différente du profil
 		} else if ($user->getEmail() != $personDegree->getEmail()) {
-
 			// verification de la non existance du user par cet email
 			$usrexist = $this->userRepository->findByEmail($personDegree->getEmail());
 			if ($usrexist) {

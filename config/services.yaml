@@ -70,7 +70,9 @@ services:
         arguments: [
             '@security.token_storage',
             '@doctrine.orm.default_entity_manager',
-            '@App\Repository\CompanyRepository'
+            '@App\Repository\CompanyRepository',
+            '@request_stack',
+            '@router'
         ]
 
     app.school:
@@ -78,7 +80,9 @@ services:
         arguments: [
             '@security.token_storage',
             '@doctrine.orm.default_entity_manager' ,
-            '@App\Repository\SchoolRepository'
+            '@App\Repository\SchoolRepository',
+            '@request_stack',
+            '@router'
         ]
 
     app.persondegree:
@@ -86,7 +90,9 @@ services:
         arguments: [
             '@security.token_storage',
             '@doctrine.orm.default_entity_manager',
-            '@App\Repository\PersonDegreeRepository'
+            '@App\Repository\PersonDegreeRepository',
+            '@request_stack',
+            '@router'
         ]
 
     app.email:

@@ -16,18 +16,16 @@ use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
 use App\Repository\JobOfferRepository;
 use App\Tools\Utils;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
-use Symfony\Component\Validator\Constraints\Date;
 
 #[Route(path: '/purge')]
 #[Security("is_granted('ROLE_ADMIN')")]
@@ -81,19 +79,22 @@ class PurgeController extends AbstractController {
         ]);
     }
 
+	/**
+	 * @throws Exception
+	 */
 	#[Route(path: '/findActor', name: 'find_actor', methods: ['GET'])]
     public function findActorAction(Request $request): JsonResponse|Response {
         $phone=$request->query->get('userPhone');
         $res = [];
         /* list of Users with a part of phone number */
-        if($phone) {
-            $users = $this->userRepository->getByBeginPhoneNumber('%' . $phone . '%');
-            $res = [];
-            foreach ($users as $user) {
-                $res[] = ['id' => $user->getId(), 'name' => $user->getPhone(), 'type' => $this->findOrphansUser($user)];
-            }
+		if ($phone) {
+			$users = $this->userRepository->getByBeginPhoneNumber('%' . $phone . '%');
+			$res = [];
+			foreach ($users as $user) {
+				$res[] = ['id' => $user->getId(), 'name' => $user->getPhone(), 'type' => $this->findOrphansUser($user)];
+			}
 
-        /* List only Orphans Users */
+			/* List only Orphans Users */
         } else {
             $usersCompany = $this->userRepository->getByRole('ROLE_ENTREPRISE');
             //var_dump($usersCompany);die();
@@ -103,20 +104,20 @@ class PurgeController extends AbstractController {
                    $res[] = ['id' => $user['id'], 'name' => $user['phone'], 'type' => $type];
             }
 
-            $usersPersonDegree = $this->userRepository->getByRole('ROLE_DIPLOME');
-            foreach ($usersPersonDegree as $user) {
-                $type = $this->findOrphansUser($this->userRepository->find($user['id']));
-                if($type != 'Diplômé')
-                    $res[] = ['id' => $user['id'], 'name' => $user['phone'], 'type' => $type];
-            }
+			$usersPersonDegree = $this->userRepository->getByRole(Role::ROLE_DIPLOME);
+			foreach ($usersPersonDegree as $user) {
+				$type = $this->findOrphansUser($this->userRepository->find($user['id']));
+				if ($type != 'Diplômé')
+					$res[] = ['id' => $user['id'], 'name' => $user['phone'], 'type' => $type];
+			}
 
-            $usersSchool = $this->userRepository->getByRole('ROLE_ETABLISSEMENT');
-            foreach ($usersSchool as $user) {
-                $type = $this->findOrphansUser($this->userRepository->find($user['id']));
-                if($type != 'Etablissement')
-                    $res[] = ['id' => $user['id'], 'name' => $user['phone'], 'type' => $type];
-            }
-        }
+			$usersSchool = $this->userRepository->getByRole(Role::ROLE_ETABLISSEMENT);
+			foreach ($usersSchool as $user) {
+				$type = $this->findOrphansUser($this->userRepository->find($user['id']));
+				if ($type != 'Etablissement')
+					$res[] = ['id' => $user['id'], 'name' => $user['phone'], 'type' => $type];
+			}
+		}
         return new JsonResponse($res);
     }
 
@@ -263,20 +264,20 @@ class PurgeController extends AbstractController {
         return new JsonResponse([$res, $err, $check]);
     }
 
-    public function findOrphansUser(User $user) {
-        $type = "Orphelin: ";
-        if ($user->getCompany()) {
-            $type = "Entreprise";
-        } elseif ($user->getPersonDegree()) {
-            $type = "Diplômé";
-        } elseif ($user->getSchool()) {
-            $type = "Etablissement";
-        } else {
-            foreach ($user->getRoles() as $role) {
-                if ($role != 'ROLE_USER')
-                    $type .= $role . ';';
-            }
-        }
-        return ($type);
-    }
+	public function findOrphansUser(User $user): string {
+		$type = 'Orphelin: ';
+		if ($user->getCompany()) {
+			$type = 'Entreprise';
+		} elseif ($user->getPersonDegree()) {
+			$type = 'Diplômé';
+		} elseif ($user->getSchool()) {
+			$type = 'Etablissement';
+		} else {
+			foreach ($user->getRoles() as $role) {
+				if ($role != 'ROLE_USER')
+					$type .= $role . ';';
+			}
+		}
+		return ($type);
+	}
 }

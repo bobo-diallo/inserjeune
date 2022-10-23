@@ -83,133 +83,145 @@ class FrontCompanyController extends AbstractController {
 
 	#[Route(path: '/', name: 'front_company_show', methods: ['GET'])]
 	public function showAction(): Response {
-		$company = $this->companyService->getCompany();
-		if (!$company) return $this->redirectToRoute('front_company_new');
+		return $this->companyService->checkUnCompletedAccountBefore(function () {
+			$company = $this->companyService->getCompany();
+			if (!$company) return $this->redirectToRoute('front_company_new');
 
-		return $this->render('company/show.html.twig', ['company' => $company]);
+			return $this->render('company/show.html.twig', ['company' => $company]);
+		});
 	}
 
 	#[Route(path: '/edit', name: 'front_company_edit', methods: ['GET', 'POST', 'PUT'])]
 	public function editAction(Request $request): RedirectResponse|Response {
-		$company = $this->companyService->getCompany();
-		$createdDate = $company->getCreatedDate();
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request) {
+			$company = $this->companyService->getCompany();
+			$createdDate = $company->getCreatedDate();
 
-		if (!$company) {
-			return $this->redirectToRoute('front_company_new');
-		}
-		$selectedCountry = $this->getUser()->getCountry();
+			if (!$company) {
+				return $this->redirectToRoute('front_company_new');
+			}
+			$selectedCountry = $this->getUser()->getCountry();
 
-		$editForm = $this->createForm(CompanyType::class, $company);
-		$editForm->handleRequest($request);
+			$editForm = $this->createForm(CompanyType::class, $company);
+			$editForm->handleRequest($request);
 
-		if ($editForm->isSubmitted() && $editForm->isValid()) {
-			$company->setCreatedDate($createdDate);
-			if ($company->getCreatedDate() == null) {
-				if ($company->getUpdatedDate()) {
-					$company->setCreatedDate($company->getUpdatedDate());
+			if ($editForm->isSubmitted() && $editForm->isValid()) {
+				$company->setCreatedDate($createdDate);
+				if ($company->getCreatedDate() == null) {
+					if ($company->getUpdatedDate()) {
+						$company->setCreatedDate($company->getUpdatedDate());
+					} else {
+						$company->setCreatedDate(new \DateTime());
+					}
+				}
+				$company->setUpdatedDate(new \DateTime());
+
+				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
+				if ($agreeRgpd) {
+					// remove autorization to edit for School during Enrollment
+					if($company->isUnlocked()) {
+						$company->setUnlocked(false);
+					}
+					$company->setUser($this->getUser());
+					$this->em->flush();
+
+					return $this->redirectToRoute('front_company_show');
 				} else {
-					$company->setCreatedDate(new \DateTime());
+					return $this->redirectToRoute('user_delete_company', ['id' => $company->getId()]);
 				}
 			}
-			$company->setUpdatedDate(new \DateTime());
 
-			$agreeRgpd = $editForm->get('agreeRgpd')->getData();
-			if ($agreeRgpd == true) {
-                // remove autorization to edit for School during Enrollment
-                if($company->isUnlocked()) {
-                    $company->setUnlocked(false);
-                }
-				$company->setUser($this->getUser());
-				$this->em->flush();
-
-				return $this->redirectToRoute('front_company_show');
-			} else {
-				return $this->redirectToRoute('user_delete_company', ['id' => $company->getId()]);
-			}
-		}
-
-		return $this->render('company/edit.html.twig', [
-			'company' => $company,
-			'edit_form' => $editForm->createView(),
-			'selectedCountry' => $selectedCountry
-		]);
+			return $this->render('company/edit.html.twig', [
+				'company' => $company,
+				'edit_form' => $editForm->createView(),
+				'selectedCountry' => $selectedCountry
+			]);
+		});
 	}
 
 	#[Route(path: '/satisfactioncompany', name: 'front_company_satisfactioncompany_index', methods: ['GET'])]
 	public function indexSatisfactionCompanyAction(): Response {
-		$satisfactionCompanies = $this->satisfactionCompanyRepository
-			->findBy([
-				'company' => $this->companyService->getCompany()
-			]);
+		return $this->companyService->checkUnCompletedAccountBefore(function () {
+			$satisfactionCompanies = $this->satisfactionCompanyRepository
+				->findBy([
+					'company' => $this->companyService->getCompany()
+				]);
 
-		return $this->render('satisfactioncompany/index.html.twig', ['satisfactionCompanies' => $satisfactionCompanies]);
+			return $this->render('satisfactioncompany/index.html.twig', ['satisfactionCompanies' => $satisfactionCompanies]);
+		});
 	}
 
 	#[Route(path: '/satisfactioncompany/new', name: 'front_company_satisfactioncompany_new', methods: ['GET', 'POST'])]
 	public function newSatisfactionCompanyAction(Request $request): RedirectResponse|Response {
-		$satisfactionCompany = new SatisfactionCompany();
-		$company = $this->companyService->getCompany();
-		$satisfactionCompany->setCompany($company);
-
-		$form = $this->createForm(SatisfactionCompanyType::class, $satisfactionCompany);
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$satisfactionCompany->setCreatedDate(new \DateTime());
-			$satisfactionCompany->setUpdatedDate(new \DateTime());
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request) {
+			$satisfactionCompany = new SatisfactionCompany();
+			$company = $this->companyService->getCompany();
 			$satisfactionCompany->setCompany($company);
 
-			$this->em->persist($satisfactionCompany);
-			$this->em->flush();
+			$form = $this->createForm(SatisfactionCompanyType::class, $satisfactionCompany);
+			$form->handleRequest($request);
 
-			$this->notifSatisfaction();
-			return $this->redirectToRoute('front_company_satisfactioncompany_show', ['id' => $satisfactionCompany->getId()]);
-		}
-		return $this->render('satisfactioncompany/new.html.twig', [
-			'satisfactionCompany' => $satisfactionCompany,
-			'form' => $form->createView(),
-			'company' => $company
-		]);
+			if ($form->isSubmitted() && $form->isValid()) {
+				$satisfactionCompany->setCreatedDate(new \DateTime());
+				$satisfactionCompany->setUpdatedDate(new \DateTime());
+				$satisfactionCompany->setCompany($company);
+
+				$this->em->persist($satisfactionCompany);
+				$this->em->flush();
+
+				$this->notifSatisfaction();
+				return $this->redirectToRoute('front_company_satisfactioncompany_show', ['id' => $satisfactionCompany->getId()]);
+			}
+			return $this->render('satisfactioncompany/new.html.twig', [
+				'satisfactionCompany' => $satisfactionCompany,
+				'form' => $form->createView(),
+				'company' => $company
+			]);
+		});
 	}
 
 	#[Route(path: '/satisfactioncompany/{id}', name: 'front_company_satisfactioncompany_show', methods: ['GET'])]
 	public function showSatisfactionCompanyAction(SatisfactionCompany $satisfactionCompany): Response {
-		$company = $this->companyService->getCompany();
-		if (!$company) return $this->redirectToRoute('front_company_new');
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($satisfactionCompany) {
+			$company = $this->companyService->getCompany();
+			if (!$company) return $this->redirectToRoute('front_company_new');
 
-		return $this->render('satisfactioncompany/show.html.twig', [
-			'company' => $company,
-			'satisfactionCompany' => $satisfactionCompany,
-		]);
+			return $this->render('satisfactioncompany/show.html.twig', [
+				'company' => $company,
+				'satisfactionCompany' => $satisfactionCompany,
+			]);
+		});
 	}
 
 	#[Route(path: '/satisfactionCompany/{id}/edit', name: 'front_company_satisfactioncompany_edit', methods: ['GET', 'POST'])]
 	public function editSatisfactionCompanyAction(Request $request, SatisfactionCompany $satisfactionCompany): RedirectResponse|Response {
-		$createdDate = $satisfactionCompany->getCreatedDate();
-		$editForm = $this->createForm(SatisfactionCompanyType::class, $satisfactionCompany);
-		$editForm->handleRequest($request);
+		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request, $satisfactionCompany) {
+			$createdDate = $satisfactionCompany->getCreatedDate();
+			$editForm = $this->createForm(SatisfactionCompanyType::class, $satisfactionCompany);
+			$editForm->handleRequest($request);
 
-		if ($editForm->isSubmitted() && $editForm->isValid()) {
-			$satisfactionCompany->setCreatedDate($createdDate);
-			if ($satisfactionCompany->getCreatedDate() == null) {
-				if ($satisfactionCompany->getUpdatedDate()) {
-					$satisfactionCompany->setCreatedDate($satisfactionCompany->getUpdatedDate());
-				} else {
-					$satisfactionCompany->setCreatedDate(new \DateTime());
+			if ($editForm->isSubmitted() && $editForm->isValid()) {
+				$satisfactionCompany->setCreatedDate($createdDate);
+				if ($satisfactionCompany->getCreatedDate() == null) {
+					if ($satisfactionCompany->getUpdatedDate()) {
+						$satisfactionCompany->setCreatedDate($satisfactionCompany->getUpdatedDate());
+					} else {
+						$satisfactionCompany->setCreatedDate(new \DateTime());
+					}
 				}
+
+				$satisfactionCompany->setUpdatedDate(new \DateTime());
+				$satisfactionCompany->setCompany($this->companyService->getCompany());
+				$this->em->flush();
+
+				return $this->redirectToRoute('front_company_satisfactioncompany_show', ['id' => $satisfactionCompany->getId()]);
 			}
 
-			$satisfactionCompany->setUpdatedDate(new \DateTime());
-			$satisfactionCompany->setCompany($this->companyService->getCompany());
-			$this->em->flush();
-
-			return $this->redirectToRoute('front_company_satisfactioncompany_show', ['id' => $satisfactionCompany->getId()]);
-		}
-
-		return $this->render('satisfactioncompany/edit.html.twig', [
-			'satisfactionCompany' => $satisfactionCompany,
-			'edit_form' => $editForm->createView(),
-		]);
+			return $this->render('satisfactioncompany/edit.html.twig', [
+				'satisfactionCompany' => $satisfactionCompany,
+				'edit_form' => $editForm->createView(),
+			]);
+		});
 	}
 
 	/**

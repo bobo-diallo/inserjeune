@@ -95,19 +95,21 @@
         })
         {% endif %}
         function checkPhoneNumber($phoneNumber) {
-            let usrname = $('.logged-user-name').html();
+            if ($phoneNumber !== undefined) {
+                let usrname = $('.logged-user-name').html();
 
-            // verification de l'indicatif pays
-            let indPersonDegree = '+' + $('#countryPhoneCode').val();
-            let indPhone = $phoneNumber.substr(0, indPersonDegree.length);
+                // verification de l'indicatif pays
+                let indPersonDegree = '+' + $('#countryPhoneCode').val();
+                let indPhone = $phoneNumber.substr(0, indPersonDegree.length);
 
-            if (indPhone != indPersonDegree) {
-                alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
-                $('#appbundle_persondegree_phoneMobile1').val(usrname);
-            } else if ($phoneNumber != usrname) {
-                let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber)
-                if (confirmPhone == false) {
+                if (indPhone != indPersonDegree) {
+                    alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
                     $('#appbundle_persondegree_phoneMobile1').val(usrname);
+                } else if ($phoneNumber != usrname) {
+                    let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber)
+                    if (confirmPhone == false) {
+                        $('#appbundle_persondegree_phoneMobile1').val(usrname);
+                    }
                 }
             }
         }
