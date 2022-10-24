@@ -63,7 +63,7 @@ class Company {
 	#[ORM\Column(name: 'email', type: 'string')]
 	private ?string $email;
 
-    #[ORM\Column(name: 'temporary_passwd', type: 'string')]
+    #[ORM\Column(name: 'temporary_passwd', type: 'string', nullable: true)]
     private ?string $temporaryPasswd;
 
 	#[ORM\ManyToOne(targetEntity: ContactCompany::class)]

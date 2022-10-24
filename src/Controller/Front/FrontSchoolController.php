@@ -24,6 +24,7 @@ use App\Repository\LegalStatusRepository;
 use App\Repository\SectorAreaRepository;
 use App\Repository\ActivityRepository;
 use App\Services\ActivityService;
+use App\Services\EmailService;
 use App\Services\SchoolService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,6 +59,7 @@ class FrontSchoolController extends AbstractController {
 	private SectorAreaRepository $sectorAreaRepository;
 	private ActivityRepository $activityRepository;
     private UserPasswordHasherInterface $hasher;
+	private EmailService $emailService;
 
 	public function __construct(
 		EntityManagerInterface       $em,
@@ -75,7 +77,8 @@ class FrontSchoolController extends AbstractController {
         DegreeRepository             $degreeRepository,
 		LegalStatusRepository        $legalStatusRepository,
 		SectorAreaRepository         $sectorAreaRepository,
-		ActivityRepository           $activityRepository
+		ActivityRepository           $activityRepository,
+		EmailService                 $emailService,
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -93,6 +96,7 @@ class FrontSchoolController extends AbstractController {
 		$this->legalStatusRepository = $legalStatusRepository;
 		$this->sectorAreaRepository = $sectorAreaRepository;
 		$this->activityRepository = $activityRepository;
+		$this->emailService = $emailService;
 	}
 
 	#[Route(path: '/new', name: 'front_school_new', methods: ['GET', 'POST'])]
@@ -470,7 +474,7 @@ class FrontSchoolController extends AbstractController {
 
 			//envoi du mail des paramètres de connexion
 			if ($user->getEmail()) {
-				if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
+				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
 					"Paramètres de votre compte InserJeune", "Etablissement", $user->getPhone())) {
 					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
 				} else {
@@ -494,7 +498,7 @@ class FrontSchoolController extends AbstractController {
 
 			// envoi du mail des paramètres de connexion
 			if ($user->getEmail()) {
-				if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
+				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
 					"Paramètres de votre compte InserJeune", "Etablissement", $user->getPhone())) {
 					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
 				} else {
@@ -902,16 +906,6 @@ class FrontSchoolController extends AbstractController {
 
              // synchronise le username avec le phone
              $user->setUsername($phoneNumber);
-
-             // envoi du mail de confirmation
-             //               if($user->getEmail()) {
-             //                  if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(),
-             //                           "confirmation de création de compte InserJeune", $typePerson, $user->getPhone(), $user->getPlainPassword())) {
-             //                     $this->get('session')->getFlashBag()->add('success', 'Une confirmation de création de compte est envoyée par mail');
-             //                  } else {
-             //                     $this->get('session')->getFlashBag()->add('danger', 'Erreur d\'envoi de mail');
-             //                  }
-             //               }
 
              // créé l'adresse mail fictive
              $user->setEmail($phoneNumber . "@domaine.extension");

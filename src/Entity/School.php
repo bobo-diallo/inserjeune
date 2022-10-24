@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SchoolRepository;
+use App\Validatior\Constraints as IFEFAssert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -84,7 +85,8 @@ class School {
 	#[ORM\OneToMany(mappedBy: 'school', targetEntity: PersonDegree::class)]
 	private Collection $personDegrees;
 
-	#[ORM\Column(name: 'registration', type: 'string', length: 255, nullable: true)]
+	#[ORM\Column(name: 'registration', type: 'string', length: 255, unique: true, nullable: true)]
+	#[IFEFAssert\DuplicateSchoolRegistered]
 	private ?string $registration;
 
 	#[ORM\Column(name: 'other_degree', type: 'string', nullable: true)]
