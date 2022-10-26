@@ -2,12 +2,14 @@
 
 ## Setup app
 1. Install dependencies with: ````composer install````
-2. Install database with: ````php bin/console d:d:c ````
-3. Excecute migrations with: ````php bin/console d:m:m ````
-4. Add fixtures with: ````php bin/console d:f:l ````
+2. Install database with (for new installation): ````php bin/console d:d:c ```` 
+3. Excecute migrations with: ````php bin/console d:m:m -n````
+4. Add fixtures with (for test): ````php bin/console d:f:l ````
 5. Install npm packages: ````npm install ````
 6. Generate public assets: ````npm run build ````
-7. Run server: ````symfony server:start ````
+7. Install asset for extra bundle: ````symfony console asset:install public````
+8. Run server (if server is not configured): ````symfony server:start ````
+9. Add directories for upload files `````mdkir -p public/uploads/brochures`````
 
 ### Simple installation
 1. Setup project fixtures: ````make install````

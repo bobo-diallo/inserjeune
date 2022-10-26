@@ -27,12 +27,7 @@ class DashboardService {
 	public function checkAccountBefore(callable $executionActionController): mixed {
 		/** @var User $user */
 		$user = $this->tokenStorage->getToken()->getUser();
-		if ($user->getSchool())
-			return new RedirectResponse($this->router->generate('front_school_show'));
-		else if ($user->getCompany()) {
-			return new RedirectResponse($this->router->generate('front_company_show'));
-		}
-		else if ($user->getPersonDegree()) {
+		if ($user->getPersonDegree()) {
 			return new RedirectResponse($this->router->generate('front_persondegree_show'));
 		} else {
 			return $executionActionController();
