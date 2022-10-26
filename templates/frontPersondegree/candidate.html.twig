@@ -12,9 +12,14 @@
         <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
           {{ 'job.apply_for_a_job_offer' | trans }}
-          {#<a class="btn btn-sm btn-primary float-right" href="#">#}
-            {#<i class="fa fa-arrow-left"></i> Voir le profil#}
-          {#</a>#}
+          <div>
+            {% if jobOffer.filename is not null %}
+              {% set filepath = 'uploads/brochures/'  ~ jobOffer.filename %}
+              <a class="btn btn-sm btn-primary float-right" href="{{ asset(filepath) }}" download>
+                <i class="fa fa-file-pdf"></i> {{ 'menu.download_description' | trans }}
+              </a>
+            {% endif %}
+          </div>
         </h6>
         <div class="element-box">
           <form method="post" enctype="multipart/form-data" action="{{ path('front_persondegree_candidate', {'id': jobOffer.id }) }}">
@@ -99,17 +104,5 @@
 {% endblock %}
 
 {% block js %}
-  <script>
-     $(document).ready(function () {
-        ClassicEditor
-           .create( document.querySelector( '#appbundle_candidate_message' ) )
-           .then( editor => {
-              console.log( editor );
-           } )
-           .catch( error => {
-              console.error( error );
-           } );
-     })
-  </script>
 
 {% endblock %}

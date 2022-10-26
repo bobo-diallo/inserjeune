@@ -42,4 +42,12 @@ class JobOfferRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
    }
+
+   public function markJobOfferView(int $jobOfferId, bool $isView): void {
+		$jobOffer = $this->find($jobOfferId);
+		$jobOffer->setIsView($isView);
+
+		$this->_em->persist($jobOffer);
+		$this->_em->flush();
+   }
 }

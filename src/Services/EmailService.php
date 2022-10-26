@@ -3,9 +3,25 @@
 namespace App\Services;
 
 use App\Entity\Candidate;
+use App\Entity\JobOffer;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class EmailService {
+	private ParameterBagInterface $parameterBag;
+	private MailerInterface $mailer;
+
+	public function __construct(
+		ParameterBagInterface $parameterBag,
+		MailerInterface $mailer
+	) {
+		$this->parameterBag = $parameterBag;
+		$this->mailer = $mailer;
+	}
+
 	public function sendMailPasswd(string $to, string $code, string $title): bool {
 		$subject = $title;
 		$messageTxt = "Votre code pour modifier votre mot de passe est : " . $code;
@@ -44,7 +60,6 @@ class EmailService {
 	}
 
 	public function sendMail(Candidate $candidate, string $title): bool {
-
 		$messageTxt = $candidate->getMessage();
 		$to = $candidate->getEmailDestination();
 		$subject = "Candidature via IFEF - $title";
@@ -97,6 +112,34 @@ class EmailService {
 		$message .= "$nextLine--$boundary" . $nextLine;
 
 		return $message;
+	}
+
+	public function sendCandidateMail(Candidate $candidate, JobOffer $jobOffer): bool {
+		$pathCv = $this->parameterBag->get('brochures_directory') . DIRECTORY_SEPARATOR . $candidate->getCvFilename();
+		$pathCoverLetter = $this->parameterBag->get('brochures_directory') . DIRECTORY_SEPARATOR . $candidate->getCoverLetterFilename();
+
+		$email = (new Email())
+			->from($this->parameterBag->get('email_from'))
+			->to($jobOffer->getPostedEmail())
+			->replyTo($this->parameterBag->get('email_from'))
+			->subject('Candidature via IFEF - ' . $jobOffer->getTitle())
+			->html($candidate->getMessage())
+			->attachFromPath($pathCv, 'CV-' . $candidate->getCandidateName(), 'application/pdf')
+			->attachFromPath($pathCoverLetter, 'Cover-letter-' . $candidate->getCandidateName(), 'application/pdf')
+		;
+
+		try {
+			$this->mailer->send($email);
+			return true;
+
+		} catch (TransportExceptionInterface $e) {
+			var_dump($e->getMessage());
+			die();
+			return false;
+		} finally {
+			@unlink($pathCv);
+			@unlink($pathCoverLetter);
+		}
 	}
 
 	/**

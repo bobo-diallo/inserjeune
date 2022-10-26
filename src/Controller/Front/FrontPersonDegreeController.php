@@ -13,7 +13,9 @@ use App\Entity\School;
 use App\Repository\JobOfferRepository;
 use App\Repository\UserRepository;
 use App\Services\ActivityService;
+use App\Services\CompanyService;
 use App\Services\EmailService;
+use App\Services\FileUploader;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,6 +25,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 
@@ -35,6 +39,8 @@ class FrontPersonDegreeController extends AbstractController {
 	private JobOfferRepository $jobOfferRepository;
 	private EmailService $emailService;
 	private UserRepository $userRepository;
+	private CompanyService $companyService;
+	private FileUploader $fileUploader;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -42,7 +48,9 @@ class FrontPersonDegreeController extends AbstractController {
 		PersonDegreeService    $personDegreeService,
 		JobOfferRepository     $jobOfferRepository,
 		EmailService           $emailService,
-		UserRepository         $userRepository
+		UserRepository         $userRepository,
+		CompanyService $companyService,
+		FileUploader $fileUploader
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -50,6 +58,8 @@ class FrontPersonDegreeController extends AbstractController {
 		$this->jobOfferRepository = $jobOfferRepository;
 		$this->emailService = $emailService;
 		$this->userRepository = $userRepository;
+		$this->companyService = $companyService;
+		$this->fileUploader = $fileUploader;
 	}
 
 	#[Route(path: '/new', name: 'front_persondegree_new', methods: ['GET', 'POST'])]
@@ -175,21 +185,35 @@ class FrontPersonDegreeController extends AbstractController {
 	}
 
 	#[Route(path: '/{id}/candidate', name: 'front_persondegree_candidate', methods: ['GET', 'POST'])]
-	public function candidateAction(Request $request, JobOffer $jobOffer): Response {
-		return $this->personDegreeService->checkUnCompletedAccountBefore(function () use ($request, $jobOffer) {
+	public function candidateAction(Request $request, JobOffer $jobOffer, MailerInterface $mailer): Response {
+		return $this->personDegreeService->checkUnCompletedAccountBefore(function () use ($request, $jobOffer, $mailer) {
+			$this->companyService->markJobOfferAsView($jobOffer->getId());
+
 			$candidate = new Candidate();
 			$form = $this->createForm(CandidateType::class, $candidate);
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()) {
+				// Save cv/coverLetter
+				$cvFile = $form->get('cv')->getData();
+				$coverLetterFile = $form->get('coverLetter')->getData();
+				if ($cvFile) {
+					$cvFileName = $this->fileUploader->upload($cvFile);
+					$candidate->setCvFilename($cvFileName);
+				}
+
+				if ($coverLetterFile) {
+					$coverLetterFileName = $this->fileUploader->upload($coverLetterFile);
+					$candidate->setCoverLetterFilename($coverLetterFileName);
+				}
+
 				$personDegree = $this->personDegreeService->getPersonDegree();
 				$candidate->setCandidateName(preg_replace('/ /', '_', strtolower($personDegree->getFirstname() . '_' . $personDegree->getLastname())));
-				$candidate->setEmailDestination($jobOffer->getPostedEmail());
 
-				if ($this->emailService->sendMail($candidate, $jobOffer->getTitle())) {
-					$this->notifSatisfaction("Votre candididature est envoyée avec success.");
+				if ($this->emailService->sendCandidateMail($candidate, $jobOffer)) {
+					$this->addFlash('success', 'Votre candididature est envoyée avec success.');
 				} else {
-					$this->notifSatisfaction("Erreur envoi candidature");
+					$this->addFlash('warning', 'Erreur envoi candidature');
 				}
 
 				return $this->redirectToRoute('jobOffer_index');

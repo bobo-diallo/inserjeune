@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
+use App\Services\CompanyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,13 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class JobOfferController extends AbstractController {
 	private EntityManagerInterface $em;
 	private JobOfferRepository $jobOfferRepository;
+	private CompanyService $companyService;
 
 	public function __construct(
 		EntityManagerInterface $em,
-		JobOfferRepository     $jobOfferRepository
+		JobOfferRepository     $jobOfferRepository,
+		CompanyService $companyService
 	) {
 		$this->em = $em;
 		$this->jobOfferRepository = $jobOfferRepository;
+		$this->companyService = $companyService;
 	}
 
 	#[IsGranted('ROLE_USER')]
@@ -57,6 +61,7 @@ class JobOfferController extends AbstractController {
 
 	#[Route(path: '/{id}', name: 'jobOffer_show', methods: ['GET'])]
 	public function showAction(JobOffer $jobOffer): Response {
+		$this->companyService->markJobOfferAsView($jobOffer->getId());
 		return $this->render('jobOffer/show.html.twig', [
 			'jobOffer' => $jobOffer,
 		]);
