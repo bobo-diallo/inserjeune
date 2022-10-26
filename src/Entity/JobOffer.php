@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\JobOfferRepository;
 use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use UploadBundle\Annotation\Uploadable;
 use UploadBundle\Annotation\UploadableField;
@@ -68,10 +67,6 @@ class JobOffer {
 	#[ORM\JoinColumn(name: 'lasted_contract_id', referencedColumnName: 'id', nullable: true)]
 	private ?Contract $contract = null;
 
-	#[ORM\ManyToOne(targetEntity: Image::class)]
-	#[ORM\JoinColumn(name: 'id_image', referencedColumnName: 'id', nullable: true)]
-	private ?Image $image = null;
-
 	#[ORM\ManyToOne(targetEntity: City::class)]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
 	private ?City $city = null;
@@ -87,12 +82,11 @@ class JobOffer {
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
 	private ?Country $country = null;
 
-	#[UploadableField(filename: 'filename', path: 'uploads')]
-	#[Assert\Image(maxWidth: '2000', maxHeight: '2000')]
-	private ?File $file = null;
-
 	#[ORM\Column(name: 'updated_date', type: 'datetime', nullable: true)]
 	private ?\DateTime $updatedDate;
+
+	#[ORM\Column(name: 'is_view', type: 'boolean')]
+	private bool $isView = false;
 
 	#[ORM\Column(name: 'candidate_profile', type: 'text', nullable: true)]
 	private ?string $candidateProfile;
@@ -233,15 +227,6 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getImage(): ?Image {
-		return $this->image;
-	}
-
-	public function setImage(?Image $image): self {
-		$this->image = $image;
-		return $this;
-	}
-
 	public function getOtherCity(): ?string {
 		return $this->otherCity;
 	}
@@ -288,14 +273,6 @@ class JobOffer {
 		return $this->filename;
 	}
 
-	public function getFile(): ?File {
-		return $this->file;
-	}
-
-	public function setFile($file): void {
-		$this->file = $file;
-	}
-
 	public function getUpdatedDate(): ?\DateTime {
 		return $this->updatedDate ?: $this->createdDate;
 	}
@@ -313,4 +290,15 @@ class JobOffer {
 		$this->candidateProfile = $candidateProfile;
 		return $this;
 	}
+
+	public function isView(): bool {
+		return $this->isView;
+	}
+
+	public function setIsView(bool $isView): self {
+		$this->isView = $isView;
+
+		return $this;
+	}
+
 }

@@ -6,6 +6,7 @@ use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
 use App\Services\CompanyService;
+use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,15 +24,18 @@ class FrontCompanyJobOfferController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CompanyService $companyService;
 	private JobOfferRepository $jobOfferRepository;
+	private FileUploader $fileUploader;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		CompanyService         $companyService,
-		JobOfferRepository     $jobOfferRepository
+		JobOfferRepository     $jobOfferRepository,
+		FileUploader $fileUploader
 	) {
 		$this->em = $em;
 		$this->companyService = $companyService;
 		$this->jobOfferRepository = $jobOfferRepository;
+		$this->fileUploader = $fileUploader;
 	}
 
 	#[Route(path: '/', name: 'front_company_jobOffer_index', methods: ['GET'])]
@@ -59,6 +63,12 @@ class FrontCompanyJobOfferController extends AbstractController {
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()) {
+				$offerDescription = $form->get('file')->getData();
+				if ($offerDescription) {
+					$offerDescriptionFileName = $this->fileUploader->upload($offerDescription);
+					$jobOffer->setFilename($offerDescriptionFileName);
+				}
+
 				$jobOffer->setCompany($company);
 				$this->em->persist($jobOffer);
 				$this->em->flush();

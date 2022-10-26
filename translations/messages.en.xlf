@@ -137,6 +137,14 @@
         <source>menu.description</source>
         <target>Description</target>
       </trans-unit>
+      <trans-unit id="menu.download_description">
+        <source>menu.download_description</source>
+        <target>Download Description</target>
+      </trans-unit>
+      <trans-unit id="menu.is_view">
+        <source>menu.is_view</source>
+        <target>Est vue</target>
+      </trans-unit>
       <trans-unit id="menu.cities">
         <source>menu.cities</source>
         <target>Cities</target>
@@ -585,9 +593,21 @@
         <source>menu.attach_an_image</source>
         <target>Attach_an_image</target>
       </trans-unit>
+      <trans-unit id="menu.attach_the_description_of_the_offer">
+        <source>menu.attach_the_description_of_the_offer</source>
+        <target>Attach the description of the offer</target>
+      </trans-unit>
       <trans-unit id="menu.select_a_new_image">
         <source>menu.select_a_new_image</source>
         <target>Select_a_new_image</target>
+      </trans-unit>
+      <trans-unit id="menu.select_file">
+        <source>menu.select_file</source>
+        <target>Select file</target>
+      </trans-unit>
+      <trans-unit id="menu.change">
+        <source>menu.change</source>
+        <target>Changer</target>
       </trans-unit>
       <trans-unit id="menu.employment_contact">
         <source>menu.employment_contact</source>

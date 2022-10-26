@@ -25,3 +25,6 @@
 
 ### Run app with one command
 `make run-app`
+
+## Consume send mail
+``php bin/console messenger:consume async``

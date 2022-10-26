@@ -3,11 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Candidate;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class CandidateType extends AbstractType
 {
@@ -17,17 +18,37 @@ class CandidateType extends AbstractType
    public function buildForm(FormBuilderInterface $builder, array $options)
    {
       $builder
-         ->add('coverLetter', FileType::class)
-         ->add('cv', FileType::class)
-         ->add('message', TextareaType::class, [
-            'attr' => [
-				'class' => 'form-control',
-	            'data-error' => 'Minimum 50 caractères',
-	            'placeholder' => 'Message',
-	            'rows' => '10'
-            ],
-            'required' => false
-         ])
+	      ->add('cv', FileType::class, [
+		      'label' => 'Selectionner votre CV (PDF)',
+		      'mapped' => false,
+		      'required' => true,
+		      'constraints' => [
+			      new File([
+				      'maxSize' => '2048k',
+				      'mimeTypes' => [
+					      'application/pdf',
+					      'application/x-pdf',
+				      ],
+				      'mimeTypesMessage' => 'Please upload a valid PDF document',
+			      ])
+		      ],
+	      ])
+	      ->add('coverLetter', FileType::class, [
+		      'label' => 'Selectionner votre lettre de moditivation (PDF)',
+		      'mapped' => false,
+		      'required' => true,
+		      'constraints' => [
+			      new File([
+				      'maxSize' => '2048k',
+				      'mimeTypes' => [
+					      'application/pdf',
+					      'application/x-pdf',
+				      ],
+				      'mimeTypesMessage' => 'Please upload a valid PDF document',
+			      ])
+		      ],
+	      ])
+         ->add('message', CKEditorType::class)
          ->add('emailDestination');
    }
 

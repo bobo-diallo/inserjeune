@@ -66,6 +66,13 @@
               </legend>
               <div class="form-group row ">
                 <p class="col-sm-12">{{  jobOffer.description | raw }}</p>
+                <div>
+                  {% if jobOffer.filename is not null %}
+                    {% set filepath = 'uploads/brochures/'  ~ jobOffer.filename %}
+                    <br>
+                    <a href="{{ asset(filepath) }}" download>{{ 'menu.description' | trans }} PDF</a>
+                  {% endif %}
+                </div>
               </div>
             </fieldset>
           </div>

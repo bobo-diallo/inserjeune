@@ -31,6 +31,7 @@
                                 <th>{{ 'menu.email' | trans }}</th>
                                 <th>{{ 'menu.city' | trans }}</th>
                                 <th>{{ 'menu.description' | trans }} </th>
+                                <th>{{ 'menu.is_view' | trans }} </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +50,11 @@
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
                                     <td>{{ jobOffer.description |slice(0, 40) ~ '...'  }}</td>
+                                    {% if jobOffer.isView %}
+                                        <td>{{ 'menu.yes' | trans }}</td>
+                                    {% else %}
+                                        <td>{{ 'menu.no' | trans }}</td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>

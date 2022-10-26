@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\CandidateRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Table(name: 'candidate')]
 #[ORM\Entity(repositoryClass: CandidateRepository::class)]
@@ -14,38 +13,18 @@ class Candidate {
 	#[ORM\GeneratedValue(strategy: 'AUTO')]
 	private ?int $id = null;
 
-	private File $coverLetter;
+	private ?string $cvFilename;
 
-	private File $cv;
+	private ?string $coverLetterFilename;
 
-	private string $emailDestination;
+	private ?string $emailDestination;
 
-	private string $candidateName;
+	private ?string $candidateName;
 
-	private string $message;
+	private ?string $message;
 
 	public function getId(): ?int {
 		return $this->id;
-	}
-
-	public function setCoverLetter(string $coverLetter): self {
-		$this->coverLetter = $coverLetter;
-
-		return $this;
-	}
-
-	public function getCoverLetter(): File {
-		return $this->coverLetter;
-	}
-
-	public function setCv(File $cv): self {
-		$this->cv = $cv;
-
-		return $this;
-	}
-
-	public function getCv(): File {
-		return $this->cv;
 	}
 
 	public function setEmailDestination(string $emailDestination): self {
@@ -58,22 +37,45 @@ class Candidate {
 		return $this->emailDestination;
 	}
 
-	public function getCandidateName(): string {
+
+	public function getCvFilename(): ?string {
+		return $this->cvFilename;
+	}
+
+	public function setCvFilename(?string $cvFilename): self {
+		$this->cvFilename = $cvFilename;
+
+		return $this;
+	}
+
+	public function getCoverLetterFilename(): ?string {
+		return $this->coverLetterFilename;
+	}
+
+	public function setCoverLetterFilename(?string $coverLetterFilename): self {
+		$this->coverLetterFilename = $coverLetterFilename;
+		return $this;
+	}
+
+	public function getCandidateName(): ?string {
 		return $this->candidateName;
 	}
 
-	public function setCandidateName(string $candidateName): self {
+	public function setCandidateName(?string $candidateName): self {
 		$this->candidateName = $candidateName;
+
 		return $this;
 	}
 
-	public function getMessage(): string {
+	public function getMessage(): ?string {
 		return $this->message;
 	}
 
-	public function setMessage(string $message): self {
+	public function setMessage(?string $message): self {
 		$this->message = $message;
+
 		return $this;
 	}
+
 }
 

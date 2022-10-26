@@ -10,14 +10,15 @@ use App\Entity\SectorArea;
 use App\Services\ActivityService;
 use App\Services\CityService;
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class JobOfferType extends AbstractType {
 
@@ -38,14 +39,8 @@ class JobOfferType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le titre', 'placeholder' => 'Titre de l\'offre'],
 				'required' => true
 			])
-			->add('description', TextareaType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner la description ', 'rows' => 6, 'placeholder' => 'Minimum 20 caractères'],
-				'required' => true
-			])
-			->add('candidateProfile', TextareaType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Veuillez renseigner le profil du candidat ', 'rows' => '6'],
-				'required' => false
-			])
+			->add('description', CKEditorType::class, ['required' => true])
+			->add('candidateProfile', CKEditorType::class)
 			->add('closedDate', TextType::class, [
 				'attr' => ['class' => 'datepicker form-control', 'placeholder' => 'Date d\'expiration' ],
 				'required' => true
@@ -62,10 +57,10 @@ class JobOfferType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner l\'email ', 'placeholder' => 'Email pour postuler'],
 				'required' => true
 			])
-			->add('coverLetter', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Lettre de Motivation'],
-				'required' => false
-			])
+			// ->add('coverLetter', TextType::class, [
+			// 	'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Lettre de Motivation'],
+			// 	'required' => false
+			// ])
 			->add('sectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'required' => true,
@@ -102,13 +97,22 @@ class JobOfferType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Autre ville'],
 				'required' => false
 			])
-			->add('file', FileType::class, ['attr' => ['class' => 'form-control'], 'required' => false])
-			->add('image', EntityType::class, [
-				'class' => Image::class,
-				'choice_label' => 'name',
+			->add('file', FileType::class, [
+				'label' => 'Joindre la description de l\'offre (PDF)',
+				'mapped' => false,
 				'required' => false,
-				'attr' => ['class' => 'form-control']
-			]);
+				'constraints' => [
+					new File([
+						'maxSize' => '2048k',
+						'mimeTypes' => [
+							'application/pdf',
+							'application/x-pdf',
+						],
+						'mimeTypesMessage' => 'Please upload a valid PDF document',
+					])
+				],
+			])
+		;
 
 		$this->cityService->addCity($builder, 'city', true);
 		$this->activityService->addActivity($builder, 'activity', 'sectorArea', false);

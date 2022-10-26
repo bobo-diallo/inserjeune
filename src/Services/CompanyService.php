@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
+use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,19 +19,22 @@ class CompanyService {
 	private CompanyRepository $companyRepository;
 	private RequestStack $requestStack;
 	private RouterInterface $router;
+	private JobOfferRepository $jobOfferRepository;
 
 	public function __construct(
 		TokenStorageInterface $tokenStorage,
 		EntityManagerInterface $manager,
 		CompanyRepository $companyRepository,
 		RequestStack $requestStack,
-		RouterInterface $router
+		RouterInterface $router,
+		JobOfferRepository $jobOfferRepository
 	) {
 		$this->tokenStorage = $tokenStorage;
 		$this->manager = $manager;
 		$this->companyRepository = $companyRepository;
 		$this->requestStack = $requestStack;
 		$this->router = $router;
+		$this->jobOfferRepository = $jobOfferRepository;
 	}
 
 	public function getCompany(): ?Company {
@@ -48,6 +52,9 @@ class CompanyService {
 		}
 	}
 
+	public function markJobOfferAsView(int $jobOfferId): void {
+		$this->jobOfferRepository->markJobOfferView($jobOfferId, true);
+	}
 
 	public function checkUnCompletedAccountBefore(callable $executionActionController): mixed {
 		$company = $this->getCompany();

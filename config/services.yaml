@@ -11,6 +11,9 @@ parameters:
     container.dumper.inline_factories: true
     dnsServer: vps417868
     app.supported_locales: fr|en
+    brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
+    email_from: nepasrepondre@inserjeune.francophonie.org
+    email_reply_to: nepasrepondre@inserjeune.francophonie.org
 
 services:
     # default configuration for services in *this* file
@@ -72,7 +75,8 @@ services:
             '@doctrine.orm.default_entity_manager',
             '@App\Repository\CompanyRepository',
             '@request_stack',
-            '@router'
+            '@router',
+            '@App\Repository\JobOfferRepository'
         ]
 
     app.school:
@@ -101,47 +105,10 @@ services:
     app.connectserverservice:
         class: App\Services\ConnectServerService
 
-    ## EventListeners
-    # Ecoute
-#    app.persondegree_listener:
-#        class: App\EventListener\PersonDegreeListener
-#        arguments: [
-#            '@security.token_storage',
-#            '@security.authorization_checker',
-#            '@doctrine.orm.default_entity_manager',
-#            '@request_stack',
-#            '@router',
-#            '@App\Repository\PersonDegreeRepository'
-#        ]
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
-    # Ecoute
-#    app.company_listener:
-#        class: App\EventListener\CompanyListener
-#        arguments: [
-#            '@security.token_storage',
-#            '@security.authorization_checker',
-#            '@doctrine.orm.default_entity_manager',
-#            '@request_stack',
-#            '@router' ,
-#            '@App\Repository\CompanyRepository'
-#        ]
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
-    # Ecoute
-#    app.school_listener:
-#        class: App\EventListener\SchoolListener
-#        arguments: [
-#            '@security.token_storage',
-#            '@security.authorization_checker',
-#            '@doctrine.orm.default_entity_manager',
-#            '@request_stack',
-#            '@router' ]
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
         # Satisfaction
     app.satisfaction:
         class: App\Services\SatisfactionService
+
+    App\Services\FileUploader:
+        arguments:
+            $targetDirectory: '%brochures_directory%'

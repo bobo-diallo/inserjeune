@@ -20,14 +20,15 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 form-group">
+        <div class="col-sm-12">
           <label> {{ 'menu.description' | trans }} *</label>
           {{ form_widget(form.description) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
         </div>
       </div>
+      <br>
       <div class="row">
-        <div class="col-sm-12 form-group">
+        <div class="col-sm-12">
           <label>{{ 'job.candidate_profile' | trans }}</label>
           {{ form_widget(form.candidateProfile) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
@@ -129,15 +130,15 @@
 
     {# Begin FileInput #}
     <div class="form-group">
-      <label class="">{{ 'menu.attach_an_image' | trans }}</label>
+      <label class="">{{ 'menu.attach_the_description_of_the_offer' | trans }}</label>
       <div style="border: 2px dashed #2177e0">
         <div class="fileinput fileinput-new" data-provides="fileinput">
           <div class="fileinput-new thumbnail"></div>
           <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
           <div>
               <span class="btn default btn-file">
-                <button class="btn fileinput-new" style="text-transform: none"> {{ 'menu.select_a_new_image' | trans }} </button>
-                <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> Changer </button>
+                <button class="btn fileinput-new" style="text-transform: none"> {{ 'menu.select_file' | trans }} (PDF) </button>
+                <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> {{ 'menu.change' | trans }} </button>
                 {{ form_widget(form.file) }}
               </span>
             <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> {{ 'menu.delete' | trans }} </a>
