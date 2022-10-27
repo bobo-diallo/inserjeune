@@ -28,5 +28,8 @@
 ### Run app with one command
 `make run-app`
 
-## Consume send mail
+## Send mail
+1. To send emails asynchronously 
 ``php bin/console messenger:consume async``
+2. To send emails synchronously, go to `messenger.yaml` and comment line
+``Symfony\Component\Mailer\Messenger\SendEmailMessage: async`` 
