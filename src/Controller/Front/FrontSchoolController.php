@@ -4,10 +4,8 @@ namespace App\Controller\Front;
 
 use App\Entity\PersonDegree;
 use App\Entity\Company;
-use App\Entity\Region;
 use App\Entity\SatisfactionSchool;
 use App\Entity\Country;
-use App\Entity\Role;
 use App\Entity\School;
 use App\Form\SchoolType;
 use App\Form\SatisfactionSchoolType;
@@ -235,7 +233,7 @@ class FrontSchoolController extends AbstractController {
 			$satisfactionSalaries = $this->satisfactionSalaryRepository->getByCountryAndPersonDegreeSchool($school->getCountry(), $school);
 
 			// creation des entreprises trouvées dans les satisfactions
-			$employers = array();
+			$employers = [];
 			foreach ($satisfactionSalaries as $satisfactionSalary) {
 				$newEmployer = array();
 				$newEmployer["name"] = $satisfactionSalary->getCompanyName();
@@ -652,7 +650,12 @@ class FrontSchoolController extends AbstractController {
 		        }
 		        if (count($err) == 0) {
 			        $this->em->flush();
-			        $res = ["id" => $personDegree->getId(), "userId" => $personDegree->getUser()->getId(), "pwd" => $personDegree->getTemporaryPasswd()];
+					$this->emailService->sendNotificationEnrollementDegree($personDegree, $school);
+			        $res = [
+						"id" => $personDegree->getId(),
+				        "userId" => $personDegree->getUser()->getId(),
+				        "pwd" => $personDegree->getTemporaryPasswd()
+			        ];
 		        }
 	        }
 	        return new JsonResponse([$res, $err]);

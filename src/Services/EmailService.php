@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Entity\Candidate;
 use App\Entity\JobOffer;
+use App\Entity\PersonDegree;
+use App\Entity\School;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -140,6 +143,24 @@ class EmailService {
 			@unlink($pathCv);
 			@unlink($pathCoverLetter);
 		}
+	}
+
+	public function sendNotificationEnrollementDegree(PersonDegree $personDegree, School $school): void {
+		$email = (new TemplatedEmail())
+			->from($this->parameterBag->get('email_from'))
+			->to($personDegree->getEmail())
+			->replyTo($this->parameterBag->get('email_from'))
+			->subject('Enrollement via IFEF')
+			->htmlTemplate('email/enrollement_persondegree.html.twig')
+			->context([
+				'persondegree_name' => $personDegree->getFirstname() . ' ' . $personDegree->getLastname(),
+				'school_name' => $school->getName(),
+				'persondegree_login' => $personDegree->getUser()->getPhone(),
+				'persondegree_password' => $personDegree->getTemporaryPasswd()
+			])
+		;
+
+		$this->mailer->send($email);
 	}
 
 	/**
