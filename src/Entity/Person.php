@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validatior\Constraints as IFEFAssert;
 
 /**
  * Trait Person
@@ -77,6 +78,7 @@ trait Person {
 	private ?bool $locationMode;
 
 	#[ORM\Column(name: 'email', type: 'string', nullable: true)]
+	#[IFEFAssert\UniqueEmail]
 	private ?string $email;
 
 	#[ORM\Column(name: 'sex', type: 'string', length: 10)]
