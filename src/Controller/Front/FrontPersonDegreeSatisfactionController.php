@@ -224,7 +224,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 				$this->em->flush();
 
 				$this->notifSatisfaction();
-				return $this->redirectToRoute('satisfactionsalary_show', ['id' => $satisfactionSalary->getId()]);
+				return $this->redirectToRoute('front_persondegree_satisfactionsalary_show', ['id' => $satisfactionSalary->getId()]);
 			}
 
 			$this->notifSatisfaction(Utils::FB_WARNING, "Merci de compléter ce questionnaire d'insertion");
@@ -263,7 +263,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 				$this->em->flush();
 
 				$this->notifSatisfaction();
-				return $this->redirectToRoute('satisfaction_search_show', ['id' => $satisfactionSearch->getId()]);
+				return $this->redirectToRoute('front_persondegree_satisfaction_search_show', ['id' => $satisfactionSearch->getId()]);
 			}
 			$this->notifSatisfaction(Utils::FB_WARNING, "Merci de compléter ce questionnaire d'insertion");
 			return $this->render('satisfactionSearch/new.html.twig', [
@@ -313,7 +313,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 				$this->em->flush();
 
 				$this->notifSatisfaction();
-				return $this->redirectToRoute('satisfactioncreator_show', ['id' => $satisfactionCreator->getId()]);
+				return $this->redirectToRoute('front_persondegree_satisfactioncreator_show', ['id' => $satisfactionCreator->getId()]);
 			}
 			$this->notifSatisfaction(Utils::FB_WARNING, "Merci de compléter ce questionnaire d'insertion");
 			return $this->render('satisfactioncreator/new.html.twig', [
@@ -471,49 +471,6 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 	 */
 	private function notifSatisfaction($type = Utils::FB_SUCCESS, string $message = "Merci d'avoir répondu à l'enquête.") {
 		$this->addFlash($type, $message);
-	}
-
-	/**
-	 * Permet de verifier si la type de du diplomé correspond bien au questionnaire qu'il veut répondre
-	 */
-	private function checkTypePersonDegree(string $typePerson, string $errorMessage) {
-		$personDegree = $this->personDegreeService->getPersonDegree();
-		if (!$personDegree) {
-			$this->notifSatisfaction(Utils::FB_WARNING, "Veuillez completer votre profil d'abord");
-			return $this->redirectToRoute('front_persondegree_new');
-		}
-		if ($personDegree->getType() != $typePerson) {
-			$this->notifSatisfaction(Utils::FB_WARNING, $errorMessage);
-			return $this->redirectToRoute('front_persondegree_edit');
-		}
-		$request = $this->requestStack->getCurrentRequest();
-		$route = $request->attributes->get('_route');
-
-		switch ($route) {
-			case 'front_persondegree_satisfactioncreator_new':
-				$entityRepository = SatisfactionCreator::class;
-				break;
-			case 'front_persondegree_satisfactionsalary_new':
-				$entityRepository = SatisfactionSalary::class;
-				break;
-			case 'front_persondegree_satisfaction_search_new':
-				$entityRepository = SatisfactionSearch::class;
-				break;
-			default:
-				$this->notifSatisfaction(Utils::FB_WARNING, "Aucun questionnaire à répondre");
-				return $this->redirectToRoute('front_persondegree_new');
-		}
-
-		$satisfaction = $this->em
-			->getRepository($entityRepository)
-			->findOneBy(['personDegree' => $personDegree]);
-
-		if ($satisfaction) {
-			$this->notifSatisfaction(Utils::FB_WARNING, "Vous avez dejà répondu au questionnaire");
-			return $this->redirectToRoute('front_persondegree_satisfaction');
-		}
-
-		return true;
 	}
 
 	/**
