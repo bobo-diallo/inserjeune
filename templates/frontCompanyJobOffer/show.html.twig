@@ -8,14 +8,22 @@
         <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
           {{ 'job.details_of_the_offer' | trans }}  {{ jobOffer.id }}
-          {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise" %}
+{#          {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise" %}#}
+          {%  if app.user.roles|role == "Administrateur" %}
             <a class="btn btn-sm btn-primary float-right" href="{{ path('jobOffer_new') }}">
               <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
             </a>
+            <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
+              <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+            </a>
+          {% elseif app.user.roles|role == "Entreprise"%}
+            <a class="btn btn-sm btn-primary float-right" href="{{ path('front_company_jobOffer_new') }}">
+              <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
+            </a>
+            <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('front_company_jobOffer_index') }}">
+              <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+            </a>
           {% endif %}
-          <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
-            <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
-          </a>
         </h6>
         <div class="element-box jobOffer">
           <div class="form-group row jobOfferBanner">
@@ -46,7 +54,11 @@
           </div>
 
           <div class="form-group row jobOfferCompanyName">
-            <a href="https://{{ jobOffer.company.url }}">
+            {% if jobOffer.company.url %}
+              <a href="https://{{ jobOffer.company.url }}">
+            {% else %}
+                <a href="#">
+            {% endif%}
               <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>
             </a>
           </div>

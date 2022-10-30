@@ -170,6 +170,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .form-group label {
   margin-left: 5px;
+  font-weight: 500;
 }
 .form-group input {
   width: 100%;
@@ -191,14 +192,26 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .non {
   position: relative;
-  top : -24px;
-  left: -32px;
+  top : -28px;
+  left: -40px;
 }
 
 .oui {
   position: relative;
-  top : -44px;
-  right: -46px;
+  top : -51px;
+  right: -50px;
+}
+
+.manual {
+  position: relative;
+  top : -28px;
+  left: -75px;
+}
+
+.auto  {
+  position: relative;
+  top : -51px;
+  right: -35px;
 }
 
 .line-separator {
@@ -906,14 +919,19 @@ table#activity_founded th{
 
 /* Offre d'emplois */
 /* --------------- */
+.jobOfferBanner {
+  justify-content: space-between;
+}
 .jobOfferBanner img {
   max-width: 80px;
   height: auto;
 }
 .jobOfferBanner span {
-  margin: 20px auto 0 auto;
-  font-size: 14px;
+  margin: 20px 20px 0 0;
+  font-size: 18px;
+  font-weight: 600;
   text-align: center ;
+  color: #001580;
 }
 
 .jobOfferTitle {
@@ -960,7 +978,7 @@ table#activity_founded th{
 }
 .jobOfferCompanyName {
   width: 100%;
-  margin: 20px 0;
+  margin: 20px 0!important;
   background: #d5e8ff;
 }
 .jobOfferCompanyName h2 {
