@@ -151,6 +151,20 @@ class FrontCompanyController extends AbstractController {
 		});
 	}
 
+    #[Route(path: '/schools', name: 'front_company_school_index', methods: ['GET'])]
+    public function companiesIndexAction(): RedirectResponse|Response {
+        /*return $this->companyService->checkUnCompletedAccountBefore(function () {
+            $schools = $this
+                ->schoolRepository
+                ->getByCompany($this->companyService->getCompany());
+
+            return $this->render('school/index.html.twig', [
+                'schools' => $schools
+            ]);
+        });*/
+        return $this->redirectToRoute('front_company_show');
+    }
+
 	#[Route(path: '/satisfactioncompany/new', name: 'front_company_satisfactioncompany_new', methods: ['GET', 'POST'])]
 	public function newSatisfactionCompanyAction(Request $request): RedirectResponse|Response {
 		return $this->companyService->checkUnCompletedAccountBefore(function () use ($request) {
