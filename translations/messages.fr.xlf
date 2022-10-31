@@ -457,13 +457,25 @@
         <source>menu.forgot_your_password</source>
         <target>Mot de passe oublié ?</target>
       </trans-unit>
-      <trans-unit id="menu.save_all">
-        <source>menu.save_all</source>
-        <target>Sauvegarder tout</target>
+      <trans-unit id="menu.save">
+        <source>menu.save</source>
+        <target>Sauvegarder</target>
+      </trans-unit>
+      <trans-unit id="menu.save_edit">
+        <source>menu.save_edit</source>
+        <target>Sauvegarder Edition</target>
+      </trans-unit>
+      <trans-unit id="menu.select_all">
+        <source>menu.select_all</source>
+        <target>Selectionner tout</target>
       </trans-unit>
       <trans-unit id="menu.save_selection">
         <source>menu.save_selection</source>
         <target>Sauvegarder Selection</target>
+      </trans-unit>
+      <trans-unit id="menu.select_send_email">
+        <source>menu.select_send_email</source>
+        <target>Envoyer email selection</target>
       </trans-unit>
       <trans-unit id="menu.valid_import">
         <source>menu.valid_import</source>
@@ -728,6 +740,10 @@
       <trans-unit id="menu.delete">
         <source>menu.delete</source>
         <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="menu.delete_selected">
+        <source>menu.delete_selected</source>
+        <target>Supprimer selection</target>
       </trans-unit>
       <trans-unit id="menu.edit">
         <source>menu.edit</source>

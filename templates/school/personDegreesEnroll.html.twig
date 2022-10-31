@@ -55,8 +55,13 @@
                         </table>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
-                <button class="btn btn-sm btn-primary" id="saveAll" onclick="saveAll('')">{{ 'menu.save_all' | trans }}</button>
+                <div class="menu-low-enroll">
+                    <button class="btn btn-sm btn-primary" id="editAll" onclick="editAll()">{{ 'menu.edit_all' | trans }}</button>
+                    <button class="btn btn-sm btn-primary" id="save" onclick="saveEdit('')">{{ 'menu.save_edit' | trans }}</button>
+                    <button class="btn btn-sm btn-primary" id="selectAll" onclick="selectAll()">{{ 'menu.select_all' | trans }}</button>
+                    <button class="btn btn-sm btn-primary" id="save" onclick="removeSelect('')">{{ 'menu.delete_selected' | trans }}</button>
+                    <button class="btn btn-sm btn-primary" id="save" onclick="sendEmailSelect('')">{{ 'menu.select_send_email' | trans }}</button>
+                </div>
             </div>
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
             <input style="display: none" id="selectedCountry" value="{{ app.user.country.id }}">
@@ -89,6 +94,31 @@
 
 {% block js %}
     <script>
+        function checkAllShowMode() {
+            let allShow = true;
+            $('.enrolCheck').each(function () {
+                if($(this).css("display") == "none")
+                    allShow = false;
+            })
+            return allShow;
+        }
+
+        function selectAll() {
+            if(checkAllShowMode() == true) {
+                if($("#remove1").prop( "checked") == true) {
+                    $('.enrolCheck').each(function () {
+                        $(this).prop("checked", false);
+                    })
+                } else {
+                    $('.enrolCheck').each(function () {
+                        $(this).prop("checked", true);
+                    })
+                }
+            } else {
+                alert("Vous ne pouvez pas tout selectionner si une ligne est en mode Edition")
+            }
+        }
+
         function editAll() {
             let rowNumber = $('#rowNumber').val();
             if($("#save1").css("display") == "none") {
@@ -99,10 +129,12 @@
                     $("#cancel" + i).css("display", "inline-block");
                     $("#edit" + i).css("display", "none");
                     $("#remove" + i).css("display", "none");
+                    $("#remove" + i).prop( "checked", false );
 
                     $(row).each(function() {
                         $(this).find('input').each(function () {
-                            $(this).css("display", "inline-block");
+                            if(!$(this).hasClass("enrolCheck"))
+                                $(this).css("display", "inline-block");
                         });
                         $(this).find('select').each(function () {
                             $(this).css("display", "inline-block");
@@ -123,7 +155,8 @@
 
                     $(row).each(function() {
                         $(this).find('input').each(function () {
-                            $(this).css("display", "none");
+                            if(!$(this).hasClass("enrolCheck"))
+                                $(this).css("display", "none");
                         });
                         $(this).find('select').each(function () {
                             $(this).css("display", "none");
@@ -135,8 +168,7 @@
                 }
             }
         }
-
-        function saveAll() {
+        function saveEdit() {
             let rowNumber = $('#rowNumber').val();
             let edits = [];
 
@@ -160,6 +192,63 @@
             }
         }
 
+        function removeSelect() {
+            if(checkAllShowMode() == true) {
+                let removes=[];
+                $('.enrolCheck').each(function () {
+                    if ($(this).prop("checked") == true)
+                        removes.push($(this).parent().find("span").first().attr("id").replaceAll("id", ""));
+                })
+                if(removes.length > 0) {
+                    let msg = "Etes vous sûr de supprimer cette entrée ?";
+                    if(removes.length > 1)
+                        msg = "Etes vous sûr de supprimer ces " + removes.length + " entrées ?";
+
+                    if (confirm(msg)) {
+                        for (let i=0; i<removes.length; i++ ) {
+                            // alert("remove " + removes[i]);
+                            displayButton('remove', removes[i], 'all');
+                        }
+                    }
+                }
+            } else {
+                alert("Vous ne pouvez pas supprimes les entrées si une ligne est en mode Edition")
+            }
+        }
+
+        function sendEmailSelect() {
+            if(checkAllShowMode() == true) {
+                let err=[];
+                let mailsTo=[];
+                $('.enrolCheck').each(function () {
+                    if($(this).prop("checked") == true) {
+                        let userId = $(this).parent().find("span").first();
+                        let userEmail = '#' + userId.attr("id").replaceAll("id", "p_email");
+                        let userPwd = '#' + userId.attr("id").replaceAll("id", "p_password");
+                        let userFirstName = '#' + userId.attr("id").replaceAll("id", "p_firstname");
+                        let userName = '#' + userId.attr("id").replaceAll("id", "p_lastname");
+
+                        if($(userEmail).text() && $(userPwd).text()) {
+                            mailsTo.push(userId);
+
+                        } else if(!$(userEmail).text()){
+                            err.push("Pas d\'email " + $(userFirstName).text() + " " + $(userName).text())
+
+                        } else {
+                            err.push("Pas de Pwd " + $(userFirstName).text() + " " + $(userName).text())
+                        }
+                    }
+                })
+                if(err.length == 0 ) {
+                    //envoi des mails Bobo
+                } else {
+                    alert(err);
+                }
+            } else {
+                alert("Vous ne pouvez pas envoyer d'email si une ligne est en mode Edition")
+            }
+        }
+
         function addRowPersonDegree(assetLocationIcon) {
             let rowNumber = $('#rowNumber').val();
             rowNumber++;
@@ -170,7 +259,8 @@
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
             html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            // html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <input style="display: none" type="checkbox" class="enrolCheck" id="remove'+ rowNumber + '" >';
             html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
             html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
@@ -250,7 +340,9 @@
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
             html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            // html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
+            html += '        <input style="display: none" type="checkbox" class="enrolCheck" id="remove'+ rowNumber + '" >';
+
             html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
             html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
@@ -367,20 +459,19 @@
                 $(cancel).css("display", "inline-block");
                 $(edit).css("display", "none");
                 $(remove).css("display", "none");
+                $(remove).prop( "checked", false );
 
             } else if((action=="save")&&(check==true)) {
                 $(save).css("display", "none");
                 $(cancel).css("display", "none");
                 $(edit).css("display", "inline-block");
-                if(personDegreeId)
-                    $(remove).css("display", "inline-block");
+                $(remove).css("display", "inline-block");
 
             } else if(action=="cancel") {
                 $(save).css("display", "none");
                 $(cancel).css("display", "none");
                 $(edit).css("display", "inline-block");
-                if(personDegreeId)
-                    $(remove).css("display", "inline-block");
+                $(remove).css("display", "inline-block");
             }
 
             /* Affichage des inputs, select et des p */
@@ -388,9 +479,10 @@
             row = $( edit ).attr('id').replace("edit","#personDegree");
             //console.log(row);
             $(row).each(function() {
-                if(action=="edit") {
+                if (action == "edit") {
                     $(this).find('input').each(function () {
-                        $(this).css("display", "inline-block");
+                        if(!$(this).hasClass("enrolCheck"))
+                            $(this).css("display", "inline-block");
                     });
                     $(this).find('select').each(function () {
                         $(this).css("display", "inline-block");
@@ -399,9 +491,10 @@
                         $(this).css("display", "none");
                     });
 
-                } else if((action=="save")&&(check==true)) {
+                } else if ((action == "save") && (check == true)) {
                     $(this).find('input').each(function () {
-                        $(this).css("display", "none");
+                        if(!$(this).hasClass("enrolCheck"))
+                            $(this).css("display", "none");
                     });
                     $(this).find('select').each(function () {
                         $(this).css("display", "none");
@@ -410,9 +503,10 @@
                         $(this).css("display", "inline-block");
                     });
 
-                } else if(action=="cancel") {
+                } else if (action == "cancel") {
                     $(this).find('input').each(function () {
-                        $(this).css("display", "none");
+                        if(!$(this).hasClass("enrolCheck"))
+                            $(this).css("display", "none");
                     });
                     $(this).find('select').each(function () {
                         $(this).css("display", "none");
@@ -483,16 +577,18 @@
                         /*------------------------------------------------- */
                         $(row).each(function () {
                             $(this).find('input').each(function () {
-                                /*récupération du Label en enlevant le numero du rowNumber */
-                                let nbDigitsRowNumber = rowNumber.toString().length;
+                                if(!$(this).hasClass("enrolCheck")) {
+                                    /*récupération du Label en enlevant le numero du rowNumber */
+                                    let nbDigitsRowNumber = rowNumber.toString().length;
 
-                                let inputLabel = $(this).attr('id');
+                                    let inputLabel = $(this).attr('id');
 
-                                inputLabel = inputLabel.substring(0, inputLabel.length - nbDigitsRowNumber);
-                                personDegree[inputLabel] = $(this).val();
+                                    inputLabel = inputLabel.substring(0, inputLabel.length - nbDigitsRowNumber);
+                                    personDegree[inputLabel] = $(this).val();
 
-                                if($(this).val().length>0) {
-                                    strPersonDegree += "&" + inputLabel + "=" + $(this).val();
+                                    if ($(this).val().length > 0) {
+                                        strPersonDegree += "&" + inputLabel + "=" + $(this).val();
+                                    }
                                 }
                             });
                             $(this).find('select').each(function () {
@@ -542,24 +638,26 @@
                                 for (let i = 0; i < res[1].length; i++)
                                     alert(res[1][i]);
 
-                                /* mise à jour de l'affichage des éléments en mode show */
-                                /* ---------------------------------------------------- */
+                            /* mise à jour de l'affichage des éléments en mode show */
+                            /* ---------------------------------------------------- */
                             } else {
                                 row = "#personDegree" + rowNumber;
 
-                                $(remove).css("display", "inline-block");
+                                //$(remove).css("display", "inline-block");
                                 $("#p_password" + rowNumber).html(res[0]["pwd"]);
                                 $("#id" + rowNumber).text(res[0]["id"]);
-                                //console.log ("-->" + personDegreeId + " | " + res[0]["id"] + " | " + res[0]["pwd"]);
+                                console.log ("-->" + personDegreeId + " | " + res[0]["id"] + " | " + res[0]["pwd"]);
 
                                 $(row).each(function () {
                                     $(this).find('input').each(function () {
-                                        /*récupération du Label en enlevant le numero du rowNumber */
-                                        personDegreeId = $(this).prop("id");
-                                        let inputValue = $(this).val();
+                                        if(!$(this).hasClass("enrolCheck")) {
+                                            /*récupération du Label en enlevant le numero du rowNumber */
+                                            personDegreeId = $(this).prop("id");
+                                            let inputValue = $(this).val();
 
-                                        let p_id = "#p_" + personDegreeId;
-                                        $(p_id).html(inputValue);
+                                            let p_id = "#p_" + personDegreeId;
+                                            $(p_id).html(inputValue);
+                                        }
                                     });
                                     $(this).find('select option').each(function () {
                                         if($(this).val() != "")
@@ -579,15 +677,15 @@
                     };
                 }
             } else if(action=="remove") {
-                /* appel ajax en get pour spprimer le Diplômé */
-                /* ------------------------------------------ */
+                /* appel ajax en get pour supprimer le Diplômé */
+                /* ------------------------------------------- */
                 //data = {"firstname":"Raoul", "lastname":"Dupont"};
                 let dirs = window.location.href.split('/');
                 let $locationRef = "";
                 for (let i = 0; i < dirs.length - 1; i++)
                     $locationRef += dirs[i] + '/';
 
-                if(confirm ("Etes vous sûr de supprimer cette entrée ?" )) {
+                // if(confirm ("Etes vous sûr de supprimer cette entrée ?" )) {
                     /* creation de la table des données */
                     /* -------------------------------- */
                     let personDegree = [];
@@ -598,18 +696,19 @@
 
                     if(personDegreeId) {
                         $.get($locationRef + personDegreeId + '/personDegreeDelete/').done(function (res) {
-
                             /* affichage des erreurs rencontrées */
                             /* --------------------------------- */
                             if (res[1].length > 0) {
                                 alert(res[1].length + " problèmes rencontrés lors de l'update, opération annuée");
                             } else {
-                                alert( "Diplômé supprimé avec succès");
+                                //alert( "Diplômé supprimé avec succès");
                                 $("#personDegree" + rowNumber).remove();
                             }
                         }, "json");
+                    } else {
+                        $("#personDegree" + rowNumber).remove();
                     }
-                }
+                // }
             }
         };
 

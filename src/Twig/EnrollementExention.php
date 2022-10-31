@@ -32,7 +32,8 @@ class EnrollementExention extends AbstractExtension {
             $html .= sprintf('    <td class="row-actions">');
             $html .= sprintf('        <span style="display: none" id="id%d">%s</span>', $rowNumber, $personDegree->getId());
             $html .= sprintf('        <button id="edit%s" onclick="displayButton(\'edit\',%s)"><img src="%sedit_16.png" alt="edit"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
-            $html .= sprintf('        <button id="remove%s" onclick="displayButton(\'remove\', %s)"><img src="%sdelete.png" alt="remove"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
+            // $html .= sprintf('        <button id="remove%s" onclick="displayButton(\'remove\', %s)"><img src="%sdelete.png" alt="remove"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
+            $html .= sprintf('        <input type="checkbox" class="enrolCheck" id="remove%s" >', $rowNumber);
             $html .= sprintf('        <button style="display: none"  id="save%s" onclick="displayButton(\'save\', %s)"><img src="%ssave_16.png" alt="save"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
             $html .= sprintf('        <button style="display: none"  id="cancel%s" onclick="displayButton(\'cancel\', %s)"><img src="%scancel_16.png" alt="cancel"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
             $html .= sprintf('    </td>');
@@ -93,7 +94,8 @@ class EnrollementExention extends AbstractExtension {
             $html .= sprintf('    <td class="row-actions">');
             $html .= sprintf('        <span style="display: none" id="id%d">%s</span>', $rowNumber, $company->getId());
             $html .= sprintf('        <button id="edit%s" onclick="displayButton(\'edit\',%s)"><img src="%sedit_16.png" alt="edit"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
-            $html .= sprintf('        <button id="remove%s" onclick="displayButton(\'remove\', %s)"><img src="%sdelete.png" alt="remove"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
+            // $html .= sprintf('        <button id="remove%s" onclick="displayButton(\'remove\', %s)"><img src="%sdelete.png" alt="remove"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
+            $html .= sprintf('        <input type="checkbox" class="enrolCheck" id="remove%s" >', $rowNumber);
             $html .= sprintf('        <button style="display: none"  id="save%s" onclick="displayButton(\'save\', %s)"><img src="%ssave_16.png" alt="save"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
             $html .= sprintf('        <button style="display: none"  id="cancel%s" onclick="displayButton(\'cancel\', %s)"><img src="%scancel_16.png" alt="cancel"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
             $html .= sprintf('    </td>');
