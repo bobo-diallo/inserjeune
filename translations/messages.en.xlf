@@ -445,6 +445,10 @@
         <source>menu.edit_all</source>
         <target>Edit_all</target>
       </trans-unit>
+      <trans-unit id="menu.select_all">
+        <source>menu.select_all</source>
+        <target>Select all</target>
+      </trans-unit>
       <trans-unit id="menu.password">
         <source>menu.password</source>
         <target>Password</target>
@@ -457,6 +461,14 @@
         <source>menu.forgot_your_password</source>
         <target>Forgot your password ?</target>
       </trans-unit>
+      <trans-unit id="menu.save">
+        <source>menu.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="menu.save_edit">
+        <source>menu.save_edit</source>
+        <target>Save Edition</target>
+      </trans-unit>
       <trans-unit id="menu.save_all">
         <source>menu.save_all</source>
         <target>Save_all</target>
@@ -464,6 +476,10 @@
       <trans-unit id="menu.save_selection">
         <source>menu.save_selection</source>
         <target>Save_selection</target>
+      </trans-unit>
+      <trans-unit id="menu.select_send_email">
+        <source>menu.select_send_email</source>
+        <target>Select send email</target>
       </trans-unit>
       <trans-unit id="menu.valid_import">
         <source>menu.valid_import</source>
@@ -728,6 +744,10 @@
       <trans-unit id="menu.delete">
         <source>menu.delete</source>
         <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="menu.delete_selected">
+        <source>menu.delete_selected</source>
+        <target>Delete selected</target>
       </trans-unit>
       <trans-unit id="menu.edit">
         <source>menu.edit</source>
