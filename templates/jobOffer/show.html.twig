@@ -13,9 +13,11 @@
                             <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
                         </a>
                     {% endif %}
-                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
-                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
-                    </a>
+                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}
+                        <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
+                            <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+                        </a>
+                    {% endif %}
                 </h6>
                 <div class="element-box jobOffer">
                     <div class="form-group row jobOfferBanner">

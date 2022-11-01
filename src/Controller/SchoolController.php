@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/school')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')")]
+#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') or is_granted('ROLE_ENTREPRISE')")]
 class SchoolController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SchoolRepository $schoolRepository;
