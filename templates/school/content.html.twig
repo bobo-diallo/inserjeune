@@ -1,5 +1,6 @@
 {% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% else %} {% set base = 'base_school.html.twig' %}
 {% endif %}
 
