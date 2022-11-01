@@ -229,6 +229,10 @@
         <source>menu.occupation</source>
         <target>Profession</target>
       </trans-unit>
+      <trans-unit id="menu.faculty">
+        <source>menu.faculty</source>
+        <target>Filière</target>
+      </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
         <target>Activité</target>
@@ -1396,6 +1400,10 @@
       </trans-unit>
 
       <!-- School     -->
+      <trans-unit id="school.list_of_partner_schools">
+        <source>school.list_of_partner_schools</source>
+        <target>Liste des établissements partenaires</target>
+      </trans-unit>
       <trans-unit id="school.graduates_from_start_to_end">
         <source>school.graduates_from_start_to_end</source>
         <target>Diplômés du %begin_date% au %end_date%</target>
