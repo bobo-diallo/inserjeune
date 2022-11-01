@@ -6,7 +6,11 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <h6 class="element-header">
-                    {{ 'school.list_of_establishments' | trans }}
+                    {%  if app.user.roles|role =="Administrateur" %}
+                        {{ 'school.list_of_establishments' | trans }}
+                    {% elseif app.user.roles|role =="Entreprise" %}
+                        {{ 'school.list_of_partner_schools' | trans }}
+                    {% endif %}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
@@ -25,47 +29,91 @@
                         <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                <th class="no-print">Actions</th>
+                                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                    <th class="no-print">Actions</th>
+                                {% endif %}
                                 {%  if app.user.roles|role =="Administrateur" %}
                                     <th>Id</th>
                                 {% endif %}
-                                <th>Immat.</th>
+                                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                    <th>Immat.</th>
+                                {% endif %}
+
                                 <th>{{ 'menu.name' | trans }}</th>
                                 <th>{{ 'menu.city' | trans }}</th>
                                 <th>{{ 'menu.phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
                                 {%  if app.user.roles|role =="Législateur" %}
-                                    <th>{{ 'school.number_of_graduates_with_tag' | trans({'%tag_br%': '<br />'}) }}</th>
+                                    <th>{{ 'school.number_of_graduates_with_tag' | trans({'%tag_br%': '<br />'}) | raw }}</th>
                                 {% endif %}
-                                <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br />'}) }}</th>
+                                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                    <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br />'}) | raw }}</th>
+                                {% endif %}
+                                {%  if app.user.roles|role =="Entreprise" %}
+                                  <th>{{ 'menu.degree' | trans }}</th>
+                                  <th>{{ 'menu.activity_area' | trans }}</th>
+                                  <th>{{ 'menu.faculty' | trans }}</th>
+                                {% endif %}
                             </tr>
                             </thead>
                             <tbody>
                             {% for school in schools %}
                                 <tr>
-                                    <td class="row-actions">
-                                        {%  if app.user.roles|role =="Administrateur" %}
-                                            <a href="{{ path('school_edit', { 'id': school.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                        {% endif %}
-                                        <a href="{{ path('school_show', { 'id': school.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                        <a class="danger" onclick="deleteElement('{{ path('school_delete', {'id': school.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
-                                    </td>
-                                    {%  if app.user.roles|role =="Administrateur" %}
-                                        <td><a href="{{ path('school_show', { 'id': school.id }) }}">{{ school.id }}</a></td>
-                                    {% endif %}
-                                    <td>{{ school.registration }}</td>
+                                     {%  if app.user.roles|role =="Administrateur" %}
+                                        <td class="row-actions">
+                                          <a href="{{ path('school_edit', { 'id': school.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                          <a href="{{ path('school_show', { 'id': school.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                          <a class="danger" onclick="deleteElement('{{ path('school_delete', {'id': school.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                        </td>
+                                        <td>{{ school.id }}</td>
+                                        <td>{{ school.registration }}</td>
+                                     {% elseif app.user.roles|role =="Législateur" %}
+                                        <td class="row-actions">
+                                          <a href="{{ path('school_show', { 'id': school.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        </td>
+                                        <td>{{ school.registration }}</td>
+                                     {% endif %}
+
                                     <td>{{ school.name }}</td>
+
                                     {%  if app.user.roles|role =="Administrateur" %}
                                         <td>{{ school.city }}</td>
-                                    {%  elseif app.user.roles|role =="Législateur" %}
+                                    {%  elseif app.user.roles|role =="Législateur"%}
                                         <td>{{ school.region.name }}, {{ school.city.name }}</td>
+                                    {%  elseif app.user.roles|role =="Entreprise" %}
+                                        <td>{{ school.city.name }}</td>
                                     {% endif %}
                                     <td>{{ school.phoneStandard }}</td>
                                     <td>{{ school.email }}</td>
                                     {%  if app.user.roles|role =="Législateur" %}
                                       <td>{{ school.personDegrees | length }}</td>
                                     {% endif %}
-                                    <td>{{ school.createdDate|date('d M Y H:i') }}</td>
+                                    {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                      <td>{{ school.createdDate|date('d M Y H:i') }}</td>
+                                    {% endif %}
+                                  {%  if app.user.roles|role =="Entreprise" %}
+                                      <td>
+                                        {{ school.degrees | join('<br/>') | raw}}
+                                      </td>
+
+                                      <td>
+                                        {{ school.sectorArea1 }}
+                                        {% if school.sectorArea2|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea2 }} {% endif %}
+                                        {% if school.sectorArea3|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea3}} {% endif %}
+                                        {% if school.sectorArea4|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea4 }} {% endif %}
+                                        {% if school.sectorArea5|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea5 }} {% endif %}
+                                        {% if school.sectorArea6|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea6 }} {% endif %}
+                                      </td>
+
+                                      <td>
+                                        {{ school.activities1 | join(' / ')}}
+                                        {% if school.activities2|length > 0 %} {{ "<br>" | raw }}{{ school.activities2 | join(' / ') }} {% endif %}
+                                        {% if school.activities3|length > 0 %} {{ "<br>" | raw }}{{ school.activities3 | join(' / ')}} {% endif %}
+                                        {% if school.activities4|length > 0 %} {{ "<br>" | raw }}{{ school.activities4 | join(' / ')}} {% endif %}
+                                        {% if school.activities5|length > 0 %} {{ "<br>" | raw }}{{ school.activities5 | join(' / ')}} {% endif %}
+                                        {% if school.activities6|length > 0 %} {{ "<br>" | raw }}{{ school.activities6 | join(' / ')}} {% endif %}
+                                      </td>
+                                  {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>
