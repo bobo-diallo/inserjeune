@@ -229,6 +229,10 @@
         <source>menu.occupation</source>
         <target>Occupation</target>
       </trans-unit>
+      <trans-unit id="menu.faculty">
+        <source>menu.faculty</source>
+        <target>Faculty</target>
+      </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
         <target>Activity</target>
@@ -1400,6 +1404,10 @@
       </trans-unit>
 
       <!-- School     -->
+      <trans-unit id="school.list_of_partner_schools">
+        <source>school.list_of_partner_schools</source>
+        <target>List_of_partner_schools</target>
+      </trans-unit>
       <trans-unit id="school.graduates_from_start_to_end">
         <source>school.graduates_from_start_to_end</source>
         <target>Graduates_from_start_to_end</target>

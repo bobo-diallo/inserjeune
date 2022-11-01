@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
-                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>
+{#                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
                                 {% endif %}
                                 {%  if app.user.roles|role!="ENTREPRISE" %}
                                 <a class="btn btn-sm btn-primary" href="{{ path('satisfactioncompany_new'| route_company) }}">
