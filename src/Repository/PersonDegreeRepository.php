@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Degree;
 use App\Entity\PersonDegree;
 use App\Entity\School;
+use App\Model\PersonDegreeReadOnly;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\Activity;
 use App\Entity\City;
@@ -22,6 +24,107 @@ use Doctrine\Persistence\ManagerRegistry;
 class PersonDegreeRepository extends ServiceEntityRepository {
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, PersonDegree::class);
+	}
+
+	private function _allPersonDegreeQuery(): string {
+		return 'SELECT
+    p.id,
+    p.firstname,
+    p.lastname,
+    p.email,
+    p.created_date,
+    p.check_school,
+    p.last_degree_year,
+    p.last_degree_month,
+    p.type,
+    p.other_school,
+    p.phone_mobile1,
+    p.registration_student_school,
+    p.birth_date,
+    activity.id AS activity_id,
+    activity.name AS activity_name,
+    degree.id AS degree_id,
+    degree.name AS degree_name,
+    country.id AS country_id,
+    country.name AS country_name,
+    school.id AS school_id,
+    school.name AS school_name,
+    school_city.name AS school_city_name,
+    (IFNULL(
+        (SELECT COUNT(*) AS n
+             FROM satisfaction_salary s
+             WHERE s.person_degree_id = p.id
+             GROUP BY s.person_degree_id),
+        0)) AS satisfaction_salaries_count,
+    (IFNULL(
+        (SELECT COUNT(*) AS n
+             FROM satisfaction_creator sc
+             WHERE sc.person_degree_id = p.id
+             GROUP BY sc.person_degree_id),
+        0)) AS satisfaction_creators_count,
+    (IFNULL(
+        (SELECT COUNT(*) AS n
+             FROM satisfaction_search ss
+             WHERE ss.person_degree_id = p.id
+             GROUP BY ss.person_degree_id),
+        0)) AS satisfaction_searches_count
+FROM person_degree p
+         LEFT JOIN country country ON p.id_country = country.id
+     LEFT JOIN degree degree ON p.id_degree = degree.id
+     LEFT JOIN activity activity ON p.activity_id = activity.id
+     LEFT JOIN school school ON p.school_id = school.id
+     LEFT JOIN city school_city ON school.id_city = school_city.id ';
+
+	}
+
+	/**
+	 * @param int|null $countryId
+	 * @return PersonDegreeReadOnly[]
+	 * @throws \Exception
+	 */
+	public function getAllPersonDegree(?int $countryId = null): array {
+		$sql = $this->_allPersonDegreeQuery();
+
+		if ($countryId) {
+			$sql .= 'WHERE p.id_country = :country_id';
+		}
+		$statement = $this->_em
+			->getConnection()
+			->prepare($sql);
+
+		if ($countryId) {
+			$result = $statement->executeQuery(['country_id' => $countryId]);
+		} else {
+			$result = $statement->executeQuery();
+		}
+
+
+		return $this->_toPersonDegreeReadOnly($result->fetchAllAssociative());
+	}
+
+	/**
+	 * @param int|null $schoolId
+	 * @return PersonDegreeReadOnly[]
+	 * @throws \Exception
+	 */
+	public function getAllPersonDegreeOfSchool(?int $schoolId = null): array {
+		$sql = $this->_allPersonDegreeQuery();
+
+		if ($schoolId) {
+			$sql .= 'WHERE p.school_id = :school_id';
+		}
+
+		$statement = $this->_em
+			->getConnection()
+			->prepare($sql);
+
+		if ($schoolId) {
+			$result = $statement->executeQuery(['school_id' => $schoolId]);
+		} else {
+			$result = $statement->executeQuery();
+		}
+
+		return $this->_toPersonDegreeReadOnly($result->fetchAllAssociative());
 	}
 
 	/**
@@ -182,7 +285,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByFirstNameAndLastNameAndBirthDate(
 		string    $firstName,
 		string    $lastName,
-		?\DateTime $birthDate
+		?DateTime $birthDate
 	): array {
 		return $this->createQueryBuilder('s')
 			->where('s.firstname = :firstname ')
@@ -199,8 +302,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByFirstNameAndLastNameAndBirthDateAndCreatedDate(
 		string    $firstName,
 		string    $lastName,
-		?\DateTime $birthDate,
-		?\DateTime $createdDate
+		?DateTime $birthDate,
+		?DateTime $createdDate
 	): array {
 		return $this->createQueryBuilder('s')
 			->where('s.firstname = :firstname ')
@@ -223,7 +326,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByFirstnameAndLastameAndCreatedDate(
 		string    $firstname,
 		string    $lastname,
-		?\DateTime $createdDate
+		?DateTime $createdDate
 	): array {
 		return $this->createQueryBuilder('s')
 			->where('s.firstname = :firstname')
@@ -247,9 +350,9 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	public function getByCountryBetweenCreatedDateAndEndDate (
-		Country $country,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		Country   $country,
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
@@ -259,10 +362,10 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	public function getByCountryAndSchoolBetweenCreatedDateAndEndDate (
-		Country $country,
-		?School $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		Country   $country,
+		?School   $school,
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere ('s.school = :school ')
@@ -278,9 +381,9 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	public function getByRegionBetweenCreatedDateAndEndDate(
-		Region $region,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		Region    $region,
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
@@ -291,10 +394,10 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 
 
 	public function getByRegionAndSchoolBetweenCreatedDateAndEndDate(
-		Region $region,
-		?School $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		Region    $region,
+		?School   $school,
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere ('s.school = :school ')
@@ -305,10 +408,10 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	public function getByCountryAndTypeBetweenCreatedDateAndEndDate(
-		Country $country,
-		string $type,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		Country   $country,
+		string    $type,
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere('s.type = :type')
@@ -325,8 +428,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		Country   $country,
 		string    $type,
 		School    $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere('s.type = :type')
@@ -343,8 +446,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByRegionAndTypeBetweenCreatedDateAndEndDate(
 		Region    $region,
 		string    $type,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere('s.type = :type')
@@ -376,8 +479,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		Region    $region,
 		string    $type,
 		School    $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere('s.type = :type')
@@ -394,8 +497,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByCountryAndSectorAreaBetweenCreatedDateAndEndDate(
 		Country    $country,
 		SectorArea $sectorArea,
-		?\DateTime  $beginDate,
-		?\DateTime  $endDate): array {
+		?DateTime  $beginDate,
+		?DateTime  $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere('s.sectorArea = :sectorArea')
@@ -412,8 +515,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		Country    $country,
 		SectorArea $sectorArea,
 		School     $school,
-		?\DateTime  $beginDate,
-		?\DateTime  $endDate): array {
+		?DateTime  $beginDate,
+		?DateTime  $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere('s.sectorArea = :sectorArea')
@@ -430,8 +533,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByRegionAndSectorAreaBetweenCreatedDateAndEndDate(
 		Region     $region,
 		SectorArea $sectorArea,
-		?\DateTime  $beginDate,
-		?\DateTime  $endDate): array {
+		?DateTime  $beginDate,
+		?DateTime  $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere('s.sectorArea = :sectorArea')
@@ -448,8 +551,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		Region     $region,
 		SectorArea $sectorArea,
 		School     $school,
-		?\DateTime  $beginDate,
-		?\DateTime  $endDate): array {
+		?DateTime  $beginDate,
+		?DateTime  $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere('s.sectorArea = :sectorArea')
@@ -465,8 +568,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	 */
 	public function getBySectorAreaBetweenCreatedDateAndEndDate(
 		SectorArea $sectorArea,
-		?\DateTime  $beginDate,
-		?\DateTime  $endDate): array {
+		?DateTime  $beginDate,
+		?DateTime  $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.sectorArea = :sector_area')
 			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
@@ -481,8 +584,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getBySectorAreaAndSchoolBetweenCreatedDateAndEndDate(
 		SectorArea $sectorArea,
 		School     $school,
-		?\DateTime  $beginDate,
-		?\DateTime  $endDate): array {
+		?DateTime  $beginDate,
+		?DateTime  $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.sectorArea = :sector_area')
 			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
@@ -497,8 +600,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	 */
 	public function getByActivityBetweenCreatedDateAndEndDate(
 		Activity  $activity,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.activity = :activity')
 			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
@@ -513,8 +616,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByActivityAndSchoolBetweenCreatedDateAndEndDate(
 		Activity  $activity,
 		School    $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.activity = :activity')
 			->andWhere('s.school = :school')
@@ -529,8 +632,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	 */
 	public function getByTypeBetweenCreatedDateAndEndDate(
 		string    $type,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.type = :type')
 			->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
@@ -558,8 +661,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByTypeAndSchoolBetweenCreatedDateAndEndDate(
 		string    $type,
 		School    $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.type = :type')
 			->andWhere('s.school = :school')
@@ -575,8 +678,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByCountryAndDegreeBetweenCreatedDateAndEndDate(
 		Country   $country,
 		Degree    $degree,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere('s.degree = :degree')
@@ -593,8 +696,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		Country   $country,
 		Degree    $degree,
 		School    $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.country = :country ')
 			->andWhere('s.degree = :degree')
@@ -611,8 +714,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	public function getByRegionAndDegreeBetweenCreatedDateAndEndDate(
 		Region    $region,
 		Degree    $degre,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere('s.degree = :degree')
@@ -629,8 +732,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		Region    $region,
 		Degree    $degree,
 		School    $school,
-		?\DateTime $beginDate,
-		?\DateTime $endDate): array {
+		?DateTime $beginDate,
+		?DateTime $endDate): array {
 		return $this->createQueryBuilder('s')
 			->where('s.region = :region ')
 			->andWhere('s.degree = :degree')
@@ -653,5 +756,42 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->setParameters(['school' => $school, 'unlocked' => $unlocked])
 			->getQuery()
 			->getResult();
+	}
+
+	/**
+	 * @param array $result
+	 * @return PersonDegreeReadOnly[]
+	 * @throws \Exception
+	 */
+	private function _toPersonDegreeReadOnly(array $personDegrees): array {
+		return array_map(function ($person) {
+			return new PersonDegreeReadOnly(
+				$person['id'],
+				$person['firstname'],
+				$person['lastname'],
+				$person['email'],
+				$person['created_date'] ? new DateTime($person['created_date']) : null,
+				$person['check_school'],
+				$person['last_degree_year'],
+				$person['last_degree_month'],
+				$person['type'],
+				$person['other_school'],
+				$person['phone_mobile1'],
+				$person['registration_student_school'],
+				$person['birth_date'] ? new DateTime($person['birth_date']) : null,
+				$person['activity_id'],
+				$person['activity_name'],
+				$person['degree_id'],
+				$person['degree_name'],
+				$person['country_id'],
+				$person['country_name'],
+				$person['school_id'],
+				$person['school_name'],
+				$person['school_city_name'],
+				$person['satisfaction_searches_count'],
+				$person['satisfaction_salaries_count'],
+				$person['satisfaction_creators_count'],
+			);
+		}, $personDegrees);
 	}
 }
