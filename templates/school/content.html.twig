@@ -22,9 +22,16 @@
          if($('#appbundle_school_locationMode').is(":checked")) {
             if(!confirm ("Attention, les coordonnées seront recalculées" )) {
                $('#appbundle_school_locationMode').prop("checked", false);
-            };
+            }
          } else {
             alert ("Mode manuel activé" );
+         }
+
+         //Mise à jour des coordonnées géographique en mode auto
+         if ($('#appbundle_school_locationMode').is(":checked")) {
+            $('#appbundle_school_latitude').val("");
+            $('#appbundle_school_longitude').val("");
+            geocodeAddressLocation(getSchoolMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude');
          }
       });
       // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
@@ -332,6 +339,16 @@
          return activities;
       }
 
+      function getSchoolMapAddress () {
+         let number = $('#appbundle_school_addressNumber').val();
+         let road = $('#appbundle_school_addressRoad').val();
+         let locality = $('#appbundle_school_addressLocality').val();
+         let city = $('#appbundle_school_city option:selected').text();
+         let region = $('#appbundle_school_region option:selected').text();
+         let country = $('#appbundle_school_country option:selected').text();
+         return (createMapsAddress(number, road, locality, city, region, country));
+      }
+
       function preventDefaultSubmit() {
          // Suppression des champs Autre des select multiples
          // ---------------------------------------------------
@@ -365,14 +382,7 @@
          // mise à jour mapAdresse et calcul des lat et longitude
          // -----------------------------------------------------
          if($('#appbundle_school_locationMode').is(":checked")) {
-            let number = $('#appbundle_school_addressNumber').val();
-            let road = $('#appbundle_school_addressRoad').val();
-            let locality = $('#appbundle_school_addressLocality').val();
-            let city = $('#appbundle_school_city option:selected').text();
-            let region = $('#appbundle_school_region option:selected').text();
-            let country = $('#appbundle_school_country option:selected').text();
-            //console.log('|' + number + '|' + road + '|' + locality + '|' + city + '|' + region + '|' + country + '|');
-            let mapAdresse = createMapsAddress(number, road, locality, city, region, country)
+            let mapAdresse = getSchoolMapAddress();
 
             //console.log('-->  ' + $('#appbundle_school_mapsAddress').val());
             //alert('mapsAddress = ' + mapAdresse);
