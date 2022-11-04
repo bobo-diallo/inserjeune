@@ -24,9 +24,15 @@
                 if (!confirm('Attention, les coordonnées seront recalculées')) {
                     $('#appbundle_company_locationMode').prop("checked", false);
                 }
-                ;
             } else {
                 alert('Mode manuel activé');
+            }
+
+            //Mise à jour des coordonnées géographique en mode auto
+            if ($('#appbundle_company_locationMode').is(":checked")) {
+                $('#appbundle_company_latitude').val("");
+                $('#appbundle_company_longitude').val("");
+                geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude');
             }
         });
 
@@ -105,16 +111,20 @@
             });
         }
 
+        function getCompanyMapAddress () {
+            let number = $('#appbundle_company_addressNumber').val();
+            let road = $('#appbundle_company_addressRoad').val();
+            let locality = $('#appbundle_company_addressLocality').val();
+            let city = $('#appbundle_company_addressCity option:selected').text();
+            let region = $('#appbundle_company_region option:selected').text();
+            let country = $('#appbundle_company_country option:selected').text();
+            return (createMapsAddress(number, road, locality, city, region, country));
+        }
+
         function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude en mode auto
             if ($('#appbundle_company_locationMode').is(":checked")) {
-                let number = $('#appbundle_company_addressNumber').val();
-                let road = $('#appbundle_company_addressRoad').val();
-                let locality = $('#appbundle_company_addressLocality').val();
-                let city = $('#appbundle_company_city option:selected').text();
-                let region = $('#appbundle_company_region option:selected').text();
-                let country = $('#appbundle_company_country option:selected').text();
-                let mapAdresse = createMapsAddress(number, road, locality, city, region, country)
+                let mapAdresse = getCompanyMapAddress ();
 
                 if (($('#appbundle_company_mapsAddress').val() != mapAdresse) ||
                     ($('#appbundle_company_latitude').val().length == null) ||

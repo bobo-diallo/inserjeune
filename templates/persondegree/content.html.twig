@@ -27,6 +27,13 @@
             } else {
                 alert("Mode manuel activé");
             }
+
+            //Mise à jour des coordonnées géographique en mode auto
+            if ($('#appbundle_persondegree_locationMode').is(":checked")) {
+                $('#appbundle_persondegree_latitude').val("");
+                $('#appbundle_persondegree_longitude').val("");
+                geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude');
+            }
         });
         // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
         if ($('#selectedCountry').val() !== '') {
@@ -232,18 +239,21 @@
             });
         }
 
+        function getPersondegreMapAddress () {
+            let number = $('#appbundle_persondegree_addressNumber').val();
+            let road = $('#appbundle_persondegree_addressRoad').val();
+            let locality = $('#appbundle_persondegree_addressLocality').val();
+            let city = $('#appbundle_persondegree_addressCity option:selected').text();
+            let region = $('#appbundle_persondegree_region option:selected').text();
+            let country = $('#appbundle_persondegree_country option:selected').text();
+            return (createMapsAddress(number, road, locality, city, region, country));
+        }
+
         function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude
             // -----------------------------------------------------
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {
-                let number = $('#appbundle_persondegree_addressNumber').val();
-                let road = $('#appbundle_persondegree_addressRoad').val();
-                let locality = $('#appbundle_persondegree_addressLocality').val();
-                let city = $('#appbundle_persondegree_addressCity option:selected').text();
-                let region = $('#appbundle_persondegree_region option:selected').text();
-                let country = $('#appbundle_persondegree_country option:selected').text();
-                //console.log('|' + number + '|' + road + '|' + locality + '|' + city + '|' + region + '|' + country + '|');
-                let mapAdresse = createMapsAddress(number, road, locality, city, region, country)
+                let mapAdresse = getPersondegreMapAddress();
 
                 // alert($('#appbundle_persondegree_mapsAddress').val() + "  " + $('#appbundle_persondegree_latitude').val() + "  " + $('#appbundle_persondegree_longitude').val() + "  " + $('#appbundle_persondegree_longitude').val() );
                 if (($('#appbundle_persondegree_mapsAddress').val() != mapAdresse) ||
