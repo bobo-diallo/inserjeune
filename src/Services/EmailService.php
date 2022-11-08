@@ -6,6 +6,8 @@ use App\Entity\Candidate;
 use App\Entity\JobOffer;
 use App\Entity\PersonDegree;
 use App\Entity\School;
+use App\Model\CompanyReceiverNotification;
+use App\Model\PersonDegreeReceiverNotification;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -145,18 +147,36 @@ class EmailService {
 		}
 	}
 
-	public function sendNotificationEnrollementDegree(PersonDegree $personDegree, School $school): void {
+	public function sendNotificationEnrollmentDegree(PersonDegreeReceiverNotification $personDegree, School $school): void {
 		$email = (new TemplatedEmail())
 			->from($this->parameterBag->get('email_from'))
-			->to($personDegree->getEmail())
+			->to($personDegree->email())
 			->replyTo($this->parameterBag->get('email_from'))
 			->subject('Enrollement via IFEF')
 			->htmlTemplate('email/enrollement_persondegree.html.twig')
 			->context([
-				'persondegree_name' => $personDegree->getFirstname() . ' ' . $personDegree->getLastname(),
+				'persondegree_name' => $personDegree->firstname() . ' ' . $personDegree->lastname(),
 				'school_name' => $school->getName(),
-				'persondegree_login' => $personDegree->getUser()->getPhone(),
-				'persondegree_password' => $personDegree->getTemporaryPasswd()
+				'persondegree_login' => $personDegree->phone(),
+				'persondegree_password' => $personDegree->temporaryPassword()
+			])
+		;
+
+		$this->mailer->send($email);
+	}
+
+	public function sendNotificationEnrollmentCompany(CompanyReceiverNotification $company, School $school): void {
+		$email = (new TemplatedEmail())
+			->from($this->parameterBag->get('email_from'))
+			->to($company->email())
+			->replyTo($this->parameterBag->get('email_from'))
+			->subject('Enrollement via IFEF')
+			->htmlTemplate('email/enrollement_company.html.twig')
+			->context([
+				'company_name' => $company->name(),
+				'school_name' => $school->getName(),
+				'company_login' => $company->phone(),
+				'company_password' => $company->temporaryPassword()
 			])
 		;
 

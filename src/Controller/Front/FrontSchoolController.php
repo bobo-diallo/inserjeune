@@ -37,6 +37,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: 'front/school')]
 #[IsGranted('ROLE_ETABLISSEMENT')]
@@ -650,7 +651,7 @@ class FrontSchoolController extends AbstractController {
 		        }
 		        if (count($err) == 0) {
 			        $this->em->flush();
-					$this->emailService->sendNotificationEnrollementDegree($personDegree, $school);
+					// $this->emailService->sendNotificationEnrollementDegree($personDegree, $school);
 			        $res = [
 						"id" => $personDegree->getId(),
 				        "userId" => $personDegree->getUser()->getId(),
@@ -781,6 +782,44 @@ class FrontSchoolController extends AbstractController {
 			    }
 		    }
 		    return new JsonResponse([$res, $err]);
+	    });
+    }
+
+    #[Route(path: '/sendNotificationEnrollmentDegree', name: 'front_school_send_email_enroll_persondegree', methods: ['POST'])]
+    public function sendNotificationEnrollmentDegreeAction(Request $request, TranslatorInterface $trans): JsonResponse|Response {
+	    return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request, $trans) {
+			$personDegreeIds = $request->get('persondegree_ids');
+		    $school = $this->schoolService->getSchool();
+
+			if (count($personDegreeIds)) {
+				$personDegrees = $this->personDegreeRepository->getPersonDegreeWithIds($personDegreeIds);
+				foreach ($personDegrees as $personDegree) {
+					$this->emailService->sendNotificationEnrollmentDegree($personDegree, $school);
+				}
+			}
+		    return new JsonResponse([
+			    'status' => 'ok',
+			    'message' => $trans->trans('notification.enrollment_email_send_successful')
+		    ]);
+	    });
+    }
+
+    #[Route(path: '/sendNotificationEnrollmentCompanies', name: 'front_school_send_email_enroll_companies', methods: ['POST'])]
+    public function sendNotificationEnrollmentCompaniesAction(Request $request, TranslatorInterface $trans): JsonResponse|Response {
+	    return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request, $trans) {
+			$companyIds = $request->get('company_ids');
+		    $school = $this->schoolService->getSchool();
+
+			if (count($companyIds)) {
+				$companies = $this->companyRepository->getCompaniesWithIds($companyIds);
+				foreach ($companies as $personDegree) {
+					$this->emailService->sendNotificationEnrollmentCompany($personDegree, $school);
+				}
+			}
+		    return new JsonResponse([
+			    'status' => 'ok',
+			    'message' => $trans->trans('notification.enrollment_email_send_successful')
+		    ]);
 	    });
     }
 

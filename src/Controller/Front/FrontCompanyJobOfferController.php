@@ -107,6 +107,12 @@ class FrontCompanyJobOfferController extends AbstractController {
 			$editForm->handleRequest($request);
 
 			if ($editForm->isSubmitted() && $editForm->isValid()) {
+				$offerDescription = $editForm->get('file')->getData();
+				if ($offerDescription) {
+					$offerDescriptionFileName = $this->fileUploader->upload($offerDescription, $jobOffer->getFilename());
+					$jobOffer->setFilename($offerDescriptionFileName);
+				}
+
 				$jobOffer->setCompany($company);
 				$jobOffer->setUpdatedDate(new \DateTime());
 				$this->em->flush();
@@ -130,6 +136,7 @@ class FrontCompanyJobOfferController extends AbstractController {
 
 			if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 				if ($jobOffer) {
+					$this->fileUploader->removeOldFile($jobOffer->getFilename());
 					$this->em->remove($jobOffer);
 					$this->em->flush();
 					$this->addFlash('success', 'La suppression est faite avec success');

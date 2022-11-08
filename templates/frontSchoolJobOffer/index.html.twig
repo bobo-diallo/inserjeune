@@ -1,4 +1,4 @@
-{% extends 'frontCompanyJobOffer/content.html.twig' %}
+{% extends 'frontSchoolJobOffer/content.html.twig' %}
 
 {% block body %}
     <div class="content-i">
@@ -13,7 +13,7 @@
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="btn btn-sm btn-primary" href="{{ path('front_company_jobOffer_new') }}">
+                                <a class="btn btn-sm btn-primary" href="{{ path('front_school_jobOffer_new') }}">
                                     <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}</a>
                             </div>
                         </div>
@@ -38,11 +38,11 @@
                             {% for jobOffer in jobOffers %}
                                 <tr>
                                     <td class="row-actions">
-                                        <a href="{{ path('front_company_jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                        <a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                        <a class="danger" onclick="deleteElement('{{ path('front_company_jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                        <a href="{{ path('front_school_jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                        <a href="{{ path('front_school_jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        <a class="danger" onclick="deleteElement('{{ path('front_school_jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
-                                    <td><a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}">{{ jobOffer.id }}</a></td>
+                                    <td><a href="{{ path('front_school_jobOffer_show', { 'id': jobOffer.id }) }}">{{ jobOffer.id }}</a></td>
                                     <td>{{ jobOffer.title }}</td>
                                     <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
                                     <td>{{ jobOffer.closedDate }}</td>
@@ -88,7 +88,7 @@
                             {% for jobOffer in othersJobs %}
                                 <tr>
                                     <td class="row-actions">
-                                        <a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        <a href="{{ path('front_school_jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                     </td>
                                     {% if jobOffer.company is not null %}
                                         <td>{{ jobOffer.company }}</td>

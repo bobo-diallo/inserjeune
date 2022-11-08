@@ -814,6 +814,12 @@
         <target>Other_type</target>
       </trans-unit>
 
+      <!--  Notification email send  -->
+      <trans-unit id="notification.enrollment_email_send_successful">
+        <source>notification.enrollment_email_send_successful</source>
+        <target>Notifications are sent successfully</target>
+      </trans-unit>
+
       <!-- Role      -->
       <trans-unit id="role.editing_a_role">
         <source>role.editing_a_role</source>
@@ -1130,6 +1136,10 @@
         <source>job.description_of_the_company</source>
         <target>Description_of_the_company</target>
       </trans-unit>
+      <trans-unit id="job.description_of_the_school">
+        <source>job.description_of_the_school</source>
+        <target>School description</target>
+      </trans-unit>
       <trans-unit id="job.job_description">
         <source>job.job_description</source>
         <target>Job_description</target>
@@ -1404,6 +1414,10 @@
       </trans-unit>
 
       <!-- School     -->
+      <trans-unit id="school.name_of_the_school">
+        <source>school.name_of_the_school</source>
+        <target>Name_of_the_school</target>
+      </trans-unit>
       <trans-unit id="school.list_of_partner_schools">
         <source>school.list_of_partner_schools</source>
         <target>List_of_partner_schools</target>

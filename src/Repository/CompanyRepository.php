@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Company;
+use App\Model\CompanyReceiverNotification;
+use App\Model\PersonDegreeReceiverNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\City;
 use App\Entity\Country;
@@ -309,6 +311,26 @@ class CompanyRepository extends ServiceEntityRepository {
 				'beginDate'=> $beginDate,
 				'endDate'=>$endDate
 			])
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @param array $companyIds
+	 * @return CompanyReceiverNotification[]
+	 */
+	public function getCompaniesWithIds(array $companyIds): array {
+		return $this->createQueryBuilder('company')
+			->select('NEW ' . CompanyReceiverNotification::class . '(
+				company.id, 
+				company.name, 
+				company.email, 
+				user.phone, 
+				company.temporaryPasswd)')
+			->innerJoin('company.user', 'user')
+			->where('company.id IN (:ids)')
+			->andWhere('company.email IS NOT NULL')
+			->setParameter('ids', $companyIds)
 			->getQuery()
 			->getResult();
 	}

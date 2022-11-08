@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Degree;
 use App\Entity\PersonDegree;
 use App\Entity\School;
+use App\Model\PersonDegreeReceiverNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\Activity;
 use App\Entity\City;
@@ -654,4 +655,28 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
+
+	/**
+	 * @param array $personDegreeIds
+	 * @return PersonDegreeReceiverNotification[]
+	 */
+	public function getPersonDegreeWithIds(array $personDegreeIds): array {
+		return $this->createQueryBuilder('person_degree')
+			->select('NEW ' . PersonDegreeReceiverNotification::class . '(
+				person_degree.id, 
+				person_degree.firstname, 
+				person_degree.lastname, 
+				school.name,
+				person_degree.email, 
+				user.phone, 
+				person_degree.temporaryPasswd)')
+			->innerJoin('person_degree.user', 'user')
+			->innerJoin('person_degree.school', 'school')
+			->where('person_degree.id IN (:ids)')
+			->andWhere('person_degree.email IS NOT NULL')
+			->setParameter('ids', $personDegreeIds)
+			->getQuery()
+			->getResult();
+	}
+
 }

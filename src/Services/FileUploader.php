@@ -15,7 +15,11 @@ class FileUploader {
 		$this->slugger = $slugger;
 	}
 
-	public function upload(UploadedFile $file): string {
+	public function upload(UploadedFile $file, ?string $oldFilename = null): string {
+		if ($oldFilename) {
+			$this->removeOldFile($oldFilename);
+		}
+
 		$originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 		$safeFilename = $this->slugger->slug($originalFilename);
 		$fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
@@ -23,7 +27,6 @@ class FileUploader {
 		try {
 			$file->move($this->getTargetDirectory(), $fileName);
 		} catch (FileException $e) {
-			// ... handle exception if something happens during file upload
 		}
 
 		return $fileName;
@@ -31,5 +34,13 @@ class FileUploader {
 
 	public function getTargetDirectory(): string {
 		return $this->targetDirectory;
+	}
+
+	public function removeOldFile(string $oldFilename): void {
+		$file_path = $this->getTargetDirectory() . DIRECTORY_SEPARATOR . $oldFilename;
+
+		if (file_exists($file_path)) {
+			unlink($file_path);
+		}
 	}
 }

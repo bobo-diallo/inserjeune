@@ -1,0 +1,26 @@
+{% extends 'frontCompanyJobOffer/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/job.png') }}" alt="job" class="title-icon">
+                <h6 class="element-header">
+                    {{ 'job.editing_a_job_offer' | trans }}
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('front_school_jobOffer_new') }}">
+                        <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
+                    </a>
+                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('front_school_jobOffer_index') }}">
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form method="post" enctype="multipart/form-data">
+                      {% include 'frontSchoolJobOffer/_new.html.twig' with {'form': edit_form} %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

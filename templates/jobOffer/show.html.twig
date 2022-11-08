@@ -21,7 +21,7 @@
                 </h6>
                 <div class="element-box jobOffer">
                     <div class="form-group row jobOfferBanner">
-                        {% if jobOffer.company.logo %}
+                        {% if jobOffer.company is not null and jobOffer.company.logo %}
                             <img src="{#{ jobOffer.company.logo }#}" alt="Logo entreprise">
                         {%  else %}
                             <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
@@ -46,19 +46,32 @@
                     </div>
 
                     <div class="form-group row jobOfferCompanyName">
-                        <a href="https://{{ jobOffer.company.url }}">
-                            <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>
-                        </a>
+                        {% if jobOffer.company is not null %}
+                            <a href="https://{{ jobOffer.company.url }}">
+                                <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>
+                            </a>
+                        {% else %}
+                            <h2 class="col-form-label col-sm-12">{{ 'menu.establishment' | trans }} - {{ jobOffer.school.name }}</h2>
+                        {% endif %}
                     </div>
 
                     <div class="row">
                         <fieldset class="col-form-label col-sm-6">
-                            <legend>
-                                <span>{{ 'job.description_of_the_company' | trans }} </span>
-                            </legend>
-                            <div class="form-group row ">
-                                <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>
-                            </div>
+                            {% if jobOffer.company is not null %}
+                                <legend>
+                                    <span>{{ 'job.description_of_the_company' | trans }} </span>
+                                </legend>
+                                <div class="form-group row ">
+                                    <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>
+                                </div>
+                            {% else %}
+                                <legend>
+                                    <span>{{ 'job.description_of_the_school' | trans }} </span>
+                                </legend>
+                                <div class="form-group row ">
+                                    <p class="col-sm-12">{{ jobOffer.school.description }}</p>
+                                </div>
+                            {% endif %}
                         </fieldset>
                         <fieldset class="col-form-label col-sm-6">
                             <legend>

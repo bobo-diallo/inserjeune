@@ -1007,3 +1007,14 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
           $('#printDashboardLoading').attr('hidden', 'hidden');
        });
 }
+
+global.getBaseUrl = function () {
+   let dirs = window.location.href.split('/');
+   let $locationRef = '';
+
+   for (let i = 0; i < dirs.length - 1; i++) {
+      $locationRef += dirs[i] + '/';
+   }
+
+   return $locationRef;
+}
