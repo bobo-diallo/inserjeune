@@ -20,6 +20,7 @@
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
+                                    <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>
                             </div>
                         </div>
@@ -180,11 +181,15 @@
             }
 
             if (edits.length > 0) {
+                let errorNumber = 0;
                 if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
                     for (let i = 0; i < edits.length; i++) {
                         if ($('#save' + edits[i]).css('display') != 'none') {
-                            displayButton('save', edits[i], 'all');
+                            errorNumber += displayButton('save', edits[i], 'all');
                         }
+                    }
+                    if (errorNumber > 0) {
+                        alert('Veuillez remplir tous les champs requis');
                     }
                 }
             } else {
@@ -217,21 +222,22 @@
         }
 
         function sendEmailSelect() {
-            if(checkAllShowMode() == true) {
-                let err=[];
-                let mailsTo=[];
+            if (checkAllShowMode() == true) {
+                let err = [];
+                let mailsTo = [];
                 $('.enrolCheck').each(function () {
-                    if($(this).prop("checked") == true) {
+                    if ($(this).prop("checked") == true) {
                         let userId = $(this).parent().find("span").first();
                         let userEmail = '#' + userId.attr("id").replaceAll("id", "p_email");
                         let userPwd = '#' + userId.attr("id").replaceAll("id", "p_password");
                         let userFirstName = '#' + userId.attr("id").replaceAll("id", "p_firstname");
                         let userName = '#' + userId.attr("id").replaceAll("id", "p_lastname");
 
-                        if($(userEmail).text() && $(userPwd).text()) {
-                            mailsTo.push(userId);
 
-                        } else if(!$(userEmail).text()){
+                        if ($(userEmail).text() && $(userPwd).text()) {
+                            mailsTo.push($('#' + userId.attr('id')).text());
+
+                        } else if (!$(userEmail).text()) {
                             err.push("Pas d\'email " + $(userFirstName).text() + " " + $(userName).text())
 
                         } else {
@@ -239,8 +245,22 @@
                         }
                     }
                 })
-                if(err.length == 0 ) {
-                    //envoi des mails Bobo
+                if (err.length == 0) {
+                    if (mailsTo.length > 0) {
+                        if (confirm("Etes vous sûr de vouloir envoyer les notification ?")) {
+                            $('#idLoading').removeAttr('hidden');
+                            $.post(getBaseUrl() + 'sendNotificationEnrollmentDegree', {'persondegree_ids': mailsTo})
+                                .done(function (data) {
+                                    $('#idLoading').attr('hidden', 'hidden');
+                                    alert('Email(s) envoyé(s) avec succès');
+                                    $('#tbodyPersonDegree input').prop('checked', false);
+                                })
+                                .fail(function () {
+                                    $('#idLoading').attr('hidden', 'hidden');
+                                    alert('Erreur lors de l\'envoi des mails.');
+                                })
+                        }
+                    }
                 } else {
                     alert(err);
                 }
@@ -426,6 +446,8 @@
             /* test si tout les champs sont remplis */
             /* ------------------------------------ */
             let check = true;
+            let errorNumber = 0;
+
             if(action=="save") {
                 $(row).each(function () {
                     $(this).find('input').each(function () {
@@ -433,6 +455,7 @@
                             if ($(this).val() == '') {
                                 check = false;
                                 $(this).css({"background-color": "#ffd5d5"});
+                                errorNumber++;
                             } else {
                                 $(this).css({"background-color": "white"});
                             }
@@ -441,16 +464,17 @@
                     $(this).find('select').each(function () {
                         if($(this).prop("required") == true) {
 
-                            if (($(this).val() == "") ||  (($(this).val())&&($(this).val().toLowerCase() == "selectionnez"))) {
+                            if (($(this).val() == "") ||  (($(this).val())&&($(this).val().toLowerCase() == 'selectionnez'))) {
                                 check = false;
                                 $(this).css({"background-color": "#ffd5d5"});
+                                errorNumber++;
                             } else {
                                 //console.log($(this).val())
                                 $(this).css({"background-color": "white"});
                             }
                         }
                     })
-                })
+                });
             }
             /* Affichage des buttons */
             /* --------------------- */
@@ -710,6 +734,7 @@
                     }
                 // }
             }
+            return errorNumber;
         };
 
         function addOptionRegion(rowNumber) {

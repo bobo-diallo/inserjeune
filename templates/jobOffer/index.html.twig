@@ -68,7 +68,12 @@
                                     <td>{{ jobOffer.closedDate }}</td>
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
-                                    <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }} {% endif %}</td>
+{#                                    <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }} {% endif %}</td>#}
+                                    {% if jobOffer.company is not null %}
+                                        <td>{{ jobOffer.company }}</td>
+                                    {% else %}
+                                        <td>{{ jobOffer.school }}</td>
+                                    {% endif %}
                                     <td>{{ jobOffer.city.name }}</td>
                                     <td>{{ jobOffer.description |slice(0, 40) ~ '...' }}</td>
                                 </tr>

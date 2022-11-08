@@ -1,0 +1,47 @@
+{% extends 'base_school.html.twig' %}
+{% block title %}
+  {{ parent() }} {{ 'menu.school' | trans }}
+{% endblock %}
+
+
+{% block js %}
+  <script>
+     // Event
+     $(document).on('change', '#appbundle_joboffer_country, #appbundle_joboffer_region', function () {
+        let $field = $(this)
+        let $regionField = $('#appbundle_joboffer_country')
+        let $form = $field.closest('form')
+        let target = '#' + $field.attr('id').replace('region', 'city').replace('country', 'region')
+        // Les données à envoyer en Ajax
+        let data = {}
+        data[$regionField.attr('name')] = $regionField.val()
+        data[$field.attr('name')] = $field.val()
+        // On soumet les données
+        $.post($form.attr('action'), data).then(function (data) {
+           // On récupère le nouvmeeau <select>
+           let $input = $(data).find(target)
+           // On remplace notre <select> actuel
+           $(target).replaceWith($input)
+        })
+     });
+
+     $(document).on('change', '#appbundle_joboffer_sectorArea', function () {
+        let $field = $(this)
+        let $sectorAreaField = $('#appbundle_joboffer_sectorArea')
+        let $form = $field.closest('form')
+        let target = '#' + $field.attr('id').replace('sectorArea', 'activity')
+
+        // Les données à envoyer en Ajax
+        let data = {}
+        data[$sectorAreaField.attr('name')] = $sectorAreaField.val()
+
+        // On soumet les données
+        $.post($form.attr('action'), data).then(function (data) {
+           // On récupère le nouvmeeau <select>
+           let $input = $(data).find(target)
+           // On remplace notre <select> actuel
+           $(target).replaceWith($input)
+        })
+     })
+  </script>
+{% endblock %}

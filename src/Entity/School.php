@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'school')]
 #[ORM\Entity(repositoryClass: SchoolRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class School {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
@@ -194,6 +195,9 @@ class School {
 	#[ORM\Column(name: 'location_mode', type: 'boolean', nullable: true)]
 	private ?bool $locationMode;
 
+	#[ORM\OneToMany(mappedBy: 'school', targetEntity: JobOffer::class, cascade: ['persist', 'remove'])]
+	private Collection $jobOffers;
+
 	public function __construct() {
 		$this->socialNetworks = new ArrayCollection();
 		$this->activities1 = new ArrayCollection();
@@ -205,6 +209,7 @@ class School {
 		$this->degrees = new ArrayCollection();
 		$this->personDegrees = new ArrayCollection();
 		$this->companies = new ArrayCollection();
+		$this->jobOffers = new ArrayCollection();
 	}
 
 	public function getId(): ?int {
@@ -683,4 +688,31 @@ class School {
 	}
 
 
+	#[ORM\PrePersist]
+	public function prePersist(): void {
+		if ($this->jobOffers->count()) {
+			/** @var JobOffer $job */
+			foreach ($this->jobOffers as $job) {
+				$job->setSchool($this);
+			}
+		}
+	}
+
+	public function removeJob(JobOffer $job): void {
+		$this->jobOffers->removeElement($job);
+	}
+
+	public function addJobOffer(JobOffer $jobOffer): self {
+		$this->jobOffers->add($jobOffer);
+
+		return $this;
+	}
+
+	public function removeJobOffer(JobOffer $jobOffer): void {
+		$this->jobOffers->removeElement($jobOffer);
+	}
+
+	public function getJobOffers(): Collection {
+		return $this->jobOffers;
+	}
 }

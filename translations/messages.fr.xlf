@@ -599,7 +599,7 @@
       </trans-unit>
       <trans-unit id="menu.fixed_phone">
         <source>menu.fixed_phone</source>
-        <target>fixed_phone</target>
+        <target>Téléphone fixe</target>
       </trans-unit>
       <trans-unit id="menu.current_files">
         <source>menu.current_files</source>
@@ -808,6 +808,12 @@
       <trans-unit id="menu.other_type">
         <source>menu.other_type</source>
         <target>Autre type</target>
+      </trans-unit>
+
+      <!--  Notification email send  -->
+      <trans-unit id="notification.enrollment_email_send_successful">
+        <source>notification.enrollment_email_send_successful</source>
+        <target>Les notifications sont envoyés avec succès</target>
       </trans-unit>
 
       <!-- Role      -->
@@ -1126,6 +1132,10 @@
         <source>job.description_of_the_company</source>
         <target>Description de l'entreprise</target>
       </trans-unit>
+      <trans-unit id="job.description_of_the_school">
+        <source>job.description_of_the_school</source>
+        <target>Description de l'etablissement</target>
+      </trans-unit>
       <trans-unit id="job.job_description">
         <source>job.job_description</source>
         <target>Description du poste</target>
@@ -1400,6 +1410,10 @@
       </trans-unit>
 
       <!-- School     -->
+      <trans-unit id="school.name_of_the_school">
+        <source>school.name_of_the_school</source>
+        <target>Nom de l'etablissement</target>
+      </trans-unit>
       <trans-unit id="school.list_of_partner_schools">
         <source>school.list_of_partner_schools</source>
         <target>Liste des établissements partenaires</target>

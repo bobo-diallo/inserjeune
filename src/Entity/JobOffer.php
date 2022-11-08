@@ -55,6 +55,10 @@ class JobOffer {
 	#[ORM\JoinColumn(name: 'id_company', referencedColumnName: 'id')]
 	private ?Company $company = null;
 
+	#[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'jobOffers')]
+	#[ORM\JoinColumn(name: 'id_school', referencedColumnName: 'id')]
+	private ?School $school = null;
+
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	#[ORM\JoinColumn(name: 'id_sectorArea', referencedColumnName: 'id')]
 	private ?SectorArea $sectorArea = null;
@@ -140,6 +144,16 @@ class JobOffer {
 
 	public function setCompany(?Company $company = null): self {
 		$this->company = $company;
+
+		return $this;
+	}
+
+	public function getSchool(): ?School {
+		return $this->school;
+	}
+
+	public function setSchool(?School $school = null): self {
+		$this->school = $school;
 
 		return $this;
 	}

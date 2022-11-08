@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Enrollement</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        h1 {
+            background-color: #264459;
+            color: #ffffff;
+            padding: 30px 0 50px 0;
+            font-weight: normal;
+        }
+        hr {
+            border: none;
+            border-top: 3px solid #264459;
+            margin: 20px;
+        }
+        .container {
+            background-color: #fefefe;
+            width: 580px;
+            margin: 0 auto;
+        }
+        .bottom {
+            background-color: #efefee;
+        }
+        .block {
+            margin: 0;
+            padding: 10px 20px 20px 20px;
+        }
+        .logo {
+            width: 100%;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #264459;
+            color: #fefefe;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{ url('login') }}">
+                <img src="{{ absolute_url(asset('build/images/pinsuprem/logo_ifef.jpg')) }}" class="logo" alt="Logo IFEF">
+            </a>
+        </div>
+        <div class="content">
+            <h1 class="text-center">Bonjour !</h1>
+            <p class="block">
+                L'etablissement <strong>{{ school_name }}</strong> vient de vous enroller via la plateforme
+                Inserjeune de l'IFEF.
+            </p>
+            <p class="block">
+                Vous pouvez vous connecter sur la plateforme <a href="{{ path('login') }}">inserjeune</a>
+                avec les acces suivants: <br>
+                Login: <strong>{{ company_login }}</strong> <br>
+                Password: <strong>{{ company_password }}</strong> <br>
+            </p>
+        </div>
+        <div class="footer">
+            <p class="block">
+                Bien cordialement</em>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

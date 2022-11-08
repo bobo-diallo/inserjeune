@@ -8,30 +8,20 @@
         <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
           {{ 'job.details_of_the_offer' | trans }}  {{ jobOffer.id }}
-{#          {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise" %}#}
-          {%  if app.user.roles|role == "Administrateur" %}
-            <a class="btn btn-sm btn-primary float-right" href="{{ path('jobOffer_new') }}">
-              <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
-            </a>
-            <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
-              <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
-            </a>
-          {% elseif app.user.roles|role == "Entreprise"%}
-            <a class="btn btn-sm btn-primary float-right" href="{{ path('front_company_jobOffer_new') }}">
-              <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
-            </a>
-            <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('front_company_jobOffer_index') }}">
-              <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
-            </a>
-          {% endif %}
+          <a class="btn btn-sm btn-primary float-right" href="{{ path('front_school_jobOffer_new') }}">
+            <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
+          </a>
+          <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('front_school_jobOffer_index') }}">
+            <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+          </a>
         </h6>
         <div class="element-box jobOffer">
           <div class="form-group row jobOfferBanner">
-            {% if jobOffer.company and jobOffer.company.logo is not null %}
-              <img src="{#{ jobOffer.company.logo }#}" alt="Logo entreprise">
-            {%  else %}
+{#            {% if jobOffer.company.logo %}#}
+{#              <img src="#}{#{ jobOffer.company.logo }#}{#" alt="Logo entreprise">#}
+{#            {%  else %}#}
               <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
-            {% endif %}
+{#            {% endif %}#}
             <span>{{ 'menu.job_offer' | trans }}</span>
           </div>
           <div class="form-group row jobOfferTitle">
@@ -42,9 +32,7 @@
             {%  if jobOffer.updatedDate > jobOffer.createdDate %}
               <p class="col-sm-12">{{ 'job.updated_on' | trans }}  {{ jobOffer.updatedDate|date('d/m/Y') }}</p>
             {% endif %}
-            {#%  if jobOffer.closedDate > jobOffer.createdDate %#}
             <p class="col-sm-12">{{ 'menu.expires_on' | trans }} {{ jobOffer.closedDate }}</p>
-            {#% endif %#}
             <p class="col-sm-12">{{ 'job.type_of_contract' | trans }} : {{ jobOffer.contract }}</p>
             {% if jobOffer.otherCity %}
               <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>
@@ -53,25 +41,25 @@
             {% endif %}
           </div>
 
-          <div class="form-group row jobOfferCompanyName">
-            {% if jobOffer.company.url %}
-              <a href="https://{{ jobOffer.company.url }}">
-            {% else %}
-                <a href="#">
-            {% endif%}
-              <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>
-            </a>
-          </div>
+{#          <div class="form-group row jobOfferCompanyName">#}
+{#            {% if jobOffer.company.url %}#}
+{#              <a href="https://{{ jobOffer.company.url }}">#}
+{#                <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>#}
+{#              </a>#}
+{#            {% else %}#}
+{#                <a href="#"><h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2></a>#}
+{#            {% endif%}#}
+{#          </div>#}
 
           <div class="row">
-            <fieldset class="col-form-label col-sm-6">
-              <legend>
-                <span>{{ 'job.description_of_the_company' | trans }} </span>
-              </legend>
-              <div class="form-group row ">
-                <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>
-              </div>
-            </fieldset>
+{#            <fieldset class="col-form-label col-sm-6">#}
+{#              <legend>#}
+{#                <span>{{ 'job.description_of_the_company' | trans }} </span>#}
+{#              </legend>#}
+{#              <div class="form-group row ">#}
+{#                <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>#}
+{#              </div>#}
+{#            </fieldset>#}
             <fieldset class="col-form-label col-sm-6">
               <legend>
                 <span> {{ 'job.job_description' | trans }}  </span>
@@ -129,18 +117,18 @@
               </div>
             </div>
           {% endif %}
-          {%  if app.user.roles|role == "Administrateur" %}
-            <div class="controls-above-table">
-              <div class="row" id="actions">
-                <div class="col-sm-6">
-                  <a class="btn btn-sm btn-primary" href="{{ path('jobOffer_edit', {'id': jobOffer.id}) }}">
-                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
-                  <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')">
-                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
-                </div>
-              </div>
-            </div>
-          {% endif %}
+{#          {%  if app.user.roles|role == "Administrateur" %}#}
+{#            <div class="controls-above-table">#}
+{#              <div class="row" id="actions">#}
+{#                <div class="col-sm-6">#}
+{#                  <a class="btn btn-sm btn-primary" href="{{ path('jobOffer_edit', {'id': jobOffer.id}) }}">#}
+{#                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>#}
+{#                  <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')">#}
+{#                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          {% endif %}#}
         </div>
       </div>
     </div>

@@ -1,0 +1,156 @@
+{{ form_widget(form._token) }}
+<div class="jobOfferSchool">
+  <div class="row">
+      <label class="col-sm-6 "> {{ 'school.name_of_the_school' | trans }} </label>
+      <input class="col-sm-6 form-control" disabled value="{{ school.name }}">
+  </div>
+  <div class="form-global">
+    <fieldset>
+      <legend><span>{{ 'menu.job_offer' | trans }}</span></legend>
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label> {{ 'menu.title' | trans }} *</label>
+          {{ form_widget(form.title) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.title) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label> {{ 'job.type_of_contract' | trans }} *</label>
+          {{ form_widget(form.contract) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.contract) }}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12  form-group">
+          <label> {{ 'menu.description' | trans }} *</label>
+          {{ form_widget(form.description) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-12  form-group">
+          <label>{{ 'job.candidate_profile' | trans }}</label>
+          {{ form_widget(form.candidateProfile) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend><span>{{ 'job.date_of_offer' | trans }}</span></legend>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <label> {{ 'menu.created_date' | trans }}</label>
+          <p class="form-control">{{ jobOffer.createdDate|date('d/m/Y H:i') }}</p>
+        </div>
+        <div class="col-sm-4 form-group">
+          <label>{{ 'menu.updated_date' | trans }}</label>
+          <p class="form-control"> {{ jobOffer.updatedDate|date('d/m/Y H:i') }}</p>
+        </div>
+        <div class="col-sm-4 form-group">
+          <label> {{ 'job.expiry_date_of_the_offer' | trans }} *</label>
+          {{ form_widget(form.closedDate) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.closedDate) }}</div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend><span>{{ 'menu.activity' | trans }}</span></legend>
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label> {{ 'menu.sector' | trans }} *</label>
+          {{ form_widget(form.sectorArea) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label> {{ 'menu.job' | trans }} *</label>
+          {{ form_widget(form.activity) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label> {{ 'menu.other_trade' | trans }}</label>
+          {{ form_widget(form.otherActivity) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity) }}</div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend><span>{{ 'menu.localization' | trans }}</span></legend>
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label> {{ 'menu.country' | trans }} *</label>
+          {{ form_widget(form.country) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label>Region *</label>
+          {{ form_widget(form.region) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label>{{ 'menu.city' | trans }} *</label>
+          {{ form_widget(form.city) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label> {{ 'city.other_city' | trans }} </label>
+          {{ form_widget(form.otherCity) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend><span>{{ 'menu.contact' | trans }}</span></legend>
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label>{{ 'menu.contact_name' | trans }} *</label>
+          {{ form_widget(form.postedContact) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedContact) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label>{{ 'menu.fixed_phone' | trans }}</label>
+          {{ form_widget(form.postedPhone) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedPhone) }}</div>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label>Email *</label>
+          {{ form_widget(form.postedEmail) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.postedEmail) }}</div>
+        </div>
+      </div>
+    </fieldset>
+
+
+    {# Affichage de l'image actuel #}
+    {% if attribute(form.file.vars, 'data') is defined and form.file.vars.data is not empty %}
+      <div class="form-group">
+        <label> {{ 'menu.current_files' | trans }}</label>
+        <div class="form-control"><img src="{{ asset(form.file.vars.data.pathname) }}" alt="image" style="max-width: 200px; max-height: 150px;"></div>
+      </div>
+    {% endif %}
+
+    {# Begin FileInput #}
+    <div class="form-group">
+      <label class="">{{ 'menu.attach_the_description_of_the_offer' | trans }}</label>
+      <div style="border: 2px dashed #2177e0">
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+          <div class="fileinput-new thumbnail"></div>
+          <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+          <div>
+              <span class="btn default btn-file">
+                <button class="btn fileinput-new" style="text-transform: none"> {{ 'menu.select_file' | trans }} (PDF) </button>
+                <button class="fileinput-exists btn btn-default" style="cursor: pointer;"> {{ 'menu.change' | trans }} </button>
+                {{ form_widget(form.file) }}
+              </span>
+            <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"> {{ 'menu.delete' | trans }} </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {# End FileInput #}
+    {#</div>#}
+
+    <div class="form-buttons-w">
+      <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
+    </div>
+  </div>
+</div>

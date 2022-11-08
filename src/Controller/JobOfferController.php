@@ -6,6 +6,7 @@ use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
 use App\Services\CompanyService;
+use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,22 +21,25 @@ class JobOfferController extends AbstractController {
 	private EntityManagerInterface $em;
 	private JobOfferRepository $jobOfferRepository;
 	private CompanyService $companyService;
+	private FileUploader $fileUploader;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		JobOfferRepository     $jobOfferRepository,
-		CompanyService $companyService
+		CompanyService $companyService,
+		FileUploader $fileUploader
 	) {
 		$this->em = $em;
 		$this->jobOfferRepository = $jobOfferRepository;
 		$this->companyService = $companyService;
+		$this->fileUploader = $fileUploader;
 	}
 
 	#[IsGranted('ROLE_USER')]
 	#[Route(path: '/', name: 'jobOffer_index', methods: ['GET'])]
 	public function indexAction(): Response {
 		return $this->render('jobOffer/index.html.twig', [
-			'jobOffers' => $this->jobOfferRepository->findAll()
+			'jobOffers' => $this->jobOfferRepository->getAllJobOffer()
 		]);
 	}
 
@@ -47,6 +51,11 @@ class JobOfferController extends AbstractController {
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
+			$offerDescription = $form->get('file')->getData();
+			if ($offerDescription) {
+				$offerDescriptionFileName = $this->fileUploader->upload($offerDescription);
+				$jobOffer->setFilename($offerDescriptionFileName);
+			}
 			$this->em->persist($jobOffer);
 			$this->em->flush();
 
@@ -75,6 +84,12 @@ class JobOfferController extends AbstractController {
 		$editForm->handleRequest($request);
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
+			$offerDescription = $editForm->get('file')->getData();
+			if ($offerDescription) {
+				$offerDescriptionFileName = $this->fileUploader->upload($offerDescription, $jobOffer->getFilename());
+				$jobOffer->setFilename($offerDescriptionFileName);
+			}
+
 			$jobOffer->setCompany($company);
 			$jobOffer->setUpdatedDate(new \DateTime());
 			$this->em->flush();
@@ -92,6 +107,7 @@ class JobOfferController extends AbstractController {
 	public function deleteAction(Request $request, ?JobOffer $jobOffer): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($jobOffer) {
+				$this->fileUploader->removeOldFile($jobOffer->getFilename());
 				$this->em->remove($jobOffer);
 				$this->em->flush();
 				$this->addFlash('success', 'La suppression est faite avec success');
