@@ -268,10 +268,9 @@ class FrontSchoolController extends AbstractController {
 	public function personDegreesIndexAction(): Response {
 		return $this->schoolService->checkUnCompletedAccountBefore(function () {
 			$school = $this->schoolService->getSchool();
-			$personDegrees = $this->personDegreeRepository->findBySchool($school);
 
 			return $this->render('persondegree/index.html.twig', [
-				'personDegrees' => $personDegrees
+				'personDegrees' => $this->personDegreeRepository->getAllPersonDegreeOfSchool($school->getId())
 			]);
 		});
 	}
