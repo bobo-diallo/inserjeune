@@ -57,7 +57,7 @@ global.deleteElement = function deleteElement(route) {
 global.datatable = function datatable(retrieve=false) {
    let options = {
       language: {
-         url: '../build/locale/fr_FR.json'
+         url: '../../build/locale/fr_FR.json'
       },
       initComplete: function () {
          $('#kz_table_wrapper input').addClass('form-control form-control-sm ')
@@ -934,7 +934,7 @@ global.timeGraphCreation = function timeGraphCreation(type, actorName, duration)
 global.datatable2 = function datatable2(retrieve = false) {
    let options = {
       language: {
-         url: '../build/locale/fr_FR.json'
+         url: '../../build/locale/fr_FR.json'
       },
       initComplete: function () {
          $('#kz_table2_wrapper input').addClass('form-control form-control-sm kz_table2_input')

@@ -145,7 +145,7 @@ class CheckDatabaseExention extends AbstractExtension {
 			$html = sprintf('<div style="width: 30px; height: 20px; background-color: %s; margin: auto; border: %s"></div><div style="display: none">%s</div>', $color, $border, $status);
 
 		} else {
-			$html = "Erreur sur mois d'obstention";
+			$html = 'Erreur sur mois d\'obtention';
 		}
 		return $html;
 	}

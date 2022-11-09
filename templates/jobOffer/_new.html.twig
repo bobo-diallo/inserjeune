@@ -1,9 +1,18 @@
+{% set roleUser = app.user.roles|role %}
+
 {{ form_widget(form._token) }}
 <div class="jobOfferCompany">
   <label for=""> {{ 'menu.company' | trans }} : </label>
-  {#{{ form_widget(form.company) }}#}
-  {{ jobOffer.company.name }}
-  {#<div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.company) }}</div>#}
+
+{#  {%  if roleUser == 'Administrateur' %}#}
+{#    {{ form_widget(form.company) }}#}
+{#    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.company) }}</div>#}
+{#  {% endif %}#}
+
+  {%  if roleUser == 'Entreprise' %}
+    {{ jobOffer.company.name }}
+  {% endif %}
+
   <fieldset>
     <legend><span>{{ 'menu.job_offer' | trans }}</span></legend>
     <div class="row">
@@ -19,9 +28,17 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 form-group">
+      <div class="col-sm-12">
         <label for=""> {{ 'menu.description' | trans }} </label>
         {{ form_widget(form.description) }}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-12">
+        <label>{{ 'job.candidate_profile' | trans }}</label>
+        {{ form_widget(form.candidateProfile) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.description) }}</div>
       </div>
     </div>
@@ -44,11 +61,11 @@
         {{ form_widget(form.otherActivity) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherActivity) }}</div>
       </div>
-      <div class="col-sm-6 form-group">
-        <label for=""> {{ 'menu.pdf_of_the_ad' | trans }}</label>
-        {{ form_widget(form.image) }}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.image) }}</div>
-      </div>
+{#      <div class="col-sm-6 form-group">#}
+{#        <label for=""> {{ 'menu.pdf_of_the_ad' | trans }}</label>#}
+{#        {{ form_widget(form.image) }}#}
+{#        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.image) }}</div>#}
+{#      </div>#}
     </div>
   </fieldset>
   <fieldset>

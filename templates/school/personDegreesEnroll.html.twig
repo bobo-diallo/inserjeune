@@ -19,6 +19,7 @@
                                 <div class="col-sm-6">
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>

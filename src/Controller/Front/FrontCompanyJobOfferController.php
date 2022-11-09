@@ -42,7 +42,7 @@ class FrontCompanyJobOfferController extends AbstractController {
 	public function indexAction(): Response {
 		return $this->companyService->checkUnCompletedAccountBefore(function () {
 			$company = $this->companyService->getCompany();
-			$jobOffers = $this->jobOfferRepository->findByCompany($company);
+			$jobOffers = $this->jobOfferRepository->findBy(['company' => $company], ['id' => 'DESC']);
 			$othersJobOffers = $this->jobOfferRepository->othersJobs($company);
 
 			return $this->render('frontCompanyJobOffer/index.html.twig', [
