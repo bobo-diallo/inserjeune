@@ -37,6 +37,7 @@ class JobOfferRepository extends ServiceEntityRepository {
 		return $this->createQueryBuilder('j')
 			->leftJoin('j.company', 'c', 'WITH', 'c.id != :company')
 			->setParameter('company', $company)
+			->orderBy('j.id', 'DESC')
 			->getQuery()
 			->getResult();
 	}
@@ -49,6 +50,7 @@ class JobOfferRepository extends ServiceEntityRepository {
 		return $this->createQueryBuilder('j')
 			->leftJoin('j.school', 's', 'WITH', 's.id != :school')
 			->setParameter('school', $school->getId())
+			->orderBy('j.id', 'DESC')
 			->getQuery()
 			->getResult();
 	}
