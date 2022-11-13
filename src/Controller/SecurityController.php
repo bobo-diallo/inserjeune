@@ -69,7 +69,12 @@ class SecurityController extends AbstractController
 
 		$request->getSession()->set('_locale', $locale);
 		$request->setLocale($locale);
-		$routePath = $this->router->generate($route['_route'], ['_locale' => $locale]);
+
+		$parameters = ['_locale' => $locale];
+		$parameters = (count($route) > 3) ? array_merge($parameters, array_slice($route, 3)) : $parameters;
+
+		$routePath = $this->router->generate($route['_route'], $parameters);
+
 
 		return new RedirectResponse($routePath);
 	}

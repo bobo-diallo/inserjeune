@@ -10,12 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
 	/**
-	 * @Route("/home", name="home")
+	 * @Route("/", name="home")
 	 * @param Request $request
 	 * @return Response
 	 */
 	public function indexAction(Request $request): Response
 	{
-		return $this->render('home.html.twig');
+		return $this->redirectToRoute('login');
 	}
 }

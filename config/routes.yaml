@@ -1,11 +1,17 @@
 controllers:
     resource: ../src/Controller/
+    exclude:
+        - '../src/Controller/HomeController.php'
     type: annotation
     prefix:   /{_locale}
     requirements:
         _locale: '%app.supported_locales%'
     defaults:
         _locale: 'fr'
+
+home-controller:
+    resource: ../src/Controller/HomeController.php
+    type: annotation
 
 kernel:
     resource: ../src/Kernel.php
