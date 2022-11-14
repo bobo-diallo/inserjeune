@@ -26,9 +26,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route(path: 'front/persondegree')]
 #[IsGranted('ROLE_DIPLOME')]
@@ -310,16 +310,16 @@ class FrontPersonDegreeController extends AbstractController {
 	}
 
 	#[Route(path: '/check_logout', name: 'check_logout_persondegree', methods: ['GET'])]
-	public function check_logout(): RedirectResponse {
+	public function check_logout(TokenStorageInterface $tokenStorage): RedirectResponse {
 		$personDegree = $this->personDegreeService->getPersonDegree();
 		$user = $this->getUser();
 
 		if (!$personDegree) {
 			if ($user) {
 				$this->personDegreeService->removeRelations($user);
+				$tokenStorage->setToken(null);
 				$this->em->remove($user);
 				$this->em->flush();
-				$this->addFlash('success', 'Le compte a été supprimé');
 				return $this->redirectToRoute('logout');
 			} else {
 				$this->addFlash('warning', 'Impossible de supprimer le compte');

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route(path: '/front/company')]
 #[IsGranted('ROLE_ENTREPRISE')]
@@ -259,16 +260,16 @@ class FrontCompanyController extends AbstractController {
 	}
 
 	#[Route(path: '/check_logout', name: 'check_logout_company', methods: ['GET'])]
-	public function check_logout(): RedirectResponse {
+	public function check_logout(TokenStorageInterface $tokenStorage): RedirectResponse {
 		$company = $this->companyService->getCompany();
 		$user = $this->getUser();
 
 		if (!$company) {
 			if ($user) {
+				$tokenStorage->setToken(null);
 				$this->companyService->removeRelations($user);
 				$this->em->remove($user);
 				$this->em->flush();
-				$this->addFlash('success', 'Le compte a été supprimé');
 			} else {
 				$this->addFlash('warning', 'Impossible de supprimer le compte');
 				return $this->redirectToRoute('front_company_show');

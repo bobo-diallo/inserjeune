@@ -37,6 +37,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: 'front/school')]
@@ -439,17 +440,17 @@ class FrontSchoolController extends AbstractController {
 	}
 
 	#[Route(path: '/check_logout', name: 'check_logout_school', methods: ['GET', 'POST'])]
-	public function check_logout(): RedirectResponse {
+	public function check_logout(TokenStorageInterface $tokenStorage): RedirectResponse {
 		$school = $this->schoolService->getSchool();
 		$user = $this->getUser();
 
 		// suppression du compte si le profil school n'existe pas
 		if (!$school) {
 			if ($user) {
+				$tokenStorage->setToken(null);
 				$this->schoolService->removeRelations($user);
 				$this->em->remove($user);
 				$this->em->flush();
-				$this->addFlash('success', 'Le compte a été supprimé');
 			} else {
 				$this->addFlash('warning', 'Impossible de supprimer le compte');
 				return $this->redirectToRoute('front_school_show');
@@ -642,6 +643,7 @@ class FrontSchoolController extends AbstractController {
 				        $personDegree->setUpdatedDate(new DateTime());
 				        $personDegree->setType("TYPE_TRAINING");
 				        $personDegree->setSchool($school);
+						$personDegree->setCountry($school->getCountry());
 				        $personDegree->setUser($resRegister[0]);
 				        $personDegree->setTemporaryPasswd($resRegister[1]);
 				        $res = ["id" => $personDegree->getId(), "userId" => $resRegister[0]->getId(), "pwd" => $resRegister[1], "err" => $resRegister[2]];
