@@ -515,7 +515,7 @@
       </trans-unit>
       <trans-unit id="menu.connection_phone_country_code_number">
         <source>menu.connection_phone_country_code_number</source>
-        <target>Tel. connection (Country code + N°) *</target>
+        <target>Tel. connection (Country code + N°)</target>
       </trans-unit>
       <trans-unit id="menu.other_phone_country_code_number">
         <source>menu.other_phone_country_code_number</source>
