@@ -138,8 +138,6 @@ class EmailService {
 			return true;
 
 		} catch (TransportExceptionInterface $e) {
-			var_dump($e->getMessage());
-			die();
 			return false;
 		} finally {
 			@unlink($pathCv);
@@ -178,6 +176,19 @@ class EmailService {
 				'company_login' => $company->phone(),
 				'company_password' => $company->temporaryPassword()
 			])
+		;
+
+		$this->mailer->send($email);
+	}
+
+	public function sendCodeChangePassword(string $to, string $code): void {
+		$email = (new TemplatedEmail())
+			->from($this->parameterBag->get('email_from'))
+			->to($to)
+			->replyTo($this->parameterBag->get('email_from'))
+			->subject('Modification mot de passe inserjeune')
+			->htmlTemplate('email/reset_password.html.twig')
+			->context(['code' => $code])
 		;
 
 		$this->mailer->send($email);

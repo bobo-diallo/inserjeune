@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
-	protected string $email;
+	protected ?string $email;
 
 	#[ORM\Column(name: 'valid_code', type: 'string', nullable: true)]
 	protected ?string $validCode;
@@ -94,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		return $this->username;
 	}
 
-	public function setUsername(string $username): self {
+	public function setUsername(?string $username): self {
 		$this->username = $username;
 
 		return $this;
@@ -229,7 +229,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	/**
 	 * @param string $email
 	 */
-	public function setEmail(string $email): void {
+	public function setEmail(?string $email): void {
 		$this->email = $email;
 	}
 
