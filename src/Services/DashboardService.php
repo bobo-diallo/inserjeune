@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entity\Role;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -27,8 +28,16 @@ class DashboardService {
 	public function checkAccountBefore(callable $executionActionController): mixed {
 		/** @var User $user */
 		$user = $this->tokenStorage->getToken()->getUser();
-		if ($user->getPersonDegree()) {
+		if ($user->getPersonDegree() || $user->hasRole(Role::ROLE_DIPLOME)) {
 			return new RedirectResponse($this->router->generate('front_persondegree_show'));
+		}
+		else if (!$user->getCompany() && $user->hasRole(Role::ROLE_ENTREPRISE)) {
+			$this->requestStack->getSession()->getFlashBag()->set('warning', 'Veuillez completer votre profil');
+			return new RedirectResponse($this->router->generate('front_company_new'));
+		}
+		else if (!$user->getSchool() && $user->hasRole(Role::ROLE_ETABLISSEMENT)) {
+			$this->requestStack->getSession()->getFlashBag()->set('warning', 'Veuillez completer votre profil');
+			return new RedirectResponse($this->router->generate('front_school_new'));
 		} else {
 			return $executionActionController();
 		}

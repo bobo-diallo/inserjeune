@@ -37,6 +37,30 @@
         <source>menu.portuguese</source>
         <target>Portuguese</target>
       </trans-unit>
+      <trans-unit id="menu.init_reset_password">
+        <source>menu.init_reset_password</source>
+        <target>Password initialization</target>
+      </trans-unit>
+      <trans-unit id="menu.information_for_reset_password_with_tag">
+        <source>menu.information_for_reset_password_with_tag</source>
+        <target>Complete the form, an SMS or an email will be sent to you.%tag_br%It will contain the code to initialize your password</target>
+      </trans-unit>
+      <trans-unit id="menu.login_phone">
+        <source>menu.login_phone</source>
+        <target>Login phone</target>
+      </trans-unit>
+      <trans-unit id="menu.verification_code">
+        <source>menu.verification_code</source>
+        <target>Verification code</target>
+      </trans-unit>
+      <trans-unit id="menu.cancel">
+        <source>menu.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="menu.optional_email">
+        <source>menu.optional_email</source>
+        <target>E-mail address (optional)</target>
+      </trans-unit>
       <trans-unit id="menu.company">
         <source>menu.company</source>
         <target>Company</target>

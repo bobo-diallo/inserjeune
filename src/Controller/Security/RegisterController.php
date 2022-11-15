@@ -2,6 +2,8 @@
 
 namespace App\Controller\Security;
 
+use App\Entity\ChangePasswordDTO;
+use App\Form\ChangePasswordType;
 use App\Repository\CountryRepository;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
@@ -290,11 +292,8 @@ class RegisterController extends AbstractController {
 					$this->requestStack->getSession()->set('code', $code);
 					$this->requestStack->getSession()->set('refu', $existUser->getId());
 
-					if ($this->emailService->sendMailPasswd($submitEmail, $code, "modif mdp inserjeune")) {
-						$this->addFlash('warning', 'Votre code est envoyée par mail');
-					} else {
-						$this->addFlash('danger', 'Erreur d\'envoi de mail');
-					}
+					$this->emailService->sendCodeChangePassword($submitEmail, $code);
+					$this->addFlash('warning', 'Votre code est envoyée par mail');
 
 				} elseif (strlen($submitEmail) == 0) {
 					$this->addFlash('danger', 'l\'envoi du code par sms n\'est pas encore autorisé, merci de renseigner une adresse email valide ');
@@ -322,59 +321,32 @@ class RegisterController extends AbstractController {
 		]);
 	}
 
-	#[Route(path: '/change_password', name: 'register_change_password', methods: ['POST'])]
+	#[Route(path: '/change_password', name: 'register_change_password', methods: ['POST', 'GET'])]
 	public function changePasswordAction(Request $request): RedirectResponse|Response {
 		$user = $this->userRepository->findOneById($this->requestStack->getSession()->get('refu'));
-		$country = $user->getCountry();
 
-		// recupération du role du user en cours
-		$userRole = '';
-		foreach ($user->getRoles() as $role) {
-			if ($role == utils::PERSON_DEGREE ||
-				$role == utils::SCHOOL ||
-				$role == utils::COMPANY ||
-				$role == utils::LEGISLATOR ||
-				$role == Utils::ADMINISTRATOR) {
-				$userRole = $role;
-			}
-		}
-		$userEmail = $user->getEmail();
-
-		$form = $this->createForm(UserType::class, $user);
+		$changePasswordDTO = new ChangePasswordDTO();
+		$form = $this->createForm(ChangePasswordType::class, $changePasswordDTO);
 		$form->handleRequest($request);
 
-		$firstPassword = $request->request->get('userbundle_user')['plainPassword']['first'];
-		$secondPassword = $request->request->get('userbundle_user')['plainPassword']['second'];
-
 		if ($form->isSubmitted() && $form->isValid()) {
+			$firstPassword = $request->get('userbundle_user')['plainPassword']['first'];
+			$secondPassword = $request->get('userbundle_user')['plainPassword']['second'];
+
 			if ($firstPassword === $secondPassword) {
-				$user->setUsername($user->getPhone());
-				$user->setCountry($country);
+				$plainPassword = $changePasswordDTO->getPlainPassword();
 
-				// créé l'adresse mail fictive
-				if ($userEmail) {
-					$user->setEmail($userEmail);
-				} else {
-					$user->setEmail($user->getPhone() . "@domaine.extension");
-				}
-
-				// reinitialise le pays
-				$user->setCountry($country);
-
-				// reinitialise le rôle
-				$user->addProfil($userRole);
-
-				if (strlen($user->getPlainPassword()) < 6) {
+				if (strlen($plainPassword) < 6) {
 					$errorMessage = 'Le mot de passe doit avoir au minimum 6 caractères ';
 					$this->addFlash('danger', $errorMessage);
 				} else {
-					$user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
+					$user->setPassword($this->hasher->hashPassword($user, $plainPassword));
 
 					$this->em->persist($user);
 					$this->em->flush();
 
 					$this->addFlash('success', 'Votre mot de passe est modifié !');
-					return $this->redirect('logout');
+					return $this->redirectToRoute('logout');
 				}
 			}
 		}
