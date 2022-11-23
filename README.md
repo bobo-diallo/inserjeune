@@ -33,3 +33,12 @@
 ``php bin/console messenger:consume async``
 2. To send emails synchronously, go to `messenger.yaml` and comment line
 ``Symfony\Component\Mailer\Messenger\SendEmailMessage: async`` 
+
+ ## Config mailer with sendmail  
+ On peut utiliser sendmail pour envoyer des mail. 
+ Pour ce faire, il faut configurer le php.ini de apache (vérifier que la commande sendmail est installée)
+1. Dans le fichier rechercher 'mail function'
+2. dans SMTP = localhost, remplacer localhost par le IP du server de mail
+3. smtp_port = 25, remplacer le bon port si ce n'est pas 25
+4. Pour tester avec la console, taper: echo testing | mail -s mons_message monemail@gmail.com
+5. Dans .env de symfony; mettre MAILER_DSN:sendmail://default
