@@ -16,7 +16,7 @@ class InfoCreator {
 	#[ORM\Column(name: 'name', type: 'string', length: 255, unique: true)]
 	private ?string $name;
 
-	#[ORM\Column(name: 'description', type: 'string', length: 510)]
+	#[ORM\Column(name: 'description', type: 'text', nullable: true)]
 	private ?string $description;
 
 	public function getId(): ?int {
