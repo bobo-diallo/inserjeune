@@ -22,7 +22,7 @@ class JobOffer {
 	#[Assert\NotBlank]
 	private ?string $title;
 
-	#[ORM\Column(name: 'description', type: 'text', length: 512)]
+	#[ORM\Column(name: 'description', type: 'text', nullable: true)]
 	#[Assert\Length(min: '20')]
 	private ?string $description;
 

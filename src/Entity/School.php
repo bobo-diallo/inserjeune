@@ -35,7 +35,7 @@ class School {
 	#[ORM\Column(name: 'agree_rgpd', type: 'boolean', nullable: true)]
 	private bool $agreeRgpd = false;
 
-	#[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
+	#[ORM\Column(name: 'description', type: 'text', nullable: true)]
 	private ?string $description;
 
 	#[ORM\Column(name: 'address_number', type: 'integer', nullable: true)]

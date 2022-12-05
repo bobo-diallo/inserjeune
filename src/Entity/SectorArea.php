@@ -18,8 +18,8 @@ class SectorArea {
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
 
-	#[ORM\Column(name: 'description', type: 'string', length: 255)]
-	private string $description;
+	#[ORM\Column(name: 'description', type: 'text', nullable: true)]
+	private ?string $description;
 
 	#[ORM\OneToMany(mappedBy: 'sectorArea', targetEntity: Activity::class)]
 	private Collection $activities;
@@ -38,13 +38,13 @@ class SectorArea {
 		return $this->name;
 	}
 
-	public function setDescription(string $description): self {
+	public function setDescription(?string $description): self {
 		$this->description = $description;
 
 		return $this;
 	}
 
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 

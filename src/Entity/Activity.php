@@ -20,7 +20,7 @@ class Activity {
 	#[ORM\Column(name: 'name', type: 'string', length: 255, unique: false, nullable: true)]
 	private string $name;
 
-	#[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
+	#[ORM\Column(name: 'description', type: 'text', nullable: true)]
 	private ?string $description;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class, inversedBy: 'activities')]

@@ -17,7 +17,7 @@ class LegalStatus {
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	private string $name;
 
-	#[ORM\Column(name: 'description', type: 'string', length: 255)]
+	#[ORM\Column(name: 'description', type: 'text')]
 	private string $description;
 
 	public function getId(): ?int {
