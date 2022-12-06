@@ -5,6 +5,15 @@
 {% endblock fos_user_title %}
 
 {% block fos_user_content %}
+    {%  if app.session.flashBag.has('danger') == true %}
+        <div class="alert alert-danger" role="alert" stype="font-size: 10px">
+            {% for message in app.session.flashbag.get('danger') %}
+                <p class="text-center w-100 mb-0">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form) | raw }}</div>
     <form action="{{ path('register_create_account') }}" method="post">
       {{ form_widget(form._token) }}
       <div class="form-group">

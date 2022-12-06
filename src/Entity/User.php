@@ -33,11 +33,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	private ?string $apiToken;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
-	private ?Country $country;
+	private ?Country $country = null;
 
 	#[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
-	protected string $phone;
+	protected ?string $phone;
 
 	#[ORM\Column(name: 'enabled', type: 'boolean')]
 	protected bool $enabled = false;
@@ -214,11 +214,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		return $this->personDegree;
 	}
 
-	public function getPhone(): string {
+	public function getPhone(): ?string {
 		return $this->phone;
 	}
 
-	public function setPhone(string $phone): void {
+	public function setPhone(?string $phone): void {
 		$this->phone = $phone;
 	}
 

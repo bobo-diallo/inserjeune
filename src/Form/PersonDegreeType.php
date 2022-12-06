@@ -155,7 +155,7 @@ class PersonDegreeType extends AbstractType {
 			])
 			->add('email', EmailType::class, [
 				'attr' => ['class' => 'form-control', 'data-error' => 'Email invalide', 'placeholder' => 'Email@domaine.extension'],
-				'required' => false
+				'required' => true
 			])
 			->add('degree', EntityType::class, [
 				'class' => Degree::class,
