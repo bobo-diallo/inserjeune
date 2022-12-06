@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -84,12 +85,24 @@ class RegisterController extends AbstractController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$existUser = $this->userRepository->findOneByPhone($user->getPhone());
 
+			$typePerson = $request->get('userbundle_user')['typePerson'];
+			$country = $user->getCountry();
+
+			if ($typePerson != Role::ROLE_ADMIN && !$country) {
+				$this->addFlash('danger', 'Le champs pays est obligatoire');
+				return $this->render('user/register.html.twig', [
+					'user' => $user,
+					'form' => $form->createView(),
+					'countries' => $countries
+				]);
+			}
+
 			//verification de l'indicatif pays
-			$phoneCode = '+' . $user->getCountry()->getPhoneCode();
+			$phoneCode = '+' . $country->getPhoneCode();
 			$nationalPhone = "";
 
 			//verification du nombre de digits téléphonique du pays
-			$phoneDigit = '+' . $user->getCountry()->getPhoneDigit();
+			$phoneDigit = '+' . $country->getPhoneDigit();
 
 			if (strncmp($phoneCode, $user->getPhone(), strlen($phoneCode)) === 0) {
 				$nationalPhone = substr($user->getPhone(), strlen($phoneCode));

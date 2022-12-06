@@ -79,7 +79,7 @@ trait Person {
 
 	#[ORM\Column(name: 'email', type: 'string', nullable: true)]
 	#[IFEFAssert\UniqueEmail]
-	private ?string $email;
+	private ?string $email = null;
 
 	#[ORM\Column(name: 'sex', type: 'string', length: 10)]
 	private ?string $sex;
