@@ -10,7 +10,7 @@ $(document).ready(function () {
       // Met à jour le checkSchool dans "Vos Diplômés" lorsque l'on est connecté en tant qu'établissement
       $(".validStudent").on('click', function () {
          let idPersonDegree = $(this).attr("id").replace("validStudent","");
-         validPersonDegreeBySchool(".validStudent",idPersonDegree, $(this).val());
+         validPersonDegreeBySchool("validStudent",idPersonDegree, $(this).val());
       });
 
       // Initialisation du checkbox de la liste de toutes les entreprises
@@ -704,25 +704,27 @@ global.changeSchoolInputs = function changeSchoolInputs(idSchoolHTML, idDegree, 
    })
 }
 
-global.validPersonDegreeBySchool = function validPersonDegreeBySchool(classButton,idPersonDegree, value) {
+global.validPersonDegreeBySchool = function validPersonDegreeBySchool(button,idPersonDegree, value) {
    // alert(window.location.href);
 
    // changement de la value
-   if(value==0) {value=1} else if (value==1) {value=0}
+   if(value==0) {value=1}
+   else if (value==1) {value=0}
 
    //creation de la data pour json
    let data = {"checkSchool" : value};
    let immat = "#immat" + idPersonDegree ;
+   let buttonId = "#" + button + idPersonDegree ;
 
    // appel ajax en get
    $.get(window.location.href + '/' + idPersonDegree + '/checkPersonDegree', data).done(function () {
       if(value == 1) {
-         $(classButton).val(1);
-         $(classButton).text('Dévalider');
+         $(buttonId).val(1);
+         $(buttonId).text('Dévalider');
          $(immat).css("color","green");
       } else {
-         $(classButton).val(0);
-         $(classButton).text('Valider');
+         $(buttonId).val(0);
+         $(buttonId).text('Valider');
          $(immat).css("color", "red");
       }
    });
