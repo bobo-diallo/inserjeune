@@ -169,6 +169,15 @@
             }
         }
 
+        //Activation/désactivation du champ registration en fonction personDegree.checkSchool
+        if($('#checkSchool').val() == true) {
+            $('#appbundle_persondegree_registrationStudentSchool').attr("disabled", true);
+            $('#appbundle_persondegree_registrationStudentSchool').css("color", "green");
+        } else  {
+            $('#appbundle_persondegree_registrationStudentSchool').attr("disabled", false);
+            $('#appbundle_persondegree_registrationStudentSchool').css("color", "red");
+        }
+
         //Initialisation des champs diplômes et secteurs d'activités
         changeSchoolInputs('#appbundle_persondegree_school ', '#appbundle_persondegree_degree', '#appbundle_persondegree_sectorArea', '#appbundle_persondegree_activity');
         //Event sur l'établissement sélectionné
