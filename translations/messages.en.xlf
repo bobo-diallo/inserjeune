@@ -1567,9 +1567,13 @@
         <source>school.rate_of_occupations_held_by_entrepreneurial_graduates</source>
         <target>Rate of occupations occupied by graduate entrepreneurs</target>
       </trans-unit>
+      <trans-unit id="school.evolution_of_the_number_of_creation_of_schools">
+        <source>school.evolution_of_the_number_of_creation_of_schools</source>
+        <target>Evolution of the number of establishment creations</target>
+      </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_creation_of_the_graduates">
         <source>school.evolution_of_the_number_of_creation_of_the_graduates</source>
-        <target>Evolution of the number of creation of Graduates</target>
+        <target>Evolution of the number of graduate creations</target>
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_surveys_of_graduates">
         <source>school.evolution_of_the_number_of_surveys_of_graduates</source>
@@ -1582,6 +1586,14 @@
       <trans-unit id="school.new_establishment">
         <source>school.new_establishment</source>
         <target>New establishment</target>
+      </trans-unit>
+      <trans-unit id="school.schools_from_start_to_end">
+        <source>school.schools_from_start_to_end</source>
+        <target>Establishment from %begin_date% to %end_date%</target>
+      </trans-unit>
+      <trans-unit id="school.schools_by_sector_of_activity">
+        <source>school.schools_by_sector_of_activity</source>
+        <target>Establishment by business sector</target>
       </trans-unit>
 
       <!-- Country -->
@@ -1643,6 +1655,28 @@
       <trans-unit id="contract.add_a_contract">
         <source>contract.add_a_contract</source>
         <target>Add contract</target>
+      </trans-unit>
+
+      <!-- Dashboard      -->
+      <trans-unit id="dashboard.legend">
+        <source>dashboard.legend</source>
+        <target>Legend</target>
+      </trans-unit>
+      <trans-unit id="dashboard.month">
+        <source>dashboard.month</source>
+        <target>Month</target>
+      </trans-unit>
+      <trans-unit id="dashboard.week">
+        <source>dashboard.week</source>
+        <target>Week</target>
+      </trans-unit>
+      <trans-unit id="dashboard.months">
+        <source>dashboard.months</source>
+        <target>Months</target>
+      </trans-unit>
+      <trans-unit id="dashboard.weeks">
+        <source>dashboard.weeks</source>
+        <target>Weeks</target>
       </trans-unit>
 
       <!-- Survey -->
