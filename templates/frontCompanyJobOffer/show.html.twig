@@ -96,7 +96,7 @@
                         {% if jobOffer.filename is not null %}
                             {% set filepath = 'uploads/brochures/'  ~ jobOffer.filename %}
                             <br>
-                            <a class="btn btn-primary" href="{{ asset(filepath) }}" download>{{ 'menu.print' | trans }} PDF</a>
+                            <a class="btn btn-primary" href="{{ asset(filepath) }}" download>{{ 'menu.download_description' | trans }} PDF</a>
                         {% endif %}
                     </p>
                 </div>

@@ -47,7 +47,7 @@ class DefaultController extends AbstractController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$avatarDescription = $form->get('file')->getData();
 			if ($avatarDescription) {
-				$avatarDescriptionFileName = $fileUploader->uploadAvatar($avatarDescription);
+				$avatarDescriptionFileName = $fileUploader->uploadAvatar($avatarDescription, $user->getImageName());
 				$user->setImageName($avatarDescriptionFileName);
 			}
 

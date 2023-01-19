@@ -27,6 +27,7 @@
 
     $(document).ready(function () {
         // DataTable with export csv/excel/PDF
+        let title = $('h6.element-header').first().text();
         let options = {
             language: {
                 url: '../../build/locale/fr_FR.json'
@@ -42,7 +43,7 @@
                 buttons: [{
                     extend: 'csv',
                     text: '<i class="fas fa-file-csv"></i>Export Csv',
-                    title: $('h6.element-header').text(),
+                    title: title,
                     exportOptions: {
                         columns: ':not(.no-print)',
                         format: { // Duplicate row on selecte options
@@ -54,7 +55,7 @@
                 }, {
                     extend: 'excel',
                     text: '<i class="fa fa-file-excel"></i>Export Excel',
-                    title: $('h6.element-header').text(),
+                    title: title,
                     exportOptions: {
                         columns: ':not(.no-print)',
                         format: { // Duplicate row on selecte options
@@ -66,7 +67,7 @@
                 }, {
                     extend: 'print',
                     text: '<i class="fa fa-print"></i>Export Print',
-                    title: $('h6.element-header').text(),
+                    title: title,
                     exportOptions: {
                         columns: ':not(.no-print)',
                         body: function (data, row, column, node) {
@@ -78,7 +79,7 @@
                     text: '<i class="fa fa-file-pdf"></i>Export Pdf',
                     orientation: 'landscape',
                     pageSize: 'A3',
-                    title: $('h6.element-header').text(),
+                    title: title,
                     className: 'printDashboardPdf',
                     exportOptions: {
                         columns: ':not(.no-print)',
