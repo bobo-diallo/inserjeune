@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\School;
+use App\Entity\SectorArea;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\City;
 use App\Entity\Country;
@@ -16,58 +17,165 @@ use Doctrine\Persistence\ManagerRegistry;
  * repository methods below.
  */
 class SchoolRepository extends ServiceEntityRepository {
-	public function __construct(ManagerRegistry $registry) {
-		parent::__construct($registry, School::class);
-	}
+    public function __construct(ManagerRegistry $registry) {
+        parent::__construct($registry, School::class);
+    }
 
-	/**
-	 * @param Country $country
-	 * @return School[]
-	 */
-	public function getNameByCountry(Country $country): array {
-		return $this->createQueryBuilder('s')
-			->where('s.country = :country')
-			->setParameter('country', $country)
-			->getQuery()
-			->getResult();
-	}
+    /**
+     * @param Country $country
+     * @return School[]
+     */
+    public function getNameByCountry(Country $country): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.country = :country')
+            ->setParameter('country', $country)
+            ->getQuery()
+            ->getResult();
+    }
 
-	/**
-	 * @param Region $region
-	 * @return School[]
-	 */
-	public function getNameByRegion(Region $region): array {
-		return $this->createQueryBuilder('s')
-			->where('s.region = :region')
-			->setParameter('region', $region)
-			->getQuery()
-			->getResult();
-	}
+    /**
+     * @param Region $region
+     * @return School[]
+     */
+    public function getNameByRegion(Region $region): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.region = :region')
+            ->setParameter('region', $region)
+            ->getQuery()
+            ->getResult();
+    }
 
-	/**
-	 * @param City $city
-	 * @return School[]
-	 */
-	public function getNameByCity(City $city): array {
-		return $this->createQueryBuilder('s')
-			->where('s.city = :city')
-			->setParameter('city', $city)
-			->getQuery()
-			->getResult();
-	}
+    /**
+     * @param City $city
+     * @return School[]
+     */
+    public function getNameByCity(City $city): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.city = :city')
+            ->setParameter('city', $city)
+            ->getQuery()
+            ->getResult();
+    }
 
-	/**
-	 * @param City $city
-	 * @param \DateTime $createdDate
-	 * @return School[]
-	 */
-	public function getByCityAndCreatedDate(City $city, \DateTime $createdDate): array {
-		return $this->createQueryBuilder('s')
-			->where('s.city = :city')
-			->andWhere('s.createdDate = :createdDate')
-			->setParameters(['city' => $city, 'createdDate' => $createdDate])
-			->getQuery()
-			->getResult();
-	}
+    /**
+     * @param City $city
+     * @param \DateTime $createdDate
+     * @return School[]
+     */
+    public function getByCityAndCreatedDate(City $city, \DateTime $createdDate): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.city = :city')
+            ->andWhere('s.createdDate = :createdDate')
+            ->setParameters(['city' => $city, 'createdDate' => $createdDate])
+            ->getQuery()
+            ->getResult();
+    }
 
+    /**
+     * @param Region $region
+     * @param \DateTime $beginDate
+     * @param \DateTime $endDate
+     * @return School[]
+     */
+    public function getByRegionBetweenCreatedDateAndEndDate(
+        Region $region,
+        \DateTime $beginDate,
+        \DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.region = :region')
+            ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'region' => $region,
+                'beginDate'=> $beginDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Country $country
+     * @param \DateTime $beginDate
+     * @param \DateTime $endDate
+     * @return School[]
+     */
+    public function getByCountryBetweenCreatedDateAndEndDate(
+        Country $country,
+        ?\DateTime $beginDate,
+        ?\DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.country = :country')
+            ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'country' => $country,
+                'beginDate' => $beginDate,
+                'endDate' => $endDate
+            ] )
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Region $region
+     * @param SectorArea $sectorArea
+     * @param \DateTime $beginDate
+     * @param \DateTime $endDate
+     * @return School[]
+     */
+    public function getByRegionAndSectorAreaBetweenCreatedDateAndEndDate(
+        Region $region,
+        SectorArea $sectorArea,
+        \DateTime $beginDate,
+        \DateTime $endDate): array {
+        $expr = $this->getEntityManager()->createQueryBuilder()->expr();
+        return $this->createQueryBuilder('s')
+            ->where('s.region = :region')
+            ->andWhere($expr->orX(
+                $expr->eq('s.sectorArea1', ':sectorArea'),
+                $expr->eq('s.sectorArea2', ':sectorArea'),
+                $expr->eq('s.sectorArea3', ':sectorArea'),
+                $expr->eq('s.sectorArea4', ':sectorArea'),
+                $expr->eq('s.sectorArea5', ':sectorArea'),
+                $expr->eq('s.sectorArea6', ':sectorArea')
+            ))
+            ->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'region' => $region,
+                'sectorArea' => $sectorArea,
+                'beginDate' => $beginDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * @param Country $country
+     * @param SectorArea $sectorArea
+     * @param \DateTime $beginDate
+     * @param \DateTime $endDate
+     * @return School[]
+     */
+    public function getByCountryAndSectorAreaBetweenCreatedDateAndEndDate(
+        Country $country,
+        SectorArea $sectorArea,
+        \DateTime $beginDate,
+        \DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->where('s.country = :country')
+            ->andWhere('s.sectorArea1 = :sectorArea' )
+                        // 's.sectorArea2 = :sectorArea' OR
+                        // 's.sectorArea3 = :sectorArea' OR
+                        // 's.sectorArea4 = :sectorArea' OR
+                        // 's.sectorArea5 = :sectorArea' OR
+                        // 's.sectorArea6 = :sectorArea' )
+            ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'country' => $country,
+                'sectorArea'=> $sectorArea,
+                'beginDate' => $beginDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }

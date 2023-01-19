@@ -351,11 +351,11 @@
       </trans-unit>
       <trans-unit id="menu.contract">
         <source>menu.contract</source>
-        <target>Contract</target>
+        <target>Contrat</target>
       </trans-unit>
       <trans-unit id="menu.contracts">
         <source>menu.contracts</source>
-        <target>Contracts</target>
+        <target>Contrats</target>
       </trans-unit>
       <trans-unit id="menu.status">
         <source>menu.status</source>
@@ -1570,6 +1570,10 @@
         <source>school.rate_of_occupations_held_by_entrepreneurial_graduates</source>
         <target>Taux des métiers occupés par les diplômés entrepreneurs</target>
       </trans-unit>
+      <trans-unit id="school.evolution_of_the_number_of_creation_of_schools">
+        <source>school.evolution_of_the_number_of_creation_of_schools</source>
+        <target>Evolution du nombre de création des Etablissements</target>
+      </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_creation_of_the_graduates">
         <source>school.evolution_of_the_number_of_creation_of_the_graduates</source>
         <target>Evolution du nombre de création des Diplomés</target>
@@ -1585,6 +1589,14 @@
       <trans-unit id="school.new_establishment">
         <source>school.new_establishment</source>
         <target>Nouvel établissement</target>
+      </trans-unit>
+      <trans-unit id="school.schools_from_start_to_end">
+        <source>school.schools_from_start_to_end</source>
+        <target>Etablissements du %begin_date% au %end_date%</target>
+      </trans-unit>
+      <trans-unit id="school.schools_by_sector_of_activity">
+        <source>school.schools_by_sector_of_activity</source>
+        <target>Etablissements par secteurs d'activités</target>
       </trans-unit>
 
       <!-- Country     -->
@@ -1647,6 +1659,28 @@
       <trans-unit id="contract.add_a_contract">
         <source>contract.add_a_contract</source>
         <target>Ajouter un contrat</target>
+      </trans-unit>
+
+      <!-- Dashboard      -->
+      <trans-unit id="dashboard.legend">
+        <source>dashboard.legend</source>
+        <target>Légende</target>
+      </trans-unit>
+      <trans-unit id="dashboard.month">
+        <source>dashboard.month</source>
+        <target>Mois</target>
+      </trans-unit>
+      <trans-unit id="dashboard.week">
+        <source>dashboard.week</source>
+        <target>Semaine</target>
+      </trans-unit>
+      <trans-unit id="dashboard.months">
+        <source>dashboard.months</source>
+        <target>Mois</target>
+      </trans-unit>
+      <trans-unit id="dashboard.weeks">
+        <source>dashboard.weeks</source>
+        <target>Semaines</target>
       </trans-unit>
 
       <!-- Survey      -->

@@ -837,7 +837,7 @@ global.graphCreation = function graphCreation(actorName, tableName) {
       labelsTableColorBorder.push($(this).text());
    });
 
-   /*Affichage Donut Activite Area */
+   /*Affichage Graph Activite Area */
    /********************************/
    if ($("#" + actorName + tableName + "Graph").length) {
       var d = $("#" + actorName + tableName + "Graph"), c = {
