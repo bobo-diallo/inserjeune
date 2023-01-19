@@ -11,6 +11,10 @@
     {{ parent() }} {{ 'menu.dashboard' | trans }}
 {% endblock %}
 
+{% set user = app.user %}
+{% set userCompany = user.company %}
+{% set userSchool = user.school %}
+
 {% block navigation %}
     <li class="breadcrumb-item"><span>{{ 'menu.dashboard' | trans }}</span></li>
 {% endblock %}
@@ -141,7 +145,7 @@
                             {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "Company", "SectorArea", true, null, beginDate, endDate) }}
                         </div>
                     </div>
-                    {% if app.user.company == null %}
+                    {% if userCompany == null %}
                         <div class="row">
                             {#diagramme Anneau des statuts juridiques#}
                             {#/*************************************/#}
@@ -151,14 +155,14 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if app.user.company == null %}
+                    {% if userCompany == null %}
                         <h6>{{ 'company.measures_of_satisfaction_of_companies_that_have_hired_graduates' | trans }}</h6>
                         <div class="element-content satisfaction_value">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">{{ 'company.overall_satisfaction' | trans }}: </div>
-                                        <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", 'excellent'], beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", 'excellent'], userCompany, null, beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-9">
@@ -166,19 +170,19 @@
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.general_knowledge' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelGlobalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelGlobalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], userCompany, null, beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.technical_skills' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelTechnicalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelTechnicalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], userCompany, null, beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.communication_and_hse' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], userCompany, null, beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -188,7 +192,7 @@
                     {% endif %}
                 </div>
 
-                {% if app.user.company == null %}
+                {% if userCompany == null %}
                     <div class="element-wrapper">
                         <h6>{{ 'company.average_number_in_terms_of_projected_hiring_in_the_next_6_months' | trans }}</h6>
                         <div class="element-content satisfaction_value">
@@ -225,7 +229,7 @@
                 {#Taux de satisfactions en chiffre#}
                 {#/******************************/#}
                 <div class="element-wrapper chartToPrint">
-                    {% if app.user.school == null %}
+                    {% if userSchool == null %}
                         {#                        <h6 class="element-header">{{ "Diplômés"|trans  }} du {{beginDate|date('d/m/Y')}} au {{referenceDate|date('d/m/Y')}}</h6>#}
                         <h6 class="element-header">{{ 'school.graduates_from_start_to_end' | trans({
                                 '%begin_date%': beginDate|date('d/m/Y'),
@@ -247,33 +251,33 @@
                     {#Graph du taux des secteurs d'activités pour les diplômés #}
                     {#/*******************************************************/#}
                     <div class="element-wrapper">
-                        {% if app.user.school == null %}
+                        {% if userSchool == null %}
                             <h6>{{ 'school.rate_of_graduates_by_sector_of_activity' | trans }}</h6>
                         {% else %}
                             <h6>{{ 'school.rate_of_your_graduates_by_sector_of_activity' | trans }}</h6>
                         {% endif %}
 
-                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "SectorArea", true, app.user.school, beginDate, endDate) }}
+                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "SectorArea", true, userSchool, beginDate, endDate) }}
 
                         <h6 style="margin-top: -15px; padding-left: 15px"><span >{{ 'school.detail_by_sector_profession' | trans }} </span>
                             <button id="job_rate_btn" class="btn-dashboard">{{ 'menu.show' | trans }}</button></h6>
                     </div>
 
                     {% if idSelectedCountry>0 %}
-                        <div class="job_rate" >{{ show_activities_rate(idSelectedCountry, app.user.school, beginDate, endDate) }}</div>
+                        <div class="job_rate" >{{ show_activities_rate(idSelectedCountry, userSchool, beginDate, endDate) }}</div>
                     {% endif %}
                 </div>
 
                 {#Graph du taux des diplômes pour les diplômés #}
                 {#/*******************************************/#}
                 <div class="element-wrapper chartToPrint">
-                    {% if app.user.school != null %}
+                    {% if userSchool != null %}
                         <h6>{{ 'school.rate_of_your_graduates_by_degree' | trans }}</h6>
-                    {% elseif app.user.company != null %}
+                    {% elseif userCompany != null %}
                         <h6>{{ 'school.graduation_rates_by_degree' | trans }}</h6>
                     {% endif %}
-                    {% if app.user.school != null or app.user.company != null%}
-                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Degree", true, app.user.school, beginDate, endDate) }}
+                    {% if userSchool != null or userCompany != null%}
+                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Degree", true, userSchool, beginDate, endDate) }}
                     {% endif %}
                 </div>
 
@@ -284,38 +288,38 @@
                             <div class="col-sm-4">
                                 <div class="element-box el-tablo">
                                     <div class="label">{{ 'school.graduates_in_employment' | trans }}</div>
-                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_EMPLOYED"], app.user.school, beginDate, endDate) }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_EMPLOYED"], userSchool, beginDate, endDate) }}</div>
                                     {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="element-box el-tablo">
                                     <div class="label">{{ 'school.entrepreneurship_graduates' | trans }}</div>
-                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_CONTRACTOR"], app.user.school, beginDate, endDate) }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
                                     {#<div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-graph-down"></i></div>#}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="element-box el-tablo">
                                     <div class="label">{{ 'school.unemployed_graduates' | trans }}</div>
-                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], app.user.school, beginDate, endDate) }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], userSchool, beginDate, endDate) }}</div>
                                     {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                 </div>
                             </div>
                         </div>
-                        {% if app.user.school == null %}
+                        {% if userSchool == null %}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="element-box el-tablo">
                                         <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_related_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) }}</div>
-                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, true, app.user.school, beginDate, endDate) }}</div>
+                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, true, userSchool, beginDate, endDate) }}</div>
                                         {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="element-box el-tablo">
                                         <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) }}</div>
-                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, false, app.user.school,beginDate, endDate) }}</div>
+                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, false, userSchool,beginDate, endDate) }}</div>
                                         {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                     </div>
                                 </div>
@@ -326,55 +330,55 @@
 
                 {#Graph des raisons du chômage #}
                 {#/***************************/#}
-                {% if app.user.school == null and app.user.company == null %}
+                {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.rate_of_reasons_for_unemployment_of_unemployed_graduates' | trans }}</h6>
-                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], "PersonDegreeUnemployed" ,false, app.user.school, beginDate, endDate)}}
+                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], "PersonDegreeUnemployed" ,false, userSchool, beginDate, endDate)}}
                     </div>
                 {% endif %}
                 {#diagramme Anneau des type de contrats #}
                 {#/************************************/#}
-                {% if app.user.school == null and app.user.company == null %}
+                {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.employed_graduates_by_type_of_contract' | trans }}</h6>
-                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Contract", true, app.user.school, beginDate, endDate) }}
+                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Contract", true, userSchool, beginDate, endDate) }}
                     </div>
                 {% endif %}
 
                 {#Graph des raisons de la formation professionelle utile à un entrepreneur #}
                 {#/*********************************************************************/#}
-                {% if app.user.school == null and app.user.company == null %}
+                {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree' | trans }}</h6>
-                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_EMPLOYED"], "PersonDegreeEmployed" ,false, app.user.school, beginDate, endDate)}}
+                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_EMPLOYED"], "PersonDegreeEmployed" ,false, userSchool, beginDate, endDate)}}
                     </div>
                 {% endif %}
 
 
                 {#Graph des raisons de la formation prfessionelle utile à un entrepreneur #}
                 {#/**********************************************************************/#}
-                {% if app.user.school == null and app.user.company == null %}
+                {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate' | trans }}</h6>
-                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,false, app.user.school, beginDate, endDate)}}
+                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,false, userSchool, beginDate, endDate)}}
                     </div>
                 {% endif %}
 
                 {#Graph des métiers occupés par les diplômés entrepreneurs #}
                 {#/*******************************************************/#}
-                {% if app.user.school is null and app.user.company == null %}
+                {% if userSchool is null and userCompany == null %}
                     <div class="element-wrappe chartToPrintr">
                         <div>
                             <h6><span>{{ 'school.rate_of_occupations_held_by_entrepreneurial_graduates' | trans }}</span>
                                 <button id="activity_contractor_rate_btn"  class="btn-dashboard">{{ 'menu.show' | trans }}</button></h6>
                         </div>
                         <div class="activity_contractor_rate" >
-                            {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Activity", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,true, app.user.school, beginDate, endDate)}}
+                            {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Activity", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,true, userSchool, beginDate, endDate)}}
                         </div>
                     </div>
                 {% endif %}
 
-                {% if app.user.company == null %}
+                {% if userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <div class="row">
                             {#Evolution du nombre de création d'Etablissements par jour#}
@@ -448,7 +452,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"PersonDegree", "Diplômés",selectedDuration, app.user.school, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"PersonDegree", "Diplômés",selectedDuration, userSchool, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfilePersonDegree" width="300px"></canvas>
@@ -541,7 +545,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"PersonDegree", "Diplômés",selectedDuration, app.user.school, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"PersonDegree", "Diplômés",selectedDuration, userSchool, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartQuizzPersonDegree" width="300px"></canvas>

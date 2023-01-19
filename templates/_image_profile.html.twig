@@ -1,0 +1,8 @@
+<div class="avatar-w">
+    {% if imageName is not null %}
+        {% set filepath = 'uploads/avatars/' ~ imageName %}
+    {% else %}
+        {% set filepath = 'build/images/avatar/' ~ defaultImage %}
+    {% endif %}
+    <a href="{{ path('change_profile') }}"><img alt="" src="{{ asset(filepath) }}"></a>
+</div>

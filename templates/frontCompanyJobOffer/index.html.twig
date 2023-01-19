@@ -49,7 +49,7 @@
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
-                                    <td>{{ jobOffer.description |slice(0, 40) ~ '...'  }}</td>
+                                    <td>{{ jobOffer.description | striptags | slice(0, 40) ~ '...' }}</td>
                                     {% if jobOffer.isView %}
                                         <td>{{ 'menu.yes' | trans }}</td>
                                     {% else %}
@@ -101,7 +101,7 @@
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
-                                    <td>{{ jobOffer.description|slice(0, 40) ~ '...' }}</td>
+                                    <td>{{ jobOffer.description| striptags | slice(0, 40) ~ '...' }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

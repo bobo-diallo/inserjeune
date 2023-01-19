@@ -128,6 +128,15 @@
       </div>
     {% endif %}
 
+    {# Affichage de l'image actuel #}
+    {% if jobOffer.filename is not empty %}
+      {% set filepath = 'uploads/brochures/' ~ jobOffer.filename %}
+      <div class="form-group">
+        <label> {{ 'menu.current_files' | trans }}</label>
+        <div><iframe src="{{ asset(filepath) }}"></iframe></div>
+      </div>
+    {% endif %}
+
     {# Begin FileInput #}
     <div class="form-group">
       <label class="">{{ 'menu.attach_the_description_of_the_offer' | trans }}</label>

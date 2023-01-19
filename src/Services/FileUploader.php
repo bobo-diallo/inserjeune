@@ -9,13 +9,36 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class FileUploader {
 	private string $targetDirectory;
 	private SluggerInterface $slugger;
+	private string $avatarsDirectory;
 
-	public function __construct($targetDirectory, SluggerInterface $slugger) {
+	public function __construct(
+		$targetDirectory,
+		$avatarsDirectory,
+		SluggerInterface $slugger
+	) {
 		$this->targetDirectory = $targetDirectory;
 		$this->slugger = $slugger;
+		$this->avatarsDirectory = $avatarsDirectory;
 	}
 
 	public function upload(UploadedFile $file, ?string $oldFilename = null): string {
+		return $this->saveFile($file, $this->getTargetDirectory(), $oldFilename);
+	}
+
+	public function uploadAvatar(UploadedFile $file, ?string $oldFilename = null): string {
+		return $this->saveFile($file, $this->avatarsDirectory(), $oldFilename);
+	}
+
+
+	public function getTargetDirectory(): string {
+		return $this->targetDirectory;
+	}
+
+	public function avatarsDirectory(): string {
+		return $this->avatarsDirectory;
+	}
+
+	private function saveFile(UploadedFile $file, string $targetDirectory, ?string $oldFilename = null): string {
 		if ($oldFilename) {
 			$this->removeOldFile($oldFilename);
 		}
@@ -25,15 +48,11 @@ class FileUploader {
 		$fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
 		try {
-			$file->move($this->getTargetDirectory(), $fileName);
+			$file->move($targetDirectory, $fileName);
 		} catch (FileException $e) {
 		}
 
 		return $fileName;
-	}
-
-	public function getTargetDirectory(): string {
-		return $this->targetDirectory;
 	}
 
 	public function removeOldFile(string $oldFilename): void {

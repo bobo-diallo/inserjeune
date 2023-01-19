@@ -49,7 +49,7 @@ class JobOffer {
 	private ?string $otherActivity;
 
 	#[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
-	private ?string $filename;
+	private ?string $filename = null;
 
 	#[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'jobOffers')]
 	#[ORM\JoinColumn(name: 'id_company', referencedColumnName: 'id')]
