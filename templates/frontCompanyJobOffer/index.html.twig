@@ -4,7 +4,7 @@
     <div class="content-i">
         <div class="content-box">
             {# Tableau 1 #}
-            <div class="element-wrapper">
+            <div class="element-wrapper" id="fistTable">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
                     {{ 'job.our_job_offers' | trans }}
@@ -49,7 +49,7 @@
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
-                                    <td>{{ jobOffer.description |slice(0, 40) ~ '...'  }}</td>
+                                    <td>{{ jobOffer.description | striptags | slice(0, 40) ~ '...' }}</td>
                                     {% if jobOffer.isView %}
                                         <td>{{ 'menu.yes' | trans }}</td>
                                     {% else %}
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <hr>
-            <div class="element-wrapper">
+            <div class="element-wrapper" id="secondTable">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
                     {{ 'job.other_offers' | trans }}
@@ -101,7 +101,7 @@
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
-                                    <td>{{ jobOffer.description|slice(0, 40) ~ '...' }}</td>
+                                    <td>{{ jobOffer.description| striptags | slice(0, 40) ~ '...' }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

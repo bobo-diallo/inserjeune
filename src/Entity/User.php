@@ -82,6 +82,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id')]
 	protected Collection $profils;
 
+	#[ORM\Column(name: 'image_name', type: 'string', nullable: true)]
+	protected ?string $imageName;
+
 	public function __construct() {
 		$this->profils = new ArrayCollection();
 	}
@@ -220,6 +223,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 	public function setPhone(?string $phone): void {
 		$this->phone = $phone;
+	}
+
+	public function getImageName(): ?string {
+		return $this->imageName;
+	}
+
+	public function setImageName(?string $imageName): void {
+		$this->imageName = $imageName;
 	}
 
 	public function getEmail(): string {

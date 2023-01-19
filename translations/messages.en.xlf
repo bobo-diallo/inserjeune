@@ -105,6 +105,14 @@
         <source>menu.dashboard</source>
         <target>Dashboard</target>
       </trans-unit>
+      <trans-unit id="menu.profile">
+        <source>menu.profile</source>
+        <target>Profile</target>
+      </trans-unit>
+      <trans-unit id="menu.update_profile">
+        <source>menu.update_profile</source>
+        <target>Update profile</target>
+      </trans-unit>
       <trans-unit id="menu.the_graduates">
         <source>menu.the_graduates</source>
         <target>Graduates</target>
@@ -476,6 +484,10 @@
       <trans-unit id="menu.password">
         <source>menu.password</source>
         <target>Password</target>
+      </trans-unit>
+      <trans-unit id="menu.print">
+        <source>menu.print</source>
+        <target>Print</target>
       </trans-unit>
       <trans-unit id="menu.remember_me">
         <source>menu.remember_me</source>

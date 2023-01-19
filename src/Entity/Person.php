@@ -44,7 +44,7 @@ trait Person {
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
-	private Region $region;
+	private ?Region $region = null;
 
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]

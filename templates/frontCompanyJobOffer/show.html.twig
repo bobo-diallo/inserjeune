@@ -30,7 +30,12 @@
             {% if jobOffer.company and jobOffer.company.logo is not null %}
               <img src="{#{ jobOffer.company.logo }#}" alt="Logo entreprise">
             {%  else %}
-              <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
+            {% if imageName is not null %}
+                {% set filepath = 'uploads/avatars/' ~ imageName %}
+            {% else %}
+                {% set filepath = 'build/images/pinsuprem/logo_ifef.jpg' %}
+            {% endif %}
+              <img src="{{ asset(filepath) }}" alt="Logo ifef">
             {% endif %}
             <span>{{ 'menu.job_offer' | trans }}</span>
           </div>
@@ -85,16 +90,16 @@
               <legend>
                 <span> {{ 'job.job_description' | trans }}  </span>
               </legend>
-              <div class="form-group row ">
-                <p class="col-sm-12">{{  jobOffer.description | raw }}</p>
-                <div>
-                  {% if jobOffer.filename is not null %}
-                    {% set filepath = 'uploads/brochures/'  ~ jobOffer.filename %}
-                    <br>
-                    <a href="{{ asset(filepath) }}" download>{{ 'menu.description' | trans }} PDF</a>
-                  {% endif %}
+                <div class="form-group row ">
+                    <p class="col-sm-12">{{ jobOffer.description | raw }}</p>
+                    <p class="col-sm-12">
+                        {% if jobOffer.filename is not null %}
+                            {% set filepath = 'uploads/brochures/'  ~ jobOffer.filename %}
+                            <br>
+                            <a class="btn btn-primary" href="{{ asset(filepath) }}" download>{{ 'menu.download_description' | trans }} PDF</a>
+                        {% endif %}
+                    </p>
                 </div>
-              </div>
             </fieldset>
           </div>
           <div class="row">

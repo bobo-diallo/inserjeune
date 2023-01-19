@@ -1,0 +1,75 @@
+{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
+{% else %} {% set base = 'base.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% block title %}
+    {{ parent() }} {{ 'menu.profile' | trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+            {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/users.png') }}" alt="locality" class="title-icon"
+                     style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    <i class="fa fa-user"></i>
+                    {{ 'menu.update_profile' | trans }}
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('user_index') }}">
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form enctype="multipart/form-data" action="{{ path('change_profile') }}" method="post">
+                        {{ form_widget(form._token) }}
+                        <div class="changeProfile">
+                            <div class="form-global">
+                                {# Affichage de l'image actuel #}
+                                {% if attribute(form.file.vars, 'data') is defined and form.file.vars.data is not empty %}
+                                    <div class="form-group">
+                                        <label> {{ 'menu.current_files' | trans }}</label>
+                                        <div class="form-control">
+                                            <img src="{{ asset(form.file.vars.data.pathname) }}" alt="image" style="max-width: 200px; max-height: 150px;"></div>
+                                    </div>
+                                {% endif %}
+
+                                {# Begin FileInput #}
+                                <div class="form-group">
+                                    <label class="">{{ 'menu.select_a_new_image' | trans }}</label>
+                                    <div style="border: 2px dashed #2177e0">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail"></div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail"
+                                                 style="max-width: 200px; max-height: 150px;"></div>
+                                            <div>
+                                  <span class="btn default btn-file">
+                                    <button class="btn fileinput-new"
+                                            style="text-transform: none"> {{ 'menu.select_a_new_image' | trans }} (JPEG/PNG) </button>
+                                    <button class="fileinput-exists btn btn-default"
+                                            style="cursor: pointer;"> {{ 'menu.change' | trans }} </button>
+                                    {{ form_widget(form.file) }}
+                                  </span>
+                                                <a href="javascript:" class="btn btn-danger fileinput-exists"
+                                                   data-dismiss="fileinput"> {{ 'menu.delete' | trans }} </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-buttons-w">
+                                    <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

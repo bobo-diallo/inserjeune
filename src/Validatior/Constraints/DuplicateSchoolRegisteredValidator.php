@@ -6,15 +6,22 @@ use App\Entity\School;
 use App\Validatior\UnexpectedTypeException;
 use App\Validatior\UnexpectedValueException;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class DuplicateSchoolRegisteredValidator extends ConstraintValidator {
 	private EntityManagerInterface $em;
+	private TokenStorageInterface $tokenStorage;
 
-	public function __construct(EntityManagerInterface $em)
+	public function __construct(
+		EntityManagerInterface $em,
+		TokenStorageInterface $tokenStorage
+	)
 	{
 		$this->em = $em;
+		$this->tokenStorage = $tokenStorage;
 	}
 	public function validate(mixed $value, Constraint $constraint) {
 		if (!$constraint instanceof DuplicateSchoolRegistered) {
@@ -31,14 +38,17 @@ class DuplicateSchoolRegisteredValidator extends ConstraintValidator {
 
 		$qb = $this->em->createQueryBuilder();
 
+		$user = $this->tokenStorage->getToken()->getUser();
 		$qb->select('s.registration')
-			->from(School::class, 's');
+			->from(School::class, 's')
+			->where('s.user != :user')
+			->setParameter('user', $user);
 
 		$arrayRegistrations = $qb->getQuery()->execute();
 
 		foreach ($arrayRegistrations as $key => $arrayRegistration) {
-			foreach ($arrayRegistration as $email) {
-				if ($value == $email) {
+			foreach ($arrayRegistration as $registration) {
+				if ($value == $registration) {
 					$this->context->buildViolation($constraint->message)
 						->addViolation();
 				}
