@@ -7,25 +7,25 @@ $(document).ready(function () {
 
 // ETABLISSEMENT Actions sur "Vos Diplômés" et "Vos Partenaires
 // -------------------------------------------------------------
-// Met à jour le checkSchool dans "Vos Diplômés" lorsque l'on est connecté en tant qu'établissement
-$(".validStudent").on('click', function () {
-   let idPersonDegree = $(this).attr("id").replace("validStudent","");
-   validPersonDegreeBySchool("validStudent",idPersonDegree, $(this).val());
-});
+      // Met à jour le checkSchool dans "Vos Diplômés" lorsque l'on est connecté en tant qu'établissement
+      $(".validStudent").on('click', function () {
+         let idPersonDegree = $(this).attr("id").replace("validStudent","");
+         validPersonDegreeBySchool("validStudent",idPersonDegree, $(this).val());
+      });
 
-// Initialisation du checkbox de la liste de toutes les entreprises
-$(".updateCompanySchool").each(function(){
-   let idNumCompany = $(this).attr("id").replace("companySchool","");
-   let idCompany = '#'+$(this).attr("id");
-   $('#selectedCompanies option').each(function(){
-      if(idNumCompany == $(this).val()) { $(idCompany).prop('checked', true);}
-   });
-});
-// Met à jour "Vos Partenaires" lorsque l'on est connecté en tant qu'établissement
-$(".updateCompanySchool").on('click', function () {
-   let idCompany = $(this).attr("id").replace("companySchool","");
-   updateCompanySchool(".updateCompanySchool",idCompany);
-});
+      // Initialisation du checkbox de la liste de toutes les entreprises
+      $(".updateCompanySchool").each(function(){
+         let idNumCompany = $(this).attr("id").replace("companySchool","");
+         let idCompany = '#'+$(this).attr("id");
+         $('#selectedCompanies option').each(function(){
+            if(idNumCompany == $(this).val()) { $(idCompany).prop('checked', true);}
+         });
+      });
+      // Met à jour "Vos Partenaires" lorsque l'on est connecté en tant qu'établissement
+      $(".updateCompanySchool").on('click', function () {
+         let idCompany = $(this).attr("id").replace("companySchool","");
+         updateCompanySchool(".updateCompanySchool",idCompany);
+      });
 // -------------------------------------------------------------
 
 $('#actions form').css('display', 'inline-block');
@@ -138,8 +138,8 @@ $('#locale').on('click', function () {
 })
 
 /*-----------------------------------*\
- Fonctions communes aux formulaires
- \*-----------------------------------*/
+   Fonctions communes aux formulaires
+\*-----------------------------------*/
 
 /**
  * Permet d'ajouter cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
@@ -184,7 +184,7 @@ global.hideBlockFlexListener = function hideBlockFlexListener(idPrefix, select, 
          }
          if(inputRequiredOffs) {
             inputRequiredOffs.forEach(function (requiredOff) {
-               let idRequiredOff = idPrefix + requiredOff;
+            let idRequiredOff = idPrefix + requiredOff;
                // console.log("OFF -->  " + idRequiredOff);
                $(idRequiredOff).removeAttr('required');
             });
@@ -203,11 +203,11 @@ global.hideBlockFlexListener = function hideBlockFlexListener(idPrefix, select, 
 
 
 /**
- * Permet d'initialiser les div avec les CheckBox (glissieres OUI/NON)
- * @param idSelect
- * @param classOther
- * @param mode
- */
+* Permet d'initialiser les div avec les CheckBox (glissieres OUI/NON)
+* @param idSelect
+* @param classOther
+* @param mode
+*/
 global.clearBlockFlex = function clearBlockFlex(idPrefix, checkbox, mode, selectRequiredOffs, inputRequiredOffs) {
    let idCheckbox = idPrefix + checkbox;
    let valCheckbox = "non";
@@ -286,7 +286,7 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
    if(!$(idOther).val()) {
       $(classHideOther).attr('hidden', 'hidden');
       $(idOther).removeAttr('required');
-      // } else if ($(idOther).val().length > 0) {
+   // } else if ($(idOther).val().length > 0) {
    } else {
       // console.log("detection other renseigné " + idOther);
       $(classHideOther).removeAttr('hidden')
@@ -389,7 +389,7 @@ global.geocodeAddressLocation = function geocodeAddressLocation(address, latInpu
          let lng = results[0].geometry.location.lng();
          $(latInputID).val(lat.toString());
          $(lngInputID).val(lng.toString());
-         console.log(address + " coo->" + lat + "," + lng);
+           console.log(address + " coo->" + lat + "," + lng);
       } else {
          console.log("Echec de recherche Latitude/Longitude : " + address);
       }
@@ -427,7 +427,7 @@ global.createMapsAddress = function createMapsAddress(number, road, locality, ci
  * @param idActivites
  */
 global.initActivities = function initActivities(allActivites, idPrefix, sectorAreaName, activityName, multiple=false, callback) {
-   // function initActivities(allActivites, idPrefix, sectorAreaName, activityName, callback) {
+// function initActivities(allActivites, idPrefix, sectorAreaName, activityName, callback) {
    let idSectorArea = idPrefix + sectorAreaName;
    let idActivities = idPrefix + activityName;
    let optionSelected = [];
@@ -450,11 +450,11 @@ global.initActivities = function initActivities(allActivites, idPrefix, sectorAr
    // console.log("sectorAreaName=" + idValueSectorArea);
    if(multiple==false) {
       // if(! $(idActivities).text()) {
-      if(!idValueSectorArea) {
-         $(idActivities).append($('<option value=-1/>').text('Sélectionnez un domaine').prop('selected', false));
-      } else {
-         $(idActivities).append($('<option disabled value=-1/>').text('Sélectionnez une activité').prop('selected', false));
-      }
+         if(!idValueSectorArea) {
+            $(idActivities).append($('<option value=-1/>').text('Sélectionnez un domaine').prop('selected', false));
+         } else {
+            $(idActivities).append($('<option disabled value=-1/>').text('Sélectionnez une activité').prop('selected', false));
+         }
       // }
    }
 
@@ -708,8 +708,7 @@ global.validPersonDegreeBySchool = function validPersonDegreeBySchool(button,idP
    // alert(window.location.href);
 
    // changement de la value
-   if(value==0) {value=1}
-   else if (value==1) {value=0}
+   if(value==0) {value=1} else if (value==1) {value=0}
 
    //creation de la data pour json
    let data = {"checkSchool" : value};
@@ -893,43 +892,43 @@ global.timeGraphCreation = function timeGraphCreation(type, actorName, duration)
    let lineChartName = "#lineChart" + type + actorName;
    if ($(lineChartName).length) {
       let i = $(lineChartName),
-         n = {
-            labels: labelsTableDataName,
-            datasets: [{
-               label: "Nombre",
-               fill: !1,
-               lineTension: 0,
-               backgroundColor: "#fff",
-               borderColor: "#6896f9",
-               borderCapStyle: "butt",
-               borderDash: [],
-               borderDashOffset: 0,
-               borderJoinStyle: "miter",
-               pointBorderColor: "#fff",
-               pointBackgroundColor: "#2a2f37",
-               pointBorderWidth: 3,
-               pointHoverRadius: 10,
-               pointHoverBackgroundColor: "#FC2055",
-               pointHoverBorderColor: "#fff",
-               pointHoverBorderWidth: 3,
-               pointRadius: 6,
-               pointHitRadius: 10,
-               data: labelsTableDataValue,
-               spanGaps: !1
-            }]
-         }, s = new Chart(i, {
-            type: "line",
-            data: n,
-            options: {
-               legend: {display: !1},
-               scales: {
-                  xAxes: [{
-                     ticks: {fontSize: "10", fontColor: "#969da5"},
-                     gridLines: {color: "rgba(0,0,0,0.05)", zeroLineColor: "rgba(0,0,0,0.05)"}
-                  }], yAxes: [{display: !1, ticks: {beginAtZero: !0, max: maxValue}}]
-               }
-            }
-         });
+          n = {
+             labels: labelsTableDataName,
+             datasets: [{
+                label: "Nombre",
+                fill: !1,
+                lineTension: 0,
+                backgroundColor: "#fff",
+                borderColor: "#6896f9",
+                borderCapStyle: "butt",
+                borderDash: [],
+                borderDashOffset: 0,
+                borderJoinStyle: "miter",
+                pointBorderColor: "#fff",
+                pointBackgroundColor: "#2a2f37",
+                pointBorderWidth: 3,
+                pointHoverRadius: 10,
+                pointHoverBackgroundColor: "#FC2055",
+                pointHoverBorderColor: "#fff",
+                pointHoverBorderWidth: 3,
+                pointRadius: 6,
+                pointHitRadius: 10,
+                data: labelsTableDataValue,
+                spanGaps: !1
+             }]
+          }, s = new Chart(i, {
+             type: "line",
+             data: n,
+             options: {
+                legend: {display: !1},
+                scales: {
+                   xAxes: [{
+                      ticks: {fontSize: "10", fontColor: "#969da5"},
+                      gridLines: {color: "rgba(0,0,0,0.05)", zeroLineColor: "rgba(0,0,0,0.05)"}
+                   }], yAxes: [{display: !1, ticks: {beginAtZero: !0, max: maxValue}}]
+                }
+             }
+          });
    }
 }
 
@@ -979,14 +978,14 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
    };
 
    /*domToImage.toPng(node, options)
-    .then(function (blob) {
-    var pdf = new jsPDF('p', 'mm', [(width + 50), height]);
+       .then(function (blob) {
+          var pdf = new jsPDF('p', 'mm', [(width + 50), height]);
 
-    pdf.addImage(blob, 'PNG', 20, 10, width, height);
-    pdf.save($('title').text() + '.pdf');
-    console.log('enddDd....');
-    $('#printDashboardLoading').attr('hidden', 'hidden');
-    });*/
+          pdf.addImage(blob, 'PNG', 20, 10, width, height);
+          pdf.save($('title').text() + '.pdf');
+          console.log('enddDd....');
+          $('#printDashboardLoading').attr('hidden', 'hidden');
+       });*/
 
    // with higth quality
    var scale = 2;
@@ -1000,14 +999,14 @@ global.printDashboardToPDF = function printDashboardToPDF(e) {
    };
 
    domToImage.toPng(node, options)
-      .then(function (blob) {
-         var pdf = new jsPDF('p', 'mm', [(width + 160), height]);
+       .then(function (blob) {
+          var pdf = new jsPDF('p', 'mm', [(width + 160), height]);
 
-         pdf.addImage(blob, 'PNG', 20, 10, (width + 40), height);
-         // pdf.save("test-png.pdf");
-         pdf.save($('title').text() + '.pdf');
-         $('#printDashboardLoading').attr('hidden', 'hidden');
-      });
+          pdf.addImage(blob, 'PNG', 20, 10, (width + 40), height);
+          // pdf.save("test-png.pdf");
+          pdf.save($('title').text() + '.pdf');
+          $('#printDashboardLoading').attr('hidden', 'hidden');
+       });
 }
 
 global.getBaseUrl = function () {
