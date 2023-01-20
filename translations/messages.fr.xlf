@@ -1486,6 +1486,10 @@
         <source>school.attention_this_list_comes_from_the_graduates_data</source>
         <target>Attention, cette liste provient des données des diplômés</target>
       </trans-unit>
+      <trans-unit id="school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner">
+        <source>school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner</source>
+        <target>Attention, cette liste provient des établissements qui vous ont sélectionnés comme partenaire</target>
+      </trans-unit>
       <trans-unit id="school.enrolment_of_companies">
         <source>school.enrolment_of_companies</source>
         <target>Enrollement d'entreprises</target>
