@@ -6,6 +6,7 @@ use App\Entity\SatisfactionCreator;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\PersonDegree;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -42,6 +43,23 @@ class SatisfactionCreatorRepository extends ServiceEntityRepository
          ->where('sc.personDegree = :personDegree')
          ->orderBy('sc.id', 'DESC')
          ->setParameter('personDegree', $personDegree)
+         ->setMaxResults(1)
+         ->getQuery()
+         ->getOneOrNullResult();
+   }
+
+	/**
+	 * @param int $personDegreeId
+	 * @return float|int|mixed|string|null
+	 * @throws NonUniqueResultException
+	 */
+   public function getLastSatisfactionOfPersonDegree(int $personDegreeId)
+   {
+      return $this->createQueryBuilder('sc')
+         ->select('sc.id')
+         ->where('sc.personDegree = :personDegree')
+         ->orderBy('sc.id', 'DESC')
+         ->setParameter('personDegree', $personDegreeId)
          ->setMaxResults(1)
          ->getQuery()
          ->getOneOrNullResult();

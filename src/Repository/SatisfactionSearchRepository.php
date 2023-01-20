@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\SatisfactionSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\PersonDegree;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,4 +46,23 @@ class SatisfactionSearchRepository extends ServiceEntityRepository
          ->getQuery()
          ->getOneOrNullResult();
    }
+
+
+	/**
+	 * @param int $personDegreeId
+	 * @return float|int|mixed|string|null
+	 * @throws NonUniqueResultException
+	 */
+	public function getLastSatisfactionOfPersonDegree(int $personDegreeId)
+	{
+		return $this->createQueryBuilder('ss')
+			->select('ss.id')
+			// ->innerJoin('ss.personDegree', 'pd')
+			->where('ss.personDegree = :personDegree')
+			->orderBy('ss.id', 'DESC')
+			->setParameter('personDegree', $personDegreeId)
+			->setMaxResults(1)
+			->getQuery()
+			->getOneOrNullResult();
+	}
 }
