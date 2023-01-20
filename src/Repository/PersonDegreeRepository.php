@@ -6,6 +6,7 @@ use App\Entity\Degree;
 use App\Entity\PersonDegree;
 use App\Entity\School;
 use App\Model\PersonDegreeReceiverNotification;
+use App\Model\PersonDegreeReadOnly;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\Activity;
 use App\Entity\City;
@@ -23,6 +24,116 @@ use Doctrine\Persistence\ManagerRegistry;
 class PersonDegreeRepository extends ServiceEntityRepository {
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, PersonDegree::class);
+	}
+
+	/**
+	 * @param int|null $countryId
+	 * @return PersonDegreeReadOnly[]
+	 */
+	public function getAllPersonDegree(?int $countryId = null): array {
+		$qb = $this->createQueryBuilder('p')
+			->select('
+			p.id,
+			p.firstname,
+			p.lastname,
+			p.email, 
+			p.createdDate,
+			p.checkSchool,
+			p.lastDegreeYear,
+			p.lastDegreeMonth,
+			p.type,
+			p.otherSchool,
+			p.phoneMobile1,
+			p.registrationStudentSchool,
+			p.birthDate,
+			activity.id as activity_id,
+			activity.name as activity_name,
+			degree.id as degree_id,
+			degree.name as degree_name,
+			country.id as country_id,
+			country.name as country_name,
+			school.id AS school_id,
+			school.name as school_name,
+			school_city.name as school_city_name,
+			COUNT(satisfaction_creators.id) as satisfaction_creators_count,
+			COUNT(satisfaction_salaries.id) as satisfaction_salaries_count,
+			COUNT(satisfaction_searches.id) as satisfaction_searches_count
+			')
+			->innerJoin('p.country', 'country')
+			->innerJoin('p.degree', 'degree')
+			->innerJoin('p.activity', 'activity')
+			->leftJoin('p.school', 'school')
+			->leftJoin('school.city', 'school_city')
+			->leftJoin('p.satisfactionCreators', 'satisfaction_creators')
+			->leftJoin('p.satisfactionSalaries', 'satisfaction_salaries')
+			->leftJoin('p.satisfactionSearches', 'satisfaction_searches')
+			;
+
+		if ($countryId){
+			$qb = $qb->where('country.id = :country')
+				->setParameter('country', $countryId);
+		}
+		$persons = $qb
+			->groupBy('
+			p.id,
+			p.lastname,
+			p.email, 
+			p.createdDate,
+			p.checkSchool,
+			p.lastDegreeYear,
+			p.lastDegreeMonth,
+			p.type,
+			p.otherSchool,
+			p.phoneMobile1,
+			p.registrationStudentSchool,
+			p.birthDate,
+			activity.id,
+			activity.name,
+			degree.id,
+			degree.name,
+			country.id,
+			country.name,
+			school.id,
+			school.name,
+			school_city.name
+			')
+			->getQuery()
+			->getArrayResult();
+		// var_dump($persons);
+		// die();
+		return array_map(function ($person) {
+			// if ($person['id'] == 443) {
+			// 	var_dump($person);
+			// 	die();
+			// }
+			return new PersonDegreeReadOnly(
+				$person['id'],
+				$person['firstname'],
+				$person['lastname'],
+				$person['email'],
+				$person['createdDate'],
+				$person['checkSchool'],
+				$person['lastDegreeYear'],
+				$person['lastDegreeMonth'],
+				$person['type'],
+				$person['otherSchool'],
+				$person['phoneMobile1'],
+				$person['registrationStudentSchool'],
+				$person['birthDate'],
+				$person['activity_id'],
+				$person['activity_name'],
+				$person['degree_id'],
+				$person['degree_name'],
+				$person['country_id'],
+				$person['country_name'],
+				$person['school_id'],
+				$person['school_name'],
+				$person['school_city_name'],
+				$person['satisfaction_searches_count'],
+				$person['satisfaction_salaries_count'],
+				$person['satisfaction_creators_count'],
+			);
+		}, $persons);
 	}
 
 	/**

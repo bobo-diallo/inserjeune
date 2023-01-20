@@ -59,84 +59,93 @@ class CheckDatabaseExention extends AbstractExtension {
 	}
 
 	/**
-	 * check if Person degree is well as satisfaction survey
-	 * @param PersonDegree $person
+	 * Check if Person degree is well as satisfaction survey
+	 *
+	 * @param int $personDegreeId
+	 * @param string $personDegreeType
+	 * @param int|null $lastDegreeMonth
+	 * @param int|null $lastDegreeYear
 	 * @return string
-	 * @throws
+	 * @throws \Exception
 	 */
-	public function checkPersonDegreeSatisfaction(PersonDegree $person): string {
-		$cRouge = "#FF0000;";
-		$cRose = "#FFABC4;";
-		$cOrange = "#FF7100;";
-		$cVert = "#00FF00;";
-		$cBlanc = "#FFFFFF;";
-		$cError = "#4E4E4E;";
-		$color = "#EE3233;";
-		$status = "false";
-		$border = "none";
-		$bNone = "none";
-		$bNoir = "1px solid #0c0c0c";
+	public function checkPersonDegreeSatisfaction(
+		int $personDegreeId,
+		string $personDegreeType,
+		?int $lastDegreeMonth,
+		?int $lastDegreeYear,
+		int $satisfactionCreatorsCount = 0,
+		int $satisfactionSalariesCount = 0,
+		int $satisfactionSearchesCount = 0
+	): string {
+		$cRouge = '#FF0000;';
+		$cRose = '#FFABC4;';
+		$cOrange = '#FF7100;';
+		$cVert = '#00FF00;';
+		$cBlanc = '#FFFFFF;';
+		$cError = '#4E4E4E;';
+		$status = 'false';
+		$bNone = 'none';
+		$bNoir = '1px solid #0c0c0c';
 
 		$degreeMonth = "1";
-		if ($person->getLastDegreeMonth() > 0) {
-			$degreeMonth = $person->getLastDegreeMonth();
+		if ($lastDegreeMonth > 0) {
+			$degreeMonth = $lastDegreeMonth;
 		}
 
-		//comparer la date de création du questionnaire avec année/mois d'obstention du diplôme
-		$degreeDateStr = $person->getLastDegreeYear() . "-" . $degreeMonth . "-1";
+		$degreeDateStr = $lastDegreeYear . "-" . $degreeMonth . "-1"; // 2017-7-1
 		$degreeDate = new \DateTime($degreeDateStr);
-		$compareDate = $degreeDate->add(new \DateInterval('P6M'));
+		$oldDegreeDate =  clone $degreeDate;
+		$compareDate = $oldDegreeDate->add(new \DateInterval('P6M'));
+
 		$offsetDays = $compareDate->diff(new \DateTime())->format('%R%a');
 
 		if ($offsetDays < 0) {
 			$color = $cBlanc;
 			$border = $bNoir;
-		} elseif (($offsetDays >= 0) && ($offsetDays < 20)) {
+		} elseif (($offsetDays < 20)) {
 			$color = $cOrange;
 			$border = $bNone;
 		} else {
 			$color = $cRouge;
 			$border = $bNone;
 		}
-		if (!$offsetDays)
-			$offsetDays = "err";
 
-		if ($person->getLastDegreeMonth() > 0) {
-			switch ($person->getType()) {
-				case "TYPE_TRAINING":
+		if ($lastDegreeMonth > 0) {
+			switch ($personDegreeType) {
+				case 'TYPE_TRAINING':
 					$color = $cRose;
-					$status = "true";
+					$status = 'true';
 					$border = $bNone;
 					break;
-				case "TYPE_EMPLOYED":
-					if ($this->entityManager->getRepository(SatisfactionSalary::class)->getLastSatisfaction($person)) {
+				case 'TYPE_EMPLOYED':
+					if ($satisfactionSalariesCount > 0) {
 						$color = $cVert;
-						$status = "true";
+						$status = 'true';
 						$border = $bNone;
 					}
 					break;
-				case "TYPE_CONTRACTOR":
-					if ($this->entityManager->getRepository(SatisfactionCreator::class)->getLastSatisfaction($person)) {
+				case 'TYPE_CONTRACTOR':
+					if ($satisfactionCreatorsCount > 0) {
 						$color = $cVert;
-						$status = "true";
+						$status = 'true';
 						$border = $bNone;
 					}
 					break;
-				case "TYPE_STUDY":
-				case "TYPE_UNEMPLOYED":
-				case "TYPE_SEARCH":
-					if ($this->entityManager->getRepository(SatisfactionSearch::class)->getLastSatisfaction($person)) {
+				case 'TYPE_STUDY':
+				case 'TYPE_UNEMPLOYED':
+				case 'TYPE_SEARCH':
+					if ($satisfactionSearchesCount > 0) {
 						$color = $cVert;
-						$status = "true";
+						$status = 'true';
 						$border = $bNone;
 					}
 					break;
 			}
 		} else {
 			$color = $cError;
-			if ($person->getType() == "TYPE_TRAINING") {
+			if ($personDegreeType == 'TYPE_TRAINING') {
 				$color = $cRose;
-				$status = "true";
+				$status = 'true';
 				$border = $bNone;
 			}
 		}

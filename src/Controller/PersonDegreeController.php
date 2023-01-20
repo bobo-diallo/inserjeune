@@ -46,13 +46,10 @@ class PersonDegreeController extends AbstractController {
 	#[Route(path: '/', name: 'persondegree_index', methods: ['GET'])]
 	public function indexAction(): Response {
 		$userCountry = $this->getUser()->getCountry();
-		$personDegrees = $this->personDegreeRepository->findAll();
-
-		if ($userCountry)
-			$personDegrees = $this->personDegreeRepository->findByCountry($userCountry);
+		$countryId = $userCountry ? $userCountry->getId() : null;
 
 		return $this->render('persondegree/index.html.twig', [
-			'personDegrees' => $personDegrees
+			'personDegrees' => $this->personDegreeRepository->getAllPersonDegree($countryId)
 		]);
 	}
 
