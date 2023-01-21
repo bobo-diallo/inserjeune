@@ -1564,7 +1564,7 @@
       </trans-unit>
       <trans-unit id="school.unemployed_graduates_pursuing_studies_related_to_their_first_degree">
         <source>school.unemployed_graduates_pursuing_studies_related_to_their_first_degree</source>
-        <target>Diplômés sans emploi en poursuite d'études%tag_br%%tag_a_start%en lien%tag_a_end% avec leur premier diplôme</target>
+        <target>Diplômés sans emploi en poursuite d'études%tag_br% %tag_a_start%en lien%tag_a_end% avec leur premier diplôme</target>
       </trans-unit>
       <trans-unit id="school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree">
         <source>school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree</source>
