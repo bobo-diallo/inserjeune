@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\JobOfferRepository;
 use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use UploadBundle\Annotation\Uploadable;
 use UploadBundle\Annotation\UploadableField;
@@ -94,6 +95,9 @@ class JobOffer {
 
 	#[ORM\Column(name: 'candidate_profile', type: 'text', nullable: true)]
 	private ?string $candidateProfile;
+
+    #[ORM\Column(name: 'candidate_sended', type: 'text', nullable: true)]
+    private ?string $candidateSended ;
 
 	public function __construct() {
 		$this->createdDate = new \DateTime();
@@ -315,4 +319,36 @@ class JobOffer {
 		return $this;
 	}
 
+    /**
+     * @return ?string
+     */
+    public function getCandidateSended(): ?string
+    {
+        return $this->candidateSended;
+    }
+
+    /**
+     * @param ?string $candidateSended
+     */
+    public function setCandidateSended(?string $candidateSended): void
+    {
+        $this->candidateSended = $candidateSended;
+    }
+
+    /**
+     * @param int $candidateSendedId
+     */
+    public function addCandidateSended(int $candidateSendedId): void
+    {
+        if(!$this->candidateSended) {
+            $this->candidateSended = $candidateSendedId;
+        } else if (!in_array($candidateSendedId, explode(',', $this->candidateSended))) {
+            $this->candidateSended .=  ',' .  $candidateSendedId ;
+        }
+    }
+
+    public  function isCandidateSended(int $candidateSendedId): bool
+    {
+        return in_array($candidateSendedId, explode($this->candidateSended, ','));
+    }
 }
