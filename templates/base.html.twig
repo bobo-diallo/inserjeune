@@ -1,5 +1,7 @@
-{% set user = app.user %}
-{% set imageName = app.user.imageName %}
+{#{% cache 'getuser' %}#}
+    {% set user = app.user %}
+    {% set imageName = app.user.imageName %}
+{#{% endcache %}#}
 
 <!DOCTYPE html>
 <html>

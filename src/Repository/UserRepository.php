@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Model\UserReadOnly;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -125,4 +127,47 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $result = $statement->executeQuery(['roleName' => $role]);
         return $result->fetchAllAssociative();
     }
+
+	/**
+	 * @return UserReadOnly[]
+	 * @throws Exception
+	 */
+	public function getAllUser(): array {
+		$users = $this->getEntityManager()
+			->getConnection()
+			->createQueryBuilder()
+			->select('
+				u.id,
+				u.username,
+				u.email,
+				u.phone,
+				country.name as countryName,
+				GROUP_CONCAT(r.role SEPARATOR \', \') as roles
+			')
+			->from('user', 'u')
+			->leftJoin('u', 'country', 'country', 'u.country_id = country.id')
+			->leftJoin('u', 'user_role', 'user_role', 'u.id = user_role.user_id')
+			->leftJoin('user_role', 'role', 'r', 'r.id = user_role.role_id')
+			->groupBy(
+				'u.id,
+				u.id,
+				u.username,
+				u.email,
+				u.phone,
+				country.name'
+			)
+			->executeQuery()
+			->fetchAllAssociative();
+
+		return array_map(function ($user) {
+			return new UserReadOnly(
+				$user['id'],
+				$user['username'],
+				$user['email'],
+				$user['phone'],
+				$user['countryName'],
+				$user['roles'],
+			);
+		}, $users);
+	}
 }

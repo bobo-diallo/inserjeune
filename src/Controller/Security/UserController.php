@@ -39,7 +39,7 @@ class UserController extends AbstractController {
 	#[Route(path: '/', name: 'user_index', methods: ['GET'])]
 	public function indexAction(): Response {
 		return $this->render('user/index.html.twig', [
-			'users' => $this->userRepository->findAll()
+			'users' => $this->userRepository->getAllUser()
 		]);
 	}
 
