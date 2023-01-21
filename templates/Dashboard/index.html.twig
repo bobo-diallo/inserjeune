@@ -311,14 +311,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="element-box el-tablo">
-                                        <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_related_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) }}</div>
+                                        <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_related_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) | raw }}</div>
                                         <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, true, userSchool, beginDate, endDate) }}</div>
                                         {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="element-box el-tablo">
-                                        <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) }}</div>
+                                        <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) | raw }}</div>
                                         <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, false, userSchool,beginDate, endDate) }}</div>
                                         {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                     </div>

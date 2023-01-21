@@ -30,7 +30,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	 * @param int|null $countryId
 	 * @return PersonDegreeReadOnly[]
 	 */
-	public function getAllPersonDegree(?int $countryId = null): array {
+	public function getAllPersonDegree(?int $countryId = null, ?int $schoolId = null): array {
 		$qb = $this->createQueryBuilder('p')
 			->select('
 			p.id,
@@ -69,10 +69,16 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->leftJoin('p.satisfactionSearches', 'satisfaction_searches')
 			;
 
-		if ($countryId){
+		if ($countryId) {
 			$qb = $qb->where('country.id = :country')
 				->setParameter('country', $countryId);
 		}
+
+		if ($schoolId){
+			$qb = $qb->where('school.id = :school')
+				->setParameter('school', $schoolId);
+		}
+
 		$persons = $qb
 			->groupBy('
 			p.id,
