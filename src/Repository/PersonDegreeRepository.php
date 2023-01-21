@@ -99,13 +99,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			')
 			->getQuery()
 			->getArrayResult();
-		// var_dump($persons);
-		// die();
+
 		return array_map(function ($person) {
-			// if ($person['id'] == 443) {
-			// 	var_dump($person);
-			// 	die();
-			// }
 			return new PersonDegreeReadOnly(
 				$person['id'],
 				$person['firstname'],

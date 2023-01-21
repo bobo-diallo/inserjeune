@@ -194,11 +194,11 @@ trait Person {
 		return $this;
 	}
 
-	public function getRegion(): Region {
+	public function getRegion(): ?Region {
 		return $this->region;
 	}
 
-	public function setRegion(Region $region): self {
+	public function setRegion(?Region $region): self {
 		$this->region = $region;
 		return $this;
 	}
