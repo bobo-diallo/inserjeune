@@ -212,6 +212,9 @@ class FrontPersonDegreeController extends AbstractController {
 
 				if ($this->emailService->sendCandidateMail($candidate, $jobOffer)) {
 					$this->addFlash('success', 'Votre candididature est envoyée avec success.');
+                    $jobOffer->addCandidateSended($personDegree->getUser()->getId());
+                    $this->em->persist($jobOffer);
+                    $this->em->flush();
 				} else {
 					$this->addFlash('warning', 'Erreur envoi candidature');
 				}

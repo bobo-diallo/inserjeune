@@ -63,7 +63,11 @@
                                     {% if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}
                                         <td>{{ jobOffer.id }}</td>
                                     {% endif %}
-                                    <td>{{ jobOffer.title }}</td>
+                                    {% if app.user.roles|role == "Diplômé" and app.user.id in jobOffer.candidateSended|split(',') %}
+                                        <td class="mark text-success">* {{ jobOffer.title }}</td>
+                                    {%  else %}
+                                        <td>{{ jobOffer.title }}</td>
+                                    {%  endif %}
                                     <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
                                     <td>{{ jobOffer.closedDate }}</td>
                                     <td>{{ jobOffer.activity }}</td>
@@ -82,6 +86,7 @@
                         </table>
                     </div>
                 </div>
+                <span class="mark text-success mt-5">* {{ 'job.offer_already_sended' | trans }}</span>
             </div>
         </div>
     </div>

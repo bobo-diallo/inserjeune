@@ -1212,6 +1212,10 @@
         <source>job.attach_a_cover_letter</source>
         <target>Joindre une lettre de motivation</target>
       </trans-unit>
+      <trans-unit id="job.offer_already_sended">
+        <source>job.offer_already_sended</source>
+        <target>Offre déjà postulée</target>
+      </trans-unit>
 
       <!-- activity      -->
       <trans-unit id="activity.modification_of_a_job">

@@ -1209,6 +1209,10 @@
         <source>job.attach_a_cover_letter</source>
         <target>Attach a cover letter</target>
       </trans-unit>
+      <trans-unit id="job.offer_already_sended">
+        <source>job.offer_already_sended</source>
+        <target>Offer already applied</target>
+      </trans-unit>
 
       <!-- activity -->
       <trans-unit id="activity.modification_of_a_job">
