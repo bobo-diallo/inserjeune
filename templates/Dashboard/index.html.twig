@@ -162,7 +162,7 @@
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">{{ 'company.overall_satisfaction' | trans }}: </div>
-                                        <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", 'excellent'], userCompany, null, beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", 'excellent'], beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-9">
@@ -170,19 +170,19 @@
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.general_knowledge' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelGlobalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], userCompany, null, beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelGlobalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.technical_skills' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelTechnicalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], userCompany, null, beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelTechnicalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.communication_and_hse' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], userCompany, null, beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                     </div>

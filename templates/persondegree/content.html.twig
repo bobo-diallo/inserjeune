@@ -18,7 +18,7 @@
     </script>
     <script>
         //Contrôle du bouton check de localisation pour switch manuel - automatique
-        $('#appbundle_persondegree_locationMode').on('click', function () {
+        $('#appbundle_persondegree_locationMode').on('click', async function () {
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {
                 if (!confirm("Attention, les coordonnées seront recalculées")) {
                     $('#appbundle_persondegree_locationMode').prop("checked", false);
@@ -32,7 +32,13 @@
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {
                 $('#appbundle_persondegree_latitude').val("");
                 $('#appbundle_persondegree_longitude').val("");
-                geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude');
+                // geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude');
+
+                //recherche des coordonnées avec l'adresse complète
+                if (await geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude') == true) {
+                    //recherche des coordonnées avec uniquement l'adresse de la ville
+                    await geocodeAddressLocation(getPersondegreCityMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude')
+                }
             }
         });
         // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
@@ -258,7 +264,13 @@
             return (createMapsAddress(number, road, locality, city, region, country));
         }
 
-        function preventDefaultSubmit() {
+        function getPersondegreCityMapAddress () {
+            let city = $('#appbundle_persondegree_addressCity option:selected').text();
+            let country = $('#appbundle_persondegree_country option:selected').text();
+            return (createMapsAddress(null, null, null, city, null, country));
+        }
+
+        async function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude
             // -----------------------------------------------------
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {
@@ -271,7 +283,13 @@
                     ($('#appbundle_persondegree_longitude').val() == null) ||
                     ($('#appbundle_persondegree_longitude').val() == 0)) {
                     $('#appbundle_persondegree_mapsAddress').val(mapAdresse);
-                    geocodeAddressLocation(mapAdresse, '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude')
+
+                    //recherche des coordonnées avec l'adresse complète
+                    if (await geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude') == true) {
+                        //recherche des coordonnées avec uniquement l'adresse de la ville
+                        await geocodeAddressLocation(getPersondegreCityMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude')
+                    }
+
                     setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
                         console.log('Coordonnees map recupérées ....');
                         $('#submitPersonDegree').trigger('click');

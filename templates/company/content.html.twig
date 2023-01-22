@@ -19,7 +19,7 @@
     </script>
     <script>
         //Contrôle du bouton check de localisation pour switch manuel - automatique
-        $('#appbundle_company_locationMode').on('click', function () {
+        $('#appbundle_company_locationMode').on('click', async function () {
             if ($('#appbundle_company_locationMode').is(":checked")) {
                 if (!confirm('Attention, les coordonnées seront recalculées')) {
                     $('#appbundle_company_locationMode').prop("checked", false);
@@ -32,7 +32,12 @@
             if ($('#appbundle_company_locationMode').is(":checked")) {
                 $('#appbundle_company_latitude').val("");
                 $('#appbundle_company_longitude').val("");
-                geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude');
+
+                //recherche des coordonnées avec l'adresse complète
+                if (await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude') == true) {
+                    //recherche des coordonnées avec uniquement l'adresse de la ville
+                    await geocodeAddressLocation(getCompanyCityMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
+                }
             }
         });
 
@@ -121,10 +126,16 @@
             return (createMapsAddress(number, road, locality, city, region, country));
         }
 
-        function preventDefaultSubmit() {
+        function getCompanyCityMapAddress () {
+            let city = $('#appbundle_company_addressCity option:selected').text();
+            let country = $('#appbundle_company_country option:selected').text();
+            return (createMapsAddress(null, null, null, city, null, country));
+        }
+
+        async function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude en mode auto
             if ($('#appbundle_company_locationMode').is(":checked")) {
-                let mapAdresse = getCompanyMapAddress ();
+                let mapAdresse = getCompanyMapAddress();
 
                 if (($('#appbundle_company_mapsAddress').val() != mapAdresse) ||
                     ($('#appbundle_company_latitude').val().length == null) ||
@@ -132,7 +143,13 @@
                     ($('#appbundle_company_longitude').val().length == null) ||
                     ($('#appbundle_company_longitude').val().length == 0)) {
                     $('#appbundle_company_mapsAddress').val(mapAdresse);
-                    geocodeAddressLocation(mapAdresse, '#appbundle_company_latitude', '#appbundle_company_longitude')
+
+                    //recherche des coordonnées avec l'adresse complète
+                    if (await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude') == true) {
+                        //recherche des coordonnées avec uniquement l'adresse de la ville
+                        await geocodeAddressLocation(getCompanyCityMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
+                    }
+
                     setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
                         console.log('Coordonnees map recupérées ....');
                         $('#submitCompany').trigger('click');
