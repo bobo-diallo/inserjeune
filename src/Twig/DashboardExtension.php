@@ -918,6 +918,9 @@ class DashboardExtension extends AbstractExtension {
         $beginDuration = new \DateTime($endDate);
         $endDuration = new \DateTime($endDate);
 
+        // set $endDuration to the end of the day to have the lasted changed
+        $endDuration = $endDuration->modify('+23 hour')->modify('+59 minute');
+
         if (count($datas) == 2) {
             if ($datas[1] == 'mois') {
                 $beginDuration = $beginDuration->sub(new DateInterval('P' . $datas[0] . 'M'));
@@ -949,7 +952,7 @@ class DashboardExtension extends AbstractExtension {
             $personDegrees = [];
             if ($region) {
                 $personDegrees = ($school) ?
-                    $this->personDegreeRepository->getByRegionAndScholl($region, $school) :
+                    $this->personDegreeRepository->getByRegionAndSchool($region, $school) :
                     $this->personDegreeRepository->findByRegion($region);
             } else if ($country) {
                 $personDegrees = ($school) ?

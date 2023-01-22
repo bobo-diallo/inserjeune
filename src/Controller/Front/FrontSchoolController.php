@@ -10,6 +10,7 @@ use App\Entity\School;
 use App\Form\SchoolType;
 use App\Form\SatisfactionSchoolType;
 use App\Repository\CompanyRepository;
+use App\Repository\SchoolRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\SatisfactionSalaryRepository;
 use App\Repository\UserRepository;
@@ -60,6 +61,7 @@ class FrontSchoolController extends AbstractController {
 	private ActivityRepository $activityRepository;
     private UserPasswordHasherInterface $hasher;
 	private EmailService $emailService;
+    private SchoolRepository $schoolRepository;
 
 	public function __construct(
 		EntityManagerInterface       $em,
@@ -79,6 +81,7 @@ class FrontSchoolController extends AbstractController {
 		SectorAreaRepository         $sectorAreaRepository,
 		ActivityRepository           $activityRepository,
 		EmailService                 $emailService,
+        SchoolRepository             $schoolRepository
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -97,6 +100,7 @@ class FrontSchoolController extends AbstractController {
 		$this->sectorAreaRepository = $sectorAreaRepository;
 		$this->activityRepository = $activityRepository;
 		$this->emailService = $emailService;
+        $this->schoolRepository = $schoolRepository;
 	}
 
 	#[Route(path: '/new', name: 'front_school_new', methods: ['GET', 'POST'])]
@@ -824,6 +828,16 @@ class FrontSchoolController extends AbstractController {
 			    'message' => $trans->trans('notification.enrollment_email_send_successful')
 		    ]);
 	    });
+    }
+
+    #[Route(path: '/getSchoolsByCoordinates', name: 'get_schools_by_coordinates', methods: ['GET'])]
+    public function getSchoolsByCoordinates(Request $request): JsonResponse|Response {
+        $latitude = $request->get('latitude');
+        $longitude = $request->get('longitude');
+        $gap = $request->get('gap');
+
+        $result = ['school_id'=> $this->schoolService->getSchool()->getId(), 'datas' => $this->schoolRepository->getSchoolsByCoordinates($latitude, $longitude, $gap)];
+        return new JsonResponse($result);
     }
 
     #[Route(path: '/{id}/cityByRegion/', name: 'front_school_city_by_region', methods: ['GET'])]

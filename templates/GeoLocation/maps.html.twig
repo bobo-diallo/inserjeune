@@ -60,9 +60,18 @@
                      <tr><div><span class="table_geo_label">{{ 'menu.display_data' | trans }}</span></div></tr>
                      <thead>
                      <tr>
-                        <th><div class="table_geo_titre ent"><span>{{ 'menu.companies' | trans }}</span></div></th>
-                        <th><div class="table_geo_titre eta"><span>{{ 'menu.establishments' | trans }}</span></div></th>
-                        <th><div class="table_geo_titre dip"><span>{{ 'graduate.graduate_looking_for_job' | trans }}</span></div></th>
+                        <th><div class="table_geo_titre ent d-flex justify-content-around">
+                              <span>{{ 'menu.companies' | trans }}</span>
+                              <span id="nb_company"></span>
+                           </div></th>
+                        <th><div class="table_geo_titre eta d-flex justify-content-around">
+                              <span>{{ 'menu.establishments' | trans }}</span>
+                              <span id="nb_establishment"></span>
+                           </div></th>
+                        <th><div class="table_geo_titre dip d-flex justify-content-around">
+                              <span>{{ 'graduate.graduate_looking_for_job' | trans }}</span>
+                              <span id="nb_graduate"></span>
+                           </div></th>
                      </tr>
                      </thead>
                      <tbody>
@@ -412,7 +421,8 @@
                selectedDataCompanies.push(dataCompanies[index]);
             }
          })
-         console.log("compagnies sélectionnées : " + selectedDataCompanies.length)
+         console.log("compagnies sélectionnées : " + selectedDataCompanies.length);
+         $('#nb_company').text(selectedDataCompanies.length);
 
          // Selection des Etablissements
          // -----------------------------
@@ -455,7 +465,8 @@
                selectedDataSchools.push(dataSchools[index]);
             }
          })
-         console.log("etablissements sélectionnées: " + selectedDataSchools.length)
+         console.log("etablissements sélectionnées: " + selectedDataSchools.length);
+         $('#nb_establishment').text(selectedDataSchools.length);
 
          // Selection des Dipômés
          // ---------------------
@@ -488,7 +499,8 @@
                selectedDataPersonDegrees.push(dataPersonDegrees[index]);
             }
          })
-         console.log("diplômés sélectionnées: " + selectedDataPersonDegrees.length)
+         console.log("diplômés sélectionnées: " + selectedDataPersonDegrees.length);
+         $('#nb_graduate').text(selectedDataPersonDegrees.length);
          console.log("--------------------------");
       }
 

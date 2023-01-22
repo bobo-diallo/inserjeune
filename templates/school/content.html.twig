@@ -18,20 +18,68 @@
    </script>
    <script>
       //Contrôle du bouton check de localisation pour switch manuel - automatique
-      $('#appbundle_school_locationMode').on('click', function() {
-         if($('#appbundle_school_locationMode').is(":checked")) {
-            if(!confirm ("Attention, les coordonnées seront recalculées" )) {
+      $('#appbundle_school_locationMode').on('click', async function () {
+         if ($('#appbundle_school_locationMode').is(":checked")) {
+            if (!confirm("Attention, les coordonnées seront recalculées")) {
                $('#appbundle_school_locationMode').prop("checked", false);
             }
          } else {
-            alert ("Mode manuel activé" );
+            alert("Mode manuel activé");
          }
 
          //Mise à jour des coordonnées géographique en mode auto
          if ($('#appbundle_school_locationMode').is(":checked")) {
             $('#appbundle_school_latitude').val("");
             $('#appbundle_school_longitude').val("");
-            geocodeAddressLocation(getSchoolMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude');
+
+            //recherche des coordonnées avec l'adresse complète
+            if (await geocodeAddressLocation(getSchoolMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude') == true) {
+               //recherche des coordonnées avec uniquement l'adresse de la ville
+               await geocodeAddressLocation(getSchoolCityMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude')
+            }
+
+            // vérifie si les coordonnées pas déjà utilisées avec autre établissement
+            let url = window.location.toString();
+            url = url.replace('/edit', '/getSchoolsByCoordinates');
+            // alert(url);
+
+            //creation de la data pour json
+            let current_latitude = $('#appbundle_school_latitude').val();
+            let current_longitude = $('#appbundle_school_longitude').val();
+            let gap = 0.0001
+            let data = { "latitude" : current_latitude,
+                         "longitude" : current_longitude,
+                         // "gap" : gap,
+                         "gap" : "0",
+            };
+
+            // appel ajax en get
+            await $.get(url, data).done(function (result) {
+               // debugger;
+               let schools = result['datas'];
+               let current_id = result['school_id'];
+
+               console.log("getSchoolsByCoordinates : ");
+               console.log('current Id = ' + result['school_id']);
+               console.log(schools);
+
+               // recherche si nouvelle position géographique pas déjà utilisée
+               for (let i = 0; i < schools.length; i++) {
+                  if(current_id == schools[i].id)
+                     for (let j = 1; j < 10; j++) { //matrice X
+                        for (let k = 0; k < 10; k++) { //matrice Y
+                           if((parseFloat(current_latitude) != (parseFloat(schools[i].latitude) + gap * j)) ||
+                              (parseFloat(current_longitude) != (parseFloat(schools[i].longitude) + gap * k))) {
+                                 $('#appbundle_school_latitude').val(parseFloat(schools[i].latitude) + gap * j);
+                                 $('#appbundle_school_longitude').val(parseFloat(schools[i].longitude) + gap * k);
+                                 console.log("---------->>>" + schools[i].id + " " + schools[i].latitude + " " + schools[i].longitude);
+                                 k = 10; j = 10 ; //sortie de la boucle
+                           }
+                        }
+                     }
+                     console.log(schools[i].id + " " + schools[i].latitude + " " + schools[i].longitude);
+               }
+            });
          }
       });
       // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
@@ -349,7 +397,13 @@
          return (createMapsAddress(number, road, locality, city, region, country));
       }
 
-      function preventDefaultSubmit() {
+      function getSchoolCityMapAddress () {
+         let city = $('#appbundle_school_city option:selected').text();
+         let country = $('#appbundle_school_country option:selected').text();
+         return (createMapsAddress(null, null, null, city, null, country));
+      }
+
+      async function preventDefaultSubmit() {
          // Suppression des champs Autre des select multiples
          // ---------------------------------------------------
          if (($("#appbundle_school_degrees").text().indexOf("Autre")) != -1) {
@@ -381,17 +435,23 @@
 
          // mise à jour mapAdresse et calcul des lat et longitude
          // -----------------------------------------------------
-         if($('#appbundle_school_locationMode').is(":checked")) {
+         if ($('#appbundle_school_locationMode').is(":checked")) {
             let mapAdresse = getSchoolMapAddress();
 
             //console.log('-->  ' + $('#appbundle_school_mapsAddress').val());
             //alert('mapsAddress = ' + mapAdresse);
 
             if (($('#appbundle_school_mapsAddress').val() != mapAdresse) ||
-                    ($('#appbundle_school_latitude').val().length == 0) ||
-                    ($('#appbundle_school_longitude').val().length == 0)) {
+                ($('#appbundle_school_latitude').val().length == 0) ||
+                ($('#appbundle_school_longitude').val().length == 0)) {
                $('#appbundle_school_mapsAddress').val(mapAdresse);
-               geocodeAddressLocation(mapAdresse, '#appbundle_school_latitude', '#appbundle_school_longitude')
+
+               //recherche des coordonnées avec l'adresse complète
+               if (await geocodeAddressLocation(getSchoolMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude') == true) {
+                  //recherche des coordonnées avec uniquement l'adresse de la ville
+                  await geocodeAddressLocation(getSchoolCityMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude')
+               }
+
                setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
                   $('#submitSchool').trigger('click');
                }, 1000)
@@ -404,7 +464,7 @@
 
          //suppression des coordonnées personnelles sans suppression du compte
          if (!$('#appbundle_school_agreeRgpd').prop('checked')) {
-            if($("#personDegrees").val() > 0 ) {
+            if ($("#personDegrees").val() > 0) {
                // $('#appbundle_school_phoneStandard').val('');
                // alert("suppression des coo.... TBD");
             } else {

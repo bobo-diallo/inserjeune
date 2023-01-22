@@ -380,20 +380,23 @@ global.replaceAccents = function replaceAccents(str) {
  * @param latInputID
  * @param lngInputID
  */
-global.geocodeAddressLocation = function geocodeAddressLocation(address, latInputID, lngInputID) {
+global.geocodeAddressLocation = async function geocodeAddressLocation(address, latInputID, lngInputID) {
    let geocoder = new google.maps.Geocoder;
-   geocoder.geocode({'address': address}, function (results, status) {
+   let erreur = true;
+   await geocoder.geocode({'address': address}, function (results, status) {
       // console.log("Result: " + results + ", Status: " + status)
       if (status == 'OK') {
          let lat = results[0].geometry.location.lat();
          let lng = results[0].geometry.location.lng();
          $(latInputID).val(lat.toString());
          $(lngInputID).val(lng.toString());
-           console.log(address + " coo->" + lat + "," + lng);
+         console.log(address + " coo->" + lat + "," + lng);
+         erreur = false;
       } else {
          console.log("Echec de recherche Latitude/Longitude : " + address);
       }
    });
+   return erreur;
 }
 
 /**

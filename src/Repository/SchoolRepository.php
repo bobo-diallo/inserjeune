@@ -160,14 +160,17 @@ class SchoolRepository extends ServiceEntityRepository {
         SectorArea $sectorArea,
         \DateTime $beginDate,
         \DateTime $endDate): array {
+        $expr = $this->getEntityManager()->createQueryBuilder()->expr();
         return $this->createQueryBuilder('s')
             ->where('s.country = :country')
-            ->andWhere('s.sectorArea1 = :sectorArea' )
-                        // 's.sectorArea2 = :sectorArea' OR
-                        // 's.sectorArea3 = :sectorArea' OR
-                        // 's.sectorArea4 = :sectorArea' OR
-                        // 's.sectorArea5 = :sectorArea' OR
-                        // 's.sectorArea6 = :sectorArea' )
+            ->andWhere($expr->orX(
+                $expr->eq('s.sectorArea1', ':sectorArea'),
+                $expr->eq('s.sectorArea2', ':sectorArea'),
+                $expr->eq('s.sectorArea3', ':sectorArea'),
+                $expr->eq('s.sectorArea4', ':sectorArea'),
+                $expr->eq('s.sectorArea5', ':sectorArea'),
+                $expr->eq('s.sectorArea6', ':sectorArea')
+            ))
             ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
             ->setParameters([
                 'country' => $country,
@@ -177,5 +180,33 @@ class SchoolRepository extends ServiceEntityRepository {
             ])
             ->getQuery()
             ->getResult();
+    }
+
+    function getSchoolsByCoordinates(string $latitude, string $longitude, string $gap): array {
+        $expr = $this->getEntityManager()->createQueryBuilder()->expr();
+
+        return $this->createQueryBuilder('s')
+            ->select('s.id, s.latitude, s.longitude')
+            ->where($expr->andX(
+                $expr->between('s.latitude', ':latMin', ':latMax'),
+                $expr->between('s.longitude', ':longMin', ':longMax'),
+            ))
+            ->setParameters([
+                'latMin' => floatval($latitude),
+                'latMax'=> floatval($latitude) + 10 * floatval($gap),
+                'longMin' => floatval($longitude),
+                'longMax'=> floatval($longitude) + 10 * floatval($gap),
+            ])
+            ->getQuery()
+            ->getResult();
+
+        // var_dump($query->getSQL(),
+        //     floatval($latitude),
+        //     floatval($gap),
+        //     floatval($latitude) + 10 * floatval($gap),
+        //     floatval($longitude),
+        //     floatval($longitude) + 10 * floatval($gap)
+        // ); die();
+        // return $query->getResult();
     }
 }
