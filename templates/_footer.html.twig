@@ -46,7 +46,7 @@
                     title: title,
                     exportOptions: {
                         columns: ':not(.no-print)',
-                        format: { // Duplicate row on selecte options
+                        format: {
                             body: function (data, row, column, node) {
                                 return extractWithoutDuplicateInfo(data);
                             }
@@ -58,7 +58,7 @@
                     title: title,
                     exportOptions: {
                         columns: ':not(.no-print)',
-                        format: { // Duplicate row on selecte options
+                        format: {
                             body: function (data, row, column, node) {
                                 return extractWithoutDuplicateInfo(data);
                             }
@@ -70,8 +70,10 @@
                     title: title,
                     exportOptions: {
                         columns: ':not(.no-print)',
-                        body: function (data, row, column, node) {
-                            return extractWithoutDuplicateInfo(data);
+                        format: {
+                            body: function (data, row, column, node) {
+                                return extractWithoutDuplicateInfo(data);
+                            }
                         }
                     },
                 }, {
@@ -83,9 +85,37 @@
                     className: 'printDashboardPdf',
                     exportOptions: {
                         columns: ':not(.no-print)',
-                        body: function (data, row, column, node) {
-                            return extractWithoutDuplicateInfo(data);
+                        format: {
+                            body: function (data, row, column, node) {
+                                return extractWithoutDuplicateInfo(data);
+                            }
                         }
+                        // format: {
+                        //     body: function (data, row, column, node) {
+                        //         let container = document.createElement('div');
+                        //         container.innerHTML = data;
+                        //         let text = container.textContent;
+                        //
+                        //         if (text === 'true') {
+                        //             debugger;
+                        //             return 'OK';
+                        //         } else if (text === 'false') {
+                        //             return 'OK';
+                        //         }
+                        //
+                        //         return data;
+                        //     }
+                        // }
+                    },
+                    customize : function(doc) {
+                        if (document.getElementById('kz_table_with_width_export')) {
+                            doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        }
+                        // doc.content[1].table.body.forEach(function(row){
+                        //     debugger;
+                        //     row[4].fillColor = '#ff0000';
+                        //     row[4].textColor = '#ff0000';
+                        // });
                     },
                 }],
                 dom: {
@@ -99,11 +129,12 @@
             },
             retrieve: false
         };
-        let optionsWithRetrieve = options.retrieve = true
+        let optionsWithRetrieve = options.retrieve = true;
 
         $('#kz_table').DataTable(options);
         $('#kz_table_retrieve').DataTable(optionsWithRetrieve);
         $('#kz_table_with_export').DataTable(options);
+        $('#kz_table_with_width_export').DataTable(options);
 
         // Export Dashboard to PDF
 

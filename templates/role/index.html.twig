@@ -11,24 +11,13 @@
                     {{ 'role.list_of_roles' | trans }}
                 </h6>
                 <div class="element-box">
-                    {# <div class="controls-above-table"> #}
-                    {# <div class="row"> #}
-                    {# <div class="col-sm-6"> #}
-                    {#  #}
-                    {# <a class="btn btn-sm btn-primary" href="#">Archiver</a> #}
-                    {# <a class="btn btn-sm btn-primary" href="{{ path('role_new') }}"> #}
-                    {# <i class="fa fa-plus"></i> Nouveau rôle</a> #}
-                    {# </div> #}
-                    {# </div> #}
-                    {# </div> #}
                     <div class="table-responsive">
-                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap"
+                        <table id="kz_table_with_width_export" class="table table-striped table-bordered dt-responsive nowrap"
                                style="width:100%">
                             <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>{{ 'menu.name' | trans }}</th>
-                                {# <th class="no-print">Actions</th> #}
                             </tr>
                             </thead>
                             <tbody>
@@ -36,11 +25,6 @@
                                 <tr>
                                     <td><a href="#">{{ role.id }}</a></td>
                                     <td>{{ role.role }}</td>
-                                    {# <td class="row-actions">
-                                        <a href="{{ path('role_edit', { 'id': role.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                        <a href="{{ path('role_show', { 'id': role.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                        <a class="danger" href="#"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
-                                    </td> #}
                                 </tr>
                             {% endfor %}
                             </tbody>
