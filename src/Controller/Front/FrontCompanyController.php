@@ -8,6 +8,7 @@ use App\Form\CompanyType;
 use App\Form\SatisfactionCompanyType;
 use App\Repository\SatisfactionCompanyRepository;
 use App\Repository\UserRepository;
+use App\Repository\CompanyRepository;
 use App\Services\CompanyService;
 use App\Services\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,19 +30,22 @@ class FrontCompanyController extends AbstractController {
 	private SatisfactionCompanyRepository $satisfactionCompanyRepository;
 	private UserRepository $userRepository;
 	private EmailService $emailService;
+    private CompanyRepository $companyRepository;
 
 	public function __construct(
 		EntityManagerInterface        $em,
 		CompanyService                $companyService,
 		SatisfactionCompanyRepository $satisfactionCompanyRepository,
 		UserRepository                $userRepository,
-		EmailService                  $emailService
+		EmailService                  $emailService,
+        CompanyRepository             $companyRepository
 	) {
 		$this->em = $em;
 		$this->companyService = $companyService;
 		$this->satisfactionCompanyRepository = $satisfactionCompanyRepository;
 		$this->userRepository = $userRepository;
 		$this->emailService = $emailService;
+        $this->companyRepository = $companyRepository;
 	}
 
 	#[Route(path: '/new', name: 'front_company_new', methods: ['GET', 'POST'])]
@@ -326,7 +330,55 @@ class FrontCompanyController extends AbstractController {
 				}
 			}
 		}
-
 		return $this->redirectToRoute('logout');
 	}
+
+    #[Route(path: '/getCompaniesByCoordinates', name: 'get_companies_by_coordinates', methods: ['GET'])]
+    public function getCompaniesByCoordinates(Request $request): JsonResponse|Response {
+        $currentLatitude = floatval($request->get('latitude'));
+        $currentLongitude = floatval($request->get('longitude'));
+        $gap = floatval($request->get('gap'));
+        $currentCompany = $this->companyService->getCompany();
+        $currentId = $currentCompany->getId();
+        $newLatitude = null;
+        $newLongitude = null;
+
+        // recherche en base les coordonnées des entreprises de la ville
+        $coordinates = $this->companyRepository->getCompaniesByCityForCoordinates($currentCompany->getCity());
+
+        foreach ($coordinates as $coordinate) {
+            $companyId = intval($coordinate['id']);
+            $companyLatitude = floatval($coordinate['latitude']);
+            $companyLongitude = floatval($coordinate['longitude']);
+
+            if($companyId != $currentId) {
+                // echo (strval($currentId) . " CUR(" .
+                //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
+                //     strval($schoolId) . " -> MAX(" .
+                //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> SCH(" .
+                //     strval($schoolLatitude) . "," . strval($schoolLongitude) .')<br>');
+
+                // Recherche de l'entreprise le plus éloignée dans la zone $gap*10
+                if((($companyLatitude >= $currentLatitude ) && ($companyLatitude <= $currentLatitude + $gap * 10)) &&
+                    (($companyLongitude >= $currentLongitude ) && ($companyLongitude <= $currentLongitude + $gap * 10))) {
+                    // echo('--->OK<br>');
+                    if($newLatitude < $companyLatitude) $newLatitude = $companyLatitude;
+                    if($newLongitude < $companyLongitude) $newLongitude = $companyLongitude;
+                }
+            }
+        }
+        // echo ("NEW-->" . strval($newLatitude) . "," . strval($newLongitude) .' --> ');
+        // echo (strval($newLatitude+$gap) . "," . strval($newLongitude) .'<br>');
+        // die();
+
+        if(($newLatitude == null) || ($newLongitude == null)) {
+            $newCoordinates = ['latitude'=>$currentLatitude, 'longitude'=>$currentLongitude];
+        } else {
+            $newLongitude += $gap;
+            $newCoordinates = ['latitude' => $newLatitude, 'longitude' => $newLongitude];
+        }
+
+        $result = ['company_id'=> $currentId, 'coordinates' => $newCoordinates];
+        return new JsonResponse($result);
+    }
 }

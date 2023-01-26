@@ -12,6 +12,7 @@ use App\Form\PersonDegreeType;
 use App\Entity\School;
 use App\Repository\JobOfferRepository;
 use App\Repository\UserRepository;
+use App\Repository\PersonDegreeRepository;
 use App\Services\ActivityService;
 use App\Services\CompanyService;
 use App\Services\EmailService;
@@ -41,6 +42,7 @@ class FrontPersonDegreeController extends AbstractController {
 	private UserRepository $userRepository;
 	private CompanyService $companyService;
 	private FileUploader $fileUploader;
+    private PersonDegreeRepository $personDegreeRepository;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -49,8 +51,9 @@ class FrontPersonDegreeController extends AbstractController {
 		JobOfferRepository     $jobOfferRepository,
 		EmailService           $emailService,
 		UserRepository         $userRepository,
-		CompanyService $companyService,
-		FileUploader $fileUploader
+		CompanyService          $companyService,
+		FileUploader            $fileUploader,
+        PersonDegreeRepository  $personDegreeRepository,
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -60,6 +63,7 @@ class FrontPersonDegreeController extends AbstractController {
 		$this->userRepository = $userRepository;
 		$this->companyService = $companyService;
 		$this->fileUploader = $fileUploader;
+        $this->personDegreeRepository = $personDegreeRepository;
 	}
 
 	#[Route(path: '/new', name: 'front_persondegree_new', methods: ['GET', 'POST'])]
@@ -387,4 +391,53 @@ class FrontPersonDegreeController extends AbstractController {
 		}
 		return $this->redirectToRoute('logout');
 	}
+
+    #[Route(path: '/getPersondegreesByCoordinates', name: 'get_persondegrees_by_coordinates', methods: ['GET'])]
+    public function getPersondegreesByCoordinates(Request $request): JsonResponse|Response {
+        $currentLatitude = floatval($request->get('latitude'));
+        $currentLongitude = floatval($request->get('longitude'));
+        $gap = floatval($request->get('gap'));
+        $currentPersondegree = $this->personDegreeService->getPersonDegree();
+        $currentId = $currentPersondegree->getId();
+        $newLatitude = null;
+        $newLongitude = null;
+
+        // recherche en base les coordonnées des diplômés de la ville
+        $coordinates = $this->personDegreeRepository->getPersondegreesByCityForCoordinates($currentPersondegree->getAddressCity());
+
+        foreach ($coordinates as $coordinate) {
+            $personDegreeId = intval($coordinate['id']);
+            $personDegreeLatitude = floatval($coordinate['latitude']);
+            $personDegreeLongitude = floatval($coordinate['longitude']);
+
+            if($personDegreeId != $currentId) {
+                // echo (strval($currentId) . " CUR(" .
+                //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
+                //     strval($personDegreeId) . " -> MAX(" .
+                //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> PD(" .
+                //     strval($personDegreeLatitude) . "," . strval($personDegreeLongitude) .')<br>');
+
+                // Recherche du diplômé le plus éloigné dans la zone $gap*10
+                if((($personDegreeLatitude >= $currentLatitude ) && ($personDegreeLatitude <= $currentLatitude + $gap * 10)) &&
+                    (($personDegreeLongitude >= $currentLongitude ) && ($personDegreeLongitude <= $currentLongitude + $gap * 10))) {
+                    // echo('--->OK<br>');
+                    if($newLatitude < $personDegreeLatitude) $newLatitude = $personDegreeLatitude;
+                    if($newLongitude < $personDegreeLongitude) $newLongitude = $personDegreeLongitude;
+                }
+            }
+        }
+        // echo ("NEW-->" . strval($newLatitude) . "," . strval($newLongitude) .' --> ');
+        // echo (strval($newLatitude+$gap) . "," . strval($newLongitude) .'<br>');
+        // die();
+
+        if(($newLatitude == null) || ($newLongitude == null)) {
+            $newCoordinates = ['latitude'=>$currentLatitude, 'longitude'=>$currentLongitude];
+        } else {
+            $newLongitude += $gap;
+            $newCoordinates = ['latitude' => $newLatitude, 'longitude' => $newLongitude];
+        }
+
+        $result = ['personDegree_id'=> $currentId, 'coordinates' => $newCoordinates];
+        return new JsonResponse($result);
+    }
 }

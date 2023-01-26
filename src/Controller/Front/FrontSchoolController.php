@@ -832,11 +832,50 @@ class FrontSchoolController extends AbstractController {
 
     #[Route(path: '/getSchoolsByCoordinates', name: 'get_schools_by_coordinates', methods: ['GET'])]
     public function getSchoolsByCoordinates(Request $request): JsonResponse|Response {
-        $latitude = $request->get('latitude');
-        $longitude = $request->get('longitude');
-        $gap = $request->get('gap');
+        $currentLatitude = floatval($request->get('latitude'));
+        $currentLongitude = floatval($request->get('longitude'));
+        $gap = floatval($request->get('gap'));
+        $currentSchool = $this->schoolService->getSchool();
+        $currentId = $currentSchool->getId();
+        $newLatitude = null;
+        $newLongitude = null;
 
-        $result = ['school_id'=> $this->schoolService->getSchool()->getId(), 'datas' => $this->schoolRepository->getSchoolsByCoordinates($latitude, $longitude, $gap)];
+        // recherche en base les coordonnées des établissements de la ville
+        $coordinates = $this->schoolRepository->getSchoolsByCityForCoordinates($currentSchool->getCity());
+
+        foreach ($coordinates as $coordinate) {
+            $schoolId = intval($coordinate['id']);
+            $schoolLatitude = floatval($coordinate['latitude']);
+            $schoolLongitude = floatval($coordinate['longitude']);
+
+            if($schoolId != $currentId) {
+                // echo (strval($currentId) . " CUR(" .
+                //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
+                //     strval($schoolId) . " -> MAX(" .
+                //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> SCH(" .
+                //     strval($schoolLatitude) . "," . strval($schoolLongitude) .')<br>');
+
+                // Recherche de l'établissement le plus éloigné dans la zone $gap*10
+                if((($schoolLatitude >= $currentLatitude ) && ($schoolLatitude <= $currentLatitude + $gap * 10)) &&
+                   (($schoolLongitude >= $currentLongitude ) && ($schoolLongitude <= $currentLongitude + $gap * 10))) {
+                    // echo('--->OK<br>');
+                    if($newLatitude < $schoolLatitude) $newLatitude = $schoolLatitude;
+                    if($newLongitude < $schoolLongitude) $newLongitude = $schoolLongitude;
+                }
+            }
+        }
+        // echo ("NEW-->" . strval($newLatitude) . "," . strval($newLongitude) .' --> ');
+        // echo (strval($newLatitude+$gap) . "," . strval($newLongitude) .'<br>');
+        // die();
+
+        if(($newLatitude == null) || ($newLongitude == null)) {
+            $newCoordinates = ['latitude'=>$currentLatitude, 'longitude'=>$currentLongitude];
+        } else {
+            $newLongitude += $gap;
+            $newCoordinates = ['latitude' => $newLatitude, 'longitude' => $newLongitude];
+        }
+
+        $result = ['school_id'=> $currentId, 'coordinates' => $newCoordinates];
         return new JsonResponse($result);
     }
 
@@ -978,5 +1017,59 @@ class FrontSchoolController extends AbstractController {
              $err[] = "Ce numéro de téléphone est déja utilisé";
          }
          return ([$user, $password, $err]);
+    }
+
+    #[Route(path: '/changePersonDegreePhoneMobile1', name: 'change_person_degree_phonemobile1', methods: ['GET'])]
+    public function changePersonDegreePhoneMobile1(Request$request): JsonResponse|Response {
+        $personDegreeId = $request->query->get('id');
+        $newPhoneMobile1 = $request->query->get('phoneMobile1');
+        $result = "";
+
+        if((!$this->userRepository->findByPhone($newPhoneMobile1))&&
+            (!$this->personDegreeRepository->findByPhoneMobile1($newPhoneMobile1))) {
+            $personDegree = $this->personDegreeRepository->find($personDegreeId);
+            if($personDegree) {
+                $user = $this->userRepository->find($personDegree->getUser()->getId());
+                $user->setPhone($newPhoneMobile1);
+                $this->em->persist($user);
+
+                $personDegree->setPhoneMobile1($newPhoneMobile1);
+                $this->em->persist($personDegree);
+
+                $this->em->flush();
+
+                $result = 'OK';
+            }
+        } else {
+            $result = 'N° de téléphone déjà utilisé';
+        }
+        return new JsonResponse($result);
+    }
+    #[Route(path: '/changePersonDegreeEmail', name: 'change_person_degree_email', methods: ['GET'])]
+    public function changePersonDegreeEmail(Request$request): JsonResponse|Response {
+        $personDegreeId = $request->query->get('id');
+        $newEmail = $request->query->get('email');
+        $result = "";
+
+        if((!$this->userRepository->findByEmail($newEmail))&&
+           (!$this->personDegreeRepository->findByEmail($newEmail))) {
+               $personDegree = $this->personDegreeRepository->find($personDegreeId);
+               if($personDegree) {
+                   $user = $this->userRepository->find($personDegree->getUser()->getId());
+                   $user->setEmail($newEmail);
+                   $this->em->persist($user);
+
+                   $personDegree->setEmail($newEmail);
+                   $this->em->persist($personDegree);
+
+                   $this->em->flush();
+
+                   $result = 'OK';
+               }
+        } else {
+            $result = 'Email déjà utilisé';
+        }
+
+        return new JsonResponse($result);
     }
 }

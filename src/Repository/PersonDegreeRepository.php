@@ -791,4 +791,36 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
+    function getPersondegreesByCityForCoordinates(City $city): array {
+        return $this->createQueryBuilder('pd')
+            ->select('pd.id, pd.latitude, pd.longitude')
+            ->where('pd.addressCity = :city')
+            ->setParameters([
+                'city' => $city,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return PersonDegree[]
+     */
+    function getWithoutCoordinate(): array {
+        return $this->createQueryBuilder('pd')
+            ->select('pd.id')
+            // ->select('pd.id, c.name as country, ct.name as city, pd.latitude, pd.longitude, pd.createdDate, pd.updatedDate')
+            // ->leftJoin('pd.country', 'c')
+            // ->leftJoin('pd.addressCity', 'ct')
+            ->where('pd.latitude IS NULL')
+            ->orWhere('pd.longitude IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    function getAllWithIdsAndCoordinate(): array {
+        return $this->createQueryBuilder('pd')
+            ->select('pd.id, pd.latitude, pd.longitude')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -39,6 +39,33 @@
                     //recherche des coordonnées avec uniquement l'adresse de la ville
                     await geocodeAddressLocation(getPersondegreCityMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude')
                 }
+
+                // vérifie si les coordonnées pas déjà utilisées avec autre établissement
+                let url = window.location.toString();
+                url = url.replace('/edit', '/getPersondegreesByCoordinates');
+                // alert(url);
+
+                //creation de la data pour json
+                let current_latitude = $('#appbundle_persondegree_latitude').val();
+                let current_longitude = $('#appbundle_persondegree_longitude').val();
+                let gap = 0.0001;
+                let data = { "latitude" : current_latitude,
+                    "longitude" : current_longitude,
+                    "gap" : gap,
+                };
+
+                // appel ajax en get
+                await $.get(url, data).done(function (result) {
+                    let current_id = result['persondegree_id'];
+                    let coordinates = result['coordinates'];
+                    // console.log('current Id = ' + current_id);
+                    // console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
+
+                    // mise à jour des coordonnées recalculées
+                    $('#appbundle_persondegree_latitude').val(coordinates["latitude"]);
+                    $('#appbundle_persondegree_longitude').val(coordinates["longitude"]);
+                    $('#appbundle_persondegree_locationMode').prop("checked", false);
+                });
             }
         });
         // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions

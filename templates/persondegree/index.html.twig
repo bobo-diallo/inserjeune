@@ -67,7 +67,7 @@
                                     {% endif %}
 
                                     {%  if roleUser == "Etablissement" %}
-                                        <td class="row-actions">
+                                        <td class="row-actions d-flex justify-content-between">
                                             {% if personDegree.registrationStudentSchool|length > 0 %}
                                                 {% if personDegree.checkSchool == true %}
                                                   <button class="validStudent" id="validStudent{{ personDegree.id }}" value="1">Dévalider</button>
@@ -105,8 +105,25 @@
                                         ) }}
                                     </td>
                                     <td>{{ personDegree.birthDate|date('d/m/Y') }}</td>
-                                    <td>{{ personDegree.phoneMobile1 }}</td>
-                                    <td>{{ personDegree.email }}</td>
+                                    {%  if roleUser == "Etablissement" %}
+                                        <td id="phoneMobile1{{ personDegree.id }}">
+                                          <button style="margin:0"class="phoneMobile1Student m-0 p-0  border-0" id="changePhoneMobile1{{ personDegree.id }}" onclick="changePhoneMobile1('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></button>
+                                          <button style="display: none;" class="phoneMobile1Student m-0 p-0 border-0" id="savePhoneMobile1{{ personDegree.id }}" onclick="savePhoneMobile1('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/save_16.png') }}" alt="save"></button>
+                                          <button style="display: none;" class="phoneMobile1Student m-0 p-0 border-0" id="cancelPhoneMobile1{{ personDegree.id }}" onclick="cancelPhoneMobile1('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/cancel_16.png') }}" alt="cancel"></button>
+                                          <span class="mr-3" id="spanPhoneMobile1{{ personDegree.id }}">{{ personDegree.phoneMobile1 }}</span>
+                                          <input style="display: none;" class="phoneMobile1Student mt-3" id="inputPhoneMobile1{{ personDegree.id }}">
+                                        </td>
+                                        <td id="email{{ personDegree.id }}">
+                                          <button style="margin:0"class="emailStudent m-0 p-0  border-0" id="changeEmail{{ personDegree.id }}" onclick="changeEmail('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></button>
+                                          <button style="display: none;" class="emailStudent m-0 p-0 border-0" id="saveEmail{{ personDegree.id }}" onclick="saveEmail('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/save_16.png') }}" alt="save"></button>
+                                          <button style="display: none;" class="emailStudent m-0 p-0 border-0" id="cancelEmail{{ personDegree.id }}" onclick="cancelEmail('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/cancel_16.png') }}" alt="cancel"></button>
+                                          <span class="mr-3" id="spanEmail{{ personDegree.id }}">{{ personDegree.email }}</span>
+                                          <input style="display: none;" class="emailStudent mt-3" id="inputEmail{{ personDegree.id }}">
+                                        </td>
+                                    {% else %}
+                                        <td>{{ personDegree.phoneMobile1 }}</td>
+                                        <td>{{ personDegree.email }}</td>
+                                    {% endif %}
                                     {%  if roleUser =="Administrateur" %}
                                         <td>{{ personDegree.country }}</td>
                                         {% if personDegree.schoolId %} <td>{{ personDegree.school }}</td>
@@ -162,6 +179,87 @@
        $(document).ready(function () {
           let table = datatable(true)
        });
+       function changePhoneMobile1 (personDegreeId) {
+          $('#changePhoneMobile1' + personDegreeId).hide();
+          $('#savePhoneMobile1' + personDegreeId).show();
+          $('#cancelPhoneMobile1' + personDegreeId).show();
+          // $('#spanPhoneMobile1' + personDegreeId).hide();
+          $('#inputPhoneMobile1' + personDegreeId).show();
+          $('#inputPhoneMobile1' + personDegreeId).val($('#spanPhoneMobile1' + personDegreeId).text());
+       }
+
+       function cancelPhoneMobile1(personDegreeId) {
+          $('#changePhoneMobile1' + personDegreeId).show();
+          $('#savePhoneMobile1' + personDegreeId).hide();
+          $('#cancelPhoneMobile1' + personDegreeId).hide();
+          // $('#spanPhoneMobile1' + personDegreeId).show();
+          $('#inputPhoneMobile1' + personDegreeId).hide();
+       }
+
+       function savePhoneMobile1(personDegreeId) {
+          if($('#inputPhoneMobile1' + personDegreeId).val() != $('#spanPhoneMobile1' + personDegreeId).text()) {
+             if (confirm('Voulez-vous vraiment modifier le Numéro tel ?')) {
+                let locationref = window.location.href.replace("persondegrees", "");
+                let data = {};
+                data['id'] = personDegreeId
+                data['phoneMobile1'] = $('#inputPhoneMobile1' + personDegreeId).val();
+
+                $.get(locationref + 'changePersonDegreePhoneMobile1', data).done(function (result) {
+                   if (result == "OK") {
+                      $('#changePhoneMobile1' + personDegreeId).show();
+                      $('#savePhoneMobile1' + personDegreeId).hide();
+                      $('#cancelPhoneMobile1' + personDegreeId).hide();
+                      $('#inputPhoneMobile1' + personDegreeId).hide();
+                      $('#spanPhoneMobile1' + personDegreeId).text(data['phoneMobile1']);
+                   } else {
+                      alert('Erreur: Num tel déjà utilisé')
+                   }
+                });
+             }
+          }
+       }
+
+       // initialisation Email
+       function changeEmail(personDegreeId) {
+          $('#changeEmail' + personDegreeId).hide();
+          $('#saveEmail' + personDegreeId).show();
+          $('#cancelEmail' + personDegreeId).show();
+          // $('#spanEmail' + personDegreeId).hide();
+          $('#inputEmail' + personDegreeId).show();
+          $('#inputEmail' + personDegreeId).val($('#spanEmail' + personDegreeId).text());
+       }
+
+       function cancelEmail(personDegreeId) {
+          $('#changeEmail' + personDegreeId).show();
+          $('#saveEmail' + personDegreeId).hide();
+          $('#cancelEmail' + personDegreeId).hide();
+          // $('#spanEmail' + personDegreeId).show();
+          $('#inputEmail' + personDegreeId).hide();
+       }
+
+       function saveEmail(personDegreeId) {
+          if($('#inputEmail' + personDegreeId).val() != $('#spanEmail' + personDegreeId).text()) {
+             if (confirm('Voulez-vous vraiment modifier l\'email ?')) {
+                let locationref = window.location.href.replace("persondegrees", "");
+                let data = {};
+                data['id'] = personDegreeId
+                data['email'] = $('#inputEmail' + personDegreeId).val();
+
+                $.get(locationref + 'changePersonDegreeEmail', data).done(function (result) {
+                   if (result == "OK") {
+                      $('#changeEmail' + personDegreeId).show();
+                      $('#saveEmail' + personDegreeId).hide();
+                      $('#cancelEmail' + personDegreeId).hide();
+                      $('#inputEmail' + personDegreeId).hide();
+                      $('#spanEmail' + personDegreeId).text(data['email']);
+                   } else {
+                      alert('Erreur: Email déjà utilisé')
+                   }
+                });
+             }
+          }
+       }
     </script>
+
 {% endblock %}
 

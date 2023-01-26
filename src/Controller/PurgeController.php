@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\JobOffer;
+use App\Entity\PersonDegree;
 use App\Entity\Role;
 use App\Entity\School;
 use App\Services\SchoolService;
@@ -280,4 +281,268 @@ class PurgeController extends AbstractController {
 		}
 		return ($type);
 	}
+
+    #[Route(path: '/getAllActorsWithoutCoordinate', name: 'get_all_actors_without_coordinate', methods: ['GET'])]
+    public function getAllActorsWithoutCoordinate(Request $request): JsonResponse {
+        $actorType = $request->get('actor');
+        $result= [];
+        if($actorType == 'persondegree') {
+            $actors = $this->personDegreeRepository->getWithoutCoordinate();
+            foreach ($actors as $actor) {
+                $persondegree = $this->personDegreeRepository->find($actor);
+                $city = null; $country = null; $createdDate=null; $updatedDate=null;
+                if($persondegree->getAddressCity())
+                    $city = $persondegree->getAddressCity()->getName();
+                if($persondegree->getCountry())
+                    $country = $persondegree->getCountry()->getName();
+                if($persondegree->getCreatedDate())
+                    $createdDate = $persondegree->getCreatedDate()->format(Utils::FORMAT_FR);
+                if($persondegree->getUpdatedDate())
+                    $updatedDate = $persondegree->getUpdatedDate()->format(Utils::FORMAT_FR);
+
+                $result[] = [
+                    'id'=>$persondegree->getId(),
+                    'country'=>$country,
+                    'city'=>$city,
+                    'actor'=>$actorType,
+                    'error'=>"No Coordinate",
+                    'created_date'=>$createdDate,
+                    'updated_date'=>$updatedDate,
+                ];
+            }
+        } elseif ($actorType == 'school') {
+            $actors = $this->schoolRepository->getWithoutCoordinate();
+            foreach ($actors as $actor) {
+                $school = $this->schoolRepository->find($actor);
+                $city = null; $country = null; $createdDate=null; $updatedDate=null;
+                if($school->getCity())
+                    $city = $school->getCity()->getName();
+                if($school->getCountry())
+                    $country = $school->getCountry()->getName();
+                if($school->getCreatedDate())
+                    $createdDate = $school->getCreatedDate()->format(Utils::FORMAT_FR);
+                if($school->getUpdatedDate())
+                    $updatedDate = $school->getUpdatedDate()->format(Utils::FORMAT_FR);
+
+                $result[] = [
+                    'id'=>$school->getId(),
+                    'country'=>$country,
+                    'city'=>$city,
+                    'actor'=>$actorType,
+                    'error'=>"No Coordinate",
+                    'created_date'=>$createdDate,
+                    'updated_date'=>$updatedDate,
+                ];
+            }
+        } elseif ($actorType == 'company') {
+            $actors = $this->companyRepository->getWithoutCoordinate();
+            foreach ($actors as $actor) {
+                $company = $this->companyRepository->find($actor);
+                $city = null; $country = null; $createdDate=null; $updatedDate=null;
+                if($company->getCity())
+                    $city = $company->getCity()->getName();
+                if($company->getCountry())
+                    $country = $company->getCountry()->getName();
+                if($company->getCreatedDate())
+                    $createdDate = $company->getCreatedDate()->format(Utils::FORMAT_FR);
+                if($company->getUpdatedDate())
+                    $updatedDate = $company->getUpdatedDate()->format(Utils::FORMAT_FR);
+
+                $result[] = [
+                    'id'=>$company->getId(),
+                    'country'=>$country,
+                    'city'=>$city,
+                    'actor'=>$actorType,
+                    'error'=>"No Coordinate",
+                    'created_date'=>$createdDate,
+                    'updated_date'=>$updatedDate,
+                ];
+            }
+        }
+        return new JsonResponse([$result]);
+    }
+
+    #[Route(path: '/updateLocalizationActors', name: 'update_localization_actors', methods: ['GET'])]
+    public function updateLocalizationActors(Request $request): JsonResponse {
+        $actorIds = explode(',',$request->get('ids'));
+        $coos = explode(';',$request->get('coos'));
+        $actorType = $request->get('actorType');
+        $result = [];
+        $error = [];
+
+        if(count($coos) == count($actorIds)) {
+            for ($i = 0; $i < count($actorIds); $i++) {
+                $actor=null;
+                if ($actorType == 'persondegree') {
+                    $actor = $this->personDegreeRepository->find($actorIds[$i]);
+                } elseif ($actorType == 'school') {
+                    $actor = $this->schoolRepository->find($actorIds[$i]);
+                } elseif ($actorType == 'company') {
+                    $actor = $this->companyRepository->find($actorIds[$i]);
+                }
+
+                $coo = explode(',', $coos[$i]);
+                $newCoos = $this->getNewCoordinatesNearActorsInCountry($actorType, $actorIds[$i], $coo[0], $coo[1]);
+
+                // var_dump($coo[0], $coo[1]);
+                // var_dump($newCoos['latitude'],$newCoos['longitude']); die();
+
+                if($newCoos['latitude'] && $newCoos['longitude']) {
+                    $actor->setLatitude($newCoos['latitude']);
+                    $actor->setLongitude($newCoos['longitude']);
+                } else {
+                    $actor->setLatitude($coo[0]);
+                    $actor->setLongitude($coo[1]);
+                }
+                $actor->setLocationMode(false);
+
+                $this->em->persist($actor);
+                $this->em->flush();
+
+                $result[] = $actor->getId();
+            }
+            return new JsonResponse([$result,$error]);
+        }
+        return new JsonResponse("Incorrect Data Input");
+    }
+    private function getNewCoordinatesNearActorsInCountry (
+        string $actorType,
+        int $currentId,
+        float $currentLatitude,
+        float $currentLongitude): array {
+            $gap = 0.0001;
+            $newLatitude = null;
+            $newLongitude = null;
+            $coordinates = [];
+
+            // recherche en base les coordonnées des acteurs de la ville
+            if($actorType == "persondegree") {
+                $currentPersondegree = $this->personDegreeRepository->find($currentId);
+                $coordinates = $this->personDegreeRepository->getPersondegreesByCityForCoordinates($currentPersondegree->getCity());
+            } else if($actorType == "school") {
+                $currentSchool = $this->schoolRepository->find($currentId);
+                $coordinates = $this->schoolRepository->getSchoolsByCityForCoordinates($currentSchool->getCity());
+            } else if($actorType == "company") {
+                $currentCompany = $this->companyRepository->find($currentId);
+                $coordinates = $this->companyRepository->getCompaniesByCityForCoordinates($currentCompany->getCity());
+            }
+
+            foreach ($coordinates as $coordinate) {
+                $actorId = intval($coordinate['id']);
+                $actorLatitude = floatval($coordinate['latitude']);
+                $actorLongitude = floatval($coordinate['longitude']);
+
+                // Recherche de l'établissement le plus éloigné dans la zone $gap*10
+                if($actorId != $currentId) {
+                    // echo (strval($currentId) . " CUR(" .
+                    //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
+                    //     strval($schoolId) . " -> MAX(" .
+                    //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> SCH(" .
+                    //     strval($schoolLatitude) . "," . strval($schoolLongitude) .')<br>');
+
+                    if((($actorLatitude >= $currentLatitude ) && ($actorLatitude <= $currentLatitude + $gap * 10)) &&
+                        (($actorLongitude >= $currentLongitude ) && ($actorLongitude <= $currentLongitude + $gap * 10))) {
+                        // echo('--->OK<br>');
+                        if($newLatitude < $actorLatitude) $newLatitude = $actorLatitude;
+                        if($newLongitude < $actorLongitude) $newLongitude = $actorLongitude;
+                    }
+                }
+            }
+            // echo ("NEW-->" . strval($newLatitude) . "," . strval($newLongitude) .' --> ');
+            // echo (strval($newLatitude+$gap) . "," . strval($newLongitude) .'<br>');
+            // die();
+
+            if(($newLatitude == null) || ($newLongitude == null)) {
+                $newCoordinates = ['latitude'=>$currentLatitude,
+                                   'longitude'=>$currentLongitude];
+            } else {
+                $newLongitude += $gap;
+                $newCoordinates = ['latitude' => $newLatitude,
+                                   'longitude' => $newLongitude];
+            }
+
+            return $newCoordinates;
+        }
+
+    // private function getByDuplicatesCoordinates (
+    #[Route(path: '/getAllActorsWithDuplicateCoordinate', name: 'get_all_actors_with_duplicate_coordinate', methods: ['GET'])]
+    public function getAllActorsWithDuplicateCoordinate(Request $request): JsonResponse {
+        $actorType = $request->get('actor');
+        $actors = [];
+        $result = [];
+        $errors = [];
+
+        if($actorType == 'persondegree') {
+            $actors = $this->personDegreeRepository->getAllWithIdsAndCoordinate();
+        } elseif ($actorType == 'school') {
+            $actors = $this->schoolRepository->getAllWithIdsAndCoordinate();
+        } elseif ($actorType == 'company') {
+            $actors = $this->companyRepository->getAllWithIdsAndCoordinate();
+        }
+
+        $actorsWithIdenticalCoordinates = [];
+        // $test = [];
+        for ($i = 0; $i < count($actors); $i++) {
+            for ($j = $i; $j < count($actors); $j++) {
+                if(($actors[$i]['id'] != $actors[$j]['id']) &&
+                   ($actors[$i]['latitude'] == $actors[$j]['latitude']) &&
+                   ($actors[$i]['longitude'] == $actors[$j]['longitude'])) {
+                    // $test[] = $actors[$i]['id'] . '->'. $actors[$j]['id'];
+                        if(!in_array($actors[$j]['id'],$actorsWithIdenticalCoordinates)) {
+                            $actorsWithIdenticalCoordinates[] = $actors[$j]['id'];
+                        }
+                }
+            }
+        }
+        foreach ($actorsWithIdenticalCoordinates as $actorsWithIdenticalCoordinate) {
+            $actor = null;
+            $city = null;
+            $country = null;
+            $latitude = null;
+            $longitude = null;
+            $createdDate = null;
+            $updatedDate = null;
+
+            if($actorType == 'persondegree') {
+                $actor = $this->personDegreeRepository->find($actorsWithIdenticalCoordinate);
+            } elseif ($actorType == 'school') {
+                $actor = $this->schoolRepository->find($actorsWithIdenticalCoordinate);
+            } elseif ($actorType == 'company') {
+                $actor = $this->companyRepository->find($actorsWithIdenticalCoordinate);
+            }
+
+            if($actor) {
+                if($actorType == 'persondegree') {
+                    if ($actor->getAddressCity())
+                        $city = $actor->getAddressCity()->getName();
+                } else {
+                    if ($actor->getCity())
+                        $city = $actor->getCity()->getName();
+                }
+                if ($actor->getCountry())
+                    $country = $actor->getCountry()->getName();
+                if ($actor->getLatitude())
+                    $latitude = $actor->getLatitude();
+                if ($actor->getLongitude())
+                    $longitude = $actor->getLongitude();
+                if ($actor->getCreatedDate())
+                    $createdDate = $actor->getCreatedDate()->format(Utils::FORMAT_FR);
+                if ($actor->getUpdatedDate())
+                    $updatedDate = $actor->getUpdatedDate()->format(Utils::FORMAT_FR);
+
+                $result[] = [
+                    'id' => $actor->getId(),
+                    'country' => $country,
+                    'city' => $city,
+                    'actor' => $actorType,
+                    'error' => "duplicate coo",
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                    'created_date' => $createdDate,
+                    'updated_date' => $updatedDate,
+                ];
+            }
+        }
+        return new JsonResponse([$result, $errors]);
+    }
 }
