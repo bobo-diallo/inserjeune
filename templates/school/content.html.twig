@@ -46,39 +46,23 @@
             //creation de la data pour json
             let current_latitude = $('#appbundle_school_latitude').val();
             let current_longitude = $('#appbundle_school_longitude').val();
-            let gap = 0.0001
+            let gap = 0.0001;
             let data = { "latitude" : current_latitude,
                          "longitude" : current_longitude,
-                         // "gap" : gap,
-                         "gap" : "0",
+                         "gap" : gap,
             };
 
             // appel ajax en get
             await $.get(url, data).done(function (result) {
-               // debugger;
-               let schools = result['datas'];
                let current_id = result['school_id'];
+               let coordinates = result['coordinates'];
+               // console.log('current Id = ' + current_id);
+               // console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
 
-               console.log("getSchoolsByCoordinates : ");
-               console.log('current Id = ' + result['school_id']);
-               console.log(schools);
-
-               // recherche si nouvelle position géographique pas déjà utilisée
-               for (let i = 0; i < schools.length; i++) {
-                  if(current_id == schools[i].id)
-                     for (let j = 1; j < 10; j++) { //matrice X
-                        for (let k = 0; k < 10; k++) { //matrice Y
-                           if((parseFloat(current_latitude) != (parseFloat(schools[i].latitude) + gap * j)) ||
-                              (parseFloat(current_longitude) != (parseFloat(schools[i].longitude) + gap * k))) {
-                                 $('#appbundle_school_latitude').val(parseFloat(schools[i].latitude) + gap * j);
-                                 $('#appbundle_school_longitude').val(parseFloat(schools[i].longitude) + gap * k);
-                                 console.log("---------->>>" + schools[i].id + " " + schools[i].latitude + " " + schools[i].longitude);
-                                 k = 10; j = 10 ; //sortie de la boucle
-                           }
-                        }
-                     }
-                     console.log(schools[i].id + " " + schools[i].latitude + " " + schools[i].longitude);
-               }
+               // mise à jour des coordonnées recalculées
+               $('#appbundle_school_latitude').val(coordinates["latitude"]);
+               $('#appbundle_school_longitude').val(coordinates["longitude"]);
+               $('#appbundle_school_locationMode').prop("checked", false);
             });
          }
       });
@@ -298,7 +282,7 @@
          // parcoure les cellules de la table
          $($row).each(function(index) {
             let idCheckbox = "#checkbox_" + index;
-            console.log("idCheckbox =" + idCheckbox);
+            // console.log("idCheckbox =" + idCheckbox);
 
             // si l'activité est validée
             if($(idCheckbox).is(':checked')) {
@@ -348,14 +332,14 @@
                   }
                }
 
-               console.log("num_sector  = " + numSector);
+               // console.log("num_sector  = " + numSector);
                // ajout filière
                if(numSector > -1) {
                   let schoolActivity = "#appbundle_school_activities" + numSector + " option";
                   $(schoolActivity).each(function () {
-                     console.log("currentActivity  = " + currentActivity + " | " + $(this).text());
+                     // console.log("currentActivity  = " + currentActivity + " | " + $(this).text());
                      if ($(this).text() == currentActivity) {
-                        console.log("  " + $(this).val());
+                        // console.log("  " + $(this).val());
                         $(this).prop('selected', true);
 
                         // désactive la proposition de filière

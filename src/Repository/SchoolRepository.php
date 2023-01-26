@@ -182,31 +182,37 @@ class SchoolRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    function getSchoolsByCoordinates(string $latitude, string $longitude, string $gap): array {
-        $expr = $this->getEntityManager()->createQueryBuilder()->expr();
-
+    function getSchoolsByCityForCoordinates(City $city): array {
         return $this->createQueryBuilder('s')
             ->select('s.id, s.latitude, s.longitude')
-            ->where($expr->andX(
-                $expr->between('s.latitude', ':latMin', ':latMax'),
-                $expr->between('s.longitude', ':longMin', ':longMax'),
-            ))
+            ->where('s.city = :city')
             ->setParameters([
-                'latMin' => floatval($latitude),
-                'latMax'=> floatval($latitude) + 10 * floatval($gap),
-                'longMin' => floatval($longitude),
-                'longMax'=> floatval($longitude) + 10 * floatval($gap),
+                'city' => $city,
             ])
             ->getQuery()
             ->getResult();
+    }
 
-        // var_dump($query->getSQL(),
-        //     floatval($latitude),
-        //     floatval($gap),
-        //     floatval($latitude) + 10 * floatval($gap),
-        //     floatval($longitude),
-        //     floatval($longitude) + 10 * floatval($gap)
-        // ); die();
-        // return $query->getResult();
+    function getWithoutCoordinate(): array {
+        return $this->createQueryBuilder('s')
+            ->select('s.id')
+            ->where('s.latitude IS NULL')
+            ->orWhere('s.longitude IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    function getByDuplicateCoordinate(): array {
+        return $this->createQueryBuilder('s1')
+            ->where('(s1.latitude, s1.longitude) IN (SELECT longitude, latitude FROM App\Entity\School GROUP BY longitude, latitude HAVING COUNT(*) > 1)')
+            ->getQuery()
+            ->getResult();
+    }
+
+    function getAllWithIdsAndCoordinate(): array {
+        return $this->createQueryBuilder('s')
+            ->select('s.id, s.latitude, s.longitude')
+            ->getQuery()
+            ->getResult();
     }
 }

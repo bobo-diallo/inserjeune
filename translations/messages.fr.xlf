@@ -845,6 +845,14 @@
         <source>menu.other_type</source>
         <target>Autre type</target>
       </trans-unit>
+      <trans-unit id="menu.actor">
+        <source>menu.actor</source>
+        <target>Acteur</target>
+      </trans-unit>
+      <trans-unit id="menu.offer">
+        <source>menu.offer</source>
+        <target>Offre d'emploi</target>
+      </trans-unit>
 
       <!--  Notification email send  -->
       <trans-unit id="notification.enrollment_email_send_successful">

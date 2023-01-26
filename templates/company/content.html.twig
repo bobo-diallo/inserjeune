@@ -150,6 +150,33 @@
                         await geocodeAddressLocation(getCompanyCityMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
                     }
 
+                    // vérifie si les coordonnées pas déjà utilisées avec autre établissement
+                    let url = window.location.toString();
+                    url = url.replace('/edit', '/getCompaniesByCoordinates');
+                    // alert(url);
+
+                    //creation de la data pour json
+                    let current_latitude = $('#appbundle_company_latitude').val();
+                    let current_longitude = $('#appbundle_company_longitude').val();
+                    let gap = 0.0001;
+                    let data = { "latitude" : current_latitude,
+                        "longitude" : current_longitude,
+                        "gap" : gap,
+                    };
+
+                    // appel ajax en get
+                    await $.get(url, data).done(function (result) {
+                        let current_id = result['company_id'];
+                        let coordinates = result['coordinates'];
+                        console.log('current Id = ' + current_id);
+                        console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
+
+                        // mise à jour des coordonnées recalculées
+                        $('#appbundle_company_latitude').val(coordinates["latitude"]);
+                        $('#appbundle_company_longitude').val(coordinates["longitude"]);
+                        $('#appbundle_company_locationMode').prop("checked", false);
+                    });
+
                     setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
                         console.log('Coordonnees map recupérées ....');
                         $('#submitCompany').trigger('click');

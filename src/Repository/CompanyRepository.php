@@ -334,4 +334,31 @@ class CompanyRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
+
+    function getCompaniesByCityForCoordinates(City $city): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.id, c.latitude, c.longitude')
+            ->where('c.city = :city')
+            ->setParameters([
+                'city' => $city,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    function getWithoutCoordinate(): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.id')
+            ->where('c.latitude IS NULL')
+            ->orWhere('c.longitude IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    function getAllWithIdsAndCoordinate(): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.id, c.latitude, c.longitude')
+            ->getQuery()
+            ->getResult();
+    }
 }

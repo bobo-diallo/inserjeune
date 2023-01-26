@@ -17,12 +17,15 @@
             <img src="{{ asset('build/images/icon/purge.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
             <h6 class="element-header"> Nettoyage </h6>
 
-            <div class="cleanMenu" onclick="swichMenu()">
-               <div class="menuDown" id="menuActor">
-                  <p>{{ 'Acteurs' | trans}}</p>
+            <div class="row cleanMenu">
+               <div class="col-3 menuDown" id="menuActor" onclick="activateActorMenu()">
+                  <p>{{ 'menu.actor' | trans}}</p>
                </div>
-               <div class="menuUp" id="menuOffer">
-                  <p>{{ 'Offres d\'emploi' | trans}}</p>
+               <div class="col-3 menuUp" id="menuOffer" onclick="activateOfferMenu()">
+                  <p>{{ 'menu.offer' | trans}}</p>
+               </div>
+               <div class="col-3 menuUp" id="menuLocalization" onclick="activateLocalizationMenu()">
+                  <p>{{ 'menu.localization' | trans}}</p>
                </div>
             </div>
 
@@ -80,7 +83,6 @@
                </fieldset>
             </div>
 
-
             {# Zone Offres emplois #}
             <div class="element-box" id="offerElement">
                <fieldset>
@@ -120,6 +122,56 @@
                   </div>
                </fieldset>
             </div>
+
+            {# Zone Localisation calcul coordonnées #}
+            <div class="element-box" id="localizationElement">
+               <fieldset>
+                  <legend><span>{{ 'menu.localization' | trans}}</span></legend>
+                  <div class="row align-items-end">
+                     <div class="form-group col-sm-12 execute">
+                        <p class="mt-1 font-weight-bold">Recherche des Acteurs sans localisation</p>
+                        <button class="btn btn-sm btn-primary" id="findPersonDegreesWithoutCoordinate" onclick="findActorWithoutLocation('persondegree')">Liste des Diplômés </button>
+                        <button class="btn btn-sm btn-primary" id="findSchoolsWithoutCoordinate" onclick="findActorWithoutLocation('school')">Liste des Etablissements </button>
+                        <button class="btn btn-sm btn-primary" id="findCompaniesWithoutCoordinate" onclick="findActorWithoutLocation('company')">Liste des Entreprises </button>
+
+                        <p class="mt-3 font-weight-bold">Recherche des Acteurs avec coordonnées identiques</p>
+                        <button class="btn btn-sm btn-primary" id="findPersonDegreesWithoutCoordinate" onclick="findActorWithIdenticalLocation('persondegree')">Liste des Diplômés </button>
+                        <button class="btn btn-sm btn-primary" id="findSchoolsWithoutCoordinate" onclick="findActorWithIdenticalLocation('school')">Liste des Etablissements </button>
+                        <button class="btn btn-sm btn-primary" id="findCompaniesWithoutCoordinate" onclick="findActorWithIdenticalLocation('company')">Liste des Entreprises </button>
+                     </div>
+                  </div>
+                  <div class="purge row align-items-end"  style="position: relative">
+                     <div class="kz_loader" id="kz_loader_localization">chargement de la table</div>
+                     <div class="table-responsive">
+                        <table id="kz_localization_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                           <thead>
+                           <tr>
+                              <th class="no-print selection">Selection</th>
+                              <th>Id</th>
+                              <th>Pays</th>
+                              <th>Ville</th>
+                              <th>Acteur</th>
+                              <th>Erreur</th>
+                              <th>Latidude</th>
+                              <th>Longitude</th>
+                              <th>Date création</th>
+                              <th>Date modification</th>
+                           </tr>
+                           </thead>
+                           <tbody id="tbodyLocalization">
+
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="execute">
+                     <button class="btn btn-sm btn-primary" id="selectAllLocalization" onclick="selectAlllocalization()">Tout Selectionner</button>
+                     <button class="btn btn-sm btn-primary" id="findLocalization" onclick="findSelectedActorsWithoutLocation()">Recherche des coordonnées</button>
+                     <button class="btn btn-sm btn-primary" id="updateLocalization" onclick="updateSelectedActorsWithoutLocation()">Mise à jour des coordonnées</button>
+                     <button class="btn btn-sm btn-primary" id="clearLocalizationTableWithoutCoordinate" onclick="clearLocalizationTable()">vider la table</button>
+                  </div>
+               </fieldset>
+            </div>
          </div>
       </div>
       <select hidden id="countryNumber">
@@ -144,25 +196,47 @@
 {% endblock %}
 
 {% block js %}
+   <script async defer
+           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"
+           type="text/javascript">
+   </script>
    <script>
       /* Menu selection */
+      $('#actorElement').show();
       $('#offerElement').hide();
-      function swichMenu() {
-         if($('#menuActor').hasClass('menuDown')) {
-            $('#menuActor').removeClass('menuDown');
-            $('#menuActor').addClass('menuUp');
-            $('#menuOffer').removeClass('menuUp');
-            $('#menuOffer').addClass('menuDown');
-            $('#actorElement').hide();
-            $('#offerElement').show();
-         } else {
-            $('#menuActor').removeClass('menuUp');
-            $('#menuActor').addClass('menuDown');
-            $('#menuOffer').removeClass('menuDown');
-            $('#menuOffer').addClass('menuUp');
-            $('#actorElement').show();
-            $('#offerElement').hide();
-         }
+      $('#localizationElement').hide();
+      function activateActorMenu() {
+         $('#menuActor').removeClass('menuUp');
+         $('#menuActor').addClass('menuDown');
+         $('#menuOffer').removeClass('menuDown');
+         $('#menuOffer').addClass('menuUp');
+         $('#menuLocalization').removeClass('menuDown');
+         $('#menuLocalization').addClass('menuUp');
+         $('#actorElement').show();
+         $('#offerElement').hide();
+         $('#localizationElement').hide();
+      }
+      function activateOfferMenu() {
+         $('#menuActor').removeClass('menuDown');
+         $('#menuActor').addClass('menuUp');
+         $('#menuOffer').removeClass('menuUp');
+         $('#menuOffer').addClass('menuDown');
+         $('#menuLocalization').removeClass('menuDown');
+         $('#menuLocalization').addClass('menuUp');
+         $('#actorElement').hide();
+         $('#offerElement').show();
+         $('#localizationElement').hide();
+      }
+      function activateLocalizationMenu() {
+         $('#menuActor').removeClass('menuDown');
+         $('#menuActor').addClass('menuUp');
+         $('#menuOffer').removeClass('menuDown');
+         $('#menuOffer').addClass('menuUp');
+         $('#menuLocalization').removeClass('menuUp');
+         $('#menuLocalization').addClass('menuDown');
+         $('#actorElement').hide();
+         $('#offerElement').hide();
+         $('#localizationElement').show();
       }
 
       /* set $locationRef pourles appels Ajax */
@@ -188,6 +262,14 @@
          }
       }
 
+      function selectAlllocalization() {
+         if($('.localizationCheck').first().is(':checked')) {
+            $('.localizationCheck').prop('checked', false);
+         } else {
+            $('.localizationCheck').prop('checked', true);
+         }
+      }
+
       function clearUserTable() {
          $('#kz_actor_table').DataTable().clear();
          $('#kz_actor_table').DataTable().destroy();
@@ -196,6 +278,11 @@
       function clearOfferTable() {
          $('#kz_offer_table').DataTable().clear();
          $('#kz_offer_table').DataTable().destroy();
+      }
+
+      function clearLocalizationTable() {
+         $('#kz_localization_table').DataTable().clear();
+         $('#kz_localization_table').DataTable().destroy();
       }
 
       function removeSelected() {
@@ -215,8 +302,8 @@
                datas['ids'] = struser;
 
                $.get($locationRef + 'removeActors/', datas).done(function (res) {
-                  console.log("nb erreurs " + res[1].length);
-                  if(res[1].length>0) {
+                  // console.log("nb erreurs " + res[1].length);
+                  /*if(res[1].length>0) {
                      console.log("erreurs rencontrées " + res[1]);
                      alert(res[1]);
                   } else {
@@ -225,7 +312,7 @@
                         //console.log("  --> " + id);
                         $('#'+ id).parents('tr').remove().draw;
                      })
-                  }
+                  }*/
                })
             }
       }
@@ -309,7 +396,7 @@
       }
 
       function findOffers(action) {
-         let datas = []
+         let datas = [];
          datas = new Object();
          datas['action'] = action;
          $('#kz_loader_offer').css("display", "flex");
@@ -317,10 +404,10 @@
 
             $('#kz_offer_table').DataTable().clear();
             $('#kz_offer_table').DataTable().destroy();
-
-            if(res[2].length > 0) {
-               console.log(res[3]);
-            }
+            //
+            // if(res[2].length > 0) {
+            //    console.log(res[3]);
+            // }
 
             if(res[0].length == 0) {
                $('#kz_loader_offer').css("display", "none")
@@ -368,6 +455,194 @@
          }, "json");
       }
 
+      function findActorWithoutLocation(actor) {
+         let datas = [];
+         datas = new Object();
+         datas['actor'] = actor;
+         $('#kz_loader_localization').css("display", "flex");
+         $('#findLocalization').show();
+
+         // console.log($locationRef + ",  " + actor);
+         $.get($locationRef + 'getAllActorsWithoutCoordinate/', datas).done(function (res) {
+
+            $('#kz_localization_table').DataTable().clear();
+            $('#kz_localization_table').DataTable().destroy();
+             // console.log(res[0][0].id);
+
+            if(res[0].length == 0) {
+               $('#kz_loader_localization').css("display", "none")
+            }
+
+            res[0].forEach(function (localization) {
+               // console.log(user.name);
+               let html = '<tr class="userClean" role="row">';
+               html += '    <td class="row-actions sorting_1">';
+               html += '       <input type="checkbox" class="localizationCheck" id="' + localization.id + '" >';
+               html += '    </td>';
+               html += '    <td class="tdinput"><p id="p_id' + localization.id + '">' + localization.id + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_country' + localization.id + '">' + localization.country + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_city' + localization.id + '">' + localization.city + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_actor' + localization.id + '">' + localization.actor + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_error' + localization.id + '">' + localization.error + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_latitude' + localization.id + '">' + localization.latitude + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_longitude' + localization.id + '">' + localization.longitude + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_created_date' + localization.id + '">' + localization.created_date + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_updated_date' + localization.id + '">' + localization.updated_date + '</p></td>';
+               html += '</tr>';
+               $('#tbodyLocalization').append(html);
+               $('#kz_loader_localization').css("display", "none")
+            })
+
+            if(res[0].length > 0) {
+               //$("#kz_localization_table").dataTable().draw;
+               $('#kz_localization_table').dataTable({
+                  'columnDefs': [
+                     {'max-width': '10%', 'selection': 0}
+                  ],
+               });
+            }
+
+            //console.log (res );
+         }, "json");
+      }
+
+      function findActorWithIdenticalLocation(actor) {
+         let datas = [];
+         datas = new Object();
+         datas['actor'] = actor;
+         $('#kz_loader_localization').css("display", "flex");
+         $('#findLocalization').hide();
+
+         // console.log($locationRef + ",  " + actor);
+         $.get($locationRef + 'getAllActorsWithDuplicateCoordinate/', datas).done(function (res) {
+
+            $('#kz_localization_table').DataTable().clear();
+            $('#kz_localization_table').DataTable().destroy();
+            // console.log(res[0][0].id);
+
+            if(res[0].length == 0) {
+               $('#kz_loader_localization').css("display", "none")
+            }
+
+            res[0].forEach(function (localization) {
+               // console.log(user.name);
+               let html = '<tr class="userClean" role="row">';
+               html += '    <td class="row-actions sorting_1">';
+               html += '       <input type="checkbox" class="localizationCheck" id="' + localization.id + '" >';
+               html += '    </td>';
+               html += '    <td class="tdinput"><p id="p_id' + localization.id + '">' + localization.id + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_country' + localization.id + '">' + localization.country + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_city' + localization.id + '">' + localization.city + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_actor' + localization.id + '">' + localization.actor + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_error' + localization.id + '">' + localization.error + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_latitude' + localization.id + '">' + localization.latitude + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_longitude' + localization.id + '">' + localization.longitude + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_created_date' + localization.id + '">' + localization.created_date + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_updated_date' + localization.id + '">' + localization.updated_date + '</p></td>';
+               html += '</tr>';
+               $('#tbodyLocalization').append(html);
+               $('#kz_loader_localization').css("display", "none")
+            })
+
+            if(res[0].length > 0) {
+               //$("#kz_localization_table").dataTable().draw;
+               $('#kz_localization_table').dataTable({
+                  'columnDefs': [
+                     {'max-width': '10%', 'selection': 0}
+                  ],
+               });
+            }
+
+            //console.log (res );
+         }, "json");
+      }
+
+      function findSelectedActorsWithoutLocation() {
+         $('.localizationCheck').each(function () {
+            if ($(this).is(':checked')) {
+               //calcule les coodonnées avec API Google Maps
+               let address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
+                   $('#p_country' + $(this).attr('id')).text();
+               let latInputID = '#p_latitude' + $(this).attr('id');
+               let lngInputID = '#p_longitude' + $(this).attr('id');
+
+               getGeocodeAddressLocation(address, latInputID, lngInputID);
+            }
+         });
+      }
+
+      function updateSelectedActorsWithoutLocation() {
+         let nbActors = 0;
+         let nbCoo = 0;
+         let stractor = "";
+         let strcoo = "";
+         let actorType = null;
+
+         // deselectionne les checkBox sans coordonnées
+         $('.localizationCheck').each(function () {
+            let latInputID = '#p_latitude' + $(this).attr('id');
+            let lngInputID = '#p_longitude' + $(this).attr('id');
+
+            if($(this).is(':checked')) {
+               if (($(latInputID).text() == "undefined") || ($(lngInputID).text() == "undefined")) {
+                  $(this).prop("checked", false);
+               }
+            }
+         });
+
+         $('.localizationCheck').each(function () {
+            if($(this).is(':checked')) {
+
+               //récupère les coodonnées calculées avec API Google Maps
+               if(nbCoo>0)
+                  strcoo+=';';
+               let address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
+                   $('#p_country' + $(this).attr('id')).text();
+               let latInputID = '#p_latitude' + $(this).attr('id');
+               let lngInputID = '#p_longitude' + $(this).attr('id');
+
+               if(($(latInputID).text() != "undefined") && ($(lngInputID).text() != "undefined")) {
+                  strcoo += $(latInputID).text() + ',' + $(lngInputID).text();
+                  nbCoo++;
+
+                  // selectionne les acteurs sélectionnés
+                  if (nbActors > 0)
+                     stractor += ',';
+                  stractor += $(this).attr('id');
+                  nbActors++;
+
+                  // type d'utilisateur à mettre à jour
+                  if (nbActors == 1) {
+                     actorType = $('#p_actor' + $(this).attr('id')).text();
+                  }
+               }
+            }
+         });
+
+         if(nbActors > 0)
+            if(confirm("Voulez vous mettre à jour les coordonnées de ces " + nbActors + " acteurs ?")) {
+               datas = new Object();
+               datas['ids'] = stractor;
+               datas['actorType'] = actorType;
+               datas['coos'] = strcoo;
+               // datas[] = ['ids'=>stractor];
+
+               $.get($locationRef + 'updateLocalizationActors/', datas).done(function (res) {
+                  console.log("nb erreurs " + res[1].length);
+                  if(res[1].length>0) {
+                     console.log("erreurs rencontrées " + res[1]);
+                     alert(res[1]);
+                  } else {
+                     console.log("Mise à jour des coordonnées : "+ res[0]);
+                     res[0].forEach(function (id) {
+                        console.log("  --> " + id);
+                        $('#'+ id).parents('tr').remove().draw;
+                     })
+                  }
+               })
+            }
+      }
+
       $('#selectCountry').change(function () {
          let countryId = $(this).val();
          let countryNumber = '';
@@ -375,14 +650,14 @@
          $('#countryNumber option').each(function () {
             if( $(this).val() == countryId) {
                countryNumber = $(this).text();
-               console.log(countryNumber + " " + countryNumber.length)
+               // console.log(countryNumber + " " + countryNumber.length)
             }
          })
 
          $('#countryDigit option').each(function () {
             if( $(this).val() == countryId) {
                let sizeOfPhone = ('+' +  countryNumber).length + parseInt($(this).text());
-               console.log('sizeOfPhone = ' + sizeOfPhone);
+               // console.log('sizeOfPhone = ' + sizeOfPhone);
 
                /* contraint le nombre de numéros par rapport au nombre de digits du pays */
                $('#userPhone').attr('size',sizeOfPhone);
@@ -401,5 +676,29 @@
             }
          });
       });
+   </script>
+   <script>
+      async function getGeocodeAddressLocation(address, latInputID, lngInputID) {
+         // setTimeout(function () {
+         // }, 5000);
+
+         let geocoder = new google.maps.Geocoder();
+         let erreur = true;
+         await geocoder.geocode({'address': address}, function (results, status) {
+            // console.log("Result: " + results + ", Status: " + status)
+            if (status == 'OK') {
+               let lat = results[0].geometry.location.lat().toPrecision(7);
+               let lng = results[0].geometry.location.lng().toPrecision(7);
+               $(latInputID).text(lat.toString());
+               $(lngInputID).text(lng.toString());
+               //console.log(address + " coo->" + lat + "," + lng);
+               erreur = false;
+               return true;
+            } else {
+               console.log("Echec de recherche Latitude/Longitude : " + address);
+               return false;
+            }
+         });
+      }
    </script>
 {% endblock %}
