@@ -6,6 +6,7 @@ use App\Repository\CountryRepository;
 use App\Repository\JobOfferRepository;
 use App\Repository\RegionRepository;
 use App\Services\DashboardService;
+use App\Services\CompanyService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,23 +25,30 @@ class DashboardController extends AbstractController {
 	private JobOfferRepository $jobOfferRepository;
 	private RegionRepository $regionRepository;
 	private DashboardService $dashboardService;
+    private CompanyService $companyService;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		CountryRepository      $countryRepository,
 		JobOfferRepository     $jobOfferRepository,
 		RegionRepository       $regionRepository,
-		DashboardService $dashboardService
+		DashboardService       $dashboardService,
+        CompanyService         $companyService
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
 		$this->jobOfferRepository = $jobOfferRepository;
 		$this->regionRepository = $regionRepository;
 		$this->dashboardService = $dashboardService;
+        $this->companyService = $companyService;
 	}
 
 	#[Route(path: '/', name: 'dashboard_index', methods: ['GET', 'POST'])]
 	public function indexAction(Request $request): Response {
+        if ($this->getUser()->getCompany()) {
+            if(!$this->companyService->checkSatisfaction($this->getUser()->getCompany()))
+                return $this->redirectToRoute('front_company_satisfactioncompany_new');
+        }
 		return $this->dashboardService->checkAccountBefore(function () use ($request) {
 			$validCountries = $this->countryRepository->findBy(['valid' => 'true']);
 

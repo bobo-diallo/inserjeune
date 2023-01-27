@@ -119,13 +119,19 @@ class EmailService {
 		return $message;
 	}
 
-	public function sendCandidateMail(Candidate $candidate, JobOffer $jobOffer): bool {
+	public function sendCandidateMail(Candidate $candidate, JobOffer $jobOffer, ?string $emailCopy): bool {
 		$pathCv = $this->parameterBag->get('brochures_directory') . DIRECTORY_SEPARATOR . $candidate->getCvFilename();
 		$pathCoverLetter = $this->parameterBag->get('brochures_directory') . DIRECTORY_SEPARATOR . $candidate->getCoverLetterFilename();
 
-		$email = (new Email())
-			->from($this->parameterBag->get('email_from'))
-			->to($jobOffer->getPostedEmail())
+        $emailBuilder = (new Email())
+            ->from($this->parameterBag->get('email_from'))
+            ->to($jobOffer->getPostedEmail());
+
+        if ($emailCopy) {
+            $emailBuilder = $emailBuilder->cc($emailCopy);
+        }
+
+		$email = $emailBuilder
 			->replyTo($this->parameterBag->get('email_from'))
 			->subject('Candidature via IFEF - ' . $jobOffer->getTitle())
 			->html($candidate->getMessage())

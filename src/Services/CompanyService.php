@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use App\Repository\JobOfferRepository;
+use App\Repository\SatisfactionCompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,6 +21,7 @@ class CompanyService {
 	private RequestStack $requestStack;
 	private RouterInterface $router;
 	private JobOfferRepository $jobOfferRepository;
+    private SatisfactionCompanyRepository $satisfactionCompanyRepository;
 
 	public function __construct(
 		TokenStorageInterface $tokenStorage,
@@ -27,7 +29,8 @@ class CompanyService {
 		CompanyRepository $companyRepository,
 		RequestStack $requestStack,
 		RouterInterface $router,
-		JobOfferRepository $jobOfferRepository
+		JobOfferRepository $jobOfferRepository,
+        SatisfactionCompanyRepository $satisfactionCompanyRepository
 	) {
 		$this->tokenStorage = $tokenStorage;
 		$this->manager = $manager;
@@ -35,6 +38,7 @@ class CompanyService {
 		$this->requestStack = $requestStack;
 		$this->router = $router;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->satisfactionCompanyRepository = $satisfactionCompanyRepository;
 	}
 
 	public function getCompany(): ?Company {
@@ -67,4 +71,24 @@ class CompanyService {
 			return $executionActionController();
 		}
 	}
+
+    public function checkSatisfaction(Company $company): bool {
+        $lastSatisfaction = $this->satisfactionCompanyRepository->getLastSatisfaction($company);
+        $currentDate = new \DateTime();
+
+        if($lastSatisfaction) {
+            $remindAnnualDate = clone $lastSatisfaction->getUpdatedDate();
+            $remindAnnualDate = $remindAnnualDate->add(new \DateInterval('P1Y'));
+
+            if($currentDate >= $remindAnnualDate) {
+                $this->requestStack->getSession()->getFlashBag()->set('warning', "Merci de créer une nouvelle enquête de satisfaction.");
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            $this->requestStack->getSession()->getFlashBag()->set('warning', "Merci de répondre à l'enquête de satisfaction.");
+            return false;
+        }
+    }
 }
