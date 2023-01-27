@@ -418,7 +418,7 @@ class PurgeController extends AbstractController {
             // recherche en base les coordonnées des acteurs de la ville
             if($actorType == "persondegree") {
                 $currentPersondegree = $this->personDegreeRepository->find($currentId);
-                $coordinates = $this->personDegreeRepository->getPersondegreesByCityForCoordinates($currentPersondegree->getCity());
+                $coordinates = $this->personDegreeRepository->getPersondegreesByCityForCoordinates($currentPersondegree->getAddressCity());
             } else if($actorType == "school") {
                 $currentSchool = $this->schoolRepository->find($currentId);
                 $coordinates = $this->schoolRepository->getSchoolsByCityForCoordinates($currentSchool->getCity());
@@ -460,7 +460,6 @@ class PurgeController extends AbstractController {
                 $newCoordinates = ['latitude' => $newLatitude,
                                    'longitude' => $newLongitude];
             }
-
             return $newCoordinates;
         }
 
