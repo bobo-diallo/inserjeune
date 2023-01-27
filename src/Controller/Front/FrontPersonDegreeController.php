@@ -214,7 +214,12 @@ class FrontPersonDegreeController extends AbstractController {
 				$personDegree = $this->personDegreeService->getPersonDegree();
 				$candidate->setCandidateName(preg_replace('/ /', '_', strtolower($personDegree->getFirstname() . '_' . $personDegree->getLastname())));
 
-				if ($this->emailService->sendCandidateMail($candidate, $jobOffer)) {
+                $personDegreeEmail = null;
+                if ($personDegree->getEmail()) {
+                    $personDegreeEmail = $personDegree->getEmail();
+                }
+
+				if ($this->emailService->sendCandidateMail($candidate, $jobOffer, $personDegreeEmail)) {
 					$this->addFlash('success', 'Votre candididature est envoyée avec success.');
                     $jobOffer->addCandidateSended($personDegree->getUser()->getId());
                     $this->em->persist($jobOffer);

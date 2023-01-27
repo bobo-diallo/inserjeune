@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -129,6 +130,9 @@ class FrontCompanyController extends AbstractController {
 					}
 					$company->setUser($this->getUser());
 					$this->em->flush();
+
+                    if(!$this->companyService->checkSatisfaction($this->getUser()->getCompany()))
+                        return $this->redirectToRoute('front_company_satisfactioncompany_new');
 
 					return $this->redirectToRoute('front_company_show');
 				} else {
