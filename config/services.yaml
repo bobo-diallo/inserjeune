@@ -114,3 +114,8 @@ services:
         arguments:
             $targetDirectory: '%brochures_directory%'
             $avatarsDirectory: '%avatars_directory%'
+
+
+    App\Event\Listener\SessionTimeoutListener:
+        tags:
+            - { name: kernel.event_subscriber }

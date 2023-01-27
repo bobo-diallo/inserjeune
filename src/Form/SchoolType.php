@@ -121,7 +121,7 @@ class SchoolType extends AbstractType {
 			->add('degrees', EntityType::class, [
 				'class' => Degree::class,
 				'attr' => ['class' => 'form-control'],
-				'required' => false,
+				'required' => true,
 				'multiple' => true,
 				'placeholder' => 'Sélectionnez',
 			])

@@ -24,7 +24,7 @@ class JobOffer {
 	private ?string $title;
 
 	#[ORM\Column(name: 'description', type: 'text', nullable: true)]
-	#[Assert\Length(min: '20')]
+	#[Assert\Length(min: '20', max: 2000)]
 	private ?string $description;
 
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
@@ -94,6 +94,7 @@ class JobOffer {
 	private bool $isView = false;
 
 	#[ORM\Column(name: 'candidate_profile', type: 'text', nullable: true)]
+	#[Assert\Length(min: '20', max: 2000)]
 	private ?string $candidateProfile;
 
     #[ORM\Column(name: 'candidate_sended', type: 'text', nullable: true)]
