@@ -1023,3 +1023,30 @@ global.getBaseUrl = function () {
 
    return $locationRef;
 }
+
+// Déconnexion de l'utilisateur après un certain temps d'inactivité.
+let timeout;
+global.startTimeout = function () {
+   timeout = setTimeout(() => {
+      // Dispatch the event
+      checkInactivity();
+   }, 1800000); // 600000 ms = 10 minutes, 1800000 = 30 minutes
+}
+
+// Reset the timeout when the user is active
+document.onmousemove = document.onkeypress = () => {
+   // console.log('user is active::::');
+   clearTimeout(timeout);
+   startTimeout();
+};
+
+global.checkInactivity = function(){
+   $.post('/fr/dispatch-session-timeout-event', []).then(function (response) {
+      if (response.status !== undefined && response.status === 'success') {
+         window.location.href = "/fr/logout";
+      }
+
+   })
+}
+
+startTimeout();

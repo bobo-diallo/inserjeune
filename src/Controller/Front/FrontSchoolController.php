@@ -658,7 +658,8 @@ class FrontSchoolController extends AbstractController {
 		        }
 		        if (count($err) == 0) {
 			        $this->em->flush();
-					// $this->emailService->sendNotificationEnrollementDegree($personDegree, $school);
+					// Notify student
+					// $this->emailService->sendNotificationEnrollmentDegree($personDegree, $school);
 			        $res = [
 						"id" => $personDegree->getId(),
 				        "userId" => $personDegree->getUser()->getId(),

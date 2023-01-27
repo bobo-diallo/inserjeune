@@ -57,10 +57,6 @@ class JobOfferType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner l\'email ', 'placeholder' => 'Email pour postuler'],
 				'required' => true
 			])
-			// ->add('coverLetter', TextType::class, [
-			// 	'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Lettre de Motivation'],
-			// 	'required' => false
-			// ])
 			->add('sectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'required' => true,
