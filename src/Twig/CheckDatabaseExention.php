@@ -92,17 +92,18 @@ class CheckDatabaseExention extends AbstractExtension {
 			$degreeMonth = $lastDegreeMonth;
 		}
 
+        $currentDate = new \DateTime();
 		$degreeDateStr = $lastDegreeYear . "-" . $degreeMonth . "-1"; // 2017-7-1
 		$degreeDate = new \DateTime($degreeDateStr);
-		$oldDegreeDate =  clone $degreeDate;
-		$compareDate = $oldDegreeDate->add(new \DateInterval('P6M'));
+        $compareDate3Month =  clone $degreeDate;
+        $compareDate6Month =  clone $degreeDate;
+		$compareDate3Month = $compareDate3Month->add(new \DateInterval('P3M'));
+		$compareDate6Month = $compareDate6Month->add(new \DateInterval('P6M'));
 
-		$offsetDays = $compareDate->diff(new \DateTime())->format('%R%a');
-
-		if ($offsetDays < 0) {
+		if ($currentDate < $compareDate3Month) {
 			$color = $cBlanc;
 			$border = $bNoir;
-		} elseif (($offsetDays < 20)) {
+		} elseif ($currentDate < $compareDate6Month) {
 			$color = $cOrange;
 			$border = $bNone;
 		} else {
@@ -158,5 +159,4 @@ class CheckDatabaseExention extends AbstractExtension {
 		}
 		return $html;
 	}
-
 }
