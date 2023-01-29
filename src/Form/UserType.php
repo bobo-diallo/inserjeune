@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -36,6 +37,22 @@ class UserType extends AbstractType {
 						->orderBy('a.name', 'ASC');
 				}
 			])
+            ->add('diaspora', CheckboxType::class, [
+                'attr' => ['class' => 'form-control', 'label' => 'Diaspora ?'],
+                'required' => false
+            ])
+            ->add('residenceCountry', EntityType::class, [
+                'class' => Country::class,
+                'placeholder' => 'Sélectionnez votre pays de résidence',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'Pays non autorisé ou inconnu',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('a')
+                        ->orderBy('a.name', 'ASC');
+                }
+            ])
 			->add('phone', TextType::class, [
 				'attr' => [
 					'class' => 'form-control',

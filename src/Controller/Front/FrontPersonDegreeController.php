@@ -76,8 +76,11 @@ class FrontPersonDegreeController extends AbstractController {
 		$personDegree->setLocationMode(true);
 
 		$selectedCountry = $this->getUser()->getCountry();
+        $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
 
-		$form = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
+		$form = $this->createForm(PersonDegreeType::class, $personDegree, [
+            'selectedCountry' => $selectedCountry->getId()
+            ]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -100,7 +103,8 @@ class FrontPersonDegreeController extends AbstractController {
 			'personDegree' => $personDegree,
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+			'residenceCountryPhoneCode' => $residenceCountryPhoneCode
 		]);
 	}
 
@@ -127,7 +131,9 @@ class FrontPersonDegreeController extends AbstractController {
 			if (!$selectedCountry)
 				$selectedCountry = $personDegree->getCountry();
 
-			$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
+            $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
+
+            $editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
 			$editForm->handleRequest($request);
 
 			if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -166,7 +172,8 @@ class FrontPersonDegreeController extends AbstractController {
 				'personDegree' => $personDegree,
 				'edit_form' => $editForm->createView(),
 				'allActivities' => $this->activityService->getAllActivities(),
-				'selectedCountry' => $selectedCountry
+				'selectedCountry' => $selectedCountry,
+                'residenceCountryPhoneCode' => $residenceCountryPhoneCode
 			]);
 		});
 	}

@@ -326,6 +326,4 @@ trait Person {
 
 		return $this;
 	}
-
-
 }

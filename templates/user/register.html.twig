@@ -16,9 +16,26 @@
     <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form) | raw }}</div>
     <form action="{{ path('register_create_account') }}" method="post">
       {{ form_widget(form._token) }}
+      <div id="diaspora" class="form-group">
+        <div class="col-sm-12 form-check diaspora d-flex justify-content-end">
+          <label for="">Diaspora: </label>
+          {{ form_widget(form.diaspora) }}
+          <div class="slider round">
+            <span class="non">{{ 'menu.no' | trans }}</span>
+            <span class="oui">{{ 'menu.yes' | trans }}</span>
+          </div>
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.diaspora) }}</div>
+        </div>
+      </div>
       <div class="form-group">
         <label for="">   {{ 'menu.country' | trans }} </label>
         {{ form_widget(form.country) }}
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+      </div>
+      <div id="residenceCountry" class="form-group" style="display: none">
+        <label for="">   {{ 'menu.residence_country' | trans }} </label>
+        {{ form_widget(form.residenceCountry) }}
         <div class="pre-icon os-icon os-icon-user-male-circle"></div>
         <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
       </div>
@@ -68,23 +85,65 @@
       </div>
     </form>
     <select hidden id="indTel">
-      {% for country in countries %}
+      {% for country in allCountries %}
         <option value="{{ country.id }}">{{ country.phoneCode }}</option>
       {% endfor %}
     </select>
 {% endblock fos_user_content %}
 {% block fos_user_script %}
 <script>
+   showResidenceCountry ();
+   $('#userbundle_user_typePerson').on('change', function (e) {
+      if ($('#userbundle_user_typePerson option:selected').val() != 'ROLE_DIPLOME' ) {
+         $('#userbundle_user_diaspora').prop('checked',false);
+         $('#diaspora').hide();
+         showResidenceCountry ();
+      } else {
+         $('#diaspora').show();
+      }
+   })
+
+   $('#userbundle_user_diaspora').on('change', function (e) {
+      showResidenceCountry ();
+      let selectedCountry = null;
+      if($('#userbundle_user_diaspora').is(':checked')) {
+         selectedCountry = $('#userbundle_user_residenceCountry option:selected').val();
+      } else {
+         selectedCountry = $('#userbundle_user_country option:selected').val();
+      }
+      getIndTel(selectedCountry);
+   })
+
+   function showResidenceCountry () {
+      if ($('#userbundle_user_diaspora').is(':checked')) {
+         $('#residenceCountry').show();
+      } else {
+         $('#residenceCountry').hide();
+      }
+   }
    // $(document).ready(function () {
    $('#userbundle_user_country').on('change', function (e) {
-      let selectedCountry = $('#userbundle_user_country option:selected').val();
+      let selectedCountry = null;
+      if($('#userbundle_user_diaspora').is(':checked')) {
+         selectedCountry = $('#userbundle_user_residenceCountry option:selected').val();
+      } else {
+         selectedCountry = $('#userbundle_user_country option:selected').val();
+      }
+      getIndTel(selectedCountry);
+   })
+
+   $('#userbundle_user_residenceCountry').on('change', function (e) {
+      let selectedCountry = $('#userbundle_user_residenceCountry option:selected').val();
+      getIndTel(selectedCountry);
+   })
+
+   function getIndTel(selectedCountry) {
       let phoneCode = '+' + $('#indTel option[value=' +selectedCountry+ ']').text();
 
-      // alert($('#indTel option[value='+ selectedCountry +']').val() + " " + $('#indTel option[value=' +selectedCountry+ ']').text())
       $('#phone_code').html('+' + $('#indTel option[value=' +selectedCountry+ ']').text());
       $('#userbundle_user_phone').attr('placeholder', phoneCode  + '  + Numéro de Téléphone' );
       $('#userbundle_user_phone').val(phoneCode);
-   })
+   }
 
    $('#submitRegister').on('click', function (e) {
       e.preventDefault();

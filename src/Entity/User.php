@@ -35,6 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	private ?Country $country = null;
 
+    #[ORM\Column(name: 'diaspora', type: 'boolean')]
+    private bool $diaspora = false;
+
+    #[ORM\ManyToOne(targetEntity: Country::class)]
+    private ?Country $residenceCountry = null;
+
 	#[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
 	protected ?string $phone;
@@ -357,5 +363,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		return $this;
 	}
 
+    /**
+     * @return Country|null
+     */
+    public function getResidenceCountry(): ?Country
+    {
+        return $this->residenceCountry;
+    }
+
+    /**
+     * @param Country|null $residenceCountry
+     */
+    public function setResidenceCountry(?Country $residenceCountry): void
+    {
+        $this->residenceCountry = $residenceCountry;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDiaspora(): bool
+    {
+        return $this->diaspora;
+    }
+
+    /**
+     * @param bool $diaspora
+     */
+    public function setDiaspora(bool $diaspora): void
+    {
+        $this->diaspora = $diaspora;
+    }
 
 }

@@ -140,6 +140,9 @@
 
                 // verification de l'indicatif pays
                 let indPersonDegree = '+' + $('#countryPhoneCode').val();
+                if($('#residenceCountryPhoneCode').val()) {
+                    indPersonDegree = '+' + $('#residenceCountryPhoneCode').val();
+                }
                 let indPhone = $phoneNumber.substr(0, indPersonDegree.length);
 
                 if (indPhone != indPersonDegree) {

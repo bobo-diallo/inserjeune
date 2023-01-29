@@ -153,6 +153,10 @@
         <source>menu.country</source>
         <target>Country</target>
       </trans-unit>
+      <trans-unit id="menu.residence_country">
+        <source>menu.residence_country</source>
+        <target>Country of residence</target>
+      </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
         <target>Region</target>
