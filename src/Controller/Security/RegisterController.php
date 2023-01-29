@@ -79,6 +79,7 @@ class RegisterController extends AbstractController {
 		$form->handleRequest($request);
 
 		$countries = $this->countryRepository->findByValid(true);
+		$allCountries = $this->countryRepository->findAll();
 
 		$isValidPhone = false;
 
@@ -87,6 +88,7 @@ class RegisterController extends AbstractController {
 
 			$typePerson = $request->get('userbundle_user')['typePerson'];
 			$country = $user->getCountry();
+            $residenceCountry = null;
 
 			if ($typePerson != Role::ROLE_ADMIN && !$country) {
 				$this->addFlash('danger', 'Le champs pays est obligatoire');
@@ -97,12 +99,34 @@ class RegisterController extends AbstractController {
 				]);
 			}
 
+            if (isset ($request->get('userbundle_user')['diaspora'])) {
+                $residenceCountryStr = $request->get('userbundle_user')['residenceCountry'];
+                if( ! $residenceCountryStr) {
+                    $this->addFlash('danger', 'Le champs Pays de résidence est obligatoire');
+                    return $this->render('user/register.html.twig', [
+                        'user' => $user,
+                        'form' => $form->createView(),
+                        'countries' => $countries
+                    ]);
+                //Récupération du pays de résidence
+                } else {
+                    $residenceCountry = $this->countryRepository->find($residenceCountryStr);
+                    // var_dump($residenceCountry); die();
+                }
+            }
+
 			//verification de l'indicatif pays
 			$phoneCode = '+' . $country->getPhoneCode();
+            if($residenceCountry) {
+                $phoneCode = '+' . $residenceCountry->getPhoneCode();
+            }
 			$nationalPhone = "";
 
 			//verification du nombre de digits téléphonique du pays
 			$phoneDigit = '+' . $country->getPhoneDigit();
+            if($residenceCountry) {
+                $phoneDigit = '+' . $residenceCountry->getPhoneDigit();
+            }
 
 			if (strncmp($phoneCode, $user->getPhone(), strlen($phoneCode)) === 0) {
 				$nationalPhone = substr($user->getPhone(), strlen($phoneCode));
@@ -192,7 +216,8 @@ class RegisterController extends AbstractController {
 		return $this->render('user/register.html.twig', [
 			'user' => $user,
 			'form' => $form->createView(),
-			'countries' => $countries
+			'countries' => $countries,
+            'allCountries' => $allCountries
 		]);
 	}
 

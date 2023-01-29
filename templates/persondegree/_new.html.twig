@@ -239,6 +239,7 @@
   {%  endif %}
 </select>
 <input style="display: none" value="{{ personDegree.country.phoneCode }}" id="countryPhoneCode">
+<input style="display: none" value="{{ residenceCountryPhoneCode }}" id="residenceCountryPhoneCode">
 <input style="display: none" value="{{ personDegree.checkSchool }}" id="checkSchool">
 <select hidden id="schoolRegion">
   {% for region in selectedCountry.regions %}
