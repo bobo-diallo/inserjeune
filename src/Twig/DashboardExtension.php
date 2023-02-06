@@ -920,7 +920,6 @@ class DashboardExtension extends AbstractExtension {
 
         // set $endDuration to the end of the day to have the lasted changed
         $endDuration = $endDuration->modify('+23 hour')->modify('+59 minute');
-
         if (count($datas) == 2) {
             if ($datas[1] == 'mois') {
                 $beginDuration = $beginDuration->sub(new DateInterval('P' . $datas[0] . 'M'));
@@ -940,8 +939,8 @@ class DashboardExtension extends AbstractExtension {
         string   $duration,
         ?School   $school,
         \DateTime $beginDate,
-        \DateTime $endDate): string
-    {
+        \DateTime $endDate): string  {
+
         $country = $this->countryRepository->find($idCountry);
         $region = $this->regionRepository->find($idRegion);
 
@@ -967,7 +966,6 @@ class DashboardExtension extends AbstractExtension {
                         $dates[] = $personDegree->getCreatedDate();
                     }
                 }
-
             } elseif ($type == 'Quizz') {
                 foreach ($personDegrees as $personDegree) {
                     $satisfactionFound = false;
@@ -1074,10 +1072,23 @@ class DashboardExtension extends AbstractExtension {
             $legend[] = $suffixLegend . $i;
         }
 
+        // décalage du $beginDate en fonction du $endDate
+        $testEndDate = (clone $beginDate)->modify('+23 hour')->modify('+59 minute');
+        for ($i = 0; $i < $nbXInterval; $i++) {
+            $testEndDate = $testEndDate->add(new \DateInterval('P' . $intervalDuration . 'D'));
+        }
+        if($testEndDate < $endDate) {
+            $beginDate = $beginDate->add(new \DateInterval('P' . $intervalDuration . 'D'));
+        }
+
+        // recherche du nombre d'occurence a chaque date
         foreach ($dates as $date) {
             $startDate = clone $beginDate;
-            $stopDate = (clone $beginDate)->add(new \DateInterval('P' . $intervalDuration . 'D'));
-            for ($i = 0; $i < $nbXInterval; $i++) {
+            $stopDate = (clone $beginDate)->add(new \DateInterval('P' . $intervalDuration-1 . 'D'))
+                ->modify('+23 hour')->modify('+59 minute');
+
+            // echo("<br>date "); echo ($date->format("d M Y H:i:s")); echo("<br>") ;
+            for ($i = 0; $i < $nbXInterval ; $i++) {
                 if (($date >= $startDate) && ($date <= $stopDate)) {
                     $resultats[$i]++;
                 }
