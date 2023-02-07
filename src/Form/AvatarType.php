@@ -25,6 +25,7 @@ class AvatarType extends AbstractType {
 						'maxSize' => '2048k',
 						'mimeTypes' => ['image/jpeg', 'image/png'],
 						'mimeTypesMessage' => 'Please upload a JPEG or PNG image',
+						'maxSizeMessage' => 'File size must be less than 2 M0',
 					])
 				],
 			])

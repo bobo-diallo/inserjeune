@@ -1,6 +1,7 @@
 {% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_DIPLOME') == true %} {% set base = 'base_degree.html.twig' %}
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% else %} {% set base = 'base.html.twig' %}
 {% endif %}
@@ -35,7 +36,9 @@
                                     <div class="form-group">
                                         <label> {{ 'menu.current_files' | trans }}</label>
                                         <div class="form-control">
-                                            <img src="{{ asset(form.file.vars.data.pathname) }}" alt="image" style="max-width: 200px; max-height: 150px;"></div>
+                                            <img src="{{ asset(form.file.vars.data.pathname) }}" alt="image" style="max-width: 200px; max-height: 150px;">
+                                        </div>
+                                        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.file)}}</div>
                                     </div>
                                 {% endif %}
 
@@ -48,13 +51,13 @@
                                             <div class="fileinput-preview fileinput-exists thumbnail"
                                                  style="max-width: 200px; max-height: 150px;"></div>
                                             <div>
-                                  <span class="btn default btn-file">
-                                    <button class="btn fileinput-new"
-                                            style="text-transform: none"> {{ 'menu.select_a_new_image' | trans }} (JPEG/PNG) </button>
-                                    <button class="fileinput-exists btn btn-default"
-                                            style="cursor: pointer;"> {{ 'menu.change' | trans }} </button>
-                                    {{ form_widget(form.file) }}
-                                  </span>
+                                                <span class="btn default btn-file">
+                                                    <button class="btn fileinput-new"
+                                                            style="text-transform: none"> {{ 'menu.select_a_new_image' | trans }} (JPEG/PNG) </button>
+                                                    <button class="fileinput-exists btn btn-default"
+                                                            style="cursor: pointer;"> {{ 'menu.change' | trans }} </button>
+                                                    {{ form_widget(form.file) }}
+                                                </span>
                                                 <a href="javascript:" class="btn btn-danger fileinput-exists"
                                                    data-dismiss="fileinput"> {{ 'menu.delete' | trans }} </a>
                                             </div>
