@@ -8,7 +8,7 @@
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
                     {{ 'job.details_of_the_offer' | trans }}  {{ jobOffer.id }}
-                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}
+                    {%  if app.user.roles|role == "Entreprise"%}
                         <a class="btn btn-sm btn-primary float-right" href="{{ path('jobOffer_new') }}">
                             <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
                         </a>
@@ -50,7 +50,7 @@
                             <a href="https://{{ jobOffer.company.url }}">
                                 <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>
                             </a>
-                        {% else %}
+                        {% elseif jobOffer.school is not null %}
                             <h2 class="col-form-label col-sm-12">{{ 'menu.establishment' | trans }} - {{ jobOffer.school.name }}</h2>
                         {% endif %}
                     </div>
@@ -64,7 +64,7 @@
                                 <div class="form-group row ">
                                     <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>
                                 </div>
-                            {% else %}
+                            {% elseif jobOffer.school is not null %}
                                 <legend>
                                     <span>{{ 'job.description_of_the_school' | trans }} </span>
                                 </legend>

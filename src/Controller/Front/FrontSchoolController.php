@@ -655,18 +655,7 @@ class FrontSchoolController extends AbstractController {
 			        } else {
 				        $err[] = 'phoneNumber:' . $resRegister[1];
 			        }
-                //verification si le user a le bon numéro de téléphone et la bonne adresse
-                } else {
-                    //mise à jour du téléphone dans le user
-                    if ($personDegree->getPhoneMobile1()) {
-                        $user->setPhone($personDegree->getPhoneMobile1());
-                        $this->em->persist($user);
-                    }
-                    if ($personDegree->getEmail()) {
-                        $user->setEmail($personDegree->getEmail());
-                        $this->em->persist($user);
-                    }
-                }
+		        }
 		        if (count($err) == 0) {
 			        $this->em->flush();
 					// Notify student
@@ -794,18 +783,7 @@ class FrontSchoolController extends AbstractController {
 				    } else {
 					    $err[] = "phoneNumber:" . $resRegister[1];
 				    }
-                //verification si le user a le bon numéro de téléphone et la bonne adresse
-			    } else {
-                    //mise à jour du téléphone dans le user
-                    if ($company->getPhoneStandard()) {
-                        $user->setPhone($company->getPhoneStandard());
-                        $this->em->persist($user);
-                    }
-                    if ($company->getEmail()) {
-                        $user->setEmail($company->getEmail());
-                        $this->em->persist($user);
-                    }
-                }
+			    }
 			    if (count($err) == 0) {
 				    $this->em->flush();
 				    $res = ["id" => $company->getId(), "userId" => $company->getUser()->getId(), "pwd" => $company->getTemporaryPasswd()];

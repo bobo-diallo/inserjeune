@@ -163,15 +163,20 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 			$degreeDateStr = sprintf('%s-%s-01', $personDegree->getLastDegreeYear(), $personDegree->getLastDegreeMonth());
 			$beginDate = $this->satisfactionService->createBeginDate(new \DateTime($degreeDateStr), 0);
 
-			// calcul de la date de fin d'enquête sur le formulaire: 12 mois apres la date de début
-			$endedUpdateDate = $this->satisfactionService->createEndedUpdateDate(new \DateTime($degreeDateStr), 12);
+            // recherche la derniere satisfaction créé en fonction de la situation professionelle du diplômé
+            // $satisfaction = $this->getDoctrine()->getRepository($repository)->getLastSatisfaction($personDegree);
+            $satisfaction = $this->em->getRepository($repository)->getLastSatisfaction($personDegree);
 
-			// recherche la derniere satisfaction créé en fonction de la situation professionelle du diplômé
-			// $satisfaction = $this->getDoctrine()->getRepository($repository)->getLastSatisfaction($personDegree);
-			$satisfaction = $this->em->getRepository($repository)->getLastSatisfaction($personDegree);
+			// calcul de la date de fin d'enquête sur le formulaire: 12 mois apres la date de début
+			// $endedUpdateDate = $this->satisfactionService->createEndedUpdateDate(new \DateTime($degreeDateStr), 12);
+			if ($satisfaction) {
+                $endedUpdateDate = $this->satisfactionService->createEndedUpdateDate(clone ($satisfaction)->getCreatedDate(), 12);
+            } else {
+                $endedUpdateDate = (new \DateTime());
+            }
 
 			// si la date de l'obstention du diplôme est dépassée, pas d'enquête possible
-			if (strtotime($this->formatUS($endedUpdateDate)) < strtotime($this->now())) {
+			if ((!$satisfaction) || strtotime($this->formatUS($endedUpdateDate)) < strtotime($this->now())) {
 				$this->addFlash(Utils::FB_WARNING, sprintf("Vous devez répondre à une nouvelle enquête depuis le %s", $endedUpdateDate->format(Utils::FORMAT_FR)));
 				$redirect = sprintf('%s_%s', $redirect, 'new');
 

@@ -55,7 +55,9 @@
                                     {% endif %}
                                     {% if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}
                                         <td class="row-actions">
-                                            <a href="{{ path('jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            {% if app.user.roles|role == "Entreprise"%}
+                                                <a href="{{ path('jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            {% endif %}
                                             <a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                             <a class="danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                         </td>
@@ -86,7 +88,9 @@
                         </table>
                     </div>
                 </div>
-                <span class="mark text-success mt-5">* {{ 'job.offer_already_sended' | trans }}</span>
+                {%  if app.user.roles|role == "Diplômé"%}
+                  <span class="mark text-success mt-5">* {{ 'job.offer_already_sended' | trans }}</span>
+                {% endif %}
             </div>
         </div>
     </div>
