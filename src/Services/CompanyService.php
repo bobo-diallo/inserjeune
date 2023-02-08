@@ -76,7 +76,7 @@ class CompanyService {
         $lastSatisfaction = $this->satisfactionCompanyRepository->getLastSatisfaction($company);
         $currentDate = new \DateTime();
 
-        if($lastSatisfaction) {
+        if($lastSatisfaction && $lastSatisfaction->getUpdatedDate()) {
             $remindAnnualDate = clone $lastSatisfaction->getUpdatedDate();
             $remindAnnualDate = $remindAnnualDate->add(new \DateInterval('P1Y'));
 

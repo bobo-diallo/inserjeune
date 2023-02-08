@@ -15,6 +15,11 @@
     function extractContent(s) {
         let span = document.createElement('span');
         span.innerHTML = s;
+        if ($(span).find('.no-print').length > 0) {
+            return $(span).find('*').filter(function() {
+                return !$(this).hasClass('no-print');
+            }).text();
+        }
         return span.textContent || span.innerText;
     }
 
@@ -90,32 +95,11 @@
                                 return extractWithoutDuplicateInfo(data);
                             }
                         }
-                        // format: {
-                        //     body: function (data, row, column, node) {
-                        //         let container = document.createElement('div');
-                        //         container.innerHTML = data;
-                        //         let text = container.textContent;
-                        //
-                        //         if (text === 'true') {
-                        //             debugger;
-                        //             return 'OK';
-                        //         } else if (text === 'false') {
-                        //             return 'OK';
-                        //         }
-                        //
-                        //         return data;
-                        //     }
-                        // }
                     },
                     customize : function(doc) {
                         if (document.getElementById('kz_table_with_width_export')) {
                             doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
                         }
-                        // doc.content[1].table.body.forEach(function(row){
-                        //     debugger;
-                        //     row[4].fillColor = '#ff0000';
-                        //     row[4].textColor = '#ff0000';
-                        // });
                     },
                 }],
                 dom: {

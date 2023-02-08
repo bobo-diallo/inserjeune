@@ -22,9 +22,6 @@
                 <h6 class="element-header">
                     <i class="fa fa-user"></i>
                     {{ 'menu.update_profile' | trans }}
-                    <a class="btn btn-sm btn-primary float-right" href="{{ path('user_index') }}">
-                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
-                    </a>
                 </h6>
                 <div class="element-box">
                     <form enctype="multipart/form-data" action="{{ path('change_profile') }}" method="post">
