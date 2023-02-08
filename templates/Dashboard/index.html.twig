@@ -420,7 +420,7 @@
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
-                                            S: 1 {{ 'dashboard.week' | trans }} ,
+                                            S: 1 {{ 'dashboard.week' | trans }}
                                         </div>
                                     </div>
                                 </div>
@@ -468,7 +468,7 @@
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
-                                            S: 1 {{ 'dashboard.week' | trans }} ,
+                                            S: 1 {{ 'dashboard.week' | trans }}
                                         </div>
                                     </div>
                                 </div>
@@ -513,7 +513,7 @@
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
-                                            S: 1 {{ 'dashboard.week' | trans }} ,
+                                            S: 1 {{ 'dashboard.week' | trans }}
                                         </div>
                                     </div>
                                 </div>
@@ -561,7 +561,7 @@
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
-                                            S: 1 {{ 'dashboard.week' | trans }} ,
+                                            S: 1 {{ 'dashboard.week' | trans }}
                                         </div>
                                     </div>
                                 </div>
@@ -606,7 +606,7 @@
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
-                                            S: 1 {{ 'dashboard.week' | trans }} ,
+                                            S: 1 {{ 'dashboard.week' | trans }}
                                         </div>
                                     </div>
                                 </div>
@@ -677,12 +677,6 @@
                                 $('#selectRegion').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
                             }
                         })
-
-                        /*$('#selectRegion option').each(function () {
-                         if(selectedRegion == $(this).val()) {
-                         $(this).removeAttr('hidden');
-                         }
-                         })*/
                     }
                 })
                 $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));
@@ -692,16 +686,10 @@
                 "response": true,
                 "isOddShow": false,
                 "precentWidth": "40%",
-                // "width": 800,
-                // "height": 234,
-                // "dnSlideFirstWidth": 600,
-                // "dnSlideFirstHeight": 234,
                 "autoPlay": true,
                 "delay": 3000,
-                // "scale": 0.9,
                 "speed": 500,
                 "verticalAlign": "bottom", // or 'bottom', 'top'
-                // "afterClickBtnFn": null
             });
         })
     </script>

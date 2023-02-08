@@ -1030,7 +1030,7 @@ global.startTimeout = function () {
    timeout = setTimeout(() => {
       // Dispatch the event
       checkInactivity();
-   }, 1800000); // 600000 ms = 10 minutes, 1800000 = 30 minutes
+   }, 3600000); // 1mn = 60000 ms; 10 minutes = 600000 ms; 30 minutes = 1800000
 }
 
 // Reset the timeout when the user is active
