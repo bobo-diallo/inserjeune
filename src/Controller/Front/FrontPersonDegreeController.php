@@ -74,9 +74,12 @@ class FrontPersonDegreeController extends AbstractController {
 		$personDegree->setPhoneMobile1($user->getPhone());
 		$personDegree->setCountry($user->getCountry());
 		$personDegree->setLocationMode(true);
+        $residenceCountryPhoneCode = null;
 
-		$selectedCountry = $this->getUser()->getCountry();
-        $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
+        $selectedCountry = $this->getUser()->getCountry();
+        if($this->getUser()->getResidenceCountry()) {
+            $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
+        }
 
 		$form = $this->createForm(PersonDegreeType::class, $personDegree, [
             'selectedCountry' => $selectedCountry->getId()

@@ -17,12 +17,11 @@
         {% include '_image_profile.html.twig' with {'imageName': imageName, 'defaultImage': 'graduated.jpg'} %}
         <div class="logged-user-info-w">
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if user.personDegree %}
+            {% if user.personDegree is not null %}
               <div class="logged-persondegree-name">{{ user.personDegree.firstName }} {{ user.personDegree.lastname }} </div>
             {% else %}
               <div class="logged-persondegree-name">{{ user.username }} </div>
             {% endif %}
-            <div class="logged-user-name">{{ user.username }}</div>
             <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role }}</div>
           {% endif %}
         </div>
