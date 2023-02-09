@@ -17,11 +17,12 @@
         </h6>
         <div class="element-box jobOffer">
           <div class="form-group row jobOfferBanner">
-{#            {% if jobOffer.company.logo %}#}
-{#              <img src="#}{#{ jobOffer.company.logo }#}{#" alt="Logo entreprise">#}
-{#            {%  else %}#}
+            {% set logo = jobOffer.logo %}
+            {% if logo != false %}
+              <img src="{{ asset('uploads/avatars/' ~ logo) }}" alt="Logo entreprise">
+            {%  else %}
               <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
-{#            {% endif %}#}
+            {% endif %}
             <span>{{ 'menu.job_offer' | trans }}</span>
           </div>
           <div class="form-group row jobOfferTitle">
@@ -41,25 +42,7 @@
             {% endif %}
           </div>
 
-{#          <div class="form-group row jobOfferCompanyName">#}
-{#            {% if jobOffer.company.url %}#}
-{#              <a href="https://{{ jobOffer.company.url }}">#}
-{#                <h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2>#}
-{#              </a>#}
-{#            {% else %}#}
-{#                <a href="#"><h2 class="col-form-label col-sm-12">{{ jobOffer.company.name }}</h2></a>#}
-{#            {% endif%}#}
-{#          </div>#}
-
           <div class="row">
-{#            <fieldset class="col-form-label col-sm-6">#}
-{#              <legend>#}
-{#                <span>{{ 'job.description_of_the_company' | trans }} </span>#}
-{#              </legend>#}
-{#              <div class="form-group row ">#}
-{#                <p class="col-sm-12">{{ jobOffer.company.sectorArea }}</p>#}
-{#              </div>#}
-{#            </fieldset>#}
             <fieldset class="col-form-label col-sm-6">
               <legend>
                 <span> {{ 'job.job_description' | trans }}  </span>
@@ -117,18 +100,6 @@
               </div>
             </div>
           {% endif %}
-{#          {%  if app.user.roles|role == "Administrateur" %}#}
-{#            <div class="controls-above-table">#}
-{#              <div class="row" id="actions">#}
-{#                <div class="col-sm-6">#}
-{#                  <a class="btn btn-sm btn-primary" href="{{ path('jobOffer_edit', {'id': jobOffer.id}) }}">#}
-{#                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>#}
-{#                  <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')">#}
-{#                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-{#          {% endif %}#}
         </div>
       </div>
     </div>

@@ -21,8 +21,9 @@
                 </h6>
                 <div class="element-box jobOffer">
                     <div class="form-group row jobOfferBanner">
-                        {% if jobOffer.company is not null and jobOffer.company.logo %}
-                            <img src="{#{ jobOffer.company.logo }#}" alt="Logo entreprise">
+                        {% set logo = jobOffer.logo %}
+                        {% if logo != false %}
+                            <img src="{{ asset('uploads/avatars/' ~ logo) }}" alt="Logo entreprise">
                         {%  else %}
                             <img src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" alt="Logo ifef">
                         {% endif %}
@@ -80,6 +81,15 @@
                             <div class="form-group row ">
                                 <p class="col-sm-12">{{  jobOffer.description | raw }}</p>
                             </div>
+                            <div class="form-group row ">
+                                <p>
+                                    {% if jobOffer.filename is not null %}
+                                        {% set filepath = 'uploads/brochures/'  ~ jobOffer.filename %}
+                                        <br>
+                                        <a href="{{ asset(filepath) }}" download>{{ 'menu.description' | trans }} PDF</a>
+                                    {% endif %}
+                                </p>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="row">
@@ -108,8 +118,6 @@
                             </div>
                         </fieldset>
                     </div>
-
-
 
                     {%  if app.user.roles|role == "Diplômé"%}
                         <a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}" class="btn btn-lg btn-success" role="button">{{ 'menu.apply' | trans }}</a>
