@@ -1,5 +1,6 @@
 {% extends 'company/content.html.twig' %}
-
+{% set user = app.user %}
+{% set roleUser = user.roles|role %}
 {% block body %}
     <div class="content-i">
         <div class="content-box">
@@ -9,7 +10,7 @@
                     {% if app.request.attributes.get('_route') == 'front_school_company_index'%}
                         {{ 'company.list_of_partner_companies' | trans }}
                     {% elseif app.request.attributes.get('_route') == 'front_school_all_company_index'%}
-                        {{ 'menu.company.list_of_all_companies' | trans }}
+                        {{ 'company.company.list_of_all_companies' | trans }}
                     {% else %}
                         {{ 'company.list_of_companies' | trans }}
                     {%  endif %}
@@ -17,14 +18,14 @@
 
 
                 <div class="element-box">
-                    {%  if app.user.roles|role == 'Administrateur' %}
+                    {%  if roleUser == 'Administrateur' %}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
                                 </div>
                             </div>
                         </div>
-                    {%  elseif app.user.roles|role == 'Etablissement' %}
+                    {%  elseif roleUser == 'Etablissement' %}
                         {% if app.request.attributes.get('_route') == 'front_school_company_index'%}
                             <div class="controls-above-table">
                                 <div class="row">
@@ -48,35 +49,40 @@
                         {% endif %}
                     {% endif %}
                     <div class="table-responsive">
-                        <table id="kz_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                        {% if app.request.attributes.get('_route') == 'front_school_company_index'%}
+                            {% set idTable = 'kz_table_with_width_export' %}
+                        {% else %}
+                            {% set idTable = 'kz_table' %}
+                        {% endif %}
+                        <table id="{{ idTable }}" class="table table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
+                                {%  if roleUser == "Administrateur" or roleUser == "Législateur" %}
                                     <th class="no-print">Actions</th>
-                                {% elseif app.user.roles|role == "Etablissement" %}
+                                {% elseif roleUser == "Etablissement" %}
                                     {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                                         <th>Selection</th>
                                     {% endif %}
                                 {% endif %}
 
-                                {% if app.user.roles|role == 'Administrateur' %}
+                                {% if roleUser == 'Administrateur' %}
                                     <th>Id</th>
                                 {% endif %}
 
-                                {% if app.user.roles|role == 'Etablissement' %}
+                                {% if roleUser == 'Etablissement' %}
                                     <th>{{ 'menu.company' | trans }}</th>
                                 {%  else  %}
                                     <th>{{ 'menu.name' | trans }}</th>
                                 {% endif %}
 
-                                {%  if app.user.roles|role == 'Administrateur' %}
+                                {%  if roleUser == 'Administrateur' %}
                                     <th>{{ 'menu.country' | trans }}</th>
                                 {% endif %}
                                 <th>{{ 'menu.city' | trans }}</th>
                                 <th>{{ 'menu.phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
 
-                                {% if app.user.roles|role == "Administrateur" %}
+                                {% if roleUser == "Administrateur" %}
                                     <th>{{ 'menu.created_date' | trans }}</th>
                                 {% endif %}
 
@@ -86,24 +92,24 @@
                             <tbody>
                             {% for company in companies %}
                                 <tr>
-                                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Législateur" %}
+                                    {%  if roleUser == "Administrateur" or roleUser == "Législateur" %}
                                         <td class="row-actions">
-                                            {%  if app.user.roles|role == "Administrateur" %}
+                                            {%  if roleUser == "Administrateur" %}
                                                 <a href="{{ path('company_edit', { 'id': company.id }) }}#"><img
                                                             src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
                                             {% endif %}
                                             <a href="{{ path('company_show', { 'id': company.id }) }}"><img
                                                         src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                            {%  if app.user.roles|role == "Administrateur" %}
+                                            {%  if roleUser == "Administrateur" %}
                                             <a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img
                                                         src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                             {% endif %}
                                         </td>
                                     {% endif %}
-                                    {%  if app.user.roles|role == "Administrateur" %}
+                                    {%  if roleUser == "Administrateur" %}
                                         <td><a href="{{ path('company_show', { 'id': company.id }) }}">{{ company.id }}</a></td>
                                     {% endif %}
-                                    {% if app.user.roles|role == "Etablissement" %}
+                                    {% if roleUser == "Etablissement" %}
                                         {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                                             <td>
                                                 <div class="checkbox-inline" style="text-align:center;">
@@ -113,13 +119,13 @@
                                         {% endif %}
                                     {% endif %}
                                     <td>{{ company.name }}</td>
-                                    {%  if app.user.roles|role == "Administrateur" %}
+                                    {%  if roleUser == "Administrateur" %}
                                         <td>{{ company.country }}</td>
                                     {% endif %}
                                     <td>{{ company.city.name }}</td>
                                     <td>{{ company.phoneStandard }}</td>
                                     <td>{{ company.email }}</td>
-                                    {% if app.user.roles|role == 'Administrateur' %}
+                                    {% if roleUser == 'Administrateur' %}
                                         <td>{{ company.createdDate|date('d/m/Y H:i') }}</td>
                                     {% endif %}
                                     <td>{{ company.sectorarea }}</td>
@@ -131,7 +137,7 @@
                 </div>
             </div>
         </div>
-        {% if app.user.roles | role == 'Etablissement' %}
+        {% if roleUser == 'Etablissement' %}
             {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
                 <select hidden id="selectedCompanies">
                     {% for company in selectedCompanies %}
@@ -160,6 +166,19 @@
 
         $(document).ready(function () {
             $('#kz_table tbody').on('click', 'td.details-control', function () {
+                let tr = $(this).closest('tr');
+                let row = table.row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+            $('#kz_table_with_width_export tbody').on('click', 'td.details-control', function () {
                 let tr = $(this).closest('tr');
                 let row = table.row(tr);
                 if (row.child.isShown()) {

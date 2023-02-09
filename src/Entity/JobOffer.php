@@ -352,4 +352,20 @@ class JobOffer {
     {
         return in_array($candidateSendedId, explode($this->candidateSended, ','));
     }
+
+	public function getLogo() {
+		$company = $this->getCompany();
+		$school = $this->getSchool();
+
+		if ($company && $company->getUser()->getImageName()) {
+			$logo = $company->getUser()->getImageName();
+		} else if ($school && $school->getUser()->getImageName()) {
+			$logo = $school->getUser()->getImageName();
+		} else {
+			$logo = false;
+		}
+
+		return $logo;
+
+	}
 }

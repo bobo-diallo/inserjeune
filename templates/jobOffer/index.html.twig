@@ -90,7 +90,7 @@
                         </table>
                     </div>
                 </div>
-                {% if roleUser == "Diplômé" and user.id in jobOffer.candidateSended|split(',') %}
+                {% if roleUser == "Diplômé" %}
                     <span class="mark text-success mt-5">* {{ 'job.offer_already_sended' | trans }}</span>td>
                 {%  endif %}
             </div>
