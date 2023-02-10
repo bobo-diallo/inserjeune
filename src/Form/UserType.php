@@ -42,7 +42,7 @@ class UserType extends AbstractType {
                 'required' => false
             ])
             ->add('residenceCountry', EntityType::class, [
-				// 'required' => false,
+				'required' => false,
                 'class' => Country::class,
                 'placeholder' => 'Sélectionnez votre pays de résidence',
                 'attr' => [
