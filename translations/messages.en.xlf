@@ -1876,6 +1876,10 @@
         <source>survey.are_you_enrolled_in_a_course</source>
         <target>Have you registered for a training</target>
       </trans-unit>
+      <trans-unit id="survey.searching_for_a_job">
+        <source>survey.searching_for_a_job</source>
+        <target>Searching for a job ?</target>
+      </trans-unit>
       <trans-unit id="survey.is_this_training_a_continuation_of_your_last_degree">
         <source>survey.is_this_training_a_continuation_of_your_last_degree</source>
         <target>Is this training a continuation%tag_br%of studies related to your last degree</target>

@@ -1880,6 +1880,10 @@
         <source>survey.are_you_enrolled_in_a_course</source>
         <target>Êtes-vous inscrit à une formation</target>
       </trans-unit>
+      <trans-unit id="survey.searching_for_a_job">
+        <source>survey.searching_for_a_job</source>
+        <target>En recherche d'emploi ?</target>
+      </trans-unit>
       <trans-unit id="survey.is_this_training_a_continuation_of_your_last_degree">
         <source>survey.is_this_training_a_continuation_of_your_last_degree</source>
         <target>Est-ce que cette formation est une poursuite%tag_br%d’études en lien avec votre dernier diplôme</target>

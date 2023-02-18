@@ -134,15 +134,18 @@ class FrontPersonDegreeController extends AbstractController {
 			if (!$selectedCountry)
 				$selectedCountry = $personDegree->getCountry();
 
-            $residenceCountryPhoneCode = null;
-            if($this->getUser()->getResidenceCountry()) {
-                $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
-            }
+			$residenceCountryPhoneCode = null;
+			if ($this->getUser()->getResidenceCountry()) {
+				$residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
+			}
 
-            $editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
+			$registrationStudentSchool = $personDegree->getRegistrationStudentSchool();
+			$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
 			$editForm->handleRequest($request);
 
 			if ($editForm->isSubmitted() && $editForm->isValid()) {
+				// Not edit registration
+				$personDegree->setRegistrationStudentSchool($registrationStudentSchool);
 				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
 				if ($agreeRgpd) {
 					// remove autorization to edit for School during Enrollment
