@@ -45,9 +45,8 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 {% if satisfactionSearch.searchWork==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-form-label col-sm-12"> En recherche d'emploi ?</label>
+                                <label class="col-form-label col-sm-12"> {{ 'survey.searching_for_a_job' | trans }}</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -61,7 +60,6 @@
                                 {% if satisfactionSearch.registeredTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                                 <label class="col-sm-12 col-form-label"> {{ 'survey.are_you_enrolled_in_a_course' | trans }} ?</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -73,7 +71,6 @@
                               {% if satisfactionSearch.formationPursuitLastDegree==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                                 <label class="col-sm-12 col-form-label"> Est-ce que cette formation est une poursuite<br>d’études en lien avec votre dernier diplôme ?</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -120,7 +117,6 @@
                               {% if satisfactionSearch.searchWork==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                                 <label class="col-sm-12 col-form-label"> {{ 'survey.are_you_looking_for_work' | trans }} ?</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -139,7 +135,6 @@
                               {% if satisfactionSearch.activeVolunteer==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                                 <label class="col-sm-12 col-form-label"> T{{ 'survey.do_you_work_as_a_volunteer' | trans }} ?</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -172,7 +167,6 @@
                               {% if satisfactionSearch.jobRefuse==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                                 <label class="col-sm-12 col-form-label"> {{ 'survey.have_you_turned_down_a_job_offer_since_completing_your_training' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -182,9 +176,8 @@
                             </div>
                             <div class="col-sm-4">
                               {% if satisfactionSearch.jobFromFormation==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> {{ 'survey.have_you_held_a_job_since_completing_your_training' | trans({'%tag_br%': '<br />'}) }}</label>
+                                <label class="col-sm-12 col-form-label"> {{ 'survey.have_you_held_a_job_since_completing_your_training' | trans({'%tag_br%': '<br />'}) | raw }}</label>
                                 <div class="col-sm-12">
-                                    <input type="checkbox" class="form-control" disabled {{ checked }}>
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
                                         <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -201,7 +194,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label class="col-form-label col-sm-12">
-                                    {{ 'why_do_you_think_you_haven_found_returned_to_work' | trans }}
+                                    {{ 'survey.why_do_you_think_you_haven_found_returned_to_work' | trans }}
                                 </label>
                                 <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSearch.jobNotFoundReasons | join('\n')}}</textarea>
                             </div>
