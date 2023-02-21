@@ -58,6 +58,7 @@ class FrontCompanyController extends AbstractController {
 		$company->setPhoneStandard($user->getPhone());
 		$company->setCountry($user->getCountry());
 		$company->setLocationMode(true);
+        $company->setUnlocked(false);
 
 		// set country dans la company
 		$selectedCountry = $this->getUser()->getCountry();
