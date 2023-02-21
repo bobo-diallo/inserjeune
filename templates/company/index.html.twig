@@ -10,7 +10,7 @@
                     {% if app.request.attributes.get('_route') == 'front_school_company_index'%}
                         {{ 'company.list_of_partner_companies' | trans }}
                     {% elseif app.request.attributes.get('_route') == 'front_school_all_company_index'%}
-                        {{ 'company.company.list_of_all_companies' | trans }}
+                        {{ 'company.list_of_all_companies' | trans }}
                     {% else %}
                         {{ 'company.list_of_companies' | trans }}
                     {%  endif %}

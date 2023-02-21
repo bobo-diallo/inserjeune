@@ -94,6 +94,7 @@ class FrontPersonDegreeController extends AbstractController {
 				$personDegree->setCreatedDate(new \DateTime());
 				$personDegree->setUpdatedDate(new \DateTime());
 				$personDegree->setPhoneMobile1($user->getPhone());
+                $personDegree->setUnlocked(false);
 
 				$this->em->persist($personDegree);
 				$this->em->flush();
