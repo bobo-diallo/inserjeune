@@ -21,6 +21,7 @@
               <div class="logged-school-name">{{ user.school.name }}</div>
             {% endif %}
             <div class="logged-user-name">{{ user.username }}</div>
+            <div hidden class="logged-user-phone">{{ user.phone }} </div>
             <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role }}</div>
           {% endif %}
         </div>

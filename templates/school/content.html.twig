@@ -161,7 +161,7 @@
       })
       {% endif %}
       function checkPhoneNumber($phoneNumber) {
-         let usrname = $('.logged-user-name').html();
+         let usrphone = $('.logged-user-phone').html().trim();
 
          // verification de l'indicatif pays
          let indSchool = '+' + $('#countryPhoneCode').val();
@@ -169,11 +169,11 @@
 
          if(indPhone != indSchool) {
             alert("Attention, votre numéro de téléphone doit commencer par " + indSchool + ", veuillez le ressaisir");
-            $('#appbundle_school_phoneStandard').val(usrname);
-         } else if($phoneNumber != usrname) {
+            $('#appbundle_school_phoneStandard').val(usrphone);
+         } else if($phoneNumber != usrphone) {
             let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber)
             if (confirmPhone == false) {
-               $('#appbundle_school_phoneStandard').val(usrname);
+               $('#appbundle_school_phoneStandard').val(usrphone);
             }
          }
       }

@@ -34,14 +34,11 @@
                                 {% endif %}
                                 <th>{{ 'menu.firstname' | trans }}</th>
                                 <th>{{ 'menu.name' | trans }}</th>
-                                {%  if roleUser == "Administrateur" or roleUser == "Législateur" %}
-                                    <th>{{ 'menu.establishment' | trans }}</th>
-                                {% endif %}
                                 <th>{{ 'survey.survey_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
                                 <th>{{ 'menu.date_of_birth_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
                                 <th>{{ 'menu.cell_phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
-                                {%  if roleUser == "Administrateur" %}
+                                {%  if roleUser == "Administrateur"  or roleUser == "Législateur"  %}
                                     <th>{{ 'menu.country' | trans }}</th>
                                     <th>{{ 'menu.establishment' | trans }}</th>
                                 {% endif %}
@@ -87,13 +84,6 @@
 
                                     <td>{{ personDegree.firstname }}</td>
                                     <td>{{ personDegree.lastname }}</td>
-                                    {%  if roleUser == "Administrateur" or roleUser == "Législateur" %}
-{#                                      <td>{{ personDegree.school}}</td>#}
-                                        {% if personDegree.schoolId %} <td>{{ personDegree.school }}</td>
-                                        {% elseif personDegree.otherSchool %}<td  style="color: #ee0808;">Autre : {{ personDegree.otherSchool }}</td>
-                                        {% else %}  <td style="color: #0300ee;">Aucun</td>
-                                        {% endif %}
-                                    {% endif %}
                                     <td>{{ check_person_degree_satisfaction(
                                             personDegree.id,
                                             personDegree.type,
@@ -124,7 +114,7 @@
                                         <td>{{ personDegree.phoneMobile1 }}</td>
                                         <td>{{ personDegree.email }}</td>
                                     {% endif %}
-                                    {%  if roleUser =="Administrateur" %}
+                                    {%  if roleUser =="Administrateur"  or roleUser == "Législateur"  %}
                                         <td>{{ personDegree.country }}</td>
                                         {% if personDegree.schoolId %} <td>{{ personDegree.school }}</td>
                                         {% elseif personDegree.otherSchool %}<td  style="color: #ee0808;">Autre : {{ personDegree.otherSchool }}</td>
