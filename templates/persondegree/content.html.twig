@@ -136,7 +136,7 @@
         {% endif %}
         function checkPhoneNumber($phoneNumber) {
             if ($phoneNumber !== undefined) {
-                let usrname = $('.logged-user-name').html();
+                let usrphone = $('.logged-user-phone').html().trim();
 
                 // verification de l'indicatif pays
                 let indPersonDegree = '+' + $('#countryPhoneCode').val();
@@ -147,11 +147,13 @@
 
                 if (indPhone != indPersonDegree) {
                     alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
-                    $('#appbundle_persondegree_phoneMobile1').val(usrname);
-                } else if ($phoneNumber != usrname) {
-                    let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber)
+                    $('#appbundle_persondegree_phoneMobile1').val(usrphone);
+
+                } else if ($phoneNumber != usrphone) {
+                    let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, " +
+                        "vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber )
                     if (confirmPhone == false) {
-                        $('#appbundle_persondegree_phoneMobile1').val(usrname);
+                        $('#appbundle_persondegree_phoneMobile1').val(usrphone);
                     }
                 }
             }
