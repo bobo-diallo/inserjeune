@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\JobOfferRepository;
 use App\Tools\Utils;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use UploadBundle\Annotation\Uploadable;
 use UploadBundle\Annotation\UploadableField;
@@ -72,7 +71,7 @@ class JobOffer {
 	#[ORM\JoinColumn(name: 'lasted_contract_id', referencedColumnName: 'id', nullable: true)]
 	private ?Contract $contract = null;
 
-	#[ORM\ManyToOne(targetEntity: City::class)]
+	#[ORM\ManyToOne(targetEntity: City::class, inversedBy: 'jobOffers')]
 	#[ORM\JoinColumn(name: 'id_city', referencedColumnName: 'id')]
 	private ?City $city = null;
 

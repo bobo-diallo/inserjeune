@@ -82,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\OneToOne(mappedBy: 'user', targetEntity: School::class, cascade: ['persist', 'remove'])]
 	private ?School $school;
 
-	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist'])]
+	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist', 'remove'])]
 	#[ORM\JoinTable(name: 'user_role')]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
 	#[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id')]
@@ -227,8 +227,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		return $this->phone;
 	}
 
-	public function setPhone(?string $phone): void {
+	public function setPhone(?string $phone): self {
 		$this->phone = $phone;
+
+		return $this;
 	}
 
 	public function getImageName(): ?string {
@@ -244,10 +246,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	}
 
 	/**
-	 * @param string $email
+	 * @param string|null $email
+	 * @return User
 	 */
-	public function setEmail(?string $email): void {
+	public function setEmail(?string $email): self {
 		$this->email = $email;
+
+		return $this;
 	}
 
 	public function getValidCode(): ?string {
@@ -298,9 +303,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 	/**
 	 * @param bool $enabled
+	 * @return User
 	 */
-	public function setEnabled(bool $enabled): void {
+	public function setEnabled(bool $enabled): self {
 		$this->enabled = $enabled;
+
+		return $this;
 	}
 
 	public function lastLogin(): ?\DateTime {
