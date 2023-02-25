@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,6 +32,13 @@ class City {
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
 	#[Assert\NotNull]
 	private ?Region $region = null;
+
+	#[ORM\OneToMany(mappedBy: 'city', targetEntity: JobOffer::class, cascade: ['persist', 'remove'])]
+	private Collection $jobOffers;
+
+	public function __construct() {
+		$this->jobOffers = new ArrayCollection();
+	}
 
 	public function getId(): ?int {
 		return $this->id;

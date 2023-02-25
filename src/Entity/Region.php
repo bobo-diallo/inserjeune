@@ -27,7 +27,7 @@ class Region {
 	#[Assert\NotBlank]
 	private Country $country;
 
-	#[ORM\OneToMany(mappedBy: 'region', targetEntity: City::class, cascade: ['persist'])]
+	#[ORM\OneToMany(mappedBy: 'region', targetEntity: City::class, cascade: ['persist', 'remove'])]
 	private Collection $cities;
 
 	#[ORM\OneToMany(mappedBy: 'region', targetEntity: School::class, cascade: ['persist'])]
