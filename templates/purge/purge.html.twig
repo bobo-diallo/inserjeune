@@ -196,10 +196,10 @@
 {% endblock %}
 
 {% block js %}
-   //fix bugg on Firefox
+   {# fix bugg on Firefox  #}
    <asp:ScriptReference Path="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjcLgEOEkdQfwxEyGOu4hHlSY_s-LOGkQ&libraries=places" />
 
-   //connect API GoogleMaps
+   {# connect API GoogleMaps #}
    <script async defer
            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"
            type="text/javascript">
