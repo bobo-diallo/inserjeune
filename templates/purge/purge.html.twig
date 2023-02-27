@@ -307,7 +307,7 @@
 
                $.get($locationRef + 'removeActors/', datas).done(function (res) {
                   // console.log("nb erreurs " + res[1].length);
-                  /*if(res[1].length>0) {
+                  if(res[1].length>0) {
                      console.log("erreurs rencontrées " + res[1]);
                      alert(res[1]);
                   } else {
@@ -316,7 +316,7 @@
                         //console.log("  --> " + id);
                         $('#'+ id).parents('tr').remove().draw;
                      })
-                  }*/
+                  }
                })
             }
       }
