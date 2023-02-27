@@ -151,6 +151,9 @@ class PurgeController extends AbstractController {
                         $this->personDegreeService->removeRelations($user);
 
                     if(count($err)==0) {
+                        foreach ($user->getProfils() as $profil) {
+                            $user->removeProfil($profil);
+                        }
                         $this->em->remove($user);
                         $this->em->flush();
                     }
