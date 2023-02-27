@@ -80,9 +80,6 @@ class CleanDatabaseForCountryCommand extends Command
 				$io->text(sprintf('%s users and %s countries to delete', $userCount, $countryCount));
 
 				foreach ($users as $user) {
-					foreach ($user->getProfils() as $profil) {
-						$user->removeProfil($profil);
-					}
 					$this->entityManager->remove($user);
 					$i++;
 

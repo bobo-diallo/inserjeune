@@ -53,9 +53,6 @@ class RemoveUserCommand extends Command
 		    $io->warning('user does not exist');
 		    return Command::FAILURE;
 	    } else {
-		    foreach ($user->getProfils() as $profil) {
-			    $user->removeProfil($profil);
-			}
 			$this->entityManager->remove($user);
 			$this->entityManager->flush();
 	    }
