@@ -151,9 +151,6 @@ class PurgeController extends AbstractController {
                         $this->personDegreeService->removeRelations($user);
 
                     if(count($err)==0) {
-                        foreach ($user->getProfils() as $profil) {
-                            $user->removeProfil($profil);
-                        }
                         $this->em->remove($user);
                         $this->em->flush();
                     }
@@ -256,10 +253,20 @@ class PurgeController extends AbstractController {
                 $closeDate = (new DateTime($closeDateStr))->format('Y-m-d');
             }
 
+            $name = null;
+            $type = null;
+            if($jobOffer->getCompany()) {
+                $name = $jobOffer->getCompany()->getName();
+                $type = "company";
+            } elseif ($jobOffer->getSchool()) {
+                $name = $jobOffer->getSchool()->getName();
+                $type = "school";
+            }
             $res[] = [
                 'id' => $jobOffer->getId(),
                 'country' => $jobOffer->getCountry()->getName(),
-                'company' => $jobOffer->getCompany()->getName(),
+                'type' => $type,
+                'name' => $name,
                 'title' => $jobOffer->getTitle(),
                 'updateDate' => $jobOffer->getUpdatedDate()->format('Y-m-d'),
                 'closedDate' => $closeDate
@@ -475,76 +482,13 @@ class PurgeController extends AbstractController {
         $errors = [];
 
         if($actorType == 'persondegree') {
-            $actors = $this->personDegreeRepository->getAllWithIdsAndCoordinate();
+            $actors = $this->personDegreeRepository->getSameCordinates();
         } elseif ($actorType == 'school') {
-            $actors = $this->schoolRepository->getAllWithIdsAndCoordinate();
+            $actors = $this->schoolRepository->getSameCordinates();
         } elseif ($actorType == 'company') {
-            $actors = $this->companyRepository->getAllWithIdsAndCoordinate();
+            $actors = $this->companyRepository->getSameCordinates();
         }
 
-        $actorsWithIdenticalCoordinates = [];
-        // $test = [];
-        for ($i = 0; $i < count($actors); $i++) {
-            for ($j = $i; $j < count($actors); $j++) {
-                if(($actors[$i]['id'] != $actors[$j]['id']) &&
-                   ($actors[$i]['latitude'] == $actors[$j]['latitude']) &&
-                   ($actors[$i]['longitude'] == $actors[$j]['longitude'])) {
-                    // $test[] = $actors[$i]['id'] . '->'. $actors[$j]['id'];
-                        if(!in_array($actors[$j]['id'],$actorsWithIdenticalCoordinates)) {
-                            $actorsWithIdenticalCoordinates[] = $actors[$j]['id'];
-                        }
-                }
-            }
-        }
-        foreach ($actorsWithIdenticalCoordinates as $actorsWithIdenticalCoordinate) {
-            $actor = null;
-            $city = null;
-            $country = null;
-            $latitude = null;
-            $longitude = null;
-            $createdDate = null;
-            $updatedDate = null;
-
-            if($actorType == 'persondegree') {
-                $actor = $this->personDegreeRepository->find($actorsWithIdenticalCoordinate);
-            } elseif ($actorType == 'school') {
-                $actor = $this->schoolRepository->find($actorsWithIdenticalCoordinate);
-            } elseif ($actorType == 'company') {
-                $actor = $this->companyRepository->find($actorsWithIdenticalCoordinate);
-            }
-
-            if($actor) {
-                if($actorType == 'persondegree') {
-                    if ($actor->getAddressCity())
-                        $city = $actor->getAddressCity()->getName();
-                } else {
-                    if ($actor->getCity())
-                        $city = $actor->getCity()->getName();
-                }
-                if ($actor->getCountry())
-                    $country = $actor->getCountry()->getName();
-                if ($actor->getLatitude())
-                    $latitude = $actor->getLatitude();
-                if ($actor->getLongitude())
-                    $longitude = $actor->getLongitude();
-                if ($actor->getCreatedDate())
-                    $createdDate = $actor->getCreatedDate()->format(Utils::FORMAT_FR);
-                if ($actor->getUpdatedDate())
-                    $updatedDate = $actor->getUpdatedDate()->format(Utils::FORMAT_FR);
-
-                $result[] = [
-                    'id' => $actor->getId(),
-                    'country' => $country,
-                    'city' => $city,
-                    'actor' => $actorType,
-                    'error' => "duplicate coo",
-                    'latitude' => $latitude,
-                    'longitude' => $longitude,
-                    'created_date' => $createdDate,
-                    'updated_date' => $updatedDate,
-                ];
-            }
-        }
-        return new JsonResponse([$result, $errors]);
+        return new JsonResponse([$actors, $errors]);
     }
 }

@@ -202,17 +202,30 @@ class SchoolRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    function getByDuplicateCoordinate(): array {
-        return $this->createQueryBuilder('s1')
-            ->where('(s1.latitude, s1.longitude) IN (SELECT longitude, latitude FROM App\Entity\School GROUP BY longitude, latitude HAVING COUNT(*) > 1)')
-            ->getQuery()
-            ->getResult();
-    }
-
-    function getAllWithIdsAndCoordinate(): array {
-        return $this->createQueryBuilder('s')
-            ->select('s.id, s.latitude, s.longitude')
-            ->getQuery()
-            ->getResult();
+    public function getSameCordinates(): array {
+        $statement = $this->_em->getConnection()->prepare("
+			SELECT 
+			    sc.id, 
+			    sc.longitude,
+			    sc.latitude,
+			    DATE_FORMAT(sc.created_date, '%d/%m/%Y') as created_date,
+			    DATE_FORMAT(sc.updated_date, '%d/%m/%Y') as updated_date,
+			    ct.name AS city,
+			    c.name AS country,
+			    'duplicate coo' as error,
+			    'school' as actor
+	        FROM school sc
+	        LEFT JOIN city ct ON sc.id_city = ct.id
+	        LEFT JOIN country c ON sc.id_country = c.id
+	        WHERE (sc.longitude, sc.latitude) IN (
+	            SELECT sc2.longitude, sc2.latitude
+	            FROM school sc2
+	            GROUP BY sc2.longitude, sc2.latitude
+	            HAVING COUNT(*) > 1
+	        )
+	        ORDER BY sc.longitude
+		");
+        $result = $statement->executeQuery();
+        return $result->fetchAllAssociative();
     }
 }

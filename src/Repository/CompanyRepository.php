@@ -355,10 +355,30 @@ class CompanyRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    function getAllWithIdsAndCoordinate(): array {
-        return $this->createQueryBuilder('c')
-            ->select('c.id, c.latitude, c.longitude')
-            ->getQuery()
-            ->getResult();
+    public function getSameCordinates(): array {
+        $statement = $this->_em->getConnection()->prepare("
+			SELECT 
+			    cm.id, 
+			    cm.longitude,
+			    cm.latitude,
+			    DATE_FORMAT(cm.created_date, '%d/%m/%Y') as created_date,
+			    DATE_FORMAT(cm.updated_date, '%d/%m/%Y') as updated_date,
+			    ct.name AS city,
+			    c.name AS country,
+			    'duplicate coo' as error,
+			    'company' as actor
+	        FROM company cm
+	        LEFT JOIN city ct ON cm.id_city = ct.id
+	        LEFT JOIN country c ON cm.id_country = c.id
+	        WHERE (cm.longitude, cm.latitude) IN (
+	            SELECT cm2.longitude, cm2.latitude
+	            FROM company cm2
+	            GROUP BY cm2.longitude, cm2.latitude
+	            HAVING COUNT(*) > 1
+	        )
+	        ORDER BY cm.longitude
+		");
+        $result = $statement->executeQuery();
+        return $result->fetchAllAssociative();
     }
 }

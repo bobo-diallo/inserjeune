@@ -292,39 +292,41 @@ class GeoLocationController extends AbstractController {
 	private function createArrayPersonDegreeData(array $personDegrees): array {
 		$array = [];
 		foreach ($personDegrees as $personDegree) {
-			if (!$personDegree->getMapsAddress()) {
-				$personDegree->setMapsAddress($this->createMapsAddress(
-					$personDegree->getAddressNumber(),
-					$personDegree->getAddressRoad(),
-					$personDegree->getAddressLocality(),
-					$personDegree->getAddressCity()->getName(),
-					$personDegree->getRegion()->getName(),
-					$personDegree->getCountry()->getName()
-				));
-			}
-			$sectorArea = "";
-			if ($personDegree->getSectorArea() != null) {
-				$sectorArea = $personDegree->getSectorArea()->getName();
-			}
-			$activity = "";
-			if ($personDegree->getActivity() != null) {
-				$activity = $personDegree->getActivity()->getName();
-			}
+            if ($personDegree->getAddressCity()) {
+                if (!$personDegree->getMapsAddress()) {
+                    $personDegree->setMapsAddress($this->createMapsAddress(
+                        $personDegree->getAddressNumber(),
+                        $personDegree->getAddressRoad(),
+                        $personDegree->getAddressLocality(),
+                        $personDegree->getAddressCity()->getName(),
+                        $personDegree->getRegion()->getName(),
+                        $personDegree->getCountry()->getName()
+                    ));
+                }
+                $sectorArea = "";
+                if ($personDegree->getSectorArea() != null) {
+                    $sectorArea = $personDegree->getSectorArea()->getName();
+                }
+                $activity = "";
+                if ($personDegree->getActivity() != null) {
+                    $activity = $personDegree->getActivity()->getName();
+                }
 
-			$array[] = [
-				'type' => 'personDegree',
-				'name' => $personDegree->getName(),
-				'phone' => $personDegree->getPhoneMobile1(),
-				'email' => $personDegree->getEmail(),
-				'region' => $personDegree->getRegion()->getName(),
-				'city' => $personDegree->getAddressCity()->getName(),
-				'lat' => $personDegree->getLatitude(),
-				'lng' => $personDegree->getLongitude(),
-				'address' => $personDegree->getMapsAddress(),
-				'sector_area' => $sectorArea,
-				'activity' => $activity,
-			];
-		}
+                $array[] = [
+                    'type' => 'personDegree',
+                    'name' => $personDegree->getName(),
+                    'phone' => $personDegree->getPhoneMobile1(),
+                    'email' => $personDegree->getEmail(),
+                    'region' => $personDegree->getRegion()->getName(),
+                    'city' => $personDegree->getAddressCity()->getName(),
+                    'lat' => $personDegree->getLatitude(),
+                    'lng' => $personDegree->getLongitude(),
+                    'address' => $personDegree->getMapsAddress(),
+                    'sector_area' => $sectorArea,
+                    'activity' => $activity,
+                ];
+            }
+        }
 		return $array;
 	}
 

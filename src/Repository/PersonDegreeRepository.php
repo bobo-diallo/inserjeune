@@ -808,19 +808,36 @@ class PersonDegreeRepository extends ServiceEntityRepository {
     function getWithoutCoordinate(): array {
         return $this->createQueryBuilder('pd')
             ->select('pd.id')
-            // ->select('pd.id, c.name as country, ct.name as city, pd.latitude, pd.longitude, pd.createdDate, pd.updatedDate')
-            // ->leftJoin('pd.country', 'c')
-            // ->leftJoin('pd.addressCity', 'ct')
             ->where('pd.latitude IS NULL')
             ->orWhere('pd.longitude IS NULL')
             ->getQuery()
             ->getResult();
     }
 
-    function getAllWithIdsAndCoordinate(): array {
-        return $this->createQueryBuilder('pd')
-            ->select('pd.id, pd.latitude, pd.longitude')
-            ->getQuery()
-            ->getResult();
+    public function getSameCordinates(): array {
+        $statement = $this->_em->getConnection()->prepare("
+			SELECT 
+			    pd.id, 
+			    pd.longitude,
+			    pd.latitude,
+			    DATE_FORMAT(pd.created_date, '%d/%m/%Y') as created_date,
+			    DATE_FORMAT(pd.updated_date, '%d/%m/%Y') as updated_date,
+			    ct.name AS city,
+			    c.name AS country,
+			    'duplicate coo' as error,
+			    'persondegree' as actor
+	        FROM person_degree pd
+	        LEFT JOIN city ct ON pd.id_city = ct.id
+	        LEFT JOIN country c ON pd.id_country = c.id
+	        WHERE (pd.longitude, pd.latitude) IN (
+	            SELECT p.longitude, p.latitude
+	            FROM person_degree p
+	            GROUP BY p.longitude, p.latitude
+	            HAVING COUNT(*) > 1
+	        )
+	        ORDER BY pd.longitude
+		");
+        $result = $statement->executeQuery();
+        return $result->fetchAllAssociative();
     }
 }
