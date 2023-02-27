@@ -102,7 +102,8 @@
                               <th class="no-print selection">Selection</th>
                               <th>Id</th>
                               <th>Pays</th>
-                              <th>Entreprise</th>
+                              <th>Type</th>
+                              <th>Nom</th>
                               <th>Titre</th>
                               <th>Date modification</th>
                               <th>Date expiration</th>
@@ -429,7 +430,8 @@
                html += '    </td>';
                html += '    <td class="tdinput"><p id="p_id' + offer.id + '">' + offer.id + '</p></td>';
                html += '    <td class="tdinput"><p id="p_country' + offer.id + '">' + offer.country + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_company' + offer.id + '">' + offer.company + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_type' + offer.id + '">' + offer.type + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_name' + offer.id + '">' + offer.name + '</p></td>';
                html += '    <td class="tdinput"><p id="p_title' + offer.id + '">' + offer.title + '</p></td>';
                html += '    <td class="tdinput"><p id="p_update_date' + offer.id + '">' + offer.updateDate + '</p></td>';
                html += '    <td class="tdinput"><p id="p_ended_date' + offer.id + '">' + offer.closedDate + '</p></td>';
