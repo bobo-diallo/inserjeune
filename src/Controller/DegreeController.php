@@ -79,8 +79,10 @@ class DegreeController extends AbstractController {
 	public function deleteAction(Request $request, ?Degree $degree): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($degree) {
-				$this->em->remove($degree);
-				$this->em->flush();
+				$this->em->getConnection()->delete(
+					$this->em->getClassMetadata(Degree::class)->getTableName(),
+					['id' => $degree->getId()]
+				);
 				$this->addFlash('success', 'La suppression est faite avec success');
 			} else {
 				$this->addFlash('warning', 'Impossible de suppression le diplôme');
