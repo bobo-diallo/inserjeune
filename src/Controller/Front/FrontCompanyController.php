@@ -261,7 +261,7 @@ class FrontCompanyController extends AbstractController {
 			$this->em->flush();
 
 			$this->addFlash('success', 'La suppression est faite avec success');
-			return $this->redirectToRoute('/logout');
+			return $this->redirectToRoute('logout');
 		} else {
 			$this->addFlash('warning', 'Impossible de supprimer le compte');
 			return $this->redirectToRoute('front_company_new');
