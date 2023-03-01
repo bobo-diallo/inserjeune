@@ -420,46 +420,68 @@ class FrontPersonDegreeController extends AbstractController {
         $currentLongitude = floatval($request->get('longitude'));
         $gap = floatval($request->get('gap'));
         $currentPersondegree = $this->personDegreeService->getPersonDegree();
-        $currentId = $currentPersondegree->getId();
-        $newLatitude = null;
-        $newLongitude = null;
+        $currentId = $currentPersondegree?->getId();
+        $newLatitude = $currentLatitude;
+        $newLongitude = $currentLongitude;
+
+        // printf(" current pos = %.7f; %.7f\n", $newLatitude, $newLongitude );
 
         // recherche en base les coordonnées des diplômés de la ville
         $coordinates = $this->personDegreeRepository->getPersondegreesByCityForCoordinates($currentPersondegree->getAddressCity());
 
-        foreach ($coordinates as $coordinate) {
-            $personDegreeId = intval($coordinate['id']);
-            $personDegreeLatitude = floatval($coordinate['latitude']);
-            $personDegreeLongitude = floatval($coordinate['longitude']);
+        //boucle sur 300 gaps de longitude
+        $maxDuplicateLongitude = 300;
+        $maxDuplicateLatitude = 16;
+        for ($j = 0; $j < $maxDuplicateLongitude; $j++) {
+            // printf("\n---$j = %d----------------------------------------------------\n",$j);
 
-            if($personDegreeId != $currentId) {
-                // echo (strval($currentId) . " CUR(" .
-                //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
-                //     strval($personDegreeId) . " -> MAX(" .
-                //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> PD(" .
-                //     strval($personDegreeLatitude) . "," . strval($personDegreeLongitude) .')<br>');
+            // boucle sur 16 gaps de latitude (s'il existe un acteur dans les 20 gaps, on passe à la longitude supérieure)
+            $actorExist = [];
+            for ($i = 1; $i < $maxDuplicateLatitude; $i++) {
+                // printf("-------$i = %d-------------------------------------------------\n",$i);
+                // echo("current =" .$currentId. ": " .$currentLatitude. ";" .$currentLongitude); printf("\n");
 
-                // Recherche du diplômé le plus éloigné dans la zone $gap*10
-                if((($personDegreeLatitude >= $currentLatitude ) && ($personDegreeLatitude <= $currentLatitude + $gap * 10)) &&
-                    (($personDegreeLongitude >= $currentLongitude ) && ($personDegreeLongitude <= $currentLongitude + $gap * 10))) {
-                    // echo('--->OK<br>');
-                    if($newLatitude < $personDegreeLatitude) $newLatitude = $personDegreeLatitude;
-                    if($newLongitude < $personDegreeLongitude) $newLongitude = $personDegreeLongitude;
+                $actorExist[$i] = "free";
+                for ($k = 0; $k < count($coordinates); $k++) {
+                    $actorId = intval($coordinates[$k]['id']);
+
+                    if ($actorId != $currentId) {
+                        $actorLatitude = floatval($coordinates[$k]['latitude']);
+                        $actorLongitude = floatval($coordinates[$k]['longitude']);
+
+                        if(($actorLatitude > $currentLatitude + $gap * ($i-1)) &&
+                            ($actorLatitude <= $currentLatitude + $gap * $i) &&
+                            ($actorLongitude >= $currentLongitude + $gap * ($j)) &&
+                            ($actorLongitude <= $currentLongitude + $gap * ($j+1))) {
+                            // printf("actor =%s : %.6f; %.6f\n", $actorId, $actorLatitude, $actorLongitude );
+                            $actorExist[$i] = "used";
+                        }
+                    }
                 }
             }
+            if (in_array("free", $actorExist)) {
+                // debugg : affiche les cases libres
+                // var_dump("");
+                // for ($i = 1; $i < count($actorExist)+1; $i++) {
+                //     echo $actorExist[$i] . " | ";
+                // }
+                // var_dump("");
+                for ($i = 1; $i < count($actorExist)+1; $i++) {
+                    if($actorExist[$i] == "free") {
+                        // printf('%.7f;%.7f',$gap * $i , $gap * $j);
+                        $newLatitude = $currentLatitude + $gap * $i;
+                        $newLongitude = $currentLongitude + $gap * $j;
+                        $i = count($actorExist);
+                    }
+                }
+                // printf(" new pos = %.7f; %.7f\n", $newLatitude, $newLongitude );
+                $j = $maxDuplicateLongitude;
+            }
         }
-        // echo ("NEW-->" . strval($newLatitude) . "," . strval($newLongitude) .' --> ');
-        // echo (strval($newLatitude+$gap) . "," . strval($newLongitude) .'<br>');
-        // die();
 
-        if(($newLatitude == null) || ($newLongitude == null)) {
-            $newCoordinates = ['latitude'=>$currentLatitude, 'longitude'=>$currentLongitude];
-        } else {
-            $newLongitude += $gap;
-            $newCoordinates = ['latitude' => $newLatitude, 'longitude' => $newLongitude];
-        }
-
+        $newCoordinates = ['latitude' => $newLatitude, 'longitude' => $newLongitude];
         $result = ['personDegree_id'=> $currentId, 'coordinates' => $newCoordinates];
+
         return new JsonResponse($result);
     }
 }

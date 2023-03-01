@@ -395,7 +395,7 @@ class PurgeController extends AbstractController {
                 $newCoos = $this->getNewCoordinatesNearActorsInCountry($actorType, $actorIds[$i], $coo[0], $coo[1]);
 
                 // var_dump($coo[0], $coo[1]);
-                // var_dump($newCoos['latitude'],$newCoos['longitude']); die();
+                // var_dump($newCoos['latitude'],$newCoos['longitude']);
 
                 if($newCoos['latitude'] && $newCoos['longitude']) {
                     $actor->setLatitude($newCoos['latitude']);
@@ -410,6 +410,7 @@ class PurgeController extends AbstractController {
                 $this->em->flush();
 
                 $result[] = $actor->getId();
+                // die();
             }
             return new JsonResponse([$result,$error]);
         }
@@ -421,8 +422,8 @@ class PurgeController extends AbstractController {
         float $currentLatitude,
         float $currentLongitude): array {
             $gap = 0.0001;
-            $newLatitude = null;
-            $newLongitude = null;
+            $newLatitude = $currentLatitude;
+            $newLongitude = $currentLongitude;
             $coordinates = [];
 
             // recherche en base les coordonnées des acteurs de la ville
@@ -437,40 +438,56 @@ class PurgeController extends AbstractController {
                 $coordinates = $this->companyRepository->getCompaniesByCityForCoordinates($currentCompany->getCity());
             }
 
-            foreach ($coordinates as $coordinate) {
-                $actorId = intval($coordinate['id']);
-                $actorLatitude = floatval($coordinate['latitude']);
-                $actorLongitude = floatval($coordinate['longitude']);
+            //boucle sur 300 gaps de longitude
+            $maxDuplicateLongitude = 300;
+            $maxDuplicateLatitude = 16;
+            for ($j = 0; $j < $maxDuplicateLongitude; $j++) {
+                // printf("\n---$j = %d----------------------------------------------------\n",$j);
 
-                // Recherche de l'établissement le plus éloigné dans la zone $gap*10
-                if($actorId != $currentId) {
-                    // echo (strval($currentId) . " CUR(" .
-                    //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
-                    //     strval($schoolId) . " -> MAX(" .
-                    //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> SCH(" .
-                    //     strval($schoolLatitude) . "," . strval($schoolLongitude) .')<br>');
+                // boucle sur 16 gaps de latitude (s'il existe un acteur dans les 20 gaps, on passe à la longitude supérieure)
+                $actorExist = [];
+                for ($i = 1; $i < $maxDuplicateLatitude; $i++) {
+                    // printf("-------$i = %d-------------------------------------------------\n",$i);
+                    // echo("current =" .$currentId. ": " .$currentLatitude. ";" .$currentLongitude); printf("\n");
 
-                    if((($actorLatitude >= $currentLatitude ) && ($actorLatitude <= $currentLatitude + $gap * 10)) &&
-                        (($actorLongitude >= $currentLongitude ) && ($actorLongitude <= $currentLongitude + $gap * 10))) {
-                        // echo('--->OK<br>');
-                        if($newLatitude < $actorLatitude) $newLatitude = $actorLatitude;
-                        if($newLongitude < $actorLongitude) $newLongitude = $actorLongitude;
+                    $actorExist[$i] = "free";
+                    for ($k = 0; $k < count($coordinates); $k++) {
+                        $actorId = intval($coordinates[$k]['id']);
+
+                        if ($actorId != $currentId) {
+                            $actorLatitude = floatval($coordinates[$k]['latitude']);
+                            $actorLongitude = floatval($coordinates[$k]['longitude']);
+
+                            if(($actorLatitude > $currentLatitude + $gap * ($i-1)) &&
+                               ($actorLatitude <= $currentLatitude + $gap * $i) &&
+                               ($actorLongitude >= $currentLongitude + $gap * ($j)) &&
+                               ($actorLongitude <= $currentLongitude + $gap * ($j+1))) {
+                                    // printf("actor =%s : %.6f; %.6f\n", $actorId, $actorLatitude, $actorLongitude );
+                                    $actorExist[$i] = "used";
+                            }
+                        }
                     }
                 }
+                if (in_array("free", $actorExist)) {
+                    // debugg : affiche les cases libres
+                    // printf("\n");
+                    // for ($i = 1; $i < count($actorExist)+1; $i++) {
+                    //     echo $actorExist[$i] . " | ";
+                    // }
+                    // printf("\n");
+                    for ($i = 1; $i < count($actorExist)+1; $i++) {
+                        if($actorExist[$i] == "free") {
+                            $newLatitude = $currentLatitude + $gap * $i;
+                            $newLongitude = $currentLongitude + $gap * $j;
+                            $i = count($actorExist);
+                        }
+                    }
+                    // printf(" new pos = %.7f; %.7f\n", $newLatitude, $newLongitude );
+                    $j = $maxDuplicateLongitude;
+                }
             }
-            // echo ("NEW-->" . strval($newLatitude) . "," . strval($newLongitude) .' --> ');
-            // echo (strval($newLatitude+$gap) . "," . strval($newLongitude) .'<br>');
-            // die();
 
-            if(($newLatitude == null) || ($newLongitude == null)) {
-                $newCoordinates = ['latitude'=>$currentLatitude,
-                                   'longitude'=>$currentLongitude];
-            } else {
-                $newLongitude += $gap;
-                $newCoordinates = ['latitude' => $newLatitude,
-                                   'longitude' => $newLongitude];
-            }
-            return $newCoordinates;
+            return ['latitude' => $newLatitude, 'longitude' => $newLongitude];
         }
 
     // private function getByDuplicatesCoordinates (

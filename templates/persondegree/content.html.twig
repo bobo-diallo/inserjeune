@@ -42,16 +42,18 @@
 
                 // vérifie si les coordonnées pas déjà utilisées avec autre établissement
                 let url = window.location.toString();
-                url = url.replace('/edit', '/getPersondegreesByCoordinates');
-                // alert(url);
+                if (url.indexOf('/edit')!== -1) {
+                    url = url.replace('/edit', '/getPersondegreesByCoordinates');
+                }
 
+                // console.log(url);
                 //creation de la data pour json
                 let current_latitude = $('#appbundle_persondegree_latitude').val();
                 let current_longitude = $('#appbundle_persondegree_longitude').val();
                 let gap = 0.0001;
                 let data = { "latitude" : current_latitude,
                     "longitude" : current_longitude,
-                    "gap" : gap,
+                    "gap" : gap
                 };
 
                 // appel ajax en get
