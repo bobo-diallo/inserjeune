@@ -130,7 +130,8 @@ class PersonDegreeController extends AbstractController {
 			'personDegree' => $personDegree,
 			'edit_form' => $editForm->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+			'residenceCountryPhoneCode' => $personDegree->getUser()->getResidenceCountry()?->getPhoneCode()
 		]);
 	}
 
