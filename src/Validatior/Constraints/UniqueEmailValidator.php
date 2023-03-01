@@ -2,6 +2,7 @@
 
 namespace App\Validatior\Constraints;
 
+use App\Entity\Role;
 use App\Entity\User;
 use App\Validatior\UnexpectedTypeException;
 use App\Validatior\UnexpectedValueException;
@@ -37,12 +38,27 @@ class UniqueEmailValidator extends ConstraintValidator {
 
 		$qb = $this->em->createQueryBuilder();
 
-		$currentId = $this->tokenStorage->getToken()->getUser()->getId();
+		$user = $this->tokenStorage->getToken()->getUser();
+
+		$roles = $user->getRoles();
+		if (in_array(Role::ROLE_ADMIN, $roles)) {
+			$countEmail = $qb->select('COUNT(u.id)')
+				->from(User::class, 'u')
+				->where('u.email = :email')
+				->setParameter('email', $value)
+				->getQuery()
+				->getSingleScalarResult();
+
+			if ($countEmail > 1) {
+				$this->context->buildViolation($constraint->message)->addViolation();
+			}
+			return;
+		}
 
 		$qb->select('u.email')
 			->from(User::class, 'u')
 			->where('u.id != :id')
-			->setParameter('id', $currentId);
+			->setParameter('id', $user->getId());
 
 		$results = $qb->getQuery()->execute();
 
