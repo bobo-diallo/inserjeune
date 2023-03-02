@@ -32,6 +32,7 @@ class FrontCompanyController extends AbstractController {
 	private UserRepository $userRepository;
 	private EmailService $emailService;
     private CompanyRepository $companyRepository;
+	private TokenStorageInterface $tokenStorage;
 
 	public function __construct(
 		EntityManagerInterface        $em,
@@ -39,7 +40,8 @@ class FrontCompanyController extends AbstractController {
 		SatisfactionCompanyRepository $satisfactionCompanyRepository,
 		UserRepository                $userRepository,
 		EmailService                  $emailService,
-        CompanyRepository             $companyRepository
+		CompanyRepository             $companyRepository,
+		TokenStorageInterface $tokenStorage
 	) {
 		$this->em = $em;
 		$this->companyService = $companyService;
@@ -47,6 +49,7 @@ class FrontCompanyController extends AbstractController {
 		$this->userRepository = $userRepository;
 		$this->emailService = $emailService;
         $this->companyRepository = $companyRepository;
+		$this->tokenStorage = $tokenStorage;
 	}
 
 	#[Route(path: '/new', name: 'front_company_new', methods: ['GET', 'POST'])]
@@ -257,6 +260,7 @@ class FrontCompanyController extends AbstractController {
 
 		if ($user) {
 			$this->companyService->removeRelations($user);
+			$this->tokenStorage->setToken(null);
 			$this->em->remove($user);
 			$this->em->flush();
 

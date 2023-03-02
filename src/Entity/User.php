@@ -82,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\OneToOne(mappedBy: 'user', targetEntity: School::class, cascade: ['persist', 'remove'])]
 	private ?School $school;
 
-	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist', 'remove'])]
+	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist'])]
 	#[ORM\JoinTable(name: 'user_role')]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
 	#[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id')]
