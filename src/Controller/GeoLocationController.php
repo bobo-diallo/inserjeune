@@ -161,6 +161,15 @@ class GeoLocationController extends AbstractController {
 		return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
 	}
 
+    #[Route(path: '/country/{id}/otherpersondegree', name: 'geolocation_map_country_other_persondegrees', methods: ['GET'])]
+    public function getOtherPersonDegreesCountryAction(Request $request, Country $country): JsonResponse|Response {
+        $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_STUDY');
+        $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_TRAINING'));
+        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_EMPLOYED'));
+        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_CONTRACTOR'));
+        return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
+    }
+
 
 	/**
 	 * @param Company[] $companies

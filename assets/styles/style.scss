@@ -563,6 +563,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 .table_geo td,
 .table_geo tr {
   border: 1px solid black;
+  width: 25%;
 }
 
 .table_geo_label {
@@ -570,9 +571,10 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 .table_geo_titre {
-  margin-left: 10%;
-  width: 100%;
-  text-align: left;
+  //margin-left: 10%;
+  //width: 100%;
+  //text-align: left;
+  margin: auto;
 }
 
 .table_geo_titre.ent {
@@ -584,9 +586,13 @@ table.dataTable tbody th, table.dataTable tbody td {
 .table_geo_titre.dip {
   color: #FFD300;
 }
+.table_geo_titre.stddip {
+  color: #EF2ED1;
+}
 
 .table_geo .form-control[type="checkbox"] {
-  margin-left: 20%;
+  //margin-left: 20%;
+  margin: auto!important;
   /*text-align: center;*/
   opacity: 0.0;
   /*transform: scale(4.2,2.4);*/
@@ -596,8 +602,9 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .table_geo .slider {
   /*text-align: center;*/
-  margin-left: 20%;
-  margin-top: -25px;
+  //margin-left: 20%;
+  //margin-top: -25px;
+  margin: -25px auto 0 auto;
 }
 
 @media (max-width: 640px) {

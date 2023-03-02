@@ -964,6 +964,10 @@
         <source>graduate.graduate_looking_for_job</source>
         <target>Graduate looking for a job</target>
       </trans-unit>
+      <trans-unit id="graduate.study_graduate">
+        <source>graduate.study_graduate</source>
+        <target>Study Graduate</target>
+      </trans-unit>
       <trans-unit id="graduate.graduate_in_employment">
         <source>graduate.graduate_in_employment</source>
         <target>Graduate in employment</target>
