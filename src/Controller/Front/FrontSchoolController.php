@@ -1032,6 +1032,8 @@ class FrontSchoolController extends AbstractController {
             if($personDegree) {
                 $user = $this->userRepository->find($personDegree->getUser()->getId());
                 $user->setPhone($newPhoneMobile1);
+                $user->setUsername($newPhoneMobile1);
+                $user->setUsernameCanonical($newPhoneMobile1);
                 $this->em->persist($user);
 
                 $personDegree->setPhoneMobile1($newPhoneMobile1);
