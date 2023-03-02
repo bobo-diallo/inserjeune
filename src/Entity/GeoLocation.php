@@ -35,8 +35,11 @@ class GeoLocation {
 	#[ORM\Column(name: 'show_schools', type: 'boolean')]
 	private bool $showSchools;
 
-	#[ORM\Column(name: 'show_person_degrees', type: 'boolean')]
-	private bool $showPersonDegrees;
+	#[ORM\Column(name: 'show_search_person_degrees', type: 'boolean')]
+	private bool $showSearchPersonDegrees;
+
+    #[ORM\Column(name: 'show_other_person_degrees', type: 'boolean')]
+    private bool $showOtherPersonDegrees;
 
 	#[ORM\ManyToOne(targetEntity: Region::class)]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
@@ -151,8 +154,8 @@ class GeoLocation {
 		return $this;
 	}
 
-	public function isShowPersonDegrees(): bool {
-		return $this->showPersonDegrees;
+	public function isShowSearchPersonDegrees(): bool {
+		return $this->showSearchPersonDegrees;
 	}
 
 	public function isShowSchools(): bool {
@@ -164,9 +167,25 @@ class GeoLocation {
 		return $this;
 	}
 
-	public function setShowPersonDegrees(bool $showPersonDegrees): self {
-		$this->showPersonDegrees = $showPersonDegrees;
+	public function setShowSearchPersonDegrees(bool $showPersonDegrees): self {
+		$this->showSearchPersonDegrees = $showPersonDegrees;
 		return $this;
 	}
+
+    /**
+     * @return bool
+     */
+    public function isShowOtherPersonDegrees(): bool
+    {
+        return $this->showOtherPersonDegrees;
+    }
+
+    /**
+     * @param bool $showOtherPersonDegrees
+     */
+    public function setShowOtherPersonDegrees(bool $showOtherPersonDegrees): void
+    {
+        $this->showOtherPersonDegrees = $showOtherPersonDegrees;
+    }
 
 }

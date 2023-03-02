@@ -965,6 +965,10 @@
         <source>graduate.graduate_looking_for_job</source>
         <target>Diplômé en recherche d'emploi</target>
       </trans-unit>
+      <trans-unit id="graduate.study_graduate">
+        <source>graduate.study_graduate</source>
+        <target>Diplômé en formation</target>
+      </trans-unit>
       <trans-unit id="graduate.graduate_in_employment">
         <source>graduate.graduate_in_employment</source>
         <target>Diplômé en emploi</target>

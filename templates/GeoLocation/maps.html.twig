@@ -70,8 +70,12 @@
                            </div></th>
                         <th><div class="table_geo_titre dip d-flex justify-content-around">
                               <span>{{ 'graduate.graduate_looking_for_job' | trans }}</span>
-                              <span id="nb_graduate"></span>
+                              <span id="nb_graduate_looking_for_job"></span>
                            </div></th>
+                        <th><div class="table_geo_titre stddip d-flex justify-content-around">
+                              <span>{{ 'graduate.study_graduate' | trans }}</span>
+                              <span id="nb_other_graduate"></span>
+                        </div></th>
                      </tr>
                      </thead>
                      <tbody>
@@ -93,12 +97,20 @@
                            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showSchools) }}</div>
                         </td>
                         <td >
-                           {{ form_widget(form.showPersonDegrees) }}
-                           <div class="slider round" id="sliderShowPersonDegrees">
+                           {{ form_widget(form.showSearchPersonDegrees) }}
+                           <div class="slider round" id="slidershowSearchPersonDegrees">
                               <span class="non">{{ 'menu.no' | trans }}</span>
                               <span class="oui">{{ 'menu.yes' | trans }}</span>
                            </div>
-                           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showPersonDegrees) }}</div>
+                           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showSearchPersonDegrees) }}</div>
+                        </td>
+                        <td >
+                           {{ form_widget(form.showOtherPersonDegrees) }}
+                           <div class="slider round" id="slidershowOtherPersonDegrees">
+                              <span class="non">{{ 'menu.no' | trans }}</span>
+                              <span class="oui">{{ 'menu.yes' | trans }}</span>
+                           </div>
+                           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.showOtherPersonDegrees) }}</div>
                         </td>
                      </tr>
                      </tbody>
@@ -133,14 +145,18 @@
       let selectedDataSchools = [];
       let dataPersonDegrees = [];
       let selectedDataPersonDegrees = [];
+      let dataOtherPersonDegrees = [];
+      let selectedDataOtherPersonDegrees = [];
       let input_address_country = "";
       let map = null;
       let geocoder = null;
       let school_icon = "{{ asset('build/images/maps/school.png') }}";
       let company_icon = "{{ asset('build/images/maps/company.png') }}";
       let persondegree_icon = "{{ asset('build/images/maps/degree.png') }}";
+      let otherpersondegree_icon = "{{ asset('build/images/maps/studydegree.png') }}";
       let company_cluster_icon = "{{ asset('build/images/maps/company_cluster/m') }}";
       let persondegree_cluster_icon = "{{ asset('build/images/maps/persondegree_cluster/m') }}";
+      let otherpersondegree_cluster_icon = "{{ asset('build/images/maps/studypersondegree_cluster/m') }}";
       let school_cluster_icon = "{{ asset('build/images/maps/school_cluster/m') }}";
       let company_markers = [];
       let company_markerCluster = null;
@@ -148,6 +164,8 @@
       let school_markerCluster = null;
       let persondegree_markers = [];
       let persondegree_markerCluster = null;
+      let otherpersondegree_markers = [];
+      let otherpersondegree_markerCluster = null;
 
       /**
        *  Event
@@ -285,11 +303,20 @@
 
       /**
        *  Event
-       *  Affichage des diplômés sur la carte
+       *  Affichage des diplômés en recherche sur la carte
        *  L'affichage se fait soit par pays, region ou ville
        */
-      $('#appbundle_geolocation_showPersonDegrees').change(function () {
-         persondegree_markerCluster = showMapData("#appbundle_geolocation_showPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees)
+      $('#appbundle_geolocation_showSearchPersonDegrees').change(function () {
+         persondegree_markerCluster = showMapData("#appbundle_geolocation_showSearchPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees,)
+      })
+
+      /**
+       *  Event
+       *  Affichage des autres diplômés sur la carte
+       *  L'affichage se fait soit par pays, region ou ville
+       */
+      $('#appbundle_geolocation_showOtherPersonDegrees').change(function () {
+         otherpersondegree_markerCluster = showMapData("#appbundle_geolocation_showOtherPersonDegrees", otherpersondegree_markers, otherpersondegree_icon, otherpersondegree_markerCluster, otherpersondegree_cluster_icon, selectedDataOtherPersonDegrees)
       })
 
       // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
@@ -328,6 +355,9 @@
             if(persondegree_markerCluster == null) {
                persondegree_markerCluster = createClusterData(persondegree_markers, persondegree_cluster_icon);
             }
+            if(otherpersondegree_markerCluster == null) {
+               otherpersondegree_markerCluster = createClusterData(otherpersondegree_markers, otherpersondegree_cluster_icon);
+            }
 
             viewAllMarkers();
          }
@@ -341,6 +371,7 @@
          // initialisation des tables de données
          dataCompanies = [];
          dataPersonDegrees = [];
+         dataOtherPersonDegrees = [];
          dataSchools = [];
 
          let idCountry = $('#appbundle_geolocation_country option:selected').val()
@@ -365,12 +396,27 @@
                console.log("etablissements récupérées: " + dataSchools.length)
             })
 
-            // Recupère les diplômés en Bdd
+            // Recupère les diplômés en recherche d'emploi en Bdd
             console.log("Ajax personDegreesGeo : " + url +'/unemployedpersondegree');
             await $.get((url+'/unemployedpersondegree'), function (data) {
                dataPersonDegrees = [];
                dataPersonDegrees = data;
                console.log("diplômés récupérés: " + dataPersonDegrees.length);
+               setTimeout(function () {
+                  selectData();
+                  setTimeout(function () {
+                     initMap(input_address_country, 7);
+                     console.log("datas selected");
+                  }, 1000);
+               }, 1000);
+            })
+
+            // Recupère les autres diplômés  en Bdd
+            console.log("Ajax personDegreesGeo : " + url +'/otherpersondegree');
+            await $.get((url+'/otherpersondegree'), function (data) {
+               dataOtherPersonDegrees = [];
+               dataOtherPersonDegrees = data;
+               console.log("diplômés récupérés: " + dataOtherPersonDegrees.length);
                setTimeout(function () {
                   selectData();
                   setTimeout(function () {
@@ -391,6 +437,7 @@
          selectedDataCompanies = [];
          selectedDataSchools = [];
          selectedDataPersonDegrees = [];
+         selectedDataOtherPersonDegrees = [];
 
          let valueRegion = $('#appbundle_geolocation_region option:selected').text()
          let valueCity = $('#appbundle_geolocation_city option:selected').text()
@@ -468,8 +515,8 @@
          console.log("etablissements sélectionnées: " + selectedDataSchools.length);
          $('#nb_establishment').text(selectedDataSchools.length);
 
-         // Selection des Dipômés
-         // ---------------------
+         // Selection des Dipômés en recherche
+         // ----------------------------------
          // console.log("dataPersonDegrees = " + dataPersonDegrees.length);
          $.each(dataPersonDegrees, function (index, value) {
             let selected = true;
@@ -499,8 +546,42 @@
                selectedDataPersonDegrees.push(dataPersonDegrees[index]);
             }
          })
-         console.log("diplômés sélectionnées: " + selectedDataPersonDegrees.length);
-         $('#nb_graduate').text(selectedDataPersonDegrees.length);
+         console.log("diplômés en recherche sélectionnées: " + selectedDataPersonDegrees.length);
+         $('#nb_graduate_looking_for_job').text(selectedDataPersonDegrees.length);
+
+         // Selection des autres Dipômés
+         // ----------------------------
+         // console.log("dataOtherPersonDegrees = " + dataOtherPersonDegrees.length);
+         $.each(dataOtherPersonDegrees, function (index, value) {
+            let selected = true;
+
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.sector_area != valueSectorArea)
+                  selected = false;
+            }
+
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.activity != valueActivity)
+                  selected = false;
+            }
+
+            if (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.region != valueRegion)
+                  selected = false;
+               // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
+            }
+
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+               if(value.city != valueCity)
+                  selected = false;
+            }
+
+            if (selected) {
+               selectedDataOtherPersonDegrees.push(dataOtherPersonDegrees[index]);
+            }
+         })
+         console.log("autres diplômés sélectionnées: " + selectedDataOtherPersonDegrees.length);
+         $('#nb_other_graduate').text(selectedDataOtherPersonDegrees.length);
          console.log("--------------------------");
       }
 
@@ -598,7 +679,8 @@
        *  Affiche tous les markeurs et clusters
        */
       function viewAllMarkers() {
-         persondegree_markerCluster = showMapData("#appbundle_geolocation_showPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees)
+         persondegree_markerCluster = showMapData("#appbundle_geolocation_showSearchPersonDegrees", persondegree_markers, persondegree_icon, persondegree_markerCluster, persondegree_cluster_icon, selectedDataPersonDegrees)
+         otherpersondegree_markerCluster = showMapData("#appbundle_geolocation_showOtherPersonDegrees", otherpersondegree_markers, otherpersondegree_icon, otherpersondegree_markerCluster, otherpersondegree_cluster_icon, selectedDataOtherPersonDegrees)
          company_markerCluster = showMapData("#appbundle_geolocation_showCompanies", company_markers, company_icon, company_markerCluster, company_cluster_icon, selectedDataCompanies)
          school_markerCluster = showMapData("#appbundle_geolocation_showSchools", school_markers, school_icon, school_markerCluster, school_cluster_icon, selectedDataSchools)
       }
@@ -606,6 +688,8 @@
       function deleteAllMarkers() {
          deleteMarkersData(persondegree_markers);
          deleteClusterData(persondegree_markerCluster);
+         deleteMarkersData(otherpersondegree_markers);
+         deleteClusterData(otherpersondegree_markerCluster);
          deleteMarkersData(company_markers);
          deleteClusterData(company_markerCluster);
          deleteMarkersData(school_markers);

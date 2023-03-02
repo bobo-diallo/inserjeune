@@ -76,9 +76,14 @@ class GeoLocationType extends AbstractType {
 				'label' => 'Afficher les établissement ?'],
 				'required' => false
 			])
-			->add('showPersonDegrees', CheckboxType::class, ['attr' => [
+            ->add('showSearchPersonDegrees', CheckboxType::class, ['attr' => [
+                'class' => 'form-control',
+                'label' => 'Afficher les diplômés en recherche ?'],
+                'required' => false
+            ])
+			->add('showOtherPersonDegrees', CheckboxType::class, ['attr' => [
 				'class' => 'form-control',
-				'label' => 'Afficher les diplômés ?'],
+				'label' => 'Afficher les autres diplômés ?'],
 				'required' => false
 			]);
 		$this->cityService->addCity($builder, 'city', true);
