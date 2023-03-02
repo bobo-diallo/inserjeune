@@ -8,7 +8,7 @@ final class PersonDegreeReadOnly {
 	private ?string $lastname;
 	private ?string $email;
 	private ?\DateTime $createdDate;
-	private bool $checkSchool;
+	private ?bool $checkSchool;
 	private ?int $lastDegreeYear;
 	private ?int $lastDegreeMonth;
 	private ?string $type;
@@ -35,7 +35,7 @@ final class PersonDegreeReadOnly {
 		?string $lastname,
 		?string $email,
 		?\DateTime $createdDate,
-		bool $checkSchool,
+		?bool $checkSchool,
 		?int $lastDegreeYear,
 		?int $lastDegreeMonth,
 		?string $type,
@@ -103,7 +103,7 @@ final class PersonDegreeReadOnly {
 		return $this->createdDate;
 	}
 
-	public function getCheckSchool(): bool {
+	public function getCheckSchool(): ?bool {
 		return $this->checkSchool;
 	}
 

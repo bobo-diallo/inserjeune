@@ -59,9 +59,9 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			COUNT(satisfaction_salaries.id) as satisfaction_salaries_count,
 			COUNT(satisfaction_searches.id) as satisfaction_searches_count
 			')
-			->innerJoin('p.country', 'country')
-			->innerJoin('p.degree', 'degree')
-			->innerJoin('p.activity', 'activity')
+			->leftJoin('p.country', 'country')
+			->leftJoin('p.degree', 'degree')
+			->leftJoin('p.activity', 'activity')
 			->leftJoin('p.school', 'school')
 			->leftJoin('school.city', 'school_city')
 			->leftJoin('p.satisfactionCreators', 'satisfaction_creators')
