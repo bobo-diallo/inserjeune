@@ -44,6 +44,8 @@
                 let url = window.location.toString();
                 if (url.indexOf('/edit')!== -1) {
                     url = url.replace('/edit', '/getPersondegreesByCoordinates');
+                } else if (url.indexOf('/new')!== -1) {
+                    $('#appbundle_persondegree_locationMode').prop("checked", false);
                 }
 
                 // console.log(url);
