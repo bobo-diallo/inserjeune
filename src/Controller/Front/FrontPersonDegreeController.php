@@ -43,6 +43,7 @@ class FrontPersonDegreeController extends AbstractController {
 	private CompanyService $companyService;
 	private FileUploader $fileUploader;
     private PersonDegreeRepository $personDegreeRepository;
+	private TokenStorageInterface $tokenStorage;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -51,9 +52,10 @@ class FrontPersonDegreeController extends AbstractController {
 		JobOfferRepository     $jobOfferRepository,
 		EmailService           $emailService,
 		UserRepository         $userRepository,
-		CompanyService          $companyService,
-		FileUploader            $fileUploader,
-        PersonDegreeRepository  $personDegreeRepository,
+		CompanyService         $companyService,
+		FileUploader           $fileUploader,
+		PersonDegreeRepository $personDegreeRepository,
+		TokenStorageInterface $tokenStorage,
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -64,6 +66,7 @@ class FrontPersonDegreeController extends AbstractController {
 		$this->companyService = $companyService;
 		$this->fileUploader = $fileUploader;
         $this->personDegreeRepository = $personDegreeRepository;
+		$this->tokenStorage = $tokenStorage;
 	}
 
 	#[Route(path: '/new', name: 'front_persondegree_new', methods: ['GET', 'POST'])]
@@ -268,6 +271,7 @@ class FrontPersonDegreeController extends AbstractController {
 
 		if ($user) {
 			$this->personDegreeService->removeRelations($user);
+			$this->tokenStorage->setToken(null);
 			$this->em->remove($user);
 			$this->em->flush();
 			$this->addFlash('success', 'La suppression est faite avec success');

@@ -62,26 +62,28 @@ class FrontSchoolController extends AbstractController {
     private UserPasswordHasherInterface $hasher;
 	private EmailService $emailService;
     private SchoolRepository $schoolRepository;
+	private TokenStorageInterface $tokenStorage;
 
 	public function __construct(
 		EntityManagerInterface       $em,
 		ActivityService              $activityService,
 		SchoolService                $schoolService,
 		CompanyRepository            $companyRepository,
-        UserPasswordHasherInterface  $hasher,
+		UserPasswordHasherInterface  $hasher,
 		SatisfactionSalaryRepository $satisfactionSalaryRepository,
 		PersonDegreeRepository       $personDegreeRepository,
-		UserRepository               $userRepository,
-		RoleRepository               $roleRepository,
-		RegionRepository             $regionRepository,
-        CountryRepository            $countryRepository,
-        CityRepository               $cityRepository,
-        DegreeRepository             $degreeRepository,
-		LegalStatusRepository        $legalStatusRepository,
-		SectorAreaRepository         $sectorAreaRepository,
-		ActivityRepository           $activityRepository,
-		EmailService                 $emailService,
-        SchoolRepository             $schoolRepository
+		UserRepository        $userRepository,
+		RoleRepository        $roleRepository,
+		RegionRepository      $regionRepository,
+		CountryRepository     $countryRepository,
+		CityRepository        $cityRepository,
+		DegreeRepository      $degreeRepository,
+		LegalStatusRepository $legalStatusRepository,
+		SectorAreaRepository  $sectorAreaRepository,
+		ActivityRepository    $activityRepository,
+		EmailService          $emailService,
+		SchoolRepository      $schoolRepository,
+		TokenStorageInterface $tokenStorage
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -101,6 +103,7 @@ class FrontSchoolController extends AbstractController {
 		$this->activityRepository = $activityRepository;
 		$this->emailService = $emailService;
         $this->schoolRepository = $schoolRepository;
+		$this->tokenStorage = $tokenStorage;
 	}
 
 	#[Route(path: '/new', name: 'front_school_new', methods: ['GET', 'POST'])]
@@ -334,6 +337,7 @@ class FrontSchoolController extends AbstractController {
 
 		if ($user) {
 			$this->schoolService->removeRelations($user);
+			$this->tokenStorage->setToken(null);
 			$this->em->remove($user);
 			$this->em->flush();
 
