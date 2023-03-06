@@ -41,4 +41,4 @@
 2. dans SMTP = localhost, remplacer localhost par le IP du server de mail
 3. smtp_port = 25, remplacer le bon port si ce n'est pas 25
 4. Pour tester avec la console, taper: echo testing | mail -s mons_message monemail@gmail.com
-5. Dans .env de symfony; mettre MAILER_DSN:sendmail://default
+5. Dans .env de symfony; mettre MAILER_DSN=sendmail://default ou MAILER_DSN=smtp://IP_SERVEUR:25 (forte chance que cette conf fonctionne plus)
