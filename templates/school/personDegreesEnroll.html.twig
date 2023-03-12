@@ -18,7 +18,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé</button>
-{#                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>#}
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
 {#                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>#}
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
@@ -337,7 +337,7 @@
                 addOptionSectorArea(rowNumber);
 
             // Add option de sélection de la région de l'établissement
-            ($('#selectAddressCity' + rowNumber + " option").length == 0)
+            if($('#selectAddressCity' + rowNumber + " option").length == 0)
             $("#selectAddressCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
 
             // Add option de sélection du SectorAreas de l'établissement
@@ -909,12 +909,95 @@
                     reader.onload = function (evt) {
                         let data = evt.target.result.split("\n");
                         // Valid file
-                        let header = data[0];
-                        let validHeader = '"Immatriculation","Prénom","Nom","DateNaissance","Genre","Région","Ville","Portable","portable parent","Email","Diplôme","Secteur","Filière"';
-                        if (header !== validHeader) {
-                            alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
-                            return;
+                        // let header = data[0];
+
+                        let fields = data[0].split(',') ;
+
+                        let fieldNames = {
+                            "immatriculationField": null,
+                            "prenomField": null,
+                            "nomField": null,
+                            "dateNaissanceField": null,
+                            "genreField": null,
+                            "regionField": null,
+                            "villeField": null,
+                            "portableField": null,
+                            "portableParentField": null,
+                            "emailField": null,
+                            "diplomeField": null,
+                            "secteurField": null,
+                            "filiereField": null,
+                        };
+                        let fieldsOrder = [
+                            "immatriculationField",
+                            "prenomField",
+                            "nomField",
+                            "dateNaissanceField",
+                            "genreField",
+                            "regionField",
+                            "villeField",
+                            "portableField",
+                            "portableParentField",
+                            "emailField",
+                            "diplomeField",
+                            "secteurField",
+                            "filiereField"
+                        ];
+
+                        for(let i=0; i<fields.length; i++) {
+                            let field = fields[i].replaceAll('\"',"").toLowerCase();
+
+                            // fiedNames in FR
+                            switch (field) {
+                                case 'immatriculation' : fieldNames['immatriculationField'] = i; break;
+                                case 'prénom' : fieldNames['prenomField'] = i; break;
+                                case 'nom' : fieldNames['nomField'] = i; break;
+                                case 'date naissance' : fieldNames['dateNaissanceField'] = i; break;
+                                case 'genre' : fieldNames['genreField'] = i; break;
+                                case 'région' : fieldNames['regionField'] = i; break;
+                                case 'ville' : fieldNames['villeField'] = i; break;
+                                case 'portable' : fieldNames['portableField'] = i; break;
+                                case 'portable parent' : fieldNames['portableParentField'] = i; break;
+                                case 'email' : fieldNames['emailField'] = i; break;
+                                case 'diplôme' : fieldNames['diplomeField'] = i; break;
+                                case 'secteur' : fieldNames['secteurField'] = i; break;
+                                case 'filière' : fieldNames['filiereField'] = i; break;
+                            }
+
+                            // fiedNames in EN
+                            // switch (field) {
+                            //     case 'registration' : fieldNames['immatriculationField'] = i;
+                            //     case 'first name' : fieldNames['prenomField'] = i;
+                            //     case 'name' : fieldNames['nomField'] = i;
+                            //     case 'birth' : fieldNames['dateNaissanceField'] = i;
+                            //     case 'gender' : fieldNames['genreField'] = i;
+                            //     case 'region' : fieldNames['regionField'] = i;
+                            //     case 'city' : fieldNames['villeField'] = i;
+                            //     case 'mobile' : fieldNames['portableField'] = i;
+                            //     case 'parent mobile' : fieldNames['portableParentField'] = i;
+                            //     case 'email' : fieldNames['emailField'] = i;
+                            //     case 'diploma' : fieldNames['diplomeField'] = i;
+                            //     case 'sector' : fieldNames['secteurField'] = i;
+                            //     case 'subsector' : fieldNames['filiereField'] = i;
+                            // }
                         }
+
+                        // let validHeader = '"Immatriculation","Prénom","Nom","DateNaissance","Genre","Région","Ville","Portable","portable parent","Email","Diplôme","Secteur","Filière"';
+                        // if (header !== validHeader) {
+                        //     alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                        //     return;
+                        // }
+
+                        // valid minimum data fields
+                        let validHeader = true;
+                        if ((fieldNames['prenomField'] == null) ||
+                            (fieldNames['nomField'] == null) ||
+                            (fieldNames['portableField'] ==null)) {
+                                validHeader = true;
+                                alert(`Le fichier n'est pas valide. Les champs \'prénom\', \'nom\' et \'date naissance\' sont obligatoire `);// alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                                return;
+                        }
+                        // console.log(fieldNames)
 
                         data.shift();
                         data.forEach(function (row) {
@@ -922,9 +1005,17 @@
                                 let columnData = row.split(',').map(function (item) {
                                     return item.replace(/['"]+/g, '');
                                 });
-                                addRowPersonDegreeWithValue(columnData);
-                            }
 
+                                //Create a new ordered columnData
+                                let orderedData = [];
+                                for (let i = 0; i < fieldsOrder.length; i++) {
+                                    let fieldName = fieldsOrder[i];
+                                    let value = fieldNames[fieldName];
+                                    // console.log(fieldNames[fieldName] + "=" + columnData[value]);
+                                    orderedData.push(columnData[value]);
+                                }
+                                addRowPersonDegreeWithValue(orderedData);
+                            }
                         });
 
                         $('#nbRowImported').val(data.length - 1);
