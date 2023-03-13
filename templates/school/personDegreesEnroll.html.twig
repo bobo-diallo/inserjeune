@@ -1035,8 +1035,8 @@
                         }
 
                         data.shift();
+                        let errors = [];
                         data.forEach(function (row) {
-                            let errors = [];
                             if (row) {
                                 let columnData = row.split(',').map(function (item) {
                                     return item.replace(/['"]+/g, '');
@@ -1047,22 +1047,19 @@
                                 for (let i = 0; i < fieldsOrder.length; i++) {
                                     let fieldName = fieldsOrder[i];
                                     let fieldNumber = fieldNames[fieldName];
-                                    // console.log(fieldNames[fieldName] + "=" + columnData[value]);
                                     orderedData.push(columnData[fieldNumber]);
                                 }
                                 addRowPersonDegreeWithValue(orderedData, function (err) {
                                     if (err.length > 0) {
-                                        alert(err[0]);
-                                        errors = err;
-                                        return;
+                                        errors = errors.concat(err);
                                     }
                                 });
                             }
-
-                            if (errors.length > 0) {
-                                return;
-                            }
                         });
+
+                        if (errors.length > 0) {
+                            alert(errors[0]);
+                        }
 
                         $('#nbRowImported').val(data.length - 1);
                     }
