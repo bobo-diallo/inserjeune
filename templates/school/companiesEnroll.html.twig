@@ -20,7 +20,7 @@
                                 <div class="col-sm-6">
                                     {#                                    {% set lien_images = asset('build/images/icon/')  %}#}
                                     <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')">Ajouter Entreprise</button>
-{#                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>#}
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
 {#                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/company_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>#}
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
@@ -805,13 +805,74 @@
 
                     reader.onload = function (evt) {
                         let data = evt.target.result.split("\n");
+                        let errorFields = [];
+
                         // Valid file
-                        let header = data[0];
-                        let validHeader = '"Nom","Région","Ville","Téléphone","Email","Secteur","Statut juridique"';
-                        if (header !== validHeader) {
-                            alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                        let header = data[0].replaceAll('\r',"");
+                        if(header[header.length-1] == ',')
+                            header = header.substring(0, header.length - 1);
+
+                        let fields = header.split(',') ;
+                        console.log(fields);
+                        let fieldNames = {
+                            "nomField": null,
+                            "regionField": null,
+                            "villeField": null,
+                            "telephoneField": null,
+                            "emailField": null,
+                            "secteurField": null,
+                            "statutJuridiqueField": null
+                        };
+                        let fieldsOrder = [
+                            "nomField",
+                            "regionField",
+                            "villeField",
+                            "telephoneField",
+                            "emailField",
+                            "secteurField",
+                            "statutJuridiqueField"
+                        ];
+
+
+                        for(let i=0; i<fields.length; i++) {
+                            let field = fields[i].replaceAll('\"','').toLowerCase();
+
+                            // fiedNames in FR
+                            switch (field) {
+                                case 'nom' : fieldNames['nomField'] = i; break;
+                                case 'région' : fieldNames['regionField'] = i; break;
+                                case 'ville' : fieldNames['villeField'] = i; break;
+                                case 'téléphone' : fieldNames['telephoneField'] = i; break;
+                                case 'email' : fieldNames['emailField'] = i; break;
+                                case 'secteur' : fieldNames['secteurField'] = i; break;
+                                case 'statut juridique' : fieldNames['statutJuridiqueField'] = i; break;
+                                default :
+                                    errorFields.push(fields[i]);
+                            }
+                        }
+
+                        // check bad fieldName syntax
+                        if (errorFields.length >0) {
+                            let errorMsg = "Mauvaise syntaxe des champs suivant : ";
+                            errorFields.forEach(function (error) {
+                                errorMsg += error + ', ';
+                            })
+                            errorMsg += "  Champs autorisés =  nom, région, ville, téléphone, email, secteur, statut juridique" ;
+                            alert(errorMsg);
                             return;
                         }
+
+                        // check minimum data fields
+                        if ((fieldNames['nomField'] == null) ||
+                            (fieldNames['telephoneField'] ==null)) {
+                            alert(`Le fichier n'est pas valide. Les champs \'nom\' et \'téléphone\' sont obligatoires `);
+                            return;
+                        }
+                        // let validHeader = '"Nom","Région","Ville","Téléphone","Email","Secteur","Statut juridique"';
+                        // if (header !== validHeader) {
+                        //     alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                        //     return;
+                        // }
 
                         data.shift();
                         data.forEach(function (row) {
@@ -819,7 +880,16 @@
                                 let columnData = row.split(',').map(function (item) {
                                     return item.replace(/['"]+/g, '');
                                 });
-                                addRowCompanyWithValue(columnData);
+
+                                //Create a new ordered columnData
+                                let orderedData = [];
+                                for (let i = 0; i < fieldsOrder.length; i++) {
+                                    let fieldName = fieldsOrder[i];
+                                    let fieldNumber = fieldNames[fieldName];
+                                    // console.log(fieldNames[fieldName] + "=" + columnData[value]);
+                                    orderedData.push(columnData[fieldNumber]);
+                                }
+                                addRowCompanyWithValue(orderedData);
                             }
 
                         });
