@@ -19,7 +19,7 @@
                                 <div class="col-sm-6">
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">Ajouter Diplômé</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
-{#                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>#}
+                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>
@@ -348,7 +348,7 @@
             $("#edit" + rowNumber).click();
         }
 
-        function addRowPersonDegreeWithValue(values) {
+        function addRowPersonDegreeWithValue(values, callback) {
             let rowNumber = $('#rowNumber').val();
             let assetLocationIcon = $('#lienImages').val();
 
@@ -407,11 +407,33 @@
                 }
             });
 
-            changeSelectOptionByValue('#selectRegion' + rowNumber, values[5], () => alert(`La region de la ligne ${rowNumber} n'existe pas dans le system.`));
-            changeSelectOptionByValue('#selectDegree' + rowNumber, values[10], () => alert(`Le diplôme de la ligne ${rowNumber} n'existe pas dans le system.`));
-            changeSelectOptionByValue('#selectSectorArea' + rowNumber, values[11], () => alert(`Le Secteur de la ligne ${rowNumber} n'existe pas dans le system.`));
-            changeSelectOptionByValue('#selectSex' + rowNumber, values[4], () => alert(`Le sexe de la ligne ${rowNumber} n'existe pas dans le system.`));
+            let errors = [];
+            changeSelectOptionByValue('#selectRegion' + rowNumber, values[5], (isValid) => {
+                if (!isValid) {
+                    errors.push(`La région de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
+            changeSelectOptionByValue('#selectDegree' + rowNumber, values[10], (isValid) => {
+                if (!isValid) {
+                    errors.push(`Le diplôme de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
+            changeSelectOptionByValue('#selectSectorArea' + rowNumber, values[11], (isValid) => {
+                if (!isValid) {
+                    errors.push(`Le secteur de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
+            changeSelectOptionByValue('#selectSex' + rowNumber, values[4], (isValid) => {
+                if (!isValid) {
+                    errors.push(`Le sexe de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
 
+            if (errors.length > 0) {
+                callback(errors);
+
+                return;
+            }
 
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
@@ -429,7 +451,7 @@
                 optionToSelect.selected = true;
                 $(selectId).trigger('change');
             } else {
-                callback();
+                callback(false);
             }
         }
 
@@ -660,8 +682,8 @@
                             if (res[1].length > 0) {
                                 // alert(res[1].length + " problèmes rencontrés lors de l'update, opération annuée");
 
-                                for (let i = 0; i < res[1].length; i++)
-                                    alert(res[1][i]);
+                                alert(res[1][0]);
+                                return;
 
                             /* mise à jour de l'affichage des éléments en mode show */
                             /* ---------------------------------------------------- */
@@ -1014,6 +1036,7 @@
 
                         data.shift();
                         data.forEach(function (row) {
+                            let errors = [];
                             if (row) {
                                 let columnData = row.split(',').map(function (item) {
                                     return item.replace(/['"]+/g, '');
@@ -1027,7 +1050,17 @@
                                     // console.log(fieldNames[fieldName] + "=" + columnData[value]);
                                     orderedData.push(columnData[fieldNumber]);
                                 }
-                                addRowPersonDegreeWithValue(orderedData);
+                                addRowPersonDegreeWithValue(orderedData, function (err) {
+                                    if (err.length > 0) {
+                                        alert(err[0]);
+                                        errors = err;
+                                        return;
+                                    }
+                                });
+                            }
+
+                            if (errors.length > 0) {
+                                return;
                             }
                         });
 
