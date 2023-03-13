@@ -314,7 +314,7 @@
             $("#edit" + rowNumber).click();
         }
 
-        function addRowCompanyWithValue(values) {
+        function addRowCompanyWithValue(values, callback) {
             let rowNumber = $('#rowNumber').val();
             let assetLocationIcon = $('#lienImages').val();
 
@@ -368,10 +368,29 @@
             $("#edit" + rowNumber).click();
 
             // Selectionn option by value
+            let errors = [];
             let regionSelectedId = '#selectRegion' + rowNumber;
-            changeSelectOptionByValue(regionSelectedId, values[1], () => alert(`La region de la ligne ${rowNumber} n'existe pas dans le system.`));
-            changeSelectOptionByValue('#selectSectorArea' + rowNumber, values[5], () => alert(`Le Secteur de la ligne ${rowNumber} n'existe pas dans le system.`));
-            changeSelectOptionByValue('#selectLegalStatus' + rowNumber, values[6], () => alert(`Le statut juridique de la ligne ${rowNumber} n'existe pas dans le system.`));
+            changeSelectOptionByValue(regionSelectedId, values[1], (isValid) => {
+                if (!isValid) {
+                    errors.push(`La region de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
+            changeSelectOptionByValue('#selectSectorArea' + rowNumber, values[5], (isValid) => {
+                if (!isValid) {
+                    errors.push(`Le Secteur de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
+            changeSelectOptionByValue('#selectLegalStatus' + rowNumber, values[6], (isValid) => {
+                if (!isValid) {
+                    errors.push(`Le statut juridique de la ligne ${rowNumber} n'existe pas dans le system.`);
+                }
+            });
+
+            if (errors.length > 0) {
+                callback(errors);
+
+                return;
+            }
 
         }
 
@@ -384,7 +403,7 @@
                 optionToSelect.selected = true;
                 $(selectId).trigger('change');
             } else {
-                callback();
+                callback(false);
             }
         }
 
@@ -875,6 +894,7 @@
                         // }
 
                         data.shift();
+                        let errors = [];
                         data.forEach(function (row) {
                             if (row) {
                                 let columnData = row.split(',').map(function (item) {
@@ -889,10 +909,18 @@
                                     // console.log(fieldNames[fieldName] + "=" + columnData[value]);
                                     orderedData.push(columnData[fieldNumber]);
                                 }
-                                addRowCompanyWithValue(orderedData);
+                                addRowCompanyWithValue(orderedData, function (err) {
+                                    if (err.length > 0) {
+                                        errors = errors.concat(err);
+                                    }
+                                });
                             }
 
                         });
+
+                        if (errors.length > 0) {
+                            alert(errors[0]);
+                        }
 
                         $('#nbRowImported').val(data.length - 1);
                     }
