@@ -908,11 +908,14 @@
 
                     reader.onload = function (evt) {
                         let data = evt.target.result.split("\n");
+                        let errorFields = [];
+
                         // Valid file
-                        // let header = data[0];
+                        let header = data[0].replaceAll('\r',"");
+                        if(header[header.length-1] == ',')
+                            header = header.substring(0, header.length - 1);
 
-                        let fields = data[0].split(',') ;
-
+                        let fields = header.split(',') ;
                         let fieldNames = {
                             "immatriculationField": null,
                             "prenomField": null,
@@ -962,6 +965,8 @@
                                 case 'diplôme' : fieldNames['diplomeField'] = i; break;
                                 case 'secteur' : fieldNames['secteurField'] = i; break;
                                 case 'filière' : fieldNames['filiereField'] = i; break;
+                                default :
+                                    errorFields.push(fields[i]);
                             }
 
                             // fiedNames in EN
@@ -988,16 +993,24 @@
                         //     return;
                         // }
 
-                        // valid minimum data fields
-                        let validHeader = true;
+                        // check bad fieldName syntax
+                        if (errorFields.length >0) {
+                            let errorMsg = "Mauvaise syntaxe des champs suivant : ";
+                            errorFields.forEach(function (error) {
+                                errorMsg += error + ', ';
+                            })
+                            errorMsg += "  Champs autorisés = immatriculation, prénom, nom, date naissance, genre, région, ville, portable, portable parent, email, diplôme, secteur, filière" ;
+                            alert(errorMsg);
+                            return;
+                        }
+
+                        // check minimum data fields
                         if ((fieldNames['prenomField'] == null) ||
                             (fieldNames['nomField'] == null) ||
                             (fieldNames['portableField'] ==null)) {
-                                validHeader = true;
-                                alert(`Le fichier n'est pas valide. Les champs \'prénom\', \'nom\' et \'date naissance\' sont obligatoire `);// alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                                alert(`Le fichier n'est pas valide. Les champs \'prénom\', \'nom\' et \'portable\' sont obligatoires `);
                                 return;
                         }
-                        // console.log(fieldNames)
 
                         data.shift();
                         data.forEach(function (row) {
@@ -1010,9 +1023,9 @@
                                 let orderedData = [];
                                 for (let i = 0; i < fieldsOrder.length; i++) {
                                     let fieldName = fieldsOrder[i];
-                                    let value = fieldNames[fieldName];
+                                    let fieldNumber = fieldNames[fieldName];
                                     // console.log(fieldNames[fieldName] + "=" + columnData[value]);
-                                    orderedData.push(columnData[value]);
+                                    orderedData.push(columnData[fieldNumber]);
                                 }
                                 addRowPersonDegreeWithValue(orderedData);
                             }
