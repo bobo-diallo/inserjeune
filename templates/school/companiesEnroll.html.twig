@@ -630,7 +630,11 @@
                     let resConfirm = false;
                     if(type == "one") {
                         resConfirm = true;
-                        if (confirm("Etes vous sûr de modifier cette entrée ?")) {
+                        let msg = "Etes vous sûr de modifier cette entrée ?"
+                        if ($("#p_phoneStandard" + rowNumber).text() == "") {
+                            msg = "Etes vous sûr de créer cette entrée ?"
+                        }
+                        if (confirm(msg)) {
                             resConfirm = false;
                         }
                     }
