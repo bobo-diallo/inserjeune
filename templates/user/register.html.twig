@@ -16,6 +16,10 @@
     <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form) | raw }}</div>
     <form action="{{ path('register_create_account') }}" method="post">
       {{ form_widget(form._token) }}
+      <div class="form-group">
+        <label for=""> Type d'utilisateur</label>
+        {{ form_widget(form.typePerson) }}
+      </div>
       <div id="diaspora" class="form-group">
         <div class="col-sm-12 form-check diaspora d-flex justify-content-end">
           <label for="">Diaspora: </label>
@@ -70,10 +74,6 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for=""> Type d'utilisateur</label>
-        {{ form_widget(form.typePerson) }}
-      </div>
     {#</form>#}
       <div class="row form-group">
         <div class="col-xs-6 buttons-w">
@@ -92,7 +92,9 @@
 {% endblock fos_user_content %}
 {% block fos_user_script %}
 <script>
-   showResidenceCountry ();
+   $( document ).ready(function() {
+      $('#diaspora').hide();
+   })
    $('#userbundle_user_typePerson').on('change', function (e) {
       if ($('#userbundle_user_typePerson option:selected').val() != 'ROLE_DIPLOME' ) {
          $('#userbundle_user_diaspora').prop('checked',false);
