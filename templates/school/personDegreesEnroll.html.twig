@@ -431,8 +431,6 @@
 
             if (errors.length > 0) {
                 callback(errors);
-
-                return;
             }
 
             //Lancement du mode édition
@@ -451,7 +449,9 @@
                 optionToSelect.selected = true;
                 $(selectId).trigger('change');
             } else {
-                callback(false);
+                if (callback !== undefined) {
+                    callback(false);
+                }
             }
         }
 
@@ -839,7 +839,8 @@
                     })
                 }
                 if (optionValue !== undefined) {
-                    changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
+                    // changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
+                    changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue);
                 }
             })
         }
@@ -870,7 +871,8 @@
                     })
                 }
                 if (optionValue !== undefined) {
-                    changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue, () => alert(`Le secteur d'activité de la ligne ${rowNumber} n'existe pas dans le system.`));
+                    // changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue, () => alert(`Le secteur d'activité de la ligne ${rowNumber} n'existe pas dans le system.`));
+                    changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue);
                 }
             })
         }
@@ -1058,7 +1060,7 @@
                         });
 
                         if (errors.length > 0) {
-                            alert(errors[0]);
+                            alert('Certaines données sont non conformes, vous devez les corriger manuellement');
                         }
 
                         $('#nbRowImported').val(data.length - 1);
