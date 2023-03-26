@@ -40,7 +40,7 @@ class FileUploader {
 
 	private function saveFile(UploadedFile $file, string $targetDirectory, ?string $oldFilename = null): string {
 		if ($oldFilename) {
-			$this->removeOldFile($oldFilename);
+			$this->removeOldFile($oldFilename, $targetDirectory);
 		}
 
 		$originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -55,8 +55,12 @@ class FileUploader {
 		return $fileName;
 	}
 
-	public function removeOldFile(string $oldFilename): void {
-		$file_path = $this->getTargetDirectory() . DIRECTORY_SEPARATOR . $oldFilename;
+	public function removeOldFile(string $oldFilename, ?string $targetDirectory = null): void {
+		if (!$targetDirectory) {
+			$targetDirectory = $this->getTargetDirectory();
+		}
+
+		$file_path = $targetDirectory . DIRECTORY_SEPARATOR . $oldFilename;
 
 		if (file_exists($file_path)) {
 			unlink($file_path);

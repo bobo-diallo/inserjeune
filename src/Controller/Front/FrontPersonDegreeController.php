@@ -131,12 +131,17 @@ class FrontPersonDegreeController extends AbstractController {
 	public function editAction(Request $request): RedirectResponse|Response {
 		return $this->personDegreeService->checkUnCompletedAccountBefore(function () use ($request) {
 			$personDegree = $this->personDegreeService->getPersonDegree();
-			if (!$personDegree) return $this->redirectToRoute('front_persondegree_new');
-			$createdDate = $personDegree->getCreatedDate();
 
+			if (!$personDegree) {
+				return $this->redirectToRoute('front_persondegree_new');
+			}
+
+			$createdDate = $personDegree->getCreatedDate();
 			$selectedCountry = $this->getUser()->getCountry();
-			if (!$selectedCountry)
+
+			if (!$selectedCountry) {
 				$selectedCountry = $personDegree->getCountry();
+			}
 
 			$residenceCountryPhoneCode = null;
 			if ($this->getUser()->getResidenceCountry()) {

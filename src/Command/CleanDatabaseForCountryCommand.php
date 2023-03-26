@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:clean:database:country',
-    description: 'Delete all data except that of the given country',
+    description: 'Delete all data except that of the given country. Example: php bin/console app:clean:database:country --countryId=1',
 )]
 class CleanDatabaseForCountryCommand extends Command
 {
