@@ -1040,10 +1040,11 @@ document.onmousemove = document.onkeypress = () => {
    startTimeout();
 };
 
-global.checkInactivity = function(){
-   $.post('/fr/dispatch-session-timeout-event', []).then(function (response) {
+global.checkInactivity = function() {
+   let locale = $('#inputLocale').val();
+   $.post(`/${locale}/dispatch-session-timeout-event`, []).then(function (response) {
       if (response.status !== undefined && response.status === 'success') {
-         window.location.href = "/fr/logout";
+         window.location.href = `/${locale}/logout`;
       }
 
    })

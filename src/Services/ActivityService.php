@@ -87,7 +87,7 @@ class ActivityService {
 			function (FormEvent $event) use ($activityName) {
 				$data = $event->getData();
 
-				if (array_key_exists($activityName, $data)) {
+				if ($data && array_key_exists($activityName, $data)) {
 					$arrayActivities = $data[$activityName];
 					if (is_array($arrayActivities)) {
 						foreach ($arrayActivities as $key => $value) {

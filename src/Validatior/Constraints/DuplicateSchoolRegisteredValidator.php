@@ -2,7 +2,9 @@
 
 namespace App\Validatior\Constraints;
 
+use App\Entity\Role;
 use App\Entity\School;
+use App\Entity\User;
 use App\Validatior\UnexpectedTypeException;
 use App\Validatior\UnexpectedValueException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,8 +39,23 @@ class DuplicateSchoolRegisteredValidator extends ConstraintValidator {
 		}
 
 		$qb = $this->em->createQueryBuilder();
-
 		$user = $this->tokenStorage->getToken()->getUser();
+
+		$roles = $user->getRoles();
+		if (in_array(Role::ROLE_ADMIN, $roles)) {
+			$registrationCount = $qb->select('COUNT(s.id)')
+				->from(School::class, 's')
+				->where('s.registration = :registration')
+				->setParameter('registration', $value)
+				->getQuery()
+				->getSingleScalarResult();
+
+			if ($registrationCount > 1) {
+				$this->context->buildViolation($constraint->message)->addViolation();
+			}
+			return;
+		}
+
 		$qb->select('s.registration')
 			->from(School::class, 's')
 			->where('s.user != :user')

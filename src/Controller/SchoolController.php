@@ -144,10 +144,16 @@ class SchoolController extends AbstractController {
 			if ($school) {
                 $user = $school->getUser();
                 if($user) {
-                    $this->schoolService->removeRelations($user);
-                    $this->em->remove($user);
-                    $this->em->flush();
-                    $this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+
+					if ($school->getPersonDegrees()->count() > 0) {
+						$this->addFlash('warning', 'Impossible de suppression l\'etablissement. Veuillez supprimez ses diplomés d\'abord');
+					} else {
+						$this->schoolService->removeRelations($user);
+						$this->em->remove($user);
+						$this->em->flush();
+						$this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+					}
+
                 } else {
                     $this->addFlash('warning', 'Impossible de suppression l\'utilisateur');
                 }

@@ -135,8 +135,8 @@ class EmailService {
 			->replyTo($this->parameterBag->get('email_from'))
 			->subject('Candidature via IFEF - ' . $jobOffer->getTitle())
 			->html($candidate->getMessage())
-			->attachFromPath($pathCv, 'CV-' . $candidate->getCandidateName(), 'application/pdf')
-			->attachFromPath($pathCoverLetter, 'Cover-letter-' . $candidate->getCandidateName(), 'application/pdf')
+			->attachFromPath($pathCv, 'CV-' . $candidate->getCandidateName() . '.pdf', 'application/pdf')
+			->attachFromPath($pathCoverLetter, 'Cover-letter-' . $candidate->getCandidateName() . '.pdf', 'application/pdf')
 		;
 
 		try {
