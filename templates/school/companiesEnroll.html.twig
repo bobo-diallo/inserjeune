@@ -863,9 +863,9 @@
                             // fiedNames in FR
                             switch (field) {
                                 case 'nom' : fieldNames['nomField'] = i; break;
-                                case 'région' : fieldNames['regionField'] = i; break;
+                                case 'region' : fieldNames['regionField'] = i; break;
                                 case 'ville' : fieldNames['villeField'] = i; break;
-                                case 'téléphone' : fieldNames['telephoneField'] = i; break;
+                                case 'telephone' : fieldNames['telephoneField'] = i; break;
                                 case 'email' : fieldNames['emailField'] = i; break;
                                 case 'secteur' : fieldNames['secteurField'] = i; break;
                                 case 'statut juridique' : fieldNames['statutJuridiqueField'] = i; break;
@@ -875,7 +875,7 @@
                         }
 
                         // check bad fieldName syntax
-                        if (errorFields.length >0) {
+                        if (errorFields.length > 0) {
                             let errorMsg = "Mauvaise syntaxe des champs suivant : ";
                             errorFields.forEach(function (error) {
                                 errorMsg += error + ', ';
