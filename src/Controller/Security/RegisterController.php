@@ -331,7 +331,7 @@ class RegisterController extends AbstractController {
 					$this->requestStack->getSession()->set('refu', $existUser->getId());
 
 					$this->emailService->sendCodeChangePassword($submitEmail, $code);
-					$this->addFlash('warning', 'Votre code est envoyée par mail');
+					$this->addFlash('success', 'Votre code est envoyée par mail');
 
 				} elseif (strlen($submitEmail) == 0) {
 					$this->addFlash('danger', 'l\'envoi du code par sms n\'est pas encore autorisé, merci de renseigner une adresse email valide ');

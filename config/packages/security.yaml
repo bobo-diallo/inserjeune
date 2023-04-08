@@ -21,6 +21,7 @@ security:
                 check_path: login
                 enable_csrf: true
                 default_target_path: dashboard_index
+                always_use_default_target_path: true
             logout:
                 path: logout
                 target: login

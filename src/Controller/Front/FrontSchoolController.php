@@ -63,6 +63,7 @@ class FrontSchoolController extends AbstractController {
 	private EmailService $emailService;
     private SchoolRepository $schoolRepository;
 	private TokenStorageInterface $tokenStorage;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface       $em,
@@ -83,7 +84,8 @@ class FrontSchoolController extends AbstractController {
 		ActivityRepository    $activityRepository,
 		EmailService          $emailService,
 		SchoolRepository      $schoolRepository,
-		TokenStorageInterface $tokenStorage
+		TokenStorageInterface $tokenStorage,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -104,6 +106,7 @@ class FrontSchoolController extends AbstractController {
 		$this->emailService = $emailService;
         $this->schoolRepository = $schoolRepository;
 		$this->tokenStorage = $tokenStorage;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/new', name: 'front_school_new', methods: ['GET', 'POST'])]
@@ -545,7 +548,6 @@ class FrontSchoolController extends AbstractController {
 	        if ($selectedCountry)
 		        foreach ($datas as $key => $value) {
 			        $setProp = "set" . ucfirst($key);
-			        $getProp = "get" . ucfirst($key);
 
 			        if (($setProp == "setPhoneMobile1") || ($setProp == "setPhoneMobile2")) {
 				        // number phone syntax control
@@ -560,7 +562,7 @@ class FrontSchoolController extends AbstractController {
 						        $phoneNumber = $value;
 					        }
 				        } else {
-					        $err[] = "Mauvaise syntaxe " . $setProp . " : " . $phoneSyntax;
+					        $err[] = "Mauvaise syntaxe numéro " . $this->getLitteralPhoneNameForPersonDegree($key) . " : " . $phoneSyntax;
 				        }
 
 			        } else if ($setProp == "setBirthDate") {
@@ -675,6 +677,14 @@ class FrontSchoolController extends AbstractController {
         });
 	}
 
+	private function getLitteralPhoneNameForPersonDegree($name) {
+		return match ($name) {
+			"phoneMobile1" => $this->translator->trans('menu.cell_phone'),
+			"phoneMobile2" => $this->translator->trans('menu.parent_cell_phone'),
+			default => $name,
+		};
+	}
+
     #[Route(path: '/{id}/enrollCompanyUpdate/', name: 'front_school_enroll_company_update', methods: ['GET'])]
     public function enrollCompanyUpdateAction(Request $request, int $id): JsonResponse|Response {
 	    return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request, $id) {
@@ -701,7 +711,7 @@ class FrontSchoolController extends AbstractController {
 		    if ($selectedCountry)
 			    foreach ($datas as $key => $value) {
 				    $setProp = "set" . ucfirst($key);
-				    $getProp = "get" . ucfirst($key);
+
 				    if ($setProp == "setPhoneStandard") {
 					    // number phone syntax control
 					    $phoneSyntax = $this->checkPhoneSyntax($value, $selectedCountry);
@@ -711,7 +721,7 @@ class FrontSchoolController extends AbstractController {
 						    $res[$key] = $value;
 						    $phoneNumber = $value;
 					    } else {
-						    $err[] = "Mauvaise syntaxe " . $setProp . " : " . $phoneSyntax;
+						    $err[] = "Mauvaise syntaxe  $key  : $phoneSyntax";
 					    }
 
 				    } else if ($setProp == "setRegion") {
