@@ -100,8 +100,12 @@ class PersonDegreeController extends AbstractController {
 		$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
 		$editForm->handleRequest($request);
 
+        $currentUser = $this->userRepository->getFromPersonDegree($personDegree->getId());
+
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
-			$currentUser = $this->userRepository->getFromPersonDegree($personDegree->getId());
+
+            $currentUser->setDiaspora($personDegree->getDiaspora());
+            $currentUser->setResidenceCountry($personDegree->getResidenceCountry());
 
 			// Patch if no createdDate found
 			$personDegree->setCreatedDate($createdDate);
@@ -121,10 +125,14 @@ class PersonDegreeController extends AbstractController {
 			if (count($currentUser) > 0) {
 				$personDegree->setUser($currentUser[0]);
 			}
+			$this->em->persist($currentUser);
 			$this->em->persist($personDegree);
 			$this->em->flush();
 			return $this->redirectToRoute('persondegree_show', ['id' => $personDegree->getId()]);
 		}
+
+        $personDegree->setDiaspora($currentUser->isDiaspora());
+        $personDegree->setResidenceCountry($currentUser->getResidenceCountry());
 
 		return $this->render('persondegree/edit.html.twig', [
 			'personDegree' => $personDegree,

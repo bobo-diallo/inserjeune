@@ -71,6 +71,28 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-sm-5 form-check form-group">
+        <label for="">Diaspora: </label>
+        {{ form_widget(form.diaspora) }}
+        <div class="slider round pd_diaspora">
+          <span class="non">{{ 'menu.no' | trans }}</span>
+          <span class="oui">{{ 'menu.yes' | trans }}</span>
+        </div>
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.diaspora) }}</div>
+      </div>
+      <div class="col-sm-7 form-group addressDiaspora ">
+        <label for="">{{ 'menu.residence_country' | trans }} </label>
+        {{ form_widget(form.residenceCountry) }}
+        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.residenceCountry) }}</div>
+      </div>
+    </div>
+    <div class="row addressDiaspora">
+      <div class="col-sm-12 form-group">
+        <label for=""> {{ 'menu.address_diaspora' | trans }} </label>
+        {{ form_widget(form.addressDiaspora) }}
+      </div>
+    </div>
+    <div class="row">
       <div class="col-sm-4 form-group">
         <label for=""> {{ 'menu.latitude' | trans }} </label>
         {{ form_widget(form.latitude) }}
@@ -246,6 +268,16 @@
     {% for school in region.schools %}
       <option value="{{ school.id }}">{{ school.region.name }}</option>
     {% endfor %}
+  {% endfor %}
+</select>
+<select hidden id="countryPhoneCode">
+  {% for country in otherCountries %}
+    <option value="{{ country.id }}">{{ country.phoneCode }}</option>
+  {% endfor %}
+</select>
+<select hidden id="countryPhoneDigit">
+  {% for country in otherCountries %}
+      <option value="{{ country.id }}">{{ country.phoneDigit }}</option>
   {% endfor %}
 </select>
 

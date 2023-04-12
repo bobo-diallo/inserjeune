@@ -13,6 +13,7 @@ use App\Entity\School;
 use App\Repository\JobOfferRepository;
 use App\Repository\UserRepository;
 use App\Repository\PersonDegreeRepository;
+use App\Repository\CountryRepository;
 use App\Services\ActivityService;
 use App\Services\CompanyService;
 use App\Services\EmailService;
@@ -44,6 +45,7 @@ class FrontPersonDegreeController extends AbstractController {
 	private FileUploader $fileUploader;
     private PersonDegreeRepository $personDegreeRepository;
 	private TokenStorageInterface $tokenStorage;
+    private CountryRepository $countryRepository;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -55,7 +57,8 @@ class FrontPersonDegreeController extends AbstractController {
 		CompanyService         $companyService,
 		FileUploader           $fileUploader,
 		PersonDegreeRepository $personDegreeRepository,
-		TokenStorageInterface $tokenStorage,
+		TokenStorageInterface  $tokenStorage,
+        CountryRepository      $countryRepository,
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -67,6 +70,7 @@ class FrontPersonDegreeController extends AbstractController {
 		$this->fileUploader = $fileUploader;
         $this->personDegreeRepository = $personDegreeRepository;
 		$this->tokenStorage = $tokenStorage;
+        $this->countryRepository = $countryRepository;
 	}
 
 	#[Route(path: '/new', name: 'front_persondegree_new', methods: ['GET', 'POST'])]
@@ -74,6 +78,7 @@ class FrontPersonDegreeController extends AbstractController {
 		$personDegree = new Persondegree();
 		/** @var User $user */
 		$user = $this->getUser();
+
 		$personDegree->setPhoneMobile1($user->getPhone());
 		$personDegree->setCountry($user->getCountry());
 		$personDegree->setLocationMode(true);
@@ -84,21 +89,30 @@ class FrontPersonDegreeController extends AbstractController {
             $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
         }
 
+        $personDegree->setDiaspora($user->isDiaspora());
+        $personDegree->setResidenceCountry($user->getResidenceCountry());
+
 		$form = $this->createForm(PersonDegreeType::class, $personDegree, [
             'selectedCountry' => $selectedCountry->getId()
             ]);
 		$form->handleRequest($request);
 
+        $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
+
 		if ($form->isSubmitted() && $form->isValid()) {
 			$agreeRgpd = $form->get('agreeRgpd')->getData();
 			if ($agreeRgpd) {
 				$user->setEmail($personDegree->getEmail());
+                $user->setDiaspora($personDegree->isDiaspora());
+                $user->setResidenceCountry($personDegree->getResidenceCountry());
+
 				$personDegree->setUser($user);
 				$personDegree->setCreatedDate(new \DateTime());
 				$personDegree->setUpdatedDate(new \DateTime());
 				$personDegree->setPhoneMobile1($user->getPhone());
                 $personDegree->setUnlocked(false);
 
+                $this->em->persist($user);
 				$this->em->persist($personDegree);
 				$this->em->flush();
 
@@ -111,7 +125,8 @@ class FrontPersonDegreeController extends AbstractController {
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
 			'selectedCountry' => $selectedCountry,
-			'residenceCountryPhoneCode' => $residenceCountryPhoneCode
+			'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
+            'othersCountries' => $otherCountries
 		]);
 	}
 
@@ -132,20 +147,24 @@ class FrontPersonDegreeController extends AbstractController {
 		return $this->personDegreeService->checkUnCompletedAccountBefore(function () use ($request) {
 			$personDegree = $this->personDegreeService->getPersonDegree();
 
+            $user = $this->getUser();
+
 			if (!$personDegree) {
 				return $this->redirectToRoute('front_persondegree_new');
 			}
 
 			$createdDate = $personDegree->getCreatedDate();
-			$selectedCountry = $this->getUser()->getCountry();
+			$selectedCountry = $user->getCountry();
 
 			if (!$selectedCountry) {
 				$selectedCountry = $personDegree->getCountry();
 			}
 
+            $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
+
 			$residenceCountryPhoneCode = null;
-			if ($this->getUser()->getResidenceCountry()) {
-				$residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
+			if ($user->getResidenceCountry()) {
+				$residenceCountryPhoneCode = $user->getResidenceCountry()->getPhoneCode();
 			}
 
 			$registrationStudentSchool = $personDegree->getRegistrationStudentSchool();
@@ -157,11 +176,16 @@ class FrontPersonDegreeController extends AbstractController {
 				$personDegree->setRegistrationStudentSchool($registrationStudentSchool);
 				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
 				if ($agreeRgpd) {
+                    //update diaspora informations
+                    $user->setDiaspora($personDegree->isDiaspora());
+                    $user->setResidenceCountry($personDegree->getResidenceCountry());
+                    $this->em->persist($user);
+
 					// remove autorization to edit for School during Enrollment
 					if($personDegree->isUnlocked()) {
 						$personDegree->setUnlocked(false);
 					}
-					$personDegree->setUser($this->getUser());
+					$personDegree->setUser($user);
 
 					// Patch if no createdDate found
 					$personDegree->setCreatedDate($createdDate);
@@ -178,7 +202,8 @@ class FrontPersonDegreeController extends AbstractController {
 					if (php_uname('n') != $dnsServer)
 						$personDegree->setClientUpdateDate(new \DateTime());
 
-					$this->em->flush();
+                    $this->em->persist($personDegree);
+                    $this->em->flush();
 
 					return $this->redirectToRoute('front_persondegree_satisfaction_new');
 				} else {
@@ -191,7 +216,8 @@ class FrontPersonDegreeController extends AbstractController {
 				'edit_form' => $editForm->createView(),
 				'allActivities' => $this->activityService->getAllActivities(),
 				'selectedCountry' => $selectedCountry,
-                'residenceCountryPhoneCode' => $residenceCountryPhoneCode
+                'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
+                'otherCountries' => $otherCountries
 			]);
 		});
 	}

@@ -121,6 +121,27 @@ class PersonDegreeType extends AbstractType {
 				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Localité'],
 				'required' => false
 			])
+            ->add('addressDiaspora', TextType::class, [
+                'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'adresse Diaspora'],
+                'required' => false
+            ])
+            ->add('diaspora', CheckboxType::class, [
+                'attr' => ['class' => 'form-control', 'label' => 'Diaspora ?'],
+                'required' => false
+            ])
+            ->add('residenceCountry', EntityType::class, [
+                'required' => false,
+                'class' => Country::class,
+                'placeholder' => 'Sélectionnez votre pays de résidence',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'Pays non autorisé ou inconnu',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
+            ])
 			->add('addressRoad', TextType::class, [
 				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Rue'],
 				'required' => false

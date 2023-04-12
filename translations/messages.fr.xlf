@@ -681,6 +681,10 @@
         <source>menu.address</source>
         <target>Adresse</target>
       </trans-unit>
+      <trans-unit id="menu.address_diaspora">
+        <source>menu.address_diaspora</source>
+        <target>Adresse de Diaspora</target>
+      </trans-unit>
       <trans-unit id="menu.phone">
         <source>menu.phone</source>
         <target>Téléphone</target>
