@@ -10,7 +10,8 @@ Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
-    .setPublicPath('/build')
+    // .setPublicPath('/build')
+    .setPublicPath('/inserjeune-v32/public/build')
     // .setPublicPath('/inserjeune-v31/public/build')
     .copyFiles({
         from: './assets/images',

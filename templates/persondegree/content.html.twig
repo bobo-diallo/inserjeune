@@ -17,6 +17,28 @@
             type="text/javascript">
     </script>
     <script>
+        let selectedCountry = $('#selectedCountry').val();
+        //affichage de la zone Diaspora
+        visibilityDiaspora();
+        $('#appbundle_persondegree_diaspora').on('click', function () {
+            visibilityDiaspora();
+        });
+
+        function visibilityDiaspora() {
+            if ($('#appbundle_persondegree_diaspora').is(":checked")) {
+                $('.addressDiaspora ').prop("hidden", false);
+            } else {
+                $('.addressDiaspora ').prop("hidden", true);
+            }
+        }
+
+        // suppression du selectedCountry dans la liste des pays de résidence
+        $('#appbundle_persondegree_residenceCountry option').each(function () {
+            if(selectedCountry == $(this).val()) {
+                $(this).prop('hidden', true);
+            }
+        })
+
         //Contrôle du bouton check de localisation pour switch manuel - automatique
         $('#appbundle_persondegree_locationMode').on('click', async function () {
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {
@@ -131,31 +153,43 @@
 
 
         // Event
-        // Vérifie le numero de téléphone si different du userName
+        // Vérifie si l'indicatif du numero de téléphone est correct
         {% if is_granted('ROLE_DIPLOME') == true %}
-        checkPhoneNumber($('#appbundle_persondegree_phoneMobile1').val());
-        $('#appbundle_persondegree_phoneMobile1').on('change', function () {
-            checkPhoneNumber($(this).val());
-        })
+            let phoneNumber = $('#appbundle_persondegree_phoneMobile1').val();
+            checkPhoneNumber(phoneNumber);
+
+            $('#appbundle_persondegree_phoneMobile1').on('change', function () {
+                checkPhoneNumber(phoneNumber);
+            })
+            $('#appbundle_persondegree_residenceCountry').on('change', function () {
+                if($('#appbundle_persondegree_diaspora').is(":checked")) {
+                    checkPhoneNumber(phoneNumber);
+                }
+            })
         {% endif %}
-        function checkPhoneNumber($phoneNumber) {
-            if ($phoneNumber !== undefined) {
+        function checkPhoneNumber(phoneNumber) {
+            if (phoneNumber !== undefined) {
                 let usrphone = $('.logged-user-phone').html().trim();
 
                 // verification de l'indicatif pays
                 let indPersonDegree = '+' + $('#countryPhoneCode').val();
-                if($('#residenceCountryPhoneCode').val()) {
-                    indPersonDegree = '+' + $('#residenceCountryPhoneCode').val();
-                }
-                let indPhone = $phoneNumber.substr(0, indPersonDegree.length);
+                let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
+
+                $('#countryPhoneCode option').each(function () {
+                    if(selectResidenceCountry == $(this).val()) {
+                        indPersonDegree = '+' + $(this).text();
+                    }
+                })
+
+                let indPhone = phoneNumber.substr(0, indPersonDegree.length);
 
                 if (indPhone != indPersonDegree) {
                     alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
                     $('#appbundle_persondegree_phoneMobile1').val(usrphone);
 
-                } else if ($phoneNumber != usrphone) {
+                } else if (phoneNumber != usrphone) {
                     let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, " +
-                        "vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber )
+                        "vous devrez vous reconnecter avec ce nouveau numéro " + phoneNumber )
                     if (confirmPhone == false) {
                         $('#appbundle_persondegree_phoneMobile1').val(usrphone);
                     }

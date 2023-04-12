@@ -33,6 +33,14 @@ class PersonDegree {
 	#[ORM\Column(name: 'other_degree', type: 'string', length: 255, nullable: true)]
 	private ?string $otherDegree;
 
+    #[ORM\Column(name: 'diaspora', type: 'boolean')]
+    private bool $diaspora = false;
+
+    #[ORM\ManyToOne(targetEntity: Country::class)]
+    private ?Country $residenceCountry = null;
+
+    #[ORM\Column(name: 'address_diaspora', type: 'string', length: 255, nullable: true)]
+    private ?string $addressDiaspora;
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
 	private ?\DateTime $createdDate;
 
@@ -499,4 +507,59 @@ class PersonDegree {
 	public function isUnlocked(): ?bool {
 		return $this->unlocked;
 	}
+
+    /**
+     * @return bool
+     */
+    public function isDiaspora(): bool
+    {
+        return $this->diaspora;
+    }
+
+    /**
+     * @param bool $diaspora
+     * @return PersonDegree
+     */
+    public function setDiaspora(bool $diaspora): PersonDegree
+    {
+        $this->diaspora = $diaspora;
+        return $this;
+    }
+
+    /**
+     * @return Country|null
+     */
+    public function getResidenceCountry(): ?Country
+    {
+        return $this->residenceCountry;
+    }
+
+    /**
+     * @param Country|null $residenceCountry
+     * @return PersonDegree
+     */
+    public function setResidenceCountry(?Country $residenceCountry): PersonDegree
+    {
+        $this->residenceCountry = $residenceCountry;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddressDiaspora(): ?string
+    {
+        return $this->addressDiaspora;
+    }
+
+    /**
+     * @param string|null $addressDiaspora
+     * @return PersonDegree
+     */
+    public function setAddressDiaspora(?string $addressDiaspora): PersonDegree
+    {
+        $this->addressDiaspora = $addressDiaspora;
+        return $this;
+    }
+
 }

@@ -17,4 +17,15 @@ class CountryRepository extends ServiceEntityRepository
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, Country::class);
 	}
+
+    function getNameAndIndicatif(int $id): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.id, c.phoneCode, c.phoneDigit')
+            ->where('c.id != :id')
+            ->setParameters([
+                'id' => $id,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }

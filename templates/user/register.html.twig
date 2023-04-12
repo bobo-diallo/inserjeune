@@ -124,7 +124,7 @@
       }
    }
    // $(document).ready(function () {
-   const allCountryOptions = $('#userbundle_user_country').html();
+   // const allCountryOptions = $('#userbundle_user_country').html();
 
    $('#userbundle_user_country').on('change', function (e) {
       let selectedCountry = null;
@@ -132,7 +132,7 @@
          selectedCountry = $('#userbundle_user_residenceCountry option:selected').val();
 
           // Supprimer le pays selectionné dans la liste des pays de residence
-          $("#userbundle_user_residenceCountry").html(allCountryOptions);
+          // $("#userbundle_user_residenceCountry").html(allCountryOptions);
           $("#userbundle_user_residenceCountry").find("option").each(function() {
               const optionValue = $(this).val();
               if (optionValue === e.target.value) {
