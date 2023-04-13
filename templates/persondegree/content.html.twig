@@ -159,15 +159,22 @@
             checkPhoneNumber(phoneNumber);
 
             $('#appbundle_persondegree_phoneMobile1').on('change', function () {
-                checkPhoneNumber(phoneNumber);
+                checkPhoneNumber($(this).val());
             })
             $('#appbundle_persondegree_residenceCountry').on('change', function () {
-                if($('#appbundle_persondegree_diaspora').is(":checked")) {
-                    checkPhoneNumber(phoneNumber);
+                checkPhoneNumber(phoneNumber);
+            })
+
+            //reset pays de résidence si appbundle_persondegree_diaspora est false
+            $('#appbundle_persondegree_diaspora').on('click', function () {
+                if ($('#appbundle_persondegree_diaspora').not(":checked")) {
+                    $('#appbundle_persondegree_residenceCountry').prop('selectedIndex', 0);
                 }
+                checkPhoneNumber(phoneNumber);
             })
         {% endif %}
         function checkPhoneNumber(phoneNumber) {
+            let res = true;
             if (phoneNumber !== undefined) {
                 let usrphone = $('.logged-user-phone').html().trim();
 
@@ -175,23 +182,55 @@
                 let indPersonDegree = '+' + $('#countryPhoneCode').val();
                 let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
 
-                $('#countryPhoneCode option').each(function () {
-                    if(selectResidenceCountry == $(this).val()) {
-                        indPersonDegree = '+' + $(this).text();
-                    }
-                })
+                if($('#appbundle_persondegree_diaspora').is(":checked")) {
+                    $('#countryPhoneCode option').each(function () {
+                        if (selectResidenceCountry == $(this).val()) {
+                            indPersonDegree = '+' + $(this).text();
+                        }
+                    })
+                }
 
+                //suppression des espaces
+                phoneNumber = phoneNumber.replace(/ /g,'');
+                $('#appbundle_persondegree_phoneMobile1').val(phoneNumber);
+
+                //recup de l'indicatif
                 let indPhone = phoneNumber.substr(0, indPersonDegree.length);
 
                 if (indPhone != indPersonDegree) {
                     alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
                     $('#appbundle_persondegree_phoneMobile1').val(usrphone);
+                    res = false;
 
                 } else if (phoneNumber != usrphone) {
                     let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, " +
                         "vous devrez vous reconnecter avec ce nouveau numéro " + phoneNumber )
                     if (confirmPhone == false) {
                         $('#appbundle_persondegree_phoneMobile1').val(usrphone);
+                    }
+                }
+
+                //verification du nombre de digit
+                let nbDigitPersonDegree = null;
+                $('#countryPhoneDigit option').each(function () {
+                    if (selectResidenceCountry == $(this).val()) {
+                        nbDigitPersonDegree = $(this).text();
+                        // console.log(nbDigitPersonDegree);
+                    }
+                })
+                if(nbDigitPersonDegree == null) {
+                    $('#countryPhoneDigit option').each(function () {
+                        if ($('#selectedCountry').val() == $(this).val()) {
+                            nbDigitPersonDegree = $(this).text();
+                            // console.log(nbDigitPersonDegree);
+                        }
+                    })
+                }
+                if(nbDigitPersonDegree != null) {
+                    if((phoneNumber.length - indPersonDegree.length) != nbDigitPersonDegree) {
+                        alert("Attention, votre numéro de téléphone doit avoir " + nbDigitPersonDegree + " digits apres l'indicatif, veuillez le ressaisir");
+                        $('#appbundle_persondegree_phoneMobile1').val(usrphone);
+                        res = false;
                     }
                 }
             }
@@ -343,6 +382,14 @@
         async function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude
             // -----------------------------------------------------
+            if ($('#appbundle_persondegree_locationMode').not(":checked")) {
+                if (($('#appbundle_persondegree_latitude').val() == null) ||
+                    ($('#appbundle_persondegree_latitude').val() == 0) ||
+                    ($('#appbundle_persondegree_longitude').val() == null) ||
+                    ($('#appbundle_persondegree_longitude').val() == 0)) {
+                        $('#appbundle_persondegree_locationMode').prop('checked', true)
+                }
+            }
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {
                 let mapAdresse = getPersondegreMapAddress();
 

@@ -134,6 +134,15 @@
 
         async function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude en mode auto
+            // -----------------------------------------------------
+            if ($('#appbundle_company_locationMode').not(":checked")) {
+                if (($('#appbundle_company_latitude').val() == null) ||
+                    ($('#appbundle_company_latitude').val() == 0) ||
+                    ($('#appbundle_company_longitude').val() == null) ||
+                    ($('#appbundle_company_longitude').val() == 0)) {
+                        $('#appbundle_company_locationMode').prop('checked', true)
+                }
+            }
             if ($('#appbundle_company_locationMode').is(":checked")) {
                 let mapAdresse = getCompanyMapAddress();
 
