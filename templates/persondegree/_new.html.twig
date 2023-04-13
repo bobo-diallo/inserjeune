@@ -279,6 +279,7 @@
   {% for country in otherCountries %}
       <option value="{{ country.id }}">{{ country.phoneDigit }}</option>
   {% endfor %}
+  <option value="{{ selectedCountry.id }}">{{ selectedCountry.phoneDigit }}</option>
 </select>
 
 <div><span><br>* :  {{ 'menu.required_field' | trans }} </span></div>

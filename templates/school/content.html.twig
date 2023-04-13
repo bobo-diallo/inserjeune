@@ -419,6 +419,14 @@
 
          // mise à jour mapAdresse et calcul des lat et longitude
          // -----------------------------------------------------
+         if ($('#appbundle_school_locationMode').not(":checked")) {
+            if (($('#appbundle_school_latitude').val() == null) ||
+                ($('#appbundle_school_latitude').val() == 0) ||
+                ($('#appbundle_school_longitude').val() == null) ||
+                ($('#appbundle_school_longitude').val() == 0)) {
+                     $('#appbundle_school_locationMode').prop('checked', true)
+            }
+         }
          if ($('#appbundle_school_locationMode').is(":checked")) {
             let mapAdresse = getSchoolMapAddress();
 

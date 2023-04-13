@@ -126,7 +126,7 @@ class FrontPersonDegreeController extends AbstractController {
 			'allActivities' => $this->activityService->getAllActivities(),
 			'selectedCountry' => $selectedCountry,
 			'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
-            'othersCountries' => $otherCountries
+            'otherCountries' => $otherCountries,
 		]);
 	}
 
@@ -167,13 +167,10 @@ class FrontPersonDegreeController extends AbstractController {
 				$residenceCountryPhoneCode = $user->getResidenceCountry()->getPhoneCode();
 			}
 
-			$registrationStudentSchool = $personDegree->getRegistrationStudentSchool();
 			$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
 			$editForm->handleRequest($request);
 
 			if ($editForm->isSubmitted() && $editForm->isValid()) {
-				// Not edit registration
-				$personDegree->setRegistrationStudentSchool($registrationStudentSchool);
 				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
 				if ($agreeRgpd) {
                     //update diaspora informations
