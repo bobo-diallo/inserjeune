@@ -1602,9 +1602,9 @@
         <source>school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree</source>
         <target>Taux des raisons relatives à ce qu'un diplômé en emploi exerce un métier sans lien avec son diplôme</target>
       </trans-unit>
-      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate">
-        <source>school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate</source>
-        <target>Taux des raisons relatives à ce que la formation professionnelle ait été utile à un diplômé entrepreneur</target>
+      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate">
+        <source>school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate</source>
+        <target>Taux des raisons relatives à ce que la formation professionnelle n'ait pas été utile à un diplômé entrepreneur</target>
       </trans-unit>
       <trans-unit id="school.rate_of_occupations_held_by_entrepreneurial_graduates">
         <source>school.rate_of_occupations_held_by_entrepreneurial_graduates</source>
