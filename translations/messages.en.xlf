@@ -1599,9 +1599,9 @@
         <source>school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree</source>
         <target>Rate of reasons for a graduate to work in a profession unrelated to their degree</target>
       </trans-unit>
-      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate">
-        <source>school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate</source>
-        <target>Rate of reasons why vocational training was useful to an entrepreneur graduate</target>
+      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate">
+        <source>school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate</source>
+        <target>Rate of reasons why vocational training was not useful to an entrepreneur graduate</target>
       </trans-unit>
       <trans-unit id="school.rate_of_occupations_held_by_entrepreneurial_graduates">
         <source>school.rate_of_occupations_held_by_entrepreneurial_graduates</source>

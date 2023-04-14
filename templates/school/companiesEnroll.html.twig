@@ -86,6 +86,7 @@
 
 {% block js %}
     <script>
+        let saveMulti=false;
         function checkAllShowMode() {
             let allShow = true;
             $('.enrolCheck').each(function () {
@@ -162,6 +163,7 @@
         }
 
         function saveEdit() {
+            saveMulti=true;
             let rowNumber = $('#rowNumber').val();
             let edits = [];
 
@@ -188,6 +190,7 @@
             } else {
                 alert("Il n'y a aucune entrée à  valider");
             }
+            saveMulti=false;
         }
 
         function removeSelect() {
@@ -786,7 +789,11 @@
                     }
                 //}
             }
-
+            if(errorNumber > 0) {
+                if (saveMulti == false) {
+                    alert('Veuillez remplir tous les champs requis');
+                }
+            }
             return errorNumber;
         };
 

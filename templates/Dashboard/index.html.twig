@@ -355,11 +355,11 @@
                 {% endif %}
 
 
-                {#Graph des raisons de la formation prfessionelle utile à un entrepreneur #}
-                {#/**********************************************************************/#}
+                {#Graph des raisons de la formation professionelle soit utile à un entrepreneur #}
+                {#/****************************************************************************/#}
                 {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
-                        <h6>{{ 'school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate' | trans }}</h6>
+                        <h6>{{ 'school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate' | trans }}</h6>
                         {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,false, userSchool, beginDate, endDate)}}
                     </div>
                 {% endif %}
