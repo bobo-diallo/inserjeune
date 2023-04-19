@@ -65,6 +65,16 @@ class CleanDatabaseForCountryCommand extends Command
 		try {
 			/** @var ?Country $country */
 			$country = $this->entityManager->getRepository(Country::class)->find($countryId);
+			/*$otherCountries = $this->entityManager
+				->createQueryBuilder()
+				->select('c')
+				->from(Country::class, 'c')
+				->where('c.id != :countryId')
+				->setParameter('countryId', $countryId)
+				->getQuery()
+				->getResult();
+			var_dump($otherCountries[0]);
+			die();*/
 			if ($country) {
 				$phoneCodePattern = sprintf('+%s%%', $country->getPhoneCode());
 				$users = $this->findUsersWithPhoneNotLike($phoneCodePattern);
@@ -136,6 +146,12 @@ class CleanDatabaseForCountryCommand extends Command
 			->setParameter('countryId', $countryId)
 			->getQuery()
 			->getResult();
+	}
+
+	private function addCountries(array $countries): void {
+		foreach ($countries as $country) {
+			$this->entityManager->persist($country);
+		}
 	}
 
 }
