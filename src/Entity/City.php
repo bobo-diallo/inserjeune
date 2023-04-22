@@ -33,7 +33,7 @@ class City {
 	#[Assert\NotNull]
 	private ?Region $region = null;
 
-	#[ORM\OneToMany(mappedBy: 'city', targetEntity: JobOffer::class, cascade: ['persist', 'remove'])]
+	#[ORM\OneToMany(mappedBy: 'city', targetEntity: JobOffer::class, cascade: ['remove'])]
 	private Collection $jobOffers;
 
 	public function __construct() {

@@ -2,7 +2,10 @@
 
 namespace App\Command;
 
+use App\Entity\City;
 use App\Entity\Country;
+use App\Entity\Currency;
+use App\Entity\Region;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -65,7 +68,7 @@ class CleanDatabaseForCountryCommand extends Command
 		try {
 			/** @var ?Country $country */
 			$country = $this->entityManager->getRepository(Country::class)->find($countryId);
-			/*$otherCountries = $this->entityManager
+			$otherCountries = $this->entityManager
 				->createQueryBuilder()
 				->select('c')
 				->from(Country::class, 'c')
@@ -73,8 +76,27 @@ class CleanDatabaseForCountryCommand extends Command
 				->setParameter('countryId', $countryId)
 				->getQuery()
 				->getResult();
-			var_dump($otherCountries[0]);
-			die();*/
+			$currencies = $this->entityManager->getRepository(Currency::class)->findAll();
+			$regions = $this->entityManager
+				->createQueryBuilder()
+				->select('r')
+				->from(Region::class, 'r')
+				->join('r.country', 'c')
+				->where('c.id != :countryId')
+				->setParameter('countryId', $countryId)
+				->getQuery()
+				->getResult();
+			$cities = $this->entityManager
+				->createQueryBuilder()
+				->select('ct')
+				->from(City::class, 'ct')
+				->join('ct.region', 'r')
+				->join('r.country', 'c')
+				->where('c.id != :countryId')
+				->setParameter('countryId', $countryId)
+				->getQuery()
+				->getResult();
+
 			if ($country) {
 				$phoneCodePattern = sprintf('+%s%%', $country->getPhoneCode());
 				$users = $this->findUsersWithPhoneNotLike($phoneCodePattern);
@@ -99,6 +121,45 @@ class CleanDatabaseForCountryCommand extends Command
 
 				foreach ($countries as $country) {
 					$this->entityManager->remove($country);
+					$i++;
+					$progressBar->setMessage(sprintf('Processing %d of %d', $i, $totalProgress));
+					$progressBar->advance();
+				}
+
+				$i = 0;
+
+				$io->text('Add currencies, countries, regions and cities %s ...');
+				$$totalProgress = count($currencies) + count($otherCountries) + count($regions) + count($cities);
+				foreach ($currencies as $currency) {
+					$this->entityManager->persist($currency);
+					$i++;
+
+					$progressBar->setMessage(sprintf('Processing %d of %d', $i, $totalProgress));
+					$progressBar->advance();
+				}
+
+				/** @var Country $otherCountry */
+				foreach ($otherCountries as $otherCountry) {
+					$otherCountry->setValid(false);
+					$this->entityManager->persist($otherCountry);
+					$i++;
+
+					$progressBar->setMessage(sprintf('Processing %d of %d', $i, $totalProgress));
+					$progressBar->advance();
+				}
+
+				foreach ($regions as $region) {
+					$this->entityManager->persist($region);
+					$i++;
+
+					$progressBar->setMessage(sprintf('Processing %d of %d', $i, $totalProgress));
+					$progressBar->advance();
+				}
+
+				foreach ($cities as $city) {
+					$this->entityManager->persist($city);
+					$i++;
+
 					$progressBar->setMessage(sprintf('Processing %d of %d', $i, $totalProgress));
 					$progressBar->advance();
 				}
@@ -146,12 +207,6 @@ class CleanDatabaseForCountryCommand extends Command
 			->setParameter('countryId', $countryId)
 			->getQuery()
 			->getResult();
-	}
-
-	private function addCountries(array $countries): void {
-		foreach ($countries as $country) {
-			$this->entityManager->persist($country);
-		}
 	}
 
 }
