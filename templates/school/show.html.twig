@@ -1,5 +1,9 @@
 {% extends 'school/content.html.twig' %}
 
+{% block referencement_h1 %}
+    {{ parent() }}  {{ 'referencement.school_profile' | trans }}
+{% endblock %}
+
 {% block body %}
     <div class="content-i">
         <div class="content-box">

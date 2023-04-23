@@ -1972,6 +1972,48 @@
         <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
         <target>Why, in your opinion, have you not found / found a job?</target>
       </trans-unit>
+
+      <!-- Referencement -->
+      <trans-unit id="referencement.base_school">
+        <source>referencement.base_school</source>
+        <target>Inserjeune monitoring graduate integration rate</target>
+      </trans-unit>
+      <trans-unit id="referencement.school_enrollment">
+        <source>referencement.school_enrollment</source>
+        <target>Enrollment</target>
+      </trans-unit>
+      <trans-unit id="referencement.school_company_enrollment">
+        <source>referencement.school_company_enrollment</source>
+        <target>company partner enrollment</target>
+      </trans-unit>
+      <trans-unit id="referencement.school_profile">
+        <source>referencement.school_profile</source>
+        <target>edit school account profile</target>
+      </trans-unit>
+      <trans-unit id="referencement.base_company">
+        <source>referencement.base_company</source>
+        <target>Inserjeune company satisfaction rate</target>
+      </trans-unit>
+      <trans-unit id="referencement.company_profile">
+        <source>referencement.company_profile</source>
+        <target>edit company account profile</target>
+      </trans-unit>
+      <trans-unit id="referencement.base_degree">
+        <source>referencement.base_degree</source>
+        <target>Inserjeune graduates satisfaction rate</target>
+      </trans-unit>
+      <trans-unit id="referencement.degree_profile">
+        <source>referencement.degree_profile</source>
+        <target>edition profile graduate account</target>
+      </trans-unit>
+      <trans-unit id="referencement.jobOffer">
+        <source>referencement.jobOffer</source>
+        <target>job offer creation</target>
+      </trans-unit>
+      <trans-unit id="referencement.geolocation">
+        <source>referencement.geolocation</source>
+        <target>geolocation  maps</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

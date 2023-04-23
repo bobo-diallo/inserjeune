@@ -658,6 +658,10 @@ table.dataTable tbody th, table.dataTable tbody td {
   margin: 0.2rem 0.8rem;
 }
 
+.form-global .row textarea {
+  width: 100%;
+}
+
 #appbundle_satisfactionsalary_reasonSatisfieds,
 #appbundle_satisfactionsearch_jobNotFoundReasons,
 #appbundle_satisfactioncreator_usefulTrainingReasons,
