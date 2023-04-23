@@ -1980,7 +1980,7 @@
       <!-- Referencement -->
       <trans-unit id="referencement.base_school">
         <source>referencement.base_school</source>
-        <target>Inserjeune suivi taux insertion diplômés</target>
+        <target>IFEF OIF Inserjeune suivi taux insertion diplômés</target>
       </trans-unit>
       <trans-unit id="referencement.school_enrollment">
         <source>referencement.school_enrollment</source>
@@ -1996,7 +1996,7 @@
       </trans-unit>
       <trans-unit id="referencement.base_company">
         <source>referencement.base_company</source>
-        <target>inserjeune entreprise taux satisfaction</target>
+        <target>IFEF OIF Inserjeune entreprise taux satisfaction</target>
       </trans-unit>
       <trans-unit id="referencement.company_profile">
         <source>referencement.company_profile</source>
@@ -2004,7 +2004,7 @@
       </trans-unit>
       <trans-unit id="referencement.base_degree">
         <source>referencement.base_degree</source>
-        <target>inserjeune diplômés taux satisfaction</target>
+        <target>IFEF OIF Inserjeune diplômés taux satisfaction</target>
       </trans-unit>
       <trans-unit id="referencement.degree_profile">
         <source>referencement.degree_profile</source>

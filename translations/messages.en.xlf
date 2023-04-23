@@ -1976,7 +1976,7 @@
       <!-- Referencement -->
       <trans-unit id="referencement.base_school">
         <source>referencement.base_school</source>
-        <target>Inserjeune monitoring graduate integration rate</target>
+        <target>IFEF OIF Inserjeune monitoring graduate integration rate</target>
       </trans-unit>
       <trans-unit id="referencement.school_enrollment">
         <source>referencement.school_enrollment</source>
@@ -1992,7 +1992,7 @@
       </trans-unit>
       <trans-unit id="referencement.base_company">
         <source>referencement.base_company</source>
-        <target>Inserjeune company satisfaction rate</target>
+        <target>IFEF OIF Inserjeune company satisfaction rate</target>
       </trans-unit>
       <trans-unit id="referencement.company_profile">
         <source>referencement.company_profile</source>
@@ -2000,7 +2000,7 @@
       </trans-unit>
       <trans-unit id="referencement.base_degree">
         <source>referencement.base_degree</source>
-        <target>Inserjeune graduates satisfaction rate</target>
+        <target>IFEF OIF Inserjeune graduates satisfaction rate</target>
       </trans-unit>
       <trans-unit id="referencement.degree_profile">
         <source>referencement.degree_profile</source>
