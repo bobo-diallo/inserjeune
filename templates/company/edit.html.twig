@@ -1,5 +1,9 @@
 {% extends 'company/content.html.twig' %}
 
+{% block referencement_h1 %}
+    {{ parent() }} {{ 'referencement.company_profile' | trans }}
+{% endblock %}
+
 {% block body %}
     <div class="content-i">
         <div class="content-box">

@@ -19,6 +19,10 @@
     <li class="breadcrumb-item"><span>{{ 'menu.dashboard' | trans }}</span></li>
 {% endblock %}
 
+{% block referencement_h1 %}
+    {{ parent() }} {{ 'referencement.geolocation' | trans }}
+{% endblock %}
+
 {% block body %}
     <div class="content-i">
         <div class="content-box" style="display: table; width: 100%">

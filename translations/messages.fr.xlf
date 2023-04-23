@@ -1976,6 +1976,48 @@
         <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
         <target>Pourquoi, à votre avis, n'avez-vous pas trouvé / retrouvé un travail ?</target>
       </trans-unit>
+
+      <!-- Referencement -->
+      <trans-unit id="referencement.base_school">
+        <source>referencement.base_school</source>
+        <target>Inserjeune suivi taux insertion diplômés</target>
+      </trans-unit>
+      <trans-unit id="referencement.school_enrollment">
+        <source>referencement.school_enrollment</source>
+        <target>Enrôlement</target>
+      </trans-unit>
+      <trans-unit id="referencement.school_company_enrollment">
+        <source>referencement.school_company_enrollment</source>
+        <target>Enrôlement partenaire entreprise</target>
+      </trans-unit>
+      <trans-unit id="referencement.school_profile">
+        <source>referencement.school_profile</source>
+        <target>edition profil compte établissement</target>
+      </trans-unit>
+      <trans-unit id="referencement.base_company">
+        <source>referencement.base_company</source>
+        <target>inserjeune entreprise taux satisfaction</target>
+      </trans-unit>
+      <trans-unit id="referencement.company_profile">
+        <source>referencement.company_profile</source>
+        <target>edition profil compte entreprise</target>
+      </trans-unit>
+      <trans-unit id="referencement.base_degree">
+        <source>referencement.base_degree</source>
+        <target>inserjeune diplômés taux satisfaction</target>
+      </trans-unit>
+      <trans-unit id="referencement.degree_profile">
+        <source>referencement.degree_profile</source>
+        <target>edition profil compte diplômé</target>
+      </trans-unit>
+      <trans-unit id="referencement.jobOffer">
+        <source>referencement.jobOffer</source>
+        <target>création offre emploi</target>
+      </trans-unit>
+      <trans-unit id="referencement.geolocation">
+        <source>referencement.geolocation</source>
+        <target>géolocalisation maps</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
