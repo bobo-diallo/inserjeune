@@ -10,6 +10,10 @@
 
 {% block title %}AppBundle:GeoLocation:index{% endblock %}
 
+{% block referencement_h1 %}
+   {{ parent() }} {{ 'referencement.geolocation' | trans }}
+{% endblock %}
+
 {% block body %}
    <div class="content-i">
       <div class="content-box">

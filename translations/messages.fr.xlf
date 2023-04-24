@@ -2022,6 +2022,10 @@
         <source>referencement.geolocation</source>
         <target>géolocalisation maps</target>
       </trans-unit>
+      <trans-unit id="referencement.dashboard">
+        <source>referencement.dashboard</source>
+        <target>statistique</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
