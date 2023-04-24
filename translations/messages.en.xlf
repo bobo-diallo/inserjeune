@@ -2018,6 +2018,10 @@
         <source>referencement.geolocation</source>
         <target>geolocation  maps</target>
       </trans-unit>
+      <trans-unit id="referencement.dashboard">
+        <source>referencement.dashboard</source>
+        <target>statistical</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
