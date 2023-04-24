@@ -1978,6 +1978,10 @@
       </trans-unit>
 
       <!-- Referencement -->
+      <trans-unit id="referencement.base_security">
+        <source>referencement.base_security</source>
+        <target>IFEF OIF Inserjeune suivi taux insertion diplômés satisfaction entreprises</target>
+      </trans-unit>
       <trans-unit id="referencement.base_school">
         <source>referencement.base_school</source>
         <target>IFEF OIF Inserjeune suivi taux insertion diplômés</target>
