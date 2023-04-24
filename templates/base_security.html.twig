@@ -2,6 +2,9 @@
 <html>
 <head><title>IFEF</title>
     <meta charset="utf-8">
+    <meta name="description" content="Taux d’insertion professionnelle des jeunes diplômés de l’enseignement technique et de la formation professionnelle et de la satisfaction des entreprises">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="oif, ifef, inserjeune, insertion, enseignement technique, formation professionnelle, satisfaction entreprise, offre emploi, geolocalisation, diplômés, établissements de formation, enrôlement, réseau de partenaires">
     <meta content="ie=edge" http-equiv="x-ua-compatible">
     <meta content="template language" name="keywords">
     <meta content="Tamerlan Soziev" name="author">
@@ -17,6 +20,7 @@
 <body class="auth-wrapper">
 <div class="all-wrapper with-pattern">
     {% block body %}
+        <h1 hidden>{{ 'referencement.base_security' | trans }}</h1>
         <div class="auth-box-w">
             <div class="logo-w" style="padding: 25px 3px;">
                 <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>

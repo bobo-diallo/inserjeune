@@ -1,84 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head><title>IFEF</title>
-    <meta name="description" content="Taux d’insertion professionnelle des jeunes diplômés de l’enseignement technique et de la formation professionnelle et de la satisfaction des entreprises">
-    <meta name="robots" content="index, follow">
-    <meta name="keywords" content="oif, ifef, inserjeune, insertion, enseignement technique, formation professionnelle, satisfaction entreprise, offre emploi, geolocalisation, diplômés, établissements de formation, enrôlement, réseau de partenaires">
-    <meta charset="utf-8">
-    <meta content="ie=edge" http-equiv="x-ua-compatible">
-    <meta content="template language" name="keywords">
-    <meta content="Tamerlan Soziev" name="author">
-    <meta content="Admin dashboard html template" name="description">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link href="{{ asset('build/images/favicon.png') }}" rel="shortcut icon">
-    <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="http://fast.fonts.net/cssapi/175a63a1-3f26-476a-ab32-4e21cbdb8be2.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    {% block stylesheets %}{{ encore_entry_link_tags('newApp') }}{% endblock %}
-</head>
-<body class="auth-wrapper">
-<div class="all-wrapper with-pattern">
-    {% block body %}
-        <h1 hidden>{{ 'referencement.base_security' | trans }}</h1>
-        <div class="auth-box-w">
-            <div class="logo-w" style="padding: 25px 3px;">
-                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>
-                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>
-            </div>
-            {% block fos_user_title %}
-            {% endblock fos_user_title %}
+{% extends "base_security.html.twig" %}
 
-            {%  if app.session.flashBag.has('danger') == true %}
-                <div class="alert alert-danger alert-dismissible" role="alert" stype="font-size: 10px">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {% for message in app.session.flashbag.get('danger') %}
-                        <p class="text-center w-100 mb-0">{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
+{% block fos_user_title %}
+    <h4 class="auth-header">{{ 'menu.connection' | trans }} <a href="{{ path('register_create_account') }}">{{ 'menu.create_an_account' | trans }}</a></h4>
+{% endblock fos_user_title %}
 
-            {%  if app.session.flashBag.has('warning') == true %}
-                <div class="alert alert-warning alert-dismissible" role="alert" stype="font-size: 10px">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {% for message in app.session.flashbag.get('warning') %}
-                        <p class="text-center w-100 mb-0">{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {%  if app.session.flashBag.has('success') == true %}
-                <div class="alert alert-success alert-dismissible" role="alert" stype="font-size: 10px">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {% for message in app.session.flashbag.get('success') %}
-                        <p class="text-center w-100 mb-0">{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
+{% block fos_user_content %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-            {% block fos_user_content %}
-            {% endblock fos_user_content %}
+    <form action="{{ path('login') }}" method="post">
+        <div class="form-group">
+            <label for="">{{ 'menu.phone' | trans }}</label>
+            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Numéro de téléphone" required="required" />
+            <div class="pre-icon os-icon os-icon-user-male-circle"></div>
         </div>
-    {% endblock %}
-
-</div>
-</body>
-{% block fos_user_script %}
-{% endblock %}
-{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
-<script>
-    setTimeout(function() {
-        var alertDanger = document.querySelector('.alert-danger');
-        var alertSuccess = document.querySelector('.alert-success');
-        var alertWarning = document.querySelector('.alert-warning');
-        // if (alertDanger) alertDanger.remove();
-        // if (alertSuccess) alertSuccess.remove();
-        // if (alertWarning) alertWarning.remove();
-    }, 5000);
-</script>
-</html>
+        <div class="form-group">
+            <label for="">{{ 'menu.password' | trans }}</label>
+            <input type="password" id="password" name="_password" class="form-control" placeholder="Entrez votre mot de passe" required="required" />
+            <div class="pre-icon os-icon os-icon-fingerprint"></div>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div class="buttons-w">
+            <button class="btn btn-primary"> {{ 'menu.validate' | trans }} </button>
+            <div class="checkbox d-inline-block float-right">
+                <label>
+                    <input type="checkbox"
+                           id="remember_me"
+                           name="_remember_me"
+                           value="on" /> {{ 'menu.remember_me' | trans }}
+                </label>
+                <div >
+                    <a href="{{ path('register_ask_new_password') }}">{{ 'menu.forgot_your_password' | trans }}</a>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock fos_user_content %}
