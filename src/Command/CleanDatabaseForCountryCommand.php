@@ -68,39 +68,43 @@ class CleanDatabaseForCountryCommand extends Command
 		try {
 			/** @var ?Country $country */
 			$country = $this->entityManager->getRepository(Country::class)->find($countryId);
-			$otherCountries = $this->entityManager
-				->createQueryBuilder()
-				->select('c')
-				->from(Country::class, 'c')
-				->where('c.id != :countryId')
-				->setParameter('countryId', $countryId)
-				->getQuery()
-				->getResult();
-			$currencies = $this->entityManager->getRepository(Currency::class)->findAll();
-			$regions = $this->entityManager
-				->createQueryBuilder()
-				->select('r')
-				->from(Region::class, 'r')
-				->join('r.country', 'c')
-				->where('c.id != :countryId')
-				->setParameter('countryId', $countryId)
-				->getQuery()
-				->getResult();
-			$cities = $this->entityManager
-				->createQueryBuilder()
-				->select('ct')
-				->from(City::class, 'ct')
-				->join('ct.region', 'r')
-				->join('r.country', 'c')
-				->where('c.id != :countryId')
-				->setParameter('countryId', $countryId)
-				->getQuery()
-				->getResult();
 
 			if ($country) {
+				$country->setValid(true);
+				$this->entityManager->persist($country);
+
 				$phoneCodePattern = sprintf('+%s%%', $country->getPhoneCode());
 				$users = $this->findUsersWithPhoneNotLike($phoneCodePattern);
 				$countries = $this->findCountriesNotLike($countryId);
+
+				$otherCountries = $this->entityManager
+					->createQueryBuilder()
+					->select('c')
+					->from(Country::class, 'c')
+					->where('c.id != :countryId')
+					->setParameter('countryId', $countryId)
+					->getQuery()
+					->getResult();
+				$currencies = $this->entityManager->getRepository(Currency::class)->findAll();
+				$regions = $this->entityManager
+					->createQueryBuilder()
+					->select('r')
+					->from(Region::class, 'r')
+					->join('r.country', 'c')
+					->where('c.id != :countryId')
+					->setParameter('countryId', $countryId)
+					->getQuery()
+					->getResult();
+				$cities = $this->entityManager
+					->createQueryBuilder()
+					->select('ct')
+					->from(City::class, 'ct')
+					->join('ct.region', 'r')
+					->join('r.country', 'c')
+					->where('c.id != :countryId')
+					->setParameter('countryId', $countryId)
+					->getQuery()
+					->getResult();
 
 				$userCount = count($users);
 				$countryCount = count($countries);
