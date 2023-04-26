@@ -54,6 +54,10 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ %{ENV:BASE}/index.php [L]
 </IfModule>
+# For referencement inserjeune: BD
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "index, follow"
+</IfModule>
 
 <IfModule !mod_rewrite.c>
     <IfModule mod_alias.c>
