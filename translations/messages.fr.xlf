@@ -105,6 +105,10 @@
         <source>menu.dashboard</source>
         <target>Tableau de bord</target>
       </trans-unit>
+      <trans-unit id="menu.cleaning">
+        <source>menu.cleaning</source>
+        <target>Nettoyage</target>
+      </trans-unit>
       <trans-unit id="menu.profile">
         <source>menu.profile</source>
         <target>Profile</target>
