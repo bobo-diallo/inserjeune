@@ -7,199 +7,199 @@
     <body>
       <trans-unit id="menu.create_an_account">
         <source>menu.create_an_account</source>
-        <target>Create an account</target>
+        <target>Criar uma conta</target>
       </trans-unit>
       <trans-unit id="menu.connection">
         <source>menu.connection</source>
-        <target>Connection</target>
+        <target>Ligação</target>
       </trans-unit>
       <trans-unit id="menu.new_user">
         <source>menu.new_user</source>
-        <target>New user</target>
+        <target>Novo utilizador</target>
       </trans-unit>
       <trans-unit id="menu.language">
         <source>menu.language</source>
-        <target>Language</target>
+        <target>Idioma</target>
       </trans-unit>
       <trans-unit id="menu.french">
         <source>menu.french</source>
-        <target>French</target>
+        <target>Francês</target>
       </trans-unit>
       <trans-unit id="menu.english">
         <source>menu.english</source>
-        <target>English</target>
+        <target>Inglês</target>
       </trans-unit>
       <trans-unit id="menu.spanish">
         <source>menu.spanish</source>
-        <target>Spanish</target>
+        <target>Espanhol</target>
       </trans-unit>
       <trans-unit id="menu.portuguese">
         <source>menu.portuguese</source>
-        <target>Portuguese</target>
+        <target>Português</target>
       </trans-unit>
       <trans-unit id="menu.init_reset_password">
         <source>menu.init_reset_password</source>
-        <target>Password initialization</target>
+        <target>Inicialização da palavra-passe</target>
       </trans-unit>
       <trans-unit id="menu.information_for_reset_password_with_tag">
         <source>menu.information_for_reset_password_with_tag</source>
-        <target>Complete the form, an SMS or an email will be sent to you.%tag_br%It will contain the code to initialize your password</target>
+        <target>Preencha o formulário, será enviado um SMS ou um e-mail para si.%tag_br%Isso conterá o código para inicializar a sua palavra-passe</target>
       </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
-        <target>Login phone</target>
+        <target>Telefone de acesso</target>
       </trans-unit>
       <trans-unit id="menu.verification_code">
         <source>menu.verification_code</source>
-        <target>Verification code</target>
+        <target>Código de verificação</target>
       </trans-unit>
       <trans-unit id="menu.cancel">
         <source>menu.cancel</source>
-        <target>Cancel</target>
+        <target>Cancelar</target>
       </trans-unit>
       <trans-unit id="menu.optional_email">
         <source>menu.optional_email</source>
-        <target>E-mail address (optional)</target>
+        <target>Endereço electrónico (opcional)</target>
       </trans-unit>
       <trans-unit id="menu.company">
         <source>menu.company</source>
-        <target>Company</target>
+        <target>Empresa</target>
       </trans-unit>
       <trans-unit id="menu.companies">
         <source>menu.companies</source>
-        <target>Companies</target>
+        <target>Empresas</target>
       </trans-unit>
       <trans-unit id="menu.list_companies">
         <source>menu.list_companies</source>
-        <target>The list of companies</target>
+        <target>Lista das empresas</target>
       </trans-unit>
       <trans-unit id="menu.the_apprentices">
         <source>menu.the_apprentices</source>
-        <target>Apprentices</target>
+        <target>Estagiários</target>
       </trans-unit>
       <trans-unit id="menu.the_job_offers">
         <source>menu.the_job_offers</source>
-        <target>Job offers</target>
+        <target>Ofertas de emprego</target>
       </trans-unit>
       <trans-unit id="menu.ads">
         <source>menu.ads</source>
-        <target>Ads</target>
+        <target>Anúncios</target>
       </trans-unit>
       <trans-unit id="menu.graduate">
         <source>menu.graduate</source>
-        <target>Graduate</target>
+        <target>Graduado</target>
       </trans-unit>
       <trans-unit id="menu.graduates">
         <source>menu.graduates</source>
-        <target>Graduates</target>
+        <target>Graduados</target>
       </trans-unit>
       <trans-unit id="menu.your_graduate">
         <source>menu.your_graduate</source>
-        <target>Your graduates</target>
+        <target>Os vossos graduados</target>
       </trans-unit>
       <trans-unit id="menu.your_partners">
         <source>menu.your_partners</source>
-        <target>Your partners</target>
+        <target>Os vossos parceiros</target>
       </trans-unit>
       <trans-unit id="menu.dashboard">
         <source>menu.dashboard</source>
-        <target>Dashboard</target>
+        <target>Painel</target>
       </trans-unit>
       <trans-unit id="menu.cleaning">
         <source>menu.cleaning</source>
-        <target>Cleaning</target>
+        <target>Limpeza</target>
       </trans-unit>
       <trans-unit id="menu.profile">
         <source>menu.profile</source>
-        <target>Profile</target>
+        <target>Perfil</target>
       </trans-unit>
       <trans-unit id="menu.update_profile">
         <source>menu.update_profile</source>
-        <target>Update profile</target>
+        <target>Actualizar o perfil</target>
       </trans-unit>
       <trans-unit id="menu.the_graduates">
         <source>menu.the_graduates</source>
-        <target>Graduates</target>
+        <target>Diplomados</target>
       </trans-unit>
       <trans-unit id="menu.the_establishments">
         <source>menu.the_establishments</source>
-        <target>Establishments</target>
+        <target>Estabelecimentos</target>
       </trans-unit>
       <trans-unit id="menu.social_media">
         <source>menu.social_media</source>
-        <target>Social networks</target>
+        <target>Redes sociais</target>
       </trans-unit>
       <trans-unit id="menu.the_social_media">
         <source>menu.the_social_media</source>
-        <target>Social Networks</target>
+        <target>Redes sociais</target>
       </trans-unit>
       <trans-unit id="menu.investigation">
         <source>menu.investigation</source>
-        <target>Surveys</target>
+        <target>Inquéritos</target>
       </trans-unit>
       <trans-unit id="menu.today">
         <source>menu.today</source>
-        <target>Today</target>
+        <target>Hoje</target>
       </trans-unit>
       <trans-unit id="menu.apply">
         <source>menu.apply</source>
-        <target>Apply</target>
+        <target>Aplicar</target>
       </trans-unit>
       <trans-unit id="menu.last_week">
         <source>menu.last_week</source>
-        <target>Last week</target>
+        <target>Semana passada</target>
       </trans-unit>
       <trans-unit id="menu.last_30_days">
         <source>menu.last_30_days</source>
-        <target>Last 30 Days</target>
+        <target>Últimos 30 dias</target>
       </trans-unit>
       <trans-unit id="menu.country">
         <source>menu.country</source>
-        <target>Country</target>
+        <target>País</target>
       </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
-        <target>Country of residence</target>
+        <target>País de residência</target>
       </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
-        <target>Region</target>
+        <target>Região</target>
       </trans-unit>
       <trans-unit id="menu.regions">
         <source>menu.regions</source>
-        <target>Regions</target>
+        <target>Regiões</target>
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
-        <target>City</target>
+        <target>Cidade</target>
       </trans-unit>
       <trans-unit id="menu.description">
         <source>menu.description</source>
-        <target>Description</target>
+        <target>Descrição</target>
       </trans-unit>
       <trans-unit id="menu.download_description">
         <source>menu.download_description</source>
-        <target>Download description</target>
+        <target>Descarregar a descrição</target>
       </trans-unit>
       <trans-unit id="menu.is_view">
         <source>menu.is_view</source>
-        <target>Is seen</target>
+        <target>É visto</target>
       </trans-unit>
       <trans-unit id="menu.cities">
         <source>menu.cities</source>
-        <target>Cities</target>
+        <target>Cidades</target>
       </trans-unit>
       <trans-unit id="menu.and">
         <source>menu.and</source>
-        <target>and</target>
+        <target>e</target>
       </trans-unit>
       <trans-unit id="menu.currency">
         <source>menu.currency</source>
-        <target>Currency</target>
+        <target>Moeda</target>
       </trans-unit>
       <trans-unit id="menu.currencies">
         <source>menu.currencies</source>
-        <target>Currencies</target>
+        <target>Moedas</target>
       </trans-unit>
       <trans-unit id="menu.backup">
         <source>menu.backup</source>
@@ -207,47 +207,47 @@
       </trans-unit>
       <trans-unit id="menu.user">
         <source>menu.user</source>
-        <target>User</target>
+        <target>Utilizador</target>
       </trans-unit>
       <trans-unit id="menu.users">
         <source>menu.users</source>
-        <target>Users</target>
+        <target>Utilizadores</target>
       </trans-unit>
       <trans-unit id="menu.phone_indicator">
         <source>menu.phone_indicator</source>
-        <target>Country code</target>
+        <target>Código do país</target>
       </trans-unit>
       <trans-unit id="menu.number_phone_digit">
         <source>menu.number_phone_digit</source>
-        <target>Number of digits</target>
+        <target>Número de contactos</target>
       </trans-unit>
       <trans-unit id="menu.logout">
         <source>menu.logout</source>
-        <target>Logout</target>
+        <target>Sair</target>
       </trans-unit>
       <trans-unit id="menu.enrollment_graduates">
         <source>menu.enrollment_graduates</source>
-        <target>Graduate Enrollment</target>
+        <target>Inscrição de graduados</target>
       </trans-unit>
       <trans-unit id="menu.enrollment_companies">
         <source>menu.enrollment_companies</source>
-        <target>Business Enrollment</target>
+        <target>Inscrição de empresas</target>
       </trans-unit>
       <trans-unit id="menu.establishment">
         <source>menu.establishment</source>
-        <target>Establishment</target>
+        <target>Estabelecimento</target>
       </trans-unit>
       <trans-unit id="menu.school">
         <source>menu.school</source>
-        <target>School</target>
+        <target>Escola</target>
       </trans-unit>
       <trans-unit id="menu.establishments">
         <source>menu.establishments</source>
-        <target>Establishments</target>
+        <target>Estabelecimentos</target>
       </trans-unit>
       <trans-unit id="menu.qualification">
         <source>menu.qualification</source>
-        <target>Qualification</target>
+        <target>Qualificação</target>
       </trans-unit>
       <trans-unit id="menu.degree">
         <source>menu.degree</source>
@@ -255,7 +255,7 @@
       </trans-unit>
       <trans-unit id="menu.other_degree">
         <source>menu.other_degree</source>
-        <target>Other diploma</target>
+        <target>Outro diploma</target>
       </trans-unit>
       <trans-unit id="menu.degrees">
         <source>menu.degrees</source>
@@ -267,7 +267,7 @@
       </trans-unit>
       <trans-unit id="menu.occupancy">
         <source>menu.occupancy</source>
-        <target>Occupation</target>
+        <target>Ocupação</target>
       </trans-unit>
       <trans-unit id="menu.faculty">
         <source>menu.faculty</source>
@@ -275,79 +275,79 @@
       </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
-        <target>Activity</target>
+        <target>Actividade</target>
       </trans-unit>
       <trans-unit id="menu.activity_area">
         <source>menu.activity_area</source>
-        <target>Sector of activity</target>
+        <target>Sector de actividade</target>
       </trans-unit>
       <trans-unit id="menu.job">
         <source>menu.job</source>
-        <target>Profession</target>
+        <target>Profissão</target>
       </trans-unit>
       <trans-unit id="menu.jobs">
         <source>menu.jobs</source>
-        <target>Professions</target>
+        <target>Profissões</target>
       </trans-unit>
       <trans-unit id="menu.other_trade">
         <source>menu.other_trade</source>
-        <target>Other profession</target>
+        <target>Outra profissão</target>
       </trans-unit>
       <trans-unit id="menu.pdf_of_the_ad">
         <source>menu.pdf_of_the_ad</source>
-        <target>Ad PDF</target>
+        <target>Anúncio em PDF</target>
       </trans-unit>
       <trans-unit id="menu.display_data">
         <source>menu.display_data</source>
-        <target>Show data</target>
+        <target>Mostrar os dados</target>
       </trans-unit>
       <trans-unit id="menu.position_held">
         <source>menu.position_held</source>
-        <target>Position occupied</target>
+        <target>Cargo ocupado</target>
       </trans-unit>
       <trans-unit id="menu.other_position_held">
         <source>menu.other_position_held</source>
-        <target>Other Position Held</target>
+        <target>Outro cargo ocupado</target>
       </trans-unit>
       <trans-unit id="menu.legals_status">
         <source>menu.legals_status</source>
-        <target>Legal status</target>
+        <target>Estado jurídico</target>
       </trans-unit>
       <trans-unit id="menu.legals_status_with_tag">
         <source>menu.legals_status_with_tag</source>
-        <target>Status%tag_br%legal</target>
+        <target>Estado%tag_br%legal</target>
       </trans-unit>
       <trans-unit id="menu.training_useful_with_tag">
         <source>menu.training_useful_with_tag</source>
-        <target>Training%tag_br%useful</target>
+        <target>Formação%tag_br%útil</target>
       </trans-unit>
       <trans-unit id="menu.right_to_data_protection">
         <source>menu.right_to_data_protection</source>
-        <target>Right to data protection</target>
+        <target>Direito à protecção de dados</target>
       </trans-unit>
       <trans-unit id="menu.click_yes_if_you_agree">
         <source>menu.click_yes_if_you_agree</source>
-        <target>Click YES if you agree to share your personal information for statistics </target>
+        <target>Pressione SIM se concordar com a partilha das suas informações pessoais para fins estatísticos </target>
       </trans-unit>
       <trans-unit id="menu.click_no_if_you_no_longer_agree">
         <source>menu.click_no_if_you_no_longer_agree</source>
-        <target>Click NO if you no longer accept the use of your personal data, you will delete your entire account </target>
+        <target>Pressione NÃO se já não aceita a utilização dos seus dados pessoais, apagará toda a sua conta </target>
       </trans-unit>
       <trans-unit id="menu.information_on_the_protection_of_personal_data_pdp">
         <source>menu.information_on_the_protection_of_personal_data_pdp</source>
-        <target>Information relating to the protection of personal data (PDP)</target>
+        <target>Informações relativas à protecção dos dados pessoais (PDP)</target>
       </trans-unit>
       <trans-unit id="menu.required_field">
         <source>menu.required_field</source>
-        <target>mandatory field</target>
+        <target>campo obrigatório</target>
       </trans-unit>
       <trans-unit id="menu.job_offer">
         <source>menu.job_offer</source>
-        <target>Job offer</target>
+        <target>Oferta de emprego</target>
       </trans-unit>
       <trans-unit id="menu.job_offers">
         <source>menu.job_offers</source>
-        <target>Jobs</target>
+        <target>Empregos</target>
       </trans-unit>
       <trans-unit id="menu.branch">
         <source>menu.branch</source>
@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="menu.branches">
         <source>menu.branches</source>
-        <target>Subsectors</target>
+        <target>Subsectores</target>
       </trans-unit>
       <trans-unit id="menu.sector">
         <source>menu.sector</source>
@@ -363,339 +363,335 @@
       </trans-unit>
       <trans-unit id="menu.sectors">
         <source>menu.sectors</source>
-        <target>Sectors</target>
+        <target>Sectores</target>
       </trans-unit>
       <trans-unit id="menu.contract">
         <source>menu.contract</source>
-        <target>Contract</target>
+        <target>Contracto</target>
       </trans-unit>
       <trans-unit id="menu.contracts">
         <source>menu.contracts</source>
-        <target>Contracts</target>
+        <target>Contractos</target>
       </trans-unit>
       <trans-unit id="menu.status">
         <source>menu.status</source>
-        <target>Status</target>
+        <target>Estado</target>
       </trans-unit>
       <trans-unit id="menu.role">
         <source>menu.role</source>
-        <target>Role</target>
+        <target>Função</target>
       </trans-unit>
       <trans-unit id="menu.roles">
         <source>menu.roles</source>
-        <target>Roles</target>
+        <target>Funções</target>
       </trans-unit>
       <trans-unit id="menu.account">
         <source>menu.account</source>
-        <target>Account</target>
+        <target>Conta</target>
       </trans-unit>
       <trans-unit id="menu.geolocation">
         <source>menu.geolocation</source>
-        <target>Geo-Location</target>
+        <target>Localização geográfica</target>
       </trans-unit>
       <trans-unit id="menu.localization">
         <source>menu.localization</source>
-        <target>Location</target>
+        <target>Localização</target>
       </trans-unit>
       <trans-unit id="menu.information">
         <source>menu.information</source>
-        <target>Information</target>
+        <target>Informações</target>
       </trans-unit>
       <trans-unit id="menu.user_guide">
         <source>menu.user_guide</source>
-        <target>User Guide</target>
+        <target>Guia do utilizador</target>
       </trans-unit>
       <trans-unit id="menu.ifef_website">
         <source>menu.ifef_website</source>
-        <target>IFEF website</target>
+        <target>website IFEF</target>
       </trans-unit>
       <trans-unit id="menu.oif_website">
         <source>menu.oif_website</source>
-        <target>OIF website</target>
+        <target>website OIF</target>
       </trans-unit>
       <trans-unit id="menu.yes">
         <source>menu.yes</source>
-        <target>Yes</target>
+        <target>Sim</target>
       </trans-unit>
       <trans-unit id="menu.no">
         <source>menu.no</source>
-        <target>No</target>
+        <target>Não</target>
       </trans-unit>
       <trans-unit id="menu.firstname">
         <source>menu.firstname</source>
-        <target>First name</target>
+        <target>Nome próprio</target>
       </trans-unit>
       <trans-unit id="menu.lastname">
         <source>menu.lastname</source>
-        <target>Name</target>
+        <target>Nome</target>
       </trans-unit>
       <trans-unit id="menu.you_are">
         <source>menu.you_are</source>
-        <target>You are</target>
+        <target>É o/a</target>
       </trans-unit>
       <trans-unit id="menu.date_of_birth">
         <source>menu.date_of_birth</source>
-        <target>Date of birth</target>
+        <target>Data de nascimento</target>
       </trans-unit>
       <trans-unit id="menu.date_of_birth_with_tag">
         <source>menu.date_of_birth_with_tag</source>
-        <target>Date%tag_br%Birth</target>
+        <target>Data%tag_br%Nascimento</target>
       </trans-unit>
       <trans-unit id="menu.coordinates">
         <source>menu.coordinates</source>
-        <target>Contact details</target>
+        <target>Dados de contacto</target>
       </trans-unit>
       <trans-unit id="menu.cell_phone">
         <source>menu.cell_phone</source>
-        <target>Mobile</target>
+        <target>Telemóvel</target>
       </trans-unit>
       <trans-unit id="menu.parent_cell_phone">
         <source>menu.parent_cell_phone</source>
-        <target>Parent laptop</target>
+        <target>Laptop dos pais</target>
       </trans-unit>
       <trans-unit id="menu.field_of_activity">
         <source>menu.field_of_activity</source>
-        <target>Field of activity</target>
+        <target>Área de actividade</target>
       </trans-unit>
       <trans-unit id="menu.legend">
         <source>menu.legend</source>
-        <target>LEGEND</target>
+        <target>LEGENDA</target>
       </trans-unit>
       <trans-unit id="menu.under_study">
         <source>menu.under_study</source>
-        <target>In progress</target>
+        <target>Em curso</target>
       </trans-unit>
       <trans-unit id="menu.other_field">
         <source>menu.other_field</source>
-        <target>Other area</target>
+        <target>Outra área</target>
       </trans-unit>
       <trans-unit id="menu.type">
         <source>menu.type</source>
-        <target>Type</target>
+        <target>Tipo</target>
       </trans-unit>
       <trans-unit id="menu.close">
         <source>menu.close</source>
-        <target>Close</target>
+        <target>Fechar</target>
       </trans-unit>
       <trans-unit id="menu.gender">
         <source>menu.gender</source>
-        <target>Gender</target>
+        <target>Género</target>
       </trans-unit>
       <trans-unit id="menu.add">
         <source>menu.add</source>
-        <target>Add</target>
+        <target>Adicionar</target>
       </trans-unit>
       <trans-unit id="menu.edit_all">
         <source>menu.edit_all</source>
-        <target>Edit All</target>
+        <target>Editar tudo</target>
       </trans-unit>
       <trans-unit id="menu.password">
         <source>menu.password</source>
-        <target>Password</target>
+        <target>Palavra-passe</target>
       </trans-unit>
       <trans-unit id="menu.print">
         <source>menu.print</source>
-        <target>Print</target>
+        <target>Imprimir</target>
       </trans-unit>
       <trans-unit id="menu.remember_me">
         <source>menu.remember_me</source>
-        <target>Remember me</target>
+        <target>Lembrar-se de mim</target>
       </trans-unit>
       <trans-unit id="menu.forgot_your_password">
         <source>menu.forgot_your_password</source>
-        <target>Forgot your password?</target>
+        <target>Esqueceu-se da sua palavra-passe?</target>
       </trans-unit>
       <trans-unit id="menu.save">
         <source>menu.save</source>
-        <target>Save</target>
+        <target>Guardar</target>
       </trans-unit>
       <trans-unit id="menu.save_edit">
         <source>menu.save_edit</source>
-        <target>Save Edit</target>
+        <target>Guardar Editar</target>
       </trans-unit>
       <trans-unit id="menu.select_all">
         <source>menu.select_all</source>
-        <target>Select all</target>
+        <target>Seleccionar tudo</target>
       </trans-unit>
       <trans-unit id="menu.save_selection">
         <source>menu.save_selection</source>
-        <target>Save Selection</target>
+        <target>Guardar selecção</target>
       </trans-unit>
       <trans-unit id="menu.select_send_email">
         <source>menu.select_send_email</source>
-        <target>Send email selection</target>
+        <target>Enviar a selecção de e-mail</target>
       </trans-unit>
       <trans-unit id="menu.valid_import">
         <source>menu.valid_import</source>
-        <target>Validate import</target>
+        <target>Validar a importação</target>
       </trans-unit>
       <trans-unit id="menu.waiting_6_months">
         <source>menu.waiting_6_months</source>
-        <target>Wait 6 months</target>
+        <target>Aguardar 6 meses</target>
       </trans-unit>
       <trans-unit id="menu.1st_reminder">
         <source>menu.1st_reminder</source>
-        <target>1st Reminder</target>
+        <target>1º Lembrete</target>
       </trans-unit>
       <trans-unit id="menu.2nd_reminder">
         <source>menu.2nd_reminder</source>
-        <target>2nd Reminder</target>
+        <target>2º Lembrete</target>
       </trans-unit>
       <trans-unit id="menu.why">
         <source>menu.why</source>
-        <target>Why</target>
+        <target>Porquê</target>
       </trans-unit>
       <trans-unit id="menu.answer_ok">
         <source>menu.answer_ok</source>
-        <target>Reply OK</target>
+        <target>Responder OK</target>
       </trans-unit>
       <trans-unit id="menu.text_filter">
         <source>menu.text_filter</source>
-        <target>Text filter</target>
+        <target>Filtro de texto</target>
       </trans-unit>
       <trans-unit id="menu.communication_health_safety_environment">
         <source>menu.communication_health_safety_environment</source>
-        <target>Communication, Health, Safety and Environment</target>
+        <target>Comunicação, Saúde, Segurança e Ambiente</target>
       </trans-unit>
       <trans-unit id="menu.connection_phone_country_code_number">
         <source>menu.connection_phone_country_code_number</source>
-        <target>Tel. connection (Country code + N°)</target>
+        <target>Ligação telefónica (código do país + n.º)</target>
       </trans-unit>
       <trans-unit id="menu.other_phone_country_code_number">
         <source>menu.other_phone_country_code_number</source>
-        <target>Other Tel. (Country code + N°)</target>
+        <target>Outro tel. (Código do país + N°)</target>
       </trans-unit>
       <trans-unit id="menu.phone_country_code_number">
         <source>menu.phone_country_code_number</source>
-        <target>Tel (code + number)</target>
+        <target>Telefone (código + número)</target>
       </trans-unit>
       <trans-unit id="menu.cell_phone_of_a_1st_parent">
         <source>menu.cell_phone_of_a_1st_parent</source>
-        <target>Tel. cell phone of a 1st parent</target>
+        <target>Tel. telemóvel de um 1.º progenitor</target>
       </trans-unit>
       <trans-unit id="menu.cell_phone_of_a_2nd_parent">
         <source>menu.cell_phone_of_a_2nd_parent</source>
-        <target>Tel. laptop of a 2nd parent</target>
+        <target>Tel. portátil de um 2º progenitor</target>
       </trans-unit>
       <trans-unit id="menu.current_work_situation">
         <source>menu.current_work_situation</source>
-        <target>Current professional situation</target>
+        <target>Situação profissional actual</target>
       </trans-unit>
       <trans-unit id="menu.current_situation_with_tag">
         <source>menu.current_situation_with_tag</source>
-        <target>%tag_br%professional situation</target>
+        <target>%tag_br%situação profissional</target>
       </trans-unit>
       <trans-unit id="menu.about">
         <source>menu.about</source>
-        <target>About</target>
+        <target>Sobre</target>
       </trans-unit>
       <trans-unit id="menu.reason">
         <source>menu.reason</source>
-        <target>Reason</target>
+        <target>Motivo</target>
       </trans-unit>
       <trans-unit id="menu.registration">
         <source>menu.registration</source>
-        <target>Registration</target>
+        <target>Registo</target>
       </trans-unit>
       <trans-unit id="menu.add_a_reason">
         <source>menu.add_a_reason</source>
-        <target>Add a reason</target>
+        <target>Adicionar um motivo</target>
       </trans-unit>
       <trans-unit id="menu.work_satisfactory_with_tag">
         <source>menu.work_satisfactory_with_tag</source>
-        <target>Work%tag_br%Satisfactory</target>
+        <target>Trabalho%tag_br%Satisfatório</target>
       </trans-unit>
       <trans-unit id="menu.training_satisfactory_with_tag">
         <source>menu.training_satisfactory_with_tag</source>
-        <target>Training%tag_br%Satisfactory</target>
+        <target>Formação%tag_br%Satisfatória</target>
       </trans-unit>
       <trans-unit id="menu.heading">
         <source>menu.heading</source>
-        <target>Title</target>
+        <target>Título</target>
       </trans-unit>
       <trans-unit id="menu.label">
         <source>menu.label</source>
-        <target>Caption</target>
+        <target>Legenda</target>
       </trans-unit>
       <trans-unit id="menu.level">
         <source>menu.level</source>
-        <target>Level</target>
+        <target>Nível</target>
       </trans-unit>
       <trans-unit id="menu.show">
         <source>menu.show</source>
-        <target>Show</target>
+        <target>Mostrar</target>
       </trans-unit>
       <trans-unit id="menu.global_view">
         <source>menu.global_view</source>
-        <target>Overview</target>
+        <target>Visão geral</target>
       </trans-unit>
       <trans-unit id="menu.identity">
         <source>menu.identity</source>
-        <target>Identity</target>
+        <target>Identidade</target>
       </trans-unit>
       <trans-unit id="menu.contact">
         <source>menu.contact</source>
-        <target>Contact</target>
+        <target>Contacto</target>
       </trans-unit>
       <trans-unit id="menu.contact_name">
         <source>menu.contact_name</source>
-        <target>Contact Name</target>
+        <target>Nome do contacto</target>
       </trans-unit>
       <trans-unit id="menu.fixed_phone">
         <source>menu.fixed_phone</source>
-        <target>Fixed phone</target>
+        <target>Telefone fixo</target>
       </trans-unit>
       <trans-unit id="menu.current_files">
         <source>menu.current_files</source>
-        <target>Current files</target>
+        <target>Ficheiros actuais</target>
       </trans-unit>
       <trans-unit id="menu.attach_an_image">
         <source>menu.attach_an_image</source>
-        <target>Attach an image</target>
+        <target>Anexar uma imagem</target>
       </trans-unit>
       <trans-unit id="menu.attach_the_description_of_the_offer">
         <source>menu.attach_the_description_of_the_offer</source>
-        <target>Attach the description of the offer </target>
+        <target>Anexar a descrição da oferta </target>
       </trans-unit>
       <trans-unit id="menu.select_a_new_image">
         <source>menu.select_a_new_image</source>
-        <target>Select a new image</target>
+        <target>Seleccione uma nova imagem</target>
       </trans-unit>
       <trans-unit id="menu.employment_contact">
         <source>menu.employment_contact</source>
-        <target>Employment contract</target>
+        <target>Contrato de trabalho</target>
       </trans-unit>
       <trans-unit id="menu.select_file">
         <source>menu.select_file</source>
-        <target>Select file</target>
+        <target>Seleccionar o ficheiro</target>
       </trans-unit>
       <trans-unit id="menu.change">
         <source>menu.change</source>
-        <target>Change</target>
+        <target>Alterar</target>
       </trans-unit>
       <trans-unit id="menu.home">
         <source>menu.home</source>
-        <target>Home</target>
+        <target>Início</target>
       </trans-unit>
       <trans-unit id="menu.name">
         <source>menu.name</source>
-        <target>Name</target>
+        <target>Nome</target>
       </trans-unit>
       <trans-unit id="menu.address">
         <source>menu.address</source>
-        <target>Address</target>
-      </trans-unit>
-      <trans-unit id="menu.address_diaspora">
-        <source>menu.address_diaspora</source>
-        <target>Diaspora address</target>
+        <target>Endereço</target>
       </trans-unit>
       <trans-unit id="menu.phone">
         <source>menu.phone</source>
-        <target>Phone</target>
+        <target>Telefone</target>
       </trans-unit>
       <trans-unit id="menu.phone_abr">
         <source>menu.phone_abr</source>
-        <target>Tel</target>
+        <target>Telefone</target>
       </trans-unit>
       <trans-unit id="menu.email">
         <source>menu.email</source>
@@ -703,47 +699,47 @@
       </trans-unit>
       <trans-unit id="menu.address_number">
         <source>menu.address_number</source>
-        <target>Address number</target>
+        <target>Número do endereço</target>
       </trans-unit>
       <trans-unit id="menu.address_road">
         <source>menu.address_road</source>
-        <target>Street address</target>
+        <target>Endereço postal</target>
       </trans-unit>
       <trans-unit id="menu.created_date">
         <source>menu.created_date</source>
-        <target>Creation date</target>
+        <target>Data de criação</target>
       </trans-unit>
       <trans-unit id="menu.created_date_with_tag">
         <source>menu.created_date_with_tag</source>
-        <target>Date%tag_br%Creation</target>
+        <target>Data%tag_br%Criação</target>
       </trans-unit>
       <trans-unit id="menu.updated_date_with_tag">
         <source>menu.updated_date_with_tag</source>
-        <target>Date%tag_br%Modified</target>
+        <target>Data%tag_br%Modificada</target>
       </trans-unit>
       <trans-unit id="menu.updated_date">
         <source>menu.updated_date</source>
-        <target>Date modified</target>
+        <target>Data da modificação</target>
       </trans-unit>
       <trans-unit id="menu.modified_on">
         <source>menu.modified_on</source>
-        <target>Modified on</target>
+        <target>Modificado em</target>
       </trans-unit>
       <trans-unit id="menu.expires_on">
         <source>menu.expires_on</source>
-        <target>Expires</target>
+        <target>Expirações</target>
       </trans-unit>
       <trans-unit id="menu.address_locality">
         <source>menu.address_locality</source>
-        <target>Location</target>
+        <target>Localização</target>
       </trans-unit>
       <trans-unit id="menu.street">
         <source>menu.street</source>
-        <target>Street</target>
+        <target>Rua</target>
       </trans-unit>
       <trans-unit id="menu.location">
         <source>menu.location</source>
-        <target>Locality</target>
+        <target>Localidade</target>
       </trans-unit>
       <trans-unit id="menu.latitude">
         <source>menu.latitude</source>
@@ -755,107 +751,107 @@
       </trans-unit>
       <trans-unit id="menu.mode">
         <source>menu.mode</source>
-        <target>Mode</target>
+        <target>Modo</target>
       </trans-unit>
       <trans-unit id="menu.title">
         <source>menu.title</source>
-        <target>Title</target>
+        <target>Título</target>
       </trans-unit>
       <trans-unit id="menu.profession">
         <source>menu.profession</source>
-        <target>Occupation</target>
+        <target>Ocupação</target>
       </trans-unit>
       <trans-unit id="menu.see">
         <source>menu.see</source>
-        <target>View</target>
+        <target>Ver</target>
       </trans-unit>
       <trans-unit id="menu.characteristics">
         <source>menu.characteristics</source>
-        <target>Features</target>
+        <target>Características</target>
       </trans-unit>
       <trans-unit id="menu.archive">
         <source>menu.archive</source>
-        <target>Archive</target>
+        <target>Arquivo</target>
       </trans-unit>
       <trans-unit id="menu.back_to_the_list">
         <source>menu.back_to_the_list</source>
-        <target>Back to list</target>
+        <target>Voltar à lista</target>
       </trans-unit>
       <trans-unit id="menu.complete_your_profile">
         <source>menu.complete_your_profile</source>
-        <target>Complete your profile</target>
+        <target>Preencher o seu perfil</target>
       </trans-unit>
       <trans-unit id="menu.detail">
         <source>menu.detail</source>
-        <target>Details</target>
+        <target>Detalhes</target>
       </trans-unit>
       <trans-unit id="menu.delete">
         <source>menu.delete</source>
-        <target>Delete</target>
+        <target>Eliminar</target>
       </trans-unit>
       <trans-unit id="menu.delete_selected">
         <source>menu.delete_selected</source>
-        <target>Remove selection</target>
+        <target>Remover selecção</target>
       </trans-unit>
       <trans-unit id="menu.edit">
         <source>menu.edit</source>
-        <target>Edit</target>
+        <target>Editar</target>
       </trans-unit>
       <trans-unit id="menu.validate">
         <source>menu.validate</source>
-        <target>Validate</target>
+        <target>Validar</target>
       </trans-unit>
       <trans-unit id="menu.valid">
         <source>menu.valid</source>
-        <target>Valid</target>
+        <target>Valido</target>
       </trans-unit>
       <trans-unit id="menu.province">
         <source>menu.province</source>
-        <target>Province</target>
+        <target>Província</target>
       </trans-unit>
       <trans-unit id="menu.all_regions">
         <source>menu.all_regions</source>
-        <target>All regions</target>
+        <target>Todas as regiões</target>
       </trans-unit>
       <trans-unit id="menu.connection_phone">
         <source>menu.connection_phone</source>
-        <target>Tel. login</target>
+        <target>Tel. Acesso</target>
       </trans-unit>
       <trans-unit id="menu.other_phone">
         <source>menu.other_phone</source>
-        <target>Other Phone</target>
+        <target>Outro telefone</target>
       </trans-unit>
       <trans-unit id="menu.other">
         <source>menu.other</source>
-        <target>Other</target>
+        <target>Outro</target>
       </trans-unit>
       <trans-unit id="menu.number">
         <source>menu.number</source>
-        <target>Number</target>
+        <target>Número</target>
       </trans-unit>
       <trans-unit id="menu.reasons_for_satisfaction_with_jobs_held">
         <source>menu.reasons_for_satisfaction_with_jobs_held</source>
-        <target>Reasons for job satisfaction</target>
+        <target>Razões para a satisfação profissional</target>
       </trans-unit>
       <trans-unit id="menu.modification_of_a_found_employment_reason">
         <source>menu.modification_of_a_found_employment_reason</source>
-        <target>Editing a job found reason</target>
+        <target>Editar um motivo de procura de emprego</target>
       </trans-unit>
       <trans-unit id="menu.reasons_for_finding_a_job">
         <source>menu.reasons_for_finding_a_job</source>
-        <target>Reasons jobs found</target>
+        <target>Razões pelas quais foram encontrados empregos</target>
       </trans-unit>
       <trans-unit id="menu.add_a_reason_for_found_employment">
         <source>menu.add_a_reason_for_found_employment</source>
-        <target>Add job found reason</target>
+        <target>Adicionar motivo de procura de emprego</target>
       </trans-unit>
       <trans-unit id="menu.other_reason">
         <source>menu.other_reason</source>
-        <target>Other reason</target>
+        <target>Outro motivo</target>
       </trans-unit>
       <trans-unit id="menu.other_type">
         <source>menu.other_type</source>
-        <target>Other type</target>
+        <target>Outro tipo</target>
       </trans-unit>
       <trans-unit id="menu.actor">
         <source>menu.actor</source>
@@ -863,236 +859,232 @@
       </trans-unit>
       <trans-unit id="menu.offer">
         <source>menu.offer</source>
-        <target>Job offer</target>
+        <target>Oferta de emprego</target>
       </trans-unit>
 
       <!-- Notification email send -->
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
-        <target>Notifications sent successfully</target>
+        <target>Notificações enviadas com sucesso</target>
       </trans-unit>
 
       <!-- Role -->
       <trans-unit id="role.editing_a_role">
         <source>role.editing_a_role</source>
-        <target>Editing a role</target>
+        <target>Editar uma função</target>
       </trans-unit>
       <trans-unit id="role.list_of_roles">
         <source>role.list_of_roles</source>
-        <target>List of roles</target>
+        <target>Lista de funções</target>
       </trans-unit>
       <trans-unit id="role.new_role">
         <source>role.new_role</source>
-        <target>New role</target>
+        <target>Nova função</target>
       </trans-unit>
 
       <!-- Region -->
       <trans-unit id="region.editing_a_region">
         <source>region.editing_a_region</source>
-        <target>Editing a region</target>
+        <target>Editar uma região</target>
       </trans-unit>
       <trans-unit id="region.add_a_region">
         <source>region.add_a_region</source>
-        <target>Add region</target>
+        <target>Adicionar região</target>
       </trans-unit>
       <trans-unit id="region.adding_a_region">
         <source>region.adding_a_region</source>
-        <target>Adding a region</target>
+        <target>Adicionar uma região</target>
       </trans-unit>
       <trans-unit id="region.list_of_regions">
         <source>region.list_of_regions</source>
-        <target>List of regions</target>
+        <target>Lista das regiões</target>
       </trans-unit>
       <!-- Legal status -->
       <trans-unit id="legal_status.editing_a_legal_status">
         <source>legal_status.editing_a_legal_status</source>
-        <target>Modification of a legal status</target>
+        <target>Alteração de um estatuto jurídico</target>
       </trans-unit>
       <trans-unit id="legal_status.list_of_legal_statuses">
         <source>legal_status.list_of_legal_statuses</source>
-        <target>List of legal statuses</target>
+        <target>Lista dos estatutos jurídicos</target>
       </trans-unit>
       <trans-unit id="legal_status.add_a_legal_status">
         <source>legal_status.add_a_legal_status</source>
-        <target>Add legal status</target>
+        <target>Adicionar estatuto jurídico</target>
       </trans-unit>
       <trans-unit id="legal_status.adding_a_legal_status">
         <source>legal_status.adding_a_legal_status</source>
-        <target>Adding a legal status</target>
+        <target>Adicionar um estatuto jurídico</target>
       </trans-unit>
 
       <!-- Gegree -->
       <trans-unit id="degree.editing_a_degree">
         <source>degree.editing_a_degree</source>
-        <target>Editing a graduate</target>
+        <target>Editar um graduado</target>
       </trans-unit>
       <trans-unit id="degree.list_of_degree">
         <source>degree.list_of_degree</source>
-        <target>List of graduates</target>
+        <target>Lista dos graduados</target>
       </trans-unit>
       <trans-unit id="degree.add_a_degree">
         <source>degree.add_a_degree</source>
-        <target>Add a diploma</target>
+        <target>Adicionar um diploma</target>
       </trans-unit>
       <trans-unit id="degree.adding_a_degree">
         <source>degree.adding_a_degree</source>
-        <target>Add a diploma</target>
+        <target>Adicionar um diploma</target>
       </trans-unit>
       <trans-unit id="degree.filter_by_region">
         <source>degree.filter_by_region</source>
-        <target>Filter by region</target>
+        <target>Filtrar por região</target>
       </trans-unit>
       <trans-unit id="degree.year_session_degree">
         <source>degree.year_session_degree</source>
-        <target>Graduation year</target>
+        <target>Ano de graduação</target>
       </trans-unit>
       <trans-unit id="degree.month_graduation">
         <source>degree.month_graduation</source>
-        <target>Month Graduation</target>
+        <target>Mês de graduação</target>
       </trans-unit>
       <trans-unit id="degree.email_advised_to_reply_to_job_offers">
         <source>degree.email_advised_to_reply_to_job_offers</source>
-        <target>recommended email to respond to job offers</target>
+        <target>Email recomendado para responder a ofertas de emprego</target>
       </trans-unit>
       <trans-unit id="degree.the_registration_is_in_green_if_it_is_validated_by_the_institution">
         <source>degree.the_registration_is_in_green_if_it_is_validated_by_the_institution</source>
-        <target>the registration is in green if it is validated by the establishment</target>
+        <target>the o registo está a verde se for validado pelo estabelecimento</target>
       </trans-unit>
       <trans-unit id="degree.graduates">
         <source>degree.graduates</source>
-        <target>Graduates</target>
+        <target>Graduados</target>
       </trans-unit>
       <trans-unit id="degree.month_year_degree_with_tag">
         <source>degree.month_year_degree_with_tag</source>
-        <target>month/year%tag_br%diploma</target>
+        <target>mês/ano%tag_br%diploma</target>
       </trans-unit>
 
       <!-- Graduates -->
       <trans-unit id="graduate.graduate_looking_for_job">
         <source>graduate.graduate_looking_for_job</source>
-        <target>Graduate looking for a job</target>
-      </trans-unit>
-      <trans-unit id="graduate.study_graduate">
-        <source>graduate.study_graduate</source>
-        <target>Study Graduate</target>
+        <target>Graduado à procura de emprego</target>
       </trans-unit>
       <trans-unit id="graduate.graduate_in_employment">
         <source>graduate.graduate_in_employment</source>
-        <target>Graduate in employment</target>
+        <target>Graduado empregado</target>
       </trans-unit>
       <trans-unit id="graduate.new_graduate">
         <source>graduate.new_graduate</source>
-        <target>New graduate</target>
+        <target>Novo graduado</target>
       </trans-unit>
       <trans-unit id="graduate.business_graduate">
         <source>graduate.business_graduate</source>
-        <target>Graduate entrepreneur</target>
+        <target>Empresário graduado</target>
       </trans-unit>
       <trans-unit id="graduate.reasons_jobs_not_found">
         <source>graduate.reasons_jobs_not_found</source>
-        <target>Reasons jobs not found</target>
+        <target>Motivos pelos quais não foram encontrados postos de trabalho</target>
       </trans-unit>
       <trans-unit id="graduate.creative_graduates">
         <source>graduate.creative_graduates</source>
-        <target>Creative graduates</target>
+        <target>Graduados criativos</target>
       </trans-unit>
       <trans-unit id="graduate.editing_of_a_reason_for_not_finding_a_job">
         <source>graduate.editing_of_a_reason_for_not_finding_a_job</source>
-        <target>Editing a job reason not found</target>
+        <target>Editar um trabalho motivo não encontrado</target>
       </trans-unit>
       <trans-unit id="graduate.add_a_reason_for_employment_not_found">
         <source>graduate.add_a_reason_for_employment_not_found</source>
-        <target>Add job reason not found</target>
+        <target>Adicionar motivo de trabalho não encontrado</target>
       </trans-unit>
       <trans-unit id="graduate.add_a_graduate">
         <source>graduate.add_a_graduate</source>
-        <target>Add a graduate</target>
+        <target>Adicionar um graduado</target>
       </trans-unit>
       <trans-unit id="graduate.month_year_of_graduation">
         <source>graduate.month_year_of_graduation</source>
-        <target>Month / Year of graduation</target>
+        <target>Mês / Ano de graduação</target>
       </trans-unit>
       <trans-unit id="graduate.obtaining_the_diploma">
         <source>graduate.obtaining_the_diploma</source>
-        <target>Graduation</target>
+        <target>Graduação</target>
       </trans-unit>
       <trans-unit id="graduate.in_which_sector_of_activity_did_you_create_your_company">
         <source>graduate.in_which_sector_of_activity_did_you_create_your_company</source>
-        <target>In sector of activity did you create your company</target>
+        <target>Em que sector de actividade criou a sua empresa</target>
       </trans-unit>
       <trans-unit id="graduate.what_job_do_you_do_in_your_company">
         <source>graduate.what_job_do_you_do_in_your_company</source>
-        <target>What job do you do in your company</target>
+        <target>Que funções desempenha na sua empresa</target>
       </trans-unit>
       <trans-unit id="graduate.does_your_company_have_a_legal_existence">
         <source>graduate.does_your_company_have_a_legal_existence</source>
-        <target>Does your business have a legal existence</target>
+        <target>A sua empresa tem existência legal?</target>
       </trans-unit>
       <trans-unit id="graduate.your_remuneration_per_month_in_national_currency">
         <source>graduate.your_remuneration_per_month_in_national_currency</source>
-        <target>Your salary per month in national currency</target>
+        <target>O seu salário mensal em moeda nacional</target>
       </trans-unit>
       <trans-unit id="graduate.has_your_training_been_useful_for_the_job_you_do">
         <source>graduate.has_your_training_been_useful_for_the_job_you_do</source>
-        <target>Has your training been useful for the job you do</target>
+        <target>A sua formação foi útil para o trabalho que faz</target>
       </trans-unit>
       <trans-unit id="graduate.why_several_possible_choices">
         <source>graduate.why_several_possible_choices</source>
-        <target>why? several possible choices (+ ctrl key)</target>
+        <target>porquê? várias opções possíveis (+ tecla ctrl)</target>
       </trans-unit>
       <trans-unit id="graduate.if_not_why_not">
         <source>graduate.if_not_why_not</source>
-        <target>If not, why</target>
+        <target>Em caso negativo, porquê</target>
       </trans-unit>
       <trans-unit id="graduate.your_pay_per_month">
         <source>graduate.your_pay_per_month</source>
-        <target>Your salary per month</target>
+        <target>O seu salário por mês</target>
       </trans-unit>
       <trans-unit id="graduate.your_pay_per_day">
         <source>graduate.your_pay_per_day</source>
-        <target>Your earnings per day</target>
+        <target>Os seus ganhos por dia</target>
       </trans-unit>
       <trans-unit id="graduate.search_for_the_company_that_employs_you">
         <source>graduate.search_for_the_company_that_employs_you</source>
-        <target>Search for the company that employs you</target>
+        <target>Procurar a empresa que o emprega</target>
       </trans-unit>
       <trans-unit id="graduate.name_of_the_company_that_employs_you">
         <source>graduate.name_of_the_company_that_employs_you</source>
-        <target>Name of the company that employs you</target>
+        <target>Nome da empresa que o emprega</target>
       </trans-unit>
       <trans-unit id="graduate.you_have_been_employed_for">
         <source>graduate.you_have_been_employed_for</source>
-        <target>You have been employed for</target>
+        <target>Está empregado há</target>
       </trans-unit>
       <trans-unit id="graduate.number_of_working_hours_per_day">
         <source>graduate.number_of_working_hours_per_day</source>
-        <target>Number of working hours per day</target>
+        <target>Número de horas de trabalho por dia</target>
       </trans-unit>
       <trans-unit id="graduate.has_your_professional_training_been_useful_for_the_job_you_do_with_tag">
         <source>graduate.has_your_professional_training_been_useful_for_the_job_you_do_with_tag</source>
-        <target>Has your professional training %tag_br%useful for the job you do</target>
+        <target>A sua formação profissional foi %tag_br%útil para o trabalho que faz</target>
       </trans-unit>
       <trans-unit id="graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices">
         <source>graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
-        <target>If you have a job unrelated to your diploma, it is because:%tag_br%several possible choices (+ ctrl key)</target>
+        <target>Se tem um emprego não relacionado com o seu diploma, é porque:%tag_br%várias opções possíveis (+ tecla ctrl)</target>
       </trans-unit>
 
       <!-- Time -->
       <trans-unit id="time.3_months">
         <source>time.3_months</source>
-        <target>3 months</target>
+        <target>3 meses</target>
       </trans-unit>
       <trans-unit id="time.6_months">
         <source>time.6_months</source>
-        <target>6 months</target>
+        <target>6 meses</target>
       </trans-unit>
       <trans-unit id="time.1_year">
         <source>time.1_year</source>
-        <target>1 year</target>
+        <target>1 ano</target>
       </trans-unit>
       <trans-unit id="time.2_years">
         <source>time.2_years</source>
-        <target>2 years</target>
+        <target>2 anos</target>
       </trans-unit>
       <!-- city -->
       <trans-unit id="city.capital_city">
@@ -1101,930 +1093,880 @@
       </trans-unit>
       <trans-unit id="city.new_city">
         <source>city.new_city</source>
-        <target>New town</target>
+        <target>Cidade nova</target>
       </trans-unit>
       <trans-unit id="city.add_city">
         <source>city.add_city</source>
-        <target>Add a city</target>
+        <target>Adicionar uma cidade</target>
       </trans-unit>
       <trans-unit id="city.edit_city">
         <source>city.edit_city</source>
-        <target>Editing a city</target>
+        <target>Editar uma cidade</target>
       </trans-unit>
       <trans-unit id="city.list_of_cities">
         <source>city.list_of_cities</source>
-        <target>List of cities</target>
+        <target>Lista de cidades</target>
       </trans-unit>
       <trans-unit id="city.city_nearest">
         <source>city.city_nearest</source>
-        <target>City (nearest)</target>
+        <target>Cidade (mais próxima)</target>
       </trans-unit>
       <trans-unit id="city.other_city">
         <source>city.other_city</source>
-        <target>Other city</target>
+        <target>Outra cidade</target>
       </trans-unit>
 
       <!-- Job -->
       <trans-unit id="job.20_offers">
         <source>job.20_offers</source>
-        <target>20 Offers</target>
+        <target>20 Ofertas</target>
       </trans-unit>
       <trans-unit id="job.list_of_job_offers">
         <source>job.list_of_job_offers</source>
-        <target>List of job offers</target>
+        <target>Lista de ofertas de emprego</target>
       </trans-unit>
       <trans-unit id="job.type_of_contract">
         <source>job.type_of_contract</source>
-        <target>Type of Contract</target>
+        <target>Tipo de contrato</target>
       </trans-unit>
       <trans-unit id="job.type_of_employment_contract">
         <source>job.type_of_employment_contract</source>
-        <target>Type of employment contract</target>
+        <target>Tipo de contrato de trabalho</target>
       </trans-unit>
       <trans-unit id="job.candidate_profile">
         <source>job.candidate_profile</source>
-        <target>Candidate profile</target>
+        <target>Perfil do candidato</target>
       </trans-unit>
       <trans-unit id="job.date_of_offer">
         <source>job.date_of_offer</source>
-        <target>Offer date</target>
+        <target>Data da oferta</target>
       </trans-unit>
       <trans-unit id="job.expiry_date_of_the_offer">
         <source>job.expiry_date_of_the_offer</source>
-        <target>Offer expiry date</target>
+        <target>Data de expiração da oferta</target>
       </trans-unit>
       <trans-unit id="job.editing_a_job_offer">
         <source>job.editing_a_job_offer</source>
-        <target>Editing a job offer</target>
+        <target>Editar uma oferta de emprego</target>
       </trans-unit>
       <trans-unit id="job.add_a_job_offer">
         <source>job.add_a_job_offer</source>
-        <target>Add an offer</target>
+        <target>Adicionar uma oferta</target>
       </trans-unit>
       <trans-unit id="job.editing_a_offer">
         <source>job.editing_a_offer</source>
-        <target>Modifying an offer</target>
+        <target>Modificar uma oferta</target>
       </trans-unit>
       <trans-unit id="job.adding_a_job_offer">
         <source>job.adding_a_job_offer</source>
-        <target>Adding a job offer</target>
+        <target>Adicionar uma oferta de emprego</target>
       </trans-unit>
       <trans-unit id="job.our_job_offers">
         <source>job.our_job_offers</source>
-        <target>Our job offers</target>
+        <target>As nossas ofertas de emprego</target>
       </trans-unit>
       <trans-unit id="job.other_offers">
         <source>job.other_offers</source>
-        <target>Other offers</target>
+        <target>Outras ofertas</target>
       </trans-unit>
       <trans-unit id="job.details_of_the_offer">
         <source>job.details_of_the_offer</source>
-        <target>Details of the offer</target>
+        <target>Detalhes da oferta</target>
       </trans-unit>
       <trans-unit id="job.published_on">
         <source>job.published_on</source>
-        <target>Published on</target>
+        <target>Publicado em</target>
       </trans-unit>
       <trans-unit id="job.updated_on">
         <source>job.updated_on</source>
-        <target>Updated on</target>
+        <target>Actualizado em</target>
       </trans-unit>
       <trans-unit id="job.description_of_the_company">
         <source>job.description_of_the_company</source>
-        <target>Company description</target>
+        <target>Descrição da empresa</target>
       </trans-unit>
       <trans-unit id="job.description_of_the_school">
         <source>job.description_of_the_school</source>
-        <target>Description of the establishment</target>
+        <target>Descrição do estabelecimento</target>
       </trans-unit>
       <trans-unit id="job.job_description">
         <source>job.job_description</source>
-        <target>Job description</target>
+        <target>Descrição do emprego</target>
       </trans-unit>
       <trans-unit id="job.person_in_charge_of_recruitment">
         <source>job.person_in_charge_of_recruitment</source>
-        <target>Person in charge of recruitment</target>
+        <target>Pessoa responsável pelo recrutamento</target>
       </trans-unit>
       <trans-unit id="job.apply_for_a_job_offer">
         <source>job.apply_for_a_job_offer</source>
-        <target>Apply for a job offer</target>
+        <target>Candidatar-se a uma oferta de emprego</target>
       </trans-unit>
       <trans-unit id="job.contact_information">
         <source>job.contact_information</source>
-        <target>Contact information</target>
+        <target>Informações de contacto</target>
       </trans-unit>
       <trans-unit id="job.offer_title">
         <source>job.offer_title</source>
-        <target>Offer title</target>
+        <target>Título da oferta</target>
       </trans-unit>
       <trans-unit id="job.your_documents">
         <source>job.your_documents</source>
-        <target>Your documents</target>
+        <target>Os seus documentos</target>
       </trans-unit>
       <trans-unit id="job.attach_a_resume">
         <source>job.attach_a_resume</source>
-        <target>Attach CV</target>
+        <target>Anexar o CV</target>
       </trans-unit>
       <trans-unit id="job.select_your_resume">
         <source>job.select_your_resume</source>
-        <target>Select your CV</target>
+        <target>Seleccione o seu CV</target>
       </trans-unit>
       <trans-unit id="job.attach_a_cover_letter">
         <source>job.attach_a_cover_letter</source>
-        <target>Attach a cover letter</target>
+        <target>Anexar uma carta de apresentação</target>
       </trans-unit>
       <trans-unit id="job.offer_already_sended">
         <source>job.offer_already_sended</source>
-        <target>Offer already applied</target>
+        <target>Oferta já aplicada</target>
       </trans-unit>
 
       <!-- activity -->
       <trans-unit id="activity.modification_of_a_job">
         <source>activity.modification_of_a_job</source>
-        <target>Editing a profession</target>
+        <target>Editar uma profissão</target>
       </trans-unit>
       <trans-unit id="activity.list_of_sectors_professions">
         <source>activity.list_of_sectors_professions</source>
-        <target>List of sectors / professions</target>
+        <target>Lista de sectores / profissões</target>
       </trans-unit>
       <trans-unit id="activity.add_sector_profession">
         <source>activity.add_sector_profession</source>
-        <target>Add sector / profession</target>
+        <target>Adicionar sector / profissão</target>
       </trans-unit>
       <trans-unit id="activity.add_a_sector_of_activity">
         <source>activity.add_a_sector_of_activity</source>
-        <target>Adding a business sector</target>
+        <target>Adicionar um sector de actividade</target>
       </trans-unit>
       <trans-unit id="activity.sector_profession">
         <source>activity.sector_profession</source>
-        <target>sector / profession</target>
+        <target>sector / profissão</target>
       </trans-unit>
       <trans-unit id="activity.other_sector_profession">
         <source>activity.other_sector_profession</source>
-        <target>Other sector / profession</target>
+        <target>Outro sector / profissão</target>
       </trans-unit>
 
       <!-- Company -->
       <trans-unit id="company.list_of_companies">
         <source>company.list_of_companies</source>
-        <target>List of companies</target>
+        <target>Lista de empresas</target>
       </trans-unit>
       <trans-unit id="company.new_company">
         <source>company.new_company</source>
-        <target>New business</target>
+        <target>Novos negócios</target>
       </trans-unit>
       <trans-unit id="company.company_details">
         <source>company.company_details</source>
-        <target>Company Details</target>
+        <target>Dados da empresa</target>
       </trans-unit>
       <trans-unit id="company.add_company">
         <source>company.add_company</source>
-        <target>Add a company</target>
+        <target>Adicionar uma empresa</target>
       </trans-unit>
       <trans-unit id="company.companies_by_sector_of_activity">
         <source>company.companies_by_sector_of_activity</source>
-        <target>Companies by business sector</target>
+        <target>Empresas por sector de actividade</target>
       </trans-unit>
       <trans-unit id="company.overall_satisfaction">
         <source>company.overall_satisfaction</source>
-        <target>Overall satisfaction</target>
+        <target>Satisfação geral</target>
       </trans-unit>
       <trans-unit id="company.general_knowledge">
         <source>company.general_knowledge</source>
-        <target>General knowledge</target>
+        <target>Conhecimentos gerais</target>
       </trans-unit>
       <trans-unit id="company.technical_skills">
         <source>company.technical_skills</source>
-        <target>Technical Skills</target>
+        <target>Competências técnicas</target>
       </trans-unit>
       <trans-unit id="company.communication_and_hse">
         <source>company.communication_and_hse</source>
-        <target>Communication and HSE</target>
+        <target>Comunicação e saúde e segurança</target>
       </trans-unit>
       <trans-unit id="company.average_number_in_terms_of_projected_hiring_in_the_next_6_months">
         <source>company.average_number_in_terms_of_projected_hiring_in_the_next_6_months</source>
-        <target>Average number in terms of hiring projection in the next 6 months</target>
+        <target>Número médio em termos de projecção de contratação nos próximos 6 meses</target>
       </trans-unit>
       <trans-unit id="company.worker">
         <source>company.worker</source>
-        <target>worker</target>
+        <target>trabalhador</target>
       </trans-unit>
       <trans-unit id="company.worker_female">
         <source>company.worker_female</source>
-        <target>Worker</target>
+        <target>trabalhador</target>
       </trans-unit>
       <trans-unit id="company.technician">
         <source>company.technician</source>
-        <target>technician</target>
+        <target>técnico</target>
       </trans-unit>
       <trans-unit id="company.technician_female">
         <source>company.technician_female</source>
-        <target>Technician</target>
+        <target>Técnico</target>
       </trans-unit>
       <trans-unit id="company.apprentice">
         <source>company.apprentice</source>
-        <target>Apprentice</target>
+        <target>Aprendiz</target>
       </trans-unit>
       <trans-unit id="company.apprentice_female">
         <source>company.apprentice_female</source>
-        <target>Apprentice</target>
+        <target>Aprendiz</target>
       </trans-unit>
       <trans-unit id="company.intern">
         <source>company.intern</source>
-        <target>Intern</target>
+        <target>Estagiário</target>
       </trans-unit>
       <trans-unit id="company.companies_by_legal_status">
         <source>company.companies_by_legal_status</source>
-        <target>Companies by legal status</target>
+        <target>Empresas por estatuto jurídico</target>
       </trans-unit>
       <trans-unit id="company.measures_of_satisfaction_of_companies_that_have_hired_graduates">
         <source>company.measures_of_satisfaction_of_companies_that_have_hired_graduates</source>
-        <target>Satisfaction measures of companies that have hired graduates</target>
+        <target>Medidas de satisfação das empresas que contrataram graduados</target>
       </trans-unit>
       <trans-unit id="company.modification_of_a_company">
         <source>company.modification_of_a_company</source>
-        <target>Editing a company</target>
+        <target>Editar uma empresa</target>
       </trans-unit>
       <trans-unit id="company.companies_that_employ_your_graduates">
         <source>company.companies_that_employ_your_graduates</source>
-        <target>Companies that employ your graduates</target>
+        <target>Empresas que empregam os vossos graduados</target>
       </trans-unit>
       <trans-unit id="company.list_of_companies_that_employ_your_graduates">
         <source>company.list_of_companies_that_employ_your_graduates</source>
-        <target>List of companies that employ your graduates</target>
+        <target>Lista das empresas que empregam os vossos graduados</target>
       </trans-unit>
       <trans-unit id="company.list_of_partner_companies">
         <source>company.list_of_partner_companies</source>
-        <target>List of partner companies</target>
+        <target>Lista de empresas parceiras</target>
       </trans-unit>
       <trans-unit id="company.list_of_all_companies">
         <source>company.list_of_all_companies</source>
-        <target>List of all companies</target>
+        <target>Lista de todas as empresas</target>
       </trans-unit>
       <trans-unit id="company.manage_your_partners">
         <source>company.manage_your_partners</source>
-        <target>Administer your partners</target>
+        <target>Gerir os seus parceiros</target>
       </trans-unit>
       <trans-unit id="company.back_to_your_partners">
         <source>company.back_to_your_partners</source>
-        <target>Back to your partners</target>
+        <target>Voltar aos seus parceiros</target>
       </trans-unit>
       <trans-unit id="company.name_of_the_company">
         <source>company.name_of_the_company</source>
-        <target>Company name</target>
+        <target>Nome da empresa</target>
       </trans-unit>
       <trans-unit id="company.number_of_people_hired">
         <source>company.number_of_people_hired</source>
-        <target>Number of hires</target>
+        <target>Número de contratações</target>
       </trans-unit>
       <trans-unit id="company.name_of_the_company_with_tag">
         <source>company.name_of_the_company_with_tag</source>
-        <target>%tag_br%company name</target>
+        <target>%tag_br%nome da empresa</target>
       </trans-unit>
       <trans-unit id="company.company_business_with_tag">
         <source>company.company_business_with_tag</source>
-        <target>Profession of %tag_br%the Company</target>
+        <target>Profissão de %tag_br%a Empresa</target>
       </trans-unit>
       <trans-unit id="company.connection_phone_code_no">
         <source>company.connection_phone_code_no</source>
-        <target>Tel. connection (Code + N°)</target>
+        <target>Ligação telefónica (Código + N.º)</target>
       </trans-unit>
       <trans-unit id="company.other_phone_code_no">
         <source>company.other_phone_code_no</source>
-        <target>Other Tel. (Code + N°)</target>
+        <target>Outro telefone (código + n.º)</target>
       </trans-unit>
       <trans-unit id="company.companies_from_start_to_end">
         <source>company.companies_from_start_to_end</source>
-        <target>Companies from %begin_date% to %end_date%</target>
+        <target>Empresas de %begin_date% a %end_date%</target>
       </trans-unit>
       <trans-unit id="company.evolution_of_the_number_of_companies_created">
         <source>company.evolution_of_the_number_of_companies_created</source>
-        <target>Evolution of the number of business creations</target>
+        <target>Evolução do número de criações de empresas</target>
       </trans-unit>
       <trans-unit id="company.evolution_of_the_number_of_investigations_by_companies">
         <source>company.evolution_of_the_number_of_investigations_by_companies</source>
-        <target>Evolution of the number of Business surveys</target>
+        <target>Evolução do número de inquéritos às empresas</target>
       </trans-unit>
       <trans-unit id="company.reasons_for_employee_deficiencies">
         <source>company.reasons_for_employee_deficiencies</source>
-        <target>Reasons for employee deficiencies</target>
+        <target>Razões para as deficiências dos trabalhadores</target>
       </trans-unit>
       <trans-unit id="company.editing_of_an_employee_deficiency">
         <source>company.editing_of_an_employee_deficiency</source>
-        <target>Editing an employee gap</target>
+        <target>Processar uma lacuna de empregado</target>
       </trans-unit>
       <trans-unit id="company.adding_a_deficiency_of_an_employee">
         <source>company.adding_a_deficiency_of_an_employee</source>
-        <target>Adding an employee gap</target>
+        <target>Adicionar uma lacuna de empregado</target>
       </trans-unit>
       <trans-unit id="company.add_a_deficiency">
         <source>company.add_a_deficiency</source>
-        <target>Add gap</target>
+        <target>Adicionar lacuna</target>
       </trans-unit>
       <trans-unit id="company.employee_deficiencies">
         <source>company.employee_deficiencies</source>
-        <target>Employee gaps</target>
+        <target>Lacunas nos trabalhadores</target>
       </trans-unit>
       <trans-unit id="company.would_you_be_willing_to_hire_graduates_with_the_same_profile_educational_background_as_the_one_you_hired">
         <source>company.would_you_be_willing_to_hire_graduates_with_the_same_profile_educational_background_as_the_one_you_hired</source>
-        <target>Would you be willing to hire graduates with the same profile/school background as the one(s) you hired</target>
+        <target>Estaria disposto a contratar graduados com o mesmo perfil/percurso escolar que o(s) que contratou</target>
       </trans-unit>
       <trans-unit id="company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired">
         <source>company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired</source>
-        <target>In case of shortcomings, would you be ready to complete the training of the young recruit(s)</target>
+        <target>Em caso de insuficiências, estaria disposto a completar a formação do(s) jovem(s) recrutado(s)?</target>
       </trans-unit>
       <trans-unit id="company.if_yes_for_which_skills">
         <source>company.if_yes_for_which_skills</source>
-        <target>If yes, for which skills</target>
+        <target>Em caso afirmativo, para que competências</target>
       </trans-unit>
       <trans-unit id="company.how_many_people_do_you_expect_to_hire_in_the_next_6_months">
         <source>company.how_many_people_do_you_expect_to_hire_in_the_next_6_months</source>
-        <target>How many people do you expect to hire in the next 6 months</target>
+        <target>Quantas pessoas espera contratar nos próximos 6 meses</target>
       </trans-unit>
       <trans-unit id="company.satisfactions_companies">
         <source>company.satisfactions_companies</source>
-        <target>Business Satisfaction</target>
+        <target>Satisfação das empresas</target>
       </trans-unit>
       <trans-unit id="company.editing_of_a_company_satisfaction">
         <source>company.editing_of_a_company_satisfaction</source>
-        <target>Editing a business satisfaction</target>
+        <target>Editar uma satisfação comercial</target>
       </trans-unit>
       <trans-unit id="company.satisfaction_skills_with_tag">
         <source>company.satisfaction_skills_with_tag</source>
-        <target>Satisfaction%tag_br%Skills</target>
+        <target>Satisfação%tag_br%Competências</target>
       </trans-unit>
       <trans-unit id="company.number_of_employees_with_tag">
         <source>company.number_of_employees_with_tag</source>
-        <target>Number%tag_br%Employees</target>
+        <target>Número%tag_br%Empregados</target>
       </trans-unit>
       <trans-unit id="company.number_of_apprentices_with_tag">
         <source>company.number_of_apprentices_with_tag</source>
-        <target>Number%tag_br%Apprentices</target>
+        <target>Número%tag_br%Aprendizes</target>
       </trans-unit>
       <trans-unit id="company.number_of_interns_with_tag">
         <source>company.number_of_interns_with_tag</source>
-        <target>Number%tag_br%Interns</target>
+        <target>Número%tag_br%Internos</target>
       </trans-unit>
       <trans-unit id="company.occupation_workers_with_tag">
         <source>company.occupation_workers_with_tag</source>
-        <target>Occupation%tag_br%Workers</target>
+        <target>Ocupação%tag_br%Trabalhadores</target>
       </trans-unit>
       <trans-unit id="company.trade_technicians_with_tag">
         <source>company.trade_technicians_with_tag</source>
-        <target>Profession%tag_br%Technicians</target>
+        <target>Profissão%tag_br%Técnicos</target>
       </trans-unit>
 
       <!-- School -->
       <trans-unit id="school.name_of_the_school">
         <source>school.name_of_the_school</source>
-        <target>Establishment name</target>
+        <target>Nome do estabelecimento</target>
       </trans-unit>
       <trans-unit id="school.list_of_partner_schools">
         <source>school.list_of_partner_schools</source>
-        <target>List of partner establishments</target>
+        <target>Lista de estabelecimentos parceiros</target>
       </trans-unit>
       <trans-unit id="school.graduates_from_start_to_end">
         <source>school.graduates_from_start_to_end</source>
-        <target>Graduates from %begin_date% to %end_date%</target>
+        <target>Graduados de %begin_date% a %end_date%</target>
       </trans-unit>
       <trans-unit id="school.your_graduates_from_start_to_end">
         <source>school.your_graduates_from_start_to_end</source>
-        <target>Your graduates from %begin_date% to %end_date%</target>
+        <target>Os seus graduados de %begin_date% a %end_date%</target>
       </trans-unit>
       <trans-unit id="school.rate_of_graduates_by_sector_of_activity">
         <source>school.rate_of_graduates_by_sector_of_activity</source>
-        <target>Rate of graduates by sector of activity</target>
+        <target>Taxa de graduados por sector de actividade</target>
       </trans-unit>
       <trans-unit id="school.rate_of_your_graduates_by_sector_of_activity">
         <source>school.rate_of_your_graduates_by_sector_of_activity</source>
-        <target>Rate of your graduates by sector of activity</target>
+        <target>Taxa de graduados por sector de actividade</target>
       </trans-unit>
       <trans-unit id="school.editing_of_an_establishment">
         <source>school.editing_of_an_establishment</source>
-        <target>Editing an establishment</target>
+        <target>Editar um estabelecimento</target>
       </trans-unit>
       <trans-unit id="school.detail_by_sector_profession">
         <source>school.detail_by_sector_profession</source>
-        <target>Details by sector/profession</target>
+        <target>Detalhes por sector/profissão</target>
       </trans-unit>
       <trans-unit id="school.attention_this_list_comes_from_the_graduates_data">
         <source>school.attention_this_list_comes_from_the_graduates_data</source>
-        <target>Warning, this list comes from graduate data</target>
+        <target>Atenção, esta lista provém de dados dos graduados</target>
       </trans-unit>
       <trans-unit id="school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner">
         <source>school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner</source>
-        <target>Please note, this list comes from establishments that have selected you as a partner</target>
+        <target>Atenção: esta lista provém de estabelecimentos que o seleccionaram como parceiro</target>
       </trans-unit>
       <trans-unit id="school.enrolment_of_companies">
         <source>school.enrolment_of_companies</source>
-        <target>Company enrollment</target>
+        <target>Inscrição na empresa</target>
       </trans-unit>
       <trans-unit id="school.enrolment_of_graduates">
         <source>school.enrolment_of_graduates</source>
-        <target>Enrollment of graduates</target>
+        <target>Inscrição dos graduados</target>
       </trans-unit>
       <trans-unit id="school.number_of_graduates_with_tag">
         <source>school.number_of_graduates_with_tag</source>
-        <target>Number of %tag_br%graduates</target>
+        <target>Número de %tag_br%graduados</target>
       </trans-unit>
       <trans-unit id="school.list_of_establishments">
         <source>school.list_of_establishments</source>
-        <target>List of establishments</target>
+        <target>Lista de estabelecimentos</target>
       </trans-unit>
       <trans-unit id="school.proposed_certificates_degrees">
         <source>school.proposed_certificates_degrees</source>
-        <target>Certificates / diplomas offered</target>
+        <target>Certificados / diplomas oferecidos</target>
       </trans-unit>
       <trans-unit id="school.several_possible_choices">
         <source>school.several_possible_choices</source>
-        <target>several choices possible (+ ctrl key)</target>
+        <target>várias opções possíveis (+ tecla ctrl)</target>
       </trans-unit>
       <trans-unit id="school.other_degree_separated_by_a_comma_if_more_than_one">
         <source>school.other_degree_separated_by_a_comma_if_more_than_one</source>
-        <target>Other diplomas (separated by a comma if several)</target>
+        <target>Outros diplomas (separados por vírgula se forem vários)</target>
       </trans-unit>
       <trans-unit id="school.training_offers_1_sector_minimum_and_6_maximum">
         <source>school.training_offers_1_sector_minimum_and_6_maximum</source>
-        <target>Training offers (1 sector minimum and 6 maximum)</target>
+        <target>Ofertas de formação (1 sector no mínimo e 6 no máximo)</target>
       </trans-unit>
       <trans-unit id="school.search_for_your_channels">
         <source>school.search_for_your_channels</source>
-        <target>Find your courses</target>
+        <target>Encontre os seus cursos</target>
       </trans-unit>
       <trans-unit id="school.list_of_courses_of_study">
         <source>school.list_of_courses_of_study</source>
-        <target>List of sectors</target>
+        <target>Lista de sectores</target>
       </trans-unit>
       <trans-unit id="school.select_the_channels_to_add">
         <source>school.select_the_channels_to_add</source>
-        <target>Select the courses to add</target>
+        <target>Seleccione os cursos a adicionar</target>
       </trans-unit>
       <trans-unit id="school.rate_of_your_graduates_by_degree">
         <source>school.rate_of_your_graduates_by_degree</source>
-        <target>Rate of your graduates by degree</target>
+        <target>Taxa de graduados por grau académico</target>
       </trans-unit>
       <trans-unit id="school.graduation_rates_by_degree">
         <source>school.graduation_rates_by_degree</source>
-        <target>Rate of graduates by degree</target>
+        <target>Taxa de graduados por grau</target>
       </trans-unit>
       <trans-unit id="school.professional_integration_rate_of_graduates">
         <source>school.professional_integration_rate_of_graduates</source>
-        <target>Professional integration rate of graduates</target>
+        <target>Taxa de integração profissional dos graduados</target>
       </trans-unit>
       <trans-unit id="school.graduates_in_employment">
         <source>school.graduates_in_employment</source>
-        <target>Graduates in employment</target>
+        <target>Graduados com emprego</target>
       </trans-unit>
       <trans-unit id="school.entrepreneurship_graduates">
         <source>school.entrepreneurship_graduates</source>
-        <target>Graduate Entrepreneurs</target>
+        <target>Empresários graduados</target>
       </trans-unit>
       <trans-unit id="school.unemployed_graduates">
         <source>school.unemployed_graduates</source>
-        <target>Unemployed graduates</target>
+        <target>Graduados desempregados</target>
       </trans-unit>
       <trans-unit id="school.unemployed_graduates_pursuing_studies_related_to_their_first_degree">
         <source>school.unemployed_graduates_pursuing_studies_related_to_their_first_degree</source>
-        <target>Unemployed graduates pursuing studies%tag_br%%tag_a_start%related%tag_a_end% to their first degree</target>
+        <target>Graduados desempregados que prosseguem estudos%tag_br%%tag_a_start%relacionados%tag_a_end% com o seu primeiro grau</target>
       </trans-unit>
       <trans-unit id="school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree">
         <source>school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree</source>
-        <target>Unemployed graduates pursuing studies%tag_br%%tag_a_start%unrelated%tag_a_end% with their first degree</target>
+        <target>Graduados desempregados que prosseguem estudos%tag_br%%tag_a_start%unrelated%tag_a_end% com o seu primeiro grau</target>
       </trans-unit>
       <trans-unit id="school.rate_of_reasons_for_unemployment_of_unemployed_graduates">
         <source>school.rate_of_reasons_for_unemployment_of_unemployed_graduates</source>
-        <target>Rate of unemployment reasons for unemployed graduates</target>
+        <target>Taxa de motivos de desemprego dos graduados desempregados</target>
       </trans-unit>
       <trans-unit id="school.employed_graduates_by_type_of_contract">
         <source>school.employed_graduates_by_type_of_contract</source>
-        <target>Salaried graduates by type of contract</target>
+        <target>Graduados assalariados por tipo de contrato</target>
       </trans-unit>
       <trans-unit id="school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree">
         <source>school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree</source>
-        <target>Rate of reasons for a graduate to work in a profession unrelated to their degree</target>
+        <target>Taxa de motivos que levam um graduado a trabalhar numa profissão não relacionada com o seu diploma</target>
       </trans-unit>
-      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate">
-        <source>school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate</source>
-        <target>Rate of reasons why vocational training was not useful to an entrepreneur graduate</target>
+      <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate">
+        <source>school.rate_of_reasons_why_the_professional_training_was_useful_to_an_entrepreneurial_graduate</source>
+        <target>Taxa de razões pelas quais a formação profissional foi útil para um graduado empresário</target>
       </trans-unit>
       <trans-unit id="school.rate_of_occupations_held_by_entrepreneurial_graduates">
         <source>school.rate_of_occupations_held_by_entrepreneurial_graduates</source>
-        <target>Rate of occupations occupied by graduate entrepreneurs</target>
+        <target>Taxa de profissões ocupadas por empresários graduados</target>
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_creation_of_schools">
         <source>school.evolution_of_the_number_of_creation_of_schools</source>
-        <target>Evolution of the number of establishment creations</target>
+        <target>Evolução do número de criações de estabelecimentos</target>
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_creation_of_the_graduates">
         <source>school.evolution_of_the_number_of_creation_of_the_graduates</source>
-        <target>Evolution of the number of graduate creations</target>
+        <target>Evolução do número de criações de graduados</target>
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_surveys_of_graduates">
         <source>school.evolution_of_the_number_of_surveys_of_graduates</source>
-        <target>Evolution of the number of Alumni surveys</target>
+        <target>Evolução do número de inquéritos aos alunos antigos</target>
       </trans-unit>
       <trans-unit id="school.other_establishment">
         <source>school.other_establishment</source>
-        <target>Other institution</target>
+        <target>Outra instituição</target>
       </trans-unit>
       <trans-unit id="school.new_establishment">
         <source>school.new_establishment</source>
-        <target>New establishment</target>
+        <target>Novo estabelecimento</target>
       </trans-unit>
       <trans-unit id="school.schools_from_start_to_end">
         <source>school.schools_from_start_to_end</source>
-        <target>Establishment from %begin_date% to %end_date%</target>
+        <target>Estabelecimento de %begin_date% a %end_date%</target>
       </trans-unit>
       <trans-unit id="school.schools_by_sector_of_activity">
         <source>school.schools_by_sector_of_activity</source>
-        <target>Establishment by business sector</target>
+        <target>Estabelecimento por sector de actividade</target>
       </trans-unit>
 
       <!-- Country -->
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
-        <target>Editing a country</target>
+        <target>Editar um país</target>
       </trans-unit>
       <trans-unit id="country.add_a_country">
         <source>country.add_a_country</source>
-        <target>Add a country</target>
+        <target>Adicionar um país</target>
       </trans-unit>
       <trans-unit id="country.adding_a_country">
         <source>country.adding_a_country</source>
-        <target>Adding a country</target>
+        <target>Adicionar um país</target>
       </trans-unit>
 
       <!-- Currency -->
       <trans-unit id="currency.iso_code">
         <source>currency.iso_code</source>
-        <target>ISO code</target>
+        <target>Código ISO</target>
       </trans-unit>
       <trans-unit id="currency.iso_name">
         <source>currency.iso_name</source>
-        <target>ISO name</target>
+        <target>Nome ISO</target>
       </trans-unit>
       <trans-unit id="currency.iso_number">
         <source>currency.iso_number</source>
-        <target>ISO number</target>
+        <target>Número ISO</target>
       </trans-unit>
       <trans-unit id="currency.iso_symbol">
         <source>currency.iso_symbol</source>
-        <target>ISO symbol</target>
+        <target>Símbolo ISO</target>
       </trans-unit>
       <trans-unit id="currency.editing_a_currency">
         <source>currency.editing_a_currency</source>
-        <target>Currency modification</target>
+        <target>Alteração da moeda</target>
       </trans-unit>
       <trans-unit id="currency.add_a_currency">
         <source>currency.add_a_currency</source>
-        <target>Add currency</target>
+        <target>Adicionar moeda</target>
       </trans-unit>
       <trans-unit id="currency.adding_a_currency">
         <source>currency.adding_a_currency</source>
-        <target>Adding a currency</target>
+        <target>Adicionar uma moeda</target>
       </trans-unit>
       <trans-unit id="currency.list_of_currencies">
         <source>currency.list_of_currencies</source>
-        <target>List of currencies</target>
+        <target>Lista de moedas</target>
       </trans-unit>
       <!-- Contract -->
       <trans-unit id="contract.edit_contract">
         <source>contract.edit_contract</source>
-        <target>Modifying a contract</target>
+        <target>Alteração de um contrato</target>
       </trans-unit>
       <trans-unit id="contract.employment_contracts">
         <source>contract.employment_contracts</source>
-        <target>Employment contracts</target>
+        <target>Contratos de trabalho</target>
       </trans-unit>
       <trans-unit id="contract.add_a_contract">
         <source>contract.add_a_contract</source>
-        <target>Add contract</target>
+        <target>Adicionar contrato</target>
       </trans-unit>
 
       <!-- Dashboard      -->
       <trans-unit id="dashboard.legend">
         <source>dashboard.legend</source>
-        <target>Legend</target>
+        <target>Legenda</target>
       </trans-unit>
       <trans-unit id="dashboard.month">
         <source>dashboard.month</source>
-        <target>Month</target>
+        <target>Mês</target>
       </trans-unit>
       <trans-unit id="dashboard.week">
         <source>dashboard.week</source>
-        <target>Week</target>
+        <target>Semana</target>
       </trans-unit>
       <trans-unit id="dashboard.months">
         <source>dashboard.months</source>
-        <target>Months</target>
+        <target>Meses</target>
       </trans-unit>
       <trans-unit id="dashboard.weeks">
         <source>dashboard.weeks</source>
-        <target>Weeks</target>
+        <target>Semanas</target>
       </trans-unit>
 
       <!-- Survey -->
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
-        <target>Surveys</target>
+        <target>Inquéritos</target>
       </trans-unit>
       <trans-unit id="menu.survey">
         <source>menu.survey</source>
-        <target>Survey</target>
+        <target>Inquéritos</target>
       </trans-unit>
       <trans-unit id="survey.investigation_in_progress">
         <source>survey.investigation_in_progress</source>
-        <target>Investigation in progress</target>
+        <target>Investigação em curso</target>
       </trans-unit>
       <trans-unit id="survey.responding_to_surveys">
         <source>survey.responding_to_surveys</source>
-        <target>Respond to surveys</target>
+        <target>Responder a inquéritos</target>
       </trans-unit>
       <trans-unit id="survey.list_of_surveys">
         <source>survey.list_of_surveys</source>
-        <target>List of surveys</target>
+        <target>Lista de inquéritos</target>
       </trans-unit>
       <trans-unit id="survey.description_measurement_professional">
         <source>survey.description_measurement_professional</source>
-        <target>Survey on the measurement of the professional integration rate of technical education and vocational training graduates and business satisfaction</target>
+        <target>Inquérito sobre a medição da taxa de integração profissional dos graduados do ensino técnico e da formação profissional e a satisfação das empresas</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_in_employment">
         <source>survey.list_of_insertion_surveys_in_employment</source>
-        <target>List of integration surveys (In employment)</target>
+        <target>Lista dos inquéritos de integração (em emprego)</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_looking_for_a_job">
         <source>survey.list_of_insertion_surveys_looking_for_a_job</source>
-        <target>List of integration surveys (Job seekers)</target>
+        <target>Lista de inquéritos de integração (candidatos a emprego)</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_contractor">
         <source>survey.list_of_insertion_surveys_contractor</source>
-        <target>List of integration surveys (Entrepreneur)</target>
+        <target>Lista de inquéritos de integração (Empreendedor)</target>
       </trans-unit>
       <trans-unit id="survey.survey_status_with_tag">
         <source>survey.survey_status_with_tag</source>
-        <target>Status of %tag_br%survey</target>
+        <target>Estado do inquérito %tag_br</target>
       </trans-unit>
       <trans-unit id="survey.how_many_employees_do_you_have">
         <source>survey.how_many_employees_do_you_have</source>
-        <target>How many employees do you employ</target>
+        <target>Quantos trabalhadores emprega</target>
       </trans-unit>
       <trans-unit id="survey.how_many_apprentices_do_you_employ">
         <source>survey.how_many_apprentices_do_you_employ</source>
-        <target>How many apprentices do you employ</target>
+        <target>Quantos aprendizes emprega</target>
       </trans-unit>
       <trans-unit id="survey.how_many_interns_do_you_employ">
         <source>survey.how_many_interns_do_you_employ</source>
-        <target>How many interns do you employ</target>
+        <target>Quantos estagiários emprega</target>
       </trans-unit>
       <trans-unit id="survey.what_is_the_sector_of_activity_of_your_workers">
         <source>survey.what_is_the_sector_of_activity_of_your_workers</source>
-        <target>What is the sector of activity of your workers</target>
+        <target>Qual é o sector de actividade dos seus trabalhadores</target>
       </trans-unit>
       <trans-unit id="survey.other_areas_of_specialization_for_your_workers">
         <source>survey.other_areas_of_specialization_for_your_workers</source>
-        <target>Other areas of specialization of your workers</target>
+        <target>Outros áreas de especialização dos seus trabalhadores</target>
       </trans-unit>
       <trans-unit id="survey.what_are_the_occupations_areas_of_specialization_of_your_workers_several_possible_choices">
         <source>survey.what_are_the_occupations_areas_of_specialization_of_your_workers_several_possible_choices</source>
-        <target>What are the professions / areas of specialization of your workers? several possible choices (+ ctrl key)</target>
+        <target>Quais são as profissões / áreas de especialização dos seus trabalhadores? várias escolhas possíveis (+ tecla ctrl)</target>
       </trans-unit>
       <trans-unit id="survey.what_is_the_sector_of_activity_of_your_technicians">
         <source>survey.what_is_the_sector_of_activity_of_your_technicians</source>
-        <target>What is the sector of activity of your technicians</target>
+        <target>Qual é o sector de actividade dos seus técnicos</target>
       </trans-unit>
       <trans-unit id="survey.other_areas_of_specialization_for_your_technicians">
         <source>survey.other_areas_of_specialization_for_your_technicians</source>
-        <target>Other areas of specialization of your technicians</target>
+        <target>Outras áreas de especialização dos vossos técnicos</target>
       </trans-unit>
       <trans-unit id="survey.what_are_the_professions_fields_of_specialization_of_your_technicians_several_possible_choices">
         <source>survey.what_are_the_professions_fields_of_specialization_of_your_technicians_several_possible_choices</source>
-        <target>What are the professions / areas of specialization of your technicians? several possible choices (+ ctrl key)</target>
+        <target>Quais são as profissões / áreas de especialização dos vossos técnicos? várias escolhas possíveis (+ tecla ctrl)</target>
       </trans-unit>
       <trans-unit id="survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag">
         <source>survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag</source>
-        <target>You have just hired one or more young graduate(s) in vocational and technical training.%tag_br%Are you satisfied with his/their skills</target>
+        <target>Acaba de contratar um ou mais jovens graduados em formação profissional e técnica.%tag_br%Está satisfeito com as suas competências?</target>
       </trans-unit>
       <trans-unit id="survey.indication_evaluation_satisfaction_company_with_tag">
         <source>survey.indication_evaluation_satisfaction_company_with_tag</source>
-        <target>Evaluate his/her skills on a scale of 1 to 5 %tag_br% 1 = very unsatisfactory, 2 = unsatisfactory, 3 = satisfactory, 4 = good and 5 = excellent</target>
+        <target>Avaliar as suas competências numa escala de 1 a 5 %tag_br% 1 = muito insatisfatório, 2 = insatisfatório, 3 = satisfatório, 4 = bom e 5 = excelente</target>
       </trans-unit>
       <trans-unit id="survey.new_satisfaction_survey">
         <source>survey.new_satisfaction_survey</source>
-        <target>New satisfaction survey</target>
+        <target>Novo inquérito de satisfação</target>
       </trans-unit>
       <trans-unit id="survey.add_a_company_satisfaction">
         <source>survey.add_a_company_satisfaction</source>
-        <target>Add business satisfaction</target>
+        <target>Adicionar satisfação empresarial</target>
       </trans-unit>
       <trans-unit id="survey.what_are_the_trades_areas_of_specialization_of_your_workers">
         <source>survey.what_are_the_trades_areas_of_specialization_of_your_workers</source>
-        <target>What are the professions / areas of specialization of your workers</target>
+        <target>Quais são as profissões / áreas de especialização dos seus trabalhadores</target>
       </trans-unit>
       <trans-unit id="survey.what_are_the_areas_of_specialization_of_your_technicians">
         <source>survey.what_are_the_areas_of_specialization_of_your_technicians</source>
-        <target>What are the sectors of activity of your technicians?</target>
+        <target>Quais são os sectores de actividade dos seus técnicos?</target>
       </trans-unit>
       <trans-unit id="survey.what_are_the_professions_fields_of_specialization_of_your_technicians">
         <source>survey.what_are_the_professions_fields_of_specialization_of_your_technicians</source>
-        <target>What are the professions / areas of specialization of your technicians</target>
+        <target>Quais são as profissões / áreas de especialização dos vossos técnicos</target>
       </trans-unit>
       <trans-unit id="survey.insertion_survey_entrepreneurial_graduates">
         <source>survey.insertion_survey_entrepreneurial_graduates</source>
-        <target>Insertion survey: Graduate entrepreneurs</target>
+        <target>Inquérito de inserção: Empresários graduados</target>
       </trans-unit>
       <trans-unit id="survey.satisfactions_graduates_creators">
         <source>survey.satisfactions_graduates_creators</source>
-        <target>Satisfaction of Graduate Designers</target>
+        <target>Satisfação dos Designers Graduados</target>
       </trans-unit>
       <trans-unit id="survey.modification_of_an_insertion_survey_graduate_entrepreneur">
         <source>survey.modification_of_an_insertion_survey_graduate_entrepreneur</source>
-        <target>Modification of an integration survey: graduate entrepreneur</target>
+        <target>Modificação de um inquérito de integração: empresário graduado</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_entrepreneurial_graduates">
         <source>survey.list_of_insertion_surveys_entrepreneurial_graduates</source>
-        <target>List of integration surveys: graduate entrepreneurs</target>
+        <target>Lista de inquéritos de integração: empresários graduados</target>
       </trans-unit>
       <trans-unit id="survey.new_insertion_survey_entrepreneurial_graduate">
         <source>survey.new_insertion_survey_entrepreneurial_graduate</source>
-        <target>New integration survey: Graduate entrepreneur</target>
+        <target>Novo inquérito de integração: Empresário graduado</target>
       </trans-unit>
       <trans-unit id="survey.add_an_insertion_survey_graduate_entrepreneur">
         <source>survey.add_an_insertion_survey_graduate_entrepreneur</source>
-        <target>Add an integration survey: graduate entrepreneur</target>
+        <target>Adicionar um inquérito de integração: empresário graduado</target>
       </trans-unit>
       <trans-unit id="survey.your_remuneration_per_month_in_fcfa">
         <source>survey.your_remuneration_per_month_in_fcfa</source>
-        <target>Your salary per month in FCFA</target>
+        <target>O seu salário mensal em FCFA</target>
       </trans-unit>
       <trans-unit id="survey.insertion_survey_graduates_in_employment">
         <source>survey.insertion_survey_graduates_in_employment</source>
-        <target>Insertion survey: Graduates in employment</target>
+        <target>Inquérito de inserção: Graduados com emprego</target>
       </trans-unit>
       <trans-unit id="survey.editing_of_an_insertion_survey_graduate_in_employment">
         <source>survey.editing_of_an_insertion_survey_graduate_in_employment</source>
-        <target>Modification of an integration survey: graduate in employment</target>
+        <target>Modificação de um inquérito de integração: graduados no emprego</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_graduates_in_employment">
         <source>survey.list_of_insertion_surveys_graduates_in_employment</source>
-        <target>List of integration surveys: graduates in employment</target>
+        <target>Lista de inquéritos à integração: graduados com emprego</target>
       </trans-unit>
       <trans-unit id="survey.new_insertion_survey_graduates_in_employment">
         <source>survey.new_insertion_survey_graduates_in_employment</source>
-        <target>New integration survey: Graduate in employment</target>
+        <target>Novo inquérito de integração: Graduados com emprego</target>
       </trans-unit>
       <trans-unit id="survey.add_an_insertion_survey_graduate_in_employment">
         <source>survey.add_an_insertion_survey_graduate_in_employment</source>
-        <target>Add an integration survey: job graduate</target>
+        <target>Adicionar um inquérito de integração: graduado no emprego</target>
       </trans-unit>
       <trans-unit id="survey.are_you_satisfied_with_your_training">
         <source>survey.are_you_satisfied_with_your_training</source>
-        <target>Are you satisfied with your training</target>
+        <target>Está satisfeito com a sua formação</target>
       </trans-unit>
       <trans-unit id="survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices">
         <source>survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
-        <target>If you have a job unrelated to your diploma, it is because:%tag_br%several possible choices (+ ctrl key)</target>
+        <target>Se tem um emprego não relacionado com o seu diploma, é porque:%tag_br%várias escolhas possíveis (+ tecla ctrl)</target>
       </trans-unit>
       <trans-unit id="survey.are_you_enrolled_in_a_course">
         <source>survey.are_you_enrolled_in_a_course</source>
-        <target>Have you registered for a training</target>
+        <target>Inscreveu-se numa formação</target>
       </trans-unit>
       <trans-unit id="survey.searching_for_a_job">
         <source>survey.searching_for_a_job</source>
-        <target>Searching for a job ?</target>
+        <target>A procura de emprego?</target>
       </trans-unit>
       <trans-unit id="survey.is_this_training_a_continuation_of_your_last_degree">
         <source>survey.is_this_training_a_continuation_of_your_last_degree</source>
-        <target>Is this training a continuation%tag_br%of studies related to your last degree</target>
+        <target>Esta formação é uma continuação%tag_br%de estudos relacionados com o seu último diploma</target>
       </trans-unit>
       <trans-unit id="survey.degree_sought">
         <source>survey.degree_sought</source>
-        <target>diploma sought</target>
+        <target>diploma solicitado</target>
       </trans-unit>
       <trans-unit id="survey.chosen_profession_field_of_study">
         <source>survey.chosen_profession_field_of_study</source>
-        <target>chosen profession / sector</target>
+        <target>profissão / sector escolhido</target>
       </trans-unit>
       <trans-unit id="survey.are_you_looking_for_work">
         <source>survey.are_you_looking_for_work</source>
-        <target>Are you looking for work</target>
+        <target>Está à procura de emprego</target>
       </trans-unit>
       <trans-unit id="survey.do_you_work_as_a_volunteer">
         <source>survey.do_you_work_as_a_volunteer</source>
-        <target>do you work as a volunteer / volunteer</target>
+        <target>trabalha como voluntário / é voluntário</target>
       </trans-unit>
       <trans-unit id="survey.if_yes_in_what_area">
         <source>survey.if_yes_in_what_area</source>
-        <target>If yes, in which area</target>
+        <target>Em caso afirmativo, em que área</target>
       </trans-unit>
       <trans-unit id="survey.have_you_turned_down_a_job_offer_since_completing_your_training">
         <source>survey.have_you_turned_down_a_job_offer_since_completing_your_training</source>
-        <target>Have you refused a job offer%tag_br%since the end of your training?</target>
+        <target>Recusou uma oferta de emprego%tag_br%desde o fim da sua formação?</target>
       </trans-unit>
       <trans-unit id="survey.have_you_held_a_job_since_the_end_of_your_training">
         <source>survey.have_you_held_a_job_since_the_end_of_your_training</source>
-        <target>Have you held a job%tag_br%since the end of your training?</target>
+        <target>Teve um emprego%tag_br%desde o fim da sua formação?</target>
       </trans-unit>
       <trans-unit id="survey.if_so_for_how_long">
         <source>survey.if_so_for_how_long</source>
-        <target>If yes, for how long?</target>
+        <target>Em caso afirmativo, durante quanto tempo?</target>
       </trans-unit>
       <trans-unit id="survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices">
         <source>survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices</source>
-        <target>Why, in your opinion, have you not found / found a job?%tag_br%several possible choices (+ ctrl key)</target>
+        <target>Porque é que, na sua opinião, não encontrou / encontrou um emprego?%tag_br%várias escolhas possíveis (+ tecla ctrl)</target>
       </trans-unit>
       <trans-unit id="survey.insertion_survey_graduates_looking_for_work">
         <source>survey.insertion_survey_graduates_looking_for_work</source>
-        <target>Insertion survey: Graduates seeking employment</target>
+        <target>Inquérito de inserção: Graduados à procura de emprego</target>
       </trans-unit>
       <trans-unit id="survey.new_insertion_survey_graduates_looking_for_a_job">
         <source>survey.new_insertion_survey_graduates_looking_for_a_job</source>
-        <target>New integration survey: Graduate looking for a job</target>
+        <target>Novo inquérito de integração: Graduados à procura de emprego</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_graduates_looking_for_a_job">
         <source>survey.list_of_insertion_surveys_graduates_looking_for_a_job</source>
-        <target>List of integration surveys: Graduate seeking employment</target>
+        <target>Lista de inquéritos de integração: Graduado à procura de emprego</target>
       </trans-unit>
       <trans-unit id="survey.registered_training_with_tag">
         <source>survey.registered_training_with_tag</source>
-        <target>Registered%tag_br%Training?</target>
+        <target>Registado%tag_br%Formação?</target>
       </trans-unit>
       <trans-unit id="survey.looking_for_a_job_with_tag">
         <source>survey.looking_for_a_job_with_tag</source>
-        <target>Looking for%tag_br%job%tag_br%?</target>
+        <target>À procura de%tag_br%emprego%tag_br%?</target>
       </trans-unit>
       <trans-unit id="survey.volunteer">
         <source>survey.volunteer</source>
-        <target>Volunteer?</target>
+        <target>Voluntário?</target>
       </trans-unit>
       <trans-unit id="survey.job_rejected_with_tag">
         <source>survey.job_rejected_with_tag</source>
-        <target>Job%tag_br%refused?</target>
+        <target>Emprego%tag_br%recusado?</target>
       </trans-unit>
       <trans-unit id="survey.employment_since_training_with_tag">
         <source>survey.employment_since_training_with_tag</source>
-        <target>Employment%tag_br%since%tag_br%training?</target>
+        <target>Emprego%tag_br%desde%tag_br%a formação?</target>
       </trans-unit>
       <trans-unit id="survey.chosen_field_of_study">
         <source>survey.chosen_field_of_study</source>
-        <target>chosen field?</target>
+        <target>área escolhida?</target>
       </trans-unit>
       <trans-unit id="survey.have_you_held_a_job_since_completing_your_training">
         <source>survey.have_you_held_a_job_since_completing_your_training</source>
-        <target>Have you held a job%tag_br%since the end of your training?</target>
+        <target>Teve um emprego%tag_br%desde o fim da sua formação?</target>
       </trans-unit>
       <trans-unit id="survey.why_do_you_think_you_haven_found_returned_to_work">
         <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
-        <target>Why, in your opinion, have you not found / found a job?</target>
-      </trans-unit>
-
-      <!-- Referencement -->
-      <trans-unit id="referencement.base_security">
-        <source>referencement.base_security</source>
-        <target>IFEF OIF Inserjeune monitoring graduate integration satisfaction companies rate</target>
-      </trans-unit>
-      <trans-unit id="referencement.base_school">
-        <source>referencement.base_school</source>
-        <target>IFEF OIF Inserjeune monitoring graduate integration rate</target>
-      </trans-unit>
-      <trans-unit id="referencement.school_enrollment">
-        <source>referencement.school_enrollment</source>
-        <target>Enrollment</target>
-      </trans-unit>
-      <trans-unit id="referencement.school_company_enrollment">
-        <source>referencement.school_company_enrollment</source>
-        <target>company partner enrollment</target>
-      </trans-unit>
-      <trans-unit id="referencement.school_profile">
-        <source>referencement.school_profile</source>
-        <target>edit school account profile</target>
-      </trans-unit>
-      <trans-unit id="referencement.base_company">
-        <source>referencement.base_company</source>
-        <target>IFEF OIF Inserjeune company satisfaction rate</target>
-      </trans-unit>
-      <trans-unit id="referencement.company_profile">
-        <source>referencement.company_profile</source>
-        <target>edit company account profile</target>
-      </trans-unit>
-      <trans-unit id="referencement.base_degree">
-        <source>referencement.base_degree</source>
-        <target>IFEF OIF Inserjeune graduates satisfaction rate</target>
-      </trans-unit>
-      <trans-unit id="referencement.degree_profile">
-        <source>referencement.degree_profile</source>
-        <target>edition profile graduate account</target>
-      </trans-unit>
-      <trans-unit id="referencement.jobOffer">
-        <source>referencement.jobOffer</source>
-        <target>job offer creation</target>
-      </trans-unit>
-      <trans-unit id="referencement.geolocation">
-        <source>referencement.geolocation</source>
-        <target>geolocation  maps</target>
-      </trans-unit>
-      <trans-unit id="referencement.dashboard">
-        <source>referencement.dashboard</source>
-        <target>statistical</target>
+        <target>Porque é que, na sua opinião, não encontrou / encontrou um emprego?</target>
       </trans-unit>
     </body>
   </file>

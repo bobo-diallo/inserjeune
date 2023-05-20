@@ -10,7 +10,7 @@ parameters:
     # Performance
     container.dumper.inline_factories: true
     dnsServer: vps417868
-    app.supported_locales: fr|en
+    app.supported_locales: fr|en|pt|es
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
     email_from: nepasrepondre@inserjeune.francophonie.org
