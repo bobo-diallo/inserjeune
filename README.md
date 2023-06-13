@@ -33,6 +33,10 @@
 ``php bin/console messenger:consume async``
 2. To send emails synchronously, go to `messenger.yaml` and comment line
 ``Symfony\Component\Mailer\Messenger\SendEmailMessage: async`` 
+3. To lunch enqueue worker at bacground, run command: `php bin/console messenger:consume async > /dev/null 2>&1 &`
+4. To check if enqueue worker is running: `ps aux | grep "php bin/console messenger:consume"`
+4. To kill processus: `pkill -f "php bin/console messenger:consume async"`
+   `
 
  ## Config mailer with sendmail  
  On peut utiliser sendmail pour envoyer des mail. 
