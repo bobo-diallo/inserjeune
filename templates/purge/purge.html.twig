@@ -15,7 +15,7 @@
       <div class="content-box form-global">
          <div class="element-wrapper">
             <img src="{{ asset('build/images/icon/purge.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
-            <h6 class="element-header"> Nettoyage </h6>
+            <h6 class="element-header"> {{ 'menu.cleaning' | trans}} </h6>
 
             <div class="row cleanMenu">
                <div class="col-3 menuDown" id="menuActor" onclick="activateActorMenu()">
@@ -206,6 +206,13 @@
            type="text/javascript">
    </script>
    <script>
+      let translations = [];
+      getTranslation().then (function (translation) {
+         translations = translation
+         // console.log(translations);
+         // console.log(translations["js.Would_you_like_to_update_the_coordinates_of_these"]);
+      }) ;
+
       /* Menu selection */
       $('#actorElement').show();
       $('#offerElement').hide();
@@ -630,7 +637,8 @@
          });
 
          if(nbActors > 0)
-            if(confirm("Voulez vous mettre à jour les coordonnées de ces " + nbActors + " acteurs ?")) {
+            // if(confirm("Voulez vous mettre à jour les coordonnées de ces " + nbActors + " acteurs ?")) {
+            if(confirm(translations["js.Would_you_like_to_update_the_coordinates_of_these"] + " " + nbActors + " " + translations["js.actors"] + " ?")) {
                datas = new Object();
                datas['ids'] = stractor;
                datas['actorType'] = actorType;

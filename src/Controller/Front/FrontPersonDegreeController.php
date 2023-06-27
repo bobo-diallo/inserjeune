@@ -196,7 +196,7 @@ class FrontPersonDegreeController extends AbstractController {
 					$personDegree->setUpdatedDate(new \DateTime());
 
 					$dnsServer = $this->getParameter('dnsServer');
-					if (php_uname('n') != $dnsServer)
+                    if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null))
 						$personDegree->setClientUpdateDate(new \DateTime());
 
                     $this->em->persist($personDegree);

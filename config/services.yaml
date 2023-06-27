@@ -9,7 +9,8 @@ imports:
 parameters:
     # Performance
     container.dumper.inline_factories: true
-    dnsServer: vps417868
+    # dns of central serveur for Synchro with local server Inserjeune (like Raspberry), (default : null)
+    dnsServer: null
     app.supported_locales: fr|en|pt|es
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'

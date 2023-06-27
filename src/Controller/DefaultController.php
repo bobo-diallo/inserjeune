@@ -10,12 +10,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class DefaultController extends AbstractController {
 	#[Route(path: '/', name: 'homepage', methods: ['GET'])]
@@ -60,4 +62,24 @@ class DefaultController extends AbstractController {
 			'username' => $user->getUserIdentifier(),
 		]);
 	}
+    #[Route(path: '/get_js_translation', name: 'get_js_translation', methods: ['GET'])]
+    public function getJsTranslation(Request $request): JsonResponse {
+        //Read xml file
+        $fichier = $this->getParameter('kernel.project_dir') . '\translations\messages.' . $request->getLocale() . '.xlf';
+        $contenu = simplexml_load_file($fichier);
+        $result = array();
+
+        foreach($contenu as $files) {
+            foreach($files as $file)
+                foreach($file as $body)
+                    // echo strpos($body->source,"menu.") . '<br>' ;
+                    if(strpos($body->source,"js.") > -1  ) {
+                        $src = (string)$body->source;
+                        $target = str_replace("'", "\"",$body->target);
+                        $result[$src] = $target;
+                    }
+        }
+
+        return new JsonResponse($result);
+    }
 }

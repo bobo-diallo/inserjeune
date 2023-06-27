@@ -9,6 +9,10 @@
         <source>menu.create_an_account</source>
         <target>Créer un compte</target>
       </trans-unit>
+      <trans-unit id="title.new_user_account">
+        <source>title.new_user_account</source>
+        <target>Nouveau compte utilisateur</target>
+      </trans-unit>
       <trans-unit id="menu.connection">
         <source>menu.connection</source>
         <target>Connexion</target>
@@ -1982,6 +1986,8 @@
       </trans-unit>
 
       <!-- Referencement -->
+
+      <!-- Referencement -->
       <trans-unit id="referencement.base_security">
         <source>referencement.base_security</source>
         <target>IFEF OIF Inserjeune suivi taux insertion diplômés satisfaction entreprises</target>
@@ -2029,6 +2035,16 @@
       <trans-unit id="referencement.dashboard">
         <source>referencement.dashboard</source>
         <target>statistique</target>
+      </trans-unit>
+
+      <!-- JS -->
+      <trans-unit id="js.Would_you_like_to_update_the_coordinates_of_these">
+        <source>js.Would_you_like_to_update_the_coordinates_of_these</source>
+        <target>Voulez vous mettre à jour les coordonnées de ces </target>
+      </trans-unit>
+      <trans-unit id="js.actors">
+        <source>js.actors</source>
+        <target>acteurs</target>
       </trans-unit>
     </body>
   </file>

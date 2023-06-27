@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         locales: '%app.supported_locales%'
+        dnsServer: '%dnsServer%'
 
 when@test:
     twig:

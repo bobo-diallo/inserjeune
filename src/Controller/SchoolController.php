@@ -69,7 +69,7 @@ class SchoolController extends AbstractController {
 			$dnsServer = $this->getParameter('dnsServer');
 			$school->setUpdatedDate(new \DateTime());
 
-			if (php_uname('n') != $dnsServer) {
+            if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null)) {
 				$school->setClientUpdateDate(new \DateTime());
 			}
 
@@ -114,7 +114,7 @@ class SchoolController extends AbstractController {
 			$school->setUpdatedDate(new \DateTime());
 			$dnsServer = $this->getParameter('dnsServer');
 
-			if (php_uname('n') != $dnsServer) {
+            if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null)) {
 				$school->setClientUpdateDate(new \DateTime());
 			}
 
