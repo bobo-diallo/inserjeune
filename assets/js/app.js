@@ -1024,6 +1024,36 @@ global.getBaseUrl = function () {
    return $locationRef;
 }
 
+// Récupération des données de traduction des fichiers messages.pays.xlf
+global.getTranslation  = async function () {
+   /* Charge translation variables */
+   let url = window.location.toString();
+   let locale ="";
+   if(url.indexOf("/fr/")>=0) {
+      locale = "/fr/";
+   } else if (url.indexOf("/en/")>=0) {
+      locale = "/en/";
+   } else if (url.indexOf("/pt/")>=0) {
+      locale = "/pt/";
+   } else if (url.indexOf("/es/")>=0) {
+      locale = "/es/";
+   }
+
+   let indexLocale = url.indexOf(locale) + 4;
+
+   url = window.location.toString().substring(0,indexLocale) + "get_js_translation";
+   // console.log(url);
+   let result = {};
+
+   // appel ajax en get
+   await $.get(url).done(function (res) {
+      // console.log(res);
+      result =  res;
+   })
+
+   return result;
+}
+
 // Déconnexion de l'utilisateur après un certain temps d'inactivité.
 let timeout;
 global.startTimeout = function () {

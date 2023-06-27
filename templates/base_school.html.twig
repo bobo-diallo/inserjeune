@@ -119,13 +119,13 @@
               {% include '_apropos.html.twig' %}
             </div>
           </li>
-          {%  if  check_os('n') != "vps417868" and check_os('n') != "inserjeune" %}
+          {%  if dnsServer != null and dnsServer != check_os('n') %}
             <li>
               <a href="{{ path('client_school_update') }}">
                 <div class="icon-w">
                   <img src="{{ asset('build/images/icon/update_data.png') }}" alt="dataupdate">
                 </div>
-                <span> Synchro Serveur </span></a>
+                <span> Synchro Serveur {{  check_os('n')}} | {{ dnsServer }}</span></a>
             </li>
           {% endif %}
           {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}

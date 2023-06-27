@@ -9,6 +9,10 @@
         <source>menu.create_an_account</source>
         <target>Create an account</target>
       </trans-unit>
+      <trans-unit id="title.new_user_account">
+        <source>title.new_user_account</source>
+        <target>New user account</target>
+      </trans-unit>
       <trans-unit id="menu.connection">
         <source>menu.connection</source>
         <target>Connection</target>
@@ -2025,6 +2029,17 @@
       <trans-unit id="referencement.dashboard">
         <source>referencement.dashboard</source>
         <target>statistical</target>
+      </trans-unit>
+
+      <!-- JS -->
+
+      <trans-unit id="js.Would_you_like_to_update_the_coordinates_of_these">
+        <source>js.Would_you_like_to_update_the_coordinates_of_these</source>
+        <target>Would you like to update the coordinates of these </target>
+      </trans-unit>
+      <trans-unit id="js.actors">
+        <source>js.actors</source>
+        <target>actors</target>
       </trans-unit>
     </body>
   </file>

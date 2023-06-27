@@ -67,7 +67,7 @@ class CompanyController extends AbstractController {
 			$company->setUpdatedDate(new \DateTime());
 			$dnsServer = $this->getParameter('dnsServer');
 
-			if (php_uname('n') != $dnsServer)
+			if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null))
 				$company->setClientUpdateDate(new \DateTime());
 
 			$this->em->persist($company);
@@ -114,7 +114,7 @@ class CompanyController extends AbstractController {
 			$company->setUpdatedDate(new \DateTime());
 
 			$dnsServer = $this->getParameter('dnsServer');
-			if (php_uname('n') != $dnsServer)
+            if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null))
 				$company->setClientUpdateDate(new \DateTime());
 
 			$this->em->persist($company);

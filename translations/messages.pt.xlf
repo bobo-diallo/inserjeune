@@ -9,6 +9,10 @@
         <source>menu.create_an_account</source>
         <target>Criar uma conta</target>
       </trans-unit>
+      <trans-unit id="title.new_user_account">
+        <source>title.new_user_account</source>
+        <target>Nueva cuenta de usuario</target>
+      </trans-unit>
       <trans-unit id="menu.connection">
         <source>menu.connection</source>
         <target>Ligação</target>
