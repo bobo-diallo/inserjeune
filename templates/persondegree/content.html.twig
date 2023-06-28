@@ -17,144 +17,149 @@
             type="text/javascript">
     </script>
     <script>
-        let selectedCountry = $('#selectedCountry').val();
-        //affichage de la zone Diaspora
-        visibilityDiaspora();
-        $('#appbundle_persondegree_diaspora').on('click', function () {
+        let translations = [];
+        getTranslation().then (function (translation) {
+            translations = translation;
+            console.log(translations);
+
+            let selectedCountry = $('#selectedCountry').val();
+            //affichage de la zone Diaspora
             visibilityDiaspora();
-        });
+            $('#appbundle_persondegree_diaspora').on('click', function () {
+                visibilityDiaspora();
+            });
 
-        function visibilityDiaspora() {
-            if ($('#appbundle_persondegree_diaspora').is(":checked")) {
-                $('.addressDiaspora ').prop("hidden", false);
-            } else {
-                $('.addressDiaspora ').prop("hidden", true);
-            }
-        }
-
-        // suppression du selectedCountry dans la liste des pays de résidence
-        $('#appbundle_persondegree_residenceCountry option').each(function () {
-            if(selectedCountry == $(this).val()) {
-                $(this).prop('hidden', true);
-            }
-        })
-
-        //Contrôle du bouton check de localisation pour switch manuel - automatique
-        $('#appbundle_persondegree_locationMode').on('click', async function () {
-            if ($('#appbundle_persondegree_locationMode').is(":checked")) {
-                if (!confirm("Attention, les coordonnées seront recalculées")) {
-                    $('#appbundle_persondegree_locationMode').prop("checked", false);
+            function visibilityDiaspora() {
+                if ($('#appbundle_persondegree_diaspora').is(":checked")) {
+                    $('.addressDiaspora ').prop("hidden", false);
+                } else {
+                    $('.addressDiaspora ').prop("hidden", true);
                 }
-
-            } else {
-                alert("Mode manuel activé");
             }
 
-            //Mise à jour des coordonnées géographique en mode auto
-            if ($('#appbundle_persondegree_locationMode').is(":checked")) {
-                $('#appbundle_persondegree_latitude').val("");
-                $('#appbundle_persondegree_longitude').val("");
-                // geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude');
-
-                //recherche des coordonnées avec l'adresse complète
-                if (await geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude') == true) {
-                    //recherche des coordonnées avec uniquement l'adresse de la ville
-                    await geocodeAddressLocation(getPersondegreCityMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude')
-                }
-
-                // vérifie si les coordonnées pas déjà utilisées avec autre établissement
-                let url = window.location.toString();
-                if (url.indexOf('/edit')!== -1) {
-                    url = url.replace('/edit', '/getPersondegreesByCoordinates');
-                } else if (url.indexOf('/new')!== -1) {
-                    $('#appbundle_persondegree_locationMode').prop("checked", false);
-                }
-
-                // console.log(url);
-                //creation de la data pour json
-                let current_latitude = $('#appbundle_persondegree_latitude').val();
-                let current_longitude = $('#appbundle_persondegree_longitude').val();
-                let gap = 0.0001;
-                let data = { "latitude" : current_latitude,
-                    "longitude" : current_longitude,
-                    "gap" : gap
-                };
-
-                // appel ajax en get
-                await $.get(url, data).done(function (result) {
-                    let current_id = result['persondegree_id'];
-                    let coordinates = result['coordinates'];
-                    // console.log('current Id = ' + current_id);
-                    // console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
-
-                    // mise à jour des coordonnées recalculées
-                    $('#appbundle_persondegree_latitude').val(coordinates["latitude"]);
-                    $('#appbundle_persondegree_longitude').val(coordinates["longitude"]);
-                    $('#appbundle_persondegree_locationMode').prop("checked", false);
-                });
-            }
-        });
-        // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
-        if ($('#selectedCountry').val() !== '') {
-            countryEvent("#selectedCountry", "persondegree");
-        }
-
-        // création du filtre régions unique pour les établissements
-        $('#regionSchoolFilter').append("<option selected>Toutes</option>");
-        if ($('#schoolRegion option').length > 0) {
-
-            // Creation du <select> de #regionSchoolFilter
-            let regionUnits = [];
-            $('#schoolRegion option').each(function () {
-                let $this = $(this);
-
-                // vérification d'existance
-                let element_exist = false;
-                for (let i = 0; i < regionUnits.length; i++) {
-                    if ($this.text() === regionUnits[i]) {
-                        element_exist = true;
-                    }
-                }
-                // génération des options du <select> de #regionSchoolFilter
-                if (element_exist == false) {
-                    regionUnits.push($this.text());
-                    $('#regionSchoolFilter').append("<option value='" + $this.val() + "'> " + $this.text() + "</option>");
+            // suppression du selectedCountry dans la liste des pays de résidence
+            $('#appbundle_persondegree_residenceCountry option').each(function () {
+                if(selectedCountry == $(this).val()) {
+                    $(this).prop('hidden', true);
                 }
             })
-        }
 
-        // filtage des établissement
-        $('#regionSchoolFilter').on('change', function () {
-            let selection = $('#regionSchoolFilter option:selected').text().trim();
-            console.log("selection = " + selection);
-            if (selection == "Toutes") {
-                $('#appbundle_persondegree_school option').prop("hidden", false);
-            } else {
-                $('#appbundle_persondegree_school option[value!=""]').prop("hidden", true);
+            //Contrôle du bouton check de localisation pour switch manuel - automatique
+            $('#appbundle_persondegree_locationMode').on('click', async function () {
+                if ($('#appbundle_persondegree_locationMode').is(":checked")) {
+                    if (!confirm("Attention, les coordonnées seront recalculées")) {
+                        $('#appbundle_persondegree_locationMode').prop("checked", false);
+                    }
 
-                // recherche id de school
+                } else {
+                    alert("Mode manuel activé");
+                }
+
+                //Mise à jour des coordonnées géographique en mode auto
+                if ($('#appbundle_persondegree_locationMode').is(":checked")) {
+                    $('#appbundle_persondegree_latitude').val("");
+                    $('#appbundle_persondegree_longitude').val("");
+                    // geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude');
+
+                    //recherche des coordonnées avec l'adresse complète
+                    if (await geocodeAddressLocation(getPersondegreMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude') == true) {
+                        //recherche des coordonnées avec uniquement l'adresse de la ville
+                        await geocodeAddressLocation(getPersondegreCityMapAddress(), '#appbundle_persondegree_latitude', '#appbundle_persondegree_longitude')
+                    }
+
+                    // vérifie si les coordonnées pas déjà utilisées avec autre établissement
+                    let url = window.location.toString();
+                    if (url.indexOf('/edit')!== -1) {
+                        url = url.replace('/edit', '/getPersondegreesByCoordinates');
+                    } else if (url.indexOf('/new')!== -1) {
+                        $('#appbundle_persondegree_locationMode').prop("checked", false);
+                    }
+
+                    // console.log(url);
+                    //creation de la data pour json
+                    let current_latitude = $('#appbundle_persondegree_latitude').val();
+                    let current_longitude = $('#appbundle_persondegree_longitude').val();
+                    let gap = 0.0001;
+                    let data = { "latitude" : current_latitude,
+                        "longitude" : current_longitude,
+                        "gap" : gap
+                    };
+
+                    // appel ajax en get
+                    await $.get(url, data).done(function (result) {
+                        let current_id = result['persondegree_id'];
+                        let coordinates = result['coordinates'];
+                        // console.log('current Id = ' + current_id);
+                        // console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
+
+                        // mise à jour des coordonnées recalculées
+                        $('#appbundle_persondegree_latitude').val(coordinates["latitude"]);
+                        $('#appbundle_persondegree_longitude').val(coordinates["longitude"]);
+                        $('#appbundle_persondegree_locationMode').prop("checked", false);
+                    });
+                }
+            });
+            // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
+            if ($('#selectedCountry').val() !== '') {
+                countryEvent("#selectedCountry", "persondegree");
+            }
+
+            // création du filtre régions unique pour les établissements
+            $('#regionSchoolFilter').append("<option selected>" + translations["js.all_f"] + "</option>");
+            if ($('#schoolRegion option').length > 0) {
+
+                // Creation du <select> de #regionSchoolFilter
+                let regionUnits = [];
                 $('#schoolRegion option').each(function () {
-                    // console.log($(this).text().trim());
-                    let schoolName = $(this).text().trim();
-                    let schoolId = $(this).val().trim();
+                    let $this = $(this);
 
-                    // affichage des options school
-                    if (selection == schoolName) {
-                        $('#appbundle_persondegree_school option').each(function () {
-                            let selectSchoolId = $(this).val().trim();
-                            if (schoolId == selectSchoolId) {
-                                $(this).prop("hidden", false);
-                            }
-                        })
+                    // vérification d'existance
+                    let element_exist = false;
+                    for (let i = 0; i < regionUnits.length; i++) {
+                        if ($this.text() === regionUnits[i]) {
+                            element_exist = true;
+                        }
+                    }
+                    // génération des options du <select> de #regionSchoolFilter
+                    if (element_exist == false) {
+                        regionUnits.push($this.text());
+                        $('#regionSchoolFilter').append("<option value='" + $this.val() + "'> " + $this.text() + "</option>");
                     }
                 })
             }
-        })
+
+            // filtage des établissement
+            $('#regionSchoolFilter').on('change', function () {
+                let selection = $('#regionSchoolFilter option:selected').text().trim();
+                console.log("selection = " + selection);
+                if (selection == "Toutes") {
+                    $('#appbundle_persondegree_school option').prop("hidden", false);
+                } else {
+                    $('#appbundle_persondegree_school option[value!=""]').prop("hidden", true);
+
+                    // recherche id de school
+                    $('#schoolRegion option').each(function () {
+                        // console.log($(this).text().trim());
+                        let schoolName = $(this).text().trim();
+                        let schoolId = $(this).val().trim();
+
+                        // affichage des options school
+                        if (selection == schoolName) {
+                            $('#appbundle_persondegree_school option').each(function () {
+                                let selectSchoolId = $(this).val().trim();
+                                if (schoolId == selectSchoolId) {
+                                    $(this).prop("hidden", false);
+                                }
+                            })
+                        }
+                    })
+                }
+            })
 
 
-        // Event
-        // Vérifie si l'indicatif du numero de téléphone est correct
-        {% if is_granted('ROLE_DIPLOME') == true %}
+            // Event
+            // Vérifie si l'indicatif du numero de téléphone est correct
+            {% if is_granted('ROLE_DIPLOME') == true %}
             let phoneNumber = $('#appbundle_persondegree_phoneMobile1').val();
             checkPhoneNumber(phoneNumber);
 
@@ -172,212 +177,214 @@
                 }
                 checkPhoneNumber(phoneNumber);
             })
-        {% endif %}
-        function checkPhoneNumber(phoneNumber) {
-            let res = true;
-            if (phoneNumber !== undefined) {
-                let usrphone = $('.logged-user-phone').html().trim();
+            {% endif %}
+            function checkPhoneNumber(phoneNumber) {
+                let res = true;
+                if (phoneNumber !== undefined) {
+                    let usrphone = $('.logged-user-phone').html().trim();
 
-                // verification de l'indicatif pays
-                let indPersonDegree = '+' + $('#countryPhoneCode').val();
-                let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
+                    // verification de l'indicatif pays
+                    let indPersonDegree = '+' + $('#countryPhoneCode').val();
+                    let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
 
-                if($('#appbundle_persondegree_diaspora').is(":checked")) {
-                    $('#countryPhoneCode option').each(function () {
-                        if (selectResidenceCountry == $(this).val()) {
-                            indPersonDegree = '+' + $(this).text();
-                        }
-                    })
-                }
+                    if($('#appbundle_persondegree_diaspora').is(":checked")) {
+                        $('#countryPhoneCode option').each(function () {
+                            if (selectResidenceCountry == $(this).val()) {
+                                indPersonDegree = '+' + $(this).text();
+                            }
+                        })
+                    }
 
-                //suppression des espaces
-                phoneNumber = phoneNumber.replace(/ /g,'');
-                $('#appbundle_persondegree_phoneMobile1').val(phoneNumber);
+                    //suppression des espaces
+                    phoneNumber = phoneNumber.replace(/ /g,'');
+                    $('#appbundle_persondegree_phoneMobile1').val(phoneNumber);
 
-                //recup de l'indicatif
-                let indPhone = phoneNumber.substr(0, indPersonDegree.length);
+                    //recup de l'indicatif
+                    let indPhone = phoneNumber.substr(0, indPersonDegree.length);
 
-                if (indPhone != indPersonDegree) {
-                    alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
-                    $('#appbundle_persondegree_phoneMobile1').val(usrphone);
-                    res = false;
-
-                } else if (phoneNumber != usrphone) {
-                    let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, " +
-                        "vous devrez vous reconnecter avec ce nouveau numéro " + phoneNumber )
-                    if (confirmPhone == false) {
+                    if (indPhone != indPersonDegree) {
+                        alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
                         $('#appbundle_persondegree_phoneMobile1').val(usrphone);
-                    }
-                }
+                        res = false;
 
-                //verification du nombre de digit
-                let nbDigitPersonDegree = null;
-                $('#countryPhoneDigit option').each(function () {
-                    if (selectResidenceCountry == $(this).val()) {
-                        nbDigitPersonDegree = $(this).text();
-                        // console.log(nbDigitPersonDegree);
+                    } else if (phoneNumber != usrphone) {
+                        let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, " +
+                            "vous devrez vous reconnecter avec ce nouveau numéro " + phoneNumber )
+                        if (confirmPhone == false) {
+                            $('#appbundle_persondegree_phoneMobile1').val(usrphone);
+                        }
                     }
-                })
-                if(nbDigitPersonDegree == null) {
+
+                    //verification du nombre de digit
+                    let nbDigitPersonDegree = null;
                     $('#countryPhoneDigit option').each(function () {
-                        if ($('#selectedCountry').val() == $(this).val()) {
+                        if (selectResidenceCountry == $(this).val()) {
                             nbDigitPersonDegree = $(this).text();
                             // console.log(nbDigitPersonDegree);
                         }
                     })
-                }
-                if(nbDigitPersonDegree != null) {
-                    if((phoneNumber.length - indPersonDegree.length) != nbDigitPersonDegree) {
-                        alert("Attention, votre numéro de téléphone doit avoir " + nbDigitPersonDegree + " digits apres l'indicatif, veuillez le ressaisir");
-                        $('#appbundle_persondegree_phoneMobile1').val(usrphone);
-                        res = false;
+                    if(nbDigitPersonDegree == null) {
+                        $('#countryPhoneDigit option').each(function () {
+                            if ($('#selectedCountry').val() == $(this).val()) {
+                                nbDigitPersonDegree = $(this).text();
+                                // console.log(nbDigitPersonDegree);
+                            }
+                        })
+                    }
+                    if(nbDigitPersonDegree != null) {
+                        if((phoneNumber.length - indPersonDegree.length) != nbDigitPersonDegree) {
+                            alert("Attention, votre numéro de téléphone doit avoir " + nbDigitPersonDegree + " digits apres l'indicatif, veuillez le ressaisir");
+                            $('#appbundle_persondegree_phoneMobile1').val(usrphone);
+                            res = false;
+                        }
                     }
                 }
             }
-        }
 
-        // Initialisation de l'année et du mois d'obstention du diplome en fonction de la situation professionnelle
-        professionnal_situation_change_degree_year_date('#appbundle_persondegree_type');
-        $('#appbundle_persondegree_type').on('change', function () {
+            // Initialisation de l'année et du mois d'obstention du diplome en fonction de la situation professionnelle
             professionnal_situation_change_degree_year_date('#appbundle_persondegree_type');
-        });
+            $('#appbundle_persondegree_type').on('change', function () {
+                professionnal_situation_change_degree_year_date('#appbundle_persondegree_type');
+            });
 
-        function professionnal_situation_change_degree_year_date(idtype) {
-            let today = new Date();
-            let situationPro = "";
-            if ($(idtype).val())
-                situationPro = $(idtype).val().trim();
-            if (situationPro == 'TYPE_TRAINING') {
-                $('#appbundle_persondegree_lastDegreeYear option').each(function () {
-                    let currentYear = $(this).text().trim();
-                    if (today.getFullYear() == currentYear) {
-                        $(this).attr('selected', true);
-                        $(this).prop("hidden", false);
-                    } else {
-                        $(this).attr('selected', false);
-                        $(this).prop("hidden", true);
-                    }
-                })
-                $('#appbundle_persondegree_lastDegreeMonth option').each(function () {
-                    let currentMonth = $(this).val();
-                    if (currentMonth == "0") {
-                        $(this).attr('selected', true);
-                        $(this).prop("hidden", false);
-                    } else {
-                        $(this).attr('selected', false);
-                        $(this).prop("hidden", true);
-                    }
-                })
-            } else {
-                $('#appbundle_persondegree_lastDegreeYear option').each(function () {
-                    $(this).prop("hidden", false);
-                })
-                $('#appbundle_persondegree_lastDegreeMonth option').each(function () {
-                    let currentMonth = $(this).val();
-                    if (currentMonth == "0") {
-                        $(this).attr('selected', false);
-                        $(this).prop("hidden", true);
-                    } else {
-                        $(this).prop("hidden", false);
-                    }
-                })
-            }
-        }
-
-        //Activation/désactivation du champ registration en fonction personDegree.checkSchool
-        if($('#checkSchool').val() == true) {
-            $('#appbundle_persondegree_registrationStudentSchool').attr("disabled", true);
-            $('#appbundle_persondegree_registrationStudentSchool').css("color", "green");
-        } else  {
-            $('#appbundle_persondegree_registrationStudentSchool').attr("disabled", false);
-            $('#appbundle_persondegree_registrationStudentSchool').css("color", "red");
-        }
-
-        //Initialisation des champs diplômes et secteurs d'activités
-        changeSchoolInputs('#appbundle_persondegree_school ', '#appbundle_persondegree_degree', '#appbundle_persondegree_sectorArea', '#appbundle_persondegree_activity');
-        //Event sur l'établissement sélectionné
-        listenChangeSchoolInputs('#appbundle_persondegree_school ', '#appbundle_persondegree_degree', '#appbundle_persondegree_sectorArea', '#appbundle_persondegree_activity');
-
-        let idPrefix = '#appbundle_persondegree_';
-        let allActivities = getAllActivities('#allActivities');
-
-        // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
-        initActivities(allActivities, idPrefix, 'sectorArea', 'activity', false, function () {
-            initChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity", "Autre métier")
-            masquageChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity")
-        });
-
-        // initialisation des zones masquées dans le select simple
-        initChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school", "Autre établissement");
-        initChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree", "Autre diplôme");
-
-        // Event
-        // masquage, affichage des chapitres dans le select simple
-        masquageChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school");
-        masquageChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree");
-
-        // Event
-        // SectorArea -> Activity
-        listenChangeSectorArea(allActivities, idPrefix, 'sectorArea', 'activity', 'otherActivity', ".hide_block_other_activity");
-
-        // Event
-        // Country -> Region -> City
-        listenChangeCountryRegion('#appbundle_persondegree_country', '#appbundle_persondegree_region', 'country', 'region', 'addressCity');
-
-        // Event
-        //Modification test of submit button for RGPD
-        if ($('#role').val() == "ROLE_DIPLOME") {
-
-            //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
-            if ($("#buttonPersonDegree").html().replace(/ /g, "") == 'Valider') {
-                if ($('#appbundle_persondegree_agreeRgpd').prop('checked')) {
-                    $('#buttonPersonDegree').attr("disabled", false);
-                    $("#buttonPersonDegree").text("Valider");
+            function professionnal_situation_change_degree_year_date(idtype) {
+                let today = new Date();
+                let situationPro = "";
+                if ($(idtype).val())
+                    situationPro = $(idtype).val().trim();
+                if (situationPro == 'TYPE_TRAINING') {
+                    $('#appbundle_persondegree_lastDegreeYear option').each(function () {
+                        let currentYear = $(this).text().trim();
+                        if (today.getFullYear() == currentYear) {
+                            $(this).attr('selected', true);
+                            $(this).prop("hidden", false);
+                        } else {
+                            $(this).attr('selected', false);
+                            $(this).prop("hidden", true);
+                        }
+                    })
+                    $('#appbundle_persondegree_lastDegreeMonth option').each(function () {
+                        let currentMonth = $(this).val();
+                        if (currentMonth == "0") {
+                            $(this).attr('selected', true);
+                            $(this).prop("hidden", false);
+                        } else {
+                            $(this).attr('selected', false);
+                            $(this).prop("hidden", true);
+                        }
+                    })
                 } else {
-                    $('#buttonPersonDegree').attr("disabled", true);
-                    $("#buttonPersonDegree").text("Acceptez la notice PDP pour valider");
+                    $('#appbundle_persondegree_lastDegreeYear option').each(function () {
+                        $(this).prop("hidden", false);
+                    })
+                    $('#appbundle_persondegree_lastDegreeMonth option').each(function () {
+                        let currentMonth = $(this).val();
+                        if (currentMonth == "0") {
+                            $(this).attr('selected', false);
+                            $(this).prop("hidden", true);
+                        } else {
+                            $(this).prop("hidden", false);
+                        }
+                    })
                 }
             }
 
-            $('#appbundle_persondegree_agreeRgpd').on('change', function () {
-                // si acceptation RGPD
-                if ($('#appbundle_persondegree_agreeRgpd').prop('checked')) {
-                    $('#buttonPersonDegree').removeAttr("disabled");
-                    $("#buttonPersonDegree").text("Valider");
-                    $("#buttonPersonDegree").css("background-color", "#2177e0");
-                    $("#buttonPersonDegree").css("border-color", "#2177e0");
-                    // si refus RGPD
-                } else {
-                    // formulaire Valid, suppression du compte
-                    if ($("#form_person_degree").valid()) {
-                        $("#buttonPersonDegree").text("Supprimer mon compte");
-                        $("#buttonPersonDegree").css("background-color", "red");
-                        $("#buttonPersonDegree").css("border-color", "red");
-                        alert("Attention, vous êtes sur le point de supprimer toutes vos données personnelles")
-                        // formulaire non rempli, retour situation initiale
+            //Activation/désactivation du champ registration en fonction personDegree.checkSchool
+            if($('#checkSchool').val() == true) {
+                $('#appbundle_persondegree_registrationStudentSchool').attr("disabled", true);
+                $('#appbundle_persondegree_registrationStudentSchool').css("color", "green");
+            } else  {
+                $('#appbundle_persondegree_registrationStudentSchool').attr("disabled", false);
+                $('#appbundle_persondegree_registrationStudentSchool').css("color", "red");
+            }
+
+            //Initialisation des champs diplômes et secteurs d'activités
+            changeSchoolInputs('#appbundle_persondegree_school ', '#appbundle_persondegree_degree', '#appbundle_persondegree_sectorArea', '#appbundle_persondegree_activity');
+            //Event sur l'établissement sélectionné
+            listenChangeSchoolInputs('#appbundle_persondegree_school ', '#appbundle_persondegree_degree', '#appbundle_persondegree_sectorArea', '#appbundle_persondegree_activity');
+
+            let idPrefix = '#appbundle_persondegree_';
+            let allActivities = getAllActivities('#allActivities');
+
+            // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
+            initActivities(allActivities, idPrefix, 'sectorArea', 'activity', false, function () {
+                initChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity", "Autre métier")
+                masquageChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity")
+            });
+
+            // initialisation des zones masquées dans le select simple
+            initChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school", "Autre établissement");
+            initChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree", "Autre diplôme");
+
+            // Event
+            // masquage, affichage des chapitres dans le select simple
+            masquageChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school");
+            masquageChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree");
+
+            // Event
+            // SectorArea -> Activity
+            listenChangeSectorArea(allActivities, idPrefix, 'sectorArea', 'activity', 'otherActivity', ".hide_block_other_activity");
+
+            // Event
+            // Country -> Region -> City
+            listenChangeCountryRegion('#appbundle_persondegree_country', '#appbundle_persondegree_region', 'country', 'region', 'addressCity');
+
+            // Event
+            //Modification test of submit button for RGPD
+            if ($('#role').val() == "ROLE_DIPLOME") {
+
+                //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
+                if ($("#buttonPersonDegree").html().replace(/ /g, "") == 'Valider') {
+                    if ($('#appbundle_persondegree_agreeRgpd').prop('checked')) {
+                        $('#buttonPersonDegree').attr("disabled", false);
+                        $("#buttonPersonDegree").text("Valider");
                     } else {
                         $('#buttonPersonDegree').attr("disabled", true);
                         $("#buttonPersonDegree").text("Acceptez la notice PDP pour valider");
                     }
                 }
-            });
-        }
 
-        function getPersondegreMapAddress () {
-            let number = $('#appbundle_persondegree_addressNumber').val();
-            let road = $('#appbundle_persondegree_addressRoad').val();
-            let locality = $('#appbundle_persondegree_addressLocality').val();
-            let city = $('#appbundle_persondegree_addressCity option:selected').text();
-            let region = $('#appbundle_persondegree_region option:selected').text();
-            let country = $('#appbundle_persondegree_country option:selected').text();
-            return (createMapsAddress(number, road, locality, city, region, country));
-        }
+                $('#appbundle_persondegree_agreeRgpd').on('change', function () {
+                    // si acceptation RGPD
+                    if ($('#appbundle_persondegree_agreeRgpd').prop('checked')) {
+                        $('#buttonPersonDegree').removeAttr("disabled");
+                        $("#buttonPersonDegree").text("Valider");
+                        $("#buttonPersonDegree").css("background-color", "#2177e0");
+                        $("#buttonPersonDegree").css("border-color", "#2177e0");
+                        // si refus RGPD
+                    } else {
+                        // formulaire Valid, suppression du compte
+                        if ($("#form_person_degree").valid()) {
+                            $("#buttonPersonDegree").text("Supprimer mon compte");
+                            $("#buttonPersonDegree").css("background-color", "red");
+                            $("#buttonPersonDegree").css("border-color", "red");
+                            // alert("Attention, vous êtes sur le point de supprimer toutes vos données personnelles")
+                            alert(translations["js.warning_delete_all_personal_data"])
+                            // formulaire non rempli, retour situation initiale
+                        } else {
+                            $('#buttonPersonDegree').attr("disabled", true);
+                            $("#buttonPersonDegree").text("Acceptez la notice PDP pour valider");
+                        }
+                    }
+                });
+            }
 
-        function getPersondegreCityMapAddress () {
-            let city = $('#appbundle_persondegree_addressCity option:selected').text();
-            let country = $('#appbundle_persondegree_country option:selected').text();
-            return (createMapsAddress(null, null, null, city, null, country));
-        }
+            function getPersondegreMapAddress () {
+                let number = $('#appbundle_persondegree_addressNumber').val();
+                let road = $('#appbundle_persondegree_addressRoad').val();
+                let locality = $('#appbundle_persondegree_addressLocality').val();
+                let city = $('#appbundle_persondegree_addressCity option:selected').text();
+                let region = $('#appbundle_persondegree_region option:selected').text();
+                let country = $('#appbundle_persondegree_country option:selected').text();
+                return (createMapsAddress(number, road, locality, city, region, country));
+            }
+
+            function getPersondegreCityMapAddress () {
+                let city = $('#appbundle_persondegree_addressCity option:selected').text();
+                let country = $('#appbundle_persondegree_country option:selected').text();
+                return (createMapsAddress(null, null, null, city, null, country));
+            }
+        }) ;
 
         async function preventDefaultSubmit() {
             // mise à jour mapAdresse et calcul des lat et longitude
@@ -387,7 +394,7 @@
                     ($('#appbundle_persondegree_latitude').val() == 0) ||
                     ($('#appbundle_persondegree_longitude').val() == null) ||
                     ($('#appbundle_persondegree_longitude').val() == 0)) {
-                        $('#appbundle_persondegree_locationMode').prop('checked', true)
+                    $('#appbundle_persondegree_locationMode').prop('checked', true)
                 }
             }
             if ($('#appbundle_persondegree_locationMode').is(":checked")) {

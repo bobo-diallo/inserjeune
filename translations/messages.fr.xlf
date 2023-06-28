@@ -773,6 +773,10 @@
         <source>menu.see</source>
         <target>Voir</target>
       </trans-unit>
+      <trans-unit id="menu.characters">
+        <source>menu.characters</source>
+        <target>caractères</target>
+      </trans-unit>
       <trans-unit id="menu.characteristics">
         <source>menu.characteristics</source>
         <target>Caractéristiques</target>
@@ -869,14 +873,38 @@
         <source>menu.offer</source>
         <target>Offre d'emploi</target>
       </trans-unit>
-
-      <!--  Notification email send  -->
+      <trans-unit id="menu.select">
+        <source>menu.select</source>
+        <target>Sélectionnez</target>
+      </trans-unit>
+      <trans-unit id="menu.select_country">
+        <source>menu.select_country</source>
+        <target>Selectionnez le pays</target>
+      </trans-unit>
+      <trans-unit id="menu.select_region">
+        <source>menu.select_region</source>
+        <target>Selectionnez la région</target>
+      </trans-unit>
+      <trans-unit id="menu.select_city">
+        <source>menu.select_city</source>
+        <target>Selectionnez la ville</target>
+      </trans-unit>
+      <trans-unit id="menu.manual">
+        <source>menu.manual</source>
+        <target>manuel</target>
+      </trans-unit>
+      <trans-unit id="menu.a_man">
+        <source>menu.a_man</source>
+        <target>un homme</target>
+      </trans-unit>
+      <trans-unit id="menu.a_woman">
+        <source>menu.a_woman</source>
+        <target>une femme</target>
+      </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
         <target>Les notifications sont envoyés avec succès</target>
       </trans-unit>
-
-      <!-- Role      -->
       <trans-unit id="role.editing_a_role">
         <source>role.editing_a_role</source>
         <target>Modification d'un rôle</target>
@@ -889,8 +917,6 @@
         <source>role.new_role</source>
         <target>Nouveau rôle</target>
       </trans-unit>
-
-      <!-- Region      -->
       <trans-unit id="region.editing_a_region">
         <source>region.editing_a_region</source>
         <target>Modification d'une region</target>
@@ -907,8 +933,6 @@
         <source>region.list_of_regions</source>
         <target>Liste des régions</target>
       </trans-unit>
-
-      <!-- Legal status      -->
       <trans-unit id="legal_status.editing_a_legal_status">
         <source>legal_status.editing_a_legal_status</source>
         <target>Modification d'un statut juridique</target>
@@ -925,8 +949,6 @@
         <source>legal_status.adding_a_legal_status</source>
         <target>Ajout d'un statut juridique</target>
       </trans-unit>
-
-      <!-- Gegree      -->
       <trans-unit id="degree.editing_a_degree">
         <source>degree.editing_a_degree</source>
         <target>Modification d'un diplômé</target>
@@ -971,8 +993,18 @@
         <source>degree.month_year_degree_with_tag</source>
         <target>mois/année%tag_br%diplôme</target>
       </trans-unit>
-
-      <!-- Diplômés      -->
+      <trans-unit id="graduate.select_your_residence_country">
+        <source>graduate.select_your_residence_country</source>
+        <target>Sélectionnez votre pays de résidence</target>
+      </trans-unit>
+      <trans-unit id="graduate.registration_in_establisment">
+        <source>graduate.registration_in_establisment</source>
+        <target>N° Immatriculation dans l\'établissement</target>
+      </trans-unit>
+      <trans-unit id="graduate.complete">
+        <source>graduate.complete</source>
+        <target>renseignez</target>
+      </trans-unit>
       <trans-unit id="graduate.graduate_looking_for_job">
         <source>graduate.graduate_looking_for_job</source>
         <target>Diplômé en recherche d'emploi</target>
@@ -1079,10 +1111,8 @@
       </trans-unit>
       <trans-unit id="graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices">
         <source>graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
-        <target>Si vous exercez un métier sans lien avec votre diplôme, c’est parce que :%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
+        <target>Si vous exercez un métier sans lien avec votre diplôme, cest parce que :%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
       </trans-unit>
-
-      <!-- Time   -->
       <trans-unit id="time.3_months">
         <source>time.3_months</source>
         <target>3 mois</target>
@@ -1099,9 +1129,6 @@
         <source>time.2_years</source>
         <target>2 ans</target>
       </trans-unit>
-
-
-      <!-- city      -->
       <trans-unit id="city.capital_city">
         <source>city.capital_city</source>
         <target>Capitale</target>
@@ -1130,8 +1157,6 @@
         <source>city.other_city</source>
         <target>Autre ville</target>
       </trans-unit>
-
-      <!-- Job      -->
       <trans-unit id="job.20_offers">
         <source>job.20_offers</source>
         <target>20 Offres</target>
@@ -1244,8 +1269,6 @@
         <source>job.offer_already_sended</source>
         <target>Offre déjà postulée</target>
       </trans-unit>
-
-      <!-- activity      -->
       <trans-unit id="activity.modification_of_a_job">
         <source>activity.modification_of_a_job</source>
         <target>Modification d'un métier</target>
@@ -1270,8 +1293,6 @@
         <source>activity.other_sector_profession</source>
         <target>Autre filière / métier</target>
       </trans-unit>
-
-      <!-- Company      -->
       <trans-unit id="company.list_of_companies">
         <source>company.list_of_companies</source>
         <target>Liste des entreprises</target>
@@ -1480,8 +1501,6 @@
         <source>company.trade_technicians_with_tag</source>
         <target>Métier%tag_br%Tecniciens</target>
       </trans-unit>
-
-      <!-- School     -->
       <trans-unit id="school.name_of_the_school">
         <source>school.name_of_the_school</source>
         <target>Nom de l'etablissement</target>
@@ -1646,8 +1665,6 @@
         <source>school.schools_by_sector_of_activity</source>
         <target>Etablissements par secteurs d'activités</target>
       </trans-unit>
-
-      <!-- Country     -->
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
         <target>Modification d'un pays</target>
@@ -1660,8 +1677,6 @@
         <source>country.adding_a_country</source>
         <target>Ajout d'un pays</target>
       </trans-unit>
-
-      <!-- Currency      -->
       <trans-unit id="currency.iso_code">
         <source>currency.iso_code</source>
         <target>Code ISO</target>
@@ -1694,8 +1709,6 @@
         <source>currency.list_of_currencies</source>
         <target>Liste des devises</target>
       </trans-unit>
-
-      <!-- Contract      -->
       <trans-unit id="contract.edit_contract">
         <source>contract.edit_contract</source>
         <target>Modification d'un contrat</target>
@@ -1708,8 +1721,6 @@
         <source>contract.add_a_contract</source>
         <target>Ajouter un contrat</target>
       </trans-unit>
-
-      <!-- Dashboard      -->
       <trans-unit id="dashboard.legend">
         <source>dashboard.legend</source>
         <target>Légende</target>
@@ -1730,8 +1741,6 @@
         <source>dashboard.weeks</source>
         <target>Semaines</target>
       </trans-unit>
-
-      <!-- Survey      -->
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Enquêtes</target>
@@ -1810,7 +1819,7 @@
       </trans-unit>
       <trans-unit id="survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag">
         <source>survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag</source>
-        <target>Vous venez d’embaucher un ou des jeune(s) diplômé(s) en formation professionnelle et technique.%tag_br%Etes-vous satisfaits de ses / leurs compétences</target>
+        <target>Vous venez dembaucher un ou des jeune(s) diplômé(s) en formation professionnelle et technique.%tag_br%Etes-vous satisfaits de ses / leurs compétences</target>
       </trans-unit>
       <trans-unit id="survey.indication_evaluation_satisfaction_company_with_tag">
         <source>survey.indication_evaluation_satisfaction_company_with_tag</source>
@@ -1890,7 +1899,7 @@
       </trans-unit>
       <trans-unit id="survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices">
         <source>survey.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
-        <target>Si vous exercez un métier sans lien avec votre diplôme, c’est parce que :%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
+        <target>Si vous exercez un métier sans lien avec votre diplôme, cest parce que :%tag_br%plusieurs choix possibles (+ touche ctrl)</target>
       </trans-unit>
       <trans-unit id="survey.are_you_enrolled_in_a_course">
         <source>survey.are_you_enrolled_in_a_course</source>
@@ -1902,7 +1911,7 @@
       </trans-unit>
       <trans-unit id="survey.is_this_training_a_continuation_of_your_last_degree">
         <source>survey.is_this_training_a_continuation_of_your_last_degree</source>
-        <target>Est-ce que cette formation est une poursuite%tag_br%d’études en lien avec votre dernier diplôme</target>
+        <target>Est-ce que cette formation est une poursuite%tag_br%détudes en lien avec votre dernier diplôme</target>
       </trans-unit>
       <trans-unit id="survey.degree_sought">
         <source>survey.degree_sought</source>
@@ -1926,7 +1935,7 @@
       </trans-unit>
       <trans-unit id="survey.have_you_turned_down_a_job_offer_since_completing_your_training">
         <source>survey.have_you_turned_down_a_job_offer_since_completing_your_training</source>
-        <target>Avez-vous refusé une offre d’emploi%tag_br%depuis la fin de votre formation ?</target>
+        <target>Avez-vous refusé une offre demploi%tag_br%depuis la fin de votre formation ?</target>
       </trans-unit>
       <trans-unit id="survey.have_you_held_a_job_since_the_end_of_your_training">
         <source>survey.have_you_held_a_job_since_the_end_of_your_training</source>
@@ -1984,10 +1993,6 @@
         <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
         <target>Pourquoi, à votre avis, n'avez-vous pas trouvé / retrouvé un travail ?</target>
       </trans-unit>
-
-      <!-- Referencement -->
-
-      <!-- Referencement -->
       <trans-unit id="referencement.base_security">
         <source>referencement.base_security</source>
         <target>IFEF OIF Inserjeune suivi taux insertion diplômés satisfaction entreprises</target>
@@ -2036,15 +2041,57 @@
         <source>referencement.dashboard</source>
         <target>statistique</target>
       </trans-unit>
-
-      <!-- JS -->
+      <trans-unit id="clean.select_your_country">
+        <source>clean.select_your_country</source>
+        <target>Selectionnez votre pays</target>
+      </trans-unit>
+      <trans-unit id="clean.enter_part_phone_number">
+        <source>clean.enter_part_phone_number</source>
+        <target>Entrez une partie du numéro de téléphone</target>
+      </trans-unit>
+      <trans-unit id="clean.Find_accounts_to_purge">
+        <source>clean.Find_accounts_to_purge</source>
+        <target>Rechercher les comptes à purger</target>
+      </trans-unit>
+      <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
+        <source>flashbag.Welcome_please_complete_your_profile_below</source>
+        <target>Bienvenue ! Avant de répondre au questionnaire d'insertion, merci de compléter votre profil ci-dessous.</target>
+      </trans-unit>
       <trans-unit id="js.Would_you_like_to_update_the_coordinates_of_these">
         <source>js.Would_you_like_to_update_the_coordinates_of_these</source>
-        <target>Voulez vous mettre à jour les coordonnées de ces </target>
+        <target>Voulez vous mettre à jour les coordonnées de ces</target>
       </trans-unit>
       <trans-unit id="js.actors">
         <source>js.actors</source>
         <target>acteurs</target>
+      </trans-unit>
+      <trans-unit id="js.all_f">
+        <source>js.all_f</source>
+        <target>Toutes</target>
+      </trans-unit>
+      <trans-unit id="js.select_sector">
+        <source>js.select_sector</source>
+        <target>Selectionnez un domaine</target>
+      </trans-unit>
+      <trans-unit id="js.select_activity">
+        <source>js.select_activity</source>
+        <target>Selectionnez une filière</target>
+      </trans-unit>
+      <trans-unit id="js.warning_delete_all_personal_data">
+        <source>js.warning_delete_all_personal_data</source>
+        <target>Attention, vous êtes sur le point de supprimer toutes vos données personnelles</target>
+      </trans-unit>
+      <trans-unit id="error.invalid_phone">
+        <source>error.invalid_phone</source>
+        <target>Téléphone invalide</target>
+      </trans-unit>
+      <trans-unit id="error.invalid_mail">
+        <source>error.invalid_mail</source>
+        <target>Mail invalide</target>
+      </trans-unit>
+      <trans-unit id="error.unauthorized_or_unknown_country">
+        <source>error.unauthorized_or_unknown_country</source>
+        <target>Pays non autorisé ou inconnu</target>
       </trans-unit>
     </body>
   </file>

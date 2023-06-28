@@ -69,7 +69,7 @@ class CityService {
 				'class' => Region::class,
 				'choice_label' => 'name',
 				'mapped' => $regionMapped,
-				'placeholder' => $country ? 'Selectionnez la region' : 'Selectionnez le pays',
+				'placeholder' => $country ? 'menu.select_region' : 'menu.select_country',
 				'auto_initialize' => false,
 				'choices' => $country ? $country->getRegions() : [],
 				'attr' => ['class' => 'form-control']
@@ -92,7 +92,7 @@ class CityService {
 		$form->add($cityName, EntityType::class, [
 			'class' => City::class,
 			'choice_label' => 'name',
-			'placeholder' => $region ? 'Selectionnez la ville' : 'Selectionnez la region',
+			'placeholder' => $region ? 'menu.select_city' : 'menu.select_region',
 			'choices' => $region ? $region->getCities() : [],
 			'attr' => ['class' => 'form-control']
 		]);

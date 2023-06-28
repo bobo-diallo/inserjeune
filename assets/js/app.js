@@ -435,52 +435,57 @@ global.initActivities = function initActivities(allActivites, idPrefix, sectorAr
    let idActivities = idPrefix + activityName;
    let optionSelected = [];
 
-   // On met les activities selectionnées dans un tableau
-   if(multiple) {
-      $(idActivities + ' option').each(function () {
-         optionSelected.push($(this).val());
-      });
-   } else {
-      optionSelected.push($(idActivities + ' option:selected').val());
-   }
+   let translations = [];
+   getTranslation().then (function (translation) {
+      translations = translation;
 
-   let idValueSectorArea = $(idSectorArea + ' option:selected').val();
-
-   // on réinitialise les activités
-   $(idActivities).children('option').remove();
-
-   // on remet le placeOlder pour les selects uniques si secteur d'activité absent
-   // console.log("sectorAreaName=" + idValueSectorArea);
-   if(multiple==false) {
-      // if(! $(idActivities).text()) {
-         if(!idValueSectorArea) {
-            $(idActivities).append($('<option value=-1/>').text('Sélectionnez un domaine').prop('selected', false));
-         } else {
-            $(idActivities).append($('<option disabled value=-1/>').text('Sélectionnez une activité').prop('selected', false));
-         }
-      // }
-   }
-
-   // On ajoute toutes les activités correspondantes au sectorArea
-   $.each(allActivites, function () {
-      if (this.sectorArea == idValueSectorArea) {
-         $(idActivities).append(new Option(this.name, this.id));
+      // On met les activities selectionnées dans un tableau
+      if (multiple) {
+         $(idActivities + ' option').each(function () {
+            optionSelected.push($(this).val());
+         });
+      } else {
+         optionSelected.push($(idActivities + ' option:selected').val());
       }
-   })
 
-   // on remet les selected sur les activités
-   // for(var i in optionSelected) {
-   //    console.log("  --->  " + optionSelected[i]);
-   // }
-   if(optionSelected) {
-      $(idActivities + " option").each(function () {
-         if ($.inArray($(this).val(), optionSelected) !== -1) {
-            $(this).prop('selected', true);
+      let idValueSectorArea = $(idSectorArea + ' option:selected').val();
+
+      // on réinitialise les activités
+      $(idActivities).children('option').remove();
+
+      // on remet le placeOlder pour les selects uniques si secteur d'activité absent
+      // console.log("sectorAreaName=" + idValueSectorArea);
+      if (multiple == false) {
+         // if(! $(idActivities).text()) {
+         if (!idValueSectorArea) {
+            $(idActivities).append($('<option value=-1/>').text(translations["js.select_sector"]).prop('selected', false));
+         } else {
+            $(idActivities).append($('<option disabled value=-1/>').text(translations["js.select_activity"]).prop('selected', false));
          }
-      });
-   }
+         // }
+      }
 
-   if (typeof callback === "function") callback();
+      // On ajoute toutes les activités correspondantes au sectorArea
+      $.each(allActivites, function () {
+         if (this.sectorArea == idValueSectorArea) {
+            $(idActivities).append(new Option(this.name, this.id));
+         }
+      })
+
+      // on remet les selected sur les activités
+      // for(var i in optionSelected) {
+      //    console.log("  --->  " + optionSelected[i]);
+      // }
+      if (optionSelected) {
+         $(idActivities + " option").each(function () {
+            if ($.inArray($(this).val(), optionSelected) !== -1) {
+               $(this).prop('selected', true);
+            }
+         });
+      }
+
+      if (typeof callback === "function") callback();
+   });
 }
 
 /**
@@ -511,26 +516,31 @@ global.listenChangeSectorArea = function listenChangeSectorArea(allactivities, i
    let idSectorArea = idPrefix + sectorAreaName;
    let idActivities = idPrefix + activityName;
 
-   $(document).on('change', idSectorArea, function () {
-      $(idActivities + ' option').remove()      // Vider toutes activités
-      let idValueSectorArea = $(idSectorArea + ' option:selected').val();  // Recupérer l'id du sectorArea selectionné
+   let translations = [];
+   getTranslation().then (function (translation) {
+      translations = translation;
 
-      // on rajoute les activités
-      $.each(allactivities, function () {
-         if (this.sectorArea == idValueSectorArea) {
-            $(idActivities).append(new Option(this.name, this.id)); // Ajout activité
+      $(document).on('change', idSectorArea, function () {
+         $(idActivities + ' option').remove()      // Vider toutes activités
+         let idValueSectorArea = $(idSectorArea + ' option:selected').val();  // Recupérer l'id du sectorArea selectionné
+
+         // on rajoute les activités
+         $.each(allactivities, function () {
+            if (this.sectorArea == idValueSectorArea) {
+               $(idActivities).append(new Option(this.name, this.id)); // Ajout activité
+            }
+         })
+
+         //on remet le placeOlder
+         if (multiple == false) {
+            $(idActivities).prepend("<option value='-1'>" + translations["js.select_activity"] + "</option>");
+            $(idActivities + " option[value='-1']").prop("selected", true);
          }
+
+         initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, "Autre métier");
+         masquageChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, multiple);
       })
-
-      //on remet le placeOlder
-      if(multiple==false) {
-         $(idActivities).prepend("<option value='-1'>Sélectionnez une activité</option>");
-         $(idActivities + " option[value='-1']").prop("selected", true);
-      }
-
-      initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, "Autre métier");
-      masquageChampsAutre (idPrefix, activityName, otherActivity, classOtherHidden, multiple);
-   })
+   });
 }
 
 /**

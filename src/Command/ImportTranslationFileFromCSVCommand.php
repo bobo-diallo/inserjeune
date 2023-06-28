@@ -116,25 +116,23 @@ class ImportTranslationFileFromCSVCommand extends Command
                     $file->appendChild($filebody);
 
                     // Add a root node to the document
-                    while (($row = fgetcsv($inputFile)) !== FALSE) {
-                        $cells = explode(";", $row[0]);
-
-                        if(count($cells) >= $localeField+1) {
-                            if(strlen($cells[0])>0) {
+                    while (($row = fgetcsv($inputFile, 1000, ";")) !== FALSE) {
+                        if(count($row) >= $localeField+1) {
+                            if(strlen($row[0])>0) {
                                 $transunit = $doc->createElement('trans-unit');
-                                $transunit->setAttribute('id', utf8_encode($cells[0]));
+                                $transunit->setAttribute('id', utf8_encode($row[0]));
                                 $filebody->appendChild($transunit);
 
-                                $source = $doc->createElement('source', utf8_encode($cells[0]));
+                                $source = $doc->createElement('source', utf8_encode($row[0]));
                                 $transunit->appendChild($source);
-                                $target = $doc->createElement('target', utf8_encode($cells[$localeField]));
+                                $target = $doc->createElement('target', utf8_encode($row[$localeField]));
                                 $transunit->appendChild($target);
                             }
                         }
                     }
 
                     $strxml = $doc->saveXML();
-                    $handle = fopen('c:/temp/messages.' . $locale . '.xlf', "w");
+                    $handle = fopen($ouputdir . '/messages.' . $locale . '.xlf', "w");
                     fwrite($handle, $strxml);
                     fclose($handle);
                     fclose($inputFile);
@@ -142,7 +140,7 @@ class ImportTranslationFileFromCSVCommand extends Command
             }
         }
 
-        $io->info('User is created successfully');
+        $io->info('Translation files are created successfully');
         return Command::SUCCESS;
     }
 
