@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
     <header>
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
@@ -269,8 +269,8 @@
         <source>menu.the_degrees</source>
         <target>Diplomas</target>
       </trans-unit>
-      <trans-unit id="menu.occupancy">
-        <source>menu.occupancy</source>
+      <trans-unit id="menu.occupation">
+        <source>menu.occupation</source>
         <target>Occupation</target>
       </trans-unit>
       <trans-unit id="menu.faculty">
@@ -357,8 +357,8 @@
         <source>menu.branch</source>
         <target>Subsector</target>
       </trans-unit>
-      <trans-unit id="menu.branches">
-        <source>menu.branches</source>
+      <trans-unit id="menu.branchs">
+        <source>menu.branchs</source>
         <target>Subsectors</target>
       </trans-unit>
       <trans-unit id="menu.sector">
@@ -773,6 +773,10 @@
         <source>menu.see</source>
         <target>View</target>
       </trans-unit>
+      <trans-unit id="menu.characters">
+        <source>menu.characters</source>
+        <target>characters</target>
+      </trans-unit>
       <trans-unit id="menu.characteristics">
         <source>menu.characteristics</source>
         <target>Features</target>
@@ -869,14 +873,38 @@
         <source>menu.offer</source>
         <target>Job offer</target>
       </trans-unit>
-
-      <!-- Notification email send -->
+      <trans-unit id="menu.select">
+        <source>menu.select</source>
+        <target>Select</target>
+      </trans-unit>
+      <trans-unit id="menu.select_country">
+        <source>menu.select_country</source>
+        <target>Select the country</target>
+      </trans-unit>
+      <trans-unit id="menu.select_region">
+        <source>menu.select_region</source>
+        <target>Select the region</target>
+      </trans-unit>
+      <trans-unit id="menu.select_city">
+        <source>menu.select_city</source>
+        <target>Select the city</target>
+      </trans-unit>
+      <trans-unit id="menu.manual">
+        <source>menu.manual</source>
+        <target>manual</target>
+      </trans-unit>
+      <trans-unit id="menu.a_man">
+        <source>menu.a_man</source>
+        <target>a man</target>
+      </trans-unit>
+      <trans-unit id="menu.a_woman">
+        <source>menu.a_woman</source>
+        <target>a woman</target>
+      </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
         <target>Notifications sent successfully</target>
       </trans-unit>
-
-      <!-- Role -->
       <trans-unit id="role.editing_a_role">
         <source>role.editing_a_role</source>
         <target>Editing a role</target>
@@ -889,8 +917,6 @@
         <source>role.new_role</source>
         <target>New role</target>
       </trans-unit>
-
-      <!-- Region -->
       <trans-unit id="region.editing_a_region">
         <source>region.editing_a_region</source>
         <target>Editing a region</target>
@@ -907,7 +933,6 @@
         <source>region.list_of_regions</source>
         <target>List of regions</target>
       </trans-unit>
-      <!-- Legal status -->
       <trans-unit id="legal_status.editing_a_legal_status">
         <source>legal_status.editing_a_legal_status</source>
         <target>Modification of a legal status</target>
@@ -924,8 +949,6 @@
         <source>legal_status.adding_a_legal_status</source>
         <target>Adding a legal status</target>
       </trans-unit>
-
-      <!-- Gegree -->
       <trans-unit id="degree.editing_a_degree">
         <source>degree.editing_a_degree</source>
         <target>Editing a graduate</target>
@@ -970,8 +993,18 @@
         <source>degree.month_year_degree_with_tag</source>
         <target>month/year%tag_br%diploma</target>
       </trans-unit>
-
-      <!-- Graduates -->
+      <trans-unit id="graduate.select_your_residence_country">
+        <source>graduate.select_your_residence_country</source>
+        <target>select your residence country</target>
+      </trans-unit>
+      <trans-unit id="graduate.registration_in_establisment">
+        <source>graduate.registration_in_establisment</source>
+        <target>registration number in establisment</target>
+      </trans-unit>
+      <trans-unit id="graduate.complete">
+        <source>graduate.complete</source>
+        <target>complete</target>
+      </trans-unit>
       <trans-unit id="graduate.graduate_looking_for_job">
         <source>graduate.graduate_looking_for_job</source>
         <target>Graduate looking for a job</target>
@@ -1080,8 +1113,6 @@
         <source>graduate.if_you_are_working_in_a_job_that_is_not_related_to_your_degree_it_is_because_several_possible_choices</source>
         <target>If you have a job unrelated to your diploma, it is because:%tag_br%several possible choices (+ ctrl key)</target>
       </trans-unit>
-
-      <!-- Time -->
       <trans-unit id="time.3_months">
         <source>time.3_months</source>
         <target>3 months</target>
@@ -1098,7 +1129,6 @@
         <source>time.2_years</source>
         <target>2 years</target>
       </trans-unit>
-      <!-- city -->
       <trans-unit id="city.capital_city">
         <source>city.capital_city</source>
         <target>Capital</target>
@@ -1127,8 +1157,6 @@
         <source>city.other_city</source>
         <target>Other city</target>
       </trans-unit>
-
-      <!-- Job -->
       <trans-unit id="job.20_offers">
         <source>job.20_offers</source>
         <target>20 Offers</target>
@@ -1241,8 +1269,6 @@
         <source>job.offer_already_sended</source>
         <target>Offer already applied</target>
       </trans-unit>
-
-      <!-- activity -->
       <trans-unit id="activity.modification_of_a_job">
         <source>activity.modification_of_a_job</source>
         <target>Editing a profession</target>
@@ -1267,8 +1293,6 @@
         <source>activity.other_sector_profession</source>
         <target>Other sector / profession</target>
       </trans-unit>
-
-      <!-- Company -->
       <trans-unit id="company.list_of_companies">
         <source>company.list_of_companies</source>
         <target>List of companies</target>
@@ -1477,8 +1501,6 @@
         <source>company.trade_technicians_with_tag</source>
         <target>Profession%tag_br%Technicians</target>
       </trans-unit>
-
-      <!-- School -->
       <trans-unit id="school.name_of_the_school">
         <source>school.name_of_the_school</source>
         <target>Establishment name</target>
@@ -1643,8 +1665,6 @@
         <source>school.schools_by_sector_of_activity</source>
         <target>Establishment by business sector</target>
       </trans-unit>
-
-      <!-- Country -->
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
         <target>Editing a country</target>
@@ -1657,8 +1677,6 @@
         <source>country.adding_a_country</source>
         <target>Adding a country</target>
       </trans-unit>
-
-      <!-- Currency -->
       <trans-unit id="currency.iso_code">
         <source>currency.iso_code</source>
         <target>ISO code</target>
@@ -1691,7 +1709,6 @@
         <source>currency.list_of_currencies</source>
         <target>List of currencies</target>
       </trans-unit>
-      <!-- Contract -->
       <trans-unit id="contract.edit_contract">
         <source>contract.edit_contract</source>
         <target>Modifying a contract</target>
@@ -1704,8 +1721,6 @@
         <source>contract.add_a_contract</source>
         <target>Add contract</target>
       </trans-unit>
-
-      <!-- Dashboard      -->
       <trans-unit id="dashboard.legend">
         <source>dashboard.legend</source>
         <target>Legend</target>
@@ -1726,8 +1741,6 @@
         <source>dashboard.weeks</source>
         <target>Weeks</target>
       </trans-unit>
-
-      <!-- Survey -->
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Surveys</target>
@@ -1980,8 +1993,6 @@
         <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
         <target>Why, in your opinion, have you not found / found a job?</target>
       </trans-unit>
-
-      <!-- Referencement -->
       <trans-unit id="referencement.base_security">
         <source>referencement.base_security</source>
         <target>IFEF OIF Inserjeune monitoring graduate integration satisfaction companies rate</target>
@@ -2030,16 +2041,57 @@
         <source>referencement.dashboard</source>
         <target>statistical</target>
       </trans-unit>
-
-      <!-- JS -->
-
+      <trans-unit id="clean.select_your_country">
+        <source>clean.select_your_country</source>
+        <target>Select your country</target>
+      </trans-unit>
+      <trans-unit id="clean.enter_part_phone_number">
+        <source>clean.enter_part_phone_number</source>
+        <target>Enter a part of phone number</target>
+      </trans-unit>
+      <trans-unit id="clean.Find_accounts_to_purge">
+        <source>clean.Find_accounts_to_purge</source>
+        <target>Find accounts to purge</target>
+      </trans-unit>
+      <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
+        <source>flashbag.Welcome_please_complete_your_profile_below</source>
+        <target>Welcome! Before answering the insertion quiz, please complete your profile below</target>
+      </trans-unit>
       <trans-unit id="js.Would_you_like_to_update_the_coordinates_of_these">
         <source>js.Would_you_like_to_update_the_coordinates_of_these</source>
-        <target>Would you like to update the coordinates of these </target>
+        <target>Would you like to update the coordinates of these</target>
       </trans-unit>
       <trans-unit id="js.actors">
         <source>js.actors</source>
         <target>actors</target>
+      </trans-unit>
+      <trans-unit id="js.all_f">
+        <source>js.all_f</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="js.select_sector">
+        <source>js.select_sector</source>
+        <target>Select a sector of activity</target>
+      </trans-unit>
+      <trans-unit id="js.select_activity">
+        <source>js.select_activity</source>
+        <target>Select an activity</target>
+      </trans-unit>
+      <trans-unit id="js.warning_delete_all_personal_data">
+        <source>js.warning_delete_all_personal_data</source>
+        <target>Warning, you are about to delete all your personal data</target>
+      </trans-unit>
+      <trans-unit id="error.invalid_phone">
+        <source>error.invalid_phone</source>
+        <target>Invalid phone number</target>
+      </trans-unit>
+      <trans-unit id="error.invalid_mail">
+        <source>error.invalid_mail</source>
+        <target>Invalid email</target>
+      </trans-unit>
+      <trans-unit id="error.unauthorized_or_unknown_country">
+        <source>error.unauthorized_or_unknown_country</source>
+        <target>Unauthorized or unknown country</target>
       </trans-unit>
     </body>
   </file>

@@ -55,22 +55,22 @@ class PersonDegreeType extends AbstractType {
 			->add('type', ChoiceType::class, [
 				'choices' => array_flip($this->degreeService->getTypes()),
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'required' => true
 			])
 			->add('sex', ChoiceType::class, [
 				'choices' => [
-					'un homme' => 'un homme',
-					'une femme' => 'une femme',
+					'menu.a_man' => 'un homme',
+					'menu.a_woman' => 'une femme',
 				],
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'required' => true
 			])
 			->add('lastDegreeYear', ChoiceType::class, [
 				'choices' => $this->getYears('2010'),
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'required' => true
 			])
 			->add('lastDegreeMonth', ChoiceType::class, [
@@ -90,7 +90,7 @@ class PersonDegreeType extends AbstractType {
 					'Décembre' => '12',
 				],
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'required' => true
 			])
 			->add('previousEndedContract', TextType::class, [
@@ -102,27 +102,37 @@ class PersonDegreeType extends AbstractType {
 				'required' => false
 			])
 			->add('firstname', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Prénom'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.firstname'],
 				'required' => true
 			])
 			->add('lastname', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Nom'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.name'],
 				'required' => true
 			])
 			->add('birthDate', TextType::class, [
-				'attr' => ['class' => 'datepicker form-control', 'placeholder' => 'Date de naissance'],
+				'attr' => ['class' => 'datepicker form-control',
+                    'placeholder' => 'menu.date_of_birth'],
 				'required' => true
 			])
 			->add('addressNumber', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Numéro adresse'],
+				'attr' => ['class' => 'form-control',
+                    'placeholder' => 'menu.address_number'],
 				'required' => false
 			])
 			->add('addressLocality', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Localité'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.location'],
 				'required' => false
 			])
             ->add('addressDiaspora', TextType::class, [
-                'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'adresse Diaspora'],
+                'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.address_diaspora'],
                 'required' => false
             ])
             ->add('diaspora', CheckboxType::class, [
@@ -132,10 +142,10 @@ class PersonDegreeType extends AbstractType {
             ->add('residenceCountry', EntityType::class, [
                 'required' => false,
                 'class' => Country::class,
-                'placeholder' => 'Sélectionnez votre pays de résidence',
+                'placeholder' => 'graduate.select_your_residence_country',
                 'attr' => [
                     'class' => 'form-control',
-                    'data-error' => 'Pays non autorisé ou inconnu',
+                    'data-error' => 'error.unauthorized_or_unknown_country',
                 ],
                 'query_builder' => function (EntityRepository $entityRepository) {
                     return $entityRepository->createQueryBuilder('b')
@@ -143,31 +153,43 @@ class PersonDegreeType extends AbstractType {
                 }
             ])
 			->add('addressRoad', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Rue'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.street'],
 				'required' => false
 			])
 			->add('otherCity', TextType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'autre ville'],
+				'attr' => ['class' => 'form-control',
+                    'placeholder' => 'city.other_city'],
 				'required' => false
 			])
 			->add('phoneMobile1', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Téléhone invalide', 'placeholder' => 'Téléphone de connexion'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_phone',
+                    'placeholder' => 'menu.login_phone'],
 				'required' => true
 			])
 			->add('phoneHome', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Téléhone invalide', 'placeholder' => 'Autre téléphone'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_phone',
+                    'placeholder' => 'menu.other_phone_country_code_number'],
 				'required' => false
 			])
 			->add('phoneMobile2', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Téléhone invalide', 'placeholder' => 'Téléphone parent ou proche'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_phone',
+                    'placeholder' => 'menu.cell_phone_of_a_1st_parent'],
 				'required' => true
 			])
 			->add('phoneMobile3', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Téléhone invalide', 'placeholder' => 'Téléphone parent ou proche'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_phone',
+                    'placeholder' => 'menu.cell_phone_of_a_2nd_parent'],
 				'required' => false
 			])
 			->add('phoneHome', TextType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Téléphone Fixe'],
+				'attr' => ['class' => 'form-control',
+                    'placeholder' => 'company.other_phone_code_no'],
 				'required' => false
 			])
 			->add('phoneOffice', TextType::class, [
@@ -175,18 +197,20 @@ class PersonDegreeType extends AbstractType {
 				'required' => false
 			])
 			->add('email', EmailType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Email invalide', 'placeholder' => 'Email@domaine.extension'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Email invalide',
+                    'placeholder' => 'Email@domaine.extension'],
 				'required' => true
 			])
 			->add('degree', EntityType::class, [
 				'class' => Degree::class,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'required' => true,
 				'attr' => ['class' => 'form-control']
 			])
 			->add('school', EntityType::class, [
 				'class' => School::class,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control'],
 				'required' => true,
 				'query_builder' => function (EntityRepository $entityRepository) use ($selectedCountry) {
@@ -196,19 +220,20 @@ class PersonDegreeType extends AbstractType {
 				}
 			])
 			->add('registrationStudentSchool', TextType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'N° Immatriculation dans l\'établissement'],
+				'attr' => ['class' => 'form-control',
+                    'placeholder' => 'graduate.registration_in_establisment'],
 				'required' => false
 			])
 			->add('otherSchool', TextType::class, ['attr' => [
 				'class' => 'form-control',
-				'data-error' => 'Autre établissement ?',
-				'placeholder' => ' établissement'],
+				'data-error' => 'school.other_establishment' .' ?',
+				'placeholder' => 'school.other_establishment'],
 				'required' => false,
 			])
 			->add('sectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'required' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control'],
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
@@ -217,14 +242,14 @@ class PersonDegreeType extends AbstractType {
 			])
 			->add('otherActivity', TextType::class, ['attr' => [
 				'class' => 'form-control',
-				'data-error' => 'Autre métier ?',
-				'placeholder' => ' métier'],
+				'data-error' => 'menu.other_trade' . ' ?',
+				'placeholder' => 'menu.other_trade'],
 				'required' => false,
 			])
 			->add('otherDegree', TextType::class, ['attr' => [
 				'class' => 'form-control',
-				'data-error' => 'Autre diplôme ?',
-				'placeholder' => ' diplôme'],
+				'data-error' => 'menu.other_degree' . ' ?',
+				'placeholder' => 'menu.other_degree'],
 				'required' => false,
 			])
 			->add('contract', EntityType::class, [
@@ -240,11 +265,15 @@ class PersonDegreeType extends AbstractType {
 				'attr' => ['class' => 'form-control']
 			])
 			->add('latitude', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la latitude', 'placeholder' => 'latitude'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'graduate.complete' . ' la latitude',
+                    'placeholder' => 'latitude'],
 				'required' => false
 			])
 			->add('longitude', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la longitude', 'placeholder' => 'longitude'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'graduate.complete' . ' la longitude',
+                    'placeholder' => 'longitude'],
 				'required' => false
 			])
 			->add('locationMode', CheckboxType::class, [
