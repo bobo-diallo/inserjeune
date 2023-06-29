@@ -2081,6 +2081,34 @@
         <source>js.warning_delete_all_personal_data</source>
         <target>Attention, vous êtes sur le point de supprimer toutes vos données personnelles</target>
       </trans-unit>
+      <trans-unit id="js.warning_coordinates_recalculated">
+        <source>js.warning_coordinates_recalculated</source>
+        <target>Attention, les coordonnées seront recalculées</target>
+      </trans-unit>
+      <trans-unit id="js.warning_phone_number_changed">
+        <source>js.warning_phone_number_changed</source>
+        <target>Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro</target>
+      </trans-unit>
+      <trans-unit id="js.manual_mode">
+        <source>js.manual_mode</source>
+        <target>Mode manuel activé</target>
+      </trans-unit>
+      <trans-unit id="js.warning_telephone_digits_part1">
+        <source>js.warning_telephone_digits_part1</source>
+        <target>Attention, votre numéro de téléphone doit avoir </target>
+      </trans-unit>
+      <trans-unit id="js.warning_telephone_digits_part2">
+        <source>js.warning_telephone_digits_part2</source>
+        <target>digits apres l'indicatif, veuillez le ressaisir</target>
+      </trans-unit>
+      <trans-unit id="js.warning,phone_must_begin_part1">
+        <source>js.warning,phone_must_begin_part1</source>
+        <target>Attention, votre numéro de téléphone doit commencer par</target>
+      </trans-unit>
+      <trans-unit id="js.warning,phone_must_begin_part2">
+        <source>js.warning,phone_must_begin_part2</source>
+        <target>, veuillez le ressaisir</target>
+      </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
         <target>Téléphone invalide</target>
@@ -2092,6 +2120,14 @@
       <trans-unit id="error.unauthorized_or_unknown_country">
         <source>error.unauthorized_or_unknown_country</source>
         <target>Pays non autorisé ou inconnu</target>
+      </trans-unit>
+      <trans-unit id="un homme">
+        <source>un homme</source>
+        <target>un homme</target>
+      </trans-unit>
+      <trans-unit id="une femme">
+        <source>une femme</source>
+        <target>une femme</target>
       </trans-unit>
     </body>
   </file>
