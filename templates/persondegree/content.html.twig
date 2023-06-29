@@ -20,7 +20,7 @@
         let translations = [];
         getTranslation().then (function (translation) {
             translations = translation;
-            console.log(translations);
+            // console.log(translations);
 
             let selectedCountry = $('#selectedCountry').val();
             //affichage de la zone Diaspora
@@ -47,12 +47,13 @@
             //Contrôle du bouton check de localisation pour switch manuel - automatique
             $('#appbundle_persondegree_locationMode').on('click', async function () {
                 if ($('#appbundle_persondegree_locationMode').is(":checked")) {
-                    if (!confirm("Attention, les coordonnées seront recalculées")) {
+                    // if (!confirm("Attention, les coordonnées seront recalculées")) {
+                    if (!confirm(translations["js.warning_coordinates_recalculated"])) {
                         $('#appbundle_persondegree_locationMode').prop("checked", false);
                     }
 
                 } else {
-                    alert("Mode manuel activé");
+                    alert(translations["js.manual_mode"]);
                 }
 
                 //Mise à jour des coordonnées géographique en mode auto
@@ -203,13 +204,12 @@
                     let indPhone = phoneNumber.substr(0, indPersonDegree.length);
 
                     if (indPhone != indPersonDegree) {
-                        alert("Attention, votre numéro de téléphone doit commencer par " + indPersonDegree + ", veuillez le ressaisir");
+                        alert(translations["js.warning,phone_must_begin_part1"] + " " + indPersonDegree + translations["js.warning,phone_must_begin_part2"]);
                         $('#appbundle_persondegree_phoneMobile1').val(usrphone);
                         res = false;
 
                     } else if (phoneNumber != usrphone) {
-                        let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, " +
-                            "vous devrez vous reconnecter avec ce nouveau numéro " + phoneNumber )
+                        let confirmPhone = confirm(translations["js.warning_phone_number_changed"] + " " + phoneNumber )
                         if (confirmPhone == false) {
                             $('#appbundle_persondegree_phoneMobile1').val(usrphone);
                         }
@@ -233,7 +233,7 @@
                     }
                     if(nbDigitPersonDegree != null) {
                         if((phoneNumber.length - indPersonDegree.length) != nbDigitPersonDegree) {
-                            alert("Attention, votre numéro de téléphone doit avoir " + nbDigitPersonDegree + " digits apres l'indicatif, veuillez le ressaisir");
+                            alert(translations["js.warning_telephone_digits_part1"] + " " + nbDigitPersonDegree + " " + translations["js.warning_telephone_digits_part2"]);
                             $('#appbundle_persondegree_phoneMobile1').val(usrphone);
                             res = false;
                         }
