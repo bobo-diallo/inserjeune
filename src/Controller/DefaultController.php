@@ -65,7 +65,7 @@ class DefaultController extends AbstractController {
     #[Route(path: '/get_js_translation', name: 'get_js_translation', methods: ['GET'])]
     public function getJsTranslation(Request $request): JsonResponse {
         //Read xml file
-        $fichier = $this->getParameter('kernel.project_dir') . '\translations\messages.' . $request->getLocale() . '.xlf';
+        $fichier = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR . 'messages.' . $request->getLocale() . '.xlf';
         $contenu = simplexml_load_file($fichier);
         $result = array();
 

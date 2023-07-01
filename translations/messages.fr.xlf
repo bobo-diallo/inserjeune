@@ -901,6 +901,10 @@
         <source>menu.a_woman</source>
         <target>une femme</target>
       </trans-unit>
+      <trans-unit id="menu.web_site">
+        <source>menu.web_site</source>
+        <target>Site Internet</target>
+      </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
         <target>Les notifications sont envoyés avec succès</target>
@@ -1741,6 +1745,14 @@
         <source>dashboard.weeks</source>
         <target>Semaines</target>
       </trans-unit>
+      <trans-unit id="dashboard.total_schools">
+        <source>dashboard.total_schools</source>
+        <target>Total Etablissements</target>
+      </trans-unit>
+      <trans-unit id="dashboard.total_companies">
+        <source>dashboard.total_companies</source>
+        <target>Total Entreprises</target>
+      </trans-unit>
       <trans-unit id="dashboard.total_graduates">
         <source>dashboard.total_graduates</source>
         <target>Total Diplômés</target>
@@ -2312,6 +2324,18 @@
       <trans-unit id="error.unauthorized_or_unknown_country">
         <source>error.unauthorized_or_unknown_country</source>
         <target>Pays non autorisé ou inconnu</target>
+      </trans-unit>
+      <trans-unit id="error.fill_in_the_name_of_the_company">
+        <source>error.fill_in_the_name_of_the_company</source>
+        <target>Veuillez renseigner le nom de l\'entreprise</target>
+      </trans-unit>
+      <trans-unit id="error.please_fill_in_the_company_website">
+        <source>error.please_fill_in_the_company_website</source>
+        <target>Veuillez renseigner le site de l\'entreprise</target>
+      </trans-unit>
+      <trans-unit id="error.please_fill_in_the_street_number">
+        <source>error.please_fill_in_the_street_number</source>
+        <target>Veuillez renseigner le numero de la rue</target>
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>

@@ -23,7 +23,7 @@ use App\Tools\Utils;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -47,8 +47,9 @@ class DashboardExtension extends AbstractExtension {
     private LegalStatusRepository $legalStatusRepository;
     private ContractRepository $contractRepository;
     private DegreeRepository $degreeRepository;
+	private TranslatorInterface $translator;
 
-    public function __construct(
+	public function __construct(
         EntityManagerInterface $entityManager,
         RegionRepository $regionRepository,
         CompanyRepository $companyRepository,
@@ -65,6 +66,7 @@ class DashboardExtension extends AbstractExtension {
         LegalStatusRepository $legalStatusRepository,
         ContractRepository $contractRepository,
         DegreeRepository $degreeRepository,
+        TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;
         $this->regionRepository = $regionRepository;
@@ -82,7 +84,8 @@ class DashboardExtension extends AbstractExtension {
         $this->legalStatusRepository = $legalStatusRepository;
         $this->contractRepository = $contractRepository;
         $this->degreeRepository = $degreeRepository;
-    }
+		$this->translator = $translator;
+	}
 
     public function getFunctions(): array {
         return [
@@ -617,7 +620,7 @@ class DashboardExtension extends AbstractExtension {
         $html .= sprintf('  <p style="text-align: center"><strong>%d</strong>', count($globalEntities));
 
         if ($entityName == "School") {
-            $html .= sprintf(' Total Etablissements');
+            $html .= sprintf(' %s', $this->translator->trans('dashboard.total_schools'));
         }
         $html .= sprintf('</p>');
 
