@@ -49,6 +49,10 @@
         <source>menu.information_for_reset_password_with_tag</source>
         <target>Compléter le formulaire, un sms ou un email vous seras envoyé.%tag_br%Il contiendra le code pour initialiser votre mot de passe</target>
       </trans-unit>
+      <trans-unit id="menu.other_phone_number">
+        <source>menu.other_phone_number</source>
+        <target>Autre numéro de téléphone</target>
+      </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
         <target>Téléphone de Connexion</target>
@@ -276,6 +280,10 @@
       <trans-unit id="menu.faculty">
         <source>menu.faculty</source>
         <target>Filière</target>
+      </trans-unit>
+      <trans-unit id="menu.other_activity">
+        <source>menu.other_activity</source>
+        <target>Autre activité</target>
       </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
@@ -769,6 +777,10 @@
         <source>menu.profession</source>
         <target>Profession</target>
       </trans-unit>
+      <trans-unit id="menu.complete">
+        <source>menu.complete</source>
+        <target>renseigner</target>
+      </trans-unit>
       <trans-unit id="menu.see">
         <source>menu.see</source>
         <target>Voir</target>
@@ -900,6 +912,10 @@
       <trans-unit id="menu.a_woman">
         <source>menu.a_woman</source>
         <target>une femme</target>
+      </trans-unit>
+      <trans-unit id="menu.web_site">
+        <source>menu.web_site</source>
+        <target>Site Internet</target>
       </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
@@ -1741,6 +1757,14 @@
         <source>dashboard.weeks</source>
         <target>Semaines</target>
       </trans-unit>
+      <trans-unit id="dashboard.total_schools">
+        <source>dashboard.total_schools</source>
+        <target>Total Etablissements</target>
+      </trans-unit>
+      <trans-unit id="dashboard.total_companies">
+        <source>dashboard.total_companies</source>
+        <target>Total Entreprises</target>
+      </trans-unit>
       <trans-unit id="dashboard.total_graduates">
         <source>dashboard.total_graduates</source>
         <target>Total Diplômés</target>
@@ -2313,6 +2337,26 @@
         <source>error.unauthorized_or_unknown_country</source>
         <target>Pays non autorisé ou inconnu</target>
       </trans-unit>
+      <trans-unit id="error.fill_in_the_name_of_the_company">
+        <source>error.fill_in_the_name_of_the_company</source>
+        <target>Veuillez renseigner le nom de l\'entreprise</target>
+      </trans-unit>
+      <trans-unit id="error.please_fill_in_the_company_website">
+        <source>error.please_fill_in_the_company_website</source>
+        <target>Veuillez renseigner le site de l\'entreprise</target>
+      </trans-unit>
+      <trans-unit id="error.please_fill_in_the_street_number">
+        <source>error.please_fill_in_the_street_number</source>
+        <target>Veuillez renseigner le numero de la rue</target>
+      </trans-unit>
+      <trans-unit id="error.invalid_phone_number">
+        <source>error.invalid_phone_number</source>
+        <target>Numéro de Téléphone invalide</target>
+      </trans-unit>
+      <trans-unit id="error.invalid_email">
+        <source>error.invalid_email</source>
+        <target>Email invalide</target>
+      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target>un homme</target>
@@ -2320,6 +2364,14 @@
       <trans-unit id="une femme">
         <source>une femme</source>
         <target>une femme</target>
+      </trans-unit>
+      <trans-unit id="Centre de Formation Professionnelle (CFP)">
+        <source>Centre de Formation Professionnelle (CFP)</source>
+        <target>Centre de Formation Professionnelle (CFP)</target>
+      </trans-unit>
+      <trans-unit id="Lycée Technique (LT)">
+        <source>Lycée Technique (LT)</source>
+        <target>Lycée Technique (LT)</target>
       </trans-unit>
     </body>
   </file>

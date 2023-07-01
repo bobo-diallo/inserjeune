@@ -49,6 +49,10 @@
         <source>menu.information_for_reset_password_with_tag</source>
         <target>Preencha o formulário, será enviado um SMS ou um e-mail para si.%tag_br%Isso conterá o código para inicializar a sua palavra-passe</target>
       </trans-unit>
+      <trans-unit id="menu.other_phone_number">
+        <source>menu.other_phone_number</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
         <target>Telefone de acesso</target>
@@ -276,6 +280,10 @@
       <trans-unit id="menu.faculty">
         <source>menu.faculty</source>
         <target>Subsector</target>
+      </trans-unit>
+      <trans-unit id="menu.other_activity">
+        <source>menu.other_activity</source>
+        <target/>
       </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
@@ -769,6 +777,10 @@
         <source>menu.profession</source>
         <target>Ocupação</target>
       </trans-unit>
+      <trans-unit id="menu.complete">
+        <source>menu.complete</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.see">
         <source>menu.see</source>
         <target>Ver</target>
@@ -899,6 +911,10 @@
       </trans-unit>
       <trans-unit id="menu.a_woman">
         <source>menu.a_woman</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.web_site">
+        <source>menu.web_site</source>
         <target/>
       </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
@@ -1741,6 +1757,14 @@
         <source>dashboard.weeks</source>
         <target>Semanas</target>
       </trans-unit>
+      <trans-unit id="dashboard.total_schools">
+        <source>dashboard.total_schools</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.total_companies">
+        <source>dashboard.total_companies</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="dashboard.total_graduates">
         <source>dashboard.total_graduates</source>
         <target/>
@@ -2313,12 +2337,40 @@
         <source>error.unauthorized_or_unknown_country</source>
         <target/>
       </trans-unit>
+      <trans-unit id="error.fill_in_the_name_of_the_company">
+        <source>error.fill_in_the_name_of_the_company</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.please_fill_in_the_company_website">
+        <source>error.please_fill_in_the_company_website</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.please_fill_in_the_street_number">
+        <source>error.please_fill_in_the_street_number</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.invalid_phone_number">
+        <source>error.invalid_phone_number</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.invalid_email">
+        <source>error.invalid_email</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target/>
       </trans-unit>
       <trans-unit id="une femme">
         <source>une femme</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Centre de Formation Professionnelle (CFP)">
+        <source>Centre de Formation Professionnelle (CFP)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Lycée Technique (LT)">
+        <source>Lycée Technique (LT)</source>
         <target/>
       </trans-unit>
     </body>
