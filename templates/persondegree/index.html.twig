@@ -169,6 +169,12 @@
        $(document).ready(function () {
           let table = datatable(true)
        });
+
+       let translations = [];
+       getTranslation().then (function (translation) {
+          translations = translation;
+       });
+
        function changePhoneMobile1 (personDegreeId) {
           $('#changePhoneMobile1' + personDegreeId).hide();
           $('#savePhoneMobile1' + personDegreeId).show();
@@ -188,7 +194,7 @@
 
        function savePhoneMobile1(personDegreeId) {
           if($('#inputPhoneMobile1' + personDegreeId).val() != $('#spanPhoneMobile1' + personDegreeId).text()) {
-             if (confirm('Voulez-vous vraiment modifier le Numéro tel ?')) {
+             if (confirm(translations['js.sure_to_modify_tel_number'])) {
                 let locationref = window.location.href.replace("persondegrees", "");
                 let data = {};
                 data['id'] = personDegreeId
@@ -202,7 +208,7 @@
                       $('#inputPhoneMobile1' + personDegreeId).hide();
                       $('#spanPhoneMobile1' + personDegreeId).text(data['phoneMobile1']);
                    } else {
-                      alert('Erreur: Num tel déjà utilisé')
+                      alert(translations['js.error_phone_number_already_used'])
                    }
                 });
              }
@@ -229,7 +235,7 @@
 
        function saveEmail(personDegreeId) {
           if($('#inputEmail' + personDegreeId).val() != $('#spanEmail' + personDegreeId).text()) {
-             if (confirm('Voulez-vous vraiment modifier l\'email ?')) {
+             if (confirm(translations['js.sure_to_modify_email'])) {
                 let locationref = window.location.href.replace("persondegrees", "");
                 let data = {};
                 data['id'] = personDegreeId
@@ -243,7 +249,7 @@
                       $('#inputEmail' + personDegreeId).hide();
                       $('#spanEmail' + personDegreeId).text(data['email']);
                    } else {
-                      alert('Erreur: Email déjà utilisé')
+                      alert(translations['js.error_email_already_used'])
                    }
                 });
              }

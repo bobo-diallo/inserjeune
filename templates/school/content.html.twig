@@ -20,11 +20,11 @@
       //Contrôle du bouton check de localisation pour switch manuel - automatique
       $('#appbundle_school_locationMode').on('click', async function () {
          if ($('#appbundle_school_locationMode').is(":checked")) {
-            if (!confirm("Attention, les coordonnées seront recalculées")) {
+            if (!confirm(translations["js.warning_coordinates_will_be_recalculated"])) {
                $('#appbundle_school_locationMode').prop("checked", false);
             }
          } else {
-            alert("Mode manuel activé");
+            alert(translations["js.manual_mode"]);
          }
 
          //Mise à jour des coordonnées géographique en mode auto
@@ -168,10 +168,10 @@
          let indPhone = $phoneNumber.substr(0, indSchool.length);
 
          if(indPhone != indSchool) {
-            alert("Attention, votre numéro de téléphone doit commencer par " + indSchool + ", veuillez le ressaisir");
+            alert(translations["js.warning,phone_must_begin_part1"] + " " + indSchool + " " + translations["js.warning,phone_must_begin_part2"]);
             $('#appbundle_school_phoneStandard').val(usrphone);
          } else if($phoneNumber != usrphone) {
-            let confirmPhone = confirm("Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro " + $phoneNumber)
+            let confirmPhone = confirm(translations["js.warning_log_in_with_this_new_number"] + " " + $phoneNumber)
             if (confirmPhone == false) {
                $('#appbundle_school_phoneStandard').val(usrphone);
             }
@@ -211,7 +211,7 @@
                   }
                   $("#buttonSchool").css("background-color", "red");
                   $("#buttonSchool").css("border-color", "red");
-                  alert("Attention, vous êtes sur le point de supprimer toutes vos données personnelles")
+                  alert(translations["js.warning_delete_all_personal_data"])
                   // formulaire non rempli, retour situation initiale
                } else {
                   $('#buttonSchool').attr("disabled", true);
@@ -328,7 +328,7 @@
                      });
                      // Alert ajout de secteur d'activité impossible
                   } else {
-                     alert("Ajout de secteur d'activité impossible, les 6 secteurs sont déjà utilisés");
+                     alert(translations["js.addition_sector_impossible_6_sectors_already_used"]);
                   }
                }
 

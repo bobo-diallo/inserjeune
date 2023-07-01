@@ -90,6 +90,12 @@
 
 {% block js %}
     <script>
+        let translations = [];
+        getTranslation().then (function (translation) {
+            translations = translation
+            // console.log(translations);
+        }) ;
+
         let saveMulti=false;
         function checkAllShowMode() {
             let allShow = true;
@@ -112,7 +118,7 @@
                     })
                 }
             } else {
-                alert("Vous ne pouvez pas tout selectionner si une ligne est en mode Edition")
+                alert(translations["js.you_cannot_select_everything_if_line_edit_mode"])
             }
         }
 
@@ -180,7 +186,7 @@
 
             if (edits.length > 0) {
                 let errorNumber = 0;
-                if (confirm("Etes vous sûr de modifier ces " + edits.length + " entrées ?")) {
+                if (confirm(translations["js.sure_edit_these_entries_part1"] + " " + edits.length + " " + translations["js.sure_edit_these_entries_part2"])) {
                     for (let i = 0; i < edits.length; i++) {
                         if ($('#save' + edits[i]).css('display') != 'none') {
                             errorNumber += displayButton('save', edits[i], 'all');
@@ -188,11 +194,11 @@
                     }
 
                     if (errorNumber > 0) {
-                        alert('Veuillez remplir tous les champs requis');
+                        alert(translations['js.Please_complete_all_required_fields']);
                     }
                 }
             } else {
-                alert("Il n'y a aucune entrée à  valider");
+                alert(translations["js.no_entry_to_validate"]);
             }
             saveMulti=false;
         }
@@ -217,7 +223,7 @@
                     }
                 }
             } else {
-                alert("Vous ne pouvez pas supprimes les entrées si une ligne est en mode Edition")
+                alert(translations["js.you_cannot_delete_entries_if_line_in_edit_mode"])
             }
         }
 
@@ -237,26 +243,27 @@
                             mailsTo.push($('#' + userId.attr('id')).text());
 
                         } else if (!$(userEmail).text()) {
-                            err.push("Pas d\'email " + $(userFirstName).text() + " " + $(userName).text())
+                            err.push(translations["js.no_email"] + " " + $(userFirstName).text() + " " + $(userName).text())
 
                         } else {
-                            err.push("Pas de Pwd " + $(userFirstName).text() + " " + $(userName).text())
+                            err.push(translations["js.no_password"] + " " + $(userFirstName).text() + " " + $(userName).text())
                         }
                     }
                 })
                 if(err.length == 0 ) {
                     if (mailsTo.length > 0) {
-                        if (confirm("Etes vous sûr de vouloir envoyer les notification ?")) {
+                        // if (confirm("Etes vous sûr de vouloir envoyer les notification ?")) {
+                        if (confirm(translations["js.sure_send_notifications"])) {
                             $('#idLoading').removeAttr('hidden');
                             $.post(getBaseUrl() + 'sendNotificationEnrollmentCompanies', {'company_ids': mailsTo})
                                 .done(function (data) {
                                     $('#idLoading').attr('hidden', 'hidden');
-                                    alert('Email(s) envoyé(s) avec succès');
+                                    alert(translations['js.emails_sent_successfully']);
                                     $('#tbodyCompany input').prop('checked', false);
                                 })
                                 .fail(function () {
                                     $('#idLoading').attr('hidden', 'hidden');
-                                    alert('Erreur lors de l\'envoi des mails.');
+                                    alert(translations['js.error_while_sending_emails']);
                                 })
                         }
                     }
@@ -264,7 +271,7 @@
                     alert(err);
                 }
             } else {
-                alert("Vous ne pouvez pas envoyer d'email si une ligne est en mode Edition")
+                alert(translations["js.you_cannot_send_an_email_if_line_in_edit_mode"])
             }
         }
 
@@ -492,7 +499,7 @@
                 });
 
                 if (optionValue !== undefined) {
-                    changeSelectOptionByValue('#selectCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
+                    changeSelectOptionByValue('#selectCity' + rowNumber, optionValue, () => alert(translations['js.the_city_of_the_line_not_exist_in_the_system_part1'] + ' ' + ${rowNumber} + ' ' + translations['js.the_city_of_the_line_not_exist_in_the_system_part2']));
                 }
             })
         }
@@ -637,9 +644,9 @@
                     let resConfirm = false;
                     if(type == "one") {
                         resConfirm = true;
-                        let msg = "Etes vous sûr de modifier cette entrée ?"
+                        let msg = translations["js.sure_edit_this_entry"]
                         if ($("#p_phoneStandard" + rowNumber).text() == "") {
-                            msg = "Etes vous sûr de créer cette entrée ?"
+                            msg = translations["js.sure_create_this_entry"]
                         }
                         if (confirm(msg)) {
                             resConfirm = false;
@@ -795,7 +802,7 @@
             }
             if(errorNumber > 0) {
                 if (saveMulti == false) {
-                    alert('Veuillez remplir tous les champs requis');
+                    alert(translations['js.please_complete_all_required_fields']);
                 }
             }
             return errorNumber;
@@ -899,7 +906,7 @@
                         // check minimum data fields
                         if ((fieldNames['nomField'] == null) ||
                             (fieldNames['telephoneField'] ==null)) {
-                            alert(`Le fichier n'est pas valide. Les champs \'nom\' et \'téléphone\' sont obligatoires `);
+                            alert(translations['js.file_invalid_fields_name_and_telephone_mandatory']);
                             return;
                         }
                         // let validHeader = '"Nom","Région","Ville","Téléphone","Email","Secteur","Statut juridique"';
@@ -934,13 +941,13 @@
                         });
 
                         if (errors.length > 0) {
-                            alert('Certaines données sont non conformes, vous devez les corriger manuellement');
+                            alert(translations['js.data_not_compliant_correct_manually']);
                         }
 
                         $('#nbRowImported').val(data.length - 1);
                     }
                     reader.onerror = function (e) {
-                        alert('Le fichier contient des erreurs');
+                        alert(translations['js.file_contains_errors']);
                     }
                 }
             });

@@ -2057,8 +2057,8 @@
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
         <target>Bienvenue ! Avant de répondre au questionnaire d'insertion, merci de compléter votre profil ci-dessous.</target>
       </trans-unit>
-      <trans-unit id="js.Would_you_like_to_update_the_coordinates_of_these">
-        <source>js.Would_you_like_to_update_the_coordinates_of_these</source>
+      <trans-unit id="js.would_you_like_to_update_the_coordinates_of_these">
+        <source>js.would_you_like_to_update_the_coordinates_of_these</source>
         <target>Voulez vous mettre à jour les coordonnées de ces</target>
       </trans-unit>
       <trans-unit id="js.actors">
@@ -2108,6 +2108,170 @@
       <trans-unit id="js.warning,phone_must_begin_part2">
         <source>js.warning,phone_must_begin_part2</source>
         <target>, veuillez le ressaisir</target>
+      </trans-unit>
+      <trans-unit id="js.sure_to_modify_tel_number">
+        <source>js.sure_to_modify_tel_number</source>
+        <target>Voulez-vous vraiment modifier le Numéro tel ?</target>
+      </trans-unit>
+      <trans-unit id="js.sure_to_modify_email">
+        <source>js.sure_to_modify_email</source>
+        <target>Voulez-vous vraiment modifier l\'email ?</target>
+      </trans-unit>
+      <trans-unit id="js.want_delete_these_users_part1">
+        <source>js.want_delete_these_users_part1</source>
+        <target>Voulez vous supprimer ces</target>
+      </trans-unit>
+      <trans-unit id="js.want_delete_these_users_part2">
+        <source>js.want_delete_these_users_part2</source>
+        <target>utilisateurs ?</target>
+      </trans-unit>
+      <trans-unit id="js.want_delete_these_offers_part1">
+        <source>js.want_delete_these_offers_part1</source>
+        <target>Voulez vous supprimer ces</target>
+      </trans-unit>
+      <trans-unit id="js.want_delete_these_offers_part2">
+        <source>js.want_delete_these_offers_part2</source>
+        <target>Offres d'emploi ?</target>
+      </trans-unit>
+      <trans-unit id="js.sure_edit_this_entry">
+        <source>js.sure_edit_this_entry</source>
+        <target>Etes vous sûr de modifier cette entrée ?</target>
+      </trans-unit>
+      <trans-unit id="js.sure_create_this_entry">
+        <source>js.sure_create_this_entry</source>
+        <target>Etes vous sûr de créer cette entrée ?</target>
+      </trans-unit>
+      <trans-unit id="js.sure_edit_these_entries_part1">
+        <source>js.sure_edit_these_entries_part1</source>
+        <target>Etes vous sûr de modifier ces </target>
+      </trans-unit>
+      <trans-unit id="js.sure_edit_these_entries_part2">
+        <source>js.sure_edit_these_entries_part2</source>
+        <target>entrées ?</target>
+      </trans-unit>
+      <trans-unit id="js.sure_send_notifications">
+        <source>js.sure_send_notifications</source>
+        <target>Etes vous sûr de vouloir envoyer les notification ?</target>
+      </trans-unit>
+      <trans-unit id="js.warning_coordinates_will_be_recalculated">
+        <source>js.warning_coordinates_will_be_recalculated</source>
+        <target>Attention, les coordonnées seront recalculées</target>
+      </trans-unit>
+      <trans-unit id="js.warning_log_in_with_this_new_number">
+        <source>js.warning_log_in_with_this_new_number</source>
+        <target>Attention, votre numéro de téléphone va être modifié, vous devrez vous reconnecter avec ce nouveau numéro</target>
+      </trans-unit>
+      <trans-unit id="js.geocode_search_failed">
+        <source>js.geocode_search_failed</source>
+        <target>Echec de recherche Geocode</target>
+      </trans-unit>
+      <trans-unit id="js.error_phone_number_already_used">
+        <source>js.error_phone_number_already_used</source>
+        <target>Erreur: Num tel déjà utilisé</target>
+      </trans-unit>
+      <trans-unit id="js.error_email_already_used">
+        <source>js.error_email_already_used</source>
+        <target>Erreur: Email déjà utilisé</target>
+      </trans-unit>
+      <trans-unit id="js.warning_operation_may_take_several_minutes">
+        <source>js.warning_operation_may_take_several_minutes</source>
+        <target>Attention cette opération peut prendre plusieurs minutes</target>
+      </trans-unit>
+      <trans-unit id="js.error_school_contains_graduates_and_cannot_be_deleted_part1">
+        <source>js.error_school_contains_graduates_and_cannot_be_deleted_part1</source>
+        <target>l'établissement</target>
+      </trans-unit>
+      <trans-unit id="js.error_school_contains_graduates_and_cannot_be_deleted_part2">
+        <source>js.error_school_contains_graduates_and_cannot_be_deleted_part2</source>
+        <target>contient des dipômés et ne peut être supprimé</target>
+      </trans-unit>
+      <trans-unit id="js.error_while_deleting_the_offer">
+        <source>js.error_while_deleting_the_offer</source>
+        <target>erreur lors de la suppression de l'offre</target>
+      </trans-unit>
+      <trans-unit id="js.you_cannot_select_everything_if_line_edit_mode">
+        <source>js.you_cannot_select_everything_if_line_edit_mode</source>
+        <target>Vous ne pouvez pas tout selectionner si une ligne est en mode Edition</target>
+      </trans-unit>
+      <trans-unit id="js.Please_complete_all_required_fields">
+        <source>js.Please_complete_all_required_fields</source>
+        <target>Veuillez remplir tous les champs requis</target>
+      </trans-unit>
+      <trans-unit id="js.no_entry_to_validate">
+        <source>js.no_entry_to_validate</source>
+        <target>Il n'y a aucune entrée à  valider</target>
+      </trans-unit>
+      <trans-unit id="js.you_cannot_delete_entries_if_line_in_edit_mode">
+        <source>js.you_cannot_delete_entries_if_line_in_edit_mode</source>
+        <target>Vous ne pouvez pas supprimes les entrées si une ligne est en mode Edition</target>
+      </trans-unit>
+      <trans-unit id="js.emails_sent_successfully">
+        <source>js.emails_sent_successfully</source>
+        <target>Email(s) envoyé(s) avec succès</target>
+      </trans-unit>
+      <trans-unit id="js.error_while_sending_emails">
+        <source>js.error_while_sending_emails</source>
+        <target>Erreur lors de l\'envoi des mails.</target>
+      </trans-unit>
+      <trans-unit id="js.no_email">
+        <source>js.no_email</source>
+        <target>Pas d\'email</target>
+      </trans-unit>
+      <trans-unit id="js.no_password">
+        <source>js.no_password</source>
+        <target>Pas de Pwd</target>
+      </trans-unit>
+      <trans-unit id="js.you_cannot_send_an_email_if_line_in_edit_mode">
+        <source>js.you_cannot_send_an_email_if_line_in_edit_mode</source>
+        <target>Vous ne pouvez pas envoyer d'email si une ligne est en mode Edition</target>
+      </trans-unit>
+      <trans-unit id="js.the_city_of_the_line_not_exist_in_the_system_part1">
+        <source>js.the_city_of_the_line_not_exist_in_the_system_part1</source>
+        <target>La ville de la ligne</target>
+      </trans-unit>
+      <trans-unit id="js.the_city_of_the_line_not_exist_in_the_system_part2">
+        <source>js.the_city_of_the_line_not_exist_in_the_system_part2</source>
+        <target>n'existe pas dans le system</target>
+      </trans-unit>
+      <trans-unit id="js.please_complete_all_required_fields">
+        <source>js.please_complete_all_required_fields</source>
+        <target>Veuillez remplir tous les champs requis</target>
+      </trans-unit>
+      <trans-unit id="js.file_invalid_fields_name_and_telephone_mandatory">
+        <source>js.file_invalid_fields_name_and_telephone_mandatory</source>
+        <target>Le fichier n'est pas valide. Les champs \'nom\' et \'téléphone\' sont obligatoires</target>
+      </trans-unit>
+      <trans-unit id="js.file_invalid_fields_firstname_lastname_and_telephone_mandatory">
+        <source>js.file_invalid_fields_firstname_lastname_and_telephone_mandatory</source>
+        <target>Le fichier n'est pas valide. Les champs \'nom\', \'prénom\' et \'portable\' sont obligatoires</target>
+      </trans-unit>
+      <trans-unit id="js.data_not_compliant_correct_manually">
+        <source>js.data_not_compliant_correct_manually</source>
+        <target>Certaines données sont non conformes, vous devez les corriger manuellement</target>
+      </trans-unit>
+      <trans-unit id="js.file_contains_errors">
+        <source>js.file_contains_errors</source>
+        <target>Le fichier contient des erreurs</target>
+      </trans-unit>
+      <trans-unit id="js.bad_syntax">
+        <source>js.bad_syntax</source>
+        <target>Mauvaise syntaxe</target>
+      </trans-unit>
+      <trans-unit id="js.addition_sector_impossible_6_sectors_already_used">
+        <source>js.addition_sector_impossible_6_sectors_already_used</source>
+        <target>Ajout de secteur d'activité impossible, les 6 secteurs sont déjà utilisés</target>
+      </trans-unit>
+      <trans-unit id="js.bad_syntax_of_following_fields">
+        <source>js.bad_syntax_of_following_fields</source>
+        <target>Mauvaise syntaxe des champs suivant:</target>
+      </trans-unit>
+      <trans-unit id="js.authorized_fields">
+        <source>js.authorized_fields</source>
+        <target>Champs autorisés</target>
+      </trans-unit>
+      <trans-unit id="js.problems_encountered_during_update_operation_canceled">
+        <source>js.problems_encountered_during_update_operation_canceled</source>
+        <target>problèmes rencontrés lors de l'update, opération annuée</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
