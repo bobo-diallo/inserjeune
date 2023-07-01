@@ -905,6 +905,18 @@
         <source>menu.select</source>
         <target/>
       </trans-unit>
+      <trans-unit id="menu.select_currency">
+        <source>menu.select_currency</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.select_activity">
+        <source>menu.select_activity</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.select_sector">
+        <source>menu.select_sector</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.select_country">
         <source>menu.select_country</source>
         <target/>
@@ -2409,6 +2421,18 @@
         <source>error.invalid_email</source>
         <target/>
       </trans-unit>
+      <trans-unit id="satisfaction_search.job">
+        <source>satisfaction_search.job</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_search.function">
+        <source>satisfaction_search.function</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.monthly_pay">
+        <source>satisfaction_creator.monthly_pay</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target/>
@@ -2423,6 +2447,18 @@
       </trans-unit>
       <trans-unit id="Lycée Technique (LT)">
         <source>Lycée Technique (LT)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Projet_de_mariage">
+        <source>Projet_de_mariage</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Raisons_personnelles">
+        <source>Raisons_personnelles</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Autre raison">
+        <source>Autre raison</source>
         <target/>
       </trans-unit>
     </body>

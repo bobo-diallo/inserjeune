@@ -33,7 +33,7 @@ class SatisfactionCreatorType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control'],
 				'required' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -42,7 +42,7 @@ class SatisfactionCreatorType extends AbstractType {
 			->add('otherActivity', TextType::class, ['attr' => [
 				'class' => 'form-control',
 				'data-error' => 'Autre métier ?',
-				'placeholder' => ' métier'],
+				'placeholder' => 'menu.job'],
 				'required' => false,
 			])
 			->add('legalCompany', CheckboxType::class, ['attr' => [
@@ -51,13 +51,13 @@ class SatisfactionCreatorType extends AbstractType {
 				'required' => false
 			])
 			->add('monthlySalary', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Salaire Mensuel', 'min' => 0],
+				'attr' => ['class' => 'form-control', 'placeholder' => 'satisfaction_creator.monthly_pay', 'min' => 0],
 				'required' => true,
 			])
 			->add('currency', EntityType::class, [
 				'class' => Currency::class,
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez la devise',
+				'placeholder' => 'menu.select_currency',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -77,7 +77,7 @@ class SatisfactionCreatorType extends AbstractType {
 			->add('jobNotFoundOther', TextType::class, ['attr' => [
 				'class' => 'form-control',
 				'data-error' => 'Autre raison d\'emploi non trouvé ?',
-				'placeholder' => ' Raison'],
+				'placeholder' => 'menu.reason'],
 				'required' => false,
 			])
 			->add('createdDate');

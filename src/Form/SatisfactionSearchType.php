@@ -42,18 +42,18 @@ class SatisfactionSearchType extends AbstractType
             'required' => false,
          ])
          ->add('otherFormationDegreeName', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom du diplôme', 'placeholder' => ' Diplôme'],
+            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom du diplôme', 'placeholder' => 'menu.degree'],
             'required' => false
          ])
          ->add('otherFormationActivityName', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le métier', 'placeholder' => ' Métier'],
+            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le métier', 'placeholder' => 'satisfaction_search.job'],
             'required' => false
          ])
          ->add('degree', EntityType::class, [
             'class' => Degree::class,
             'attr' => ['class' => 'form-control'],
             'required' => true,
-            'placeholder' => 'Sélectionnez'
+            'placeholder' => 'menu.select'
          ])
          ->add('searchWork', CheckboxType::class, [
             'attr' => ['class' => 'form-control', 'label' => 'Recherche d\'emploi ?'],
@@ -61,11 +61,12 @@ class SatisfactionSearchType extends AbstractType
          ])
          ->add('noSearchWorkReason', ChoiceType::class, [
             'choices' => [
-               'Projet de mariage et/ou d’avoir des enfants' => 'Projet de mariage et/ou d’avoir des enfants',
-               'Raisons personnelles' => 'Raisons personnelles',
+               // 'Projet de mariage et/ou d’avoir des enfants' => 'Projet de mariage et/ou d’avoir des enfants',
+               'Projet_de_mariage' => 'Projet de mariage et/ou d\’avoir des enfants',
+               'Raisons_personnelles' => 'Raisons personnelles',
             ],
             'attr' => ['class' => 'form-control'],
-            'placeholder' => 'Sélectionnez',
+            'placeholder' => 'menu.select',
             'required' => true,
          ])
          ->add('activeVolunteer', CheckboxType::class, [
@@ -76,18 +77,18 @@ class SatisfactionSearchType extends AbstractType
             'class' => SectorArea::class,
             'attr' => ['class' => 'form-control'],
             'required' => true,
-            'placeholder' => 'Sélectionnez',
+            'placeholder' => 'menu.select',
             'query_builder' => function (EntityRepository $entityRepository) {
                return $entityRepository->createQueryBuilder('sa')
                   ->orderBy('sa.name', 'ASC');
             }
          ])
          ->add('otherDomainVolunteer', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Autre activité de bénévolat ?', 'placeholder' => ' Métier'],
+            'attr' => ['class' => 'form-control', 'data-error' => 'Autre activité de bénévolat ?', 'placeholder' => 'satisfaction_search.job'],
             'required' => false
          ])
          ->add('jobVolunteer', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Quelle fonction bénévole ?', 'placeholder' => ' Fonction'],
+            'attr' => ['class' => 'form-control', 'data-error' => 'Quelle fonction bénévole ?', 'placeholder' => 'satisfaction_search.function'],
             'required' => false
          ])
          ->add('jobFromFormation', CheckboxType::class, ['attr' => [
@@ -116,7 +117,7 @@ class SatisfactionSearchType extends AbstractType
          ->add('jobNotFoundOther', TextType::class, ['attr' => [
             'class' => 'form-control',
             'data-error' => 'Autre raison d\'emploi non trouvé ?',
-            'placeholder' => ' Raison'],
+            'placeholder' => 'menu.reason'],
             'required' => false,
          ])
          ->add('confirmed', HiddenType::class, ['mapped' => false])
@@ -124,7 +125,7 @@ class SatisfactionSearchType extends AbstractType
             'class' => SectorArea::class,
             'attr' => ['class' => 'form-control' ],
             'required' => false,
-            'placeholder' => 'Sélectionnez',
+            'placeholder' => 'menu.select',
             'query_builder' => function (EntityRepository $entityRepository) {
                return $entityRepository->createQueryBuilder('sa')
                   ->orderBy('sa.name', 'ASC');

@@ -134,12 +134,12 @@ class ActivityService {
 			[
 				'class' => Activity::class,
 				'choice_label' => 'name',
-				'placeholder' => $activities ? 'Selectionnez le métier/filière' : 'Selectionnez le secteur d\'activité',
+				'placeholder' => $activities ? 'menu.select_activity' : 'menu.select_sector',
 				'auto_initialize' => false,
 				'choices' => $data ? $data : [],
 				'attr' => ['class' => 'form-control'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('a')
 						->orderBy('a.name', 'ASC');
@@ -157,7 +157,7 @@ class ActivityService {
 				'class' => Activity::class,
 				'choice_label' => 'name',
 				'multiple' => true,
-				'placeholder' => $activities ? 'Selectionnez le métier/filière' : 'Selectionnez le secteur d\'activité',
+				'placeholder' => $activities ? 'menu.select_activity' : 'menu.select_sector',
 				'auto_initialize' => false,
 				'choices' => $activities ? $activities : [],
 				'data' => $activities,
