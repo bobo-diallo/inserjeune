@@ -31,11 +31,15 @@ class CompanyType extends AbstractType
    {
       $builder
          ->add('name', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom de l\'entreprise', 'placeholder' => 'Nom'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'error.fill_in_the_name_of_the_company',
+                'placeholder' => 'menu.lastname'],
             'required' => true
          ])
          ->add('url', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le site de l\'entreprise', 'placeholder' => 'Site Internet'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'error.please_fill_in_the_company_website',
+                'placeholder' => 'menu.web_site'],
             'required' => false
          ])
          ->add('agreeRgpd', CheckboxType::class, [
@@ -43,37 +47,47 @@ class CompanyType extends AbstractType
             'required' => false
          ])
          ->add('addressNumber', TextType::class, [
-            'attr' => ['class' => 'form-control', 'placeholder' => 'Numero adresse'],
+            'attr' => ['class' => 'form-control', 'placeholder' => 'menu.address_number'],
             'required' => false
          ])
          ->add('addressRoad', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le numero de la rue', 'placeholder' => 'Rue'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'error.please_fill_in_the_street_name',
+                'placeholder' => 'menu.street'],
             'required' => false
          ])
          ->add('addressLocality', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 4 caractères', 'data-minlength' => '4', 'placeholder' => 'Localité'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'Minimum 4 caractères', 'data-minlength' => '4',
+                'placeholder' => 'menu.location'],
             'required' => false
          ])
          ->add('otherCity', TextType::class, [
-            'attr' => ['class' => 'form-control', 'placeholder' => 'autre ville'],
+            'attr' => ['class' => 'form-control', 'placeholder' => 'city.other_city'],
             'required' => false
          ])
          ->add('phoneStandard', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Téléphone est invalide', 'placeholder' => 'Téléphone de connexion'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'error.invalid_phone_number',
+                'placeholder' => 'menu.login_phone'],
             'required' => true
          ])
          ->add('phoneOther', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Phone invalide', 'placeholder' => 'Autre téléphone'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'error.invalid_phone_number',
+                'placeholder' => 'menu.other_phone_number'],
             'required' => false
          ])
          ->add('email', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Email est invalide', 'placeholder' => 'Email'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'error.invalid_email',
+                'placeholder' => 'menu.email'],
             'required' => true
          ])
          ->add('sectorArea', EntityType::class, [
             'class' => SectorArea::class,
             'required' => true,
-            'placeholder' => 'Sélectionnez',
+            'placeholder' => 'menu.select',
             'attr' => ['class' => 'form-control'],
             'query_builder' => function (EntityRepository $entityRepository) {
                return $entityRepository->createQueryBuilder('sa')
@@ -83,7 +97,7 @@ class CompanyType extends AbstractType
          ->add('legalStatus', EntityType::class, [
             'class' => LegalStatus::class,
             'choice_label' => 'name',
-            'placeholder' => 'Sélectionnez',
+            'placeholder' => 'menu.select',
             'attr' => ['class' => 'form-control']
          ])
          ->add('socialNetworks', EntityType::class, [
@@ -93,11 +107,15 @@ class CompanyType extends AbstractType
          ])
 
 	      ->add('latitude', TextType::class, [
-		      'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la latitude', 'placeholder' => 'latitude'],
+		      'attr' => ['class' => 'form-control',
+                  'data-error' => 'menu.complete' . " " . 'menu.latitude',
+                  'placeholder' => 'menu.latitude'],
 		      'required' => false
 	      ])
 	      ->add('longitude', TextType::class, [
-		      'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la longitude', 'placeholder' => 'longitude'],
+		      'attr' => ['class' => 'form-control',
+                  'data-error' => 'menu.complete' . " " . 'menu.longitude',
+                  'placeholder' => 'menu.longitude'],
 		      'required' => false
 	      ])
 	      ->add('locationMode', CheckboxType::class, [

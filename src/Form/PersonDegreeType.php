@@ -267,13 +267,13 @@ class PersonDegreeType extends AbstractType {
 			->add('latitude', TextType::class, [
 				'attr' => ['class' => 'form-control',
                     'data-error' => 'graduate.complete' . ' la latitude',
-                    'placeholder' => 'latitude'],
+                    'placeholder' => 'menu.latitude'],
 				'required' => false
 			])
 			->add('longitude', TextType::class, [
 				'attr' => ['class' => 'form-control',
-                    'data-error' => 'graduate.complete' . ' la longitude',
-                    'placeholder' => 'longitude'],
+                    'data-error' => 'menu.complete' . ' la longitude',
+                    'placeholder' => 'menu.longitude'],
 				'required' => false
 			])
 			->add('locationMode', CheckboxType::class, [

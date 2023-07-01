@@ -37,13 +37,13 @@ class SchoolType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Nom'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'menu.name'],
 				'required' => true
 			])
 			->add('type', ChoiceType::class, [
 				'choices' => [
-					' ' => '',
-					'Centre de Formation Professionnelle (CFP)' => 'centre de formation professionnelle',
+					'menu.select' => '',
+                    'Centre de Formation Professionnelle (CFP)' => 'centre de formation professionnelle',
 					'Lycée Technique (LT)' => 'lycée technique',
 				],
 				'attr' => ['class' => 'form-control'],
@@ -54,39 +54,54 @@ class SchoolType extends AbstractType {
 				'required' => false
 			])
 			->add('description', TextareaType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Description'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.description'],
 				'required' => false
 			])
 			->add('addressNumber', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Numéro adresse'],
+				'attr' => ['class' => 'form-control', 'placeholder' => 'menu.address_number'],
 				'required' => false
 			])
 			->add('addressLocality', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Localité'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.location'],
 				'required' => false
 			])
 			->add('addressRoad', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Rue'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 ' . 'menu.characters',
+                    'placeholder' => 'menu.street'],
 				'required' => false
 			])
 			->add('phoneStandard', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Phone invalide', 'placeholder' => 'Téléphone de connexion'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_phone',
+                    'placeholder' => 'menu.login_phone'],
 				'required' => true
 			])
 			->add('phoneOther', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Phone invalide', 'placeholder' => 'Autre téléphone'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_phone',
+                    'placeholder' => 'menu.other_phone_number'],
 				'required' => false
 			])
 			->add('email', EmailType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Email invalide', 'placeholder' => 'Email'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'error.invalid_mail',
+                    'placeholder' => 'menu.email'],
 				'required' => true
 			])
 			->add('latitude', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la latitude', 'placeholder' => 'latitude'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'menu.complete' . " " . 'menu.latitude',
+                    'placeholder' => 'menu.latitude'],
 				'required' => false
 			])
 			->add('longitude', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'renseigner la longitude', 'placeholder' => 'longitude'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'menu.complete' . " " . 'menu.longitude',
+                    'placeholder' => 'menu.longitude'],
 				'required' => false
 			])
 			->add('locationMode', CheckboxType::class, [
@@ -99,7 +114,8 @@ class SchoolType extends AbstractType {
 				'required' => false
 			])
 			->add('registration', TextType::class, [
-				'attr' => ['class' => 'form-control'],
+				'attr' => ['class' => 'form-control',
+                    'placeholder' => 'menu.registration'],
 				'required' => false
 			])
 			->add('socialNetworks', EntityType::class, [
@@ -110,7 +126,7 @@ class SchoolType extends AbstractType {
 			->add('country', EntityType::class, [
 				'class' => Country::class,
 				'required' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control', 'value' => ''],
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
@@ -123,13 +139,13 @@ class SchoolType extends AbstractType {
 				'attr' => ['class' => 'form-control'],
 				'required' => true,
 				'multiple' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 			])
 			->add('sectorArea1', EntityType::class, [
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control school_sectorArea'],
 				'required' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -139,7 +155,7 @@ class SchoolType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control school_sectorArea'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -149,7 +165,7 @@ class SchoolType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control school_sectorArea'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -159,7 +175,7 @@ class SchoolType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control  school_sectorArea'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -169,7 +185,7 @@ class SchoolType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control  school_sectorArea'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -179,19 +195,19 @@ class SchoolType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control  school_sectorArea'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
 				}
 			])
-			->add('otherDegree', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre diplôme'], 'required' => false])
-			->add('otherActivity1', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre activité'], 'required' => false])
-			->add('otherActivity2', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre activité'], 'required' => false])
-			->add('otherActivity3', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre activité'], 'required' => false])
-			->add('otherActivity4', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre activité'], 'required' => false])
-			->add('otherActivity5', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre activité'], 'required' => false])
-			->add('otherActivity6', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'Autre activité'], 'required' => false]);
+			->add('otherDegree', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_degree'], 'required' => false])
+			->add('otherActivity1', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])
+			->add('otherActivity2', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])
+			->add('otherActivity3', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])
+			->add('otherActivity4', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])
+			->add('otherActivity5', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])
+			->add('otherActivity6', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false]);
 
 		$this->cityService->addCity($builder, 'city', true);
 		$this->activityService->addActivity($builder, 'activities1', 'sectorArea1');
@@ -217,5 +233,4 @@ class SchoolType extends AbstractType {
 	public function getBlockPrefix(): string {
 		return 'appbundle_school';
 	}
-
 }

@@ -119,88 +119,90 @@
                 });
             }
 
-            function getCompanyMapAddress() {
-                let number = $('#appbundle_company_addressNumber').val();
-                let road = $('#appbundle_company_addressRoad').val();
-                let locality = $('#appbundle_company_addressLocality').val();
-                let city = $('#appbundle_company_addressCity option:selected').text();
-                let region = $('#appbundle_company_region option:selected').text();
-                let country = $('#appbundle_company_country option:selected').text();
-                return (createMapsAddress(number, road, locality, city, region, country));
-            }
 
-            function getCompanyCityMapAddress() {
-                let city = $('#appbundle_company_addressCity option:selected').text();
-                let country = $('#appbundle_company_country option:selected').text();
-                return (createMapsAddress(null, null, null, city, null, country));
-            }
+        });
 
-            async function preventDefaultSubmit() {
-                // mise à jour mapAdresse et calcul des lat et longitude en mode auto
-                // -----------------------------------------------------
-                if ($('#appbundle_company_locationMode').not(":checked")) {
-                    if (($('#appbundle_company_latitude').val() == null) ||
-                        ($('#appbundle_company_latitude').val() == 0) ||
-                        ($('#appbundle_company_longitude').val() == null) ||
-                        ($('#appbundle_company_longitude').val() == 0)) {
-                        $('#appbundle_company_locationMode').prop('checked', true)
-                    }
+        function getCompanyMapAddress() {
+            let number = $('#appbundle_company_addressNumber').val();
+            let road = $('#appbundle_company_addressRoad').val();
+            let locality = $('#appbundle_company_addressLocality').val();
+            let city = $('#appbundle_company_addressCity option:selected').text();
+            let region = $('#appbundle_company_region option:selected').text();
+            let country = $('#appbundle_company_country option:selected').text();
+            return (createMapsAddress(number, road, locality, city, region, country));
+        }
+
+        function getCompanyCityMapAddress() {
+            let city = $('#appbundle_company_addressCity option:selected').text();
+            let country = $('#appbundle_company_country option:selected').text();
+            return (createMapsAddress(null, null, null, city, null, country));
+        }
+
+        async function preventDefaultSubmit() {
+            // mise à jour mapAdresse et calcul des lat et longitude en mode auto
+            // -----------------------------------------------------
+            if ($('#appbundle_company_locationMode').not(":checked")) {
+                if (($('#appbundle_company_latitude').val() == null) ||
+                    ($('#appbundle_company_latitude').val() == 0) ||
+                    ($('#appbundle_company_longitude').val() == null) ||
+                    ($('#appbundle_company_longitude').val() == 0)) {
+                    $('#appbundle_company_locationMode').prop('checked', true)
                 }
-                if ($('#appbundle_company_locationMode').is(":checked")) {
-                    let mapAdresse = getCompanyMapAddress();
+            }
+            if ($('#appbundle_company_locationMode').is(":checked")) {
+                let mapAdresse = getCompanyMapAddress();
 
-                    if (($('#appbundle_company_mapsAddress').val() != mapAdresse) ||
-                        ($('#appbundle_company_latitude').val().length == null) ||
-                        ($('#appbundle_company_latitude').val().length == 0) ||
-                        ($('#appbundle_company_longitude').val().length == null) ||
-                        ($('#appbundle_company_longitude').val().length == 0)) {
-                        $('#appbundle_company_mapsAddress').val(mapAdresse);
+                if (($('#appbundle_company_mapsAddress').val() != mapAdresse) ||
+                    ($('#appbundle_company_latitude').val().length == null) ||
+                    ($('#appbundle_company_latitude').val().length == 0) ||
+                    ($('#appbundle_company_longitude').val().length == null) ||
+                    ($('#appbundle_company_longitude').val().length == 0)) {
+                    $('#appbundle_company_mapsAddress').val(mapAdresse);
 
-                        //recherche des coordonnées avec l'adresse complète
-                        if (await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude') == true) {
-                            //recherche des coordonnées avec uniquement l'adresse de la ville
-                            await geocodeAddressLocation(getCompanyCityMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
-                        }
-
-                        // vérifie si les coordonnées pas déjà utilisées avec autre établissement
-                        let url = window.location.toString();
-                        url = url.replace('/edit', '/getCompaniesByCoordinates');
-                        // alert(url);
-
-                        //creation de la data pour json
-                        let current_latitude = $('#appbundle_company_latitude').val();
-                        let current_longitude = $('#appbundle_company_longitude').val();
-                        let gap = 0.0001;
-                        let data = {
-                            "latitude": current_latitude,
-                            "longitude": current_longitude,
-                            "gap": gap,
-                        };
-
-                        // appel ajax en get
-                        await $.get(url, data).done(function (result) {
-                            let current_id = result['company_id'];
-                            let coordinates = result['coordinates'];
-                            console.log('current Id = ' + current_id);
-                            console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
-
-                            // mise à jour des coordonnées recalculées
-                            $('#appbundle_company_latitude').val(coordinates["latitude"]);
-                            $('#appbundle_company_longitude').val(coordinates["longitude"]);
-                            $('#appbundle_company_locationMode').prop("checked", false);
-                        });
-
-                        setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
-                            console.log('Coordonnees map recupérées ....');
-                            $('#submitCompany').trigger('click');
-                        }, 2000)
-                    } else {
-                        $('#submitCompany').trigger('click');
+                    //recherche des coordonnées avec l'adresse complète
+                    if (await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude') == true) {
+                        //recherche des coordonnées avec uniquement l'adresse de la ville
+                        await geocodeAddressLocation(getCompanyCityMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
                     }
+
+                    // vérifie si les coordonnées pas déjà utilisées avec autre établissement
+                    let url = window.location.toString();
+                    url = url.replace('/edit', '/getCompaniesByCoordinates');
+                    // alert(url);
+
+                    //creation de la data pour json
+                    let current_latitude = $('#appbundle_company_latitude').val();
+                    let current_longitude = $('#appbundle_company_longitude').val();
+                    let gap = 0.0001;
+                    let data = {
+                        "latitude": current_latitude,
+                        "longitude": current_longitude,
+                        "gap": gap,
+                    };
+
+                    // appel ajax en get
+                    await $.get(url, data).done(function (result) {
+                        let current_id = result['company_id'];
+                        let coordinates = result['coordinates'];
+                        console.log('current Id = ' + current_id);
+                        console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
+
+                        // mise à jour des coordonnées recalculées
+                        $('#appbundle_company_latitude').val(coordinates["latitude"]);
+                        $('#appbundle_company_longitude').val(coordinates["longitude"]);
+                        $('#appbundle_company_locationMode').prop("checked", false);
+                    });
+
+                    setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
+                        console.log('Coordonnees map recupérées ....');
+                        $('#submitCompany').trigger('click');
+                    }, 2000)
                 } else {
                     $('#submitCompany').trigger('click');
                 }
+            } else {
+                $('#submitCompany').trigger('click');
             }
-        });
+        }
     </script>
 {% endblock %}

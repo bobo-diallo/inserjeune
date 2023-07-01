@@ -49,6 +49,10 @@
         <source>menu.information_for_reset_password_with_tag</source>
         <target>Compléter le formulaire, un sms ou un email vous seras envoyé.%tag_br%Il contiendra le code pour initialiser votre mot de passe</target>
       </trans-unit>
+      <trans-unit id="menu.other_phone_number">
+        <source>menu.other_phone_number</source>
+        <target>Autre numéro de téléphone</target>
+      </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
         <target>Téléphone de Connexion</target>
@@ -276,6 +280,10 @@
       <trans-unit id="menu.faculty">
         <source>menu.faculty</source>
         <target>Filière</target>
+      </trans-unit>
+      <trans-unit id="menu.other_activity">
+        <source>menu.other_activity</source>
+        <target>Autre activité</target>
       </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
@@ -768,6 +776,10 @@
       <trans-unit id="menu.profession">
         <source>menu.profession</source>
         <target>Profession</target>
+      </trans-unit>
+      <trans-unit id="menu.complete">
+        <source>menu.complete</source>
+        <target>renseigner</target>
       </trans-unit>
       <trans-unit id="menu.see">
         <source>menu.see</source>
@@ -2344,6 +2356,14 @@
       <trans-unit id="une femme">
         <source>une femme</source>
         <target>une femme</target>
+      </trans-unit>
+      <trans-unit id="Centre de Formation Professionnelle (CFP)">
+        <source>Centre de Formation Professionnelle (CFP)</source>
+        <target>Centre de Formation Professionnelle (CFP)</target>
+      </trans-unit>
+      <trans-unit id="Lycée Technique (LT)">
+        <source>Lycée Technique (LT)</source>
+        <target>Lycée Technique (LT)</target>
       </trans-unit>
     </body>
   </file>

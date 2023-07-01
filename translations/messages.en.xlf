@@ -49,6 +49,10 @@
         <source>menu.information_for_reset_password_with_tag</source>
         <target>Complete the form, an SMS or an email will be sent to you.%tag_br%It will contain the code to initialize your password</target>
       </trans-unit>
+      <trans-unit id="menu.other_phone_number">
+        <source>menu.other_phone_number</source>
+        <target>Other phone number</target>
+      </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
         <target>Login phone</target>
@@ -276,6 +280,10 @@
       <trans-unit id="menu.faculty">
         <source>menu.faculty</source>
         <target>Subsector</target>
+      </trans-unit>
+      <trans-unit id="menu.other_activity">
+        <source>menu.other_activity</source>
+        <target>Other activity</target>
       </trans-unit>
       <trans-unit id="menu.activity">
         <source>menu.activity</source>
@@ -768,6 +776,10 @@
       <trans-unit id="menu.profession">
         <source>menu.profession</source>
         <target>Occupation</target>
+      </trans-unit>
+      <trans-unit id="menu.complete">
+        <source>menu.complete</source>
+        <target>Complete</target>
       </trans-unit>
       <trans-unit id="menu.see">
         <source>menu.see</source>
@@ -2344,6 +2356,14 @@
       <trans-unit id="une femme">
         <source>une femme</source>
         <target>a woman</target>
+      </trans-unit>
+      <trans-unit id="Centre de Formation Professionnelle (CFP)">
+        <source>Centre de Formation Professionnelle (CFP)</source>
+        <target>Vocational Training Center (VTC)</target>
+      </trans-unit>
+      <trans-unit id="Lycée Technique (LT)">
+        <source>Lycée Technique (LT)</source>
+        <target>Technical School (TC)</target>
       </trans-unit>
     </body>
   </file>

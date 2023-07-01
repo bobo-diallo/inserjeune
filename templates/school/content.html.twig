@@ -17,341 +17,348 @@
            type="text/javascript">
    </script>
    <script>
-      //Contrôle du bouton check de localisation pour switch manuel - automatique
-      $('#appbundle_school_locationMode').on('click', async function () {
-         if ($('#appbundle_school_locationMode').is(":checked")) {
-            if (!confirm(translations["js.warning_coordinates_will_be_recalculated"])) {
-               $('#appbundle_school_locationMode').prop("checked", false);
-            }
-         } else {
-            alert(translations["js.manual_mode"]);
-         }
+      let translations = [];
+      getTranslation().then (function (translation) {
+         translations = translation;
 
-         //Mise à jour des coordonnées géographique en mode auto
-         if ($('#appbundle_school_locationMode').is(":checked")) {
-            $('#appbundle_school_latitude').val("");
-            $('#appbundle_school_longitude').val("");
-
-            //recherche des coordonnées avec l'adresse complète
-            if (await geocodeAddressLocation(getSchoolMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude') == true) {
-               //recherche des coordonnées avec uniquement l'adresse de la ville
-               await geocodeAddressLocation(getSchoolCityMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude')
-            }
-
-            // vérifie si les coordonnées pas déjà utilisées avec autre établissement
-            let url = window.location.toString();
-            url = url.replace('/edit', '/getSchoolsByCoordinates');
-            // alert(url);
-
-            //creation de la data pour json
-            let current_latitude = $('#appbundle_school_latitude').val();
-            let current_longitude = $('#appbundle_school_longitude').val();
-            let gap = 0.0001;
-            let data = { "latitude" : current_latitude,
-                         "longitude" : current_longitude,
-                         "gap" : gap,
-            };
-
-            // appel ajax en get
-            await $.get(url, data).done(function (result) {
-               let current_id = result['school_id'];
-               let coordinates = result['coordinates'];
-               // console.log('current Id = ' + current_id);
-               // console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
-
-               // mise à jour des coordonnées recalculées
-               $('#appbundle_school_latitude').val(coordinates["latitude"]);
-               $('#appbundle_school_longitude').val(coordinates["longitude"]);
-               $('#appbundle_school_locationMode').prop("checked", false);
-            });
-         }
-      });
-      // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
-      if ($('#selectedCountry').val() !== '') {
-         countryEvent("#selectedCountry", "school");
-      }
-
-      let idPrefix = '#appbundle_school_';
-      let allActivities = getAllActivities('#allActivities');
-
-      // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
-      initActivities(allActivities, idPrefix, 'sectorArea1', 'activities1', true,  function () {
-         initChampsAutre(idPrefix, "activities1", "otherActivity1", ".hide_flex_otherActivity1", "Autre métier")
-         masquageChampsAutre(idPrefix, "activities1", "otherActivity1", ".hide_flex_otherActivity1")
-      });
-      initActivities(allActivities, idPrefix, 'sectorArea2', 'activities2', true, function () {
-         initChampsAutre(idPrefix, "activities2", "otherActivity2", ".hide_flex_otherActivity2", "Autre métier")
-         masquageChampsAutre(idPrefix, "activities2", "otherActivity2", ".hide_flex_otherActivity2")
-      });
-      initActivities(allActivities, idPrefix, 'sectorArea3', 'activities3', true, function () {
-         initChampsAutre(idPrefix, "activities3", "otherActivity3", ".hide_flex_otherActivity3", "Autre métier")
-         masquageChampsAutre(idPrefix, "activities3", "otherActivity3", ".hide_flex_otherActivity3")
-      });
-      initActivities(allActivities, idPrefix, 'sectorArea4', 'activities4', true, function () {
-         initChampsAutre(idPrefix, "activities4", "otherActivity4", ".hide_flex_otherActivity4", "Autre métier")
-         masquageChampsAutre(idPrefix, "activities4", "otherActivity4", ".hide_flex_otherActivity4")
-      });
-      initActivities(allActivities, idPrefix, 'sectorArea5', 'activities5', true, function () {
-         initChampsAutre(idPrefix, "activities5", "otherActivity5", ".hide_flex_otherActivity5", "Autre métier")
-         masquageChampsAutre(idPrefix, "activities5", "otherActivity5", ".hide_flex_otherActivity5")
-      });
-      initActivities(allActivities, idPrefix, 'sectorArea6', 'activities6', true, function () {
-         initChampsAutre(idPrefix, "activities6", "otherActivity6", ".hide_flex_otherActivity6", "Autre métier")
-         masquageChampsAutre(idPrefix, "activities6", "otherActivity6", ".hide_flex_otherActivity6")
-      });
-
-      // initialisation des zones masquées
-      initChampsAutre(idPrefix, "degrees", "otherDegree", ".hide_flex_otherDegree", "Autre diplôme");
-
-      // Event
-      // masquage, affichage des chapitres
-      masquageChampsAutre(idPrefix, "degrees", "otherDegree", ".hide_flex_otherDegree");
-
-      // Event
-      // ecoute changement sur SectorArea
-      listenChangeSectorArea(allActivities, idPrefix, 'sectorArea1', 'activities1', 'otherActivity1', '.hide_flex_otherActivity1', true);
-      listenChangeSectorArea(allActivities, idPrefix, 'sectorArea2', 'activities2', 'otherActivity2', '.hide_flex_otherActivity2', true);
-      listenChangeSectorArea(allActivities, idPrefix, 'sectorArea3', 'activities3', 'otherActivity3', '.hide_flex_otherActivity3', true);
-      listenChangeSectorArea(allActivities, idPrefix, 'sectorArea4', 'activities4', 'otherActivity4', '.hide_flex_otherActivity4', true);
-      listenChangeSectorArea(allActivities, idPrefix, 'sectorArea5', 'activities5', 'otherActivity5', '.hide_flex_otherActivity5', true);
-      listenChangeSectorArea(allActivities, idPrefix, 'sectorArea6', 'activities6', 'otherActivity6', '.hide_flex_otherActivity6', true);
-
-      // Event
-      // met les secteurs déja affichés en hidden dans les 6 sectorAreas
-      maskSectorAreaExistingOption();
-      $('.school_sectorArea').on('change', function () {
-         maskSectorAreaExistingOption()
-      })
-      function maskSectorAreaExistingOption() {
-         // crée une table des secteurs selectionnés
-         let sectorSelected = [];
-         $('.school_sectorArea').each(function () {
-            if($(this).find("option:selected").val())
-               sectorSelected.push($(this).find("option:selected").val());
-         })
-
-         //recherche dans les autres champs sectorArea
-         $('.school_sectorArea option').each(function () {
-            //cache l'option si dans la table
-
-            if ($.inArray($(this).val(), sectorSelected) !== -1) {
-               let idSelect = "#" + $(this).parent().attr('id');
-               let currentOption = $(idSelect + ' option:selected').val();
-               // console.log($(idSelect + ' option:selected').text());
-               if(currentOption != $(this).val())
-                  $(this).hide();
-
-               //montre l'option sinon
+         //Contrôle du bouton check de localisation pour switch manuel - automatique
+         $('#appbundle_school_locationMode').on('click', async function () {
+            if ($('#appbundle_school_locationMode').is(":checked")) {
+               if (!confirm(translations["js.warning_coordinates_will_be_recalculated"])) {
+                  $('#appbundle_school_locationMode').prop("checked", false);
+               }
             } else {
-               $(this).show();
+               alert(translations["js.manual_mode"]);
             }
+
+            //Mise à jour des coordonnées géographique en mode auto
+            if ($('#appbundle_school_locationMode').is(":checked")) {
+               $('#appbundle_school_latitude').val("");
+               $('#appbundle_school_longitude').val("");
+
+               //recherche des coordonnées avec l'adresse complète
+               if (await geocodeAddressLocation(getSchoolMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude') == true) {
+                  //recherche des coordonnées avec uniquement l'adresse de la ville
+                  await geocodeAddressLocation(getSchoolCityMapAddress(), '#appbundle_school_latitude', '#appbundle_school_longitude')
+               }
+
+               // vérifie si les coordonnées pas déjà utilisées avec autre établissement
+               let url = window.location.toString();
+               url = url.replace('/edit', '/getSchoolsByCoordinates');
+               // alert(url);
+
+               //creation de la data pour json
+               let current_latitude = $('#appbundle_school_latitude').val();
+               let current_longitude = $('#appbundle_school_longitude').val();
+               let gap = 0.0001;
+               let data = {
+                  "latitude": current_latitude,
+                  "longitude": current_longitude,
+                  "gap": gap,
+               };
+
+               // appel ajax en get
+               await $.get(url, data).done(function (result) {
+                  let current_id = result['school_id'];
+                  let coordinates = result['coordinates'];
+                  // console.log('current Id = ' + current_id);
+                  // console.log(coordinates["latitude"] + "," + coordinates["longitude"]);
+
+                  // mise à jour des coordonnées recalculées
+                  $('#appbundle_school_latitude').val(coordinates["latitude"]);
+                  $('#appbundle_school_longitude').val(coordinates["longitude"]);
+                  $('#appbundle_school_locationMode').prop("checked", false);
+               });
+            }
+         });
+         // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
+         if ($('#selectedCountry').val() !== '') {
+            countryEvent("#selectedCountry", "school");
+         }
+
+         let idPrefix = '#appbundle_school_';
+         let allActivities = getAllActivities('#allActivities');
+
+         // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
+         initActivities(allActivities, idPrefix, 'sectorArea1', 'activities1', true, function () {
+            initChampsAutre(idPrefix, "activities1", "otherActivity1", ".hide_flex_otherActivity1", "Autre métier")
+            masquageChampsAutre(idPrefix, "activities1", "otherActivity1", ".hide_flex_otherActivity1")
+         });
+         initActivities(allActivities, idPrefix, 'sectorArea2', 'activities2', true, function () {
+            initChampsAutre(idPrefix, "activities2", "otherActivity2", ".hide_flex_otherActivity2", "Autre métier")
+            masquageChampsAutre(idPrefix, "activities2", "otherActivity2", ".hide_flex_otherActivity2")
+         });
+         initActivities(allActivities, idPrefix, 'sectorArea3', 'activities3', true, function () {
+            initChampsAutre(idPrefix, "activities3", "otherActivity3", ".hide_flex_otherActivity3", "Autre métier")
+            masquageChampsAutre(idPrefix, "activities3", "otherActivity3", ".hide_flex_otherActivity3")
+         });
+         initActivities(allActivities, idPrefix, 'sectorArea4', 'activities4', true, function () {
+            initChampsAutre(idPrefix, "activities4", "otherActivity4", ".hide_flex_otherActivity4", "Autre métier")
+            masquageChampsAutre(idPrefix, "activities4", "otherActivity4", ".hide_flex_otherActivity4")
+         });
+         initActivities(allActivities, idPrefix, 'sectorArea5', 'activities5', true, function () {
+            initChampsAutre(idPrefix, "activities5", "otherActivity5", ".hide_flex_otherActivity5", "Autre métier")
+            masquageChampsAutre(idPrefix, "activities5", "otherActivity5", ".hide_flex_otherActivity5")
+         });
+         initActivities(allActivities, idPrefix, 'sectorArea6', 'activities6', true, function () {
+            initChampsAutre(idPrefix, "activities6", "otherActivity6", ".hide_flex_otherActivity6", "Autre métier")
+            masquageChampsAutre(idPrefix, "activities6", "otherActivity6", ".hide_flex_otherActivity6")
+         });
+
+         // initialisation des zones masquées
+         initChampsAutre(idPrefix, "degrees", "otherDegree", ".hide_flex_otherDegree", "Autre diplôme");
+
+         // Event
+         // masquage, affichage des chapitres
+         masquageChampsAutre(idPrefix, "degrees", "otherDegree", ".hide_flex_otherDegree");
+
+         // Event
+         // ecoute changement sur SectorArea
+         listenChangeSectorArea(allActivities, idPrefix, 'sectorArea1', 'activities1', 'otherActivity1', '.hide_flex_otherActivity1', true);
+         listenChangeSectorArea(allActivities, idPrefix, 'sectorArea2', 'activities2', 'otherActivity2', '.hide_flex_otherActivity2', true);
+         listenChangeSectorArea(allActivities, idPrefix, 'sectorArea3', 'activities3', 'otherActivity3', '.hide_flex_otherActivity3', true);
+         listenChangeSectorArea(allActivities, idPrefix, 'sectorArea4', 'activities4', 'otherActivity4', '.hide_flex_otherActivity4', true);
+         listenChangeSectorArea(allActivities, idPrefix, 'sectorArea5', 'activities5', 'otherActivity5', '.hide_flex_otherActivity5', true);
+         listenChangeSectorArea(allActivities, idPrefix, 'sectorArea6', 'activities6', 'otherActivity6', '.hide_flex_otherActivity6', true);
+
+         // Event
+         // met les secteurs déja affichés en hidden dans les 6 sectorAreas
+         maskSectorAreaExistingOption();
+         $('.school_sectorArea').on('change', function () {
+            maskSectorAreaExistingOption()
          })
-      }
 
-      // Event
-      // ecoute changement sur Pays et Region
-      listenChangeCountryRegion('#appbundle_school_country', '#appbundle_school_region', 'country', 'region', 'city')
+         function maskSectorAreaExistingOption() {
+            // crée une table des secteurs selectionnés
+            let sectorSelected = [];
+            $('.school_sectorArea').each(function () {
+               if ($(this).find("option:selected").val())
+                  sectorSelected.push($(this).find("option:selected").val());
+            })
 
-      // Event
-      // Vérifie le numero de téléphone si different du userName
-      {% if is_granted('ROLE_ETABLISSEMENT') == true %}
-      checkPhoneNumber($('#appbundle_school_phoneStandard').val());
-      $('#appbundle_school_phoneStandard').on('change', function () {
-         checkPhoneNumber($(this).val());
-      })
-      {% endif %}
-      function checkPhoneNumber($phoneNumber) {
-         let usrphone = $('.logged-user-phone').html().trim();
+            //recherche dans les autres champs sectorArea
+            $('.school_sectorArea option').each(function () {
+               //cache l'option si dans la table
 
-         // verification de l'indicatif pays
-         let indSchool = '+' + $('#countryPhoneCode').val();
-         let indPhone = $phoneNumber.substr(0, indSchool.length);
+               if ($.inArray($(this).val(), sectorSelected) !== -1) {
+                  let idSelect = "#" + $(this).parent().attr('id');
+                  let currentOption = $(idSelect + ' option:selected').val();
+                  // console.log($(idSelect + ' option:selected').text());
+                  if (currentOption != $(this).val())
+                     $(this).hide();
 
-         if(indPhone != indSchool) {
-            alert(translations["js.warning,phone_must_begin_part1"] + " " + indSchool + " " + translations["js.warning,phone_must_begin_part2"]);
-            $('#appbundle_school_phoneStandard').val(usrphone);
-         } else if($phoneNumber != usrphone) {
-            let confirmPhone = confirm(translations["js.warning_log_in_with_this_new_number"] + " " + $phoneNumber)
-            if (confirmPhone == false) {
+                  //montre l'option sinon
+               } else {
+                  $(this).show();
+               }
+            })
+         }
+
+         // Event
+         // ecoute changement sur Pays et Region
+         listenChangeCountryRegion('#appbundle_school_country', '#appbundle_school_region', 'country', 'region', 'city')
+
+         // Event
+         // Vérifie le numero de téléphone si different du userName
+         {% if is_granted('ROLE_ETABLISSEMENT') == true %}
+         checkPhoneNumber($('#appbundle_school_phoneStandard').val());
+         $('#appbundle_school_phoneStandard').on('change', function () {
+            checkPhoneNumber($(this).val());
+         })
+         {% endif %}
+         function checkPhoneNumber($phoneNumber) {
+            let usrphone = $('.logged-user-phone').html().trim();
+
+            // verification de l'indicatif pays
+            let indSchool = '+' + $('#countryPhoneCode').val();
+            let indPhone = $phoneNumber.substr(0, indSchool.length);
+
+            if (indPhone != indSchool) {
+               alert(translations["js.warning,phone_must_begin_part1"] + " " + indSchool + " " + translations["js.warning,phone_must_begin_part2"]);
                $('#appbundle_school_phoneStandard').val(usrphone);
-            }
-         }
-      }
-
-      // Event
-      //Modification test of submit button for RGPD
-      if($('#role').val()=="ROLE_ETABLISSEMENT") {
-
-         //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
-         if($("#buttonSchool").html().replace(/ /g,"")==translations['js.validate']) {
-            if ($('#appbundle_school_agreeRgpd').prop('checked')) {
-               $('#buttonSchool').attr("disabled", false);
-               $("#buttonSchool").text(translations['js.validate']);
-            } else {
-               $('#buttonSchool').attr("disabled", true);
-               $("#buttonSchool").text(translations["js.accept_PDP_notice_for_valid"]);
+            } else if ($phoneNumber != usrphone) {
+               let confirmPhone = confirm(translations["js.warning_log_in_with_this_new_number"] + " " + $phoneNumber)
+               if (confirmPhone == false) {
+                  $('#appbundle_school_phoneStandard').val(usrphone);
+               }
             }
          }
 
-         $('#appbundle_school_agreeRgpd').on('change', function () {
-            // si acceptation RGPD
-            if ($('#appbundle_school_agreeRgpd').prop('checked')) {
-               $('#buttonSchool').removeAttr("disabled");
-               $("#buttonSchool").text(translations['js.validate']);
-               $("#buttonSchool").css("background-color", "#2177e0");
-               $("#buttonSchool").css("border-color", "#2177e0");
-               // si refus RGPD
-            } else {
-               // formulaire Valid, suppression du compte
-               if ($("#form_school").valid()) {
-                  if ($("#personDegrees").val() > 0) {
-                     $("#buttonSchool").text(translations["js.supress_my_coordinates"]);
-                  } else {
-                     $("#buttonSchool").text(translations["js.delete_my_account"]);
-                  }
-                  $("#buttonSchool").css("background-color", "red");
-                  $("#buttonSchool").css("border-color", "red");
-                  alert(translations["js.warning_delete_all_personal_data"])
-                  // formulaire non rempli, retour situation initiale
+         // Event
+         //Modification test of submit button for RGPD
+         if ($('#role').val() == "ROLE_ETABLISSEMENT") {
+
+            //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
+            if ($("#buttonSchool").html().replace(/ /g, "") == translations['js.validate']) {
+               if ($('#appbundle_school_agreeRgpd').prop('checked')) {
+                  $('#buttonSchool').attr("disabled", false);
+                  $("#buttonSchool").text(translations['js.validate']);
                } else {
                   $('#buttonSchool').attr("disabled", true);
                   $("#buttonSchool").text(translations["js.accept_PDP_notice_for_valid"]);
                }
             }
-         });
-      }
 
-
-      // Event
-      // Recherches de filières par mot clé
-      $("#activity_search").click(function(){
-         findActivities();
-      });
-
-      function findActivities() {
-         // Recherche des filières avec le mot clé sans casse ni accent
-         let $activities = [];
-         if ($("#activity_keyword").val().length > 0)
-            $activities = findActivity($("#activity_keyword").val());
-
-         if ($activities.length > 0) {
-            // Purge les activitées précédentes
-            $("table#activity_founded tr").remove();
-
-            // Créé le titre des cellules
-            let $activityTitle = "<tr><th>Ajouter</th><th>Filière</th><th>{{ 'menu.activity_area' | trans }}</th></tr>";
-            $('table#activity_founded').append($activityTitle);
-
-            // Ecrit le résultat de la recherche
-            $.each($activities, function (index) {
-               let numCheckbox = index + 1;
-               let idCheckbox = "checkbox_" + numCheckbox;
-
-               let $colorActivity = "black";
-               let $disabledActivity = ""
-
-               // si filière déjà utilisée dans une des 6 => mettre en disabled la ligne
-               let currentActivity = this.name;
-
-               for ($i = 1; $i < 7; $i++) {
-                  let schoolActivities = "#appbundle_school_activities" + $i + " option:selected";
-                  $(schoolActivities).each(function () {
-                     if ($(this).text() == currentActivity) {
-                        // console.log("|" + $(this).text() + "|--->" + currentActivity + "|")
-                        $colorActivity = "lightgrey";
-                        $disabledActivity = "disabled='disabled'"
+            $('#appbundle_school_agreeRgpd').on('change', function () {
+               // si acceptation RGPD
+               if ($('#appbundle_school_agreeRgpd').prop('checked')) {
+                  $('#buttonSchool').removeAttr("disabled");
+                  $("#buttonSchool").text(translations['js.validate']);
+                  $("#buttonSchool").css("background-color", "#2177e0");
+                  $("#buttonSchool").css("border-color", "#2177e0");
+                  // si refus RGPD
+               } else {
+                  // formulaire Valid, suppression du compte
+                  if ($("#form_school").valid()) {
+                     if ($("#personDegrees").val() > 0) {
+                        $("#buttonSchool").text(translations["js.supress_my_coordinates"]);
+                     } else {
+                        $("#buttonSchool").text(translations["js.delete_my_account"]);
                      }
-                  });
+                     $("#buttonSchool").css("background-color", "red");
+                     $("#buttonSchool").css("border-color", "red");
+                     alert(translations["js.warning_delete_all_personal_data"])
+                     // formulaire non rempli, retour situation initiale
+                  } else {
+                     $('#buttonSchool').attr("disabled", true);
+                     $("#buttonSchool").text(translations["js.accept_PDP_notice_for_valid"]);
+                  }
                }
-
-               // ajout de la filière dans la table
-               let $activity = "<tr><td><input " + $disabledActivity +
-                       " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
-                       $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
-                       this.sectorArea + "</td></tr>";
-               $('table#activity_founded').append($activity);
             });
          }
-         // });
-      }
 
-      // Ajout des activités sélectionnées par le bouton Ajouter du Popup
-      function addActivities($idTable) {
-         let $row = $idTable + ' tr';
 
-         // parcoure les cellules de la table
-         $($row).each(function(index) {
-            let idCheckbox = "#checkbox_" + index;
-            // console.log("idCheckbox =" + idCheckbox);
+         // Event
+         // Recherches de filières par mot clé
+         $("#activity_search").click(function () {
+            findActivities();
+         });
 
-            // si l'activité est validée
-            if($(idCheckbox).is(':checked')) {
-               let currentSectorArea = $(this).find('td').eq(2).html();
-               let currentActivity = $(this).find('td').eq(1).html();
-               let currentRow = $(this).find('td');
-               // $(this).find('td').css('color', 'lightgrey');
-               // $(idCheckbox).prop("checked", false);
-               // $(idCheckbox).attr('disabled', 'disabled');
+         function findActivities() {
+            // Recherche des filières avec le mot clé sans casse ni accent
+            let $activities = [];
+            if ($("#activity_keyword").val().length > 0)
+               $activities = findActivity($("#activity_keyword").val());
 
-               // recherche si secteur area déjà sélectionné
-               let numSector=-1;
-               for ($i = 1; $i < 7; $i++) {
-                  let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
-                  $(schoolSectorArea).each(function () {
-                     if ($(this).text() == currentSectorArea) {
-                        // console.log("|" + $(this).text() + "|--->" + currentSectorArea + "|");
-                        numSector = $i;
-                     }
-                  });
-               }
+            if ($activities.length > 0) {
+               // Purge les activitées précédentes
+               $("table#activity_founded tr").remove();
 
-               // sinon et si <= 6 => ajouter le secteur
-               if(numSector == -1){
+               // Créé le titre des cellules
+               let $activityTitle = "<tr><th>Ajouter</th><th>Filière</th><th>{{ 'menu.activity_area' | trans }}</th></tr>";
+               $('table#activity_founded').append($activityTitle);
+
+               // Ecrit le résultat de la recherche
+               $.each($activities, function (index) {
+                  let numCheckbox = index + 1;
+                  let idCheckbox = "checkbox_" + numCheckbox;
+
+                  let $colorActivity = "black";
+                  let $disabledActivity = ""
+
+                  // si filière déjà utilisée dans une des 6 => mettre en disabled la ligne
+                  let currentActivity = this.name;
+
+                  for ($i = 1; $i < 7; $i++) {
+                     let schoolActivities = "#appbundle_school_activities" + $i + " option:selected";
+                     $(schoolActivities).each(function () {
+                        if ($(this).text() == currentActivity) {
+                           // console.log("|" + $(this).text() + "|--->" + currentActivity + "|")
+                           $colorActivity = "lightgrey";
+                           $disabledActivity = "disabled='disabled'"
+                        }
+                     });
+                  }
+
+                  // ajout de la filière dans la table
+                  let $activity = "<tr><td><input " + $disabledActivity +
+                      " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
+                      $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
+                      this.sectorArea + "</td></tr>";
+                  $('table#activity_founded').append($activity);
+               });
+            }
+            // });
+         }
+
+         // Ajout des activités sélectionnées par le bouton Ajouter du Popup
+         function addActivities($idTable) {
+            let $row = $idTable + ' tr';
+
+            // parcoure les cellules de la table
+            $($row).each(function (index) {
+               let idCheckbox = "#checkbox_" + index;
+               // console.log("idCheckbox =" + idCheckbox);
+
+               // si l'activité est validée
+               if ($(idCheckbox).is(':checked')) {
+                  let currentSectorArea = $(this).find('td').eq(2).html();
+                  let currentActivity = $(this).find('td').eq(1).html();
+                  let currentRow = $(this).find('td');
+                  // $(this).find('td').css('color', 'lightgrey');
+                  // $(idCheckbox).prop("checked", false);
+                  // $(idCheckbox).attr('disabled', 'disabled');
+
+                  // recherche si secteur area déjà sélectionné
+                  let numSector = -1;
                   for ($i = 1; $i < 7; $i++) {
                      let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
                      $(schoolSectorArea).each(function () {
-                        if ($(this).text() == "Sélectionnez") {
-                           // console.log("  numSector = " + $i);
-                           numSector = $i;
-                           $i = 7; //sortie de la boucle
-                        }
-                     });
-                  }
-                  // Ajout du secteur d'activité
-                  if(numSector > -1){
-                     let schoolSectorAreaOption = "#appbundle_school_sectorArea" + numSector + " option";
-                     $(schoolSectorAreaOption).each(function () {
                         if ($(this).text() == currentSectorArea) {
-                           // console.log("  numSector = " + $i);
-                           $(this).attr('selected', 'selected').trigger('change'); //simulation du click
+                           // console.log("|" + $(this).text() + "|--->" + currentSectorArea + "|");
+                           numSector = $i;
                         }
                      });
-                     // Alert ajout de secteur d'activité impossible
-                  } else {
-                     alert(translations["js.addition_sector_impossible_6_sectors_already_used"]);
+                  }
+
+                  // sinon et si <= 6 => ajouter le secteur
+                  if (numSector == -1) {
+                     for (let $i = 1; $i < 7; $i++) {
+                        let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
+                        $(schoolSectorArea).each(function () {
+                           if ($(this).text() == "Sélectionnez") {
+                              // console.log("  numSector = " + $i);
+                              numSector = $i;
+                              $i = 7; //sortie de la boucle
+                           }
+                        });
+                     }
+                     // Ajout du secteur d'activité
+                     if (numSector > -1) {
+                        let schoolSectorAreaOption = "#appbundle_school_sectorArea" + numSector + " option";
+                        $(schoolSectorAreaOption).each(function () {
+                           if ($(this).text() == currentSectorArea) {
+                              // console.log("  numSector = " + $i);
+                              $(this).attr('selected', 'selected').trigger('change'); //simulation du click
+                           }
+                        });
+                        // Alert ajout de secteur d'activité impossible
+                     } else {
+                        alert(translations["js.addition_sector_impossible_6_sectors_already_used"]);
+                     }
+                  }
+
+                  // console.log("num_sector  = " + numSector);
+                  // ajout filière
+                  if (numSector > -1) {
+                     let schoolActivity = "#appbundle_school_activities" + numSector + " option";
+                     $(schoolActivity).each(function () {
+                        // console.log("currentActivity  = " + currentActivity + " | " + $(this).text());
+                        if ($(this).text() == currentActivity) {
+                           // console.log("  " + $(this).val());
+                           $(this).prop('selected', true);
+
+                           // désactive la proposition de filière
+                           currentRow.css('color', 'lightgrey');
+                           $(idCheckbox).prop("checked", false);
+                           $(idCheckbox).prop('disabled', false);
+                        }
+                     });
                   }
                }
-
-               // console.log("num_sector  = " + numSector);
-               // ajout filière
-               if(numSector > -1) {
-                  let schoolActivity = "#appbundle_school_activities" + numSector + " option";
-                  $(schoolActivity).each(function () {
-                     // console.log("currentActivity  = " + currentActivity + " | " + $(this).text());
-                     if ($(this).text() == currentActivity) {
-                        // console.log("  " + $(this).val());
-                        $(this).prop('selected', true);
-
-                        // désactive la proposition de filière
-                        currentRow.css('color', 'lightgrey');
-                        $(idCheckbox).prop("checked", false);
-                        $(idCheckbox).prop('disabled', false);
-                     }
-                  });
-               }
-            }
-         });
-      }
+            });
+         }
+      });
 
       // Recherche des filères et métiers par mot clé
       function findActivity($keyword) {
