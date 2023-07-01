@@ -454,9 +454,9 @@ global.initActivities = function initActivities(allActivites, idPrefix, sectorAr
    if(multiple==false) {
       // if(! $(idActivities).text()) {
          if(!idValueSectorArea) {
-            $(idActivities).append($('<option value=-1/>').text('Sélectionnez un domaine').prop('selected', false));
+            $(idActivities).append($('<option value=-1/>').text('menu.select_sector').prop('selected', false));
          } else {
-            $(idActivities).append($('<option disabled value=-1/>').text('Sélectionnez une activité').prop('selected', false));
+            $(idActivities).append($('<option disabled value=-1/>').text('menu.select_activity').prop('selected', false));
          }
       // }
    }
