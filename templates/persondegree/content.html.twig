@@ -334,13 +334,13 @@
             if ($('#role').val() == "ROLE_DIPLOME") {
 
                 //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
-                if ($("#buttonPersonDegree").html().replace(/ /g, "") == 'Valider') {
+                if ($("#buttonPersonDegree").html().replace(/ /g, "") == translations["js.validate"]) {
                     if ($('#appbundle_persondegree_agreeRgpd').prop('checked')) {
                         $('#buttonPersonDegree').attr("disabled", false);
-                        $("#buttonPersonDegree").text("Valider");
+                        $("#buttonPersonDegree").text(translations["js.validate"]);
                     } else {
                         $('#buttonPersonDegree').attr("disabled", true);
-                        $("#buttonPersonDegree").text("Acceptez la notice PDP pour valider");
+                        $("#buttonPersonDegree").text(translations["js.accept_PDP_notice_for_valid"]);
                     }
                 }
 
@@ -348,14 +348,14 @@
                     // si acceptation RGPD
                     if ($('#appbundle_persondegree_agreeRgpd').prop('checked')) {
                         $('#buttonPersonDegree').removeAttr("disabled");
-                        $("#buttonPersonDegree").text("Valider");
+                        $("#buttonPersonDegree").text(translations["js.validate"]);
                         $("#buttonPersonDegree").css("background-color", "#2177e0");
                         $("#buttonPersonDegree").css("border-color", "#2177e0");
                         // si refus RGPD
                     } else {
                         // formulaire Valid, suppression du compte
                         if ($("#form_person_degree").valid()) {
-                            $("#buttonPersonDegree").text("Supprimer mon compte");
+                            $("#buttonPersonDegree").text(translations["js.delete_my_account"]);
                             $("#buttonPersonDegree").css("background-color", "red");
                             $("#buttonPersonDegree").css("border-color", "red");
                             // alert("Attention, vous êtes sur le point de supprimer toutes vos données personnelles")
@@ -363,7 +363,7 @@
                             // formulaire non rempli, retour situation initiale
                         } else {
                             $('#buttonPersonDegree').attr("disabled", true);
-                            $("#buttonPersonDegree").text("Acceptez la notice PDP pour valider");
+                            $("#buttonPersonDegree").text(translations["js.accept_PDP_notice_for_valid"]);
                         }
                     }
                 });

@@ -1741,6 +1741,10 @@
         <source>dashboard.weeks</source>
         <target>Semanas</target>
       </trans-unit>
+      <trans-unit id="dashboard.total_graduates">
+        <source>dashboard.total_graduates</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Inquéritos</target>
@@ -2271,6 +2275,30 @@
       </trans-unit>
       <trans-unit id="js.problems_encountered_during_update_operation_canceled">
         <source>js.problems_encountered_during_update_operation_canceled</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.validate">
+        <source>js.validate</source>
+        <target>Validar</target>
+      </trans-unit>
+      <trans-unit id="js.accept_PDP_notice_for_valid">
+        <source>js.accept_PDP_notice_for_valid</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.delete_my_account">
+        <source>js.delete_my_account</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.hide">
+        <source>js.hide</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.show">
+        <source>js.show</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.supress_my_coordinates">
+        <source>js.supress_my_coordinates</source>
         <target/>
       </trans-unit>
       <trans-unit id="error.invalid_phone">

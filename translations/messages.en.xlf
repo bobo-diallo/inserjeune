@@ -1741,6 +1741,10 @@
         <source>dashboard.weeks</source>
         <target>Weeks</target>
       </trans-unit>
+      <trans-unit id="dashboard.total_graduates">
+        <source>dashboard.total_graduates</source>
+        <target>Total Graduates</target>
+      </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Surveys</target>
@@ -2272,6 +2276,30 @@
       <trans-unit id="js.problems_encountered_during_update_operation_canceled">
         <source>js.problems_encountered_during_update_operation_canceled</source>
         <target>problems encountered during the update, operation canceled</target>
+      </trans-unit>
+      <trans-unit id="js.validate">
+        <source>js.validate</source>
+        <target>Validate</target>
+      </trans-unit>
+      <trans-unit id="js.accept_PDP_notice_for_valid">
+        <source>js.accept_PDP_notice_for_valid</source>
+        <target>Accept the PDP notice for valid</target>
+      </trans-unit>
+      <trans-unit id="js.delete_my_account">
+        <source>js.delete_my_account</source>
+        <target>Delete my account</target>
+      </trans-unit>
+      <trans-unit id="js.hide">
+        <source>js.hide</source>
+        <target>Hide</target>
+      </trans-unit>
+      <trans-unit id="js.show">
+        <source>js.show</source>
+        <target>Show</target>
+      </trans-unit>
+      <trans-unit id="js.supress_my_coordinates">
+        <source>js.supress_my_coordinates</source>
+        <target>supress my coordinates</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>

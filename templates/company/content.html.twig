@@ -85,13 +85,13 @@
             if ($('#role').val() == 'ROLE_ENTREPRISE') {
 
                 //désactive le boutton Valider tant que l'utilisateur n'a pas pris connaissance du RGPD
-                if ($("#buttonCompany").html().replace(/ /g, "") == 'Valider') {
+                if ($("#buttonCompany").html().replace(/ /g, "") == translations["js.validate"]) {
                     if ($('#appbundle_company_agreeRgpd').prop('checked')) {
                         $('#buttonCompany').attr("disabled", false);
-                        $("#buttonCompany").text("Valider");
+                        $("#buttonCompany").text(translations["js.validate"]);
                     } else {
                         $('#buttonCompany').attr("disabled", true);
-                        $("#buttonCompany").text("Acceptez la notice PDP pour valider");
+                        $("#buttonCompany").text(translations["js.accept_PDP_notice_for_valid"]);
                     }
                 }
 
@@ -99,21 +99,21 @@
                     // si acceptation RGPD
                     if ($('#appbundle_company_agreeRgpd').prop('checked')) {
                         $('#buttonCompany').removeAttr("disabled");
-                        $("#buttonCompany").text("Valider");
+                        $("#buttonCompany").text(translations["js.validate"]);
                         $("#buttonCompany").css("background-color", "#2177e0");
                         $("#buttonCompany").css("border-color", "#2177e0");
                         // si refus RGPD
                     } else {
                         // formulaire Valid, suppression du compte
                         if ($("#form_company").valid()) {
-                            $("#buttonCompany").text("Supprimer mon compte");
+                            $("#buttonCompany").text(translations["js.delete_my_account"]);
                             $("#buttonCompany").css("background-color", "red");
                             $("#buttonCompany").css("border-color", "red");
                             alert(translations["js.warning_delete_all_personal_data"]);
                             // formulaire non rempli, retour situation initiale
                         } else {
                             $('#buttonCompany').attr("disabled", true);
-                            $("#buttonCompany").text("Acceptez la notice PDP pour valider");
+                            $("#buttonCompany").text(translations["js.accept_PDP_notice_for_valid"]);
                         }
                     }
                 });
