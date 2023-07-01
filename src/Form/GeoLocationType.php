@@ -37,7 +37,7 @@ class GeoLocationType extends AbstractType {
 			->add('country', EntityType::class, [
 				'class' => Country::class,
 				'required' => false,
-				'placeholder' => 'Sélectionnez le pays',
+				'placeholder' => 'menu.select_country',
 				'attr' => ['class' => 'form-control', 'value' => ''],
 				'query_builder' => function (EntityRepository $entityRepository) use ($selectedCountry) {
 					if ($selectedCountry) {
@@ -53,13 +53,13 @@ class GeoLocationType extends AbstractType {
 				}
 			])
 			->add('otherCity', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner la ville', 'placeholder' => ' Ville'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner la ville', 'placeholder' => 'menu.city'],
 				'required' => false
 			])
 			->add('sectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control'],
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
