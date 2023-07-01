@@ -626,74 +626,80 @@
 {% block js %}
     <script type="application/javascript">
         $(document).ready(function () {
-            graphCreation("School", "SectorArea");
-            donutCreation("Company", "SectorArea");
-            donutCreation("Company", "LegalStatus");
-            donutCreation("PersonDegree", "SectorArea");
-            donutCreation("PersonDegree", "Contract");
-            donutCreation("PersonDegree", "Degree");
-            graphCreation("PersonDegreeUnemployed", "Reason");
-            graphCreation("PersonDegreeEmployed", "Reason");
-            graphCreation("PersonDegreeContractor", "Reason");
-            graphCreation("PersonDegreeContractor", "Activity");
-            timeGraphCreation("Profile","School", "duration");
-            timeGraphCreation("Profile","PersonDegree", "duration");
-            timeGraphCreation("Profile","Company", "duration");
-            timeGraphCreation("Quizz","PersonDegree", "duration");
-            timeGraphCreation("Quizz","Company", "duration");
+            let translations = [];
+            getTranslation().then (function (translation) {
+                translations = translation;
+
+                graphCreation("School", "SectorArea");
+                donutCreation("Company", "SectorArea");
+                donutCreation("Company", "LegalStatus");
+                donutCreation("PersonDegree", "SectorArea");
+                donutCreation("PersonDegree", "Contract");
+                donutCreation("PersonDegree", "Degree");
+                graphCreation("PersonDegreeUnemployed", "Reason");
+                graphCreation("PersonDegreeEmployed", "Reason");
+                graphCreation("PersonDegreeContractor", "Reason");
+                graphCreation("PersonDegreeContractor", "Activity");
+                timeGraphCreation("Profile", "School", "duration");
+                timeGraphCreation("Profile", "PersonDegree", "duration");
+                timeGraphCreation("Profile", "Company", "duration");
+                timeGraphCreation("Quizz", "PersonDegree", "duration");
+                timeGraphCreation("Quizz", "Company", "duration");
 
 
-            $('.job_rate').attr('hidden', 'hidden');
-            $('#job_rate_btn').on('click', function () {
-                if($('.job_rate').is(":hidden")) {
-                    $('.job_rate').removeAttr('hidden');
-                    $('#job_rate_btn').text("occulter");
-                } else {
-                    $('.job_rate').attr('hidden', 'hidden');
-                    $('#job_rate_btn').text("afficher");
-                }
-            })
-
-            $('.activity_contractor_rate').attr('hidden', 'hidden');
-            $('#activity_contractor_rate_btn').on('click', function () {
-                if($('.activity_contractor_rate').is(":hidden")) {
-                    $('.activity_contractor_rate').removeAttr('hidden');
-                    $('#activity_contractor_rate_btn').text("occulter");
-                } else {
-                    $('.activity_contractor_rate').attr('hidden', 'hidden');
-                    $('#activity_contractor_rate_btn').text("afficher");
-                }
-            })
-
-            // Mise à jour du select région en fonction du pays
-            $('#selectCountry').on('change', function () {
-                activeRegion($('#selectCountry option:selected').val(), $('#selectRegion option:selected').val());
-            })
-            function activeRegion(idCountry) {
-                $('#selectRegion option').each(function () {
-                    $(this).remove();
-                })
-                $('#regionCountry option').each(function () {
-                    if($(this).text() == idCountry) {
-                        let selectedRegion = $(this).val();
-                        $('#allRegion option').each(function () {
-                            if($(this).val() ==  selectedRegion) {
-                                $('#selectRegion').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
-                            }
-                        })
+                $('.job_rate').attr('hidden', 'hidden');
+                $('#job_rate_btn').on('click', function () {
+                    if ($('.job_rate').is(":hidden")) {
+                        $('.job_rate').removeAttr('hidden');
+                        $('#job_rate_btn').text(translations["js.hide"]);
+                    } else {
+                        $('.job_rate').attr('hidden', 'hidden');
+                        $('#job_rate_btn').text(translations["js.show"]);
                     }
                 })
-                $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));
-            }
 
-            $(".dnSlide-main").dnSlide({
-                "response": true,
-                "isOddShow": false,
-                "precentWidth": "40%",
-                "autoPlay": true,
-                "delay": 3000,
-                "speed": 500,
-                "verticalAlign": "bottom", // or 'bottom', 'top'
+                $('.activity_contractor_rate').attr('hidden', 'hidden');
+                $('#activity_contractor_rate_btn').on('click', function () {
+                    if ($('.activity_contractor_rate').is(":hidden")) {
+                        $('.activity_contractor_rate').removeAttr('hidden');
+                        $('#activity_contractor_rate_btn').text(translations["js.hide"]);
+                    } else {
+                        $('.activity_contractor_rate').attr('hidden', 'hidden');
+                        $('#activity_contractor_rate_btn').text(translations["js.show"]);
+                    }
+                })
+
+                // Mise à jour du select région en fonction du pays
+                $('#selectCountry').on('change', function () {
+                    activeRegion($('#selectCountry option:selected').val(), $('#selectRegion option:selected').val());
+                })
+
+                function activeRegion(idCountry) {
+                    $('#selectRegion option').each(function () {
+                        $(this).remove();
+                    })
+                    $('#regionCountry option').each(function () {
+                        if ($(this).text() == idCountry) {
+                            let selectedRegion = $(this).val();
+                            $('#allRegion option').each(function () {
+                                if ($(this).val() == selectedRegion) {
+                                    $('#selectRegion').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
+                                }
+                            })
+                        }
+                    })
+                    $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));
+                }
+
+                $(".dnSlide-main").dnSlide({
+                    "response": true,
+                    "isOddShow": false,
+                    "precentWidth": "40%",
+                    "autoPlay": true,
+                    "delay": 3000,
+                    "speed": 500,
+                    "verticalAlign": "bottom", // or 'bottom', 'top'
+                });
             });
         })
     </script>

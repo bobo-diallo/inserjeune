@@ -1741,6 +1741,10 @@
         <source>dashboard.weeks</source>
         <target>Semaines</target>
       </trans-unit>
+      <trans-unit id="dashboard.total_graduates">
+        <source>dashboard.total_graduates</source>
+        <target>Total Diplômés</target>
+      </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Enquêtes</target>
@@ -2272,6 +2276,30 @@
       <trans-unit id="js.problems_encountered_during_update_operation_canceled">
         <source>js.problems_encountered_during_update_operation_canceled</source>
         <target>problèmes rencontrés lors de l'update, opération annuée</target>
+      </trans-unit>
+      <trans-unit id="js.validate">
+        <source>js.validate</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="js.accept_PDP_notice_for_valid">
+        <source>js.accept_PDP_notice_for_valid</source>
+        <target>Acceptez la notice PDP pour valide</target>
+      </trans-unit>
+      <trans-unit id="js.delete_my_account">
+        <source>js.delete_my_account</source>
+        <target>Supprimer mon compte</target>
+      </trans-unit>
+      <trans-unit id="js.hide">
+        <source>js.hide</source>
+        <target>Occulter</target>
+      </trans-unit>
+      <trans-unit id="js.show">
+        <source>js.show</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit id="js.supress_my_coordinates">
+        <source>js.supress_my_coordinates</source>
+        <target>Supprimer mes coordonnées</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>

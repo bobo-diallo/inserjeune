@@ -23,6 +23,7 @@ use App\Tools\Utils;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Translation\Translator;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -783,10 +784,13 @@ class DashboardExtension extends AbstractExtension {
         if ($entityName == "Company") {
             $html .= sprintf('  <span>Total Entreprises</span>');
         } elseif ($entityName == "PersonDegree") {
+            // $totalGraduates = 'dashboard.total_graduates';
             if ($portionEntityName == "Contract") {
                 $html .= sprintf('  <span>Total Diplômés<br>Salariés</span>');
+                // $html .= sprintf('  <span>' . $totalGraduates. '<br>Salariés</span>');
             } else {
                 $html .= sprintf('  <span>Total Diplômés</span>');
+                // $html .= sprintf('  <span>' . $totalGraduates. '</span>');
             }
         }
         $html .= sprintf('</div>'); //fin inside-donut
