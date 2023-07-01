@@ -49,6 +49,10 @@
         <source>menu.information_for_reset_password_with_tag</source>
         <target/>
       </trans-unit>
+      <trans-unit id="menu.other_phone_number">
+        <source>menu.other_phone_number</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
         <target/>
@@ -275,6 +279,10 @@
       </trans-unit>
       <trans-unit id="menu.faculty">
         <source>menu.faculty</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.other_activity">
+        <source>menu.other_activity</source>
         <target/>
       </trans-unit>
       <trans-unit id="menu.activity">
@@ -767,6 +775,10 @@
       </trans-unit>
       <trans-unit id="menu.profession">
         <source>menu.profession</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.complete">
+        <source>menu.complete</source>
         <target/>
       </trans-unit>
       <trans-unit id="menu.see">
@@ -1757,6 +1769,42 @@
         <source>dashboard.total_graduates</source>
         <target/>
       </trans-unit>
+      <trans-unit id="dashboard.unemployed">
+        <source>dashboard.unemployed</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.contractor">
+        <source>dashboard.contractor</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.employed">
+        <source>dashboard.employed</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.to_ref_date">
+        <source>dashboard.to_ref_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.from_ref_date">
+        <source>dashboard.from_ref_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.for_ref_date">
+        <source>dashboard.for_ref_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.graph_title_graduate">
+        <source>dashboard.graph_title_graduate</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.graph_title_company">
+        <source>dashboard.graph_title_company</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.graph_title_establisment">
+        <source>dashboard.graph_title_establisment</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target/>
@@ -2337,12 +2385,28 @@
         <source>error.please_fill_in_the_street_number</source>
         <target/>
       </trans-unit>
+      <trans-unit id="error.invalid_phone_number">
+        <source>error.invalid_phone_number</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.invalid_email">
+        <source>error.invalid_email</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target/>
       </trans-unit>
       <trans-unit id="une femme">
         <source>une femme</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Centre de Formation Professionnelle (CFP)">
+        <source>Centre de Formation Professionnelle (CFP)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Lycée Technique (LT)">
+        <source>Lycée Technique (LT)</source>
         <target/>
       </trans-unit>
     </body>

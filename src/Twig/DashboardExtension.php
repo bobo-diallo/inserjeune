@@ -511,17 +511,17 @@ class DashboardExtension extends AbstractExtension {
 
         $typePersonDegree = "";
         if ($personTypeName == "PersonDegreeUnemployed") {
-            $typePersonDegree = "sans emploi";
+            $typePersonDegree = $this->translator->trans('dashboard.unemployed');
         } elseif ($personTypeName == "PersonDegreeEmployed") {
-            $typePersonDegree = "salariés";
+            $typePersonDegree = $this->translator->trans('dashboard.employed');
         } elseif ($personTypeName == "PersonDegreeContractor") {
-            $typePersonDegree = "entrepreneurs";
+            $typePersonDegree = $this->translator->trans('dashboard.contractor');
         }
 
         if ($objectRateName == "Activity") {
-            $html .= sprintf(' Total Diplômés %s', $typePersonDegree);
+            $html .= sprintf(' %s %s', $this->translator->trans('dashboard.total_graduates'), $typePersonDegree);
         } else {
-            $html .= sprintf(' Total Diplômés<br>%s', $typePersonDegree);
+            $html .= sprintf(' %s<br>%s', $this->translator->trans('dashboard.total_graduates'), $typePersonDegree);
         }
         $html .= sprintf('</p>');
 
@@ -785,15 +785,13 @@ class DashboardExtension extends AbstractExtension {
         $html .= sprintf('<div class="inside-donut-chart-label">');
         $html .= sprintf('  <strong>%d</strong>', count($globalEntities));
         if ($entityName == "Company") {
-            $html .= sprintf('  <span>Total Entreprises</span>');
+            $html .= sprintf("  <span>%s</span>", $this->translator->trans('dashboard.total_companies'));
         } elseif ($entityName == "PersonDegree") {
             // $totalGraduates = 'dashboard.total_graduates';
             if ($portionEntityName == "Contract") {
-                $html .= sprintf('  <span>Total Diplômés<br>Salariés</span>');
-                // $html .= sprintf('  <span>' . $totalGraduates. '<br>Salariés</span>');
+                $html .= sprintf('  <span>%s<br>%s</span>', $this->translator->trans('dashboard.total_graduates'), $this->translator->trans('dashboard.employed'));
             } else {
-                $html .= sprintf('  <span>Total Diplômés</span>');
-                // $html .= sprintf('  <span>' . $totalGraduates. '</span>');
+                $html .= sprintf('  <span>%s</span>', $this->translator->trans('dashboard.total_graduates'));
             }
         }
         $html .= sprintf('</div>'); //fin inside-donut
@@ -1093,7 +1091,7 @@ class DashboardExtension extends AbstractExtension {
             }
         }
 
-        $timeSpace = 'Du ' . $beginDate->format(Utils::FORMAT_FR) . ' au ' . $endDate->format(Utils::FORMAT_FR);
+        $timeSpace = $this->translator->trans('dashboard.from_ref_date') . ' ' . $beginDate->format(Utils::FORMAT_FR) . ' ' . $this->translator->trans('dashboard.to_ref_date') . ' ' . $endDate->format(Utils::FORMAT_FR);
 
         $html = sprintf('<div class="label">%s : %s </div>', $title, $timeSpace);
 
@@ -1111,5 +1109,4 @@ class DashboardExtension extends AbstractExtension {
 
         return $html;
     }
-
 }

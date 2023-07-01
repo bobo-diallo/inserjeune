@@ -1769,6 +1769,42 @@
         <source>dashboard.total_graduates</source>
         <target/>
       </trans-unit>
+      <trans-unit id="dashboard.unemployed">
+        <source>dashboard.unemployed</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.contractor">
+        <source>dashboard.contractor</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.employed">
+        <source>dashboard.employed</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.to_ref_date">
+        <source>dashboard.to_ref_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.from_ref_date">
+        <source>dashboard.from_ref_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.for_ref_date">
+        <source>dashboard.for_ref_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.graph_title_graduate">
+        <source>dashboard.graph_title_graduate</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.graph_title_company">
+        <source>dashboard.graph_title_company</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="dashboard.graph_title_establisment">
+        <source>dashboard.graph_title_establisment</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Inquéritos</target>
@@ -2347,6 +2383,14 @@
       </trans-unit>
       <trans-unit id="error.please_fill_in_the_street_number">
         <source>error.please_fill_in_the_street_number</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.invalid_phone_number">
+        <source>error.invalid_phone_number</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="error.invalid_email">
+        <source>error.invalid_email</source>
         <target/>
       </trans-unit>
       <trans-unit id="un homme">
