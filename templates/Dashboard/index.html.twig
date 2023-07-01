@@ -76,24 +76,28 @@
 
                         <select id="selectDuration" name="selectDuration" class="form-control form-control-sm  select-dashboard rounded">
                             {% if selectedDuration == "3 mois" %}
+                                {% set durationTrans = "time.3_months" | trans %}
                                 <option value="3 mois" selected>{{ 'time.3_months' | trans }}</option>
                             {% else %}
                                 <option value="3 mois">{{ 'time.3_months' | trans }}</option>
                             {% endif %}
 
                             {% if selectedDuration == "6 mois" %}
+                                {% set durationTrans = "time.6_months" | trans %}
                                 <option value="6 mois" selected>{{ 'time.6_months' | trans }}</option>
                             {% else %}
                                 <option value="6 mois">{{ 'time.6_months' | trans }}</option>
                             {% endif %}
 
                             {% if selectedDuration == "1 an" %}
+                                {% set durationTrans = "time.1_year" | trans %}
                                 <option value="1 an" selected>{{ 'time.1_year' | trans }}</option>
                             {% else %}
                                 <option value="1 an">{{ 'time.1_year' | trans }}</option>
                             {% endif %}
 
                             {% if selectedDuration == "2 ans" %}
+                                {% set durationTrans = "time.2_years" | trans %}
                                 <option value="2 ans" selected>{{ 'time.2_years' | trans }}</option>
                             {% else %}
                                 <option value="2 ans">{{ 'time.2_years' | trans }}</option>
@@ -400,7 +404,7 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} depuis {{ selectedDuration }}
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -408,7 +412,8 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"School", "Etablissements",selectedDuration, null, beginDate, endDate)}}
+
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"School", "dashboard.graph_title_establisment" | trans ,selectedDuration, null, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfileSchool" width="300px"></canvas>
@@ -448,7 +453,8 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} depuis {{ selectedDuration }}
+{#                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ selectedDuration }}#}
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -456,7 +462,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"PersonDegree", "Diplômés",selectedDuration, userSchool, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"PersonDegree", "dashboard.graph_title_graduate" | trans, selectedDuration, userSchool, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfilePersonDegree" width="300px"></canvas>
@@ -493,7 +499,7 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} depuis {{ selectedDuration }}
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -501,7 +507,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"Company","Entreprises",selectedDuration, null, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"Company","dashboard.graph_title_company" | trans, selectedDuration, null, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfileCompany" width="300px"></canvas>
@@ -541,7 +547,7 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} depuis {{ selectedDuration }}
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -586,7 +592,7 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} depuis {{ selectedDuration }}
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
                                                     </a>
                                                 </li>
                                             </ul>
