@@ -142,6 +142,12 @@
    <script type="text/javascript"
            src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
    <script>
+      let translations = [];
+      getTranslation().then (function (translation) {
+         translations = translation;
+         console.log(translations);
+      });
+
       // variables communes aux différentes scripts et functions
       let dataCompanies = [];
       let selectedDataCompanies = [];
@@ -455,15 +461,16 @@
          $.each(dataCompanies, function (index, value) {
             let selected = true;
             // console.log(index + " region=" + value.region + " city=" + value.city  + " sa=" + value.sector_area);
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            // if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.sector_area != valueSectorArea)
                   selected = false;
             }
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.city != valueCity)
                   selected = false;
             }
-            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez'))) {
+            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('select'))) {
                if(value.region != valueRegion)
                   selected = false;
             }
@@ -480,7 +487,7 @@
          $.each(dataSchools, function (index, value) {
             let selected = true;
 
-            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('select')) {
                let activityexist = false;
                $.each(value.activity1, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
                $.each(value.activity2, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
@@ -492,7 +499,7 @@
                   selected = false;
             }
 
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
                if((value.sector_area1 != valueSectorArea) &&
                        (value.sector_area2 != valueSectorArea) &&
                        (value.sector_area3 != valueSectorArea) &&
@@ -502,12 +509,12 @@
                   selected = false;
             }
 
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.city != valueCity)
                   selected = false;
             }
 
-            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez'))) {
+            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('select'))) {
                if(value.region != valueRegion)
                   selected = false;
             }
@@ -525,23 +532,23 @@
          $.each(dataPersonDegrees, function (index, value) {
             let selected = true;
 
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.sector_area != valueSectorArea)
                   selected = false;
             }
 
-            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.activity != valueActivity)
                   selected = false;
             }
 
-            if (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueRegion.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.region != valueRegion)
                   selected = false;
                // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
             }
 
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.city != valueCity)
                   selected = false;
             }
@@ -559,23 +566,23 @@
          $.each(dataOtherPersonDegrees, function (index, value) {
             let selected = true;
 
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.sector_area != valueSectorArea)
                   selected = false;
             }
 
-            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.activity != valueActivity)
                   selected = false;
             }
 
-            if (! valueRegion.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueRegion.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.region != valueRegion)
                   selected = false;
                // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
             }
 
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('selectionnez')) {
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
                if(value.city != valueCity)
                   selected = false;
             }
