@@ -26,7 +26,7 @@ class UserType extends AbstractType {
 		$builder
 			->add('country', EntityType::class, [
 				'class' => Country::class,
-				'placeholder' => 'Sélectionnez votre pays',
+				'placeholder' => 'menu.select_country',
 				'attr' => [
 					'class' => 'form-control',
 					'data-error' => 'Pays non autorisé ou inconnu',
@@ -38,7 +38,7 @@ class UserType extends AbstractType {
 				}
 			])
             ->add('diaspora', CheckboxType::class, [
-                'attr' => ['class' => 'form-control', 'label' => 'Diaspora ?'],
+                'attr' => ['class' => 'form-control', 'label' => 'menu.diaspora ?'],
                 'required' => false
             ])
             ->add('residenceCountry', EntityType::class, [
@@ -59,7 +59,7 @@ class UserType extends AbstractType {
 					'class' => 'form-control',
 					'data-minlength' => '6',
 					'data-error' => 'Minimum 9 caractère',
-					'placeholder' => 'Numéro de téléphone'
+					'placeholder' => 'menu.phone_number'
 				],
 				'required' => true
 			])
@@ -83,7 +83,7 @@ class UserType extends AbstractType {
 				'attr' => [
 					'class' => 'form-control',
 					'data-error' => 'Email invalide',
-					'placeholder' => 'Email'
+					'placeholder' => 'menu.email'
 				],
 				'required' => false
 			])
@@ -92,7 +92,7 @@ class UserType extends AbstractType {
 					'class' => 'form-control',
 					'data-minlength' => '6',
 					'data-error' => 'Minimum 6',
-					'placeholder' => 'Mot de passe'
+					'placeholder' => 'menu.password'
 				],
 				'required' => true
 			])
@@ -104,12 +104,12 @@ class UserType extends AbstractType {
 						'class' => 'form-control',
 						'data-minlength' => '6',
 						'data-error' => 'Minimum 6',
-						'placeholder' => 'Mot de passe'
+						'placeholder' => 'menu.password'
 					]],
 				'second_options' => ['label' => 'Repeter le mot de passe',
 					'attr' => [
 						'class' => 'form-control',
-						'placeholder' => 'Mot de passe'
+						'placeholder' => 'menu.confirm'
 					]],
 			])
 			// Enpecher l'admin d'ajouter des users avec un role DIPLOME ou ENTREPRISE
@@ -122,7 +122,7 @@ class UserType extends AbstractType {
 			])
 			->add('typePerson', ChoiceType::class, [
 				'mapped' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'choices' => [
 					'Entreprise' => Utils::COMPANY,
 					'Etablissement' => Utils::SCHOOL,

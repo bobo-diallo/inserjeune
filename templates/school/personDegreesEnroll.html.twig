@@ -99,6 +99,11 @@
 
 {% block js %}
     <script>
+        let translations = [];
+        getTranslation().then (function (translation) {
+            translations = translation;
+        });
+
         let saveMulti=false;
         function checkAllShowMode() {
             let allShow = true;
