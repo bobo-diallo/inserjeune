@@ -41,6 +41,14 @@
         <source>menu.portuguese</source>
         <target>Portuguese</target>
       </trans-unit>
+      <trans-unit id="menu.diapora">
+        <source>menu.diapora</source>
+        <target>Diaspora</target>
+      </trans-unit>
+      <trans-unit id="menu.user_type">
+        <source>menu.user_type</source>
+        <target>User type</target>
+      </trans-unit>
       <trans-unit id="menu.init_reset_password">
         <source>menu.init_reset_password</source>
         <target>Password initialization</target>
@@ -52,6 +60,10 @@
       <trans-unit id="menu.other_phone_number">
         <source>menu.other_phone_number</source>
         <target>Other phone number</target>
+      </trans-unit>
+      <trans-unit id="menu.phone_number">
+        <source>menu.phone_number</source>
+        <target>Phone number</target>
       </trans-unit>
       <trans-unit id="menu.login_phone">
         <source>menu.login_phone</source>
@@ -500,6 +512,10 @@
       <trans-unit id="menu.edit_all">
         <source>menu.edit_all</source>
         <target>Edit All</target>
+      </trans-unit>
+      <trans-unit id="menu.confirm">
+        <source>menu.confirm</source>
+        <target>Confirm</target>
       </trans-unit>
       <trans-unit id="menu.password">
         <source>menu.password</source>

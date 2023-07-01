@@ -17,12 +17,12 @@
     <form action="{{ path('register_create_account') }}" method="post">
       {{ form_widget(form._token) }}
       <div class="form-group">
-        <label for=""> Type d'utilisateur</label>
+        <label for="">{{ "menu.user_type" | trans }}</label>
         {{ form_widget(form.typePerson) }}
       </div>
       <div id="diaspora" class="form-group">
         <div class="col-sm-12 form-check diaspora d-flex justify-content-end">
-          <label for="">Diaspora: </label>
+          <label for="">diaspora: </label>
           {{ form_widget(form.diaspora) }}
           <div class="slider round">
             <span class="non">{{ 'menu.no' | trans }}</span>
@@ -44,7 +44,7 @@
         <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
       </div>
       <div class="form-group">
-        <label for=""> Téléphone : Indicatif pays (<span id="phone_code"></span> ) + N°</label>
+        <label for=""> {{ 'menu.phone' | trans }} : {{ 'menu.phone_indicator' | trans }} (<span id="phone_code"></span> ) + N°</label>
         {{ form_widget(form.phone) }}
         <div class="pre-icon os-icon os-icon-user-male-circle"></div>
         <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.phone) }}</div>
@@ -62,14 +62,14 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
-            <label for=""> Mot de passe</label>
+            <label for=""> {{ "menu.password" | trans }}</label>
             {{ form_widget(form.plainPassword.first) }}
             <div class="pre-icon os-icon os-icon-fingerprint"></div>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
-            <label for="">Confirmer</label>
+            <label for="">{{ "menu.confirm" | trans }}</label>
             {{ form_widget(form.plainPassword.second) }}
           </div>
         </div>

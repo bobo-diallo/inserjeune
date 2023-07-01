@@ -12,12 +12,12 @@
     <form action="{{ path('login') }}" method="post">
         <div class="form-group">
             <label for="">{{ 'menu.phone' | trans }}</label>
-            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Numéro de téléphone" required="required" />
+            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="{{'menu.phone_number' | trans}}" required="required" />
             <div class="pre-icon os-icon os-icon-user-male-circle"></div>
         </div>
         <div class="form-group">
             <label for="">{{ 'menu.password' | trans }}</label>
-            <input type="password" id="password" name="_password" class="form-control" placeholder="Entrez votre mot de passe" required="required" />
+            <input type="password" id="password" name="_password" class="form-control" placeholder="{{'menu.password' | trans}}" required="required" />
             <div class="pre-icon os-icon os-icon-fingerprint"></div>
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
