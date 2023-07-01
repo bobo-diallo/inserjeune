@@ -2349,14 +2349,6 @@
         <source>error.please_fill_in_the_street_number</source>
         <target>Please fill in the street number</target>
       </trans-unit>
-      <trans-unit id="error.invalid_phone_number">
-        <source>error.invalid_phone_number</source>
-        <target>Invalid phone number</target>
-      </trans-unit>
-      <trans-unit id="error.invalid_email">
-        <source>error.invalid_email</source>
-        <target>Invalid Email</target>
-      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target>a man</target>
