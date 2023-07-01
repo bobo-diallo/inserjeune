@@ -721,7 +721,7 @@ class FrontSchoolController extends AbstractController {
 						    $res[$key] = $value;
 						    $phoneNumber = $value;
 					    } else {
-						    $err[] = "Mauvaise syntaxe  $key  : $phoneSyntax";
+						    $err[] = "bad_syntax" .  $key . " : "  . $phoneSyntax;
 					    }
 
 				    } else if ($setProp == "setRegion") {

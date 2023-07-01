@@ -210,7 +210,6 @@
       getTranslation().then (function (translation) {
          translations = translation
          // console.log(translations);
-         // console.log(translations["js.Would_you_like_to_update_the_coordinates_of_these"]);
       }) ;
 
       /* Menu selection */
@@ -309,7 +308,7 @@
             }
          });
          if(nbUsers > 0)
-            if(confirm("Voulez vous supprimer ces "+ nbUsers + " Utilisateurs ?")) {
+            if(confirm(translations["js.want_delete_these_users_part1"] + " " + nbUsers + " " +  translations["js.want_delete_these_users_part2"])) {
                datas = new Object();
                datas['ids'] = struser;
 
@@ -341,7 +340,7 @@
             }
          });
          if(nbOffers > 0)
-            if(confirm("Voulez vous supprimer ces "+ nbOffers + " Offres d'emploi ?")) {
+            if(confirm(translations["js.want_delete_these_offers_part1"] + " " + nbOffers + " " + translations["js.want_delete_these_offers_part2"])) {
                datas = new Object();
                datas['ids'] = stroffer;
 
@@ -527,7 +526,7 @@
          $('#findLocalization').hide();
 
          if(actor=='persondegree') {
-            alert("Attention cette opération peut prendre plusieurs minutes");
+            alert(translations["js.warning_operation_may_take_several_minutes"]);
          }
 
          // console.log($locationRef + ",  " + actor);
@@ -637,8 +636,7 @@
          });
 
          if(nbActors > 0)
-            // if(confirm("Voulez vous mettre à jour les coordonnées de ces " + nbActors + " acteurs ?")) {
-            if(confirm(translations["js.Would_you_like_to_update_the_coordinates_of_these"] + " " + nbActors + " " + translations["js.actors"] + " ?")) {
+            if(confirm(translations["js.would_you_like_to_update_the_coordinates_of_these"] + " " + nbActors + " " + translations["js.actors"] + " ?")) {
                datas = new Object();
                datas['ids'] = stractor;
                datas['actorType'] = actorType;

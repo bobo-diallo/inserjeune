@@ -140,7 +140,7 @@ class PurgeController extends AbstractController {
                         // echo(count($user->getSchool()->getPersonDegrees()));die();
                         if(count($user->getSchool()->getPersonDegrees()) >0) {
 
-                            $err[] = "l'établissement " . $userId . " contient des dipômés et ne peut être supprimé";
+                            $err[] = "js.error_school_contains_graduates_and_cannot_be_deleted_part1" . " " . $userId . " " . "js.error_school_contains_graduates_and_cannot_be_deleted_part2";
                         } else {
                             $this->schoolService->removeRelations($user);
                         }
@@ -186,7 +186,7 @@ class PurgeController extends AbstractController {
 
                     $res[] = $offerId;
                 } catch (Exception $e){
-                    $err[] = "erreur lors de la suppression de l'offre " . $offerId . ": " . $e->getMessage();
+                    $err[] = "js.error_while_deleting_the_offer" . " " . $offerId . ": " . $e->getMessage();
                 }
             } else {
                 $res[] = $offerId . ' non trouvé ';
