@@ -29,70 +29,70 @@ class SatisfactionCompanyType extends AbstractType {
 			->add('salaryNumber', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'de 11 à 20' => 'de 11 à 20',
-					'de 21 à 50' => 'de 21 à 50',
-					'> 50' => '> 50',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.from_11_to_20' => 'de 11 à 20',
+					'menu.from_21_to_50' => 'de 21 à 50',
+					'menu.greater_than_50' => '> 50',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('apprenticeNumber', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'> 10' => '> 10',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.greater_than_10' => '> 10',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('studentNumber', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'> 10' => '> 10',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.greater_than_10' => '> 10',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('workerSectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('wsa')
 						->orderBy('wsa.name', 'ASC');
 				}
 			])
 			->add('otherWorkerJob', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom de la formation', 'placeholder' => ' Métiers & spécialisation'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom de la formation', 'placeholder' => 'satisfaction_creator.professions_and_specialization'],
 				'required' => false
 			])
 			->add('technicianSectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control'],
 				'required' => false,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('e')
 						->orderBy('e.name', 'ASC');
 				}
 			])
 			->add('otherTechnicianJob', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom de la formation', 'placeholder' => ' Métiers & spécialisation'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom de la formation', 'placeholder' => 'satisfaction_creator.professions_and_specialization'],
 				'required' => false
 			])
 			->add('levelSkill', ChoiceType::class, [
 				'choices' => [
-					'très insatisfaisant' => 'très insatisfaisant',
-					'insatisfaisant' => 'insatisfaisant',
-					'satisfaisant ; entre les deux' => 'satisfaisant ; entre les deux',
-					'bon' => 'bon',
-					'excellent' => 'excellent',
+					'satisfaction_creator.very_unsatisfactory' => 'très insatisfaisant',
+					'satisfaction_creator.unsatisfactory' => 'insatisfaisant',
+					'satisfaction_creator.satisfying_between_the_two' => 'satisfaisant ; entre les deux',
+					'satisfaction_creator.good' => 'bon',
+					'satisfaction_creator.excellent' => 'excellent',
 				],
 				'expanded' => true,
 				// 'choices_as_values' => false,
@@ -145,7 +145,7 @@ class SatisfactionCompanyType extends AbstractType {
 				'attr' => ['class' => 'form-control'],
 			])
 			->add('levelOtherName', TextType::class, [
-				'attr' => ['class' => 'form-text', 'data-error' => 'Veuillez renseigner le nom de la compétence', 'placeholder' => 'Autre compétence'],
+				'attr' => ['class' => 'form-text', 'data-error' => 'Veuillez renseigner le nom de la compétence', 'placeholder' => 'satisfaction_creator.other_skill'],
 				'required' => false
 			])
 			->add('hiringSameProfile', CheckboxType::class, ['attr' => [
@@ -181,41 +181,41 @@ class SatisfactionCompanyType extends AbstractType {
 			->add('hiring6MonthsWorker', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'> 10' => '> 10',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.greater_than_10' => '> 10',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('hiring6MonthsTechnician', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'> 10' => '> 10',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.greater_than_10' => '> 10',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('hiring6MonthsApprentice', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'> 10' => '> 10',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.greater_than_10' => '> 10',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('hiring6MonthsStudent', ChoiceType::class, [
 				'choices' => [
 					'0' => '0',
-					'de 1 à 5' => 'de 1 à 5',
-					'de 6 à 10' => 'de 6 à 10',
-					'> 10' => '> 10',
+					'menu.from_1_to_5' => 'de 1 à 5',
+					'menu.from_6_to_10' => 'de 6 à 10',
+					'menu.greater_than_10' => '> 10',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('createdDate');
