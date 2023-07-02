@@ -34,18 +34,18 @@ class SatisfactionSalaryType extends AbstractType {
 		$selectedCountry  = $options['selectedCountry'] ?? null;
 		$builder
 			->add('monthlySalary', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Salaire Mensuel', 'min' => 0],
+				'attr' => ['class' => 'form-control', 'placeholder' => 'satisfaction_creator.monthly_pay', 'min' => 0],
 				'required' => true,
 			])
 			->add('daylySalary', IntegerType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Salaire Journalier', 'min' => 0],
+				'attr' => ['class' => 'form-control', 'placeholder' => 'satisfaction_salary.daily_pay', 'min' => 0],
 				'required' => false
 			])
 			->add('company', EntityType::class, [
 				'class' => Company::class,
 				'attr' => ['class' => 'form-control'],
 				'required' => false,
-				'placeholder' => 'Choisissez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) use ($selectedCountry) {
 					return $entityRepository->createQueryBuilder('sa')
 						->where('sa.country = \'' . $selectedCountry . '\'')
@@ -53,74 +53,74 @@ class SatisfactionSalaryType extends AbstractType {
 				}
 			])
 			->add('companyName', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Nom de l\'Entreprise'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'company.name_of_the_company'],
 				'required' => true
 			])
 			->add('companyCity', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Ville'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'menu.city'],
 				'required' => true
 			])
 			->add('companyPhone', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Numéro du standard'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'menu.standard_number'],
 				'required' => true
 			])
 			->add('jobName', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Fonction'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'satisfaction_search.function'],
 				'required' => false
 			])
 			->add('jobStatus', ChoiceType::class, [
 				'choices' => [
-					'Ouvrier' => 'Ouvrier',
-					'Ouvrier qualifié' => 'Ouvrier qualifié',
-					'Technicien' => 'Technicien',
-					'Technicien supérieur' => 'Technicien supérieur',
+					'company.worker' => 'Ouvrier',
+					'company.qualified_worker' => 'Ouvrier qualifié',
+					'company.technician' => 'Technicien',
+					'company.senior_technician' => 'Technicien supérieur',
 				],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
 			])
 			->add('jobTime', TextType::class, [
-				'attr' => ['class' => 'datepicker form-control', 'placeholder' => 'Date d\'embauche'],
+				'attr' => ['class' => 'datepicker form-control', 'placeholder' => 'menu.hiring_date'],
 				'required' => true
 			])
 			->add('workHoursPerDay', ChoiceType::class, [
 				'choices' => [
-					'entre 1 et 4 heures' => 'entre 1 et 4 heures',
-					'entre 5 et 8 heures' => 'entre 5 et 8 heures',
-					'plus de 8 heures' => 'plus de 8 heures',
+					'menu.between_1_and_4_hours' => 'entre 1 et 4 heures',
+					'menu.between_5_and_8_hours' => 'entre 5 et 8 heures',
+					'menu.more_than_8_hours' => 'plus de 8 heures',
 				],
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'required' => true
 			])
 			->add('jobSatisfied', CheckboxType::class, ['attr' => [
 				'class' => 'form-control',
-				'label' => 'Etes-vous satisfait de votre emploi ?'],
+				'label' => 'satisfaction_salary.satisfied_with_job'],
 				'required' => false
 			])
 			->add('trainingSatisfied', CheckboxType::class, ['attr' => [
 				'class' => 'form-control',
-				'label' => 'Etes-vous satisfait de votre formation ?'],
+				'label' => 'satisfaction_salary.satisfied_with_training'],
 				'required' => false
 			])
 			->add('contract', EntityType::class, [
 				'class' => Contract::class,
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Choisissez'
+				'placeholder' => 'menu.select'
 			])
 			->add('otherContract', TextType::class, [
-				'attr' => ['class' => 'form-control', 'placeholder' => 'Type de contrat'],
+				'attr' => ['class' => 'form-control', 'placeholder' => 'job.type_of_contract'],
 				'required' => false
 			])
 			->add('jobNotFoundOther', TextType::class, ['attr' => [
 				'class' => 'form-control',
 				'data-error' => 'Autre raison d\'emploi non trouvé ?',
-				'placeholder' => ' Raison'],
+				'placeholder' => ' menu.reason'],
 				'required' => false,
 			])
 			->add('currency', EntityType::class, [
 				'class' => Currency::class,
 				'attr' => ['class' => 'form-control'],
-				'placeholder' => 'Sélectionnez la devise',
+				'placeholder' => 'menu.select_currency',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');
@@ -129,12 +129,12 @@ class SatisfactionSalaryType extends AbstractType {
 			->add('jobNotFoundReasons', EntityType::class, [
 				'class' => JobNotFoundReason::class,
 				'multiple' => true,
-				'placeholder' => 'Pas de réponse',
+				'placeholder' => 'menu.no_answer',
 				'attr' => ['class' => 'form-control'],
 				'required' => false
 			])
 			->add('otherActivityName', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le métier', 'placeholder' => ' Métier'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le métier', 'placeholder' => ' satisfaction_search.job'],
 				'required' => false
 			])
 			->add('createdDate')
@@ -142,7 +142,7 @@ class SatisfactionSalaryType extends AbstractType {
 				'class' => SectorArea::class,
 				'attr' => ['class' => 'form-control'],
 				'required' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
 						->orderBy('sa.name', 'ASC');

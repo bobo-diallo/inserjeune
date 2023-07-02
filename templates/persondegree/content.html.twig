@@ -17,6 +17,22 @@
             type="text/javascript">
     </script>
     <script>
+        function getPersondegreMapAddress () {
+            let number = $('#appbundle_persondegree_addressNumber').val();
+            let road = $('#appbundle_persondegree_addressRoad').val();
+            let locality = $('#appbundle_persondegree_addressLocality').val();
+            let city = $('#appbundle_persondegree_addressCity option:selected').text();
+            let region = $('#appbundle_persondegree_region option:selected').text();
+            let country = $('#appbundle_persondegree_country option:selected').text();
+            return (createMapsAddress(number, road, locality, city, region, country));
+        }
+
+        function getPersondegreCityMapAddress () {
+            let city = $('#appbundle_persondegree_addressCity option:selected').text();
+            let country = $('#appbundle_persondegree_country option:selected').text();
+            return (createMapsAddress(null, null, null, city, null, country));
+        }
+
         let translations = [];
         getTranslation().then (function (translation) {
             translations = translation;
@@ -367,22 +383,6 @@
                         }
                     }
                 });
-            }
-
-            function getPersondegreMapAddress () {
-                let number = $('#appbundle_persondegree_addressNumber').val();
-                let road = $('#appbundle_persondegree_addressRoad').val();
-                let locality = $('#appbundle_persondegree_addressLocality').val();
-                let city = $('#appbundle_persondegree_addressCity option:selected').text();
-                let region = $('#appbundle_persondegree_region option:selected').text();
-                let country = $('#appbundle_persondegree_country option:selected').text();
-                return (createMapsAddress(number, road, locality, city, region, country));
-            }
-
-            function getPersondegreCityMapAddress () {
-                let city = $('#appbundle_persondegree_addressCity option:selected').text();
-                let country = $('#appbundle_persondegree_country option:selected').text();
-                return (createMapsAddress(null, null, null, city, null, country));
             }
         }) ;
 
