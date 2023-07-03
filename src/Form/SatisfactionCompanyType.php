@@ -145,7 +145,7 @@ class SatisfactionCompanyType extends AbstractType {
 				'attr' => ['class' => 'form-control'],
 			])
 			->add('levelOtherName', TextType::class, [
-				'attr' => ['class' => 'form-text', 'data-error' => 'Veuillez renseigner le nom de la compétence', 'placeholder' => 'satisfaction_creator.other_skill'],
+				'attr' => ['class' => 'form-text', 'data-error' => 'Veuillez renseigner le nom de la compétence', 'placeholder' => 'js.other_skill'],
 				'required' => false
 			])
 			->add('hiringSameProfile', CheckboxType::class, ['attr' => [

@@ -945,6 +945,54 @@
         <source>menu.web_site</source>
         <target/>
       </trans-unit>
+      <trans-unit id="menu.between_1_and_4_hours">
+        <source>menu.between_1_and_4_hours</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.between_5_and_8_hours">
+        <source>menu.between_5_and_8_hours</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.from_1_to_5">
+        <source>menu.from_1_to_5</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.from_11_to_20">
+        <source>menu.from_11_to_20</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.from_21_to_50">
+        <source>menu.from_21_to_50</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.from_6_to_10">
+        <source>menu.from_6_to_10</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.greater_than_10">
+        <source>menu.greater_than_10</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.greater_than_50">
+        <source>menu.greater_than_50</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.hiring_date">
+        <source>menu.hiring_date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.more_than_8_hours">
+        <source>menu.more_than_8_hours</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.no_answer">
+        <source>menu.no_answer</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.standard_number">
+        <source>menu.standard_number</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
         <target/>
@@ -2149,6 +2197,70 @@
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
         <target/>
       </trans-unit>
+      <trans-unit id="satisfaction_search.job">
+        <source>satisfaction_search.job</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_search.function">
+        <source>satisfaction_search.function</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.monthly_pay">
+        <source>satisfaction_creator.monthly_pay</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.excellent">
+        <source>satisfaction_creator.excellent</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.good">
+        <source>satisfaction_creator.good</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.satisfying_between_the_two">
+        <source>satisfaction_creator.satisfying_between_the_two</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.unsatisfactory">
+        <source>satisfaction_creator.unsatisfactory</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_creator.very_unsatisfactory">
+        <source>satisfaction_creator.very_unsatisfactory</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_salary.daily_pay">
+        <source>satisfaction_salary.daily_pay</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_salary.other_job_reason_not_found">
+        <source>satisfaction_salary.other_job_reason_not_found</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_salary.satisfied_with_job">
+        <source>satisfaction_salary.satisfied_with_job</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_salary.satisfied_with_training">
+        <source>satisfaction_salary.satisfied_with_training</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_company.qualified_worker">
+        <source>satisfaction_company.qualified_worker</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_company.senior_technician">
+        <source>satisfaction_company.senior_technician</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_company.technician">
+        <source>satisfaction_company.technician</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="satisfaction_company.worker">
+        <source>satisfaction_company.worker</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="js.would_you_like_to_update_the_coordinates_of_these">
         <source>js.would_you_like_to_update_the_coordinates_of_these</source>
         <target/>
@@ -2389,6 +2501,26 @@
         <source>js.supress_my_coordinates</source>
         <target/>
       </trans-unit>
+      <trans-unit id="js.other_job">
+        <source>js.other_job</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.other_contract">
+        <source>js.other_contract</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.other_reason">
+        <source>js.other_reason</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.other_position">
+        <source>js.other_position</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.other_skill">
+        <source>js.other_skill</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
         <target/>
@@ -2419,18 +2551,6 @@
       </trans-unit>
       <trans-unit id="error.invalid_email">
         <source>error.invalid_email</source>
-        <target/>
-      </trans-unit>
-      <trans-unit id="satisfaction_search.job">
-        <source>satisfaction_search.job</source>
-        <target/>
-      </trans-unit>
-      <trans-unit id="satisfaction_search.function">
-        <source>satisfaction_search.function</source>
-        <target/>
-      </trans-unit>
-      <trans-unit id="satisfaction_creator.monthly_pay">
-        <source>satisfaction_creator.monthly_pay</source>
         <target/>
       </trans-unit>
       <trans-unit id="un homme">
