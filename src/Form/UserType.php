@@ -124,9 +124,9 @@ class UserType extends AbstractType {
 				'mapped' => false,
 				'placeholder' => 'menu.select',
 				'choices' => [
-					'Entreprise' => Utils::COMPANY,
-					'Etablissement' => Utils::SCHOOL,
-					'Diplômé' => Utils::PERSON_DEGREE,
+					'menu.company' => Utils::COMPANY,
+					'menu.establishment' => Utils::SCHOOL,
+					'menu.graduate' => Utils::PERSON_DEGREE,
 				],
 				'attr' => ['class' => 'form-control']
 			]);
