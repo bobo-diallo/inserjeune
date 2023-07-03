@@ -70,10 +70,10 @@ class SatisfactionSalaryType extends AbstractType {
 			])
 			->add('jobStatus', ChoiceType::class, [
 				'choices' => [
-					'company.worker' => 'Ouvrier',
-					'company.qualified_worker' => 'Ouvrier qualifié',
-					'company.technician' => 'Technicien',
-					'company.senior_technician' => 'Technicien supérieur',
+					'satisfaction_company.worker' => 'Ouvrier',
+					'satisfaction_company.qualified_worker' => 'Ouvrier qualifié',
+					'satisfaction_company.technician' => 'Technicien',
+					'satisfaction_company.senior_technician' => 'Technicien supérieur',
 				],
 				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']

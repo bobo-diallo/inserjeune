@@ -15,85 +15,9 @@
 
 {% block js %}
 <script>
-   $(document).ready(function () {
-      $("input.single-daterange").daterangepicker({singleDatePicker: !0})
-   })
-
-   $('#searchCompany').on('change', function () {
-      // console.log($('#searchCompany').val());
-      let searchText = $('#searchCompany').val().toLowerCase();
-
-      // on affiche toute les options
-      $('#appbundle_satisfactionsalary_company option').each(function () {
-         $(this).removeAttr('hidden');
-
-         // afficher le Selectionnez
-         // if($(this).val()==74) {
-         //    $(this).attr('selected',true);
-         // } else {
-         //    $(this).attr('selected',false);
-         // }
-      })
-
-      if(searchText.length>0) {
-         $('#appbundle_satisfactionsalary_company option').each(function () {
-            // console.log("cache " + $(this).text());
-            if ($(this).text().toLowerCase().indexOf(searchText) == -1) {
-               if($(this).val()>0) {
-                  $(this).attr('hidden', 'hidden');
-               }
-            }
-         })
-      }
-   })
-   $('#validCompany').on('click', function () {
-      let selectedCompany = $('#appbundle_satisfactionsalary_company option:selected');
-      if(selectedCompany.val()>0) {
-         let datasCompany = selectedCompany.text().split(',');
-         // console.log(selectedCompany.text());
-         if(datasCompany.length >= 4) {
-            let ville = "";
-            for (let $i=2; $i < datasCompany.length-1; $i++) {
-               ville += datasCompany[$i].trim();
-               if($i<datasCompany.length-2)
-                  ville += ', ';
-            }
-            // console.log(datasCompany[0].trim());
-            // console.log(datasCompany[1].trim());
-            // console.log(ville + " " + datasCompany.length);
-            // console.log(datasCompany[datasCompany.length -1].trim());
-            $('#appbundle_satisfactionsalary_companyName').val(datasCompany[0].trim());
-            $('#appbundle_satisfactionsalary_companyCity').val(ville.trim());
-            $('#appbundle_satisfactionsalary_companyPhone').val(datasCompany[datasCompany.length -1].trim());
-         }
-      }
-   })
 
    let idPrefix = '#appbundle_satisfactionsalary_';
    let allActivities = getAllActivities('#allActivities');
-
-   // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
-   initActivities(allActivities, idPrefix, 'sectorArea', 'activity', true, function () {
-      initChampsAutre(idPrefix, "activity", "otherActivityName", ".hide_flex_otherActivityName", "Autre métier")
-      masquageChampsAutre(idPrefix, "activity", "otherActivityName", ".hide_flex_otherActivityName")
-   });
-
-   // Initialisation des zones masquées et ajout de l'option Autre
-   initChampsAutre(idPrefix, "contract", "otherContract", ".hide_block_other_contract", "Autre contrat");
-   initChampsAutre(idPrefix, "jobStatus", "jobName", ".hide_block_jobName", "Autre poste");
-   initChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther", "Autre raison");
-
-   // Event, Masquage, affichage des chapitres Autres en fonction du select contenant Autre
-   masquageChampsAutre(idPrefix, "contract", "otherContract", ".hide_block_other_contract");
-   masquageChampsAutre(idPrefix, "jobStatus", "jobName", ".hide_block_jobName");
-   masquageChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther");
-
-   // cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
-   hideBlockFlexListener(idPrefix, 'trainingSatisfied', 'jobNotFound', 'non', ["jobNotFoundReasons"], ["jobNotFoundOther"]);
-
-   // Event
-   // ecoute changement sur SectorArea
-   listenChangeSectorArea(allActivities, idPrefix, "sectorArea", "activity", "otherActivityName", ".hide_flex_otherActivityName", false);
 
    function preventDefaultSubmit() {
       // Suppression des champs Autre des select multiples
@@ -112,6 +36,90 @@
          $('#submitSatisfactionSalary').trigger('click');
       }, 200);
    }
+
+   let translations = [];
+   getTranslation().then (function (translation) {
+      translations = translation;
+      // console.log(translations);
+
+      $(document).ready(function () {
+         $("input.single-daterange").daterangepicker({singleDatePicker: !0})
+      })
+
+      $('#searchCompany').on('change', function () {
+         // console.log($('#searchCompany').val());
+         let searchText = $('#searchCompany').val().toLowerCase();
+
+         // on affiche toute les options
+         $('#appbundle_satisfactionsalary_company option').each(function () {
+            $(this).removeAttr('hidden');
+
+            // afficher le Selectionnez
+            // if($(this).val()==74) {
+            //    $(this).attr('selected',true);
+            // } else {
+            //    $(this).attr('selected',false);
+            // }
+         })
+
+         if(searchText.length>0) {
+            $('#appbundle_satisfactionsalary_company option').each(function () {
+               // console.log("cache " + $(this).text());
+               if ($(this).text().toLowerCase().indexOf(searchText) == -1) {
+                  if($(this).val()>0) {
+                     $(this).attr('hidden', 'hidden');
+                  }
+               }
+            })
+         }
+      })
+      $('#validCompany').on('click', function () {
+         let selectedCompany = $('#appbundle_satisfactionsalary_company option:selected');
+         if(selectedCompany.val()>0) {
+            let datasCompany = selectedCompany.text().split(',');
+            // console.log(selectedCompany.text());
+            if(datasCompany.length >= 4) {
+               let ville = "";
+               for (let $i=2; $i < datasCompany.length-1; $i++) {
+                  ville += datasCompany[$i].trim();
+                  if($i<datasCompany.length-2)
+                     ville += ', ';
+               }
+               // console.log(datasCompany[0].trim());
+               // console.log(datasCompany[1].trim());
+               // console.log(ville + " " + datasCompany.length);
+               // console.log(datasCompany[datasCompany.length -1].trim());
+               $('#appbundle_satisfactionsalary_companyName').val(datasCompany[0].trim());
+               $('#appbundle_satisfactionsalary_companyCity').val(ville.trim());
+               $('#appbundle_satisfactionsalary_companyPhone').val(datasCompany[datasCompany.length -1].trim());
+            }
+         }
+      })
+
+      // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
+      initActivities(allActivities, idPrefix, 'sectorArea', 'activity', true, function () {
+         initChampsAutre(idPrefix, "activity", "otherActivityName", ".hide_flex_otherActivityName", translations['js.other_job'])
+         masquageChampsAutre(idPrefix, "activity", "otherActivityName", ".hide_flex_otherActivityName")
+      });
+
+      // Initialisation des zones masquées et ajout de l'option Autre
+      initChampsAutre(idPrefix, "contract", "otherContract", ".hide_block_other_contract", translations['js.other_contract']);
+      initChampsAutre(idPrefix, "jobStatus", "jobName", ".hide_block_jobName", translations['js.other_position']);
+      initChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther", translations['js.other_reason']);
+
+      // Event, Masquage, affichage des chapitres Autres en fonction du select contenant Autre
+      masquageChampsAutre(idPrefix, "contract", "otherContract", ".hide_block_other_contract");
+      masquageChampsAutre(idPrefix, "jobStatus", "jobName", ".hide_block_jobName");
+      masquageChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther");
+
+      // cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
+      hideBlockFlexListener(idPrefix, 'trainingSatisfied', 'jobNotFound', 'non', ["jobNotFoundReasons"], ["jobNotFoundOther"]);
+
+      // Event
+      // ecoute changement sur SectorArea
+      listenChangeSectorArea(allActivities, idPrefix, "sectorArea", "activity", "otherActivityName", ".hide_flex_otherActivityName", false);
+
+    });
 
 </script>
 {% endblock %}
