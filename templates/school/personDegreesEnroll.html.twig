@@ -446,7 +446,7 @@
 
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
-            console.log('BrithDay', values[3]);
+            // console.log('BrithDay', values[3]);
             $('#birthDate' + rowNumber).datepicker('update', values[3]);
         }
 
@@ -994,40 +994,41 @@
                         for(let i=0; i<fields.length; i++) {
                             let field = fields[i].replaceAll('\"',"").toLowerCase();
 
-                            // fiedNames in FR
+                            // fiedNames in Multi languages
                             switch (field) {
-                                case 'immatriculation' : fieldNames['immatriculationField'] = i; break;
-                                case 'prénom' : fieldNames['prenomField'] = i; break;
-                                case 'nom' : fieldNames['nomField'] = i; break;
-                                case 'date naissance' : fieldNames['dateNaissanceField'] = i; break;
-                                case 'genre' : fieldNames['genreField'] = i; break;
-                                case 'region' : fieldNames['regionField'] = i; break;
-                                case 'ville' : fieldNames['villeField'] = i; break;
-                                case 'portable' : fieldNames['portableField'] = i; break;
-                                case 'portable parent' : fieldNames['portableParentField'] = i; break;
-                                case 'email' : fieldNames['emailField'] = i; break;
-                                case 'diplôme' : fieldNames['diplomeField'] = i; break;
-                                case 'secteur' : fieldNames['secteurField'] = i; break;
-                                case 'filière' : fieldNames['filiereField'] = i; break;
+                                case translations['js.import_csv_registration'] : fieldNames['immatriculationField'] = i; break;
+                                case translations['js.import_csv_first_name'] : fieldNames['prenomField'] = i; break;
+                                case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
+                                case translations['js.import_csv_birthday'] : fieldNames['dateNaissanceField'] = i; break;
+                                case translations['js.import_csv_gender'] : fieldNames['genreField'] = i; break;
+                                case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
+                                case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
+                                case translations['js.import_csv_mobile_phone'] : fieldNames['portableField'] = i; break;
+                                case translations['js.import_csv_parent_mobile_phone'] : fieldNames['portableParentField'] = i; break;
+                                case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
+                                case translations['js.import_csv_diploma'] : fieldNames['diplomeField'] = i; break;
+                                case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
+                                case translations['js.import_csv_subsector'] : fieldNames['filiereField'] = i; break;
                                 default :
                                     errorFields.push(fields[i]);
                             }
-
-                            // fiedNames in EN
+                            // fiedNames in FR
                             // switch (field) {
-                            //     case 'registration' : fieldNames['immatriculationField'] = i;
-                            //     case 'first name' : fieldNames['prenomField'] = i;
-                            //     case 'name' : fieldNames['nomField'] = i;
-                            //     case 'birth' : fieldNames['dateNaissanceField'] = i;
-                            //     case 'gender' : fieldNames['genreField'] = i;
-                            //     case 'region' : fieldNames['regionField'] = i;
-                            //     case 'city' : fieldNames['villeField'] = i;
-                            //     case 'mobile' : fieldNames['portableField'] = i;
-                            //     case 'parent mobile' : fieldNames['portableParentField'] = i;
-                            //     case 'email' : fieldNames['emailField'] = i;
-                            //     case 'diploma' : fieldNames['diplomeField'] = i;
-                            //     case 'sector' : fieldNames['secteurField'] = i;
-                            //     case 'subsector' : fieldNames['filiereField'] = i;
+                            //     case 'immatriculation' : fieldNames['immatriculationField'] = i; break;
+                            //     case 'prénom' : fieldNames['prenomField'] = i; break;
+                            //     case 'nom' : fieldNames['nomField'] = i; break;
+                            //     case 'date naissance' : fieldNames['dateNaissanceField'] = i; break;
+                            //     case 'genre' : fieldNames['genreField'] = i; break;
+                            //     case 'région' : fieldNames['regionField'] = i; break;
+                            //     case 'ville' : fieldNames['villeField'] = i; break;
+                            //     case 'portable' : fieldNames['portableField'] = i; break;
+                            //     case 'portable parent' : fieldNames['portableParentField'] = i; break;
+                            //     case 'email' : fieldNames['emailField'] = i; break;
+                            //     case 'diplôme' : fieldNames['diplomeField'] = i; break;
+                            //     case 'secteur' : fieldNames['secteurField'] = i; break;
+                            //     case 'filière' : fieldNames['filiereField'] = i; break;
+                            //     default :
+                            //         errorFields.push(fields[i]);
                             // }
                         }
 
@@ -1043,7 +1044,20 @@
                             errorFields.forEach(function (error) {
                                 errorMsg += error + ', ';
                             })
-                            errorMsg += translations["js.authorized_fields"] + " = immatriculation, prénom, nom, date naissance, genre, région, ville, portable, portable parent, email, diplôme, secteur, filière" ;
+                            errorMsg += translations["js.authorized_fields"] + " = " +
+                                translations["js.import_csv_registration"] + ", " +
+                                translations["js.import_csv_first_name"] + ", " +
+                                translations["js.import_csv_name"] + ", " +
+                                translations["js.import_csv_birthday"] + ", " +
+                                translations["js.import_csv_gender"] + ", " +
+                                translations["js.import_csv_region"] + ", " +
+                                translations["js.import_csv_city"] + ", " +
+                                translations["js.import_csv_mobile_phone"] + ", " +
+                                translations["js.import_csv_parent_mobile_phone"] + ", " +
+                                translations["js.import_csv_email"] + ", " +
+                                translations["js.import_csv_diploma"] + ", " +
+                                translations["js.import_csv_sector"] + ", " +
+                                translations["js.import_csv_subsector"] ;
                             alert(errorMsg);
                             return;
                         }

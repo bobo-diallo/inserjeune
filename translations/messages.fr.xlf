@@ -2521,6 +2521,66 @@
         <source>js.other_skill</source>
         <target>Autre compétence</target>
       </trans-unit>
+      <trans-unit id="js.import_csv_registration">
+        <source>js.import_csv_registration</source>
+        <target>immatriculation</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_first_name">
+        <source>js.import_csv_first_name</source>
+        <target>prénom</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_name">
+        <source>js.import_csv_name</source>
+        <target>nom</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_birthday">
+        <source>js.import_csv_birthday</source>
+        <target>date naissance</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_gender">
+        <source>js.import_csv_gender</source>
+        <target>genre</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_region">
+        <source>js.import_csv_region</source>
+        <target>région</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_city">
+        <source>js.import_csv_city</source>
+        <target>ville</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_mobile_phone">
+        <source>js.import_csv_mobile_phone</source>
+        <target>portable</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_phone">
+        <source>js.import_csv_phone</source>
+        <target>téléphone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_parent_mobile_phone">
+        <source>js.import_csv_parent_mobile_phone</source>
+        <target>portable parent</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_email">
+        <source>js.import_csv_email</source>
+        <target>email</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_diploma">
+        <source>js.import_csv_diploma</source>
+        <target>diplôme</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_sector">
+        <source>js.import_csv_sector</source>
+        <target>secteur</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_subsector">
+        <source>js.import_csv_subsector</source>
+        <target>filière</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_legal_status">
+        <source>js.import_csv_legal_status</source>
+        <target>statut juridique</target>
+      </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
         <target>Téléphone invalide</target>

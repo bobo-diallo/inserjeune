@@ -1024,25 +1024,29 @@ global.getBaseUrl = function () {
    return $locationRef;
 }
 
+global.getCurrentLocale = function () {
+   /* recupération de la locale de la route courante : 1ere occurence de 2 caracteres */
+   let locale = "";
+   let splitPath = window.location.toString().split('/');
+   for (let i = 0; i< splitPath.length; i++) {
+      if (splitPath[i].length == 2) {
+         locale = splitPath[i];
+         i = splitPath.length;
+      }
+   }
+   return (locale);
+}
+
 // Récupération des données de traduction des fichiers messages.pays.xlf
 global.getTranslation  = async function () {
-   /* Charge translation variables */
+
+   let locale = '/'+ getCurrentLocale() + '/';
+   console.log(locale);
    let url = window.location.toString();
-   let locale ="";
-   if(url.indexOf("/fr/")>=0) {
-      locale = "/fr/";
-   } else if (url.indexOf("/en/")>=0) {
-      locale = "/en/";
-   } else if (url.indexOf("/pt/")>=0) {
-      locale = "/pt/";
-   } else if (url.indexOf("/es/")>=0) {
-      locale = "/es/";
-   }
-
    let indexLocale = url.indexOf(locale) + 4;
-
-   url = window.location.toString().substring(0,indexLocale) + "get_js_translation";
+   url = url.substring(0,indexLocale) + "get_js_translation";
    // console.log(url);
+
    let result = {};
 
    // appel ajax en get

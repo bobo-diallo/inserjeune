@@ -2201,7 +2201,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
-        <target>Welcome! Before answering the insertion quiz, please complete your profile below</target>
+        <target>Welcome! Before answering the insertion questionnaire, please complete your profile below</target>
       </trans-unit>
       <trans-unit id="satisfaction_search.job">
         <source>satisfaction_search.job</source>
@@ -2528,6 +2528,66 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="js.other_skill">
         <source>js.other_skill</source>
         <target>Other skill</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_registration">
+        <source>js.import_csv_registration</source>
+        <target>registration</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_first_name">
+        <source>js.import_csv_first_name</source>
+        <target>first name</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_name">
+        <source>js.import_csv_name</source>
+        <target>name</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_birthday">
+        <source>js.import_csv_birthday</source>
+        <target>birthday</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_gender">
+        <source>js.import_csv_gender</source>
+        <target>gender</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_region">
+        <source>js.import_csv_region</source>
+        <target>region</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_city">
+        <source>js.import_csv_city</source>
+        <target>city</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_mobile_phone">
+        <source>js.import_csv_mobile_phone</source>
+        <target>mobile phone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_phone">
+        <source>js.import_csv_phone</source>
+        <target>phone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_parent_mobile_phone">
+        <source>js.import_csv_parent_mobile_phone</source>
+        <target>parent mobile phone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_email">
+        <source>js.import_csv_email</source>
+        <target>email</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_diploma">
+        <source>js.import_csv_diploma</source>
+        <target>diploma</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_sector">
+        <source>js.import_csv_sector</source>
+        <target>sector</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_subsector">
+        <source>js.import_csv_subsector</source>
+        <target>subsector</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_legal_status">
+        <source>js.import_csv_legal_status</source>
+        <target>legal status</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
