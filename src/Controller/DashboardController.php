@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/dashboard')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') or is_granted('ROLE_ETABLISSEMENT') or is_granted('ROLE_ENTREPRISE') or is_granted('ROLE_DIPLOME')")]
@@ -26,6 +27,7 @@ class DashboardController extends AbstractController {
 	private RegionRepository $regionRepository;
 	private DashboardService $dashboardService;
     private CompanyService $companyService;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -33,7 +35,8 @@ class DashboardController extends AbstractController {
 		JobOfferRepository     $jobOfferRepository,
 		RegionRepository       $regionRepository,
 		DashboardService       $dashboardService,
-        CompanyService         $companyService
+        CompanyService         $companyService,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
@@ -41,6 +44,7 @@ class DashboardController extends AbstractController {
 		$this->regionRepository = $regionRepository;
 		$this->dashboardService = $dashboardService;
         $this->companyService = $companyService;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'dashboard_index', methods: ['GET', 'POST'])]

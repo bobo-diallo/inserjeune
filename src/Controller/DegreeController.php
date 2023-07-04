@@ -13,16 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/degree')]
 #[IsGranted('ROLE_ADMIN')]
 class DegreeController extends AbstractController {
 	private EntityManagerInterface $em;
 	private DegreeRepository $degreeRepository;
+	private TranslatorInterface $translator;
 
-	public function __construct(EntityManagerInterface $em, DegreeRepository $degreeRepository) {
+	public function __construct(
+		EntityManagerInterface $em,
+		DegreeRepository $degreeRepository,
+		TranslatorInterface $translator
+	) {
 		$this->em = $em;
 		$this->degreeRepository = $degreeRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'degree_index', methods: ['GET'])]
@@ -83,9 +90,9 @@ class DegreeController extends AbstractController {
 					$this->em->getClassMetadata(Degree::class)->getTableName(),
 					['id' => $degree->getId()]
 				);
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le diplôme');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_diploma'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

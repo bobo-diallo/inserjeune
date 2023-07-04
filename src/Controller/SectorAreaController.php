@@ -13,19 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/sectorarea')]
 #[IsGranted('ROLE_ADMIN')]
 class SectorAreaController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SectorAreaRepository $sectorAreaRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
-		SectorAreaRepository   $sectorAreaRepository
+		SectorAreaRepository   $sectorAreaRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->sectorAreaRepository = $sectorAreaRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'sectorarea_index', methods: ['GET'])]
@@ -84,9 +88,9 @@ class SectorAreaController extends AbstractController {
 			if ($sectorArea) {
 				$this->em->remove($sectorArea);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le secteur d\'activité');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_activity_sector'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

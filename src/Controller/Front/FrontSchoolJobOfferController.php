@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/front/school/jobOffer')]
 #[IsGranted('ROLE_ETABLISSEMENT')]
@@ -24,17 +25,20 @@ class FrontSchoolJobOfferController extends AbstractController {
 	private SchoolService $schoolService;
 	private JobOfferRepository $jobOfferRepository;
 	private FileUploader $fileUploader;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		SchoolService         $schoolService,
 		JobOfferRepository     $jobOfferRepository,
-		FileUploader $fileUploader
+		FileUploader $fileUploader,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->schoolService = $schoolService;
 		$this->jobOfferRepository = $jobOfferRepository;
 		$this->fileUploader = $fileUploader;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'front_school_jobOffer_index', methods: ['GET'])]
@@ -138,9 +142,9 @@ class FrontSchoolJobOfferController extends AbstractController {
 					$this->fileUploader->removeOldFile($jobOffer->getFilename());
 					$this->em->remove($jobOffer);
 					$this->em->flush();
-					$this->addFlash('success', 'La suppression est faite avec success');
+					$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 				} else {
-					$this->addFlash('warning', 'Impossible de suppression l\'offre');
+					$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_offer'));
 					return $this->redirect($request->server->all()['HTTP_REFERER']);
 				}
 			}

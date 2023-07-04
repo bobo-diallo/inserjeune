@@ -15,6 +15,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/user')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_DIPLOME')")]
@@ -23,17 +24,20 @@ class UserController extends AbstractController {
 	private UserRepository $userRepository;
 	private UserPasswordHasherInterface $hasher;
 	private RequestStack $requestStack;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface      $em,
 		UserRepository              $userRepository,
 		UserPasswordHasherInterface $hasher,
-		RequestStack                $requestStack
+		RequestStack                $requestStack,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->userRepository = $userRepository;
 		$this->hasher = $hasher;
 		$this->requestStack = $requestStack;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'user_index', methods: ['GET'])]
@@ -97,9 +101,9 @@ class UserController extends AbstractController {
 				$this->removeRelations($user);
 				$this->em->remove($user);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le pays');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_the_country'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

@@ -13,16 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/country')]
 #[IsGranted('ROLE_ADMIN')]
 class CountryController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
+	private TranslatorInterface $translator;
 
-	public function __construct(EntityManagerInterface $em, CountryRepository $countryRepository) {
+	public function __construct(
+		EntityManagerInterface $em,
+		CountryRepository $countryRepository,
+		TranslatorInterface $translator
+	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'country_index', methods: ['GET'])]
@@ -80,9 +87,9 @@ class CountryController extends AbstractController {
 			if ($country) {
 				$this->em->remove($country);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le pays');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_the_country'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

@@ -13,19 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/activity')]
 #[IsGranted('ROLE_ADMIN')]
 class ActivityController extends AbstractController {
 	private EntityManagerInterface $manager;
 	private ActivityRepository $activityRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $manager,
-		ActivityRepository $activityRepository
+		ActivityRepository $activityRepository,
+		TranslatorInterface $translator
 	) {
 		$this->manager = $manager;
 		$this->activityRepository = $activityRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'activity_index', methods: ['GET'])]
@@ -84,9 +88,9 @@ class ActivityController extends AbstractController {
 			if ($activity) {
 				$this->manager->remove($activity);
 				$this->manager->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le metier');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_the_job'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

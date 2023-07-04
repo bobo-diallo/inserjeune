@@ -13,16 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/legalstatus')]
 #[IsGranted('ROLE_ADMIN')]
 class LegalStatusController extends AbstractController {
 	private EntityManagerInterface $em;
 	private LegalStatusRepository $legalStatusRepository;
+	private TranslatorInterface $translator;
 
-	public function __construct(EntityManagerInterface $em, LegalStatusRepository $legalStatusRepository) {
+	public function __construct(
+		EntityManagerInterface $em,
+		LegalStatusRepository $legalStatusRepository,
+		TranslatorInterface $translator
+	) {
 		$this->em = $em;
 		$this->legalStatusRepository = $legalStatusRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'legalstatus_index', methods: ['GET'])]
@@ -81,9 +88,9 @@ class LegalStatusController extends AbstractController {
 			if ($legalStatus) {
 				$this->em->remove($legalStatus);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le statut legal');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_legal_status'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

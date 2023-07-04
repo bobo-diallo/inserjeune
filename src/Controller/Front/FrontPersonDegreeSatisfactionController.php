@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Tools\Utils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: 'front/persondegree')]
 #[IsGranted('ROLE_DIPLOME')]
@@ -34,6 +35,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 	private SatisfactionCreatorRepository $satisfactionCreatorRepository;
 	private SatisfactionService $satisfactionService;
 	private RequestStack $requestStack;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface        $em,
@@ -42,7 +44,8 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 		SatisfactionSearchRepository  $searchRepository,
 		SatisfactionCreatorRepository $satisfactionCreatorRepository,
 		SatisfactionService           $satisfactionService,
-		RequestStack                  $requestStack
+		RequestStack                  $requestStack,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->personDegreeService = $personDegreeService;
@@ -51,6 +54,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 		$this->satisfactionCreatorRepository = $satisfactionCreatorRepository;
 		$this->satisfactionService = $satisfactionService;
 		$this->requestStack = $requestStack;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/satisfaction', name: 'front_persondegree_satisfaction', methods: ['GET', 'POST'])]
@@ -154,7 +158,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 					break;
 				default:
 				{
-					$this->addFlash(Utils::FB_WARNING, "Vous devez être diplômé pour créer une enquête ");
+					$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.you_must_be_a_graduate_to_create_a_survey'));
 					return $this->redirectToRoute('front_persondegree_show');
 				}
 			}
@@ -177,7 +181,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 
 			// si la date de l'obstention du diplôme est dépassée, pas d'enquête possible
 			if ((!$satisfaction) || strtotime($this->formatUS($endedUpdateDate)) < strtotime($this->now())) {
-				$this->addFlash(Utils::FB_WARNING, sprintf("Vous devez répondre à une nouvelle enquête depuis le %s", $endedUpdateDate->format(Utils::FORMAT_FR)));
+				$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.you_have_to_answer_a_new_survey_since_date', ['{date}' => $endedUpdateDate->format(Utils::FORMAT_FR)]));
 				$redirect = sprintf('%s_%s', $redirect, 'new');
 
 				// si la date est située entre $beginDate et $endedUpdateDate
@@ -187,7 +191,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 					$satisfactionDate = $satisfaction->getCreatedDate();
 					if (strtotime($this->formatUS($satisfactionDate)) >= strtotime($this->formatUS($beginDate)) && strtotime($this->formatUS($satisfactionDate)) < strtotime($this->formatUS($endedUpdateDate))) {
 						$redirect = sprintf('%s_%s', $redirect, 'edit');
-						$this->addFlash(Utils::FB_WARNING, sprintf("Vous pouvez modifier cette enquête jusqu'au %s", $endedUpdateDate->format(Utils::FORMAT_FR)));
+						$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.you_can_edit_this_survey_until_date', ['{date}' => $endedUpdateDate->format(Utils::FORMAT_FR)]));
 						return $this->redirectToRoute($redirect, ['id' => $satisfaction->getId()]);
 					}
 				}
@@ -195,7 +199,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 				// sinon creation d'une nouvelle
 				$redirect = sprintf('%s_%s', $redirect, 'new');
 			} else {
-				$this->addFlash(Utils::FB_WARNING, sprintf("Vous pouvez créer une enquête à partir de %s", $beginDate->format(Utils::FORMAT_FR)));
+				$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.you_can_create_a_survey_from_date', ['{date}' => $beginDate->format(Utils::FORMAT_FR)]));
 				$redirect = "front_persondegree_show";
 			}
 
@@ -286,7 +290,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 	 */
 	public function checkRedirection(Request $request): RedirectResponse|bool {
 		if (!array_key_exists('HTTP_REFERER', $request->server->all())) {
-			$this->addFlash(Utils::FB_WARNING, "Veuillez cliquez 'Enquête en cours' pour ajouter ou modifier une enquête");
+			$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.please_click_survey_in_progress_to_add_or_modify_a_survey'));
 			return $this->redirectToRoute('front_persondegree_show');
 		}
 		return true;
@@ -474,7 +478,10 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 	 * @param string $type
 	 * @param string $message
 	 */
-	private function notifSatisfaction($type = Utils::FB_SUCCESS, string $message = "Merci d'avoir répondu à l'enquête.") {
+	private function notifSatisfaction($type = Utils::FB_SUCCESS, ?string $message = null) {
+		if (!$message) {
+			$message = $this->translator->trans('flashbag.thank_you_for_responding_to_the_survey');
+		}
 		$this->addFlash($type, $message);
 	}
 

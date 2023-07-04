@@ -14,19 +14,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/reasonsatisfied')]
 #[IsGranted('ROLE_ADMIN')]
 class ReasonSatisfiedController extends AbstractController {
 	private EntityManagerInterface $em;
 	private ReasonSatisfiedRepository $satisfiedRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface    $em,
 		ReasonSatisfiedRepository $satisfiedRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->satisfiedRepository = $satisfiedRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'reasonsatisfied_index', methods: ['GET'])]

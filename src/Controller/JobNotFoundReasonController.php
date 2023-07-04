@@ -13,19 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/jobNotFoundReason')]
 #[IsGranted('ROLE_ADMIN')]
 class JobNotFoundReasonController extends AbstractController {
 	private EntityManagerInterface $em;
 	private JobNotFoundReasonRepository $jobNotFoundReasonRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface      $em,
-		JobNotFoundReasonRepository $jobNotFoundReasonRepository
+		JobNotFoundReasonRepository $jobNotFoundReasonRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->jobNotFoundReasonRepository = $jobNotFoundReasonRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'job_not_found_reason_index', methods: ['GET'])]
@@ -83,9 +87,9 @@ class JobNotFoundReasonController extends AbstractController {
 			if ($jobNotFoundReason) {
 				$this->em->remove($jobNotFoundReason);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression la raison');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_reason'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}
