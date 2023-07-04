@@ -13,16 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/currency')]
 #[IsGranted('ROLE_ADMIN')]
 class CurrencyController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CurrencyRepository $currencyRepository;
+	private TranslatorInterface $translator;
 
-	public function __construct(EntityManagerInterface $em, CurrencyRepository $currencyRepository) {
+	public function __construct(
+		EntityManagerInterface $em,
+		CurrencyRepository $currencyRepository,
+		TranslatorInterface $translator
+	) {
 		$this->em = $em;
 		$this->currencyRepository = $currencyRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'currency_index', methods: ['GET'])]
@@ -82,9 +89,9 @@ class CurrencyController extends AbstractController {
 			if ($currency) {
 				$this->em->remove($currency);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le pays');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_the_country'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

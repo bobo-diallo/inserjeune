@@ -344,10 +344,10 @@ class FrontSchoolController extends AbstractController {
 			$this->em->remove($user);
 			$this->em->flush();
 
-			$this->addFlash('success', 'La suppression est faite avec success');
+			$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			return $this->redirectToRoute('logout');
 		} else {
-			$this->addFlash('warning', 'Impossible de supprimer le compte');
+			$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_account'));
 			return $this->redirectToRoute('front_school_new');
 		}
 	}
@@ -464,7 +464,7 @@ class FrontSchoolController extends AbstractController {
 				$this->em->remove($user);
 				$this->em->flush();
 			} else {
-				$this->addFlash('warning', 'Impossible de supprimer le compte');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_account'));
 				return $this->redirectToRoute('front_school_show');
 			}
 
@@ -473,12 +473,12 @@ class FrontSchoolController extends AbstractController {
 			// verification de la non existance du user par ce numéro de téléphone
 			$usrexist = $this->userRepository->findByPhone($school->getPhoneStandard());
 			if ($usrexist) {
-				$this->addFlash('danger', 'Le téléphone de connexion est déjà utilisé par un autre compte');
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_login_phone_is_already_used_by_another_account'));
 				return $this->redirectToRoute('front_school_edit');
 			}
 
 			// modification du numéro de telephone et sortie
-			$this->addFlash('warning', 'Le téléphone de connexion votre compte va être modifié' . '|' . $user->getUsername() . '|' . $school->getPhoneStandard());
+			$this->addFlash('warning', $this->translator->trans('flashbag.the_login_phone_for_your_account_will_be_changed') . '|' . $user->getUsername() . '|' . $school->getPhoneStandard());
 			$user->setUsername($school->getPhoneStandard());
 			$user->setPhone($school->getPhoneStandard());
 			$this->em->persist($user);
@@ -488,9 +488,9 @@ class FrontSchoolController extends AbstractController {
 			if ($user->getEmail()) {
 				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
 					"Paramètres de votre compte InserJeune", "Etablissement", $user->getPhone())) {
-					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_connection_parameters_are_sent_by_email'));
 				} else {
-					$this->addFlash('danger', 'Erreur d\'envoi de mail');
+					$this->addFlash('danger', $this->translator->trans('flashbag.error_sending_email'));
 				}
 			}
 
@@ -499,7 +499,7 @@ class FrontSchoolController extends AbstractController {
 			// verification de la non existance du user par cet email
 			$usrexist = $this->userRepository->findByEmail($school->getEmail());
 			if ($usrexist) {
-				$this->addFlash('danger', "L'adresse mail: " . $school->getEmail() . " est déjà utilisé dans un autre compte");
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_email_address_is_already_used_in_another_account', ['{email}' => $school->getEmail()]));
 				return $this->redirectToRoute('front_school_edit');
 			}
 
@@ -512,9 +512,9 @@ class FrontSchoolController extends AbstractController {
 			if ($user->getEmail()) {
 				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $school->getName(),
 					"Paramètres de votre compte InserJeune", "Etablissement", $user->getPhone())) {
-					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_connection_parameters_are_sent_by_email'));
 				} else {
-					$this->addFlash('danger', 'Erreur d\'envoi de mail');
+					$this->addFlash('danger', $this->translator->trans('flashbag.error_sending_email'));
 				}
 			}
 		}
@@ -1008,7 +1008,7 @@ class FrontSchoolController extends AbstractController {
                      }
                      break;
                  default:
-                     throw new NotFoundHttpException('Impossible de créer un compte');
+                     throw new NotFoundHttpException($this->translator->trans('flashbag.unable_to_create_an_account'));
              }
 
              // Supprime les espaces du numéro de téléphone
@@ -1029,7 +1029,7 @@ class FrontSchoolController extends AbstractController {
              $this->em->persist($user);
 
          } else {
-             $err[] = "Ce numéro de téléphone est déja utilisé";
+             $err[] = $this->translator->trans('flashbag.this_phone_number_is_already_in_use');
          }
          return ([$user, $password, $err]);
     }

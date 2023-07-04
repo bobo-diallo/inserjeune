@@ -10,19 +10,23 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
 
 	private TokenStorageInterface $tokenStorage;
 	private RouterInterface $router;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		TokenStorageInterface $tokenStorage,
-		RouterInterface $router
+		RouterInterface $router,
+		TranslatorInterface $translator
 	) {
 		$this->tokenStorage = $tokenStorage;
 		$this->router = $router;
+		$this->translator = $translator;
 	}
 
 	#[Route('/login', name: 'login')]

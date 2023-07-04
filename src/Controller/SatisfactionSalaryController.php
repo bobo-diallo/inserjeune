@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/satisfactionsalary')]
 #[IsGranted('ROLE_ADMIN')]
@@ -21,15 +22,18 @@ class SatisfactionSalaryController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SatisfactionSalaryRepository $satisfactionSalaryRepository;
 	private ActivityRepository $activityRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface       $em,
 		SatisfactionSalaryRepository $satisfactionSalaryRepository,
-		ActivityRepository           $activityRepository
+		ActivityRepository           $activityRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->satisfactionSalaryRepository = $satisfactionSalaryRepository;
 		$this->activityRepository = $activityRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'satisfactionsalary_index', methods: ['GET'])]
@@ -106,9 +110,9 @@ class SatisfactionSalaryController extends AbstractController {
 			if ($satisfactionSalary) {
 				$this->em->remove($satisfactionSalary);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression la satisfaction');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_satisfaction'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}
