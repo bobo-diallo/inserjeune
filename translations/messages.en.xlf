@@ -2631,11 +2631,11 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="Centre de Formation Professionnelle (CFP)">
         <source>Centre de Formation Professionnelle (CFP)</source>
-        <target>TVET School</target>
+        <target>Vocational Training Center (VTC) </target>
       </trans-unit>
       <trans-unit id="Lycée Technique (LT)">
         <source>Lycée Technique (LT)</source>
-        <target>TVET School</target>
+        <target>Technical Secondary School (TSS)</target>
       </trans-unit>
       <trans-unit id="Projet_de_mariage">
         <source>Projet_de_mariage</source>
@@ -2843,7 +2843,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="flashbag.unable_to_delete_establishment_please_remove_its_graduates_first">
         <source>flashbag.unable_to_delete_establishment_please_remove_its_graduates_first</source>
-        <target>Unable to delete TVET School. Please remove its graduates first</target>
+        <target>Unable to delete TVET School, Please remove its graduates first</target>
       </trans-unit>
     </body>
   </file>
