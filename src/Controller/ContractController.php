@@ -13,19 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/contract')]
 #[IsGranted('ROLE_ADMIN')]
 class ContractController extends AbstractController {
 	private EntityManagerInterface $em;
 	private ContractRepository $contractRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
-		ContractRepository     $contractRepository
+		ContractRepository     $contractRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->contractRepository = $contractRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'contract_index', methods: ['GET'])]
@@ -83,9 +87,9 @@ class ContractController extends AbstractController {
 			if ($contract) {
 				$this->em->remove($contract);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le pays');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_the_country'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

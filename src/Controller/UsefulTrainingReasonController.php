@@ -14,19 +14,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/usefultrainingreason')]
 #[IsGranted('ROLE_ADMIN')]
 class UsefulTrainingReasonController extends AbstractController {
 	private EntityManagerInterface $em;
 	private UsefulTrainingReasonRepository $usefulTrainingReasonRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface         $em,
-		UsefulTrainingReasonRepository $usefulTrainingReasonRepository
+		UsefulTrainingReasonRepository $usefulTrainingReasonRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->usefulTrainingReasonRepository = $usefulTrainingReasonRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'usefultrainingreason_index', methods: ['GET'])]

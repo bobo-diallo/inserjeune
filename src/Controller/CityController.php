@@ -13,19 +13,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/city')]
 #[IsGranted('ROLE_ADMIN')]
 class CityController extends AbstractController {
 	private EntityManagerInterface $manager;
 	private CityRepository $cityRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $manager,
-		CityRepository $cityRepository
+		CityRepository $cityRepository,
+		TranslatorInterface $translator
 	) {
 		$this->manager = $manager;
 		$this->cityRepository = $cityRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route('/', name: 'city_index', methods: ['GET'])]
@@ -87,9 +91,9 @@ class CityController extends AbstractController {
 			if ($city) {
 				$this->manager->remove($city);
 				$this->manager->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression le pays');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_the_country'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

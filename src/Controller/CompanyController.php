@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 #[Route(path: '/company')]
@@ -27,19 +28,22 @@ class CompanyController extends AbstractController {
 	private UserRepository $userRepository;
 	private CompanyRepository $companyRepository;
     private CompanyService $companyService;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		ActivityService        $activityService,
 		UserRepository         $userRepository,
 		CompanyRepository      $companyRepository,
-        CompanyService         $companyService
+        CompanyService         $companyService,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
 		$this->companyRepository = $companyRepository;
 		$this->companyService = $companyService;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'company_index', methods: ['GET'])]
@@ -140,12 +144,12 @@ class CompanyController extends AbstractController {
                     $this->companyService->removeRelations($user);
                     $this->em->remove($user);
                     $this->em->flush();
-                    $this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+                    $this->addFlash('success', $this->translator->trans('flashbag.the_deletion_of_the_user_is_done_with_success'));
                 } else {
-                    $this->addFlash('warning', 'Impossible de suppression l\'utilisateur');
+                    $this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_user'));
                 }
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression l\'entreprise');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_company'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

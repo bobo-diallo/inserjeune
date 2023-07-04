@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/purge')]
 #[Security("is_granted('ROLE_ADMIN')")]
@@ -41,6 +42,7 @@ class PurgeController extends AbstractController {
     private SchoolService $schoolService;
     private CompanyService $companyService;
     private PersonDegreeService $personDegreeService;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -52,7 +54,8 @@ class PurgeController extends AbstractController {
         CompanyService          $companyService,
         PersonDegreeService     $personDegreeService,
 		UserRepository          $userRepository,
-		JobOfferRepository      $jobOfferRepository
+		JobOfferRepository      $jobOfferRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
@@ -64,6 +67,7 @@ class PurgeController extends AbstractController {
         $this->schoolService = $schoolService;
         $this->companyService = $companyService;
         $this->personDegreeService = $personDegreeService;
+		$this->translator = $translator;
 	}
 
     #[Route(path: '/', name: 'purge', methods: ['GET'])]

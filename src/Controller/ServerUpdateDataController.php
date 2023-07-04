@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\User;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/api')]
 class ServerUpdateDataController extends AbstractController {
@@ -39,6 +40,7 @@ class ServerUpdateDataController extends AbstractController {
 	private CountryRepository $countryRepository;
 	private RoleRepository $roleRepository;
 	private UserRepository $userRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -49,7 +51,8 @@ class ServerUpdateDataController extends AbstractController {
 		PersonDegreeRepository $personDegreeRepository,
 		CountryRepository      $countryRepository,
 		RoleRepository         $roleRepository,
-		UserRepository $userRepository
+		UserRepository $userRepository,
+		TranslatorInterface $translator
 	) {
 		$this->serializer = $serializer;
 		$this->em = $em;
@@ -60,6 +63,7 @@ class ServerUpdateDataController extends AbstractController {
 		$this->countryRepository = $countryRepository;
 		$this->roleRepository = $roleRepository;
 		$this->userRepository = $userRepository;
+		$this->translator = $translator;
 	}
 
 	/**

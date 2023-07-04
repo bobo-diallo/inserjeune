@@ -29,6 +29,7 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Tools\Utils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterController extends AbstractController {
 	private EntityManagerInterface $em;
@@ -43,6 +44,7 @@ class RegisterController extends AbstractController {
 	private UserAuthenticatorInterface $authenticator;
 	private UserAuthenticatorInterface $userAuthenticator;
 	private FormLoginAuthenticator $formLoginAuthenticator;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -56,7 +58,8 @@ class RegisterController extends AbstractController {
 		EmailService $emailService,
 		UserAuthenticatorInterface $authenticator,
 		UserAuthenticatorInterface $userAuthenticator,
-		FormLoginAuthenticator $formLoginAuthenticator
+		FormLoginAuthenticator $formLoginAuthenticator,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
@@ -70,6 +73,7 @@ class RegisterController extends AbstractController {
 		$this->authenticator = $authenticator;
 		$this->userAuthenticator = $userAuthenticator;
 		$this->formLoginAuthenticator = $formLoginAuthenticator;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/createAccount', name: 'register_create_account', methods: ['GET', 'POST'])]
@@ -91,7 +95,7 @@ class RegisterController extends AbstractController {
             $residenceCountry = null;
 
 			if ($typePerson != Role::ROLE_ADMIN && !$country) {
-				$this->addFlash('danger', 'Le champs pays est obligatoire');
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_country_field_is_mandatory'));
 				return $this->render('user/register.html.twig', [
 					'user' => $user,
 					'form' => $form->createView(),
@@ -102,7 +106,7 @@ class RegisterController extends AbstractController {
             if (isset ($request->get('userbundle_user')['diaspora'])) {
                 $residenceCountryStr = $request->get('userbundle_user')['residenceCountry'];
                 if( ! $residenceCountryStr) {
-                    $this->addFlash('danger', 'Le champs Pays de résidence est obligatoire');
+                    $this->addFlash('danger', $this->translator->trans('flashbag.the_country_of_residence_field_is_mandatory'));
                     return $this->render('user/register.html.twig', [
                         'user' => $user,
                         'form' => $form->createView(),
@@ -132,7 +136,7 @@ class RegisterController extends AbstractController {
 				$nationalPhone = substr($user->getPhone(), strlen($phoneCode));
 				$isValidPhone = true;
 			} else {
-				$errorMessage = "Le numéro doit commencer par " . $phoneCode;
+				$errorMessage = $this->translator->trans('the_number_must_start_with_number', ['{number}' => $phoneCode]);
 				$this->addFlash('danger', $errorMessage);
 			}
 
@@ -146,7 +150,7 @@ class RegisterController extends AbstractController {
 				$validPhone = $phoneCode . $nationalPhone;
 				if ($validPhone !== $user->getPhone()) {
 					$user->setPhone($validPhone);
-					$mesgWarn = "Votre Compte de connexion est renommé en " . $validPhone;
+					$mesgWarn = $this->translator->trans('flashbag.your_login_account_is_renamed_to_name', ['{name}' => $validPhone]);
 					$this->addFlash('warning', $mesgWarn);
 				}
 			}
@@ -154,12 +158,12 @@ class RegisterController extends AbstractController {
 			if ($isValidPhone) {
 				if (strlen($nationalPhone) != $phoneDigit) {
 					$isValidPhone = false;
-					$errorMessage = "Le numéro sans l'indicatif pays doit avoir " . (int)$phoneDigit . " chiffres";
+					$errorMessage = $this->translator->trans('the_number_without_the_country_code_must_have_number_digits', ['{number}' => (int)$phoneDigit]);
 					$this->addFlash('danger', $errorMessage);
 				}
 				if (!ctype_digit($nationalPhone)) {
 					$isValidPhone = false;
-					$errorMessage = "mauvaise syntaxe du numéro de téléphone";
+					$errorMessage = $this->translator->trans('flashbag.wrong_phone_number_syntax');
 					$this->addFlash('danger', $errorMessage);
 				}
 			}
@@ -168,7 +172,7 @@ class RegisterController extends AbstractController {
 			if ($isValidPhone) {
 				if (strlen($user->getPlainPassword()) < 6) {
 					$isValidPhone = false;
-					$errorMessage = "Le mot de passe doit avoir au minimum 6 caractères ";
+					$errorMessage = $this->translator->trans('flashbag.the_password_must_have_at_least_6_characters');
 					$this->addFlash('danger', $errorMessage);
 				}
 			}
@@ -207,7 +211,7 @@ class RegisterController extends AbstractController {
 					);
 					return $redirection;
 				} else {
-					$errorMessage = "Ce numéro de téléphone est déja utilisé";
+					$errorMessage = $this->translator->trans('flashbag.this_phone_number_is_already_in_use');
 					$this->addFlash('danger', $errorMessage);
 				}
 			}
@@ -226,26 +230,26 @@ class RegisterController extends AbstractController {
 			case Utils::COMPANY:
 				{
 					$user->addProfil($this->createRole(Utils::COMPANY));
-					$flashBag = "Bienvenue ! Avant de répondre au questionnaire de satisfaction, merci de compléter votre profil ci-dessous.";
+					$flashBag = $this->translator->trans('flashbag.welcome_before_answering_the_satisfaction_questionnaire_please_complete_your_profile_below');
 					$redirect = $this->redirectToRoute('front_company_new');
 				}
 				break;
 			case Utils::PERSON_DEGREE:
 				{
 					$user->addProfil($this->createRole(Utils::PERSON_DEGREE));
-					$flashBag = "Bienvenue ! Avant de répondre au questionnaire d'insertion, merci de compléter votre profil ci-dessous.";
+					$flashBag = $this->translator->trans('flashbag.Welcome_please_complete_your_profile_below');
 					$redirect = $this->redirectToRoute('front_persondegree_new');
 				}
 				break;
 			case Utils::SCHOOL:
 				{
 					$user->addProfil($this->createRole(Utils::SCHOOL));
-					$flashBag = "Bienvenue ! merci de compléter votre profil ci-dessous.";
+					$flashBag = $this->translator->trans('flashbag.welcome_please_complete_your_profile_below');
 					$redirect = $this->redirectToRoute('front_school_new');
 				}
 				break;
 			default:
-				throw new NotFoundHttpException('Impossible de créer un compte');
+				throw new NotFoundHttpException($this->translator->trans('flashbag.unable_to_create_an_account'));
 		}
 		$this->addFlash(Utils::OFB_SUCCESS, $flashBag);
 		return $redirect;
@@ -331,23 +335,23 @@ class RegisterController extends AbstractController {
 					$this->requestStack->getSession()->set('refu', $existUser->getId());
 
 					$this->emailService->sendCodeChangePassword($submitEmail, $code);
-					$this->addFlash('success', 'Votre code est envoyée par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_code_is_sent_by_email'));
 
 				} elseif (strlen($submitEmail) == 0) {
-					$this->addFlash('danger', 'l\'envoi du code par sms n\'est pas encore autorisé, merci de renseigner une adresse email valide ');
+					$this->addFlash('danger', $this->translator->trans('flashbag.sending_the_code_by_sms_is_not_yet_authorized_please_enter_a_valid_email_address'));
 				} else {
-					$this->addFlash('danger', 'Votre mail n\'est conforme à votre profil');
+					$this->addFlash('danger', $this->translator->trans('flashbag.your_email_does_not_match_your_profile'));
 				}
 
 			} elseif ((strlen($submitCode) == 4) && (is_numeric($submitCode))) {
 				if ($submitCode == $this->requestStack->getSession()->get('code')) {
-					$this->addFlash('success', 'Renseignez votre nouveau mot de passe');
+					$this->addFlash('success', $this->translator->trans('flashbag.enter_your_new_password'));
 					return $this->redirectToRoute('register_change_password', array('user' => $existUser));
 				} else {
-					$this->addFlash('danger', 'Votre code n\'est pas valide');
+					$this->addFlash('danger', $this->translator->trans('flashbag.your_code_is_invalid'));
 				}
 			} else {
-				$this->addFlash('danger', 'Le code doit comporter 4 chiffre');
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_code_must_have_4_digits'));
 			}
 		}
 
@@ -383,7 +387,7 @@ class RegisterController extends AbstractController {
 					$this->em->persist($user);
 					$this->em->flush();
 
-					$this->addFlash('success', 'Votre mot de passe est modifié !');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_password_has_been_changed'));
 					return $this->redirectToRoute('logout');
 				}
 			}

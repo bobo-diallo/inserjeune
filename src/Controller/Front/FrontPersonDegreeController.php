@@ -31,6 +31,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: 'front/persondegree')]
 #[IsGranted('ROLE_DIPLOME')]
@@ -46,6 +47,7 @@ class FrontPersonDegreeController extends AbstractController {
     private PersonDegreeRepository $personDegreeRepository;
 	private TokenStorageInterface $tokenStorage;
     private CountryRepository $countryRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
@@ -59,6 +61,7 @@ class FrontPersonDegreeController extends AbstractController {
 		PersonDegreeRepository $personDegreeRepository,
 		TokenStorageInterface  $tokenStorage,
         CountryRepository      $countryRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -71,6 +74,7 @@ class FrontPersonDegreeController extends AbstractController {
         $this->personDegreeRepository = $personDegreeRepository;
 		$this->tokenStorage = $tokenStorage;
         $this->countryRepository = $countryRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/new', name: 'front_persondegree_new', methods: ['GET', 'POST'])]
@@ -268,12 +272,12 @@ class FrontPersonDegreeController extends AbstractController {
                 }
 
 				if ($this->emailService->sendCandidateMail($candidate, $jobOffer, $personDegreeEmail)) {
-					$this->addFlash('success', 'Votre candididature est envoyée avec success.');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_application_is_sent_successfully'));
                     $jobOffer->addCandidateSended($personDegree->getUser()->getId());
                     $this->em->persist($jobOffer);
                     $this->em->flush();
 				} else {
-					$this->addFlash('warning', 'Erreur envoi candidature');
+					$this->addFlash('warning', $this->translator->trans('flashbag.error_sending_application'));
 				}
 
 				return $this->redirectToRoute('jobOffer_index');
@@ -287,9 +291,12 @@ class FrontPersonDegreeController extends AbstractController {
 
 	/**
 	 * @param string $type
-	 * @param string $message
+	 * @param ?string $message
 	 */
-	private function notifSatisfaction($type = 'success', $message = "Merci d'avoir répondu à l'enquête.") {
+	private function notifSatisfaction($type = 'success', $message = null) {
+		if (!$message) {
+			$message = $this->translator->trans('flashbag.thank_you_for_responding_to_the_survey');
+		}
 		$this->addFlash($type, $message);
 	}
 
@@ -302,10 +309,10 @@ class FrontPersonDegreeController extends AbstractController {
 			$this->tokenStorage->setToken(null);
 			$this->em->remove($user);
 			$this->em->flush();
-			$this->addFlash('success', 'La suppression est faite avec success');
+			$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			return $this->redirectToRoute('logout');
 		} else {
-			$this->addFlash('warning', 'Impossible de supprimer le compte');
+			$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_account'));
 			return $this->redirectToRoute('front_persondegree_new');
 		}
 	}
@@ -383,7 +390,7 @@ class FrontPersonDegreeController extends AbstractController {
 				$this->em->flush();
 				return $this->redirectToRoute('logout');
 			} else {
-				$this->addFlash('warning', 'Impossible de supprimer le compte');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_account'));
 				return $this->redirectToRoute('front_persondegree_show');
 			}
 
@@ -393,12 +400,12 @@ class FrontPersonDegreeController extends AbstractController {
 			// verification de la non existance du user par ce numéro de téléphone
 			$usrexist = $this->userRepository->findByPhone($personDegree->getPhoneMobile1());
 			if ($usrexist) {
-				$this->addFlash('danger', 'Le téléphone de connexion est déjà utilisé par un autre compte');
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_login_phone_is_already_used_by_another_account'));
 				return $this->redirectToRoute('front_persondegree_edit');
 			}
 
 			// modification du numéro de telephone et sortie
-			$this->addFlash('warning', 'Le téléphone de connexion votre compte va être modifié' . '|' . $user->getUsername() . '|' . $personDegree->getPhoneMobile1());
+			$this->addFlash('warning', $this->translator->trans('flashbag.the_login_phone_for_your_account_will_be_changed') . '|' . $user->getUsername() . '|' . $personDegree->getPhoneMobile1());
 			$user->setUsername($personDegree->getPhoneMobile1());
 			$user->setPhone($personDegree->getPhoneMobile1());
 			$this->em->persist($user);
@@ -408,9 +415,9 @@ class FrontPersonDegreeController extends AbstractController {
 			if ($user->getEmail()) {
 				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $personDegree->getFirstname(),
 					"Paramètres de votre compte InserJeune", "Diplômé", $user->getPhone())) {
-					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_connection_parameters_are_sent_by_email'));
 				} else {
-					$this->addFlash('danger', 'Erreur d\'envoi de mail');
+					$this->addFlash('danger', $this->translator->trans('flashbag.error_sending_email'));
 				}
 			}
 
@@ -426,7 +433,7 @@ class FrontPersonDegreeController extends AbstractController {
 			// modification de l'email et sortie
 			if (!$personDegree->getEmail()) {
 				//n'affiche rien car sortie de session !!
-				$this->addFlash('danger', "Pensez à créer une adresse email valide");
+				$this->addFlash('danger', $this->translator->trans('flashbag.remember_to_create_a_valid_email_address'));
 			} else {
 				$user->setEmail($personDegree->getEmail());
 				$this->em->persist($user);
@@ -437,9 +444,9 @@ class FrontPersonDegreeController extends AbstractController {
 			if ($user->getEmail()) {
 				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $personDegree->getFirstname(),
 					"Paramètres de votre compte InserJeune", "Diplômé", $user->getPhone())) {
-					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_connection_parameters_are_sent_by_email'));
 				} else {
-					$this->addFlash('danger', 'Erreur d\'envoi de mail');
+					$this->addFlash('danger', $this->translator->trans('flashbag.error_sending_email'));
 				}
 			}
 		}

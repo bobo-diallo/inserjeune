@@ -13,19 +13,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/region')]
 #[IsGranted('ROLE_ADMIN')]
 class RegionController extends AbstractController {
 	private EntityManagerInterface $em;
 	private RegionRepository $regionRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		RegionRepository       $regionRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->regionRepository = $regionRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'region_index', methods: ['GET'])]
@@ -85,9 +89,9 @@ class RegionController extends AbstractController {
 			if ($region) {
 				$this->em->remove($region);
 				$this->em->flush();
-				$this->addFlash('success', 'La suppression est faite avec success');
+				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression la région');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_city'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

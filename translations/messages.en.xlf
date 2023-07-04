@@ -2843,7 +2843,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="flashbag.unable_to_delete_establishment_please_remove_its_graduates_first">
         <source>flashbag.unable_to_delete_establishment_please_remove_its_graduates_first</source>
-        <target>Unable to delete establishment. Please remove its graduates first</target>
+        <target>Unable to delete TVET School. Please remove its graduates first</target>
       </trans-unit>
     </body>
   </file>

@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/front/company')]
 #[IsGranted('ROLE_ENTREPRISE')]
@@ -33,6 +34,7 @@ class FrontCompanyController extends AbstractController {
 	private EmailService $emailService;
     private CompanyRepository $companyRepository;
 	private TokenStorageInterface $tokenStorage;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface        $em,
@@ -41,7 +43,8 @@ class FrontCompanyController extends AbstractController {
 		UserRepository                $userRepository,
 		EmailService                  $emailService,
 		CompanyRepository             $companyRepository,
-		TokenStorageInterface $tokenStorage
+		TokenStorageInterface $tokenStorage,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->companyService = $companyService;
@@ -50,6 +53,7 @@ class FrontCompanyController extends AbstractController {
 		$this->emailService = $emailService;
         $this->companyRepository = $companyRepository;
 		$this->tokenStorage = $tokenStorage;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/new', name: 'front_company_new', methods: ['GET', 'POST'])]
@@ -251,7 +255,7 @@ class FrontCompanyController extends AbstractController {
 	/**
 	 */
 	private function notifSatisfaction() {
-		$this->addFlash('success', "Merci d'avoir répondu à l'enquête.");
+		$this->addFlash('success', $this->translator->trans('flashbag.thank_you_for_responding_to_the_survey'));
 	}
 
 	#[Route(path: '/user_delete/{id}', name: 'user_delete_company', methods: ['GET'])]
@@ -264,10 +268,10 @@ class FrontCompanyController extends AbstractController {
 			$this->em->remove($user);
 			$this->em->flush();
 
-			$this->addFlash('success', 'La suppression est faite avec success');
+			$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			return $this->redirectToRoute('logout');
 		} else {
-			$this->addFlash('warning', 'Impossible de supprimer le compte');
+			$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_account'));
 			return $this->redirectToRoute('front_company_new');
 		}
 	}
@@ -284,7 +288,7 @@ class FrontCompanyController extends AbstractController {
 				$this->em->remove($user);
 				$this->em->flush();
 			} else {
-				$this->addFlash('warning', 'Impossible de supprimer le compte');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_account'));
 				return $this->redirectToRoute('front_company_show');
 			}
 
@@ -293,12 +297,12 @@ class FrontCompanyController extends AbstractController {
 			// verification de la non existance du user par ce numéro de téléphone
 			$usrexist = $this->userRepository->findByPhone($company->getPhoneStandard());
 			if ($usrexist) {
-				$this->addFlash('danger', 'Le téléphone de connexion est déjà utilisé par un autre compte');
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_login_phone_is_already_used_by_another_account'));
 				return $this->redirectToRoute('front_company_edit');
 			}
 
 			// modification du numéro de telephone et sortie
-			$this->addFlash('warning', 'Le téléphone de connexion votre compte va être modifié' . '|' . $user->getUsername() . '|' . $company->getPhoneStandard());
+			$this->addFlash('warning', $this->translator->trans('flashbag.the_login_phone_for_your_account_will_be_changed') . '|' . $user->getUsername() . '|' . $company->getPhoneStandard());
 			$user->setUsername($company->getPhoneStandard());
 			$user->setPhone($company->getPhoneStandard());
 
@@ -309,9 +313,9 @@ class FrontCompanyController extends AbstractController {
 			if ($user->getEmail()) {
 				if ($this->get('app.email')->sendMailConfirmRegistration($user->getEmail(), $company->getName(),
 					"Paramètres de votre compte InserJeune", "Entreprise", $user->getPhone())) {
-					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_connection_parameters_are_sent_by_email'));
 				} else {
-					$this->addFlash('danger', 'Erreur d\'envoi de mail');
+					$this->addFlash('danger', $this->translator->trans('flashbag.error_sending_email'));
 				}
 			}
 
@@ -320,7 +324,7 @@ class FrontCompanyController extends AbstractController {
 			// verification de la non existance du user par cet email
 			$usrexist = $this->userRepository->findByEmail($company->getEmail());
 			if ($usrexist) {
-				$this->addFlash('danger', "L'adresse mail: " . $company->getEmail() . " est déjà utilisé dans un autre compte");
+				$this->addFlash('danger', $this->translator->trans('flashbag.the_email_address_is_already_used_in_another_account', ['{email}' => $company->getEmail()]));
 				return $this->redirectToRoute('front_company_edit');
 			}
 			// modification de l'email et sortie
@@ -333,9 +337,9 @@ class FrontCompanyController extends AbstractController {
 			if ($user->getEmail()) {
 				if ($this->emailService->sendMailConfirmRegistration($user->getEmail(), $company->getName(),
 					"Paramètres de votre compte InserJeune", "Entreprise", $user->getPhone())) {
-					$this->addFlash('success', 'Vos paramètres de connexion sont envoyés par mail');
+					$this->addFlash('success', $this->translator->trans('flashbag.your_connection_parameters_are_sent_by_email'));
 				} else {
-					$this->addFlash('danger', 'Erreur d\'envoi de mail');
+					$this->addFlash('danger', $this->translator->trans('flashbag.error_sending_email'));
 				}
 			}
 		}

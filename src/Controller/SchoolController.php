@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/school')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') or is_granted('ROLE_ENTREPRISE')")]
@@ -26,19 +27,22 @@ class SchoolController extends AbstractController {
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
     private SchoolService $schoolService;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		SchoolRepository       $schoolRepository,
 		ActivityService        $activityService,
 		UserRepository         $userRepository,
-        SchoolService          $schoolService
+        SchoolService          $schoolService,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->schoolRepository = $schoolRepository;
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
         $this->schoolService = $schoolService;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'school_index', methods: ['GET'])]
@@ -146,19 +150,19 @@ class SchoolController extends AbstractController {
                 if($user) {
 
 					if ($school->getPersonDegrees()->count() > 0) {
-						$this->addFlash('warning', 'Impossible de suppression l\'etablissement. Veuillez supprimez ses diplomés d\'abord');
+						$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_establishment_please_remove_its_graduates_first'));
 					} else {
 						$this->schoolService->removeRelations($user);
 						$this->em->remove($user);
 						$this->em->flush();
-						$this->addFlash('success', 'La suppression de l\'utilisateur est faite avec success');
+						$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_of_the_user_is_done_with_success'));
 					}
 
                 } else {
-                    $this->addFlash('warning', 'Impossible de suppression l\'utilisateur');
+                    $this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_user'));
                 }
 			} else {
-				$this->addFlash('warning', 'Impossible de suppression de l\'école');
+				$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_school'));
 				return $this->redirect($request->server->all()['HTTP_REFERER']);
 			}
 		}

@@ -16,16 +16,23 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/omissionreason')]
 #[IsGranted('ROLE_ADMIN')]
 class OmissionReasonController extends AbstractController {
 	private EntityManagerInterface $em;
 	private OmissionReasonRepository $omissionReasonRepository;
+	private TranslatorInterface $translator;
 
-	public function __construct(EntityManagerInterface $em, OmissionReasonRepository $omissionReasonRepository) {
+	public function __construct(
+		EntityManagerInterface $em,
+		OmissionReasonRepository $omissionReasonRepository,
+		TranslatorInterface $translator
+	) {
 		$this->em = $em;
 		$this->omissionReasonRepository = $omissionReasonRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'omissionreason_index', methods: ['GET'])]

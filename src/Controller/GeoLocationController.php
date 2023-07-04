@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Intl\Tests\Globals\IntlGlobalsTest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/geolocation')]
 class GeoLocationController extends AbstractController {
@@ -31,17 +32,20 @@ class GeoLocationController extends AbstractController {
 	private CompanyRepository $companyRepository;
 	private SchoolRepository $schoolRepository;
 	private PersonDegreeRepository $personDegreeRepository;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		CompanyRepository      $companyRepository,
 		SchoolRepository       $schoolRepository,
-		PersonDegreeRepository $personDegreeRepository
+		PersonDegreeRepository $personDegreeRepository,
+		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->companyRepository = $companyRepository;
 		$this->schoolRepository = $schoolRepository;
 		$this->personDegreeRepository = $personDegreeRepository;
+		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'geolocation', methods: ['GET', 'POST'])]

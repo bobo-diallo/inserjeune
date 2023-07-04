@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/front/school/clientUpdate')]
 class ClientUpdateController extends AbstractController {
@@ -23,19 +24,22 @@ class ClientUpdateController extends AbstractController {
 	private PersonDegreeRepository $personDegreeRepository;
 	private CompanyRepository $companyRepository;
 	private EntityManagerInterface $em;
+	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		SchoolService $schoolService,
 		SerializerInterface $serializer,
 		PersonDegreeRepository $personDegreeRepository,
-		CompanyRepository $companyRepository
+		CompanyRepository $companyRepository,
+		TranslatorInterface $translator
 	) {
 		$this->schoolService = $schoolService;
 		$this->serializer = $serializer;
 		$this->personDegreeRepository = $personDegreeRepository;
 		$this->companyRepository = $companyRepository;
 		$this->em = $em;
+		$this->translator = $translator;
 	}
 
 	#[Route('/', name: 'client_school_update', methods: ['GET'])]
