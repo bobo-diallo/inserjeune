@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     {#                                    {% set lien_images = asset('build/images/icon/')  %}#}
-                                    <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')">Ajouter Entreprise</button>
+                                    <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')"> {{ "company.add_company" | trans }}</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
                                     <a class="btn btn-sm btn-primary" href="{{ asset('downloads/company_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
@@ -498,7 +498,7 @@
                 });
 
                 if (optionValue !== undefined) {
-                    changeSelectOptionByValue('#selectCity' + rowNumber, optionValue, () => alert(translations['js.the_city_of_the_line_not_exist_in_the_system_part1'] + ' ' + ${rowNumber} + ' ' + translations['js.the_city_of_the_line_not_exist_in_the_system_part2']));
+                    changeSelectOptionByValue('#selectCity' + rowNumber, optionValue, () => alert(translations['js.the_city_of_the_line_not_exist_in_the_system_part1'] + ' ' + rowNumber + ' ' + translations['js.the_city_of_the_line_not_exist_in_the_system_part2']));
                 }
             })
         }
@@ -879,13 +879,13 @@
 
                             // fiedNames in FR
                             switch (field) {
-                                case 'nom' : fieldNames['nomField'] = i; break;
-                                case 'région' : fieldNames['regionField'] = i; break;
-                                case 'ville' : fieldNames['villeField'] = i; break;
-                                case 'téléphone' : fieldNames['telephoneField'] = i; break;
-                                case 'email' : fieldNames['emailField'] = i; break;
-                                case 'secteur' : fieldNames['secteurField'] = i; break;
-                                case 'statut juridique' : fieldNames['statutJuridiqueField'] = i; break;
+                                case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
+                                case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
+                                case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
+                                case translations['js.import_csv_phone'] : fieldNames['telephoneField'] = i; break;
+                                case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
+                                case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
+                                case translations['js.import_csv_legal_status'] : fieldNames['statutJuridiqueField'] = i; break;
                                 default :
                                     errorFields.push(fields[i]);
                             }
@@ -897,7 +897,14 @@
                             errorFields.forEach(function (error) {
                                 errorMsg += error + ', ';
                             })
-                            errorMsg += "  Champs autorisés =  nom, région, ville, téléphone, email, secteur, statut juridique" ;
+                            errorMsg += "  Champs autorisés =  " +
+                                translations["js.import_csv_name"] + ", " +
+                                translations["js.import_csv_region"] + ", " +
+                                translations["js.import_csv_city"] + ", " +
+                                translations["js.import_csv_phone"] + ", " +
+                                translations["js.import_csv_email"] + ", " +
+                                translations["js.import_csv_sector"] + ", " +
+                                translations["js.import_csv_legal_status"] ;
                             alert(errorMsg);
                             return;
                         }
@@ -908,11 +915,6 @@
                             alert(translations['js.file_invalid_fields_name_and_telephone_mandatory']);
                             return;
                         }
-                        // let validHeader = '"Nom","Région","Ville","Téléphone","Email","Secteur","Statut juridique"';
-                        // if (header !== validHeader) {
-                        //     alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
-                        //     return;
-                        // }
 
                         data.shift();
                         let errors = [];

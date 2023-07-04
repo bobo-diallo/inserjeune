@@ -135,7 +135,7 @@
       </trans-unit>
       <trans-unit id="menu.update_profile">
         <source>menu.update_profile</source>
-        <target>Update profile</target>
+        <target>Update photo profile</target>
       </trans-unit>
       <trans-unit id="menu.the_graduates">
         <source>menu.the_graduates</source>
@@ -143,7 +143,7 @@
       </trans-unit>
       <trans-unit id="menu.the_establishments">
         <source>menu.the_establishments</source>
-        <target>Establishments</target>
+        <target>TVET Schools</target>
       </trans-unit>
       <trans-unit id="menu.social_media">
         <source>menu.social_media</source>
@@ -247,15 +247,15 @@
       </trans-unit>
       <trans-unit id="menu.enrollment_graduates">
         <source>menu.enrollment_graduates</source>
-        <target>Graduate Enrollment</target>
+        <target>Graduate Enrolment</target>
       </trans-unit>
       <trans-unit id="menu.enrollment_companies">
         <source>menu.enrollment_companies</source>
-        <target>Business Enrollment</target>
+        <target>Business Enrolment</target>
       </trans-unit>
       <trans-unit id="menu.establishment">
         <source>menu.establishment</source>
-        <target>Establishment</target>
+        <target>TVET School</target>
       </trans-unit>
       <trans-unit id="menu.school">
         <source>menu.school</source>
@@ -263,7 +263,7 @@
       </trans-unit>
       <trans-unit id="menu.establishments">
         <source>menu.establishments</source>
-        <target>Establishments</target>
+        <target>TVET Schools </target>
       </trans-unit>
       <trans-unit id="menu.qualification">
         <source>menu.qualification</source>
@@ -371,7 +371,7 @@
       </trans-unit>
       <trans-unit id="menu.job_offers">
         <source>menu.job_offers</source>
-        <target>Jobs</target>
+        <target>Job offers</target>
       </trans-unit>
       <trans-unit id="menu.branch">
         <source>menu.branch</source>
@@ -451,7 +451,7 @@
       </trans-unit>
       <trans-unit id="menu.lastname">
         <source>menu.lastname</source>
-        <target>Name</target>
+        <target>Last Name</target>
       </trans-unit>
       <trans-unit id="menu.you_are">
         <source>menu.you_are</source>
@@ -471,11 +471,11 @@
       </trans-unit>
       <trans-unit id="menu.cell_phone">
         <source>menu.cell_phone</source>
-        <target>Mobile</target>
+        <target>Mobile phone number</target>
       </trans-unit>
       <trans-unit id="menu.parent_cell_phone">
         <source>menu.parent_cell_phone</source>
-        <target>Parent laptop</target>
+        <target>Parent's mobile phone number</target>
       </trans-unit>
       <trans-unit id="menu.field_of_activity">
         <source>menu.field_of_activity</source>
@@ -487,7 +487,7 @@
       </trans-unit>
       <trans-unit id="menu.under_study">
         <source>menu.under_study</source>
-        <target>In progress</target>
+        <target>attending a training programme</target>
       </trans-unit>
       <trans-unit id="menu.other_field">
         <source>menu.other_field</source>
@@ -599,11 +599,11 @@
       </trans-unit>
       <trans-unit id="menu.cell_phone_of_a_1st_parent">
         <source>menu.cell_phone_of_a_1st_parent</source>
-        <target>Tel. cell phone of a 1st parent</target>
+        <target>Mobile phone number of a 1st parent</target>
       </trans-unit>
       <trans-unit id="menu.cell_phone_of_a_2nd_parent">
         <source>menu.cell_phone_of_a_2nd_parent</source>
-        <target>Tel. laptop of a 2nd parent</target>
+        <target>Mobile phone number of a 2nd parent</target>
       </trans-unit>
       <trans-unit id="menu.current_work_situation">
         <source>menu.current_work_situation</source>
@@ -723,7 +723,7 @@
       </trans-unit>
       <trans-unit id="menu.phone_abr">
         <source>menu.phone_abr</source>
-        <target>Tel</target>
+        <target>Mobile phone number</target>
       </trans-unit>
       <trans-unit id="menu.email">
         <source>menu.email</source>
@@ -935,11 +935,11 @@
       </trans-unit>
       <trans-unit id="menu.a_man">
         <source>menu.a_man</source>
-        <target>a man</target>
+        <target>a male</target>
       </trans-unit>
       <trans-unit id="menu.a_woman">
         <source>menu.a_woman</source>
-        <target>a woman</target>
+        <target>a female</target>
       </trans-unit>
       <trans-unit id="menu.web_site">
         <source>menu.web_site</source>
@@ -951,7 +951,7 @@
       </trans-unit>
       <trans-unit id="menu.between_5_and_8_hours">
         <source>menu.between_5_and_8_hours</source>
-        <target>between 5 and  hours</target>
+        <target>between 5 and 8 hours</target>
       </trans-unit>
       <trans-unit id="menu.from_1_to_5">
         <source>menu.from_1_to_5</source>
@@ -1067,7 +1067,7 @@
       </trans-unit>
       <trans-unit id="degree.month_graduation">
         <source>degree.month_graduation</source>
-        <target>Month Graduation</target>
+        <target>Month of graduation</target>
       </trans-unit>
       <trans-unit id="degree.email_advised_to_reply_to_job_offers">
         <source>degree.email_advised_to_reply_to_job_offers</source>
@@ -1075,7 +1075,7 @@
       </trans-unit>
       <trans-unit id="degree.the_registration_is_in_green_if_it_is_validated_by_the_institution">
         <source>degree.the_registration_is_in_green_if_it_is_validated_by_the_institution</source>
-        <target>the registration is in green if it is validated by the establishment</target>
+        <target>the registration is in green if it is validated by the TVET School</target>
       </trans-unit>
       <trans-unit id="degree.graduates">
         <source>degree.graduates</source>
@@ -1087,11 +1087,11 @@
       </trans-unit>
       <trans-unit id="graduate.select_your_residence_country">
         <source>graduate.select_your_residence_country</source>
-        <target>select your residence country</target>
+        <target>select your country of residence</target>
       </trans-unit>
       <trans-unit id="graduate.registration_in_establisment">
         <source>graduate.registration_in_establisment</source>
-        <target>registration number in establisment</target>
+        <target>registration number in TVET School</target>
       </trans-unit>
       <trans-unit id="graduate.complete">
         <source>graduate.complete</source>
@@ -1103,7 +1103,7 @@
       </trans-unit>
       <trans-unit id="graduate.study_graduate">
         <source>graduate.study_graduate</source>
-        <target>Study Graduate</target>
+        <target>Graduate attending a training programme</target>
       </trans-unit>
       <trans-unit id="graduate.graduate_in_employment">
         <source>graduate.graduate_in_employment</source>
@@ -1191,7 +1191,7 @@
       </trans-unit>
       <trans-unit id="graduate.you_have_been_employed_for">
         <source>graduate.you_have_been_employed_for</source>
-        <target>You have been employed for</target>
+        <target>You have been employed since</target>
       </trans-unit>
       <trans-unit id="graduate.number_of_working_hours_per_day">
         <source>graduate.number_of_working_hours_per_day</source>
@@ -1319,7 +1319,7 @@
       </trans-unit>
       <trans-unit id="job.description_of_the_school">
         <source>job.description_of_the_school</source>
-        <target>Description of the establishment</target>
+        <target>Description of the TVET School</target>
       </trans-unit>
       <trans-unit id="job.job_description">
         <source>job.job_description</source>
@@ -1339,7 +1339,7 @@
       </trans-unit>
       <trans-unit id="job.offer_title">
         <source>job.offer_title</source>
-        <target>Offer title</target>
+        <target>Title of the offer</target>
       </trans-unit>
       <trans-unit id="job.your_documents">
         <source>job.your_documents</source>
@@ -1419,7 +1419,7 @@
       </trans-unit>
       <trans-unit id="company.communication_and_hse">
         <source>company.communication_and_hse</source>
-        <target>Communication and HSE</target>
+        <target>Communication and Occupational, Safety and Health (OSH)</target>
       </trans-unit>
       <trans-unit id="company.average_number_in_terms_of_projected_hiring_in_the_next_6_months">
         <source>company.average_number_in_terms_of_projected_hiring_in_the_next_6_months</source>
@@ -1459,7 +1459,7 @@
       </trans-unit>
       <trans-unit id="company.measures_of_satisfaction_of_companies_that_have_hired_graduates">
         <source>company.measures_of_satisfaction_of_companies_that_have_hired_graduates</source>
-        <target>Satisfaction measures of companies that have hired graduates</target>
+        <target>Measurement of satisfaction rate of companies that have hired graduates</target>
       </trans-unit>
       <trans-unit id="company.modification_of_a_company">
         <source>company.modification_of_a_company</source>
@@ -1495,7 +1495,7 @@
       </trans-unit>
       <trans-unit id="company.number_of_people_hired">
         <source>company.number_of_people_hired</source>
-        <target>Number of hires</target>
+        <target>Number of hired graduates</target>
       </trans-unit>
       <trans-unit id="company.name_of_the_company_with_tag">
         <source>company.name_of_the_company_with_tag</source>
@@ -1551,7 +1551,11 @@
       </trans-unit>
       <trans-unit id="company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired">
         <source>company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired</source>
-        <target>In case of shortcomings, would you be ready to complete the training of the young recruit(s)</target>
+        <target>
+
+In case of shortcomings, would you be ready to complete the training of the young graduates you would hire?
+
+</target>
       </trans-unit>
       <trans-unit id="company.if_yes_for_which_skills">
         <source>company.if_yes_for_which_skills</source>
@@ -1595,11 +1599,11 @@
       </trans-unit>
       <trans-unit id="school.name_of_the_school">
         <source>school.name_of_the_school</source>
-        <target>Establishment name</target>
+        <target>Name of the TVET School</target>
       </trans-unit>
       <trans-unit id="school.list_of_partner_schools">
         <source>school.list_of_partner_schools</source>
-        <target>List of partner establishments</target>
+        <target>List of the partner TVET Schools</target>
       </trans-unit>
       <trans-unit id="school.graduates_from_start_to_end">
         <source>school.graduates_from_start_to_end</source>
@@ -1619,7 +1623,7 @@
       </trans-unit>
       <trans-unit id="school.editing_of_an_establishment">
         <source>school.editing_of_an_establishment</source>
-        <target>Editing an establishment</target>
+        <target>Editing a TVET School</target>
       </trans-unit>
       <trans-unit id="school.detail_by_sector_profession">
         <source>school.detail_by_sector_profession</source>
@@ -1631,7 +1635,7 @@
       </trans-unit>
       <trans-unit id="school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner">
         <source>school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner</source>
-        <target>Please note, this list comes from establishments that have selected you as a partner</target>
+        <target>Please note, this list comes from TVET Schools that have selected you as a partner</target>
       </trans-unit>
       <trans-unit id="school.enrolment_of_companies">
         <source>school.enrolment_of_companies</source>
@@ -1647,7 +1651,7 @@
       </trans-unit>
       <trans-unit id="school.list_of_establishments">
         <source>school.list_of_establishments</source>
-        <target>List of establishments</target>
+        <target>List of TVET Schools</target>
       </trans-unit>
       <trans-unit id="school.proposed_certificates_degrees">
         <source>school.proposed_certificates_degrees</source>
@@ -1719,7 +1723,7 @@
       </trans-unit>
       <trans-unit id="school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree">
         <source>school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree</source>
-        <target>Rate of reasons for a graduate to work in a profession unrelated to their degree</target>
+        <target>Rate of reasons for a graduate to work in a profession unrelated to her/his degree</target>
       </trans-unit>
       <trans-unit id="school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate">
         <source>school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate</source>
@@ -1731,11 +1735,11 @@
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_creation_of_schools">
         <source>school.evolution_of_the_number_of_creation_of_schools</source>
-        <target>Evolution of the number of establishment creations</target>
+        <target>Evolution of the number of TVET Schools creation</target>
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_creation_of_the_graduates">
         <source>school.evolution_of_the_number_of_creation_of_the_graduates</source>
-        <target>Evolution of the number of graduate creations</target>
+        <target>Evolution of the number of graduates creation</target>
       </trans-unit>
       <trans-unit id="school.evolution_of_the_number_of_surveys_of_graduates">
         <source>school.evolution_of_the_number_of_surveys_of_graduates</source>
@@ -1747,15 +1751,15 @@
       </trans-unit>
       <trans-unit id="school.new_establishment">
         <source>school.new_establishment</source>
-        <target>New establishment</target>
+        <target>New TVET School</target>
       </trans-unit>
       <trans-unit id="school.schools_from_start_to_end">
         <source>school.schools_from_start_to_end</source>
-        <target>Establishment from %begin_date% to %end_date%</target>
+        <target>TVET School from %begin_date% to %end_date%</target>
       </trans-unit>
       <trans-unit id="school.schools_by_sector_of_activity">
         <source>school.schools_by_sector_of_activity</source>
-        <target>Establishment by business sector</target>
+        <target>TVET School by business sector</target>
       </trans-unit>
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
@@ -1851,7 +1855,7 @@
       </trans-unit>
       <trans-unit id="dashboard.contractor">
         <source>dashboard.contractor</source>
-        <target>contractor</target>
+        <target>entrepreneur</target>
       </trans-unit>
       <trans-unit id="dashboard.employed">
         <source>dashboard.employed</source>
@@ -1867,7 +1871,7 @@
       </trans-unit>
       <trans-unit id="dashboard.for_ref_date">
         <source>dashboard.for_ref_date</source>
-        <target>for</target>
+        <target>since</target>
       </trans-unit>
       <trans-unit id="dashboard.graph_title_graduate">
         <source>dashboard.graph_title_graduate</source>
@@ -1879,7 +1883,7 @@
       </trans-unit>
       <trans-unit id="dashboard.graph_title_establisment">
         <source>dashboard.graph_title_establisment</source>
-        <target>establishments</target>
+        <target>TVET Schools</target>
       </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
@@ -1891,11 +1895,11 @@
       </trans-unit>
       <trans-unit id="survey.investigation_in_progress">
         <source>survey.investigation_in_progress</source>
-        <target>Investigation in progress</target>
+        <target>Ongoing survey</target>
       </trans-unit>
       <trans-unit id="survey.responding_to_surveys">
         <source>survey.responding_to_surveys</source>
-        <target>Respond to surveys</target>
+        <target>Answer to the surveys</target>
       </trans-unit>
       <trans-unit id="survey.list_of_surveys">
         <source>survey.list_of_surveys</source>
@@ -1903,7 +1907,9 @@
       </trans-unit>
       <trans-unit id="survey.description_measurement_professional">
         <source>survey.description_measurement_professional</source>
-        <target>Survey on the measurement of the professional integration rate of technical education and vocational training graduates and business satisfaction</target>
+        <target>Measurement of the professional integration of TVET gradutaes in the labour market and of the satisfaction of companies
+
+</target>
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_in_employment">
         <source>survey.list_of_insertion_surveys_in_employment</source>
@@ -1959,11 +1965,11 @@
       </trans-unit>
       <trans-unit id="survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag">
         <source>survey.you_have_just_hired_one_or_more_young_graduates_in_vocational_and_technical_training.are_you_satisfied_with_their_skills_with_tag</source>
-        <target>You have just hired one or more young graduate(s) in vocational and technical training.%tag_br%Are you satisfied with his/their skills</target>
+        <target>You have just hired one or more young TVET graduate(s). %tag_br% Are you satisfied with their skills</target>
       </trans-unit>
       <trans-unit id="survey.indication_evaluation_satisfaction_company_with_tag">
         <source>survey.indication_evaluation_satisfaction_company_with_tag</source>
-        <target>Evaluate his/her skills on a scale of 1 to 5 %tag_br% 1 = very unsatisfactory, 2 = unsatisfactory, 3 = satisfactory, 4 = good and 5 = excellent</target>
+        <target>Evaluate their skills on a scale of 1 to 5 %tag_br% 1 = very unsatisfactory, 2 = unsatisfactory, 3 = satisfactory, 4 = good and 5 = excellent</target>
       </trans-unit>
       <trans-unit id="survey.new_satisfaction_survey">
         <source>survey.new_satisfaction_survey</source>
@@ -1987,11 +1993,11 @@
       </trans-unit>
       <trans-unit id="survey.insertion_survey_entrepreneurial_graduates">
         <source>survey.insertion_survey_entrepreneurial_graduates</source>
-        <target>Insertion survey: Graduate entrepreneurs</target>
+        <target>Integration survey: Graduate entrepreneurs</target>
       </trans-unit>
       <trans-unit id="survey.satisfactions_graduates_creators">
         <source>survey.satisfactions_graduates_creators</source>
-        <target>Satisfaction of Graduate Designers</target>
+        <target>Satisfaction of Graduate Business creators</target>
       </trans-unit>
       <trans-unit id="survey.modification_of_an_insertion_survey_graduate_entrepreneur">
         <source>survey.modification_of_an_insertion_survey_graduate_entrepreneur</source>
@@ -2011,7 +2017,7 @@
       </trans-unit>
       <trans-unit id="survey.your_remuneration_per_month_in_fcfa">
         <source>survey.your_remuneration_per_month_in_fcfa</source>
-        <target>Your salary per month in FCFA</target>
+        <target>Your salary per month in Rwandan Francs</target>
       </trans-unit>
       <trans-unit id="survey.insertion_survey_graduates_in_employment">
         <source>survey.insertion_survey_graduates_in_employment</source>
@@ -2031,7 +2037,7 @@
       </trans-unit>
       <trans-unit id="survey.add_an_insertion_survey_graduate_in_employment">
         <source>survey.add_an_insertion_survey_graduate_in_employment</source>
-        <target>Add an integration survey: job graduate</target>
+        <target>Add an integration survey: graduate in employment</target>
       </trans-unit>
       <trans-unit id="survey.are_you_satisfied_with_your_training">
         <source>survey.are_you_satisfied_with_your_training</source>
@@ -2043,7 +2049,7 @@
       </trans-unit>
       <trans-unit id="survey.are_you_enrolled_in_a_course">
         <source>survey.are_you_enrolled_in_a_course</source>
-        <target>Have you registered for a training</target>
+        <target>Are you registered for a training?</target>
       </trans-unit>
       <trans-unit id="survey.searching_for_a_job">
         <source>survey.searching_for_a_job</source>
@@ -2063,7 +2069,7 @@
       </trans-unit>
       <trans-unit id="survey.are_you_looking_for_work">
         <source>survey.are_you_looking_for_work</source>
-        <target>Are you looking for work</target>
+        <target>Are you looking for a job?</target>
       </trans-unit>
       <trans-unit id="survey.do_you_work_as_a_volunteer">
         <source>survey.do_you_work_as_a_volunteer</source>
@@ -2087,11 +2093,11 @@
       </trans-unit>
       <trans-unit id="survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices">
         <source>survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices</source>
-        <target>Why, in your opinion, have you not found / found a job?%tag_br%several possible choices (+ ctrl key)</target>
+        <target>Why, in your opinion, have you not found a job?%tag_br%several possible choices (+ ctrl key)</target>
       </trans-unit>
       <trans-unit id="survey.insertion_survey_graduates_looking_for_work">
         <source>survey.insertion_survey_graduates_looking_for_work</source>
-        <target>Insertion survey: Graduates seeking employment</target>
+        <target>Integration survey: Graduates looking for a job</target>
       </trans-unit>
       <trans-unit id="survey.new_insertion_survey_graduates_looking_for_a_job">
         <source>survey.new_insertion_survey_graduates_looking_for_a_job</source>
@@ -2099,7 +2105,7 @@
       </trans-unit>
       <trans-unit id="survey.list_of_insertion_surveys_graduates_looking_for_a_job">
         <source>survey.list_of_insertion_surveys_graduates_looking_for_a_job</source>
-        <target>List of integration surveys: Graduate seeking employment</target>
+        <target>List of integration surveys: Graduate looking for a job</target>
       </trans-unit>
       <trans-unit id="survey.registered_training_with_tag">
         <source>survey.registered_training_with_tag</source>
@@ -2131,7 +2137,7 @@
       </trans-unit>
       <trans-unit id="survey.why_do_you_think_you_haven_found_returned_to_work">
         <source>survey.why_do_you_think_you_haven_found_returned_to_work</source>
-        <target>Why, in your opinion, have you not found / found a job?</target>
+        <target>In your opinion, why did you not find a job?</target>
       </trans-unit>
       <trans-unit id="referencement.base_security">
         <source>referencement.base_security</source>
@@ -2195,7 +2201,7 @@
       </trans-unit>
       <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
-        <target>Welcome! Before answering the insertion quiz, please complete your profile below</target>
+        <target>Welcome! Before answering the insertion questionnaire, please complete your profile below</target>
       </trans-unit>
       <trans-unit id="satisfaction_search.job">
         <source>satisfaction_search.job</source>
@@ -2207,7 +2213,7 @@
       </trans-unit>
       <trans-unit id="satisfaction_creator.monthly_pay">
         <source>satisfaction_creator.monthly_pay</source>
-        <target>Monthly pay</target>
+        <target>Monthly salary</target>
       </trans-unit>
       <trans-unit id="satisfaction_creator.excellent">
         <source>satisfaction_creator.excellent</source>
@@ -2231,7 +2237,7 @@
       </trans-unit>
       <trans-unit id="satisfaction_salary.daily_pay">
         <source>satisfaction_salary.daily_pay</source>
-        <target>Daily Wage</target>
+        <target>Daily salary</target>
       </trans-unit>
       <trans-unit id="satisfaction_salary.other_job_reason_not_found">
         <source>satisfaction_salary.other_job_reason_not_found</source>
@@ -2383,7 +2389,7 @@
       </trans-unit>
       <trans-unit id="js.error_school_contains_graduates_and_cannot_be_deleted_part1">
         <source>js.error_school_contains_graduates_and_cannot_be_deleted_part1</source>
-        <target>the establishment </target>
+        <target>the TVET School</target>
       </trans-unit>
       <trans-unit id="js.error_school_contains_graduates_and_cannot_be_deleted_part2">
         <source>js.error_school_contains_graduates_and_cannot_be_deleted_part2</source>
@@ -2447,11 +2453,13 @@
       </trans-unit>
       <trans-unit id="js.file_invalid_fields_firstname_lastname_and_telephone_mandatory">
         <source>js.file_invalid_fields_firstname_lastname_and_telephone_mandatory</source>
-        <target>The file is invalid. The fields \'nom\', \'prénom\' et \'portable\' are mandatory</target>
+        <target>The file is invalid. The fields \'last name\', \'first name\' and  \'mobile phone\' are mandatory</target>
       </trans-unit>
       <trans-unit id="js.data_not_compliant_correct_manually">
         <source>js.data_not_compliant_correct_manually</source>
-        <target>Some data is not compliant, you must correct it manually</target>
+        <target>Some data are not compliant, you must correct them manually
+
+</target>
       </trans-unit>
       <trans-unit id="js.file_contains_errors">
         <source>js.file_contains_errors</source>
@@ -2459,7 +2467,7 @@
       </trans-unit>
       <trans-unit id="js.bad_syntax">
         <source>js.bad_syntax</source>
-        <target>Bad syntax</target>
+        <target>Wrong syntax</target>
       </trans-unit>
       <trans-unit id="js.addition_sector_impossible_6_sectors_already_used">
         <source>js.addition_sector_impossible_6_sectors_already_used</source>
@@ -2467,7 +2475,7 @@
       </trans-unit>
       <trans-unit id="js.bad_syntax_of_following_fields">
         <source>js.bad_syntax_of_following_fields</source>
-        <target>Bad syntax of the following fields:</target>
+        <target>Wrong syntax of the following fields:</target>
       </trans-unit>
       <trans-unit id="js.authorized_fields">
         <source>js.authorized_fields</source>
@@ -2499,7 +2507,7 @@
       </trans-unit>
       <trans-unit id="js.supress_my_coordinates">
         <source>js.supress_my_coordinates</source>
-        <target>supress my coordinates</target>
+        <target>delete my coordinates</target>
       </trans-unit>
       <trans-unit id="js.other_job">
         <source>js.other_job</source>
@@ -2521,6 +2529,66 @@
         <source>js.other_skill</source>
         <target>Other skill</target>
       </trans-unit>
+      <trans-unit id="js.import_csv_registration">
+        <source>js.import_csv_registration</source>
+        <target>registration</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_first_name">
+        <source>js.import_csv_first_name</source>
+        <target>first name</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_name">
+        <source>js.import_csv_name</source>
+        <target>name</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_birthday">
+        <source>js.import_csv_birthday</source>
+        <target>birthday</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_gender">
+        <source>js.import_csv_gender</source>
+        <target>gender</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_region">
+        <source>js.import_csv_region</source>
+        <target>region</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_city">
+        <source>js.import_csv_city</source>
+        <target>city</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_mobile_phone">
+        <source>js.import_csv_mobile_phone</source>
+        <target>mobile phone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_phone">
+        <source>js.import_csv_phone</source>
+        <target>phone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_parent_mobile_phone">
+        <source>js.import_csv_parent_mobile_phone</source>
+        <target>parent mobile phone</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_email">
+        <source>js.import_csv_email</source>
+        <target>email</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_diploma">
+        <source>js.import_csv_diploma</source>
+        <target>diploma</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_sector">
+        <source>js.import_csv_sector</source>
+        <target>sector</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_subsector">
+        <source>js.import_csv_subsector</source>
+        <target>subsector</target>
+      </trans-unit>
+      <trans-unit id="js.import_csv_legal_status">
+        <source>js.import_csv_legal_status</source>
+        <target>legal status</target>
+      </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
         <target>Invalid phone number</target>
@@ -2535,15 +2603,15 @@
       </trans-unit>
       <trans-unit id="error.fill_in_the_name_of_the_company">
         <source>error.fill_in_the_name_of_the_company</source>
-        <target>Please fill in the name of the company</target>
+        <target>Please complete the name of the company</target>
       </trans-unit>
       <trans-unit id="error.please_fill_in_the_company_website">
         <source>error.please_fill_in_the_company_website</source>
-        <target>Please fill in the company website</target>
+        <target>Please complete the company website</target>
       </trans-unit>
       <trans-unit id="error.please_fill_in_the_street_number">
         <source>error.please_fill_in_the_street_number</source>
-        <target>Please fill in the street number</target>
+        <target>Please complete the street number</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone_number">
         <source>error.invalid_phone_number</source>
@@ -2555,23 +2623,23 @@
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
-        <target>a man</target>
+        <target>a male</target>
       </trans-unit>
       <trans-unit id="une femme">
         <source>une femme</source>
-        <target>a woman</target>
+        <target>a female</target>
       </trans-unit>
       <trans-unit id="Centre de Formation Professionnelle (CFP)">
         <source>Centre de Formation Professionnelle (CFP)</source>
-        <target>Vocational Training Center (VTC)</target>
+        <target>TVET School</target>
       </trans-unit>
       <trans-unit id="Lycée Technique (LT)">
         <source>Lycée Technique (LT)</source>
-        <target>Technical School (TC)</target>
+        <target>TVET School</target>
       </trans-unit>
       <trans-unit id="Projet_de_mariage">
         <source>Projet_de_mariage</source>
-        <target>weading and/or having children</target>
+        <target>Wedding project or project of having children?</target>
       </trans-unit>
       <trans-unit id="Raisons_personnelles">
         <source>Raisons_personnelles</source>
@@ -2580,6 +2648,202 @@
       <trans-unit id="Autre raison">
         <source>Autre raison</source>
         <target>Other reason</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_deletion_is_done_successfully">
+        <source>flashbag.the_deletion_is_done_successfully</source>
+        <target>The deletion is done successfully</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_the_job">
+        <source>flashbag.unable_to_delete_the_job</source>
+        <target>Unable to delete the job</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_the_country">
+        <source>flashbag.unable_to_delete_the_country</source>
+        <target>Unable to delete the country</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_deletion_of_the_user_is_done_with_success">
+        <source>flashbag.the_deletion_of_the_user_is_done_with_success</source>
+        <target>The deletion of the user is done with success</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_user">
+        <source>flashbag.unable_to_delete_user</source>
+        <target>Unable to delete user</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_company">
+        <source>flashbag.unable_to_delete_company</source>
+        <target>Unable to delete company</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_diploma">
+        <source>flashbag.unable_to_delete_diploma</source>
+        <target>Unable to delete diploma</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_account">
+        <source>flashbag.unable_to_delete_account</source>
+        <target>Unable to delete account</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_offer">
+        <source>flashbag.unable_to_delete_offer</source>
+        <target>Unable to delete offer</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_reason">
+        <source>flashbag.unable_to_delete_reason</source>
+        <target>Unable to delete reason</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_legal_status">
+        <source>flashbag.unable_to_delete_legal_status</source>
+        <target>Unable to delete legal status</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_graduate">
+        <source>flashbag.unable_to_delete_graduate</source>
+        <target>Unable to delete the graduate</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_city">
+        <source>flashbag.unable_to_delete_city</source>
+        <target>Unable to delete the city</target>
+      </trans-unit>
+      <trans-unit id="flashbag.thank_you_for_responding_to_the_survey">
+        <source>flashbag.thank_you_for_responding_to_the_survey</source>
+        <target>Thank you for responding to the survey</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_login_phone_is_already_used_by_another_account">
+        <source>flashbag.the_login_phone_is_already_used_by_another_account</source>
+        <target>The login phone is already used by another account</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_login_phone_for_your_account_will_be_changed">
+        <source>flashbag.the_login_phone_for_your_account_will_be_changed</source>
+        <target>The login phone for your account will be changed</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_connection_parameters_are_sent_by_email">
+        <source>flashbag.your_connection_parameters_are_sent_by_email</source>
+        <target>Your connection parameters are sent by email</target>
+      </trans-unit>
+      <trans-unit id="flashbag.error_sending_email">
+        <source>flashbag.error_sending_email</source>
+        <target>Error sending email</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_application_is_sent_successfully">
+        <source>flashbag.your_application_is_sent_successfully</source>
+        <target>Your application is sent successfully</target>
+      </trans-unit>
+      <trans-unit id="flashbag.error_sending_application">
+        <source>flashbag.error_sending_application</source>
+        <target>Error sending application</target>
+      </trans-unit>
+      <trans-unit id="flashbag.remember_to_create_a_valid_email_address">
+        <source>flashbag.remember_to_create_a_valid_email_address</source>
+        <target>Remember to create a valid email address</target>
+      </trans-unit>
+      <trans-unit id="flashbag.you_must_be_a_graduate_to_create_a_survey">
+        <source>flashbag.you_must_be_a_graduate_to_create_a_survey</source>
+        <target>You must be a graduate to create a survey</target>
+      </trans-unit>
+      <trans-unit id="flashbag.you_have_to_answer_a_new_survey_since_date">
+        <source>flashbag.you_have_to_answer_a_new_survey_since_date</source>
+        <target>You have to answer a new survey since {date}</target>
+      </trans-unit>
+      <trans-unit id="flashbag.you_can_edit_this_survey_until_date">
+        <source>flashbag.you_can_edit_this_survey_until_date</source>
+        <target>You can edit this survey until {date}</target>
+      </trans-unit>
+      <trans-unit id="flashbag.you_can_create_a_survey_from_date">
+        <source>flashbag.you_can_create_a_survey_from_date</source>
+        <target>You can create a survey from {date}</target>
+      </trans-unit>
+      <trans-unit id="flashbag.please_click_survey_in_progress_to_add_or_modify_a_survey">
+        <source>flashbag.please_click_survey_in_progress_to_add_or_modify_a_survey</source>
+        <target>Please click 'Survey in progress' to add or modify a survey</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_email_address_is_already_used_in_another_account">
+        <source>flashbag.the_email_address_is_already_used_in_another_account</source>
+        <target>The email address: {email} is already used in another account</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_country_field_is_mandatory">
+        <source>flashbag.the_country_field_is_mandatory</source>
+        <target>The country field is mandatory</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_country_of_residence_field_is_mandatory">
+        <source>flashbag.the_country_of_residence_field_is_mandatory</source>
+        <target>The Country of residence field is mandatory</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_number_must_start_with_number">
+        <source>flashbag.the_number_must_start_with_number</source>
+        <target>The number must start with {number}</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_login_account_is_renamed_to_name">
+        <source>flashbag.your_login_account_is_renamed_to_name</source>
+        <target>Your Login Account is renamed to {name}</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_number_without_the_country_code_must_have_number_digits">
+        <source>flashbag.the_number_without_the_country_code_must_have_number_digits</source>
+        <target>The number without the country code must have {number} digits</target>
+      </trans-unit>
+      <trans-unit id="flashbag.wrong_phone_number_syntax">
+        <source>flashbag.wrong_phone_number_syntax</source>
+        <target>Wrong phone number syntax</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_password_must_have_at_least_6_characters">
+        <source>flashbag.the_password_must_have_at_least_6_characters</source>
+        <target>The password must have at least 6 characters</target>
+      </trans-unit>
+      <trans-unit id="flashbag.this_phone_number_is_already_in_use">
+        <source>flashbag.this_phone_number_is_already_in_use</source>
+        <target>This phone number is already in use</target>
+      </trans-unit>
+      <trans-unit id="flashbag.welcome_before_answering_the_satisfaction_questionnaire_please_complete_your_profile_below">
+        <source>flashbag.welcome_before_answering_the_satisfaction_questionnaire_please_complete_your_profile_below</source>
+        <target>Welcome ! Before answering the satisfaction questionnaire, please complete your profile below.</target>
+      </trans-unit>
+      <trans-unit id="flashbag.welcome_please_complete_your_profile_below">
+        <source>flashbag.welcome_please_complete_your_profile_below</source>
+        <target>Welcome ! please complete your profile below.</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_create_an_account">
+        <source>flashbag.unable_to_create_an_account</source>
+        <target>Unable to create an account</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_code_is_sent_by_email">
+        <source>flashbag.your_code_is_sent_by_email</source>
+        <target>Your code is sent by email</target>
+      </trans-unit>
+      <trans-unit id="flashbag.sending_the_code_by_sms_is_not_yet_authorized_please_enter_a_valid_email_address">
+        <source>flashbag.sending_the_code_by_sms_is_not_yet_authorized_please_enter_a_valid_email_address</source>
+        <target>sending the code by sms is not yet authorized, please enter a valid email address</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_email_does_not_match_your_profile">
+        <source>flashbag.your_email_does_not_match_your_profile</source>
+        <target>Your email does not match your profile</target>
+      </trans-unit>
+      <trans-unit id="flashbag.enter_your_new_password">
+        <source>flashbag.enter_your_new_password</source>
+        <target>Enter your new password</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_code_is_invalid">
+        <source>flashbag.your_code_is_invalid</source>
+        <target>Your code is invalid</target>
+      </trans-unit>
+      <trans-unit id="flashbag.the_code_must_have_4_digits">
+        <source>flashbag.the_code_must_have_4_digits</source>
+        <target>The code must have 4 digits</target>
+      </trans-unit>
+      <trans-unit id="flashbag.your_password_has_been_changed">
+        <source>flashbag.your_password_has_been_changed</source>
+        <target>Your password has been changed!</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_satisfaction">
+        <source>flashbag.unable_to_delete_satisfaction</source>
+        <target>Unable to delete satisfaction</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_school">
+        <source>flashbag.unable_to_delete_school</source>
+        <target>Unable to delete school</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_activity_sector">
+        <source>flashbag.unable_to_delete_activity_sector</source>
+        <target>Unable to delete the activity sector</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_establishment_please_remove_its_graduates_first">
+        <source>flashbag.unable_to_delete_establishment_please_remove_its_graduates_first</source>
+        <target>Unable to delete establishment. Please remove its graduates first</target>
       </trans-unit>
     </body>
   </file>
