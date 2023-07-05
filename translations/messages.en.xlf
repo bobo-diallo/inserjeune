@@ -2279,9 +2279,17 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.all_f</source>
         <target>All</target>
       </trans-unit>
+      <trans-unit id="js.select">
+        <source>js.select</source>
+        <target>Select</target>
+      </trans-unit>
       <trans-unit id="js.select_sector">
         <source>js.select_sector</source>
         <target>Select a sector of activity</target>
+      </trans-unit>
+      <trans-unit id="js.select_region">
+        <source>js.select_region</source>
+        <target>Select an region</target>
       </trans-unit>
       <trans-unit id="js.select_activity">
         <source>js.select_activity</source>
@@ -2529,6 +2537,14 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.other_skill</source>
         <target>Other skill</target>
       </trans-unit>
+      <trans-unit id="js.a_man">
+        <source>js.a_man</source>
+        <target>a male</target>
+      </trans-unit>
+      <trans-unit id="js.a_woman">
+        <source>js.a_woman</source>
+        <target>a female</target>
+      </trans-unit>
       <trans-unit id="js.import_csv_registration">
         <source>js.import_csv_registration</source>
         <target>registration</target>
@@ -2620,6 +2636,38 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="error.invalid_email">
         <source>error.invalid_email</source>
         <target>Invalid Email</target>
+      </trans-unit>
+      <trans-unit id="datatable.first">
+        <source>datatable.first</source>
+        <target>first</target>
+      </trans-unit>
+      <trans-unit id="datatable.previous">
+        <source>datatable.previous</source>
+        <target>previous</target>
+      </trans-unit>
+      <trans-unit id="datatable.next">
+        <source>datatable.next</source>
+        <target>next</target>
+      </trans-unit>
+      <trans-unit id="datatable.last">
+        <source>datatable.last</source>
+        <target>last</target>
+      </trans-unit>
+      <trans-unit id="datatable.search">
+        <source>datatable.search</source>
+        <target>search :</target>
+      </trans-unit>
+      <trans-unit id="datatable.emptyTable">
+        <source>datatable.emptyTable</source>
+        <target>No data in the table</target>
+      </trans-unit>
+      <trans-unit id="datatable.zeroRecords">
+        <source>datatable.zeroRecords</source>
+        <target>No element to show</target>
+      </trans-unit>
+      <trans-unit id="datatable.processing">
+        <source>datatable.processing</source>
+        <target>In progress</target>
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>

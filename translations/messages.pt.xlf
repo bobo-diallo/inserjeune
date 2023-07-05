@@ -2273,8 +2273,16 @@
         <source>js.all_f</source>
         <target/>
       </trans-unit>
+      <trans-unit id="js.select">
+        <source>js.select</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="js.select_sector">
         <source>js.select_sector</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.select_region">
+        <source>js.select_region</source>
         <target/>
       </trans-unit>
       <trans-unit id="js.select_activity">
@@ -2521,6 +2529,14 @@
         <source>js.other_skill</source>
         <target/>
       </trans-unit>
+      <trans-unit id="js.a_man">
+        <source>js.a_man</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="js.a_woman">
+        <source>js.a_woman</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="js.import_csv_registration">
         <source>js.import_csv_registration</source>
         <target/>
@@ -2611,6 +2627,38 @@
       </trans-unit>
       <trans-unit id="error.invalid_email">
         <source>error.invalid_email</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.first">
+        <source>datatable.first</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.previous">
+        <source>datatable.previous</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.next">
+        <source>datatable.next</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.last">
+        <source>datatable.last</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.search">
+        <source>datatable.search</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.emptyTable">
+        <source>datatable.emptyTable</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.zeroRecords">
+        <source>datatable.zeroRecords</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.processing">
+        <source>datatable.processing</source>
         <target/>
       </trans-unit>
       <trans-unit id="un homme">
