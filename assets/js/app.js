@@ -55,9 +55,13 @@ global.deleteElement = function deleteElement(route) {
  * @returns {*|jQuery}
  */
 global.datatable = function datatable(retrieve=false) {
+   let jsonLangage = '../../../locale/en_EN.json'
+   if(getCurrentLocale() == "fr")
+      jsonLangage = '../../../locale/fr_FR.json'
+
    let options = {
       language: {
-         url: '../../build/locale/fr_FR.json'
+         url: jsonLangage
       },
       initComplete: function () {
          $('#kz_table_wrapper input').addClass('form-control form-control-sm ')
@@ -937,9 +941,13 @@ global.timeGraphCreation = function timeGraphCreation(type, actorName, duration)
 }
 
 global.datatable2 = function datatable2(retrieve = false) {
+   let jsonLangage = '../../../locale/en_EN.json'
+   if(getCurrentLocale() == "fr")
+      jsonLangage = '../../../locale/fr_FR.json'
+
    let options = {
       language: {
-         url: '../../build/locale/fr_FR.json'
+         url: jsonLangage
       },
       initComplete: function () {
          $('#kz_table2_wrapper input').addClass('form-control form-control-sm kz_table2_input')
