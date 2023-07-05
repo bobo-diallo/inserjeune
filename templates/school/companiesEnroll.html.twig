@@ -289,13 +289,13 @@
             html += '        <button style="display: none" class="saveCompany" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
             html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
-            html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="" placeholder="nom"><p id="p_name'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_name'+ rowNumber + '"></p></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectCity'+ rowNumber + '"></p><select required class="city" style="display:flex" value="" id="selectCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneStandard'+ rowNumber + '" style="display:none" value="" placeholder="Mobile 1"><p id="p_phoneStandard'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '" placeholder="Sélectionnez un secteur"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectLegalStatus'+ rowNumber + '"></p><select style="display:none" required value="" id="selectLegalStatus'+ rowNumber + '"  placeholder="Sélectionnez un statut"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectCity'+ rowNumber + '"></p><select required class="city" style="display:flex" value="" id="selectCity'+ rowNumber + '" placeholder="' + translations["js.import_csv_region"] + '"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneStandard'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_phone"] + '"><p id="p_phoneStandard'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '" placeholder="' + translations["js.import_csv_sector"] + '"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectLegalStatus'+ rowNumber + '"></p><select style="display:none" required value="" id="selectLegalStatus'+ rowNumber + '"  placeholder="' + translations["js.import_csv_legal_status"] + '"></select></td>';
             html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
 
             html += '</tr>';
@@ -320,7 +320,7 @@
 
             // Add option de sélection de la région de l'établissement
             ($('#selectCity' + rowNumber + " option").length == 0)
-            $("#selectCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
+            $("#selectCity"+rowNumber).append("<option value=\"\">" + translations["js.select_region"] + "</option>");
 
 
             //Lancement du mode édition
@@ -344,13 +344,13 @@
             html += '        <button style="display: none" class="saveCompany"  id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ' , \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
             html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
-            html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="nom"><p id="p_name'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="name'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_name'+ rowNumber + '"></p></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectCity'+ rowNumber + '"></p><select required class="city" style="display:flex" value="" id="selectCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneStandard'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="Mobile 1"><p id="p_phoneStandard'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[4] + '" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '" placeholder="Sélectionnez un secteur"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectLegalStatus'+ rowNumber + '"></p><select style="display:none" required value="" id="selectLegalStatus'+ rowNumber + '"  placeholder="Sélectionnez un statut"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectCity'+ rowNumber + '"></p><select required class="city" style="display:flex" value="" id="selectCity'+ rowNumber + '" placeholder="' + translations["js.import_csv_region"] + '"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneStandard'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="' + translations["js.import_csv_phone"] + '"><p id="p_phoneStandard'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[4] + '" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '" placeholder="' + translations["js.import_csv_sector"] + '"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectLegalStatus'+ rowNumber + '"></p><select style="display:none" required value="" id="selectLegalStatus'+ rowNumber + '"  placeholder="' + translations["js.import_csv_legal_status"] + '"></select></td>';
             html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '">' + values[7] + '</p></td>';
 
             html += '</tr>';
@@ -375,7 +375,7 @@
 
             // Add option de sélection de la région de l'établissement
             ($('#selectCity' + rowNumber + " option").length === 0)
-            $("#selectCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
+            $("#selectCity"+rowNumber).append("<option value=\"\">" + translations["js.select_region"] + "</option>");
 
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
@@ -427,7 +427,7 @@
                 $('#selectRegion' + rowNumber + ' option:first').remove();
             }
             if ($('#selectRegion' + rowNumber + ' option').length == 0) {
-                $("#selectRegion" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
+                $("#selectRegion" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#regions option").each(function (option) {
                     if ($idSelected == $(this).val())
                         $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
@@ -445,7 +445,7 @@
             }
 
             if ($('#selectSectorArea' + rowNumber + ' option').length == 0) {
-                $("#selectSectorArea" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
+                $("#selectSectorArea" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#sectorAreas option").each(function (option) {
                     if ($idSelected == $(this).val())
                         $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
@@ -463,7 +463,7 @@
             }
 
             if ($('#selectLegalStatus' + rowNumber + ' option').length == 0) {
-                $("#selectLegalStatus" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
+                $("#selectLegalStatus" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#legalStatus option").each(function (option) {
                     if ($idSelected == $(this).val())
 
@@ -489,7 +489,7 @@
                     $idSelected = $('#selectCity' + rowNumber + ' option:first').val();
                     $('#selectCity' + rowNumber + ' option:first').remove();
                 }
-                $("#selectCity" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                $("#selectCity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
                 cities.forEach((city) => {
                     if ($idSelected == city['id'])
                         $("#selectCity" + rowNumber).append("<option selected value=\"" + city['id'] + "\">" + city['name'] + "</option>");
