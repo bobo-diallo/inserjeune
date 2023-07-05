@@ -2273,9 +2273,17 @@
         <source>js.all_f</source>
         <target>Toutes</target>
       </trans-unit>
+      <trans-unit id="js.select">
+        <source>js.select</source>
+        <target>Selectionnez</target>
+      </trans-unit>
       <trans-unit id="js.select_sector">
         <source>js.select_sector</source>
         <target>Selectionnez un domaine</target>
+      </trans-unit>
+      <trans-unit id="js.select_region">
+        <source>js.select_region</source>
+        <target>Selectionnez une région</target>
       </trans-unit>
       <trans-unit id="js.select_activity">
         <source>js.select_activity</source>
@@ -2521,6 +2529,14 @@
         <source>js.other_skill</source>
         <target>Autre compétence</target>
       </trans-unit>
+      <trans-unit id="js.a_man">
+        <source>js.a_man</source>
+        <target>un homme</target>
+      </trans-unit>
+      <trans-unit id="js.a_woman">
+        <source>js.a_woman</source>
+        <target>une femme</target>
+      </trans-unit>
       <trans-unit id="js.import_csv_registration">
         <source>js.import_csv_registration</source>
         <target>immatriculation</target>
@@ -2612,6 +2628,38 @@
       <trans-unit id="error.invalid_email">
         <source>error.invalid_email</source>
         <target>Email invalide</target>
+      </trans-unit>
+      <trans-unit id="datatable.first">
+        <source>datatable.first</source>
+        <target>premier</target>
+      </trans-unit>
+      <trans-unit id="datatable.previous">
+        <source>datatable.previous</source>
+        <target>précédent</target>
+      </trans-unit>
+      <trans-unit id="datatable.next">
+        <source>datatable.next</source>
+        <target>suivant</target>
+      </trans-unit>
+      <trans-unit id="datatable.last">
+        <source>datatable.last</source>
+        <target>dernier</target>
+      </trans-unit>
+      <trans-unit id="datatable.search">
+        <source>datatable.search</source>
+        <target>rechercher :</target>
+      </trans-unit>
+      <trans-unit id="datatable.emptyTable">
+        <source>datatable.emptyTable</source>
+        <target>Aucune donnée disponible dans le tableau</target>
+      </trans-unit>
+      <trans-unit id="datatable.zeroRecords">
+        <source>datatable.zeroRecords</source>
+        <target>Aucun élément à afficher</target>
+      </trans-unit>
+      <trans-unit id="datatable.processing">
+        <source>datatable.processing</source>
+        <target>Traitement en cours</target>
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
