@@ -1,0 +1,22 @@
+{
+  "processing": "Working...",
+  "search": "Search&nbsp;:",
+  "lengthMenu": "Showing _MENU_ elements",
+  "info": "Showing of _START_ element to _END_ on _TOTAL_ elements",
+  "infoEmpty": "Show of 0 elements",
+  "infoFiltered": "(filter of _MAX_ elements totaly)",
+  "infoPostFix": "",
+  "loadingRecords": "In progress...",
+  "zeroRecords": "No element to show",
+  "emptyTable": "No data in the table",
+  "paginate": {
+    "first": "first",
+    "previous": "previous",
+    "next": "next",
+    "last": "last"
+  },
+  "aria": {
+    "sortAscending": ": activate to sort the column in ascending order",
+    "sortDescending": ": activate to sort the column in descending order"
+  }
+}

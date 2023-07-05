@@ -35,11 +35,15 @@
     }
 
     $(document).ready(function () {
+        let jsonLangage = '../../../locale/en_EN.json'
+        if(getCurrentLocale() == "fr")
+            jsonLangage = '../../../locale/fr_FR.json'
+
         // DataTable with export csv/excel/PDF
         let title = $('h6.element-header').first().text();
         let options = {
             language: {
-                url: '../../../locale/fr_FR.json'
+                url: jsonLangage
             },
             initComplete: function () {
                 $('#kz_table_wrapper input').addClass('form-control form-control-sm ')
@@ -100,7 +104,7 @@
                             }
                         }
                     },
-                    customize : function(doc) {
+                    customize: function (doc) {
                         if (document.getElementById('kz_table_with_width_export')) {
                             doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
                         }
@@ -129,6 +133,6 @@
         $('#printDashboard').on('click', function (e) {
             printDashboardToPDF(e);
         })
-
     });
+
 </script>
