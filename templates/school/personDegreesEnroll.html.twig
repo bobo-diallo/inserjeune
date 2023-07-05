@@ -102,6 +102,7 @@
         let translations = [];
         getTranslation().then (function (translation) {
             translations = translation;
+            console.log(translations);
         });
 
         let saveMulti=false;
@@ -296,20 +297,21 @@
             html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
             html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
-            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="" placeholder="N° Identification"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="" placeholder="prénom"><p id="p_firstname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="" placeholder="nom"><p id="p_lastname'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" type="Date" style="display:none" value="" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
             //html += '    <td class="tdinput"><input id="sex'+ rowNumber + '" style="display:none" placeholder="genre"><p></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>Selectionnez</option><option>un homme</option><option>une femme</option></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option>un homme</option><option>une femme</option></select></td>';
+            // html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option>' + translations["js.a_man"] + '</option><option>' + translations["js.a_woman"] + '</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" value="" id="selectAddressCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="" placeholder="Mobile 1"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="" placeholder="Mobile 1"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" value="" id="selectAddressCity'+ rowNumber + '" placeholder="' + translations["js.import_csv_region"] + '"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_parent_mobile_phone"] + '"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
             html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required value="" id="selectDegree'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '"  placeholder="Sélectionnez un secteur"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required value="" id="selectActivity'+ rowNumber + '"  placeholder="Sélectionnez une filière"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '"  placeholder="' + translations["js.import_csv_sector"] + '"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required value="" id="selectActivity'+ rowNumber + '"  placeholder="' + translations["js.import_csv_subsector"] + '"></select></td>';
             html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
 
             html += '</tr>';
@@ -349,11 +351,11 @@
 
             // Add option de sélection de la région de l'établissement
             if($('#selectAddressCity' + rowNumber + " option").length == 0)
-            $("#selectAddressCity"+rowNumber).append("<option value=\"\">Sélectionnez une region</option>");
+            $("#selectAddressCity"+rowNumber).append("<option value=\"\">" + translations["js.select_region"] + "</option>");
 
             // Add option de sélection du SectorAreas de l'établissement
             if($('#selectActivity' + rowNumber + " option").length == 0)
-                $("#selectActivity"+rowNumber).append("<option value=\"\">Sélectionnez un secteur</option>");
+                $("#selectActivity"+rowNumber).append("<option value=\"\">" + translations["js.select_sector"] + "</option>");
 
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
@@ -378,19 +380,19 @@
             html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
             html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
             html += '    </td>';
-            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="N° Identification"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="prénom"><p id="p_firstname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="nom"><p id="p_lastname'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>Selectionnez</option><option value="un homme">un homme</option><option value="une femme">une femme</option></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="un homme">un homme</option><option value="une femme">une femme</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="selectAddressCity'+ rowNumber + '" placeholder="Sélectionnez une région"></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="Mobile 1"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="Mobile 1"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[9] + '" placeholder="email@mail.com"><p id="p_email'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="' + translations["js.import_csv_city"] + ''+ rowNumber + '" placeholder="' + translations["js.select_region"] + '"></select></td>';
+            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="' + translations["js.import_csv_parent_mobile_phone"] + '"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[9] + '" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
             html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required id="selectDegree'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required id="selectSectorArea'+ rowNumber + '"  placeholder="Sélectionnez un secteur"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required id="selectActivity'+ rowNumber + '"  placeholder="Sélectionnez une filière"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required id="selectSectorArea'+ rowNumber + '"  placeholder="' + translations["js.select_sector"] + '"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required id="selectActivity'+ rowNumber + '"  placeholder="' + translations["js.select_activity"] + '"></select></td>';
             html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
 
             html += '</tr>';
@@ -498,7 +500,7 @@
                     $(this).find('select').each(function () {
                         if($(this).prop("required") == true) {
 
-                            if (($(this).val() == "") ||  (($(this).val())&&($(this).val().toLowerCase() == 'selectionnez'))) {
+                            if (($(this).val() == "") ||  (($(this).val())&&($(this).val().toLowerCase() == translations["js.select"]))) {
                                 check = false;
                                 $(this).css({"background-color": "#ffd5d5"});
                                 errorNumber++;
@@ -596,7 +598,7 @@
                         $(this).find('select').each(function () {
                             if($(this).prop("required") == true) {
 
-                                if (($(this).val() == "") ||  (($(this).val())&&($(this).val().toLowerCase() == "selectionnez"))) {
+                                if (($(this).val() == "") ||  (($(this).val())&&($(this).val().toLowerCase() == translations["js.select"]))) {
                                     check = false;
                                     $(this).css({"background-color": "#ffd5d5"});
                                 } else {
@@ -787,7 +789,7 @@
                 $('#selectRegion' + rowNumber + ' option:first').remove();
             }
             if ($('#selectRegion' + rowNumber + ' option').length == 0) {
-                $("#selectRegion" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
+                $("#selectRegion" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#regions option").each(function (option) {
                     if ($idSelected == $(this).val())
                         $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
@@ -804,7 +806,7 @@
                 $('#selectDegree' + rowNumber + ' option:first').remove();
             }
             if ($('#selectDegree' + rowNumber + ' option').length == 0) {
-                $("#selectDegree" + rowNumber).append("<option value=\"\">Sélectionnez</option>");
+                $("#selectDegree" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#degrees option").each(function (option) {
                     if ($idSelected == $(this).val())
                         $("#selectDegree" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
@@ -822,7 +824,7 @@
             }
 
             if ($('#selectSectorArea' + rowNumber + ' option').length == 0) {
-                $("#selectSectorArea" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                $("#selectSectorArea" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
                 $("#sectorAreas option").each(function (option) {
                     if ($idSelected == $(this).val()) {
                         $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
@@ -847,7 +849,7 @@
                     $idSelected = $('#selectAddressCity' + rowNumber + ' option:first').val();
                     $('#selectAddressCity' + rowNumber + ' option:first').remove();
                 }
-                $("#selectAddressCity" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                $("#selectAddressCity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
                 //console.log(cities);
                 if (cities) {
                     cities.forEach((city) => {
@@ -881,7 +883,7 @@
                     $('#selectActivity' + rowNumber + ' option:first').remove();
                 }
 
-                $("#selectActivity" + rowNumber).append("<option selected value=\"\">Sélectionnez</option>");
+                $("#selectActivity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
                 if (activities) {
                     activities.forEach((activity) => {
                         if ($idSelected == activity['id'])
