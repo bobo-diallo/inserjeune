@@ -38,14 +38,14 @@ global.makeSelected = function makeSelected(name) {
 //affiche / cache les div concernées si checkbox sur false
 global.showHiddenDivByCheckBox = function showHiddenDivByCheckBox(idCheckBox, classDiv) {
    if($('#idCheckBox').is('checked'))
-      alert("Le checkbox est coché");
+      alert(translations["js.checkbox_is_checked"]);
    else
-      alert("Le checkbox n'est pas coché");
+      alert(translations["js.checkbox_is_not_checked"]);
 }
 
 // Permet de supprimer un element
 global.deleteElement = function deleteElement(route) {
-   if (confirm('Voulez-vous vraiment supprimer l\'element ?'))
+   if (confirm(translations['js.sure_to_delete_item']))
       window.location.href = route;
 }
 
@@ -253,11 +253,13 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
    // Remet l'option Autre si inexistante apres action sur un valider par exemple
    $(idSelect).on('click', function () {
       if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
+      // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
       }
    });
    $(idOther).on('click', function () {
       if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
+      // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
          // $(idSelect + " option[value= '']").attr('selected', 'selected');
       }
@@ -279,9 +281,12 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
    // Ajout de Autre  à la création ou édition du formulaire
    // console.log("detect Autre=" + optionAutre);
    if (optionAutre && optionAutre.indexOf("Autre")!=-1) {
+   // if (optionAutre && optionAutre.indexOf(translations["js.other"])!=-1) {
       // console.log("detect Autre=" + optionAutre);
       if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
+      // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
+         console.log("test insert autre")
       }
    }
 
@@ -303,7 +308,8 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
 
 
    // Si option Autre est selectionnée
-   if($(idSelect + ' option:selected').text().indexOf("Autre")==-1) {
+   // if($(idSelect + ' option:selected').text().indexOf("Autre")==-1) {
+   if($(idSelect + ' option:selected').text().indexOf(translations["js.other"])==-1) {
       // console.log("option Autre est selectionnée")
       $(classHideOther).attr('hidden', 'hidden');
    } else {
@@ -333,6 +339,7 @@ global.masquageChampsAutre = function masquageChampsAutre (idPrefix, select, oth
    // Event sur le select
    $(idSelect).on('change', function () {
       if ($(idSelect + " option:selected").text().indexOf('Autre')!=-1) {
+      // if ($(idSelect + " option:selected").text().indexOf(translations['js.other'])!=-1) {
          $(classHideOther).removeAttr('hidden');
          $(idSelect).removeAttr('required');
          $(idOther).attr('required', 'required');
@@ -458,9 +465,9 @@ global.initActivities = function initActivities(allActivites, idPrefix, sectorAr
    if(multiple==false) {
       // if(! $(idActivities).text()) {
          if(!idValueSectorArea) {
-            $(idActivities).append($('<option value=-1/>').text('menu.select_sector').prop('selected', false));
+            $(idActivities).append($('<option value=-1/>').text(translations['js.select_sector']).prop('selected', false));
          } else {
-            $(idActivities).append($('<option disabled value=-1/>').text('menu.select_activity').prop('selected', false));
+            $(idActivities).append($('<option disabled value=-1/>').text(translations['js.select_activity']).prop('selected', false));
          }
       // }
    }
@@ -533,6 +540,7 @@ global.listenChangeSectorArea = function listenChangeSectorArea(allactivities, i
       }
 
       initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, "Autre métier");
+      // initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, translations["js.other_job"]);
       masquageChampsAutre (idPrefix, activityName, otherActivity, classOtherHidden, multiple);
    })
 }

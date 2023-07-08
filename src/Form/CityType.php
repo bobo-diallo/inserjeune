@@ -24,7 +24,9 @@ class CityType extends AbstractType
    {
       $builder
          ->add('name', TextType::class, [
-            'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Nom'],
+            'attr' => ['class' => 'form-control',
+                'data-error' => 'Minimum 3 caractères',
+                'placeholder' => 'menu.name'],
             'required' => true
          ])
          ->add('isCapital', ChoiceType::class, [
@@ -84,7 +86,7 @@ class CityType extends AbstractType
          [
             'class' => Region::class,
             'choice_label' => 'name',
-            'placeholder' => $country ? 'Selectionnez la region' : 'Selectionnez le pays',
+            'placeholder' => $country ? 'menu.select_region' : 'menu.select_country',
             'auto_initialize' => false,
             'choices' => $country ? $country->getRegions() : [],
             'attr' => ['class' => 'form-control']

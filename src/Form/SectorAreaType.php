@@ -16,11 +16,15 @@ class SectorAreaType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le libellé', 'placeholder' => 'Libellé'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le libellé',
+                    'placeholder' => 'menu.label'],
 				'required' => true
 			])
 			->add('description', TextareaType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 20 caractères', 'placeholder' => 'Description'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 20 caractères',
+                    'placeholder' => 'menu.description'],
 				'required' => true
 			]);
 	}

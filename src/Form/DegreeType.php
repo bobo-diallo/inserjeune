@@ -23,13 +23,13 @@ class DegreeType extends AbstractType {
 					'class' => 'form-control',
 					'autocomplete' => 'off',
 					'data-error' => 'Veuillez renseigner le libellé',
-					'placeholder' => 'Libellé'],
+					'placeholder' => 'menu.label'],
 				'required' => true
 			])
 			->add('description', TextareaType::class, [
 				'attr' => [
 					'class' => 'form-control',
-					'placeholder' => 'Description'
+					'placeholder' => 'menu.description'
 				],
 				'required' => false
 			])

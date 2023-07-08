@@ -36,31 +36,40 @@ class JobOfferType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('title', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le titre', 'placeholder' => 'Titre de l\'offre'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le titre',
+                    'placeholder' => 'joboffer.offer_title'],
 				'required' => true
 			])
 			->add('description', CKEditorType::class, ['required' => true])
 			->add('candidateProfile', CKEditorType::class)
 			->add('closedDate', TextType::class, [
-				'attr' => ['class' => 'datepicker form-control', 'placeholder' => 'Date d\'expiration' ],
+				'attr' => ['class' => 'datepicker form-control',
+                    'placeholder' => 'joboffer.closed_date' ],
 				'required' => true
 			])
 			->add('postedContact', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le nom du contact ', 'placeholder' => 'Nom du contact'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le nom du contact ',
+                    'placeholder' => 'joboffer.contact_name'],
 				'required' => true
 			])
 			->add('postedPhone', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le numéro de téléphone ', 'placeholder' => 'Numéro de téléphone'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le numéro de téléphone ',
+                    'placeholder' => 'menu.phone_number'],
 				'required' => false
 			])
 			->add('postedEmail', EmailType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner l\'email ', 'placeholder' => 'Email pour postuler'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner l\'email ',
+                    'placeholder' => 'joboffer.email_apply'],
 				'required' => true
 			])
 			->add('sectorArea', EntityType::class, [
 				'class' => SectorArea::class,
 				'required' => true,
-				'placeholder' => 'Sélectionnez',
+				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control'],
 				'query_builder' => function (EntityRepository $entityRepository) {
 					return $entityRepository->createQueryBuilder('sa')
@@ -70,7 +79,7 @@ class JobOfferType extends AbstractType {
 			->add('otherActivity', TextType::class, ['attr' => [
 				'class' => 'form-control',
 				'data-error' => 'Autre métier ?',
-				'placeholder' => ' métier'],
+				'placeholder' => 'menu.job'],
 				'required' => false,
 			])
 			->add('contract', EntityType::class, [
@@ -90,7 +99,9 @@ class JobOfferType extends AbstractType {
 				}
 			])
 			->add('otherCity', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Autre ville'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 caractères',
+                    'placeholder' => 'city.other_city'],
 				'required' => false
 			])
 			->add('file', FileType::class, [
