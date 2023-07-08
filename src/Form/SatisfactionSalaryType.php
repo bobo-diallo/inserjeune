@@ -114,7 +114,7 @@ class SatisfactionSalaryType extends AbstractType {
 			->add('jobNotFoundOther', TextType::class, ['attr' => [
 				'class' => 'form-control',
 				'data-error' => 'Autre raison d\'emploi non trouvé ?',
-				'placeholder' => ' menu.reason'],
+				'placeholder' => 'menu.reason'],
 				'required' => false,
 			])
 			->add('currency', EntityType::class, [

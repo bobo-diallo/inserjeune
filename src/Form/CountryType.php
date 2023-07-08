@@ -17,14 +17,18 @@ class CountryType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le libellé', 'placeholder' => 'Nom'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le libellé',
+                    'placeholder' => 'menu.name'],
 				'required' => true
 			])
 			->add('phoneCode')
 			->add('phoneDigit')
 			->add('valid')
 			->add('isoCode', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3, maximun 3', 'placeholder' => 'Code ISO'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3, maximun 3',
+                    'placeholder' => 'country.iso_code'],
 				'required' => true
 			])
 			->add('currency', EntityType::class, [

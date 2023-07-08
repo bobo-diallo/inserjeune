@@ -643,7 +643,7 @@
       </trans-unit>
       <trans-unit id="menu.label">
         <source>menu.label</source>
-        <target>Libelle</target>
+        <target>Libellé</target>
       </trans-unit>
       <trans-unit id="menu.level">
         <source>menu.level</source>
@@ -1769,6 +1769,10 @@
         <source>country.adding_a_country</source>
         <target>Ajout d'un pays</target>
       </trans-unit>
+      <trans-unit id="country.iso_code">
+        <source>country.iso_code</source>
+        <target>Code ISO</target>
+      </trans-unit>
       <trans-unit id="currency.iso_code">
         <source>currency.iso_code</source>
         <target>Code ISO</target>
@@ -1888,6 +1892,22 @@
       <trans-unit id="menu.survey">
         <source>menu.survey</source>
         <target>Enquête</target>
+      </trans-unit>
+      <trans-unit id="joboffer.offer_title">
+        <source>joboffer.offer_title</source>
+        <target>Titre de l'offre</target>
+      </trans-unit>
+      <trans-unit id="joboffer.closed_date">
+        <source>joboffer.closed_date</source>
+        <target>Date d'expiration</target>
+      </trans-unit>
+      <trans-unit id="joboffer.contact_name">
+        <source>joboffer.contact_name</source>
+        <target>Nom du contact</target>
+      </trans-unit>
+      <trans-unit id="joboffer.email_apply">
+        <source>joboffer.email_apply</source>
+        <target>Email pour postuler</target>
       </trans-unit>
       <trans-unit id="survey.investigation_in_progress">
         <source>survey.investigation_in_progress</source>
@@ -2193,6 +2213,94 @@
         <source>clean.Find_accounts_to_purge</source>
         <target>Rechercher les comptes à purger</target>
       </trans-unit>
+      <trans-unit id="clean.note_empty_number_then_search_for_orphan_users">
+        <source>clean.note_empty_number_then_search_for_orphan_users</source>
+        <target>Si numéro vide, alors recherche des users orphelins</target>
+      </trans-unit>
+      <trans-unit id="clean.table_insertion">
+        <source>clean.table_insertion</source>
+        <target>Insertion</target>
+      </trans-unit>
+      <trans-unit id="clean.table_number">
+        <source>clean.table_number</source>
+        <target>Numéro</target>
+      </trans-unit>
+      <trans-unit id="clean.table_type">
+        <source>clean.table_type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="clean.clear_table">
+        <source>clean.clear_table</source>
+        <target>Vider la table</target>
+      </trans-unit>
+      <trans-unit id="clean.note_loading_table">
+        <source>clean.note_loading_table</source>
+        <target>Chargement de la table</target>
+      </trans-unit>
+      <trans-unit id="clean.find_accounts_to_purge">
+        <source>clean.find_accounts_to_purge</source>
+        <target>Rechercher les comptes à purger</target>
+      </trans-unit>
+      <trans-unit id="clean.offers_list">
+        <source>clean.offers_list</source>
+        <target>Liste des offres</target>
+      </trans-unit>
+      <trans-unit id="clean.selection">
+        <source>clean.selection</source>
+        <target>Sélection</target>
+      </trans-unit>
+      <trans-unit id="clean.id">
+        <source>clean.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="clean.number">
+        <source>clean.number</source>
+        <target>Numéro</target>
+      </trans-unit>
+      <trans-unit id="clean.type">
+        <source>clean.type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="clean.updating_expiry_dates">
+        <source>clean.updating_expiry_dates</source>
+        <target>Mise à jour des Dates d'expiration</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_obsolete_offers">
+        <source>clean.search_for_obsolete_offers</source>
+        <target>Recherche des offres obsolètes</target>
+      </trans-unit>
+      <trans-unit id="clean.list_of_graduates">
+        <source>clean.list_of_graduates</source>
+        <target>Liste des Diplômés</target>
+      </trans-unit>
+      <trans-unit id="clean.list_of establishments">
+        <source>clean.list_of establishments</source>
+        <target>Liste des Etablissements</target>
+      </trans-unit>
+      <trans-unit id="clean.list_of_companies">
+        <source>clean.list_of_companies</source>
+        <target>Liste des Entreprises</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_actors_without_location">
+        <source>clean.search_for_actors_without_location</source>
+        <target>Recherche des Acteurs sans localisation</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_actors_with_identical_coordinates">
+        <source>clean.search_for_actors_with_identical_coordinates</source>
+        <target>Recherche des Acteurs avec coordonnées identiques</target>
+      </trans-unit>
+      <trans-unit id="clean.error">
+        <source>clean.error</source>
+        <target>Erreur</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_coordinates">
+        <source>clean.search_for_coordinates</source>
+        <target>Recherche des coordonnées</target>
+      </trans-unit>
+      <trans-unit id="clean.update_coordinates">
+        <source>clean.update_coordinates</source>
+        <target>Mise à jour des coordonnées</target>
+      </trans-unit>
       <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
         <target>Bienvenue ! Avant de répondre au questionnaire d'insertion, merci de compléter votre profil ci-dessous.</target>
@@ -2260,6 +2368,54 @@
       <trans-unit id="satisfaction_company.worker">
         <source>satisfaction_company.worker</source>
         <target>Ouvrier</target>
+      </trans-unit>
+      <trans-unit id="date.january">
+        <source>date.january</source>
+        <target>Janvier</target>
+      </trans-unit>
+      <trans-unit id="date.febuary">
+        <source>date.febuary</source>
+        <target>Février</target>
+      </trans-unit>
+      <trans-unit id="date.march">
+        <source>date.march</source>
+        <target>Mars</target>
+      </trans-unit>
+      <trans-unit id="date.april">
+        <source>date.april</source>
+        <target>Avril</target>
+      </trans-unit>
+      <trans-unit id="date.may">
+        <source>date.may</source>
+        <target>Mai</target>
+      </trans-unit>
+      <trans-unit id="date.june">
+        <source>date.june</source>
+        <target>Juin</target>
+      </trans-unit>
+      <trans-unit id="date.july">
+        <source>date.july</source>
+        <target>Juillet</target>
+      </trans-unit>
+      <trans-unit id="date.august">
+        <source>date.august</source>
+        <target>Août</target>
+      </trans-unit>
+      <trans-unit id="date.september">
+        <source>date.september</source>
+        <target>Septembre</target>
+      </trans-unit>
+      <trans-unit id="date.october">
+        <source>date.october</source>
+        <target>Octobre</target>
+      </trans-unit>
+      <trans-unit id="date.november">
+        <source>date.november</source>
+        <target>Novembre</target>
+      </trans-unit>
+      <trans-unit id="date.december">
+        <source>date.december</source>
+        <target>Décembre</target>
       </trans-unit>
       <trans-unit id="js.would_you_like_to_update_the_coordinates_of_these">
         <source>js.would_you_like_to_update_the_coordinates_of_these</source>
@@ -2509,6 +2665,10 @@
         <source>js.supress_my_coordinates</source>
         <target>Supprimer mes coordonnées</target>
       </trans-unit>
+      <trans-unit id="js.other">
+        <source>js.other</source>
+        <target>Autre</target>
+      </trans-unit>
       <trans-unit id="js.other_job">
         <source>js.other_job</source>
         <target>Autre métier</target>
@@ -2536,6 +2696,18 @@
       <trans-unit id="js.a_woman">
         <source>js.a_woman</source>
         <target>une femme</target>
+      </trans-unit>
+      <trans-unit id="js.sure_to_delete_item">
+        <source>js.sure_to_delete_item</source>
+        <target>Voulez-vous vraiment supprimer l'élément ?</target>
+      </trans-unit>
+      <trans-unit id="js.checkbox_is_checked">
+        <source>js.checkbox_is_checked</source>
+        <target>Le checkbox est coché</target>
+      </trans-unit>
+      <trans-unit id="js.checkbox_is_not_checked">
+        <source>js.checkbox_is_not_checked</source>
+        <target>Le checkbox n'est pas coché</target>
       </trans-unit>
       <trans-unit id="js.import_csv_registration">
         <source>js.import_csv_registration</source>

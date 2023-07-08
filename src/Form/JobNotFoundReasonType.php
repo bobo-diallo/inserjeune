@@ -16,7 +16,7 @@ class JobNotFoundReasonType extends AbstractType {
 		$builder->add('name', TextType::class, ['attr' => [
 			'class' => 'form-control',
 			'data-error' => 'Quelle raison d\'emploi non trouvé ?',
-			'placeholder' => ' Raison'],
+			'placeholder' => 'menu.reason'],
 			'required' => false
 		]);
 	}

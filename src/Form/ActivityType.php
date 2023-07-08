@@ -22,7 +22,7 @@ class ActivityType extends AbstractType
             'attr' => [
 				'class' => 'form-control',
 	            'data-error' => 'Veuillez renseigner le libellé',
-	            'placeholder' => 'Libellé'
+	            'placeholder' => 'menu.label'
             ],
             'required' => true
          ])

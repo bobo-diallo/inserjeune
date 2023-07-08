@@ -17,7 +17,9 @@ class RegionType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Minimum 3 caractères', 'placeholder' => 'Nom'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Minimum 3 caractères',
+                    'placeholder' => 'menu.name'],
 				'required' => true
 			])
 			->add('country', EntityType::class, [

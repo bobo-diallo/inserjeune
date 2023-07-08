@@ -1773,6 +1773,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>country.adding_a_country</source>
         <target>Adding a country</target>
       </trans-unit>
+      <trans-unit id="country.iso_code">
+        <source>country.iso_code</source>
+        <target>ISO code</target>
+      </trans-unit>
       <trans-unit id="currency.iso_code">
         <source>currency.iso_code</source>
         <target>ISO code</target>
@@ -1892,6 +1896,22 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="menu.survey">
         <source>menu.survey</source>
         <target>Survey</target>
+      </trans-unit>
+      <trans-unit id="joboffer.offer_title">
+        <source>joboffer.offer_title</source>
+        <target>Offer titlie</target>
+      </trans-unit>
+      <trans-unit id="joboffer.closed_date">
+        <source>joboffer.closed_date</source>
+        <target>Closed date</target>
+      </trans-unit>
+      <trans-unit id="joboffer.contact_name">
+        <source>joboffer.contact_name</source>
+        <target>Contact name</target>
+      </trans-unit>
+      <trans-unit id="joboffer.email_apply">
+        <source>joboffer.email_apply</source>
+        <target>Email to apply</target>
       </trans-unit>
       <trans-unit id="survey.investigation_in_progress">
         <source>survey.investigation_in_progress</source>
@@ -2199,6 +2219,94 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>clean.Find_accounts_to_purge</source>
         <target>Find accounts to purge</target>
       </trans-unit>
+      <trans-unit id="clean.note_empty_number_then_search_for_orphan_users">
+        <source>clean.note_empty_number_then_search_for_orphan_users</source>
+        <target>If empty number, then search for orphan users</target>
+      </trans-unit>
+      <trans-unit id="clean.table_insertion">
+        <source>clean.table_insertion</source>
+        <target>Insert</target>
+      </trans-unit>
+      <trans-unit id="clean.table_number">
+        <source>clean.table_number</source>
+        <target>Number</target>
+      </trans-unit>
+      <trans-unit id="clean.table_type">
+        <source>clean.table_type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="clean.clear_table">
+        <source>clean.clear_table</source>
+        <target>Clear the table</target>
+      </trans-unit>
+      <trans-unit id="clean.note_loading_table">
+        <source>clean.note_loading_table</source>
+        <target>Loading the table</target>
+      </trans-unit>
+      <trans-unit id="clean.find_accounts_to_purge">
+        <source>clean.find_accounts_to_purge</source>
+        <target>Find accounts to purge</target>
+      </trans-unit>
+      <trans-unit id="clean.offers_list">
+        <source>clean.offers_list</source>
+        <target>Offers list</target>
+      </trans-unit>
+      <trans-unit id="clean.selection">
+        <source>clean.selection</source>
+        <target>Selection</target>
+      </trans-unit>
+      <trans-unit id="clean.id">
+        <source>clean.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="clean.number">
+        <source>clean.number</source>
+        <target>Number</target>
+      </trans-unit>
+      <trans-unit id="clean.type">
+        <source>clean.type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="clean.updating_expiry_dates">
+        <source>clean.updating_expiry_dates</source>
+        <target>Updating expiry dates</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_obsolete_offers">
+        <source>clean.search_for_obsolete_offers</source>
+        <target>Search for obsolete offers</target>
+      </trans-unit>
+      <trans-unit id="clean.list_of_graduates">
+        <source>clean.list_of_graduates</source>
+        <target>List of Graduates</target>
+      </trans-unit>
+      <trans-unit id="clean.list_of establishments">
+        <source>clean.list_of establishments</source>
+        <target>List of Establishments</target>
+      </trans-unit>
+      <trans-unit id="clean.list_of_companies">
+        <source>clean.list_of_companies</source>
+        <target>List of Companies</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_actors_without_location">
+        <source>clean.search_for_actors_without_location</source>
+        <target>Search for Actors without location</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_actors_with_identical_coordinates">
+        <source>clean.search_for_actors_with_identical_coordinates</source>
+        <target>Search for Actors with identical coordinates</target>
+      </trans-unit>
+      <trans-unit id="clean.error">
+        <source>clean.error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="clean.search_for_coordinates">
+        <source>clean.search_for_coordinates</source>
+        <target>Search for coordinates</target>
+      </trans-unit>
+      <trans-unit id="clean.update_coordinates">
+        <source>clean.update_coordinates</source>
+        <target>Update coordinates</target>
+      </trans-unit>
       <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
         <target>Welcome! Before answering the insertion questionnaire, please complete your profile below</target>
@@ -2266,6 +2374,54 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="satisfaction_company.worker">
         <source>satisfaction_company.worker</source>
         <target>Worker</target>
+      </trans-unit>
+      <trans-unit id="date.january">
+        <source>date.january</source>
+        <target>January</target>
+      </trans-unit>
+      <trans-unit id="date.febuary">
+        <source>date.febuary</source>
+        <target>febuary</target>
+      </trans-unit>
+      <trans-unit id="date.march">
+        <source>date.march</source>
+        <target>March</target>
+      </trans-unit>
+      <trans-unit id="date.april">
+        <source>date.april</source>
+        <target>April</target>
+      </trans-unit>
+      <trans-unit id="date.may">
+        <source>date.may</source>
+        <target>May</target>
+      </trans-unit>
+      <trans-unit id="date.june">
+        <source>date.june</source>
+        <target>June</target>
+      </trans-unit>
+      <trans-unit id="date.july">
+        <source>date.july</source>
+        <target>July</target>
+      </trans-unit>
+      <trans-unit id="date.august">
+        <source>date.august</source>
+        <target>August</target>
+      </trans-unit>
+      <trans-unit id="date.september">
+        <source>date.september</source>
+        <target>September</target>
+      </trans-unit>
+      <trans-unit id="date.october">
+        <source>date.october</source>
+        <target>October</target>
+      </trans-unit>
+      <trans-unit id="date.november">
+        <source>date.november</source>
+        <target>November</target>
+      </trans-unit>
+      <trans-unit id="date.december">
+        <source>date.december</source>
+        <target>December</target>
       </trans-unit>
       <trans-unit id="js.would_you_like_to_update_the_coordinates_of_these">
         <source>js.would_you_like_to_update_the_coordinates_of_these</source>
@@ -2517,6 +2673,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.supress_my_coordinates</source>
         <target>delete my coordinates</target>
       </trans-unit>
+      <trans-unit id="js.other">
+        <source>js.other</source>
+        <target>Other</target>
+      </trans-unit>
       <trans-unit id="js.other_job">
         <source>js.other_job</source>
         <target>Other job</target>
@@ -2544,6 +2704,18 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="js.a_woman">
         <source>js.a_woman</source>
         <target>a female</target>
+      </trans-unit>
+      <trans-unit id="js.sure_to_delete_item">
+        <source>js.sure_to_delete_item</source>
+        <target>Are you sure you want to delete the item?</target>
+      </trans-unit>
+      <trans-unit id="js.checkbox_is_checked">
+        <source>js.checkbox_is_checked</source>
+        <target>The checkbox is checked</target>
+      </trans-unit>
+      <trans-unit id="js.checkbox_is_not_checked">
+        <source>js.checkbox_is_not_checked</source>
+        <target>The checkbox is not checked</target>
       </trans-unit>
       <trans-unit id="js.import_csv_registration">
         <source>js.import_csv_registration</source>

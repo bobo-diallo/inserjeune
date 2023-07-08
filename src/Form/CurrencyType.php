@@ -15,19 +15,27 @@ class CurrencyType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le libellé', 'placeholder' => 'NOM'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le libellé',
+                    'placeholder' => 'menu.name'],
 				'required' => true
 			])
 			->add('isoName', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le libellé', 'placeholder' => 'nom ISO'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le libellé',
+                    'placeholder' => 'currency.iso_name'],
 				'required' => true
 			])
 			->add('isoNum', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le libellé', 'placeholder' => 'Num ISO'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le libellé',
+                    'placeholder' => 'currency.iso_number'],
 				'required' => true
 			])
 			->add('isoSymbol', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner le libellé', 'placeholder' => 'Symbol ISO'],
+				'attr' => ['class' => 'form-control',
+                    'data-error' => 'Veuillez renseigner le libellé',
+                    'placeholder' => 'currency.iso_symbol'],
 				'required' => true
 			]);
 	}
