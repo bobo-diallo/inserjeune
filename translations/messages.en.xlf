@@ -625,6 +625,14 @@
         <source>menu.registration</source>
         <target>Registration</target>
       </trans-unit>
+      <trans-unit id="menu.edit_a_sector">
+        <source>menu.edit_a_sector</source>
+        <target>Editing a business sector</target>
+      </trans-unit>
+      <trans-unit id="menu.add_a_sector">
+        <source>menu.add_a_sector</source>
+        <target>Add a sector</target>
+      </trans-unit>
       <trans-unit id="menu.add_a_reason">
         <source>menu.add_a_reason</source>
         <target>Add a reason</target>
@@ -1760,6 +1768,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="school.schools_by_sector_of_activity">
         <source>school.schools_by_sector_of_activity</source>
         <target>TVET School by business sector</target>
+      </trans-unit>
+      <trans-unit id="country.list_of_countries">
+        <source>country.list_of_countries</source>
+        <target>List of countries</target>
       </trans-unit>
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>

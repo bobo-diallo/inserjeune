@@ -625,6 +625,14 @@
         <source>menu.registration</source>
         <target>Immatriculation</target>
       </trans-unit>
+      <trans-unit id="menu.edit_a_sector">
+        <source>menu.edit_a_sector</source>
+        <target>Modification d'un secteur d'activité</target>
+      </trans-unit>
+      <trans-unit id="menu.add_a_sector">
+        <source>menu.add_a_sector</source>
+        <target>Ajouter un secteur d'activité</target>
+      </trans-unit>
       <trans-unit id="menu.add_a_reason">
         <source>menu.add_a_reason</source>
         <target>Ajouter une raison</target>
@@ -1756,6 +1764,10 @@
       <trans-unit id="school.schools_by_sector_of_activity">
         <source>school.schools_by_sector_of_activity</source>
         <target>Etablissements par secteurs d'activités</target>
+      </trans-unit>
+      <trans-unit id="country.list_of_countries">
+        <source>country.list_of_countries</source>
+        <target>Liste des pays</target>
       </trans-unit>
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
