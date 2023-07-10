@@ -195,7 +195,7 @@ class FrontSchoolController extends AbstractController {
 
 					return $this->redirectToRoute('front_school_show');
 				} else if (count($school->getPersonDegrees()) == 0) {
-					return $this->redirectToRoute('user_delete_school', array('id' => $school->getId()));
+					return $this->redirectToRoute('front_school_user_delete_school', array('id' => $school->getId()));
 				}
 			}
 

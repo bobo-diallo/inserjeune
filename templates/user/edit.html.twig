@@ -7,9 +7,9 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/users.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    Modification d'un utilisateur
+                    {{ 'menu.editing_user' | trans }}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('user_new') }}">
-                        <i class="fa fa-plus"></i> Ajouter un nouvel utilisateur
+                        <i class="fa fa-plus"></i> {{ 'menu.adding_user' | trans }}
                     </a>
                     <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('user_index') }}">
                         <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}

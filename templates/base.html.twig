@@ -21,7 +21,7 @@
                 <div class="logged-user-info-w">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <div class="logged-user-name">{{ user.username }}</div>
-                        <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role }}</div>
+                        <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role | trans}}</div>
                     {% endif %}
                 </div>
                 <div class="mobile-menu-trigger">

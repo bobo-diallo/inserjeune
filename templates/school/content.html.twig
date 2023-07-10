@@ -20,7 +20,6 @@
       let translations = [];
       getTranslation().then (function (translation) {
          translations = translation;
-
          //Contrôle du bouton check de localisation pour switch manuel - automatique
          $('#appbundle_school_locationMode').on('click', async function () {
             if ($('#appbundle_school_locationMode').is(":checked")) {
@@ -245,7 +244,10 @@
                $("table#activity_founded tr").remove();
 
                // Créé le titre des cellules
-               let $activityTitle = "<tr><th>Ajouter</th><th>Filière</th><th>{{ 'menu.activity_area' | trans }}</th></tr>";
+               let $activityTitle = "<tr>" +
+                   "<th>{{ 'menu.add' | trans }}</th>" +
+                   "<th>{{'menu.branchs' | trans }}</th>" +
+                   "<th>{{ 'menu.activity_area' | trans }}</th></tr>";
                $('table#activity_founded').append($activityTitle);
 
                // Ecrit le résultat de la recherche
@@ -280,85 +282,85 @@
             }
             // });
          }
+      });
 
-         // Ajout des activités sélectionnées par le bouton Ajouter du Popup
-         function addActivities($idTable) {
-            let $row = $idTable + ' tr';
+      // Ajout des activités sélectionnées par le bouton Ajouter du Popup
+      function addActivities($idTable) {
+         let $row = $idTable + ' tr';
 
-            // parcoure les cellules de la table
-            $($row).each(function (index) {
-               let idCheckbox = "#checkbox_" + index;
-               // console.log("idCheckbox =" + idCheckbox);
+         // parcoure les cellules de la table
+         $($row).each(function (index) {
+            let idCheckbox = "#checkbox_" + index;
+            // console.log("idCheckbox =" + idCheckbox);
 
-               // si l'activité est validée
-               if ($(idCheckbox).is(':checked')) {
-                  let currentSectorArea = $(this).find('td').eq(2).html();
-                  let currentActivity = $(this).find('td').eq(1).html();
-                  let currentRow = $(this).find('td');
-                  // $(this).find('td').css('color', 'lightgrey');
-                  // $(idCheckbox).prop("checked", false);
-                  // $(idCheckbox).attr('disabled', 'disabled');
+            // si l'activité est validée
+            if ($(idCheckbox).is(':checked')) {
+               let currentSectorArea = $(this).find('td').eq(2).html();
+               let currentActivity = $(this).find('td').eq(1).html();
+               let currentRow = $(this).find('td');
+               // $(this).find('td').css('color', 'lightgrey');
+               // $(idCheckbox).prop("checked", false);
+               // $(idCheckbox).attr('disabled', 'disabled');
 
-                  // recherche si secteur area déjà sélectionné
-                  let numSector = -1;
-                  for ($i = 1; $i < 7; $i++) {
+               // recherche si secteur area déjà sélectionné
+               let numSector = -1;
+               for ($i = 1; $i < 7; $i++) {
+                  let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
+                  $(schoolSectorArea).each(function () {
+                     if ($(this).text() == currentSectorArea) {
+                        // console.log("|" + $(this).text() + "|--->" + currentSectorArea + "|");
+                        numSector = $i;
+                     }
+                  });
+               }
+
+               // sinon et si <= 6 => ajouter le secteur
+               if (numSector == -1) {
+                  for (let $i = 1; $i < 7; $i++) {
                      let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
                      $(schoolSectorArea).each(function () {
-                        if ($(this).text() == currentSectorArea) {
-                           // console.log("|" + $(this).text() + "|--->" + currentSectorArea + "|");
+                        if ($(this).text() == translations["js.select"]) {
+                           // console.log("  numSector = " + $i);
                            numSector = $i;
+                           $i = 7; //sortie de la boucle
                         }
                      });
                   }
-
-                  // sinon et si <= 6 => ajouter le secteur
-                  if (numSector == -1) {
-                     for (let $i = 1; $i < 7; $i++) {
-                        let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
-                        $(schoolSectorArea).each(function () {
-                           if ($(this).text() == "Sélectionnez") {
-                              // console.log("  numSector = " + $i);
-                              numSector = $i;
-                              $i = 7; //sortie de la boucle
-                           }
-                        });
-                     }
-                     // Ajout du secteur d'activité
-                     if (numSector > -1) {
-                        let schoolSectorAreaOption = "#appbundle_school_sectorArea" + numSector + " option";
-                        $(schoolSectorAreaOption).each(function () {
-                           if ($(this).text() == currentSectorArea) {
-                              // console.log("  numSector = " + $i);
-                              $(this).attr('selected', 'selected').trigger('change'); //simulation du click
-                           }
-                        });
-                        // Alert ajout de secteur d'activité impossible
-                     } else {
-                        alert(translations["js.addition_sector_impossible_6_sectors_already_used"]);
-                     }
-                  }
-
-                  // console.log("num_sector  = " + numSector);
-                  // ajout filière
+                  // Ajout du secteur d'activité
                   if (numSector > -1) {
-                     let schoolActivity = "#appbundle_school_activities" + numSector + " option";
-                     $(schoolActivity).each(function () {
-                        // console.log("currentActivity  = " + currentActivity + " | " + $(this).text());
-                        if ($(this).text() == currentActivity) {
-                           // console.log("  " + $(this).val());
-                           $(this).prop('selected', true);
-
-                           // désactive la proposition de filière
-                           currentRow.css('color', 'lightgrey');
-                           $(idCheckbox).prop("checked", false);
-                           $(idCheckbox).prop('disabled', false);
+                     let schoolSectorAreaOption = "#appbundle_school_sectorArea" + numSector + " option";
+                     $(schoolSectorAreaOption).each(function () {
+                        if ($(this).text() == currentSectorArea) {
+                           // console.log("  numSector = " + $i);
+                           $(this).attr('selected', 'selected').trigger('change'); //simulation du click
                         }
                      });
+                     // Alert ajout de secteur d'activité impossible
+                  } else {
+                     alert(translations["js.addition_sector_impossible_6_sectors_already_used"]);
                   }
                }
-            });
-         }
-      });
+
+               // console.log("num_sector  = " + numSector);
+               // ajout filière
+               if (numSector > -1) {
+                  let schoolActivity = "#appbundle_school_activities" + numSector + " option";
+                  $(schoolActivity).each(function () {
+                     // console.log("currentActivity  = " + currentActivity + " | " + $(this).text());
+                     if ($(this).text() == currentActivity) {
+                        // console.log("  " + $(this).val());
+                        $(this).prop('selected', true);
+
+                        // désactive la proposition de filière
+                        currentRow.css('color', 'lightgrey');
+                        $(idCheckbox).prop("checked", false);
+                        $(idCheckbox).prop('disabled', false);
+                     }
+                  });
+               }
+            }
+         });
+      }
 
       // Recherche des filères et métiers par mot clé
       function findActivity($keyword) {

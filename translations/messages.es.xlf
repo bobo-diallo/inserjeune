@@ -17,6 +17,14 @@
         <source>menu.connection</source>
         <target/>
       </trans-unit>
+      <trans-unit id="menu.adding_user">
+        <source>menu.adding_user</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.editing_user">
+        <source>menu.editing_user</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.new_user">
         <source>menu.new_user</source>
         <target/>
@@ -229,6 +237,10 @@
         <source>menu.user</source>
         <target/>
       </trans-unit>
+      <trans-unit id="menu.users_list">
+        <source>menu.users_list</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="menu.users">
         <source>menu.users</source>
         <target/>
@@ -355,6 +367,10 @@
       </trans-unit>
       <trans-unit id="menu.click_no_if_you_no_longer_agree">
         <source>menu.click_no_if_you_no_longer_agree</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.click_no_if_you_no_longer_agree_school_with_tag">
+        <source>menu.click_no_if_you_no_longer_agree_school_with_tag</source>
         <target/>
       </trans-unit>
       <trans-unit id="menu.information_on_the_protection_of_personal_data_pdp">
@@ -731,6 +747,10 @@
       </trans-unit>
       <trans-unit id="menu.phone_abr">
         <source>menu.phone_abr</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="menu.pseudo">
+        <source>menu.pseudo</source>
         <target/>
       </trans-unit>
       <trans-unit id="menu.email">
@@ -2853,8 +2873,16 @@
         <source>une femme</source>
         <target/>
       </trans-unit>
+      <trans-unit id="centre de formation professionnelle">
+        <source>centre de formation professionnelle</source>
+        <target/>
+      </trans-unit>
       <trans-unit id="Centre de Formation Professionnelle (CFP)">
         <source>Centre de Formation Professionnelle (CFP)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="lycée technique">
+        <source>lycée technique</source>
         <target/>
       </trans-unit>
       <trans-unit id="Lycée Technique (LT)">
@@ -2871,6 +2899,54 @@
       </trans-unit>
       <trans-unit id="Autre raison">
         <source>Autre raison</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Entreprise">
+        <source>Entreprise</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Diplômé">
+        <source>Diplômé</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Etablissement">
+        <source>Etablissement</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Administrateur">
+        <source>Administrateur</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Législateur">
+        <source>Législateur</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Menu">
+        <source>Menu</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="En cours de Formation Professionnelle">
+        <source>En cours de Formation Professionnelle</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="En emploi">
+        <source>En emploi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Entrepreneur">
+        <source>Entrepreneur</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="En recherche d'emploi">
+        <source>En recherche d'emploi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="En poursuite d'études">
+        <source>En poursuite d'études</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="Sans emploi">
+        <source>Sans emploi</source>
         <target/>
       </trans-unit>
       <trans-unit id="flashbag.the_deletion_is_done_successfully">

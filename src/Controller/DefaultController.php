@@ -26,9 +26,13 @@ class DefaultController extends AbstractController {
 	}
 
 	#[Route(path: '/rgpd_informations', name: 'rgpd_informations', methods: ['GET'])]
-	public function showRgpdInformationsAction(): Response {
+	public function showRgpdInformationsAction(Request $request): Response {
 
-		return $this->render('information_rgpd.html.twig');
+        try {
+            return $this->render('information_rgpd_' . $request->getLocale() . '.html.twig');
+        } catch (\Exception $e) {
+            return $this->render('information_rgpd.html.twig');
+        }
 	}
 
 	#[Route(path: '/change_profile', name: 'change_profile', methods: ['GET', 'POST'])]

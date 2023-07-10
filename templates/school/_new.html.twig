@@ -175,7 +175,7 @@
         </div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Filières - {{ 'school.several_possible_choices' | trans }} *</label>
+        <label for=""> {{'menu.faculty' | trans}} - {{ 'school.several_possible_choices' | trans }} *</label>
         {{ form_widget(form.activities1)}}
         {#{{ show_activities(form.activities1, school.activities1, school.sectorArea1, "Autre filière")}}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities1) }}</div>
@@ -205,7 +205,7 @@
       <div class="col-sm-6 form-group">
         <div class="row" style="margin:0">
           <div class="col-sm-12 form-group without-margin without-padding">
-            <label for=""> Filières - {{ 'school.several_possible_choices' | trans }}</label>
+            <label for=""> {{'menu.faculty' | trans}} - {{ 'school.several_possible_choices' | trans }}</label>
             {{ form_widget(form.activities2) }}
             <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities2) }}</div>
           </div>
@@ -230,7 +230,7 @@
         </div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Filières - {{ 'school.several_possible_choices' | trans }}</label>
+        <label for=""> {{'menu.faculty' | trans}} - {{ 'school.several_possible_choices' | trans }}</label>
         {{ form_widget(form.activities3) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities3) }}</div>
       </div>
@@ -253,7 +253,7 @@
         </div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Filières - {{ 'school.several_possible_choices' | trans }}</label>
+        <label for=""> {{'menu.faculty' | trans}} - {{ 'school.several_possible_choices' | trans }}</label>
         {{ form_widget(form.activities4) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities4) }}</div>
       </div>
@@ -276,7 +276,7 @@
         </div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Filières - {{ 'school.several_possible_choices' | trans }}</label>
+        <label for=""> {{'menu.faculty' | trans}} - {{ 'school.several_possible_choices' | trans }}</label>
         {{ form_widget(form.activities5) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities4) }}</div>
       </div>
@@ -299,7 +299,7 @@
         </div>
       </div>
       <div class="col-sm-6 form-group">
-        <label for=""> Filières - {{ 'school.several_possible_choices' | trans }}</label>
+        <label for=""> {{'menu.faculty' | trans}} - {{ 'school.several_possible_choices' | trans }}</label>
         {{ form_widget(form.activities6) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activities6) }}</div>
       </div>
@@ -309,11 +309,11 @@
     <legend><span> {{ 'menu.right_to_data_protection' | trans }} </span></legend>
     <div class="row">
       <div class="col-sm-12 form-check">
-        <label for=""> Vous acceptez de diffuser vos informations personnelles pour les statistiques ? </label>
+        <label for=""> {{ 'menu.click_yes_if_you_agree' | trans  }} </label>
         {% if school.agreeRgpd == false %}
-          <label for="appbundle_school_agreeRgpd"> {{ 'menu.click_yes_if_you_agree' | trans }} </label>
+          <label style="color: red" for="appbundle_school_agreeRgpd"> {{ 'menu.click_no_if_you_no_longer_agree_school_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }} </label>
         {% else %}
-          <label style="color: red" for="appbundle_school_agreeRgpd">Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles,<br>Si des diplômés existent dans la rubrique Vos Diplômés,<br> seul le nom de l'établissement sera conservé </label>
+          <label style="color: red" for="appbundle_school_agreeRgpd">{{'menu.click_no_if_you_no_longer_agree_school_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} </label>
         {% endif %}
       </div>
     </div>
