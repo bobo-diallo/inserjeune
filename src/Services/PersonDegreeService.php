@@ -42,7 +42,7 @@ class PersonDegreeService {
 			self::TYPE_TRAINING => 'En cours de Formation Professionnelle',
 			self::TYPE_EMPLOYED => 'En emploi',
 			self::TYPE_CONTRACTOR => 'Entrepreneur',
-			self::TYPE_SEARCH => 'En recherche d\'emploi',
+			self::TYPE_SEARCH => "En recherche d'emploi",
 			self::TYPE_STUDY => "En poursuite d'études",
 			self::TYPE_UNEMPLOYED => "Sans emploi",
 		];

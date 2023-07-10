@@ -23,7 +23,7 @@
             {% endif %}
             <div class="logged-user-name">{{ user.username }}</div>
             <div hidden class="logged-user-phone">{{ user.phone }} </div>
-            <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role }}</div>
+            <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role | trans }}</div>
           {% endif %}
         </div>
         <div class="mobile-menu-trigger">

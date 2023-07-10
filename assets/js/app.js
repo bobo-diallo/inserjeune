@@ -286,7 +286,7 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
       if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
       // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
-         console.log("test insert autre")
+         // console.log("test insert autre")
       }
    }
 
@@ -535,7 +535,7 @@ global.listenChangeSectorArea = function listenChangeSectorArea(allactivities, i
 
       //on remet le placeOlder
       if(multiple==false) {
-         $(idActivities).prepend("<option value='-1'>Sélectionnez une activité</option>");
+         $(idActivities).prepend("<option value='-1'>" + translations['js.select_activity'] + "</option>");
          $(idActivities + " option[value='-1']").prop("selected", true);
       }
 

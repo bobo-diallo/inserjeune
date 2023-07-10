@@ -101,8 +101,7 @@
                                             <a href="{{ path('company_show', { 'id': company.id }) }}"><img
                                                         src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                             {%  if roleUser == "Administrateur" %}
-                                            <a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img
-                                                        src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                            <a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                             {% endif %}
                                         </td>
                                     {% endif %}
@@ -151,6 +150,11 @@
 
 {% block js %}
     <script>
+        let translations = [];
+        getTranslation().then (function (translation) {
+            translations = translation;
+        });
+
         function format(d) {
             return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +

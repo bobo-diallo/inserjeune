@@ -17,6 +17,14 @@
         <source>menu.connection</source>
         <target>Connexion</target>
       </trans-unit>
+      <trans-unit id="menu.adding_user">
+        <source>menu.adding_user</source>
+        <target>Ajouter un utilisateur</target>
+      </trans-unit>
+      <trans-unit id="menu.editing_user">
+        <source>menu.editing_user</source>
+        <target>Modification d'un utilisateur</target>
+      </trans-unit>
       <trans-unit id="menu.new_user">
         <source>menu.new_user</source>
         <target>Nouvel utilisateur</target>
@@ -229,6 +237,10 @@
         <source>menu.user</source>
         <target>Utilisateur</target>
       </trans-unit>
+      <trans-unit id="menu.users_list">
+        <source>menu.users_list</source>
+        <target>Liste des utilisateurs</target>
+      </trans-unit>
       <trans-unit id="menu.users">
         <source>menu.users</source>
         <target>Utilisateurs</target>
@@ -356,6 +368,10 @@
       <trans-unit id="menu.click_no_if_you_no_longer_agree">
         <source>menu.click_no_if_you_no_longer_agree</source>
         <target>Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles, vous supprimerez l'intégralité de votre compte </target>
+      </trans-unit>
+      <trans-unit id="menu.click_no_if_you_no_longer_agree_school_with_tag">
+        <source>menu.click_no_if_you_no_longer_agree_school_with_tag</source>
+        <target>Cliquez sur NON si vous n'acceptez plus l'utilisation de vos données personnelles,%tag_br%Si des diplômés existent dans la rubrique Vos Diplômés,%tag_br%seul le nom de l'établissement sera conservé</target>
       </trans-unit>
       <trans-unit id="menu.information_on_the_protection_of_personal_data_pdp">
         <source>menu.information_on_the_protection_of_personal_data_pdp</source>
@@ -595,7 +611,7 @@
       </trans-unit>
       <trans-unit id="menu.phone_country_code_number">
         <source>menu.phone_country_code_number</source>
-        <target>Tel (indicatif + N°)</target>
+        <target>Téléphone (Indicatif pays + N°)</target>
       </trans-unit>
       <trans-unit id="menu.cell_phone_of_a_1st_parent">
         <source>menu.cell_phone_of_a_1st_parent</source>
@@ -732,6 +748,10 @@
       <trans-unit id="menu.phone_abr">
         <source>menu.phone_abr</source>
         <target>Tél</target>
+      </trans-unit>
+      <trans-unit id="menu.pseudo">
+        <source>menu.pseudo</source>
+        <target>Pseudo</target>
       </trans-unit>
       <trans-unit id="menu.email">
         <source>menu.email</source>
@@ -2853,9 +2873,17 @@
         <source>une femme</source>
         <target>une femme</target>
       </trans-unit>
+      <trans-unit id="centre de formation professionnelle">
+        <source>centre de formation professionnelle</source>
+        <target>Centre de Formation Professionnelle (CFP)</target>
+      </trans-unit>
       <trans-unit id="Centre de Formation Professionnelle (CFP)">
         <source>Centre de Formation Professionnelle (CFP)</source>
         <target>Centre de Formation Professionnelle (CFP)</target>
+      </trans-unit>
+      <trans-unit id="lycée technique">
+        <source>lycée technique</source>
+        <target>Lycée Technique (LT)</target>
       </trans-unit>
       <trans-unit id="Lycée Technique (LT)">
         <source>Lycée Technique (LT)</source>
@@ -2872,6 +2900,54 @@
       <trans-unit id="Autre raison">
         <source>Autre raison</source>
         <target>Autre raison</target>
+      </trans-unit>
+      <trans-unit id="Entreprise">
+        <source>Entreprise</source>
+        <target>Entreprise</target>
+      </trans-unit>
+      <trans-unit id="Diplômé">
+        <source>Diplômé</source>
+        <target>Diplômé</target>
+      </trans-unit>
+      <trans-unit id="Etablissement">
+        <source>Etablissement</source>
+        <target>Etablissement</target>
+      </trans-unit>
+      <trans-unit id="Administrateur">
+        <source>Administrateur</source>
+        <target>Administrateur</target>
+      </trans-unit>
+      <trans-unit id="Législateur">
+        <source>Législateur</source>
+        <target>Législateur</target>
+      </trans-unit>
+      <trans-unit id="Menu">
+        <source>Menu</source>
+        <target>Menu</target>
+      </trans-unit>
+      <trans-unit id="En cours de Formation Professionnelle">
+        <source>En cours de Formation Professionnelle</source>
+        <target>En cours de Formation Professionnelle</target>
+      </trans-unit>
+      <trans-unit id="En emploi">
+        <source>En emploi</source>
+        <target>En emploi</target>
+      </trans-unit>
+      <trans-unit id="Entrepreneur">
+        <source>Entrepreneur</source>
+        <target>Entrepreneur</target>
+      </trans-unit>
+      <trans-unit id="En recherche d'emploi">
+        <source>En recherche d'emploi</source>
+        <target>En recherche d'emploi</target>
+      </trans-unit>
+      <trans-unit id="En poursuite d'études">
+        <source>En poursuite d'études</source>
+        <target>En poursuite d'études</target>
+      </trans-unit>
+      <trans-unit id="Sans emploi">
+        <source>Sans emploi</source>
+        <target>Sans emploi</target>
       </trans-unit>
       <trans-unit id="flashbag.the_deletion_is_done_successfully">
         <source>flashbag.the_deletion_is_done_successfully</source>
