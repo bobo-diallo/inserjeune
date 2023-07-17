@@ -1931,7 +1931,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="joboffer.offer_title">
         <source>joboffer.offer_title</source>
-        <target>Offer titlie</target>
+        <target>Offer title</target>
       </trans-unit>
       <trans-unit id="joboffer.closed_date">
         <source>joboffer.closed_date</source>
