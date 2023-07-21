@@ -35,9 +35,8 @@
     }
 
     $(document).ready(function () {
-        let jsonLangage = '../../../locale/en_EN.json'
-        if(getCurrentLocale() == "fr")
-            jsonLangage = '../../../locale/fr_FR.json'
+        let splitPath = window.location.toString().split('/' + getCurrentLocale() + '/');
+        let jsonLangage = splitPath[0] + '/locale/' + getCurrentLocale().toLowerCase() + '_' + getCurrentLocale().toUpperCase() + '.json'
 
         // DataTable with export csv/excel/PDF
         let title = $('h6.element-header').first().text();
