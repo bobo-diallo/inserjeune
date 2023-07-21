@@ -324,13 +324,16 @@
 
             // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
             initActivities(allActivities, idPrefix, 'sectorArea', 'activity', false, function () {
-                initChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity", "Autre métier")
+                // initChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity", "Autre métier")
+                initChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity", translations['js.other_job'])
                 masquageChampsAutre(idPrefix, "activity", "otherActivity", ".hide_block_other_activity")
             });
 
             // initialisation des zones masquées dans le select simple
-            initChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school", "Autre établissement");
-            initChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree", "Autre diplôme");
+            // initChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school", "Autre établissement");
+            initChampsAutre(idPrefix, "school", "otherSchool", ".hide_block_other_school", translations['js.other_establishment']);
+            // initChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree", "Autre diplôme");
+            initChampsAutre(idPrefix, "degree", "otherDegree", ".hide_block_other_degree", translations['js.other_degree']);
 
             // Event
             // masquage, affichage des chapitres dans le select simple

@@ -2713,6 +2713,14 @@
         <source>js.other_reason</source>
         <target>Autre raison</target>
       </trans-unit>
+      <trans-unit id="js.other_degree">
+        <source>js.other_degree</source>
+        <target>Autre diplôme</target>
+      </trans-unit>
+      <trans-unit id="js.other_establishment">
+        <source>js.other_establishment</source>
+        <target>Autre établissement</target>
+      </trans-unit>
       <trans-unit id="js.other_position">
         <source>js.other_position</source>
         <target>Autre poste</target>
@@ -2833,37 +2841,69 @@
         <source>error.invalid_email</source>
         <target>Email invalide</target>
       </trans-unit>
-      <trans-unit id="datatable.first">
-        <source>datatable.first</source>
-        <target>premier</target>
-      </trans-unit>
-      <trans-unit id="datatable.previous">
-        <source>datatable.previous</source>
-        <target>précédent</target>
-      </trans-unit>
-      <trans-unit id="datatable.next">
-        <source>datatable.next</source>
-        <target>suivant</target>
-      </trans-unit>
-      <trans-unit id="datatable.last">
-        <source>datatable.last</source>
-        <target>dernier</target>
+      <trans-unit id="datatable.processing">
+        <source>datatable.processing</source>
+        <target>Traitement en cours...</target>
       </trans-unit>
       <trans-unit id="datatable.search">
         <source>datatable.search</source>
-        <target>rechercher :</target>
+        <target>Rechercher :</target>
       </trans-unit>
-      <trans-unit id="datatable.emptyTable">
-        <source>datatable.emptyTable</source>
-        <target>Aucune donnée disponible dans le tableau</target>
+      <trans-unit id="datatable.lengthMenu">
+        <source>datatable.lengthMenu</source>
+        <target>Afficher _MENU_ éléments</target>
+      </trans-unit>
+      <trans-unit id="datatable.info">
+        <source>datatable.info</source>
+        <target>Affichage de l'élement _START_ à _END_ sur _TOTAL_ éléments</target>
+      </trans-unit>
+      <trans-unit id="datatable.infoEmpty">
+        <source>datatable.infoEmpty</source>
+        <target>Affichage de 0 élément</target>
+      </trans-unit>
+      <trans-unit id="datatable.infoFiltered">
+        <source>datatable.infoFiltered</source>
+        <target>(filtré de _MAX_ éléments au total)</target>
+      </trans-unit>
+      <trans-unit id="datatable.infoPostFix">
+        <source>datatable.infoPostFix</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.loadingRecords">
+        <source>datatable.loadingRecords</source>
+        <target>Chargement en cours...</target>
       </trans-unit>
       <trans-unit id="datatable.zeroRecords">
         <source>datatable.zeroRecords</source>
         <target>Aucun élément à afficher</target>
       </trans-unit>
-      <trans-unit id="datatable.processing">
-        <source>datatable.processing</source>
-        <target>Traitement en cours</target>
+      <trans-unit id="datatable.emptyTable">
+        <source>datatable.emptyTable</source>
+        <target>Aucune donnée disponible dans le tableau No data available in table</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.first">
+        <source>datatable.paginate.first</source>
+        <target>Premier</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.previous">
+        <source>datatable.paginate.previous</source>
+        <target>Précédent</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.next">
+        <source>datatable.paginate.next</source>
+        <target>Suivant</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.last">
+        <source>datatable.paginate.last</source>
+        <target>Dernier</target>
+      </trans-unit>
+      <trans-unit id="datatable.aria.sortAscending">
+        <source>datatable.aria.sortAscending</source>
+        <target>: activer pour trier la colonne par ordre croissant</target>
+      </trans-unit>
+      <trans-unit id="datatable.aria.sortDescending">
+        <source>datatable.aria.sortDescending</source>
+        <target>: activer pour trier la colonne par ordre décroissant</target>
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>

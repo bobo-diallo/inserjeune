@@ -1931,7 +1931,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="joboffer.offer_title">
         <source>joboffer.offer_title</source>
-        <target>Offer title</target>
+        <target>Offer titlie</target>
       </trans-unit>
       <trans-unit id="joboffer.closed_date">
         <source>joboffer.closed_date</source>
@@ -2721,6 +2721,14 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.other_reason</source>
         <target>Other reason</target>
       </trans-unit>
+      <trans-unit id="js.other_degree">
+        <source>js.other_degree</source>
+        <target>Other diploma</target>
+      </trans-unit>
+      <trans-unit id="js.other_establishment">
+        <source>js.other_establishment</source>
+        <target>Other institution</target>
+      </trans-unit>
       <trans-unit id="js.other_position">
         <source>js.other_position</source>
         <target>Other position</target>
@@ -2841,37 +2849,69 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>error.invalid_email</source>
         <target>Invalid Email</target>
       </trans-unit>
-      <trans-unit id="datatable.first">
-        <source>datatable.first</source>
-        <target>first</target>
-      </trans-unit>
-      <trans-unit id="datatable.previous">
-        <source>datatable.previous</source>
-        <target>previous</target>
-      </trans-unit>
-      <trans-unit id="datatable.next">
-        <source>datatable.next</source>
-        <target>next</target>
-      </trans-unit>
-      <trans-unit id="datatable.last">
-        <source>datatable.last</source>
-        <target>last</target>
+      <trans-unit id="datatable.processing">
+        <source>datatable.processing</source>
+        <target>Processing...</target>
       </trans-unit>
       <trans-unit id="datatable.search">
         <source>datatable.search</source>
-        <target>search :</target>
+        <target>Search :</target>
       </trans-unit>
-      <trans-unit id="datatable.emptyTable">
-        <source>datatable.emptyTable</source>
-        <target>No data in the table</target>
+      <trans-unit id="datatable.lengthMenu">
+        <source>datatable.lengthMenu</source>
+        <target>Show _MENU_ elements</target>
+      </trans-unit>
+      <trans-unit id="datatable.info">
+        <source>datatable.info</source>
+        <target>Showing of element _START_ to _END_ on _TOTAL_ elements</target>
+      </trans-unit>
+      <trans-unit id="datatable.infoEmpty">
+        <source>datatable.infoEmpty</source>
+        <target>Showing of 0 element</target>
+      </trans-unit>
+      <trans-unit id="datatable.infoFiltered">
+        <source>datatable.infoFiltered</source>
+        <target>(filtered of totaly _MAX_ éléments)</target>
+      </trans-unit>
+      <trans-unit id="datatable.infoPostFix">
+        <source>datatable.infoPostFix</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="datatable.loadingRecords">
+        <source>datatable.loadingRecords</source>
+        <target>Loading in progress...</target>
       </trans-unit>
       <trans-unit id="datatable.zeroRecords">
         <source>datatable.zeroRecords</source>
         <target>No element to show</target>
       </trans-unit>
-      <trans-unit id="datatable.processing">
-        <source>datatable.processing</source>
-        <target>In progress</target>
+      <trans-unit id="datatable.emptyTable">
+        <source>datatable.emptyTable</source>
+        <target>Aucune donnée disponible dans le tableau No data available in table</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.first">
+        <source>datatable.paginate.first</source>
+        <target>first</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.previous">
+        <source>datatable.paginate.previous</source>
+        <target>previous</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.next">
+        <source>datatable.paginate.next</source>
+        <target>Next</target>
+      </trans-unit>
+      <trans-unit id="datatable.paginate.last">
+        <source>datatable.paginate.last</source>
+        <target>Last</target>
+      </trans-unit>
+      <trans-unit id="datatable.aria.sortAscending">
+        <source>datatable.aria.sortAscending</source>
+        <target>: activate to sort the column in ascending order</target>
+      </trans-unit>
+      <trans-unit id="datatable.aria.sortDescending">
+        <source>datatable.aria.sortDescending</source>
+        <target>: activate to sort the column in descending order</target>
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>

@@ -19,7 +19,7 @@ use \DOMDocument;
 
 #[AsCommand(
     name: 'app:import-translation-from-csv',
-    description: 'Import translation files from csv: Example: php bin/console app:import-translation-from-csv --csv=c:/temp/file.csv --ouputdir=c:/temp',
+    description: 'Import translation files from csv: Example: php bin/console app:import-translation-from-csv --csv=c:/temp/file.csv --ouputdir_xml=c:/temp --outputdir_json=c:/temp',
 )]
 class ImportTranslationFileFromCSVCommand extends Command
 {
@@ -39,7 +39,8 @@ class ImportTranslationFileFromCSVCommand extends Command
     {
         $this
             ->addOption('csv', null, InputOption::VALUE_REQUIRED, 'csv file')
-            ->addOption('ouputdir', null, InputOption::VALUE_REQUIRED, 'output directory')
+            ->addOption('outputdir_xml', null, InputOption::VALUE_REQUIRED, 'xml output directory')
+            ->addOption('outputdir_json', null, InputOption::VALUE_OPTIONAL,  'json output directory')
         ;
     }
 
@@ -47,7 +48,8 @@ class ImportTranslationFileFromCSVCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $csv = $input->getOption('csv');
-        $ouputdir = $input->getOption('ouputdir');
+        $ouputdirXml = $input->getOption('outputdir_xml');
+        $ouputdirJson = $input->getOption('outputdir_json');
         $filesystem = new Filesystem();
         $error = false;
 
@@ -57,8 +59,8 @@ class ImportTranslationFileFromCSVCommand extends Command
             $error = true;
         }
         //test if output dir exist
-        if (!$filesystem->exists($ouputdir)) {
-            $io->error('output directory does not exist : ' . $ouputdir);
+        if (!$filesystem->exists($ouputdirXml)) {
+            $io->error('output directory does not exist : ' . $ouputdirXml);
             $error = true;
         }
 
@@ -115,6 +117,11 @@ class ImportTranslationFileFromCSVCommand extends Command
                     $filebody = $doc->createElement('body');
                     $file->appendChild($filebody);
 
+                    // create object for json datatable
+                    $datatable = new \stdClass();
+                    $datatable->paginate = new \stdClass();
+                    $datatable->aria = new \stdClass();
+
                     // Add a root node to the document
                     while (($row = fgetcsv($inputFile, 1000, ";")) !== FALSE) {
                         if(count($row) >= $localeField+1) {
@@ -126,15 +133,47 @@ class ImportTranslationFileFromCSVCommand extends Command
                                 $source = $doc->createElement('source', utf8_encode($row[0]));
                                 $transunit->appendChild($source);
                                 $target = $doc->createElement('target', utf8_encode($row[$localeField]));
+
+                                //set default language fr if no translation
+                                if (strlen(trim($target->nodeValue, " ")) == 0) {
+                                    if(count($row)>1) {
+                                        $target = $doc->createElement('target', utf8_encode($row[1]));
+                                    }
+                                }
                                 $transunit->appendChild($target);
+
+                                //set datas for json datatable
+                                $jsonData = utf8_encode($row[$localeField]);
+                                if (strlen($jsonData) == 0) {
+                                    $jsonData = utf8_encode($row[1]);
+                                }
+                                if(str_starts_with($row[0], "datatable.")) {
+                                    $sources = explode('.', $row[0]);
+                                    if (count($sources) > 2) {
+                                        $src = $sources[2];
+                                        if ($sources[1] == "paginate") {
+                                            $datatable->paginate->$src = $jsonData;
+                                        } elseif ($sources[1] == "aria") {
+                                            $datatable->aria->$src = $jsonData;
+                                        }
+                                    } elseif (count($sources) == 2) {
+                                        $src = $sources[1];
+                                        $datatable->$src = $jsonData;
+                                    }
+                                }
                             }
                         }
                     }
 
                     $strxml = $doc->saveXML();
-                    $handle = fopen($ouputdir . '/messages.' . $locale . '.xlf', "w");
-                    fwrite($handle, $strxml);
-                    fclose($handle);
+                    $handleXml = fopen($ouputdirXml . '/messages.' . $locale . '.xlf', "w");
+                    fwrite($handleXml, $strxml);
+                    fclose($handleXml);
+
+                    $handleJson = fopen($ouputdirJson . '/'. strtolower($locale) . '_' . strtoUpper($locale) . '.json', "w");
+                    fwrite($handleJson, json_encode($datatable));
+                    fclose($handleJson);
+
                     fclose($inputFile);
                 }
             }

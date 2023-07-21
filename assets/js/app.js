@@ -55,9 +55,8 @@ global.deleteElement = function deleteElement(route) {
  * @returns {*|jQuery}
  */
 global.datatable = function datatable(retrieve=false) {
-   let jsonLangage = '../../../locale/en_EN.json'
-   if(getCurrentLocale() == "fr")
-      jsonLangage = '../../../locale/fr_FR.json'
+   let splitPath = window.location.toString().split('/' + getCurrentLocale() + '/');
+   let jsonLangage = splitPath[0] + '/locale/' + getCurrentLocale().toLowerCase() + '_' + getCurrentLocale().toUpperCase() + '.json'
 
    let options = {
       language: {
@@ -252,14 +251,14 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
 
    // Remet l'option Autre si inexistante apres action sur un valider par exemple
    $(idSelect).on('click', function () {
-      if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
-      // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
+      // if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
+      if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
       }
    });
    $(idOther).on('click', function () {
-      if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
-      // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
+      // if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
+      if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
          // $(idSelect + " option[value= '']").attr('selected', 'selected');
       }
@@ -280,11 +279,11 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
 
    // Ajout de Autre  à la création ou édition du formulaire
    // console.log("detect Autre=" + optionAutre);
-   if (optionAutre && optionAutre.indexOf("Autre")!=-1) {
-   // if (optionAutre && optionAutre.indexOf(translations["js.other"])!=-1) {
+   // if (optionAutre && optionAutre.indexOf("Autre")!=-1) {
+   if (optionAutre && optionAutre.indexOf(translations["js.other"])!=-1) {
       // console.log("detect Autre=" + optionAutre);
-      if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
-      // if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
+      // if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
+      if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
          // console.log("test insert autre")
       }
@@ -338,8 +337,8 @@ global.masquageChampsAutre = function masquageChampsAutre (idPrefix, select, oth
 
    // Event sur le select
    $(idSelect).on('change', function () {
-      if ($(idSelect + " option:selected").text().indexOf('Autre')!=-1) {
-      // if ($(idSelect + " option:selected").text().indexOf(translations['js.other'])!=-1) {
+      // if ($(idSelect + " option:selected").text().indexOf('Autre')!=-1) {
+      if ($(idSelect + " option:selected").text().indexOf(translations['js.other'])!=-1) {
          $(classHideOther).removeAttr('hidden');
          $(idSelect).removeAttr('required');
          $(idOther).attr('required', 'required');
@@ -539,8 +538,8 @@ global.listenChangeSectorArea = function listenChangeSectorArea(allactivities, i
          $(idActivities + " option[value='-1']").prop("selected", true);
       }
 
-      initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, "Autre métier");
-      // initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, translations["js.other_job"]);
+      // initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, "Autre métier");
+      initChampsAutre(idPrefix, activityName, otherActivity, classOtherHidden, translations["js.other_job"]);
       masquageChampsAutre (idPrefix, activityName, otherActivity, classOtherHidden, multiple);
    })
 }
@@ -949,9 +948,8 @@ global.timeGraphCreation = function timeGraphCreation(type, actorName, duration)
 }
 
 global.datatable2 = function datatable2(retrieve = false) {
-   let jsonLangage = '../../../locale/en_EN.json'
-   if(getCurrentLocale() == "fr")
-      jsonLangage = '../../../locale/fr_FR.json'
+   let splitPath = window.location.toString().split('/' + getCurrentLocale() + '/');
+   let jsonLangage = splitPath[0] + '/locale/' + getCurrentLocale().toLowerCase() + '_' + getCurrentLocale().toUpperCase() + '.json'
 
    let options = {
       language: {
