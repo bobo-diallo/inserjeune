@@ -127,12 +127,39 @@
                                     {% endif %}
                                     {#<td>{{ personDegree.lastDegreeMonth }}/{{ personDegree.lastDegreeYear }}</td>#}
                                     {%  if personDegree.type == "TYPE_TRAINING"%}
-                                      <td>{{ "En cours" }}</td>
+                                      <td><span id="degreeDate{{ personDegree.id }}"> {{ "En cours" | trans }}</span></td>
                                     {%  else %}
-                                      <td>{{ "%02d"|format(personDegree.lastDegreeMonth) }}/{{ personDegree.lastDegreeYear }}</td>
+                                      <td><span id="degreeDate{{ personDegree.id }}">{{ "%02d"|format(personDegree.lastDegreeMonth) }}/{{ personDegree.lastDegreeYear }}</span></td>
                                     {% endif %}
                                     <td>{{ personDegree.createdDate|date('d M Y H:i') }}</td>
-                                    <td>{{ personDegree.type | type_degree }}</td>
+
+                                    {%  if roleUser == "Etablissement" %}
+                                      <td style="width: 200px" id="type{{ personDegree.id }}">
+                                        <button style="margin:0"class="no-print typeStudent m-0 p-0  border-0" id="changeType{{ personDegree.id }}" onclick="changeType('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></button>
+                                        <button style="display: none;" class="no-print typeStudent m-0 p-0 border-0" id="saveType{{ personDegree.id }}" onclick="saveType('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/save_16.png') }}" alt="save"></button>
+                                        <button style="display: none;" class="no-print typeStudent m-0 p-0 border-0" id="cancelType{{ personDegree.id }}" onclick="cancelType('{{ personDegree.id}}')" value="0"><img src="{{ asset('build/images/icon/cancel_16.png') }}" alt="cancel"></button>
+                                        <span class="" id="spanType{{ personDegree.id }}">{{ personDegree.type | type_degree | trans }}</span>
+                                        <select style="display: none;" class="selectType no-print typeStudent mt-3" id="selectType{{ personDegree.id }}">
+                                          {%  for key, value in types %} <option value="{{ key }}">{{ value | trans }}</option> {% endfor %}
+                                        </select>
+                                        <div style="margin: 10px auto auto 0;" class="row">
+    {#                                        <span class="" style="visibility: hidden" id="spanDip"> {{ "graduate.month_year_of_graduation" | trans }} </span>#}
+                                            <span class="col-12" style="display: none;" id="spanDip{{ personDegree.id }}"> {{ "graduate.month_year_of_graduation" | trans }} </span>
+                                            <select class="col-6" style="display: none; margin-top: 0 !important; width: 60px" class="no-print typeStudent mt-3" id="selectMonth{{ personDegree.id }}">
+                                              <option selected>{{ "menu.select" | trans }}</option>
+                                              {%  for i in 1..12 %} <option value="{{ i }}">{{ i }}</option> {% endfor %}
+                                            </select>
+                                            <select class="col-6" style="display: none; margin-top: 0 !important; ; width: 120px" class="no-print typeStudent mt-3" id="selectYear{{ personDegree.id }}">
+                                              {% set currentYear = 'now' | date('Y')  %}
+                                              {% set beginYear = currentYear - 10  %}
+                                              <option selected>{{ "menu.select" | trans }}</option>
+                                              {%  for i in beginYear..currentYear %} <option value="{{ i }}">{{ i }}</option> {% endfor %}
+                                            </select>
+                                        </div>
+                                      </td>
+                                    {%  else %}
+                                      <td>{{ personDegree.type | type_degree }}</td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -174,6 +201,24 @@
        getTranslation().then (function (translation) {
           translations = translation;
        });
+       //event
+       $('.selectType').change(function () {
+          changeSelectTypeVisibility ($(this));
+       });
+
+       function changeSelectTypeVisibility (selectType) {
+          let personDegreeId = selectType.attr("id").replaceAll("selectType","");
+
+          if ($('#selectType' + personDegreeId + ' option:selected').val() == "TYPE_TRAINING")  {
+             $('#spanDip' + personDegreeId).hide();
+             $('#selectMonth' + personDegreeId).hide();
+             $('#selectYear' + personDegreeId).hide();
+          } else {
+             $('#spanDip' + personDegreeId).show();
+             $('#selectMonth' + personDegreeId).show();
+             $('#selectYear' + personDegreeId).show();
+          }
+       }
 
        function changePhoneMobile1 (personDegreeId) {
           $('#changePhoneMobile1' + personDegreeId).hide();
@@ -250,6 +295,67 @@
                       $('#spanEmail' + personDegreeId).text(data['email']);
                    } else {
                       alert(translations['js.error_email_already_used'])
+                   }
+                });
+             }
+          }
+       }
+
+
+       // initialisation Email
+       function changeType(personDegreeId) {
+          $('#changeType' + personDegreeId).hide();
+          $('#saveType' + personDegreeId).show();
+          $('#cancelType' + personDegreeId).show();
+          $('#selectType' + personDegreeId).show();
+          changeSelectTypeVisibility ($('#selectType' + personDegreeId));
+
+          let spanText = $('#spanType' + personDegreeId).text();
+          $('#selectType' + personDegreeId + ' option:contains(' + spanText + ')').prop("selected", true)
+
+          let degreeDate = $('#degreeDate' + personDegreeId).text().split('/');
+          console.log(degreeDate);
+          if(degreeDate.length == 2) {
+             $('#selectMonth' + personDegreeId + ' option[value="'+ Number(degreeDate[0]) + '"]').prop("selected", true)
+             $('#selectYear' + personDegreeId + ' option[value="'+ Number(degreeDate[1]) + '"]').prop("selected", true)
+          }
+       }
+
+       function cancelType(personDegreeId) {
+          $('#changeType' + personDegreeId).show();
+          $('#saveType' + personDegreeId).hide();
+          $('#cancelType' + personDegreeId).hide();
+          $('#selectType' + personDegreeId).hide();
+          $('#spanType' + personDegreeId).show();
+          $('#spanDip' + personDegreeId).hide();
+          $('#selectMonth' + personDegreeId).hide();
+          $('#selectYear' + personDegreeId).hide();
+          console.log('test: ' + $('#selectType' + personDegreeId).val() + ' | ' + $('#spanType' + personDegreeId).text());
+       }
+
+       function saveType(personDegreeId) {
+          if ($('#selectType' + personDegreeId + ' option:selected').val() == $('#spanType' + personDegreeId).text()) {
+             cancelType(personDegreeId);
+
+          } else {
+             if (confirm(translations['js.sure_to_modify_professional_situation'])) {
+                let locationref = window.location.href.replace("persondegrees", "");
+                // console.log(locationref);
+                let data = {};
+                data['id'] = personDegreeId
+                data['type'] = $('#selectType' + personDegreeId + ' option:selected').attr('value');
+                if ($('#selectType' + personDegreeId + ' option:selected').val() != "TYPE_TRAINING") {
+                   data['month'] = $('#selectMonth' + personDegreeId + ' option:selected').attr('value');
+                   data['year'] = $('#selectYear' + personDegreeId + ' option:selected').attr('value');
+                }
+
+                $.get(locationref + 'changePersonDegreeType', data).done(function (result) {
+                   if (result == "OK") {
+                      $('#spanType' + personDegreeId).text($('#selectType' + personDegreeId + ' option:selected').text() );
+                      cancelType(personDegreeId);
+                      location.reload();
+                   } else {
+                      alert(translations[result]);
                    }
                 });
              }

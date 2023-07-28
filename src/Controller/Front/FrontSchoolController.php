@@ -25,6 +25,7 @@ use App\Repository\ActivityRepository;
 use App\Services\ActivityService;
 use App\Services\EmailService;
 use App\Services\SchoolService;
+use App\Services\PersonDegreeService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionClass;
@@ -47,6 +48,7 @@ class FrontSchoolController extends AbstractController {
 	private EntityManagerInterface $em;
 	private ActivityService $activityService;
 	private SchoolService $schoolService;
+    private PersonDegreeService $degreeService;
 	private CompanyRepository $companyRepository;
 	private SatisfactionSalaryRepository $satisfactionSalaryRepository;
 	private PersonDegreeRepository $personDegreeRepository;
@@ -69,6 +71,7 @@ class FrontSchoolController extends AbstractController {
 		EntityManagerInterface       $em,
 		ActivityService              $activityService,
 		SchoolService                $schoolService,
+        PersonDegreeService          $degreeService,
 		CompanyRepository            $companyRepository,
 		UserPasswordHasherInterface  $hasher,
 		SatisfactionSalaryRepository $satisfactionSalaryRepository,
@@ -90,6 +93,7 @@ class FrontSchoolController extends AbstractController {
 		$this->em = $em;
 		$this->activityService = $activityService;
 		$this->schoolService = $schoolService;
+        $this->degreeService = $degreeService;
 		$this->companyRepository = $companyRepository;
         $this->hasher = $hasher;
 		$this->satisfactionSalaryRepository = $satisfactionSalaryRepository;
@@ -282,9 +286,11 @@ class FrontSchoolController extends AbstractController {
 			$school = $this->schoolService->getSchool();
 			$schoolId = $school ? $school->getId() : null;
 			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, $schoolId);
+            $types = $this->degreeService->getTypes();
 
 			return $this->render('persondegree/index.html.twig', [
-				'personDegrees' => $personDegrees
+				'personDegrees' => $personDegrees,
+                'types' => $types
 			]);
 		});
 	}
@@ -1085,6 +1091,30 @@ class FrontSchoolController extends AbstractController {
                }
         } else {
             $result = 'Email déjà utilisé';
+        }
+
+        return new JsonResponse($result);
+    }
+
+    #[Route(path: '/changePersonDegreeType', name: 'change_person_degree_type', methods: ['GET'])]
+    public function changePersonDegreeType(Request$request): JsonResponse|Response {
+        $personDegreeId = $request->query->get('id');
+        $newType = $request->query->get('type');
+        $month = $request->query->get('month');
+        $year = $request->query->get('year');
+        $result = "";
+
+        $personDegree = $this->personDegreeRepository->find($personDegreeId);
+        if($personDegree) {
+            $personDegree->setType($newType);
+            if($month) $personDegree->setLastDegreeMonth(intval($month));
+            if($year) $personDegree->setLastDegreeYear(intval($year));
+            $this->em->persist($personDegree);
+            $this->em->flush();
+
+            $result = 'OK';
+        } else {
+            $result = 'js.unknown_error_server';
         }
 
         return new JsonResponse($result);

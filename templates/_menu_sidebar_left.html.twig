@@ -129,8 +129,8 @@
     <ul class="sub-menu">
       <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.french' | trans }} <img src="{{ asset('build/images/icon/country/fr.png') }}" alt="French"></a></li>
       <li><a href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'menu.english' | trans }} <img src="{{ asset('build/images/icon/country/en.png') }}" alt="English"></a></li>
-      <li><a href="{{ path('change_locale', {'locale': 'fr'}) }}">{{ 'menu.spanish' | trans }} <img src="{{ asset('build/images/icon/country/es.png') }}" alt="English"></a></li>
-      <li><a href="{{ path('change_locale', {'locale': 'pt'}) }}">{{ 'menu.portuguese' | trans }} <img src="{{ asset('build/images/icon/country/pt.png') }}" alt="English"></a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'es'}) }}">{{ 'menu.spanish' | trans }} <img src="{{ asset('build/images/icon/country/es.png') }}" alt="Spanish"></a></li>
+      <li><a href="{{ path('change_locale', {'locale': 'pt'}) }}">{{ 'menu.portuguese' | trans }} <img src="{{ asset('build/images/icon/country/pt.png') }}" alt="Portuguese"></a></li>
     </ul>
   </li>
   {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}

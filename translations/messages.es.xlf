@@ -2513,6 +2513,10 @@
         <source>js.sure_to_modify_tel_number</source>
         <target>Voulez-vous vraiment modifier le Numéro tel ?</target>
       </trans-unit>
+      <trans-unit id="js.sure_to_modify_professional_situation">
+        <source>js.sure_to_modify_professional_situation</source>
+        <target>Voulez-vous vraiment modifier la situation professionnelle ?</target>
+      </trans-unit>
       <trans-unit id="js.sure_to_modify_email">
         <source>js.sure_to_modify_email</source>
         <target>Voulez-vous vraiment modifier l\'email ?</target>
@@ -2572,6 +2576,10 @@
       <trans-unit id="js.error_email_already_used">
         <source>js.error_email_already_used</source>
         <target>Erreur: Email déjà utilisé</target>
+      </trans-unit>
+      <trans-unit id="js.unknown_error_server">
+        <source>js.unknown_error_server</source>
+        <target>Erreur inconnue de serveur</target>
       </trans-unit>
       <trans-unit id="js.warning_operation_may_take_several_minutes">
         <source>js.warning_operation_may_take_several_minutes</source>
@@ -2808,6 +2816,10 @@
       <trans-unit id="js.import_csv_legal_status">
         <source>js.import_csv_legal_status</source>
         <target>statut juridique</target>
+      </trans-unit>
+      <trans-unit id="js.in_traning">
+        <source>js.in_traning</source>
+        <target>En cours de formation</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>

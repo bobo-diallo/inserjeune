@@ -2519,6 +2519,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.sure_to_modify_tel_number</source>
         <target>Are you sure you want to modify the Tel number ?</target>
       </trans-unit>
+      <trans-unit id="js.sure_to_modify_professional_situation">
+        <source>js.sure_to_modify_professional_situation</source>
+        <target>Are you sure you want to modify the professional situation ?</target>
+      </trans-unit>
       <trans-unit id="js.sure_to_modify_email">
         <source>js.sure_to_modify_email</source>
         <target>Are you sure you want to modify the email ?</target>
@@ -2578,6 +2582,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="js.error_email_already_used">
         <source>js.error_email_already_used</source>
         <target>Error: Email already in use</target>
+      </trans-unit>
+      <trans-unit id="js.unknown_error_server">
+        <source>js.unknown_error_server</source>
+        <target>Unknown server error</target>
       </trans-unit>
       <trans-unit id="js.warning_operation_may_take_several_minutes">
         <source>js.warning_operation_may_take_several_minutes</source>
@@ -2816,6 +2824,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="js.import_csv_legal_status">
         <source>js.import_csv_legal_status</source>
         <target>legal status</target>
+      </trans-unit>
+      <trans-unit id="js.in_traning">
+        <source>js.in_traning</source>
+        <target>In traning</target>
       </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
