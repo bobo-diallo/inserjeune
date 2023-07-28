@@ -158,7 +158,7 @@ class RegisterController extends AbstractController {
 			if ($isValidPhone) {
 				if (strlen($nationalPhone) != $phoneDigit) {
 					$isValidPhone = false;
-					$errorMessage = $this->translator->trans('the_number_without_the_country_code_must_have_number_digits', ['{number}' => (int)$phoneDigit]);
+					$errorMessage = $this->translator->trans('flashbag.the_number_without_the_country_code_must_have_number_digits', ['{number}' => (int)$phoneDigit]);
 					$this->addFlash('danger', $errorMessage);
 				}
 				if (!ctype_digit($nationalPhone)) {

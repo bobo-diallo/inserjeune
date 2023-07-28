@@ -131,22 +131,4 @@ class DashboardController extends AbstractController {
 	public function exportPdfAction(): Response {
 		return $this->redirectToRoute('dashboard_index');
 	}
-
-	#[Route(path: '/maps', name: 'dasboard_map', methods: ['GET'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function mapAction(Request $request): Response {
-		return $this->render('Dashboard/maps.html.twig');
-	}
-
-	#[Route(path: '/degree', name: 'dashboard_degree', methods: ['GET'])]
-	public function dashboardDegreeAction(Request $request): Response {
-		return $this->render('Dashboard/dashboardDegree.html.twig', [
-			'jobOffers' => $this->jobOfferRepository->findAll()
-		]);
-	}
-
-	#[Route(path: '/company', name: 'dashboard_company', methods: ['GET'])]
-	public function dashboardCompanyAction(Request $request): Response {
-		return $this->render('Dashboard/index.html.twig');
-	}
 }
