@@ -17,6 +17,15 @@
 
 
 {% block js %}
+   <script>
+      $(document).ready(function () {
+         let translations = [];
+         getTranslation().then (function (translation) {
+            translations = translation;
+            $("#appbundle_joboffer_country").prepend("<option value='' selected='selected'>" + translations['js.select'] + "</option>");
+         });
+      });
+   </script>
   <script>
      // Event
      $(document).on('change', '#appbundle_joboffer_country, #appbundle_joboffer_region', function () {

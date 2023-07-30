@@ -158,7 +158,7 @@
                                         </div>
                                       </td>
                                     {%  else %}
-                                      <td>{{ personDegree.type | type_degree }}</td>
+                                      <td>{{ personDegree.type | type_degree | trans }}</td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}
