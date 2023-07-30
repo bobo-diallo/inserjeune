@@ -7,6 +7,7 @@ use App\Entity\School;
 use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
+use App\Repository\CountryRepository;
 use App\Services\ActivityService;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +29,7 @@ class PersonDegreeController extends AbstractController {
 	private PersonDegreeRepository $personDegreeRepository;
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
+    private CountryRepository $countryRepository;
     private PersonDegreeService $personDegreeService;
 	private TranslatorInterface $translator;
 
@@ -37,6 +39,7 @@ class PersonDegreeController extends AbstractController {
 		ActivityService        $activityService,
 		UserRepository         $userRepository,
 		PersonDegreeService    $personDegreeService,
+        CountryRepository      $countryRepository,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
@@ -44,6 +47,7 @@ class PersonDegreeController extends AbstractController {
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
         $this->personDegreeService = $personDegreeService;
+        $this->countryRepository = $countryRepository;
 		$this->translator = $translator;
 	}
 
@@ -105,6 +109,7 @@ class PersonDegreeController extends AbstractController {
 		$editForm->handleRequest($request);
 
         $currentUser = $this->userRepository->getFromPersonDegree($personDegree->getId());
+        $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 
@@ -135,15 +140,18 @@ class PersonDegreeController extends AbstractController {
 			return $this->redirectToRoute('persondegree_show', ['id' => $personDegree->getId()]);
 		}
 
-        $personDegree->setDiaspora($currentUser->isDiaspora());
-        $personDegree->setResidenceCountry($currentUser->getResidenceCountry());
+        if (count($currentUser) > 0) {
+            $personDegree->setDiaspora($currentUser[0]->isDiaspora());
+            $personDegree->setResidenceCountry($currentUser[0]->getResidenceCountry());
+        }
 
 		return $this->render('persondegree/edit.html.twig', [
 			'personDegree' => $personDegree,
 			'edit_form' => $editForm->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
 			'selectedCountry' => $selectedCountry,
-			'residenceCountryPhoneCode' => $personDegree->getUser()->getResidenceCountry()?->getPhoneCode()
+			'residenceCountryPhoneCode' => $personDegree->getUser()->getResidenceCountry()?->getPhoneCode(),
+            'otherCountries' => $otherCountries
 		]);
 	}
 
