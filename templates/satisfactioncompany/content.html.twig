@@ -22,11 +22,11 @@
      getTranslation().then (function (translation) {
         // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
         initActivities(allActivities, idPrefix, 'workerSectorArea', 'workerActivities', true, function () {
-           initChampsAutre(idPrefix, "workerActivities", "otherWorkerJob", ".hide_flex_otherWorkerJob", "Autre métier")
+           initChampsAutre(idPrefix, "workerActivities", "otherWorkerJob", ".hide_flex_otherWorkerJob", translations["js.other_job"])
            masquageChampsAutre(idPrefix, "workerActivities", "otherWorkerJob", ".hide_flex_otherWorkerJob")
         });
         initActivities(allActivities, idPrefix, 'technicianSectorArea', 'technicianActivities', true, function () {
-           initChampsAutre(idPrefix, "technicianActivities", "otherTechnicianJob", ".hide_flex_otherTechnicianJob", "Autre métier")
+           initChampsAutre(idPrefix, "technicianActivities", "otherTechnicianJob", ".hide_flex_otherTechnicianJob", translations["js.other_job"])
            masquageChampsAutre(idPrefix, "technicianActivities", "otherTechnicianJob", ".hide_flex_otherTechnicianJob")
         });
 

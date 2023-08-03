@@ -568,7 +568,8 @@ class FrontSchoolController extends AbstractController {
 						        $phoneNumber = $value;
 					        }
 				        } else {
-					        $err[] = "Mauvaise syntaxe numéro " . $this->getLitteralPhoneNameForPersonDegree($key) . " : " . $phoneSyntax;
+					        // $err[] = "Mauvaise syntaxe numéro " . $this->getLitteralPhoneNameForPersonDegree($key) . " : " . $phoneSyntax;
+					        $err[] = $this->getLitteralPhoneNameForPersonDegree($key) . " : " . $phoneSyntax;
 				        }
 
 			        } else if ($setProp == "setBirthDate") {
@@ -955,7 +956,8 @@ class FrontSchoolController extends AbstractController {
 	        $nationalPhone = substr($phoneNumber, strlen($phoneCode));
 	        $isValidPhone = true;
         } else {
-	        $res = "Le numéro doit commencer par " . $phoneCode . "\n";
+	        // $res = "Le numéro doit commencer par " . $phoneCode . "\n";
+	        $res = $this->translator->trans("menu.number_must_begin_by") . " " . $phoneCode . "\n";
         }
 
 	     if ($isValidPhone == true && strlen($nationalPhone) > 0) {
@@ -967,7 +969,7 @@ class FrontSchoolController extends AbstractController {
 		     // reconstruit le numéro de téléphone sans le 0 national
 		     $validPhone = $phoneCode . $nationalPhone;
 		     if ($validPhone !== $phoneNumber) {
-			     $res = "Suggestion pour le numéro " . $validPhone;
+			     $res = $this->translator->trans("menu.suggestion_for_the_number") . " " . $validPhone;
 		     }
 	     }
 	     // vérification de la conformité du numéro de téléphone
@@ -975,10 +977,10 @@ class FrontSchoolController extends AbstractController {
 
 		     if (strlen($nationalPhone) != $phoneDigit) {
 			     $isValidPhone = false;
-			     $res = "Le numéro sans l'indicatif pays doit avoir " . (int)$phoneDigit . " chiffres";
+			     $res = $this->translator->trans("menu.the_number_without_the_country_code_must_have") . " " . (int)$phoneDigit . " chiffres";
             }
 		     if (!ctype_digit($nationalPhone)) {
-			     $res = "mauvaise syntaxe du numéro de téléphone";
+			     $res = $this->translator->trans("menu.wrong_phone_number_syntax");
 		     }
 	     }
 	     return ($res);
