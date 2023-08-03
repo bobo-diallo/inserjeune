@@ -245,7 +245,7 @@ global.clearBlockFlex = function clearBlockFlex(idPrefix, checkbox, mode, select
  * @param optionAutre
  */
 global.initChampsAutre = function initChampsAutre (idPrefix, select, other, classHideOther, optionAutre) {
-   // console.log("1 |" + idPrefix + "|" +  select + "|" +  other + "|" +  classHideOther + "|" +  optionAutre + "|")
+   console.log("1 |" + idPrefix + "|" +  select + "|" +  other + "|" +  classHideOther + "|" +  optionAutre + "|")
    let idSelect = idPrefix + select;
    let idOther = idPrefix + other;
 
@@ -274,18 +274,11 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
       }
    });
 
-
-
-
    // Ajout de Autre  à la création ou édition du formulaire
    // console.log("detect Autre=" + optionAutre);
-   // if (optionAutre && optionAutre.indexOf("Autre")!=-1) {
    if (optionAutre && optionAutre.indexOf(translations["js.other"])!=-1) {
-      // console.log("detect Autre=" + optionAutre);
-      // if ($(idSelect).text() && $(idSelect).text().indexOf("Autre")==-1) {
       if ($(idSelect).text() && $(idSelect).text().indexOf(translations["js.other"])==-1) {
          $(idSelect).append(new Option(optionAutre,''));
-         // console.log("test insert autre")
       }
    }
 
@@ -305,14 +298,14 @@ global.initChampsAutre = function initChampsAutre (idPrefix, select, other, clas
       $(idOther).attr('required', 'required');
    }
 
-
    // Si option Autre est selectionnée
    // if($(idSelect + ' option:selected').text().indexOf("Autre")==-1) {
    if($(idSelect + ' option:selected').text().indexOf(translations["js.other"])==-1) {
-      // console.log("option Autre est selectionnée")
+   // if($(idSelect + ' option:selected').val().indexOf("")==-1) {
+      //console.log("option Autre n'est pas selectionnée : " + idSelect + " ;")
       $(classHideOther).attr('hidden', 'hidden');
    } else {
-      // console.log("option Autre n'est pas selectionnée")
+      //console.log("option Autre est selectionnée: " + idSelect + " ;")
       $(classHideOther).removeAttr('hidden');
    }
 }

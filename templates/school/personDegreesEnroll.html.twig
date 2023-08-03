@@ -302,8 +302,8 @@
             html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" type="Date" style="display:none" value="" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
             //html += '    <td class="tdinput"><input id="sex'+ rowNumber + '" style="display:none" placeholder="genre"><p></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option>un homme</option><option>une femme</option></select></td>';
-            // html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option>' + translations["js.a_man"] + '</option><option>' + translations["js.a_woman"] + '</option></select></td>';
+            // html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option >un homme</option><option >une femme</option></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="un homme">' + translations["js.a_man"] + '</option><option value="une femme">' + translations["js.a_woman"] + '</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
             html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" value="" id="selectAddressCity'+ rowNumber + '" placeholder="' + translations["js.import_csv_region"] + '"></select></td>';
             html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
@@ -384,7 +384,7 @@
             html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="un homme">un homme</option><option value="une femme">une femme</option></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="male">un homme</option><option value="female">une femme</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
             html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="' + translations["js.import_csv_city"] + ''+ rowNumber + '" placeholder="' + translations["js.select_region"] + '"></select></td>';
             html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
@@ -667,21 +667,23 @@
                                 label = label.replace('select', '');
                                 //personDegree[selectLabel] = $(this).val();
                                 personDegree[label] = $(this).val();
+                                //console.log(label + '->' + $(this).val() + ' | ' + $(this).text() + ' | ')
                                 if($(this).val().length>0) {
                                     strPersonDegree += "&" + label + "=" + $(this).val();
                                 }
 
                                 /* mise a jour du selected dans l'option */
                                 $(this).find('option').each(function () {
+                                    $(this).removeAttr('selected');
                                     if(personDegree[label] == $(this).val()) {
                                         $(this).attr("selected","selected");
-                                        //console.log("-test--> " + personDegree[label] + " | "+ $(this).val() + " | " + $(this).text());
+                                        // console.log("-test--> " + personDegree[label] + " | "+ $(this).val() + " | " + $(this).text());
                                     }
                                 })
                             });
                         });
 
-                        //console.log(personDegree)
+                        // console.log(personDegree)
 
                         /* appel ajax en get pour sauvegarder le Diplômé */
                         /* --------------------------------------------- */
@@ -721,6 +723,7 @@
 
                                             let p_id = "#p_" + personDegreeId;
                                             $(p_id).html(inputValue);
+                                            console.log("p_id: " + p_id + " -> " + inputValue);
                                         }
                                     });
                                     $(this).find('select option').each(function () {
@@ -728,11 +731,12 @@
                                             if($(this).attr("selected")=="selected") {
                                                 /*récupération du Label en enlevant le numero du rowNumber */
                                                 personDegreeId = $(this).parent().prop("id");
-                                                let inputValue = $(this).text();
+                                                // let inputValue = $(this).text();
+                                                let inputValue = $(this).val();
 
                                                 let p_id = "#p_" + personDegreeId;
                                                 $(p_id).text(inputValue);
-                                                //console.log(p_id + " Selected -->> " + inputValue);
+                                                console.log("p_id: " + p_id + " -> " + inputValue);
                                             }
                                     });
                                 })

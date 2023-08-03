@@ -1,4 +1,5 @@
 {% extends 'school/content.html.twig' %}
+{% set roleUser = app.user.roles|role %}
 
 {% block body %}
     <div class="content-i">
@@ -6,15 +7,15 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <h6 class="element-header">
-                    {%  if app.user.roles|role =="Administrateur" %}
+                    {%  if roleUser =="Administrateur" %}
                         {{ 'school.list_of_establishments' | trans }}
-                    {% elseif app.user.roles|role =="Entreprise" %}
+                    {% elseif roleUser =="Entreprise" %}
                         {{ 'school.list_of_partner_schools' | trans }}
                     {% endif %}
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
-                    {%  if app.user.roles|role =="Administrateur" %}
+                    {%  if roleUser =="Administrateur" %}
                         <div class="controls-above-table">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -29,13 +30,13 @@
                         <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                {%  if roleUser =="Administrateur" or roleUser =="Législateur" %}
                                     <th class="no-print">Actions</th>
                                 {% endif %}
-                                {%  if app.user.roles|role =="Administrateur" %}
+                                {%  if roleUser =="Administrateur" %}
                                     <th>Id</th>
                                 {% endif %}
-                                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                {%  if roleUser =="Administrateur" or roleUser =="Législateur" %}
                                     <th>Immat.</th>
                                 {% endif %}
 
@@ -43,13 +44,13 @@
                                 <th>{{ 'menu.city' | trans }}</th>
                                 <th>{{ 'menu.phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
-                                {%  if app.user.roles|role =="Législateur" %}
+                                {%  if roleUser =="Législateur" %}
                                     <th>{{ 'school.number_of_graduates_with_tag' | trans({'%tag_br%': '<br />'}) | raw }}</th>
                                 {% endif %}
-                                {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                {%  if roleUser =="Administrateur" or roleUser =="Législateur" %}
                                     <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br />'}) | raw }}</th>
                                 {% endif %}
-                                {%  if app.user.roles|role =="Entreprise" %}
+                                {%  if roleUser =="Entreprise" %}
                                   <th>{{ 'menu.degree' | trans }}</th>
                                   <th>{{ 'menu.activity_area' | trans }}</th>
                                   <th>{{ 'menu.faculty' | trans }}</th>
@@ -59,7 +60,7 @@
                             <tbody>
                             {% for school in schools %}
                                 <tr>
-                                     {%  if app.user.roles|role =="Administrateur" %}
+                                     {%  if roleUser =="Administrateur" %}
                                         <td class="row-actions">
                                           <a href="{{ path('school_edit', { 'id': school.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
                                           <a href="{{ path('school_show', { 'id': school.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
@@ -67,7 +68,7 @@
                                         </td>
                                         <td>{{ school.id }}</td>
                                         <td>{{ school.registration }}</td>
-                                     {% elseif app.user.roles|role =="Législateur" %}
+                                     {% elseif roleUser =="Législateur" %}
                                         <td class="row-actions">
                                           <a href="{{ path('school_show', { 'id': school.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                         </td>
@@ -76,22 +77,22 @@
 
                                     <td>{{ school.name }}</td>
 
-                                    {%  if app.user.roles|role =="Administrateur" %}
+                                    {%  if roleUser =="Administrateur" %}
                                         <td>{{ school.city }}</td>
-                                    {%  elseif app.user.roles|role =="Législateur"%}
+                                    {%  elseif roleUser =="Législateur"%}
                                         <td>{{ school.region.name }}, {{ school.city.name }}</td>
-                                    {%  elseif app.user.roles|role =="Entreprise" %}
+                                    {%  elseif roleUser =="Entreprise" %}
                                         <td>{{ school.city.name }}</td>
                                     {% endif %}
                                     <td>{{ school.phoneStandard }}</td>
                                     <td>{{ school.email }}</td>
-                                    {%  if app.user.roles|role =="Législateur" %}
+                                    {%  if roleUser =="Législateur" %}
                                       <td>{{ school.personDegrees | length }}</td>
                                     {% endif %}
-                                    {%  if app.user.roles|role =="Administrateur" or app.user.roles|role =="Législateur" %}
+                                    {%  if roleUser =="Administrateur" or roleUser =="Législateur" %}
                                       <td>{{ school.createdDate|date('d M Y H:i') }}</td>
                                     {% endif %}
-                                  {%  if app.user.roles|role =="Entreprise" %}
+                                  {%  if roleUser =="Entreprise" %}
                                       <td>
                                         {{ school.degrees | join('<br/>') | raw}}
                                       </td>
@@ -119,7 +120,9 @@
                             </tbody>
                         </table>
                     </div>
+                  {%  if roleUser == "Entreprise"  %}
                     <p>{{ 'school.please_note_this_ist_comes_from_establishments_that_have_selected_you_as_a_partner' | trans }} </p>
+                  {% endif %}
                 </div>
             </div>
         </div>

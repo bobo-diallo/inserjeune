@@ -31,15 +31,15 @@
           <div class="row">
             <div class="col-sm-4 form-group">
               <label for=""> {{ 'survey.how_many_employees_do_you_have' | trans }} ?</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.salaryNumber }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.salaryNumber | trans }}">
             </div>
             <div class="col-sm-4 form-group">
               <label for=""> {{ 'survey.how_many_apprentices_do_you_employ' | trans }} ?</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.apprenticeNumber }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.apprenticeNumber | trans }}">
             </div>
             <div class="col-sm-4 form-group">
               <label for=""> {{ 'survey.how_many_interns_do_you_employ' | trans }}  ?</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.studentNumber }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.studentNumber | trans }}">
             </div>
           </div>
           <div class="line-separator"></div>
@@ -92,7 +92,7 @@
             {#</div>#}
             {#<div class="col-sm-12 form-check ">#}
               {#{{ satisfactionCompany.levelSkill }}#}
-              <input class="form-control" disabled value="{{ satisfactionCompany.levelSkill }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.levelSkill | trans }}">
             </div>
           </div>
           <div class="line-separator"></div>
@@ -148,7 +148,7 @@
               {#<input class="form-control" disabled value="{{ satisfactionCompany.hiringSameProfile }}">#}
               <div class="col-sm-12">
                 {% if satisfactionCompany.hiringSameProfile==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                <input type="checkbox" class="form-control" disabled {{ checked }}>
+                <input style="display: none" type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
                   <span class="non">{{ 'menu.no' | trans }}</span>
                   <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -162,7 +162,7 @@
               <label for=""> {{ 'company.in_case_of_gaps_would_you_be_willing_to_complete_the_training_of_the_young_person_hired' | trans }} ?</label>
               <div class="col-sm-12">
                 {% if satisfactionCompany.completeTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                <input type="checkbox" class="form-control" disabled {{ checked }}>
+                <input style="display: none" id="completeTraining" type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
                   <span class="non">{{ 'menu.no' | trans }}</span>
                   <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -170,8 +170,8 @@
               </div>
             </div>
           </div>
-          <div class="hide_flex_completeGlobalTraining">
-            <div class="row hide_flex_completeGlobalTraining">
+          <div style="display: none" id="detailGlobalTraining" class="testhide_flex_completeGlobalTraining">
+            <div class="row testhide_flex_completeGlobalTraining">
               <div class="col-sm-12 form-group">
                 <span><br>{{ 'company.if_yes_for_which_skills' | trans }} ?</span>
               </div>
@@ -187,7 +187,7 @@
                 <td class="complete_skill_check">
                   <div class="form-check">
                     {% if satisfactionCompany.completeGlobalTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                    <input type="checkbox" class="form-control" disabled {{ checked }}>
+                    <input style="display: none" type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
                       <span class="non">{{ 'menu.no' | trans }}</span>
                       <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -206,7 +206,7 @@
                 <td class="complete_skill_check">
                   <div class="form-check">
                     {% if satisfactionCompany.completeTechnicalTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                    <input type="checkbox" class="form-control" disabled {{ checked }}>
+                    <input style="display: none" type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
                       <span class="non">{{ 'menu.no' | trans }}</span>
                       <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -225,7 +225,7 @@
                 <td class="complete_skill_check">
                   <div class="form-check">
                     {% if satisfactionCompany.completeCommunicationHygieneHealthEnvTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                    <input type="checkbox" class="form-control" disabled {{ checked }}>
+                    <input style="display: none" type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
                       <span class="non">{{ 'menu.no' | trans }}</span>
                       <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -244,8 +244,8 @@
                 </td>
                 <td class="complete_skill_check">
                   <div class="form-check">
-                    {% if satisfactionCompany.completeOtherTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                    <input type="checkbox" class="form-control" disabled {{ checked }}>
+                    {% if satisfactionCompany.completeOtherTraining == true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
+                    <input style="display: none" type="checkbox" class="form-control" disabled {{ checked }}>
                     <div class="slider round">
                       <span class="non">{{ 'menu.no' | trans }}</span>
                       <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -261,21 +261,21 @@
           <div class="row">
             <div class="col-sm-6 form-group">
               <label for=""> {{ 'company.worker_female' | trans }} :</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsWorker }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsWorker | trans }}">
             </div>
             <div class="col-sm-6 form-group">
               <label for=""> {{ 'company.technician_female' | trans }} :</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsTechnician }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsTechnician | trans }}">
             </div>
           </div>
           <div class="row">
             <div class="col-sm-6 form-group">
               <label for=""> {{ 'company.apprentice_female' | trans }} :</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsApprentice }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsApprentice | trans }}">
             </div>
             <div class="col-sm-6 form-group">
               <label for=""> {{ 'company.intern' | trans }} :</label>
-              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsStudent }}">
+              <input class="form-control" disabled value="{{ satisfactionCompany.hiring6MonthsStudent | trans }}">
             </div>
           </div>
         </form>
@@ -302,4 +302,14 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+  if($("#completeTraining").prop('checked') != '') {
+     $("#detailGlobalTraining").show();
+  } else {
+     $("#detailGlobalTraining").hide();
+  }
+</script>
 {% endblock %}

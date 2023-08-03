@@ -8,14 +8,20 @@ use App\Tools\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\TwigFunction;
 
 class EnrollementExention extends AbstractExtension {
 
 	private EntityManagerInterface $entityManager;
+    private TranslatorInterface $translator;
 
-	public function __construct(EntityManagerInterface $entityManager) {
+	public function __construct(
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
+    ) {
 		$this->entityManager = $entityManager;
+        $this->translator = $translator;
 	}
 
 	public function getFunctions(): array {
@@ -46,13 +52,13 @@ class EnrollementExention extends AbstractExtension {
 			$options = "";
 			foreach (['un homme', 'une femme'] as $genre) {
 				if (strcmp($genre, $personDegree->getSex()) == 0) {
-					$options .= "<option selected>" . $genre . "</option>";
+					$options .= "<option selected>" . $this->translator->trans($genre) . "</option>";
 				} else {
-					$options .= "<option>" . $genre . "</option>";
+					$options .= "<option>" . $this->translator->trans($genre) . "</option>";
 				}
 			}
 			$html .= sprintf('    <td class="tdselect"><p id="p_selectSex%d">%s</p><select required class="sex" style="display:none" id="selectSex%d" value="" placeholder="Sélectionnez">%s</select></td>',
-				$rowNumber, $personDegree->getSex(), $rowNumber, $options);
+				$rowNumber, $this->translator->trans($personDegree->getSex()), $rowNumber, $options);
 
 			$html .= sprintf('    <td class="tdselect"><p id="p_selectRegion%d">%s</p><select required class="selectRegion" style="display:none" id="selectRegion%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
 				$rowNumber, $personDegree->getRegion()->getName(), $rowNumber, $personDegree->getRegion()->getId(), $personDegree->getRegion()->getName());

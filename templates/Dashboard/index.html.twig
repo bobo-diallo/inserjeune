@@ -555,7 +555,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"PersonDegree", "Diplômés",selectedDuration, userSchool, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"PersonDegree", "dashboard.graph_title_graduate" | trans, selectedDuration, userSchool, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartQuizzPersonDegree" width="300px"></canvas>
@@ -600,7 +600,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"Company", "Entreprises",selectedDuration, null, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"Company", "dashboard.graph_title_company" | trans, selectedDuration, null, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartQuizzCompany" width="300px"></canvas>

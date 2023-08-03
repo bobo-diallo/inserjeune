@@ -1021,6 +1021,22 @@
         <source>menu.standard_number</source>
         <target>Standard number</target>
       </trans-unit>
+      <trans-unit id="menu.number_must_begin_by">
+        <source>menu.number_must_begin_by</source>
+        <target>The number must begin by</target>
+      </trans-unit>
+      <trans-unit id="menu.suggestion_for_the_number">
+        <source>menu.suggestion_for_the_number</source>
+        <target>Suggestion for the number</target>
+      </trans-unit>
+      <trans-unit id="menu.the_number_without_the_country_code_must_have">
+        <source>menu.the_number_without_the_country_code_must_have</source>
+        <target>The number without the country code must have</target>
+      </trans-unit>
+      <trans-unit id="menu.wrong_phone_number_syntax">
+        <source>menu.wrong_phone_number_syntax</source>
+        <target>Wrong phone number syntax</target>
+      </trans-unit>
       <trans-unit id="notification.enrollment_email_send_successful">
         <source>notification.enrollment_email_send_successful</source>
         <target>Notifications sent successfully</target>
@@ -1931,7 +1947,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="joboffer.offer_title">
         <source>joboffer.offer_title</source>
-        <target>Offer titlie</target>
+        <target>Offer title</target>
       </trans-unit>
       <trans-unit id="joboffer.closed_date">
         <source>joboffer.closed_date</source>
@@ -2932,6 +2948,54 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="une femme">
         <source>une femme</source>
         <target>a female</target>
+      </trans-unit>
+      <trans-unit id="entre 1 et 4 heures">
+        <source>entre 1 et 4 heures</source>
+        <target>between 1 and 4 hours</target>
+      </trans-unit>
+      <trans-unit id="entre 5 et 8 heures">
+        <source>entre 5 et 8 heures</source>
+        <target>between 5 and 8 hours</target>
+      </trans-unit>
+      <trans-unit id="de 1 à 5">
+        <source>de 1 à 5</source>
+        <target>from 1 to 5</target>
+      </trans-unit>
+      <trans-unit id="de 11 à 20">
+        <source>de 11 à 20</source>
+        <target>from 11 to 20</target>
+      </trans-unit>
+      <trans-unit id="de 21 à 50">
+        <source>de 21 à 50</source>
+        <target>from 21 to 50</target>
+      </trans-unit>
+      <trans-unit id="de 6 à 10">
+        <source>de 6 à 10</source>
+        <target>from 6 to 10</target>
+      </trans-unit>
+      <trans-unit id="&gt; 10">
+        <source>&gt; 10</source>
+        <target>&gt; 10</target>
+      </trans-unit>
+      <trans-unit id="&gt; 50">
+        <source>&gt; 50</source>
+        <target>&gt; 50</target>
+      </trans-unit>
+      <trans-unit id="bon">
+        <source>bon</source>
+        <target>good</target>
+      </trans-unit>
+      <trans-unit id="satisfaisant ; entre les deux">
+        <source>satisfaisant ; entre les deux</source>
+        <target>satisfying, between the two</target>
+      </trans-unit>
+      <trans-unit id="insatisfaisant">
+        <source>insatisfaisant</source>
+        <target>unsatisfactory</target>
+      </trans-unit>
+      <trans-unit id="très insatisfaisant">
+        <source>très insatisfaisant</source>
+        <target>very unsatisfactory</target>
       </trans-unit>
       <trans-unit id="centre de formation professionnelle">
         <source>centre de formation professionnelle</source>

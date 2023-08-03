@@ -14,38 +14,44 @@
 
 {% block js %}
   <script>
-     let idPrefix = '#appbundle_satisfactionsearch_';
-     let allActivities = getAllActivities('#allActivities');
+     let translations = [];
+     getTranslation().then (function (translation) {
+        translations = translation;
+        // console.log(translations);
+        let idPrefix = '#appbundle_satisfactionsearch_';
+        let allActivities = getAllActivities('#allActivities');
 
-     // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
-     initActivities(allActivities, idPrefix, 'sectorArea', 'activities', true, function () {
-        initChampsAutre(idPrefix, "activities", "otherFormationActivityName", ".hide_flex_other_activity", "Autre métier")
-        masquageChampsAutre(idPrefix, "activities", "otherFormationActivityName", ".hide_flex_other_activity")
-     });
-     initActivities(allActivities, idPrefix, 'sectorAreaVolunteer', 'activityVolunteer', false, function () {
-        initChampsAutre(idPrefix, "activityVolunteer", "otherDomainVolunteer", ".hide_block_otherDomainVolunteer", "Autre métier")
-        masquageChampsAutre(idPrefix, "activityVolunteer", "otherDomainVolunteer", ".hide_block_otherDomainVolunteer")
-     });
+        // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
+        initActivities(allActivities, idPrefix, 'sectorArea', 'activities', true, function () {
+           initChampsAutre(idPrefix, "activities", "otherFormationActivityName", ".hide_flex_other_activity", translations["js.other_job"])
+           masquageChampsAutre(idPrefix, "activities", "otherFormationActivityName", ".hide_flex_other_activity")
+        });
+        initActivities(allActivities, idPrefix, 'sectorAreaVolunteer', 'activityVolunteer', false, function () {
+           initChampsAutre(idPrefix, "activityVolunteer", "otherDomainVolunteer", ".hide_block_otherDomainVolunteer", translations["js.other_job"])
+           masquageChampsAutre(idPrefix, "activityVolunteer", "otherDomainVolunteer", ".hide_block_otherDomainVolunteer")
+        });
 
-     // cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
-     hideBlockFlexListener(idPrefix, 'registeredTraining', 'registered_training', 'oui', ["degree", "sectorArea", "activities"], ["otherFormationDegreeName", "otherFormationActivityName"]);
-     hideBlockFlexListener(idPrefix, 'searchWork', 'searchWork', 'non', [], ["noSearchWorkReason"]);
-     hideBlockFlexListener(idPrefix, 'activeVolunteer', 'sectorAreaVolunteer', 'oui', ["sectorAreaVolunteer", "activityVolunteer"], ["otherDomainVolunteer", "jobVolunteer"]);
-     hideBlockFlexListener(idPrefix, 'jobFromFormation', 'jobTime', 'oui');
+        // cacher/montrer les div avec les CheckBox (glissieres OUI/NON)
+        hideBlockFlexListener(idPrefix, 'registeredTraining', 'registered_training', 'oui', ["degree", "sectorArea", "activities"], ["otherFormationDegreeName", "otherFormationActivityName"]);
+        hideBlockFlexListener(idPrefix, 'searchWork', 'searchWork', 'non', [], ["noSearchWorkReason"]);
+        hideBlockFlexListener(idPrefix, 'activeVolunteer', 'sectorAreaVolunteer', 'oui', ["sectorAreaVolunteer", "activityVolunteer"], ["otherDomainVolunteer", "jobVolunteer"]);
+        hideBlockFlexListener(idPrefix, 'jobFromFormation', 'jobTime', 'oui');
 
-     // Initialisation des zones masquées et ajout de l'option Autre
-     initChampsAutre(idPrefix, "degree", "otherFormationDegreeName", ".hide_block_other_degree_name", "Autre diplôme");
-     initChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther", "Autre raison");
+        // Initialisation des zones masquées et ajout de l'option Autre
+        // initChampsAutre(idPrefix, "degree", "otherFormationDegreeName", ".hide_block_other_degree_name", "Autre diplôme");
+        initChampsAutre(idPrefix, "degree", "otherFormationDegreeName", ".hide_block_other_degree_name", translations["js.other_degree"]);
+        initChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther", translations["js.other_reason"]);
 
-     // Event, Masquage, affichage des chapitres Autres en fonction du select contenant Autre
-     masquageChampsAutre(idPrefix, "degree", "otherFormationDegreeName", ".hide_block_other_degree_name");
-     masquageChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther");
+        // Event, Masquage, affichage des chapitres Autres en fonction du select contenant Autre
+        masquageChampsAutre(idPrefix, "degree", "otherFormationDegreeName", ".hide_block_other_degree_name");
+        masquageChampsAutre(idPrefix, "jobNotFoundReasons", "jobNotFoundOther", ".hide_flex_jobNotFoundOther");
 
-     // Event
-     // ecoute changement sur SectorArea
-     listenChangeSectorArea(allActivities, idPrefix, "sectorArea", "activities", "otherFormationActivityName", ".hide_flex_other_activity", true);
-     listenChangeSectorArea(allActivities, idPrefix, 'sectorAreaVolunteer', 'activityVolunteer', 'otherDomainVolunteer', ".hide_block_otherDomainVolunteer", false);
+        // Event
+        // ecoute changement sur SectorArea
+        listenChangeSectorArea(allActivities, idPrefix, "sectorArea", "activities", "otherFormationActivityName", ".hide_flex_other_activity", true);
+        listenChangeSectorArea(allActivities, idPrefix, 'sectorAreaVolunteer', 'activityVolunteer', 'otherDomainVolunteer', ".hide_block_otherDomainVolunteer", false);
 
+     })
 
      function preventDefaultSubmit() {
         // Suppression des champs Autre des select multiples
