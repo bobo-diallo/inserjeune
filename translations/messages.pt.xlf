@@ -185,6 +185,10 @@
         <source>menu.country</source>
         <target>País</target>
       </trans-unit>
+      <trans-unit id="menu.countries">
+        <source>menu.countries</source>
+        <target>País</target>
+      </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
         <target>País de residência</target>

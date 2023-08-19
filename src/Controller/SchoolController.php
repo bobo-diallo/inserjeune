@@ -48,7 +48,6 @@ class SchoolController extends AbstractController {
 	#[Route(path: '/', name: 'school_index', methods: ['GET'])]
 	public function indexAction(): Response {
 		$userCountry = $this->getUser()->getCountry();
-
 		$schools = ($userCountry) ?
 			$this->schoolRepository->findByCountry($userCountry) :
 			$this->schoolRepository->findAll();
