@@ -183,7 +183,11 @@
       </trans-unit>
       <trans-unit id="menu.country">
         <source>menu.country</source>
-        <target>Country</target>
+        <target>Province</target>
+      </trans-unit>
+      <trans-unit id="menu.countries">
+        <source>menu.countries</source>
+        <target>Provinces</target>
       </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
@@ -191,15 +195,15 @@
       </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
-        <target>Region</target>
+        <target>Country</target>
       </trans-unit>
       <trans-unit id="menu.regions">
         <source>menu.regions</source>
-        <target>Regions</target>
+        <target>Countries</target>
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
-        <target>City</target>
+        <target>City/Town</target>
       </trans-unit>
       <trans-unit id="menu.description">
         <source>menu.description</source>
@@ -215,7 +219,7 @@
       </trans-unit>
       <trans-unit id="menu.cities">
         <source>menu.cities</source>
-        <target>Cities</target>
+        <target>Cities/Towns</target>
       </trans-unit>
       <trans-unit id="menu.and">
         <source>menu.and</source>
@@ -1807,19 +1811,19 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="country.list_of_countries">
         <source>country.list_of_countries</source>
-        <target>List of countries</target>
+        <target>List of provinces</target>
       </trans-unit>
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
-        <target>Editing a country</target>
+        <target>Editing a province</target>
       </trans-unit>
       <trans-unit id="country.add_a_country">
         <source>country.add_a_country</source>
-        <target>Add a country</target>
+        <target>Add a province</target>
       </trans-unit>
       <trans-unit id="country.adding_a_country">
         <source>country.adding_a_country</source>
-        <target>Adding a country</target>
+        <target>Adding a province</target>
       </trans-unit>
       <trans-unit id="country.iso_code">
         <source>country.iso_code</source>

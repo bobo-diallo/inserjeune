@@ -47,21 +47,29 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-sm-4">
-        <label for=""> {{ 'menu.number' | trans }} </label>
-        {{ form_widget(form.addressNumber) }}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber)}}</div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for=""> {{ 'menu.street' | trans }} </label>
-        {{ form_widget(form.addressRoad) }}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad)}}</div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for=""> {{ 'menu.location' | trans }} </label>
-        {{ form_widget(form.addressLocality) }}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality)}}</div>
-      </div>
+      {%  if concat_local_address == "false" %}
+        <div class="form-group col-sm-4">
+          <label for=""> {{ 'menu.number' | trans }} </label>
+          {{ form_widget(form.addressNumber) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber)}}</div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label for=""> {{ 'menu.street' | trans }} </label>
+          {{ form_widget(form.addressRoad) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad)}}</div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label for=""> {{ 'menu.location' | trans }} </label>
+          {{ form_widget(form.addressLocality) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality)}}</div>
+        </div>
+      {% else %}
+        <div class="form-group col-sm-12">
+          <label for=""> {{ 'menu.address' | trans }} </label>
+          {{ form_widget(form.addressLocality) }}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality)}}</div>
+        </div>
+      {% endif %}
     </div>
     <div class="row">
       <div class="col-sm-4 form-group">

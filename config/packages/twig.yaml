@@ -3,6 +3,7 @@ twig:
     globals:
         locales: '%app.supported_locales%'
         dnsServer: '%dnsServer%'
+        concat_local_address: '%env(CONCAT_LOCAL_ADDRESS)%'
 
 when@test:
     twig:

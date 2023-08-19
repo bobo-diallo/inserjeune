@@ -77,6 +77,12 @@ class ImportTranslationFileFromCSVCommand extends Command
                 // read input csv file
                 $inputFile = fopen($csv, 'rt');
 
+                // select env field name for translation
+                $env_locale_name = $locale;
+                if(isset($_ENV[strtoupper($locale) . "_FIELD_TRANSLATION"])) {
+                    $env_locale_name = $_ENV[strtoupper($locale) . "_FIELD_TRANSLATION"];
+                }
+
                 // looking for field number for each country
                 $firstRow = fgetcsv($inputFile);
                 $fields = explode(";", $firstRow[0]);
@@ -84,11 +90,11 @@ class ImportTranslationFileFromCSVCommand extends Command
                 $localeField = -1;
 
                 for ($i = 0; $i < count($fields); $i++) {
-                    if ( $fields[$i] == $locale) {
+                    if ( $fields[$i] == $env_locale_name) {
                         $localeField = $i;
                     }
                  }
-                // echo ("---->>>" . $locale . " " . $localeField);
+                // echo ("---->>>" . $locale . " " . $localeField . " " . $env_locale_name) . "\n";
 
                 if($localeField >= 1) {
                     // Create a new dom document with pretty formatting
