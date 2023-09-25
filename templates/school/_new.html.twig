@@ -32,17 +32,25 @@
     <div class="row">
       <div class="form-group col-sm-4">
         <label for=""> {{ 'menu.country' | trans }} * </label>
-        {{ form_widget(form.country) }}
+        {{ create_translated_select(form.country) }}
+{#        {{ form_widget(form.country) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country)}}</div>
       </div>
       <div class="form-group col-sm-4">
-        <label for=""> {{ 'menu.region' | trans }} / Province * </label>
-        {{ form_widget(form.region) }}
+        {# adaptation DBTA#}
+        {% if struct_province_country_city == "true" %}
+          <label for=""> {{ 'menu.region' | trans }} *</label>
+        {% else %}
+          <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
+        {% endif %}
+        {{ create_translated_select(form.region) }}
+{#        {{ form_widget(form.region) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region)}}</div>
       </div>
       <div class="form-group col-sm-4">
         <label for=""> {{ 'menu.city' | trans }} * </label>
-        {{ form_widget(form.city) }}
+        {{ create_translated_select(form.city) }}
+{#        {{ form_widget(form.city) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city)}}</div>
       </div>
     </div>
@@ -172,7 +180,8 @@
         <div class="row" style="margin:0">
           <div class="col-sm-12 form-group without-margin without-padding">
             <label for=""> {{ 'menu.activity_area' | trans }} 1 *</label>
-            {{ form_widget(form.sectorArea1) }}
+            {{ create_translated_select(form.sectorArea1) }}
+{#            {{ form_widget(form.sectorArea1) }}#}
             <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea1) }}</div>
           </div>
           <div class="col-sm-12 form-group without-padding hide_flex_otherActivity1" hidden="hidden">
@@ -197,7 +206,8 @@
           <div class="col-sm-12 form-group without-margin without-padding">
             {#<label for=""> Secteur d'activité (2)</label>#}
             <label for=""> {{ 'menu.activity_area' | trans }} 2</label>
-            {{ form_widget(form.sectorArea2) }}
+            {{ create_translated_select(form.sectorArea2) }}
+{#            {{ form_widget(form.sectorArea2) }}#}
             {% if not form.sectorArea2 %}
               {{ form_widget(form.sectorArea2) }}
             {% endif %}
@@ -227,7 +237,8 @@
         <div class="row" style="margin:0">
           <div class="col-sm-12 form-group without-margin without-padding">
             <label for=""> {{ 'menu.activity_area' | trans }} 3</label>
-            {{ form_widget(form.sectorArea3) }}
+            {{ create_translated_select(form.sectorArea3) }}
+{#            {{ form_widget(form.sectorArea3) }}#}
             <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea3) }}</div>
           </div>
           <div class="col-sm-12 form-group without-padding hide_flex_otherActivity3" hidden="hidden">
@@ -250,7 +261,8 @@
         <div class="row" style="margin:0">
           <div class="col-sm-12 form-group without-margin without-padding">
             <label for=""> {{ 'menu.activity_area' | trans }} 4</label>
-            {{ form_widget(form.sectorArea4) }}
+            {{ create_translated_select(form.sectorArea4) }}
+{#            {{ form_widget(form.sectorArea4) }}#}
             <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea4) }}</div>
           </div>
           <div class="col-sm-12 form-group without-padding hide_flex_otherActivity4" hidden="hidden">
@@ -273,7 +285,8 @@
         <div class="row" style="margin:0">
           <div class="col-sm-12 form-group without-margin without-padding">
             <label for=""> {{ 'menu.activity_area' | trans }} 5</label>
-            {{ form_widget(form.sectorArea5) }}
+            {{ create_translated_select(form.sectorArea5) }}
+{#            {{ form_widget(form.sectorArea5) }}#}
             <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea5) }}</div>
           </div>
           <div class="col-sm-12 form-group without-padding hide_flex_otherActivity5" hidden="hidden">
@@ -296,7 +309,8 @@
         <div class="row" style="margin:0">
           <div class="col-sm-12 form-group without-margin without-padding">
             <label for=""> {{ 'menu.activity_area' | trans }} 6</label>
-            {{ form_widget(form.sectorArea6) }}
+            {{ create_translated_select(form.sectorArea6) }}
+{#            {{ form_widget(form.sectorArea6) }}#}
             <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea6) }}</div>
           </div>
           <div class="col-sm-12 form-group without-padding hide_flex_otherActivity6" hidden="hidden">
@@ -355,7 +369,14 @@
 
 <select hidden id="selectedCountry">
   {%  if selectedCountry is not null %}
-    <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+    <option value="{{ selectedCountry.id }}">{{ selectedCountry.name | trans }}</option>
+  {%  endif %}
+</select>
+
+{#adaptation DBTA#}
+<select hidden id="selectedRegion">
+  {%  if selectedRegion is not null %}
+    <option value="{{ selectedRegion.id }}">{{ selectedRegion.name | trans | capitalize}}</option>
   {%  endif %}
 </select>
 

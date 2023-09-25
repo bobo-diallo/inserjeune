@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobAppliedRepository;
 use App\Services\CompanyService;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,7 @@ class FrontCompanyJobOfferController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CompanyService $companyService;
 	private JobOfferRepository $jobOfferRepository;
+    private JobAppliedRepository $jobAppliedRepository;
 	private FileUploader $fileUploader;
 	private TranslatorInterface $translator;
 
@@ -32,12 +34,14 @@ class FrontCompanyJobOfferController extends AbstractController {
 		EntityManagerInterface $em,
 		CompanyService         $companyService,
 		JobOfferRepository     $jobOfferRepository,
+        JobAppliedRepository    $jobAppliedRepository,
 		FileUploader $fileUploader,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->companyService = $companyService;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->jobAppliedRepository = $jobAppliedRepository;
 		$this->fileUploader = $fileUploader;
 		$this->translator = $translator;
 	}
@@ -55,6 +59,18 @@ class FrontCompanyJobOfferController extends AbstractController {
 			]);
 		});
 	}
+
+    #[Route(path: '/jobApplied', name: 'front_company_job_applied_index', methods: ['GET'])]
+    public function jobApplied(): Response {
+        return $this->companyService->checkUnCompletedAccountBefore(function () {
+            $company = $this->companyService->getCompany();
+            $jobApplieds = $this->jobAppliedRepository->getByUserCompany($company->getUser()->getId());
+
+            return $this->render('JobOffer/jobApplied.html.twig', [
+                'jobApplieds' => $jobApplieds,
+            ]);
+        });
+    }
 
 	#[Route(path: '/new', name: 'front_company_jobOffer_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
@@ -84,7 +100,6 @@ class FrontCompanyJobOfferController extends AbstractController {
 				'company' => $company,
 				'form' => $form->createView(),
 				'jobOffer' => $jobOffer
-
 			]);
 		});
 	}

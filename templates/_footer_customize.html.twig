@@ -1,8 +1,31 @@
-<div class="row" style="background-color: black; color: white; padding: 10px 50px; margin: auto;">
-  <div class="col-sm-6">
-    <span>Useful links</span>
+
+
+<div class="row" id="customize_footer">
+  <div class="col-sm-5">
+    <span>{{ "footer.useful_links" | trans }}</span>
+    <div id="links">
+      <p><a target="_blank" href="https://www.digitallibrary.dbtechafrica.org">{{ "dbtech_digital_library" | trans }}</a></p>
+      <p><a target="_blank" href="https://salesians.org">{{ "footer.salesians_of_don_bosco" | trans}}</a></p>
+      <p><a target="_blank" href="https://www.safcam.org">{{ "footer.salesian_formation_centre_africa_madagascar" | trans }}</a></p>
+      <p><a target="_blank" href="https://salesianeducation.com/fr/">{{ "footer.salesian_education"  |trans }}</a></p>
+      <p><a target="_blank" href="https://www.infoans.org/fr">{{ "footer.ans" | trans }}</a></p>
+    </div>
+
+
   </div>
-  <div class="col-sm-6">
-    <span>Contact-us</span>
+  <div class="col-sm-5">
+    <span>{{ "footer.contact_informations" | trans }}</span>
+    <div id="contact">
+      <p>Applewood Adams Ngong Road</p>
+      <p>P.O. Box 62322-00200 Nairobi, Kenya</p>
+      <p>+254782747500 | dbta@dbtechafrica.org</p>
+    </div>
+  </div>
+  <div class="col-sm-2 logos">
+    <span>{{ "footer.partners" | trans }}</span>
+    <div id="partners">
+      <p><img  id="logo_ifef" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}"></p>
+      <p><img  id="logo_oif" src="{{ asset('build/images/pinsuprem/logo_oif.jpg') }}"></p>
+    </div>
   </div>
 </div>

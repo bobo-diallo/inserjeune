@@ -40,7 +40,7 @@
                                     </td>
                                     <td><a href="{{ path('activity_show', { 'id': activity.id }) }}">{{ activity.id }}</a></td>
                                     <td>{{ activity.name }}</td>
-                                    <td>{{ activity.sectorArea }}</td>
+                                    <td>{{ activity.sectorArea | trans }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

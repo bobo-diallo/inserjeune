@@ -23,8 +23,9 @@
         <h1 hidden>{{ 'referencement.base_security' | trans }}</h1>
         <div class="auth-box-w">
             <div class="logo-w" style="padding: 25px 3px;">
-                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>
-                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>
+                 {{ include ('_customize_header_login.html.twig') }}
+{#                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>#}
+{#                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>#}
             </div>
             {% block fos_user_title %}
             {% endblock fos_user_title %}

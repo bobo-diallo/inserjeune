@@ -40,7 +40,7 @@
       <div class="row">
         <div class="col-sm-4 form-group">
           <label> {{ 'menu.created_date' | trans }}</label>
-          <p class="form-control">{{ jobOffer.createdDate|date('d/m/Y H:i') }}</p>
+          <p class="form-control">{{ jobOffer.createdDate|date('d-m-Y H:i') }}</p>
         </div>
         <div class="col-sm-4 form-group">
           <label>{{ 'menu.updated_date' | trans }}</label>
@@ -78,16 +78,19 @@
       <div class="row">
         <div class="col-sm-6 form-group">
           <label> {{ 'menu.country' | trans }} *</label>
+{#          {{ create_translated_select(form.country) }}#}
           {{ form_widget(form.country) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
         </div>
         <div class="col-sm-6 form-group">
           <label>Region *</label>
+{#          {{ create_translated_select(form.region) }}#}
           {{ form_widget(form.region) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
         </div>
         <div class="col-sm-6 form-group">
           <label>{{ 'menu.city' | trans }} *</label>
+{#          {{ create_translated_select(form.city) }}#}
           {{ form_widget(form.city) }}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
         </div>

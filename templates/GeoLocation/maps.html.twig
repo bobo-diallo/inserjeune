@@ -27,17 +27,20 @@
             <div class="row">
                <div class="col-sm-3 form-group">
                   <label for=""> {{ 'menu.country' | trans }}</label>
-                  {{ form_widget(form.country) }}
+                  {{ create_translated_select(form.country) }}
+{#                  {{ form_widget(form.country) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
                </div>
                <div class="col-sm-3 form-group">
                   <label for=""> {{ 'menu.region' | trans }} </label>
-                  {{ form_widget(form.region) }}
+                  {{ create_translated_select(form.region) }}
+{#                  {{ form_widget(form.region) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
                </div>
                <div class="col-sm-3 form-group">
                   <label for="">{{ 'menu.city' | trans }}</label>
-                  {{ form_widget(form.city) }}
+                  {{ create_translated_select(form.city) }}
+{#                  {{ form_widget(form.city) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
                </div>
                <div class="col-sm-3 form-group">
@@ -49,7 +52,8 @@
             <div class="row">
                <div class="col-sm-6 form-group">
                   <label for=""> {{ 'menu.activity_area' | trans }} </label>
-                  {{ form_widget(form.sectorArea) }}
+                  {{ create_translated_select(form.sectorArea) }}
+{#                  {{ form_widget(form.sectorArea) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
                </div>
                <div class="col-sm-6 form-group">
@@ -131,6 +135,16 @@
             <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
          {%  endif %}
       </select>
+      <select hidden id="selectedRegions">
+         {%  for selectedRegion in selectedRegions  %}
+            {% if loop.index <=2 %}
+               <option selected value="{{ selectedRegion.id }}">{{ selectedRegion.name }}</option>
+            {% else %}
+               <option value="{{ selectedRegion.id }}">{{ selectedRegion.name }}</option>
+            {% endif %}
+         {%  endfor %}
+      </select>
+      <p id="struct_province_country_city" hidden>{{ struct_province_country_city }}</p>
    </div>
 {% endblock %}
 
@@ -142,12 +156,21 @@
    <script type="text/javascript"
            src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
    <script>
-      let translations = [];
-      getTranslation().then (function (translation) {
-         translations = translation;
-         console.log(translations);
-      });
-
+      $(document).ready(function () {
+         //suppression des regions non utilisées par le user
+         setTimeout(function (){
+            let tab_regions = [];
+            $('#selectedRegions option').each(function () {
+               tab_regions.push($(this).text())
+            })
+            $('#appbundle_geolocation_region option').each(function (intIndex){
+               if(!tab_regions.includes($(this).text())) {
+                  if(intIndex != 0)
+                     $(this).remove();
+               }
+            })
+         },5000);
+      })
       // variables communes aux différentes scripts et functions
       let dataCompanies = [];
       let selectedDataCompanies = [];
@@ -177,7 +200,7 @@
       let otherpersondegree_markers = [];
       let otherpersondegree_markerCluster = null;
 
-      /**
+       /**
        *  Event
        *  Mise à jour du select métiers/filières en fonction du secteur d'activités
        */
@@ -233,35 +256,48 @@
 
             // Affichage de la région choisie sur la carte googleMap
             $("#appbundle_geolocation_region").change(function () {
-               let input_address = $("#appbundle_geolocation_country > option:selected").text();
+               let input_address = "";
+               if($('#struct_province_country_city').text() == "true") {
+                  input_address = $("#appbundle_geolocation_region > option:selected").text();
+                  input_address_country = input_address;
+               } else {
+                  input_address = $("#appbundle_geolocation_country > option:selected").text();
+               }
                selectData();
 
                if(! $("#appbundle_geolocation_region > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
                   input_address = $("#appbundle_geolocation_region > option:selected").text();
+                  if($('#struct_province_country_city').text() == "true") {
+                     input_address_country = input_address;
+                  }
                }
                // console.log("--> region= " + input_address);
                if($("#appbundle_geolocation_region > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
-                  initMap(input_address_country + " " + input_address, 7);
+                  if($('#struct_province_country_city').text() != "true") {
+                     initMap(input_address_country + " " + input_address, 7);
+                  }
                } else {
-                  initMap(input_address_country + " " + input_address, 12);
+                  if($('#struct_province_country_city').val() != "true") {
+                     initMap(input_address_country + " " + input_address, 12);
+                  } else {
+                     initMap(input_address_country + " " + input_address, 7);
+                  }
                }
             });
 
             // Affichage de la ville choisie sur la carte googleMap
             $("#appbundle_geolocation_city").change(function () {
-               let input_address = $("#appbundle_geolocation_region > option:selected").text();
-               selectData();
-
-               if(! $("#appbundle_geolocation_city > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
-                  input_address = $("#appbundle_geolocation_city > option:selected").text();
-               }
-               if($("#appbundle_geolocation_city > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
-                  initMap(input_address_country + " " + input_address, 7);
-               } else {
-                  initMap(input_address_country + " " + input_address, 12);
-               }
+               appbundle_geolocation_city_init_map();
             });
          })
+      });
+
+      /**
+       *  Event
+       *  Mise à jour de Maps lors du change des villes
+       */
+      $("#appbundle_geolocation_city").change(function () {
+         appbundle_geolocation_city_init_map();
       });
 
       /**
@@ -269,7 +305,10 @@
        *  Affichage du pays choisi sur la carte googleMap
        */
       $("#appbundle_geolocation_country").change(function () {
-         input_address_country = $("#appbundle_geolocation_country > option:selected").text();
+         input_address_country = "";
+         if($('#struct_province_country_city').text() != "true") {
+            input_address_country = $("#appbundle_geolocation_country > option:selected").text();
+         }
          findDataByCountry();
       });
 
@@ -330,10 +369,26 @@
       })
 
       // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
-      if (($('#selectedCountry').val() !== '') &&
-              ($('#selectedCountry').val() !== null)) {
-         countryEvent("#selectedCountry", "geolocation");
-      }
+      // if($('#selectedRegions option').length == 0) {
+         if (($('#selectedCountry').val() !== '') &&
+             ($('#selectedCountry').val() !== null)) {
+            countryEvent("#selectedCountry", "geolocation");
+         }
+      // } else {
+      //    if (($('#selectedRegions').val() !== '') &&
+      //        ($('#selectedRegions').val() !== null)) {
+      //       regionEvent("#selectedCountry", "#selectedRegions", "geolocation");
+      //    }
+      // }
+
+      let translations = [];
+      getTranslation().then (function (translation) {
+         translations = translation;
+         //patch for have to wait to select city for running maps
+         $('#appbundle_geolocation_region option[value=""]').prop("selected", true);
+         $('#appbundle_geolocation_region option[value=""]').text(translations["js.select_region"]);
+      });
+
       /**
        *  Function
        *  Definition initMap
@@ -341,7 +396,7 @@
        */
       function initMap(input_address, zoomSize) {
          if(input_address) {
-            // console.log('Adresse Choisie: ' + input_address);
+            console.log('Adresse Choisie: ' + input_address);
             // console.log('Zoom: ' + zoomSize);
 
             map = new google.maps.Map(document.getElementById('map'), {zoom: zoomSize});
@@ -705,6 +760,20 @@
          deleteClusterData(company_markerCluster);
          deleteMarkersData(school_markers);
          deleteClusterData(school_markerCluster);
+      }
+
+      function appbundle_geolocation_city_init_map() {
+         let input_address = $("#appbundle_geolocation_region > option:selected").text();
+         selectData();
+
+         if (!$("#appbundle_geolocation_city > option:selected").text().toLowerCase().replace('é', 'e').startsWith('selectionnez')) {
+            input_address = $("#appbundle_geolocation_city > option:selected").text();
+         }
+         if ($("#appbundle_geolocation_city > option:selected").text().toLowerCase().replace('é', 'e').startsWith('selectionnez')) {
+            initMap(input_address_country + " " + input_address, 7);
+         } else {
+            initMap(input_address_country + " " + input_address, 12);
+         }
       }
    </script>
 {% endblock %}

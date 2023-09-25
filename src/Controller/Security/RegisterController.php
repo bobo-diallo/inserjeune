@@ -3,8 +3,10 @@
 namespace App\Controller\Security;
 
 use App\Entity\ChangePasswordDTO;
+use App\Entity\Region;
 use App\Form\ChangePasswordType;
 use App\Repository\CountryRepository;
+use App\Repository\RegionRepository;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use App\Services\EmailService;
@@ -34,6 +36,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegisterController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
+	private RegionRepository $regionRepository;
 	private UserRepository $userRepository;
 	private UserPasswordHasherInterface $hasher;
 	private RoleRepository $roleRepository;
@@ -49,6 +52,7 @@ class RegisterController extends AbstractController {
 	public function __construct(
 		EntityManagerInterface $em,
 		CountryRepository $countryRepository,
+		RegionRepository $regionRepository,
 		UserRepository $userRepository,
 		UserPasswordHasherInterface $hasher,
 		RoleRepository $roleRepository,
@@ -63,6 +67,7 @@ class RegisterController extends AbstractController {
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
+		$this->regionRepository = $regionRepository;
 		$this->userRepository = $userRepository;
 		$this->hasher = $hasher;
 		$this->roleRepository = $roleRepository;
@@ -80,10 +85,16 @@ class RegisterController extends AbstractController {
 	public function createAccountAction(Request $request): RedirectResponse|Response {
 		$user = new User();
 		$form = $this->createForm(UserType::class, $user);
-		$form->handleRequest($request);
+        $countries = $this->countryRepository->findByValid(true);
+        $allCountries = $this->countryRepository->findAll();
 
-		$countries = $this->countryRepository->findByValid(true);
-		$allCountries = $this->countryRepository->findAll();
+        //Adaptation for DBTA
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $form = $this->createForm(UserType::class, $user);
+            $countries = $this->regionRepository->findByValid(true);
+            $allCountries = $this->regionRepository->findAll();
+        }
+		$form->handleRequest($request);
 
 		$isValidPhone = false;
 
@@ -94,28 +105,47 @@ class RegisterController extends AbstractController {
 			$country = $user->getCountry();
             $residenceCountry = null;
 
-			if ($typePerson != Role::ROLE_ADMIN && !$country) {
+            //Adaptation for DBTA
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                $country = $user->getRegion()->getCountry();
+                $country->setPhoneCode($user->getRegion()->getPhoneCode());
+                $country->setPhoneDigit($user->getRegion()->getPhoneDigit());
+                $user->setCountry($user->getRegion()->getCountry());
+            }
+
+            if ($typePerson != Role::ROLE_ADMIN && !$country) {
 				$this->addFlash('danger', $this->translator->trans('flashbag.the_country_field_is_mandatory'));
 				return $this->render('user/register.html.twig', [
 					'user' => $user,
 					'form' => $form->createView(),
-					'countries' => $countries
+					'countries' => $countries,
+                    'allCountries' => $allCountries
 				]);
 			}
 
+
             if (isset ($request->get('userbundle_user')['diaspora'])) {
-                $residenceCountryStr = $request->get('userbundle_user')['residenceCountry'];
+                // $residenceCountryStr = null;
+                if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                    $residenceCountryStr = $request->get('userbundle_user')['residenceRegion'];
+                } else {
+                    $residenceCountryStr = $request->get('userbundle_user')['residenceCountry'];
+                }
+
                 if( ! $residenceCountryStr) {
                     $this->addFlash('danger', $this->translator->trans('flashbag.the_country_of_residence_field_is_mandatory'));
                     return $this->render('user/register.html.twig', [
                         'user' => $user,
                         'form' => $form->createView(),
-                        'countries' => $countries
+                        'countries' => $countries,
+                        'allCountries' => $allCountries
                     ]);
                 //Récupération du pays de résidence
                 } else {
                     $residenceCountry = $this->countryRepository->find($residenceCountryStr);
-                    // var_dump($residenceCountry); die();
+                    if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                        $residenceCountry = $this->regionRepository->find($residenceCountryStr);
+                    }
                 }
             }
 
@@ -136,7 +166,7 @@ class RegisterController extends AbstractController {
 				$nationalPhone = substr($user->getPhone(), strlen($phoneCode));
 				$isValidPhone = true;
 			} else {
-				$errorMessage = $this->translator->trans('the_number_must_start_with_number', ['{number}' => $phoneCode]);
+				$errorMessage = $this->translator->trans('flashbag.the_number_must_start_with_number', ['{number}' => $phoneCode]);
 				$this->addFlash('danger', $errorMessage);
 			}
 

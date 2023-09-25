@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobAppliedRepository;
 use App\Services\CompanyService;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class JobOfferController extends AbstractController {
 	private EntityManagerInterface $em;
 	private JobOfferRepository $jobOfferRepository;
+    private JobAppliedRepository $jobAppliedRepository;
 	private CompanyService $companyService;
 	private FileUploader $fileUploader;
 	private TranslatorInterface $translator;
@@ -28,12 +30,14 @@ class JobOfferController extends AbstractController {
 	public function __construct(
 		EntityManagerInterface $em,
 		JobOfferRepository     $jobOfferRepository,
+        JobAppliedRepository    $jobAppliedRepository,
 		CompanyService $companyService,
 		FileUploader $fileUploader,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->jobAppliedRepository = $jobAppliedRepository;
 		$this->companyService = $companyService;
 		$this->fileUploader = $fileUploader;
 		$this->translator = $translator;
@@ -42,10 +46,32 @@ class JobOfferController extends AbstractController {
 	#[IsGranted('ROLE_USER')]
 	#[Route(path: '/', name: 'jobOffer_index', methods: ['GET'])]
 	public function indexAction(): Response {
+        $jobOffers = $this->jobOfferRepository->getAllJobOffer();
+        // $jobApplies = [];
+        // if ($this->getUser()->hasRole('ROLE_DIPLOME')) {
+        //     $jobApplies = $this->jobAppliedRepository->findBy(array('idUser' => $this->getUser()->getId()));
+        // }
+        $jobApplieds = $this->jobAppliedRepository->getAll();
+        if ($this->getUser()->hasRole('ROLE_DIPLOME')) {
+            $jobApplieds = $this->jobAppliedRepository->getByUserPersonDegree($this->getUser()->getId());
+        }
 		return $this->render('jobOffer/index.html.twig', [
-			'jobOffers' => $this->jobOfferRepository->getAllJobOffer()
+			'jobOffers' => $jobOffers,
+            // 'jobApplies' => $jobApplies
+            'jobApplieds' => $jobApplieds
 		]);
 	}
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route(path: '/jobApplieded', name: 'jobApplied_index', methods: ['GET'])]
+    public function jobAppliededAction(): Response {
+        $jobApplieds = $this->jobAppliedRepository->getAll();
+        if ($this->getUser()->hasRole('ROLE_DIPLOME')) {
+            $jobApplieds = $this->jobAppliedRepository->getByUserPersonDegree($this->getUser()->getId());
+        }
+        return $this->render('jobOffer/jobApplied.html.twig', [
+            'jobApplieds' => $jobApplieds
+        ]);
+    }
 
 	#[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/new', name: 'jobOffer_new', methods: ['GET', 'POST'])]

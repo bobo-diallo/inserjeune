@@ -16,15 +16,19 @@
                                style="width:100%">
                             <thead>
                             <tr>
+                                <th class="no-print">Actions</th>
                                 <th>Id</th>
                                 <th>{{ 'menu.name' | trans }}</th>
+                                <th>Pseudo</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for role in roles %}
                                 <tr>
+                                    <td><a href="{{ path('role_edit', { 'id': role.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a></td>
                                     <td><a href="#">{{ role.id }}</a></td>
                                     <td>{{ role.role }}</td>
+                                    <td>{{ role.pseudo }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

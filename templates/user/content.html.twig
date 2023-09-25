@@ -6,3 +6,93 @@
 {% block navigation %}
     <li class="breadcrumb-item"><span>Utilisateur</span></li>
 {% endblock %}
+
+{% block js %}
+  <script>
+     let translations = [];
+     getTranslation().then (function (translation) {
+        translations = translation;
+
+        displayCountryRegionCity($('#userbundle_user_profils'));
+        $('#userbundle_user_profils').on('change', function (e) {
+           cleanRequired();
+           displayCountryRegionCity ($(this));
+           // displayCountryRegionCity($('#userbundle_user_profils'));
+           })
+     })
+
+     function displayCountryRegionCity (id) {
+        if (id.find(':selected').length > 1) {
+           alert(translations["js.please_select_once_profil"]);
+           $(id).val(null).trigger("change");
+        }
+
+        if (id.find(':selected').length == 0) {
+           hideAllDatas ();
+           cleanRequired ();
+           $('#userbundle_user_region ').val("");
+           $('#userbundle_user_adminRegions').val(null).trigger("change");
+           $('#userbundle_user_adminCities').val(null).trigger("change");
+           $('#userbundle_user_adminCities').val(null).trigger("change");
+        }
+
+        id.find(':selected').each(function () {
+           let ROLE_ADMIN_PAYS = $('#roles option[value="ROLE_ADMIN_PAYS"]').text();
+           let ROLE_ADMIN_REGIONS = $('#roles option[value="ROLE_ADMIN_REGIONS"]').text();
+           let ROLE_ADMIN_VILLES = $('#roles option[value="ROLE_ADMIN_VILLES"]').text();
+           let ROLE_LEGISLATEUR = $('#roles option[value="ROLE_LEGISLATEUR"]').text();
+
+           if ($(this).text() == ROLE_LEGISLATEUR ) {
+              hideAllDatas ();
+              // console.log("test1")
+              showData ($('#selectCountry'));
+              $('#userbundle_user_adminRegions').val(null).trigger("change");
+              $('#userbundle_user_adminCities').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_country').prop('required',true);
+           }
+           if ($(this).text() == ROLE_ADMIN_PAYS ) {
+              hideAllDatas ();
+              // console.log("test1")
+              showData ($('#selectCountry'));
+              $('#userbundle_user_adminRegions').val(null).trigger("change");
+              $('#userbundle_user_adminCities').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_country').prop('required',true);
+           }
+           if ($(this).text() == ROLE_ADMIN_REGIONS ) {
+              hideAllDatas ();
+              // console.log("test2")
+              showData ($('#selectRegions'));
+              $('#userbundle_user_region ').val("");
+              $('#userbundle_user_adminCities').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_adminRegions').prop('required',true);
+           }
+           if ($(this).text() == ROLE_ADMIN_VILLES ) {
+              hideAllDatas ();
+              // console.log("test3")
+              showData ($('#selectCities'));
+              $('#userbundle_user_region ').val("");
+              $('#userbundle_user_adminRegions').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_adminCities').prop('required',true);
+           }
+        })
+     }
+
+     function hideAllDatas () {
+        $('#selectCountry').attr("hidden",true);
+        $('#selectRegions').attr("hidden",true);
+        $('#selectCities').attr("hidden",true);
+     }
+     function showData (idData) {
+        idData.removeAttr('hidden');
+     }
+     function cleanRequired () {
+        $('#userbundle_user_country').removeAttr('required');
+        $('#userbundle_user_adminCities').removeAttr('required');
+        $('#userbundle_user_adminRegions').removeAttr('required');
+     }
+  </script>
+{%  endblock %}

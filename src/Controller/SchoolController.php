@@ -20,7 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/school')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') or is_granted('ROLE_ENTREPRISE')")]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_LEGISLATEUR') or 
+            is_granted('ROLE_ADMIN_REGIONS') or 
+            is_granted('ROLE_ADMIN_PAYS') or 
+            is_granted('ROLE_ADMIN_VILLES')")]
 class SchoolController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SchoolRepository $schoolRepository;
@@ -48,10 +52,30 @@ class SchoolController extends AbstractController {
 	#[Route(path: '/', name: 'school_index', methods: ['GET'])]
 	public function indexAction(): Response {
 		$userCountry = $this->getUser()->getCountry();
+        $userCountries = [];
+        $userRegions = [];
+        $userCities = [];
+        if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $userRegions =  $this->getUser()->getAdminRegions();
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+            $userCities =  $this->getUser()->getAdminCities();
+        }
+
 		$schools = ($userCountry) ?
 			$this->schoolRepository->findByCountry($userCountry) :
 			$this->schoolRepository->findAll();
 
+        if(count($userRegions) >0) {
+            $schools = [];
+            foreach ($userRegions as $region) {
+                $schools = array_merge($schools, $this->schoolRepository->findByRegion($region));
+            }
+        } else if(count($userCities) >0) {
+            $schools = [];
+            foreach ($userCities as $city) {
+                $schools = array_merge($schools, $this->schoolRepository->findByCity($city));
+            }
+        }
 		return $this->render('school/index.html.twig', [
 			'schools' => $schools
 		]);
@@ -65,6 +89,12 @@ class SchoolController extends AbstractController {
 		$form = $this->createForm(SchoolType::class, $school);
 		$form->handleRequest($request);
 		$selectedCountry = $school->getCountry();
+
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $selectedRegion = $this->getUser()->getRegion();
+        }
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$school->setCreatedDate(new \DateTime());
@@ -86,7 +116,8 @@ class SchoolController extends AbstractController {
 			'school' => $school,
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegion' => $selectedRegion
 		]);
 	}
 
@@ -104,6 +135,12 @@ class SchoolController extends AbstractController {
 		$editForm = $this->createForm(SchoolType::class, $school);
 		$editForm->handleRequest($request);
 		$selectedCountry = $school->getCountry();
+
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $selectedRegion = $this->getUser()->getRegion();
+        }
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 			$school->setCreatedDate($createdDate);
@@ -137,7 +174,8 @@ class SchoolController extends AbstractController {
 			'school' => $school,
 			'edit_form' => $editForm->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegion' => $selectedRegion
 		]);
 	}
 

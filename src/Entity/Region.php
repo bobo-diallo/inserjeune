@@ -22,6 +22,18 @@ class Region {
 	#[Assert\Length(min: '3')]
 	private string $name;
 
+    #[ORM\Column(name: 'valid', type: 'boolean')]
+    private bool $valid;
+
+    #[ORM\Column(name: 'iso_code', type: 'string', length: 3, unique: false, nullable: true)]
+    private ?string $isoCode = null;
+
+    #[ORM\Column(name: 'phone_code', type: 'integer')]
+    private int $phoneCode;
+
+    #[ORM\Column(name: 'phone_digit', type: 'integer')]
+    private int $phoneDigit;
+
 	#[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'regions')]
 	#[ORM\JoinColumn(name: 'id_country', referencedColumnName: 'id')]
 	#[Assert\NotBlank]
@@ -32,6 +44,10 @@ class Region {
 
 	#[ORM\OneToMany(mappedBy: 'region', targetEntity: School::class, cascade: ['persist'])]
 	private Collection $schools;
+
+    #[ORM\ManyToOne(targetEntity: Currency::class, inversedBy: 'regions')]
+    #[ORM\JoinColumn(name: 'id_currency', referencedColumnName: 'id')]
+    private Currency $currency;
 
 	public function __construct() {
 		$this->cities = new ArrayCollection();
@@ -51,6 +67,78 @@ class Region {
 
 		return $this;
 	}
+
+    /**
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @param bool $valid
+     * @return Region
+     */
+    public function setValid(bool $valid): Region
+    {
+        $this->valid = $valid;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIsoCode(): ?string
+    {
+        return $this->isoCode;
+    }
+
+    /**
+     * @param string|null $isoCode
+     * @return Region
+     */
+    public function setIsoCode(?string $isoCode): Region
+    {
+        $this->isoCode = $isoCode;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhoneCode(): int
+    {
+        return $this->phoneCode;
+    }
+
+    /**
+     * @param int $phoneCode
+     * @return Region
+     */
+    public function setPhoneCode(int $phoneCode): Region
+    {
+        $this->phoneCode = $phoneCode;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhoneDigit(): int
+    {
+        return $this->phoneDigit;
+    }
+
+    /**
+     * @param int $phoneDigit
+     * @return Region
+     */
+    public function setPhoneDigit(int $phoneDigit): Region
+    {
+        $this->phoneDigit = $phoneDigit;
+        return $this;
+    }
 
 	public function getCountry(): Country {
 		return $this->country;
@@ -98,4 +186,22 @@ class Region {
 		return (new static())
 			->setName($name);
 	}
+
+    /**
+     * @return Currency
+     */
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param Currency $currency
+     * @return Region
+     */
+    public function setCurrency(Currency $currency): Region
+    {
+        $this->currency = $currency;
+        return $this;
+    }
 }

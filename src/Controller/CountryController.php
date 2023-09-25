@@ -42,6 +42,16 @@ class CountryController extends AbstractController {
 	#[Route(path: '/new', name: 'country_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$country = new Country();
+
+        // Adaptation for specific provinces and countries adaptation
+        if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            // $country->setName("country for province");
+            $country->setIsoCode("");
+            $country->setPhoneDigit(0);
+            $country->setPhoneCode(0);
+            $country->setValid(true);
+        }
+
 		$form = $this->createForm(CountryType::class, $country);
 		$form->handleRequest($request);
 

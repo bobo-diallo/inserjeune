@@ -38,7 +38,8 @@
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_workers' | trans }} ?</label>
-        {{ form_widget(form.workerSectorArea) }}
+        {{ create_translated_select(form.workerSectorArea) }}
+{#        {{ form_widget(form.workerSectorArea) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.workerSectorArea) }}</div>
       </div>
     </div>
@@ -62,7 +63,8 @@
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_technicians' | trans }} ?</label>
-        {{ form_widget(form.technicianSectorArea) }}
+        {{ create_translated_select(form.technicianSectorArea) }}
+{#        {{ form_widget(form.technicianSectorArea) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.technicianSectorArea) }}</div>
       </div>
     </div>

@@ -73,6 +73,7 @@ class CityController extends AbstractController {
 		$editForm->handleRequest($request);
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // $this->manager->persist($city);
 			$this->manager->flush();
 
 			return $this->redirectToRoute('city_show', ['id' => $city->getId()]);

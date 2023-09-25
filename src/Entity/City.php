@@ -20,13 +20,13 @@ class City {
 	#[ORM\Column(name: 'name', type: 'string', length: 255)]
 	#[Assert\NotBlank]
 	#[Assert\Length(min: '4')]
-	private string $name;
+	private ?string $name;
 
 	#[ORM\Column(name: 'post_code', type: 'integer', nullable: true)]
 	private ?int $postCode;
 
 	#[ORM\Column(name: 'is_capital', type: 'boolean')]
-	private bool $isCapital;
+	private ?bool $isCapital;
 
 	#[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'cities')]
 	#[ORM\JoinColumn(name: 'id_region', referencedColumnName: 'id')]
@@ -44,13 +44,13 @@ class City {
 		return $this->id;
 	}
 
-	public function setName($name): self {
+	public function setName(?string $name): self {
 		$this->name = $name;
 
 		return $this;
 	}
 
-	public function getName(): string {
+	public function getName(): ?string {
 		return $this->name;
 	}
 
@@ -64,13 +64,13 @@ class City {
 		return $this;
 	}
 
-	public function setIsCapital(bool $isCapital): self {
+	public function setIsCapital(?bool $isCapital): self {
 		$this->isCapital = $isCapital;
 
 		return $this;
 	}
 
-	public function getIsCapital(): bool {
+	public function getIsCapital(): ?bool {
 		return $this->isCapital;
 	}
 

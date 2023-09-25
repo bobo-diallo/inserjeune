@@ -14,7 +14,22 @@
                 </h6>
                 <div class="element-box">
                     <form id="formValidate" method="post">
-                      {% include 'role/_new.html.twig' with {'form': edit_form} %}
+{#                      {% include 'role/_new.html.twig' with {'form': edit_form} %}#}
+                        {{ form_widget(form._token) }}
+                        <div class="form-group">
+                            <label for=""> {{ 'menu.role' | trans }} : </label>
+                            {{ role.role }}
+                            <div hidden>{{ form_widget(form.role) }}</div>
+                            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.role) }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label for=""> {{ 'menu.pseudo' | trans }} </label>
+                            {{ form_widget(form.pseudo) }}
+                            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.pseudo) }}</div>
+                        </div>
+                        <div class="form-buttons-w">
+                            <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
+                        </div>
                     </form>
                 </div>
             </div>

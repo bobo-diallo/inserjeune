@@ -22,7 +22,7 @@ class DegreeType extends AbstractType {
 				'attr' => [
 					'class' => 'form-control',
 					'autocomplete' => 'off',
-					'data-error' => 'Veuillez renseigner le libellé',
+					'data-error' => 'error.fill_in_wording',
 					'placeholder' => 'menu.label'],
 				'required' => true
 			])

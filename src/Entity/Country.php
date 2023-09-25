@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation\Expose;
 
 #[ORM\Table(name: 'country')]
 #[ORM\UniqueConstraint(name: 'country_name_unique', columns: ['name'])]
-#[ORM\UniqueConstraint(name: 'country_iso_unique', columns: ['iso_code'])]
+// #[ORM\UniqueConstraint(name: 'country_iso_unique', columns: ['iso_code'])]
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Country {
@@ -28,10 +28,10 @@ class Country {
 	#[Assert\NotBlank]
 	private ?string $name = null;
 
-	#[ORM\Column(name: 'iso_code', type: 'string', length: 3)]
-	#[Assert\NotBlank]
-	#[Assert\Length(min: '2', max: '3')]
-	private string $isoCode;
+	#[ORM\Column(name: 'iso_code', type: 'string', length: 3, unique: false, nullable: true)]
+	// #[Assert\NotBlank]
+	// #[Assert\Length(min: '2', max: '3')]
+	private ?string $isoCode = null;
 
 	#[ORM\Column(name: 'phone_code', type: 'integer')]
 	private int $phoneCode;
@@ -89,7 +89,7 @@ class Country {
 		return $this->isoCode;
 	}
 
-	public function setIsoCode(string $isoCode): self {
+	public function setIsoCode(string $isoCode = null): self {
 		$this->isoCode = strtoupper($isoCode);
 
 		return $this;

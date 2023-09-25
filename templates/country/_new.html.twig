@@ -4,25 +4,28 @@
   {{ form_widget(form.name) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
-<div class="form-group">
-  <label for=""> {{ 'currency.iso_code' | trans }} </label>
-  {{ form_widget(form.isoCode) }}
-  <div class="help-block form-text with-errors form-control-feedback"></div>
-</div>
-<div class="form-group">
-  <label for="">   {{ 'menu.currency' | trans }} </label>
-  {{ form_widget(form.currency) }}
-  <div class="help-block form-text with-errors form-control-feedback"></div>
-</div>
-<div class="form-group">
-  <label for=""> {{ 'menu.phone_indicator' | trans }} </label>
-  {{ form_widget(form.phoneCode) }}
-  <div class="help-block form-text with-errors form-control-feedback"></div>
-</div>
-<div class="form-group">
-  <label for=""> {{ 'menu.number_phone_digit' | trans }} </label>
-  {{ form_widget(form.phoneDigit) }}
-  <div class="help-block form-text with-errors form-control-feedback"></div>
+{#dbta adaptation#}
+<div id="hidden_group" hidden>
+  <div class="form-group">
+    <label for=""> {{ 'currency.iso_code' | trans }} </label>
+    {{ form_widget(form.isoCode) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for="">   {{ 'menu.currency' | trans }} </label>
+    {{ form_widget(form.currency) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for=""> {{ 'menu.phone_indicator' | trans }} </label>
+    {{ form_widget(form.phoneCode) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for=""> {{ 'menu.number_phone_digit' | trans }} </label>
+    {{ form_widget(form.phoneDigit) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
 </div>
 <div class="form-group">
   <label for=""> {{ 'menu.valid' | trans }} </label>
@@ -32,3 +35,4 @@
 <div class="form-buttons-w">
   <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>
+<p hidden id="struct_province_country_city">{{ struct_province_country_city }}</p>

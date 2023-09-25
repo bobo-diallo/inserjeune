@@ -1,4 +1,8 @@
-{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% if is_granted('ROLE_ADMIN') == true  or
+   is_granted('ROLE_ADMIN_PAYS') == true  or
+   is_granted('ROLE_ADMIN_REGIONS') == true  or
+   is_granted('ROLE_ADMIN_VILLES') == true %}
+      {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% else %} {% set base = 'base_school.html.twig' %}
@@ -71,8 +75,14 @@
             }
          });
          // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
-         if ($('#selectedCountry').val() !== '') {
-            countryEvent("#selectedCountry", "school");
+         if ($('#selectedRegion option').length == 0) {
+            if ($('#selectedCountry').val() !== '') {
+               countryEvent("#selectedCountry", "school");
+            }
+         } else {
+            //adaptation DBTA pour l'environnement struct_province_country
+            // (pas de sélection possible sur le country, simule un click sur la region pour accéder au city)
+            regionEvent("#selectedCountry", "#selectedRegion", "school");
          }
 
          let idPrefix = '#appbundle_school_';
@@ -276,7 +286,7 @@
                   let $activity = "<tr><td><input " + $disabledActivity +
                       " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
                       $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
-                      this.sectorArea + "</td></tr>";
+                      translations[this.sectorArea] + "</td></tr>";
                   $('table#activity_founded').append($activity);
                });
             }
@@ -387,6 +397,11 @@
          let city = $('#appbundle_school_city option:selected').text();
          let region = $('#appbundle_school_region option:selected').text();
          let country = $('#appbundle_school_country option:selected').text();
+         // adaptation dbta, annulation de la donnée de la province
+         if($('#selectedRegion option').length == 0) {
+            country = "";
+         }
+         console.log(number, road, locality, city, region, country);
          return (createMapsAddress(number, road, locality, city, region, country));
       }
 

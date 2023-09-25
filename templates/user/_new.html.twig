@@ -1,9 +1,5 @@
 {{ form_widget(form._token) }}
-<div class="form-group">
-  <label for=""> {{ 'menu.country' | trans }} </label>
-  {{ form_widget(form.country) }}
-  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
-</div>
+{#dbta adaptation#}
 <div class="form-group">
   <label for=""> {{'menu.phone_country_code_number' | trans }}</label>
   {{ form_widget(form.phone) }}
@@ -40,6 +36,38 @@
 <div class="form-group">
   <label for=""> Roles</label>
   {{ form_widget(form.profils) }}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.profils) }}</div>
+</div>
+<div class="row">
+  <div hidden id="selectCountry" class="col-sm-12">
+    <div class="form-group">
+      <label for=""> {{ 'menu.select' | trans }} {{ 'menu.country' | trans }} </label>
+{#      {{ create_translated_select(form.country) }}#}
+      {{ form_widget(form.country) }}
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
+    </div>
+  </div>
+  <div hidden id="selectRegions" class="col-sm-12">
+    <div class="form-group">
+      <label for=""> {{ 'menu.select' | trans }} {{ 'menu.region' | trans }}</label>
+{#      {{ create_translated_select(form.adminRegions) }}#}
+      {{ form_widget(form.adminRegions) }}
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.adminRegions) }}</div>
+    </div>
+  </div>
+  <div hidden id="selectCities" class="col-sm-12">
+    <div class="form-group">
+      <label for=""> {{ 'menu.select' | trans }} {{ 'menu.cities' | trans }}</label>
+{#      {{ create_translated_select(form.adminCities) }}#}
+      {{ form_widget(form.adminCities) }}
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.adminCities) }}</div>
+    </div>
+  </div>
+  <select hidden id="roles">
+    {% for role in roles  %}
+      <option value="{{ role.role }}">{{ role.pseudo }}</option>
+    {% endfor %}
+  </select>
 </div>
 <div class="form-buttons-w">
   <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>

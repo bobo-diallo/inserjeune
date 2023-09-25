@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\CountryRepository;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobAppliedRepository;
 use App\Repository\RegionRepository;
 use App\Services\DashboardService;
 use App\Services\CompanyService;
@@ -19,11 +20,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/dashboard')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') or is_granted('ROLE_ETABLISSEMENT') or is_granted('ROLE_ENTREPRISE') or is_granted('ROLE_DIPLOME')")]
+#[Security("is_granted('ROLE_ADMIN')
+ or is_granted('ROLE_ADMIN_PAYS')
+ or is_granted('ROLE_ADMIN_REGIONS')
+ or is_granted('ROLE_ADMIN_VILLES')
+ or is_granted('ROLE_LEGISLATEUR')
+ or is_granted('ROLE_ETABLISSEMENT')
+ or is_granted('ROLE_ENTREPRISE')
+ or is_granted('ROLE_DIPLOME')
+ ")]
 class DashboardController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
 	private JobOfferRepository $jobOfferRepository;
+    private JobAppliedRepository $jobAppliedRepository;
 	private RegionRepository $regionRepository;
 	private DashboardService $dashboardService;
     private CompanyService $companyService;
@@ -33,6 +43,7 @@ class DashboardController extends AbstractController {
 		EntityManagerInterface $em,
 		CountryRepository      $countryRepository,
 		JobOfferRepository     $jobOfferRepository,
+        JobAppliedRepository    $jobAppliedRepository,
 		RegionRepository       $regionRepository,
 		DashboardService       $dashboardService,
         CompanyService         $companyService,
@@ -41,6 +52,7 @@ class DashboardController extends AbstractController {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->jobAppliedRepository = $jobAppliedRepository;
 		$this->regionRepository = $regionRepository;
 		$this->dashboardService = $dashboardService;
         $this->companyService = $companyService;
@@ -49,6 +61,7 @@ class DashboardController extends AbstractController {
 
 	#[Route(path: '/', name: 'dashboard_index', methods: ['GET', 'POST'])]
 	public function indexAction(Request $request): Response {
+        $this->cleanJobApplied();
         if ($this->getUser()->getCompany()) {
             if(!$this->companyService->checkSatisfaction($this->getUser()->getCompany()))
                 return $this->redirectToRoute('front_company_satisfactioncompany_new');
@@ -116,6 +129,39 @@ class DashboardController extends AbstractController {
 				$session->set('region', $idSelectRegion);
 			}
 
+            // adaptation aux multi administrateurs
+            if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+                //nothing to do, validRegions all regions
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+                $validRegions = $this->getUser()->getCountry()->getRegions();
+
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+                $validRegions =  $this->getUser()->getAdminRegions();
+
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+                $validRegions = [];
+                $selectedCities =  $this->getUser()->getAdminCities();
+                foreach ($selectedCities as $selectedCity){
+                    if($selectedCity) {
+                        $regionExist = false;
+                        foreach ($validRegions as $validRegion) {
+                            if ($validRegion->getId() == $selectedCity->getRegion()->getId()) {
+                                $regionExist = true;
+                            }
+                        }
+                        if (!$regionExist) {
+                            $validRegions[] = $selectedCity->getRegion();
+                        }
+                    }
+                }
+            } else {
+                // adpatation for Actors
+                if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                    $validRegions = [];
+                    $validRegions[] = $this->getUser()->getRegion();
+                }
+            }
+
 			return $this->render('Dashboard/index.html.twig', [
 				'countries' => $validCountries,
 				'regions' => $validRegions,
@@ -131,4 +177,21 @@ class DashboardController extends AbstractController {
 	public function exportPdfAction(): Response {
 		return $this->redirectToRoute('dashboard_index');
 	}
+
+    /**
+     * clean the table of job Applied when appliedDate is too old
+     * @return void
+     */
+    private function cleanJobApplied (): void {
+        $dateStr = date('Y', strtotime("-3 year")) . "-01-01";
+        $date =  date_create_from_format('Y-m-d', $dateStr);
+        $jobsApplied = $this->jobAppliedRepository->findBeforeYear($date);
+        foreach ($jobsApplied as $jobApplied) {
+            $this->em->remove($jobApplied);
+            $this->em->flush();
+        }
+        if($jobsApplied) {
+            $this->addFlash('warning', $this->translator->trans('flashbag.number_removed_from_jobs_applied', ['{number}' => date('Y', strtotime("-3 year"))]));
+        }
+    }
 }

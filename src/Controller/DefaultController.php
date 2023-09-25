@@ -77,9 +77,17 @@ class DefaultController extends AbstractController {
             foreach($files as $file)
                 foreach($file as $body)
                     // echo strpos($body->source,"menu.") . '<br>' ;
-                    if(strpos($body->source,"js.") > -1  ) {
+                    if((strpos($body->source,"js.") > -1 ) ||
+                       (strpos($body->source,"country.") > -1 ) ||
+                       (strpos($body->source,"sectors.") > -1 ) ||
+                       (strpos($body->source,"sub-sectors.") > -1 ) ||
+                       (strpos($body->source,"legal_status.") > -1 ) ||
+                       (strpos($body->source,"diplomas.") > -1 )
+                    ) {
                         $src = (string)$body->source;
                         $target = str_replace("'", "\"",$body->target);
+                        if(strlen($target) == 0)
+                            $target = $src;
                         $result[$src] = $target;
                     }
         }

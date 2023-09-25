@@ -37,7 +37,7 @@
                         {%  if jobOffer.updatedDate > jobOffer.createdDate %}
                             <p class="col-sm-12">{{ 'job.updated_on' | trans }}  {{ jobOffer.updatedDate|date('d/m/Y') }}</p>
                         {% endif %}
-                        <p class="col-sm-12">{{ 'menu.expires_on' | trans }} {{ jobOffer.closedDate }}</p>
+                        <p class="col-sm-12">{{ 'menu.expires_on' | trans }} {{ jobOffer.closedDate|date('d/m/Y') }}</p>
                         <p class="col-sm-12">{{ 'job.type_of_contract' | trans }} : {{ jobOffer.contract }}</p>
                         {% if jobOffer.otherCity %}
                             <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>

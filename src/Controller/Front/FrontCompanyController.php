@@ -70,6 +70,12 @@ class FrontCompanyController extends AbstractController {
 		// set country dans la company
 		$selectedCountry = $this->getUser()->getCountry();
 
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $selectedRegion = $this->getUser()->getRegion();
+        }
+
 		$form = $this->createForm(CompanyType::class, $company);
 		$form->handleRequest($request);
 
@@ -91,7 +97,8 @@ class FrontCompanyController extends AbstractController {
 		return $this->render('company/new.html.twig', [
 			'company' => $company,
 			'form' => $form->createView(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegion' => $selectedRegion
 		]);
 	}
 
@@ -115,6 +122,12 @@ class FrontCompanyController extends AbstractController {
 				return $this->redirectToRoute('front_company_new');
 			}
 			$selectedCountry = $this->getUser()->getCountry();
+
+            //adaptation for DBTA
+            $selectedRegion = null;
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                $selectedRegion = $this->getUser()->getRegion();
+            }
 
 			$editForm = $this->createForm(CompanyType::class, $company);
 			$editForm->handleRequest($request);
@@ -151,7 +164,8 @@ class FrontCompanyController extends AbstractController {
 			return $this->render('company/edit.html.twig', [
 				'company' => $company,
 				'edit_form' => $editForm->createView(),
-				'selectedCountry' => $selectedCountry
+				'selectedCountry' => $selectedCountry,
+                'selectedRegion' => $selectedRegion
 			]);
 		});
 	}

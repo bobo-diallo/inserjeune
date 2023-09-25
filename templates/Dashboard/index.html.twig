@@ -50,7 +50,18 @@
                                 <option value="0">{{ 'menu.all_regions' | trans }}</option>
                             {% endif %}
                             {% for region in regions %}
-                                {% if region.country.id == idSelectedCountry %}
+                                {% if struct_province_country_city != "true" %}
+                                    {% if region.country.id == idSelectedCountry %}
+                                        {% if region.id == idSelectedRegion %}
+                                            <option selected value="{{ region.id }}">{{ region.name }}</option>
+                                        {% else %}
+                                            <option value="{{ region.id }}">{{ region.name }}</option>
+                                        {% endif %}
+                                    {% endif %}
+
+                                {# Adaptation struct_province_country_city :
+                                 Region become country and more than one country can be selected#}
+                                {% else %}
                                     {% if region.id == idSelectedRegion %}
                                         <option selected value="{{ region.id }}">{{ region.name }}</option>
                                     {% else %}

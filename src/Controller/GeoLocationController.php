@@ -51,7 +51,40 @@ class GeoLocationController extends AbstractController {
 	#[Route(path: '/', name: 'geolocation', methods: ['GET', 'POST'])]
 	public function indexAction(Request $request): Response {
 		$geoLocation = new GeoLocation();
-		$selectedCountry = $this->getUser()->getCountry();
+        if($this->getUser()->getCountry()) {
+            $selectedCountry = $this->getUser()->getCountry();
+        }
+
+        // adamptation aux multi administrateurs
+        $selectedCountry = null;
+        $selectedRegions = [];
+        if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $selectedRegions =  $this->getUser()->getAdminRegions();
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+            $selectedCities =  $this->getUser()->getAdminCities();
+            foreach ($selectedCities as $selectedCity){
+                if($selectedCity) {
+                    $regionExist = false;
+                    foreach ($selectedRegions as $selectedRegion) {
+                        if ($selectedRegion->getId() == $selectedCity->getRegion()->getId()) {
+                            $regionExist = true;
+                        }
+                    }
+                    if (!$regionExist) {
+                        $selectedRegions[] = $selectedCity->getRegion();
+                    }
+                }
+            }
+        }
+
+        // Adapatation pour l'env STRUCT_PROVINCE_COUNTRY_CITY DIPLOME ENTREPRISE ET SCHOOL
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            if(count($selectedRegions) == 0) {
+                if ($this->getUser()->getRegion()) {
+                    $selectedRegions[] = $this->getUser()->getRegion();
+                }
+            }
+        }
 
 		if ($selectedCountry) {
 			$form = $this->createForm(GeoLocationType::class, $geoLocation, ['selectedCountry' => $selectedCountry->getId()]);
@@ -62,7 +95,8 @@ class GeoLocationController extends AbstractController {
 
 		return $this->render('GeoLocation/maps.html.twig', [
 			'form' => $form->createView(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegions' => $selectedRegions
 		]);
 	}
 

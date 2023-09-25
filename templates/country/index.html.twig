@@ -27,10 +27,13 @@
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
                                 <th>{{ 'menu.name' | trans }}</th>
-                                <th>{{ 'currency.iso_code' | trans }} 3</th>
-                                <th> {{ 'menu.currency' | trans }} </th>
-                                <th>Ind T&eacute;l.</th>
-                                <th>Nb digit Tél.</th>
+                                {# adaptation DBTA #}
+                                {% if struct_province_country_city != 'true' %}
+                                    <th>{{ 'currency.iso_code' | trans }} 3</th>
+                                    <th> {{ 'menu.currency' | trans }} </th>
+                                    <th>Ind T&eacute;l.</th>
+                                    <th>Nb digit Tél.</th>
+                                {% endif %}
                                 <th> {{ 'menu.valid' | trans }} </th>
                             </tr>
                             </thead>
@@ -43,11 +46,14 @@
                                         <a class="danger" onclick="deleteElement('{{ path('country_delete', {'id': country.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('country_show', { 'id': country.id }) }}">{{ country.id }}</a></td>
-                                    <td>{{ country.name }}</td>
-                                    <td>{{ country.isoCode }}</td>
-                                    <td>{{ country.currency }}</td>
-                                    <td>{{ country.phoneCode }}</td>
-                                    <td>{{ country.phoneDigit }}</td>
+                                    <td>{{ country.name | trans }}</td>
+                                    {# adaptation DBTA #}
+                                    {% if struct_province_country_city != 'true' %}
+                                        <td>{{ country.isoCode | trans }}</td>
+                                        <td>{{ country.currency | trans  }}</td>
+                                        <td>{{ country.phoneCode }}</td>
+                                        <td>{{ country.phoneDigit }}</td>
+                                    {% endif %}
                                     {% if country.valid == true %}<td>X</td>{% else %}<td></td>{% endif %}
                                 </tr>
                             {% endfor %}

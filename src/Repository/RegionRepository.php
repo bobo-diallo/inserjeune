@@ -17,4 +17,15 @@ class RegionRepository extends ServiceEntityRepository
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, Region::class);
 	}
+
+    function getNameAndIndicatif(int $id): array {
+        return $this->createQueryBuilder('r')
+            ->select('r.id, r.phoneCode, r.phoneDigit')
+            ->where('r.id != :id')
+            ->setParameters([
+                'id' => $id,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }

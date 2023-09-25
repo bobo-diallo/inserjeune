@@ -8,7 +8,11 @@ final class UserReadOnly {
 	private ?string $email;
 	private ?string $phone;
 	private ?string $country;
+	private ?string $region;
 	private ?string $roles;
+	private ?string $pseudos;
+    private ?string $adminRegions;
+    private ?string $adminCities;
 
 	public function __construct(
 		int     $id,
@@ -16,14 +20,22 @@ final class UserReadOnly {
 		?string $email,
 		?string $phone,
 		?string $country,
-		?string $roles
+		?string $region,
+		?string $roles,
+		?string $pseudos,
+		?string $adminRegions,
+		?string $adminCities
 	) {
 		$this->id = $id;
 		$this->username = $username;
 		$this->email = $email;
 		$this->phone = $phone;
 		$this->country = $country;
+		$this->region = $region;
 		$this->roles = $roles;
+		$this->pseudos = $pseudos;
+		$this->adminRegions = $adminRegions;
+		$this->adminCities = $adminCities;
 	}
 
 	public function id(): int {
@@ -46,8 +58,28 @@ final class UserReadOnly {
 		return $this->country;
 	}
 
-	public function roles(): ?string {
-		return $this->roles;
+    public function region(): ?string {
+        return $this->region;
+    }
+
+    public function roles(): ?string {
+        return $this->roles;
+    }
+    public function role(): ?string {
+        $roles = explode(",",$this->roles);
+        if($this->pseudos) {
+            $pseudos = explode(",", $this->pseudos);
+            return count($pseudos)>0 ? $pseudos[0] : "";
+        }
+        return count($roles)>0 ? $roles[0] : "";
+    }
+
+    public function adminRegions(): ?string {
+        return $this->adminRegions;
+    }
+
+	public function adminCities(): ?string {
+		return $this->adminCities;
 	}
 
 }

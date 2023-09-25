@@ -127,6 +127,11 @@ class FrontSchoolController extends AbstractController {
 		$form->handleRequest($request);
 
 		$selectedCountry = $this->getUser()->getCountry();
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $selectedRegion = $this->getUser()->getRegion();
+        }
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$agreeRgpd = $form->get('agreeRgpd')->getData();
@@ -147,7 +152,8 @@ class FrontSchoolController extends AbstractController {
 			'school' => $school,
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+			'selectedRegion' => $selectedRegion
 		]);
 	}
 
@@ -176,6 +182,11 @@ class FrontSchoolController extends AbstractController {
 			$editForm->handleRequest($request);
 
 			$selectedCountry = $this->getUser()->getCountry();
+            //adaptation for DBTA
+            $selectedRegion = null;
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                $selectedRegion = $this->getUser()->getRegion();
+            }
 
 			if ($editForm->isSubmitted() && $editForm->isValid()) {
 				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
@@ -207,7 +218,8 @@ class FrontSchoolController extends AbstractController {
 				'school' => $school,
 				'edit_form' => $editForm->createView(),
 				'allActivities' => $this->activityService->getAllActivities(),
-				'selectedCountry' => $selectedCountry
+				'selectedCountry' => $selectedCountry,
+				'selectedRegion' => $selectedRegion
 			]);
 		});
 	}
@@ -285,7 +297,7 @@ class FrontSchoolController extends AbstractController {
 		return $this->schoolService->checkUnCompletedAccountBefore(function () {
 			$school = $this->schoolService->getSchool();
 			$schoolId = $school ? $school->getId() : null;
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, $schoolId);
+			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,null, $schoolId);
             $types = $this->degreeService->getTypes();
 
 			return $this->render('persondegree/index.html.twig', [

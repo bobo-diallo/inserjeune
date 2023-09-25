@@ -37,16 +37,23 @@ global.makeSelected = function makeSelected(name) {
 
 //affiche / cache les div concernées si checkbox sur false
 global.showHiddenDivByCheckBox = function showHiddenDivByCheckBox(idCheckBox, classDiv) {
-   if($('#idCheckBox').is('checked'))
-      alert(translations["js.checkbox_is_checked"]);
-   else
-      alert(translations["js.checkbox_is_not_checked"]);
+   if($('#idCheckBox').is('checked')) {
+      getTranslation().then(function (translations) {
+         alert(translations["js.checkbox_is_checked"]);
+      });
+   } else {
+      getTranslation().then(function (translations) {
+         alert(translations["js.checkbox_is_not_checked"]);
+      });
+   }
 }
 
 // Permet de supprimer un element
 global.deleteElement = function deleteElement(route) {
-   if (confirm(translations['js.sure_to_delete_item']))
-      window.location.href = route;
+   getTranslation().then (function (translations) {
+      if (confirm(translations['js.sure_to_delete_item']))
+         window.location.href = route;
+   });
 }
 
 /**
@@ -600,12 +607,11 @@ global.listenChangeCountryRegion = function listenChangeCountryRegion(idCountry,
 /**
  *  Permet de limiter le choix du pays des acteurs (company,personDegree et school)
  *  et de simuler un évênement sur le pays pour que la région se mette à jour avec le addCity
+ *  Ajout idSelectedRegion pour DBTA dans v325
  */
-global.countryEvent = function countryEvent(idSelectedCountry, type) {
+global.countryEvent = async function countryEvent(idSelectedCountry, type) {
    let idCountry = $(idSelectedCountry).val();
    let nameCountry = $(idSelectedCountry).text().replace(/\n/,'').replace(/ /g, '');
-
-   // console.log(idCountry + '| |' + nameCountry);
 
    let idAppbundleTypeCountry = "#appbundle_" + type + "_country";
    let idAppbundleTypeRegion = "#appbundle_" + type + "_region";
@@ -632,6 +638,62 @@ global.countryEvent = function countryEvent(idSelectedCountry, type) {
       }
    } else {
       $(idAppbundleTypeCountry + " option[ value='"+ idCountry +"']").attr("selected", "selected");
+      // console.log(idAppbundleTypeCountry + " option[ value='"+ idCountry +"']")
+   }
+}
+
+/**
+ *  Adptation DBTA pour la Structure Provine/Pays
+ *  Permet de limiter le choix de la region des acteurs (company,personDegree et school)
+ *  et de simuler un évênement sur le pays pour que la région se mette à jour avec le addCity
+ *  Ajout idSelectedRegion pour DBTA dans v235
+ */
+global.regionEvent = function regionEvent(idSelectedCountry, idSelectedRegion, type) {
+   let idCountry = $(idSelectedCountry).val();
+   let nameCountry = $(idSelectedCountry).text().replace(/\n/,'').replace(/ /g, '');
+   let idRegion = $(idSelectedRegion).val();
+   let nameRegion = $(idSelectedRegion).text().replace(/\n/,'').replace(/ /g, '');
+
+   let idAppbundleTypeCountry = "#appbundle_" + type + "_country";
+   let idAppbundleTypeRegion = "#appbundle_" + type + "_region";
+   let idAppbundleTypeCity = "#appbundle_" + type + "_city";
+   if(type=="persondegree") {
+      idAppbundleTypeCity = "#appbundle_" + type + "_addressCity";
+   }
+
+   $(idAppbundleTypeCountry + ' option').remove();
+   // $(idAppbundleTypeCountry).append("<option value=''></option>");
+   let nameCountryTrans = nameCountry;
+   if(translations[nameCountry]) nameCountryTrans = translations[nameCountry] ;
+   let nameRegionTrans = nameRegion;
+   if(translations[nameRegion]) nameRegionTrans = translations[nameRegion] ;
+   $(idAppbundleTypeCountry).append("<option value='"+ idCountry +"'>" + nameCountryTrans + "</option>");
+
+   $(idAppbundleTypeRegion + ' option').remove();
+   $(idAppbundleTypeRegion).append("<option value=''> </option>");
+   $(idAppbundleTypeRegion).append("<option value='"+ idRegion +"'>" + nameRegionTrans + "</option>");
+
+   if ($(idAppbundleTypeCity + ' option:selected').val() === "") {
+      if ($(idAppbundleTypeRegion + ' option:selected').val() == "") {
+
+         $(idAppbundleTypeRegion).change(function () {
+            let cityName = "city";
+            if(type=="persondegree") {
+               cityName = "addressCity";
+            }
+            listenChangeCountryRegion(idAppbundleTypeCountry, idAppbundleTypeRegion, 'country', 'region', cityName);
+            $(idAppbundleTypeRegion).css("appearance", "none")
+            $(idAppbundleTypeRegion).css("-webkit-appearance", "none")
+            $(idAppbundleTypeRegion).css("-moz-appearance", "none")
+         });
+         $(idAppbundleTypeRegion).val(parseInt(idRegion));
+         $(idAppbundleTypeRegion).trigger('change');
+         $(idAppbundleTypeRegion).change();
+
+        // Fin de simul
+      }
+   } else {
+      $(idAppbundleTypeRegion + " option[ value='"+ idRegion +"']").attr("selected", "selected");
       // console.log(idAppbundleTypeCountry + " option[ value='"+ idCountry +"']")
    }
 }

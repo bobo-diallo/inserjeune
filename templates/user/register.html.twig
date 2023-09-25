@@ -32,16 +32,35 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="">   {{ 'menu.country' | trans }} </label>
-        {{ form_widget(form.country) }}
-        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
-        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+        {% if struct_province_country_city == "true" %}
+          <label for="">   {{ 'menu.region' | trans }} </label>
+          {{ create_translated_select(form.region) }}
+{#          {{ form_widget(form.region) }}#}
+          <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+          <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.region) }}</div>
+
+        {% else %}
+          <label for="">   {{ 'menu.country' | trans }} </label>
+          {{ create_translated_select(form.country) }}
+{#          {{ form_widget(form.country) }}#}
+          <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+          <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+
+        {% endif %}
       </div>
       <div id="residenceCountry" class="form-group" style="display: none">
         <label for="">   {{ 'menu.residence_country' | trans }} </label>
-        {{ form_widget(form.residenceCountry) }}
-        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
-        <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+        {% if struct_province_country_city == "true" %}
+          {{ create_translated_select(form.residenceRegion) }}
+{#          {{ form_widget(form.residenceRegion) }}#}
+          <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+          <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.region) }}</div>
+        {% else %}
+          {{ create_translated_select(form.residenceCountry) }}
+{#          {{ form_widget(form.residenceCountry) }}#}
+          <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+          <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
+        {% endif %}
       </div>
       <div class="form-group">
         <label for=""> {{ 'menu.phone' | trans }} : {{ 'menu.phone_indicator' | trans }} (<span id="phone_code"></span> ) + N°</label>
@@ -94,7 +113,12 @@
 <script>
    $( document ).ready(function() {
       $('#diaspora').hide();
+      if ($('#userbundle_user_typePerson option:selected').val() == 'ROLE_DIPLOME' ) {
+         $('#diaspora').show();
+         showResidenceCountry ();
+      }
    })
+
    $('#userbundle_user_typePerson').on('change', function (e) {
       if ($('#userbundle_user_typePerson option:selected').val() != 'ROLE_DIPLOME' ) {
          $('#userbundle_user_diaspora').prop('checked',false);
@@ -125,20 +149,19 @@
    }
    // $(document).ready(function () {
    // const allCountryOptions = $('#userbundle_user_country').html();
-
    $('#userbundle_user_country').on('change', function (e) {
       let selectedCountry = null;
       if($('#userbundle_user_diaspora').is(':checked')) {
          selectedCountry = $('#userbundle_user_residenceCountry option:selected').val();
 
-          // Supprimer le pays selectionné dans la liste des pays de residence
-          // $("#userbundle_user_residenceCountry").html(allCountryOptions);
-          $("#userbundle_user_residenceCountry").find("option").each(function() {
-              const optionValue = $(this).val();
-              if (optionValue === e.target.value) {
-                  $(this).remove();
-              }
-          });
+         // Supprimer le pays selectionné dans la liste des pays de residence
+         // $("#userbundle_user_residenceCountry").html(allCountryOptions);
+         $("#userbundle_user_residenceCountry").find("option").each(function() {
+            const optionValue = $(this).val();
+            if (optionValue === e.target.value) {
+               $(this).remove();
+            }
+         });
 
       } else {
          selectedCountry = $('#userbundle_user_country option:selected').val();
@@ -150,6 +173,32 @@
       let selectedCountry = $('#userbundle_user_residenceCountry option:selected').val();
       getIndTel(selectedCountry);
    })
+
+   // adaptation for DBTA
+   $('#userbundle_user_region').on('change', function (e) {
+      let selectedCountry = null;
+      if($('#userbundle_user_diaspora').is(':checked')) {
+         selectedCountry = $('#userbundle_user_residenceRegion option:selected').val();
+
+          // Supprimer le pays selectionné dans la liste des pays de residence
+          $("#userbundle_user_residenceRegion").find("option").each(function() {
+              const optionValue = $(this).val();
+              if (optionValue === e.target.value) {
+                  $(this).remove();
+              }
+          });
+
+      } else {
+         selectedCountry = $('#userbundle_user_region option:selected').val();
+      }
+      getIndTel(selectedCountry);
+   })
+
+   $('#userbundle_user_residenceRegion').on('change', function (e) {
+      let selectedCountry = $('#userbundle_user_residenceRegion option:selected').val();
+      getIndTel(selectedCountry);
+   })
+   //Fin adaptation DBTA
 
    function getIndTel(selectedCountry) {
       if (selectedCountry) {

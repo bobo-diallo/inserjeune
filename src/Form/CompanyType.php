@@ -19,7 +19,9 @@ class CompanyType extends AbstractType
 {
    private CityService $cityService;
 
-   public function __construct(CityService $cityService)
+   public function __construct(
+       CityService $cityService
+   )
    {
       $this->cityService = $cityService;
    }
@@ -90,8 +92,8 @@ class CompanyType extends AbstractType
             'placeholder' => 'menu.select',
             'attr' => ['class' => 'form-control'],
             'query_builder' => function (EntityRepository $entityRepository) {
-               return $entityRepository->createQueryBuilder('sa')
-                  ->orderBy('sa.name', 'ASC');
+                return $entityRepository->createQueryBuilder('sa')
+                    ->orderBy('sa.name', 'ASC');
             }
          ])
          ->add('legalStatus', EntityType::class, [

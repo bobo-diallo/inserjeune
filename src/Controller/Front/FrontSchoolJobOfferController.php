@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobAppliedRepository;
 use App\Services\FileUploader;
 use App\Services\SchoolService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,7 @@ class FrontSchoolJobOfferController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SchoolService $schoolService;
 	private JobOfferRepository $jobOfferRepository;
+    private JobAppliedRepository $jobAppliedRepository;
 	private FileUploader $fileUploader;
 	private TranslatorInterface $translator;
 
@@ -31,12 +33,14 @@ class FrontSchoolJobOfferController extends AbstractController {
 		EntityManagerInterface $em,
 		SchoolService         $schoolService,
 		JobOfferRepository     $jobOfferRepository,
+        JobAppliedRepository    $jobAppliedRepository,
 		FileUploader $fileUploader,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->schoolService = $schoolService;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->jobAppliedRepository = $jobAppliedRepository;
 		$this->fileUploader = $fileUploader;
 		$this->translator = $translator;
 	}
@@ -54,6 +58,19 @@ class FrontSchoolJobOfferController extends AbstractController {
 			]);
 		});
 	}
+
+
+    #[Route(path: '/jobApplied', name: 'front_school_job_applied_index', methods: ['GET'])]
+    public function jobApplied(): Response {
+        return $this->schoolService->checkUnCompletedAccountBefore(function () {
+            $school = $this->schoolService->getSchool();
+            $jobApplieds = $this->jobAppliedRepository->getByUserSchool($school->getUser()->getId());
+
+            return $this->render('JobOffer/jobApplied.html.twig', [
+                'jobApplieds' => $jobApplieds,
+            ]);
+        });
+    }
 
 	#[Route(path: '/new', name: 'front_school_jobOffer_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {

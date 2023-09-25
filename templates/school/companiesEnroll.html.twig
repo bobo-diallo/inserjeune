@@ -430,9 +430,9 @@
                 $("#selectRegion" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#regions option").each(function (option) {
                     if ($idSelected == $(this).val())
-                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
                     else
-                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
                 });
             }
         }
@@ -448,9 +448,9 @@
                 $("#selectSectorArea" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#sectorAreas option").each(function (option) {
                     if ($idSelected == $(this).val())
-                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
                     else
-                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
                 });
             }
         }
@@ -467,9 +467,9 @@
                 $("#legalStatus option").each(function (option) {
                     if ($idSelected == $(this).val())
 
-                        $("#selectLegalStatus" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectLegalStatus" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
                     else
-                        $("#selectLegalStatus" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectLegalStatus" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
                 });
             }
         }

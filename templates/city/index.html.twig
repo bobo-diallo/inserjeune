@@ -41,10 +41,10 @@
                                         <a class="danger" onclick="deleteElement('{{ path('city_delete', {'id': city.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('city_show', { 'id': city.id }) }}">{{ city.id }}</a></td>
-                                    <td>{{ city.name }}</td>
+                                    <td>{{ city.name  | trans }}</td>
                                     <td>{{ (city.isCapital) ? 'Oui' : 'Non' }}</td>
-                                    <td>{{ city.region }}</td>
-                                    <td>{{ city.country.name }}</td>
+                                    <td>{{ city.region | trans}}</td>
+                                    <td>{{ city.country.name | trans }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

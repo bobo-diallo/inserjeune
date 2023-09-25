@@ -20,6 +20,8 @@ final class PersonDegreeReadOnly {
 	private ?string $activityName;
 	private ?int $degreeId;
 	private ?string $degreeName;
+    private ?int $cityId;
+    private ?string $cityName;
 	private ?int $countryId;
 	private ?string $countryName;
 	private ?int $schoolId;
@@ -47,6 +49,8 @@ final class PersonDegreeReadOnly {
 		?string $activityName,
 		?int $degreeId,
 		?string $degreeName,
+        ?int $cityId,
+        ?string $cityName,
 		?int $countryId,
 		?string $countryName,
 		?int $schoolId,
@@ -72,6 +76,8 @@ final class PersonDegreeReadOnly {
 		$this->activityName = $activityName;
 		$this->degreeId = $degreeId;
 		$this->degreeName = $degreeName;
+        $this->cityId = $cityId;
+        $this->cityName = $cityName;
 		$this->countryId = $countryId;
 		$this->countryName = $countryName;
 		$this->schoolId = $schoolId;
@@ -147,6 +153,13 @@ final class PersonDegreeReadOnly {
 		return $this->degreeName;
 	}
 
+    public function getCityId(): ?int {
+        return $this->cityId;
+    }
+
+    public function getCityName(): ?string {
+        return $this->cityName;
+    }
 	public function getCountryId(): ?int {
 		return $this->countryId;
 	}
@@ -176,8 +189,11 @@ final class PersonDegreeReadOnly {
 	public function country(): ?string {
 		return $this->countryName;
 	}
+    public function city(): ?string {
+        return $this->cityName;
+    }
 
-	public function degree(): ?string {
+    public function degree(): ?string {
 		return $this->degreeName;
 	}
 

@@ -13,6 +13,7 @@ use App\Entity\LegalStatus;
 use App\Entity\School;
 use App\Entity\SectorArea;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpParser\Node\Expr\Array_;
 
 /**
  * CompanyRepository
@@ -157,7 +158,6 @@ class CompanyRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
-
 
 	/**
 	 * @param Country $country

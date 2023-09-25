@@ -19,8 +19,11 @@ class Role {
 	#[ORM\Column(type: 'integer')]
 	private ?int $id = null;
 
-	#[ORM\Column(name: 'role', type: 'string', length: 100, unique: true)]
-	private ?string $role;
+    #[ORM\Column(name: 'role', type: 'string', length: 100, unique: true)]
+    private ?string $role;
+
+	#[ORM\Column(name: 'pseudo', type: 'string', length: 100, nullable: true)]
+	private ?string $pseudo;
 
 	/**
 	 * Role constructor.
@@ -44,7 +47,23 @@ class Role {
 		return $this;
 	}
 
+    public function getPseudo(): ?string
+    {
+        return strlen($this->pseudo)>0 ? $this->pseudo : $this->role;
+    }
+
+    /**
+     * @param string|null $pseudo
+     * @return Role
+     */
+    public function setPseudo(?string $pseudo): Role
+    {
+        $this->pseudo = $pseudo;
+        return $this;
+    }
+
 	public function __toString() {
-		return $this->role;
+		// return $this->role;
+        return strlen($this->pseudo)>0 ? $this->pseudo : $this->role;
 	}
 }

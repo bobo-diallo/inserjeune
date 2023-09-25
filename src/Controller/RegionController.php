@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Region;
 use App\Form\RegionType;
 use App\Repository\RegionRepository;
+use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,20 +21,36 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegionController extends AbstractController {
 	private EntityManagerInterface $em;
 	private RegionRepository $regionRepository;
+	private CurrencyRepository $currencyRepository;
 	private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $em,
 		RegionRepository       $regionRepository,
+        CurrencyRepository       $currencyRepository,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->regionRepository = $regionRepository;
+		$this->currencyRepository = $currencyRepository;
 		$this->translator = $translator;
 	}
 
 	#[Route(path: '/', name: 'region_index', methods: ['GET'])]
 	public function indexAction(): Response {
+        //adaptation dbta: mise à jour des currency_id pour les regions importées
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $regions = $this->regionRepository->findAll();
+            foreach ($regions as $region) {
+                if(!$region->getCurrency()) {
+                    $region->setCurrency($region->getCountry()->getCurrency());
+                    if ($region->getCurrency()) {
+                        $this->em->persist($region);
+                        $this->em->flush();
+                    }
+                }
+            }
+        }
 
 		return $this->render('region/index.html.twig', array(
 			'regions' => $this->regionRepository->findAll(),
@@ -43,7 +60,10 @@ class RegionController extends AbstractController {
 	#[Route(path: '/new', name: 'region_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$region = new Region();
-		$form = $this->createForm(RegionType::class, $region);
+        $form = $this->createForm(RegionType::class, $region);
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $form = $this->createForm(RegionType::class, $region);
+        }
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -68,7 +88,11 @@ class RegionController extends AbstractController {
 
 	#[Route(path: '/{id}/edit', name: 'region_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, Region $region): RedirectResponse|Response {
-		$editForm = $this->createForm(RegionType::class, $region);
+
+        $editForm = $this->createForm(RegionType::class, $region);
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $editForm = $this->createForm(RegionType::class, $region);
+        }
 		$editForm->handleRequest($request);
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {

@@ -98,7 +98,8 @@
 <div class="row">
   <div class="col-sm-4 form-group">
     <label for=""> {{ 'menu.field_of_activity' | trans }} *</label>
-    {{ form_widget(form.sectorArea) }}
+    {{ create_translated_select(form.sectorArea) }}
+{#    {{ form_widget(form.sectorArea) }}#}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
   </div>
   <div class="col-sm-4 form-group">

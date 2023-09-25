@@ -39,8 +39,8 @@
                                         <a class="danger" onclick="deleteElement('{{ path('sectorarea_delete', {'id': sectorArea.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('sectorarea_show', { 'id': sectorArea.id }) }}">{{ sectorArea.id }}</a></td>
-                                    <td>{{ sectorArea.name }}</td>
-                                    <td>{{ sectorArea.description }}</td>
+                                    <td>{{ sectorArea.name | trans }}</td>
+                                    <td>{{ sectorArea.description  | trans  }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

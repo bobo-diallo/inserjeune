@@ -52,9 +52,9 @@
             {#% endif %#}
             <p class="col-sm-12">{{ 'job.type_of_contract' | trans }} : {{ jobOffer.contract }}</p>
             {% if jobOffer.otherCity %}
-              <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>
+              <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country | trans }}-{{ jobOffer.otherCity }}</p>
             {% else %}
-              <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.city.name }}</p>
+              <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country | trans }}-{{ jobOffer.city.name | trans }}</p>
             {% endif %}
           </div>
 

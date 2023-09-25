@@ -60,13 +60,15 @@
               <span>{{ 'menu.your_partners' | trans }}</span>
             </a>
           </li>
-          <li>
-            <a href="{{ path('front_company_jobOffer_index') }}">
+          <li class="has-sub-menu"><a href="{{ path('front_company_jobOffer_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
               </div>
-              <span>{{ 'menu.job_offer' | trans }}</span>
-            </a>
+              <span>{{ 'menu.job_offer'|trans }}</span></a>
+            <ul class="sub-menu">
+              <li><a href="{{ path('front_company_jobOffer_index') }}">{{ 'menu.the_job_offers' | trans }}</a></li>
+              <li><a href="{{ path('front_company_job_applied_index') }}">{{ 'menu.the_job_applieded' | trans }}</a></li>
+            </ul>
           </li>
           <li>
             <a href="{{ path('geolocation') }}">

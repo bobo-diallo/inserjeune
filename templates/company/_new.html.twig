@@ -37,19 +37,27 @@
       <div class="row">
         <div class="col-sm-6 form-group">
           <label for=""> {{ 'menu.country' | trans }} * </label>
-          {{ form_widget(form.country) }}
+          {{ create_translated_select(form.country) }}
+{#          {{ form_widget(form.country) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
         </div>
         <div class="col-sm-6 form-group">
-          <label for="">{{'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
-          {{ form_widget(form.region) }}
+          {# adaptation DBTA#}
+          {% if struct_province_country_city == "true" %}
+            <label for=""> {{ 'menu.region' | trans }} *</label>
+          {% else %}
+            <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
+          {% endif %}
+          {{ create_translated_select(form.region) }}
+{#          {{ form_widget(form.region) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-6 form-group">
           <label for=""> {{ 'city.city_nearest' | trans }} *</label>
-          {{ form_widget(form.city) }}
+          {{ create_translated_select(form.city) }}
+{#          {{ form_widget(form.city) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
         </div>
         <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
@@ -59,21 +67,29 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-2 form-group">
-          <label for=""> N° </label>
+        {%  if concat_local_address == "false" %}
+          <div class="col-sm-2 form-group">
+            <label for=""> N° </label>
             {{ form_widget(form.addressNumber) }}
-          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber) }}</div>
-        </div>
-        <div class="col-sm-5 form-group">
-          <label for=""> {{ 'menu.street' | trans }} </label>
-          {{ form_widget(form.addressRoad) }}
-          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad) }}</div>
-        </div>
-        <div class="col-sm-5 form-group">
-          <label for=""> {{ 'menu.location' | trans }} </label>
-          {{ form_widget(form.addressLocality) }}
-          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
-        </div>
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressNumber) }}</div>
+          </div>sectorarea
+          <div class="col-sm-5 form-group">
+            <label for=""> {{ 'menu.street' | trans }} </label>
+            {{ form_widget(form.addressRoad) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressRoad) }}</div>
+          </div>
+          <div class="col-sm-5 form-group">
+            <label for=""> {{ 'menu.location' | trans }} </label>
+            {{ form_widget(form.addressLocality) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality) }}</div>
+          </div>
+        {% else %}
+          <div class="form-group col-sm-12">
+            <label for=""> {{ 'menu.address' | trans }} </label>
+            {{ form_widget(form.addressLocality) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.addressLocality)}}</div>
+          </div>
+        {% endif %}
       </div>
       <div class="row">
         <div class="col-sm-4 form-group">
@@ -102,7 +118,8 @@
       <div class="row">
         <div class="form-group col-sm-6">
           <label for=""> {{ 'menu.activity_area' | trans }} *</label>
-          {{ form_widget(form.sectorArea) }}
+          {{ create_translated_select(form.sectorArea) }}
+{#          {{ form_widget(form.sectorArea) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
         </div>
         <div class="form-group col-sm-6">
@@ -151,12 +168,19 @@
 
 <select hidden id="selectedCountry">
   {%  if selectedCountry is not null %}
-    <option value="{{ selectedCountry.id }}">{{ selectedCountry.name }}</option>
+    <option value="{{ selectedCountry.id }}">{{ selectedCountry.name | trans }}</option>
   {%  endif %}
 </select>
 {% if company.country is not null %}
   <input style="display: none" value="{{ company.country.phoneCode }}" id="countryPhoneCode">
 {% endif %}
+
+{#adaptation DBTA#}
+<select hidden id="selectedRegion">
+  {%  if selectedRegion is not null %}
+    <option value="{{ selectedRegion.id }}">{{ selectedRegion.name | trans | capitalize }}</option>
+  {%  endif %}
+</select>
 
 <div><span><br>* :  {{ 'menu.required_field' | trans }} </span></div>
 <div class="form-buttons-w">

@@ -1,4 +1,8 @@
-{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% if is_granted('ROLE_ADMIN') == true  or
+    is_granted('ROLE_ADMIN_PAYS') == true  or
+    is_granted('ROLE_ADMIN_REGIONS') == true  or
+    is_granted('ROLE_ADMIN_VILLES') == true %}
+        {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
 {% else %} {% set base = 'base_degree.html.twig' %}
@@ -24,6 +28,10 @@
             let city = $('#appbundle_persondegree_addressCity option:selected').text();
             let region = $('#appbundle_persondegree_region option:selected').text();
             let country = $('#appbundle_persondegree_country option:selected').text();
+            // adaptation dbta, annulation de la donnée de la province
+            if($('#selectedRegion option').length == 0) {
+                country = "";
+            }
             return (createMapsAddress(number, road, locality, city, region, country));
         }
 
@@ -39,6 +47,7 @@
             // console.log(translations);
 
             let selectedCountry = $('#selectedCountry').val();
+            let selectedRegion = $('#selectedRegion').val();
             //affichage de la zone Diaspora
             visibilityDiaspora();
             $('#appbundle_persondegree_diaspora').on('click', function () {
@@ -48,8 +57,23 @@
             function visibilityDiaspora() {
                 if ($('#appbundle_persondegree_diaspora').is(":checked")) {
                     $('.addressDiaspora ').prop("hidden", false);
+                    if($('#appbundle_persondegree_residenceCountry').length) {
+                        $('#appbundle_persondegree_residenceCountry').attr("required", true);
+                    }
+                    if($('#appbundle_persondegree_residenceRegion').length) {
+                        $('#appbundle_persondegree_residenceRegion').attr("required", true);
+                    }
+                    $('#appbundle_persondegree_addressDiaspora').attr("required", true);
                 } else {
                     $('.addressDiaspora ').prop("hidden", true);
+                    if($('#appbundle_persondegree_residenceCountry').length) {
+                        $('#appbundle_persondegree_residenceCountry').attr("required", false);
+                    }
+                    if($('#appbundle_persondegree_residenceRegion').length) {
+                        $('#appbundle_persondegree_residenceRegion').attr("required", false);
+                    }
+                    $('#appbundle_persondegree_addressDiaspora').attr("required", false);
+                    $('#appbundle_persondegree_addressDiaspora').val("");
                 }
             }
 
@@ -59,11 +83,18 @@
                     $(this).prop('hidden', true);
                 }
             })
+            //adaptation dbta (if $_env struct_province_country_city== true)
+            if($('#appbundle_persondegree_residenceRegion').length) {
+                $('#appbundle_persondegree_residenceRegion option').each(function () {
+                    if(selectedRegion == $(this).val()) {
+                        $(this).prop('hidden', true);
+                    }
+                })
+            }
 
             //Contrôle du bouton check de localisation pour switch manuel - automatique
             $('#appbundle_persondegree_locationMode').on('click', async function () {
                 if ($('#appbundle_persondegree_locationMode').is(":checked")) {
-                    // if (!confirm("Attention, les coordonnées seront recalculées")) {
                     if (!confirm(translations["js.warning_coordinates_recalculated"])) {
                         $('#appbundle_persondegree_locationMode').prop("checked", false);
                     }
@@ -117,8 +148,14 @@
                 }
             });
             // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
-            if ($('#selectedCountry').val() !== '') {
-                countryEvent("#selectedCountry", "persondegree");
+            if ($('#selectedRegion option').length == 0) {
+                if ($('#selectedCountry').val() !== '') {
+                    countryEvent("#selectedCountry", "persondegree");
+                }
+            } else {
+                //adaptation DBTA pour l'environnement struct_province_country
+                // (pas de sélection possible sur le country, simule un click sur la region pour accéder au city)
+                regionEvent("#selectedCountry", "#selectedRegion", "persondegree");
             }
 
             // création du filtre régions unique pour les établissements
@@ -149,7 +186,7 @@
             $('#regionSchoolFilter').on('change', function () {
                 let selection = $('#regionSchoolFilter option:selected').text().trim();
                 console.log("selection = " + selection);
-                if (selection == "Toutes") {
+                if (selection == translations["js.all_f"]) {
                     $('#appbundle_persondegree_school option').prop("hidden", false);
                 } else {
                     $('#appbundle_persondegree_school option[value!=""]').prop("hidden", true);
@@ -187,10 +224,15 @@
                 checkPhoneNumber(phoneNumber);
             })
 
+            $('#appbundle_persondegree_residenceRegion').on('change', function () {
+                checkPhoneNumber(phoneNumber);
+            })
+
             //reset pays de résidence si appbundle_persondegree_diaspora est false
             $('#appbundle_persondegree_diaspora').on('click', function () {
                 if ($('#appbundle_persondegree_diaspora').not(":checked")) {
                     $('#appbundle_persondegree_residenceCountry').prop('selectedIndex', 0);
+                    $('#appbundle_persondegree_residenceRegion').prop('selectedIndex', 0);
                 }
                 checkPhoneNumber(phoneNumber);
             })
@@ -201,11 +243,20 @@
                     let usrphone = $('.logged-user-phone').html().trim();
 
                     // verification de l'indicatif pays
+                    // alert(" 1-> " . $('#countryPhoneCode').val());
                     let indPersonDegree = '+' + $('#countryPhoneCode').val();
                     let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
 
+                    // adaptation dbta (if $_env struct_province_country_city== true)
+                    if($('#appbundle_persondegree_residenceRegion').length) {
+                        selectResidenceCountry = $('#appbundle_persondegree_residenceRegion').val();
+                    }
+                    // console.log("test1: indPersonDegree=" + indPersonDegree + " phoneNumber=" + phoneNumber + " selectResidenceCountry=" + selectResidenceCountry);
+
                     if($('#appbundle_persondegree_diaspora').is(":checked")) {
-                        $('#countryPhoneCode option').each(function () {
+                        $('#countriesPhoneCode option').each(function () {
+                            // alert(" 2-> " . $(this).val());
+                            // console.log("test2: " + selectResidenceCountry + " | " + $(this).val());
                             if (selectResidenceCountry == $(this).val()) {
                                 indPersonDegree = '+' + $(this).text();
                             }
@@ -220,6 +271,7 @@
                     let indPhone = phoneNumber.substr(0, indPersonDegree.length);
 
                     if (indPhone != indPersonDegree) {
+                         // alert(" 3-> " + indPhone + " | " + indPersonDegree);
                         alert(translations["js.warning,phone_must_begin_part1"] + " " + indPersonDegree + translations["js.warning,phone_must_begin_part2"]);
                         $('#appbundle_persondegree_phoneMobile1').val(usrphone);
                         res = false;
@@ -233,14 +285,14 @@
 
                     //verification du nombre de digit
                     let nbDigitPersonDegree = null;
-                    $('#countryPhoneDigit option').each(function () {
+                    $('#countriesPhoneDigit option').each(function () {
                         if (selectResidenceCountry == $(this).val()) {
                             nbDigitPersonDegree = $(this).text();
                             // console.log(nbDigitPersonDegree);
                         }
                     })
                     if(nbDigitPersonDegree == null) {
-                        $('#countryPhoneDigit option').each(function () {
+                        $('#countriesPhoneDigit option').each(function () {
                             if ($('#selectedCountry').val() == $(this).val()) {
                                 nbDigitPersonDegree = $(this).text();
                                 // console.log(nbDigitPersonDegree);

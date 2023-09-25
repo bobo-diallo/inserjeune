@@ -21,7 +21,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 #[Route(path: '/company')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')")]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_LEGISLATEUR') or 
+            is_granted('ROLE_ADMIN_REGIONS') or 
+            is_granted('ROLE_ADMIN_PAYS') or 
+            is_granted('ROLE_ADMIN_VILLES')")]
 class CompanyController extends AbstractController {
 	private EntityManagerInterface $em;
 	private ActivityService $activityService;
@@ -36,7 +40,7 @@ class CompanyController extends AbstractController {
 		UserRepository         $userRepository,
 		CompanyRepository      $companyRepository,
         CompanyService         $companyService,
-		TranslatorInterface $translator
+		TranslatorInterface    $translator
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
@@ -51,8 +55,30 @@ class CompanyController extends AbstractController {
 		$userCountry = $this->getUser()->getCountry();
 
 		$companies = $this->companyRepository->findAll();
-		if ($userCountry)
-			$companies = $this->companyRepository->findByCountry($userCountry);
+		if ($userCountry) {
+            $companies = $this->companyRepository->findByCountry($userCountry);
+        }
+
+        // adaptation for multi administrators
+        $userRegions = [];
+        $userCities = [];
+        if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $userRegions =  $this->getUser()->getAdminRegions();
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+            $userCities =  $this->getUser()->getAdminCities();
+        }
+
+        if(count($userRegions) > 0) {
+            $companies = [];
+            foreach ($userRegions as $region) {
+                $companies = array_merge($companies, $this->companyRepository->findByRegion($region));
+            }
+        } else if(count($userCities) > 0) {
+            $companies = [];
+            foreach ($userCities as $city) {
+                $companies = array_merge($companies, $this->companyRepository->findByCity($city));
+            }
+        }
 
 		return $this->render('company/index.html.twig', ['companies' => $companies]);
 	}
@@ -65,6 +91,12 @@ class CompanyController extends AbstractController {
 		$form = $this->createForm(CompanyType::class, $company);
 		$form->handleRequest($request);
 		$selectedCountry = new Country();
+
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $selectedRegion = new Region();
+        }
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$company->setCreatedDate(new \DateTime());
@@ -83,14 +115,15 @@ class CompanyController extends AbstractController {
 			'company' => $company,
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegion' => $selectedRegion
 		]);
 	}
 
 	#[Route(path: '/{id}', name: 'company_show', methods: ['GET'])]
 	public function showAction(Company $company): Response {
 		return $this->render('company/show.html.twig', array(
-			'company' => $company,
+			'company' => $company
 		));
 	}
 
@@ -100,6 +133,12 @@ class CompanyController extends AbstractController {
 		$editForm = $this->createForm(CompanyType::class, $company);
 		$editForm->handleRequest($request);
 		$selectedCountry = $company->getCountry();
+
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $selectedRegion = $this->getUser()->getRegion();
+        }
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 			$currentUser = $this->userRepository->getFromCompany($company->getId());
@@ -131,7 +170,8 @@ class CompanyController extends AbstractController {
 			'company' => $company,
 			'edit_form' => $editForm->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegion' => $selectedRegion
 		));
 	}
 

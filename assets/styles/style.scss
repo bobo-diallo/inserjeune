@@ -47,15 +47,26 @@ table.dataTable tbody th, table.dataTable tbody td {
   background-color: white;
 }
 
-#logo_ifef {
-  position: absolute;
-  left:0;
-  top: 0;
+#loginLogo {
+  display: flex;
+  justify-content: space-around;
 }
-#logo_oif {
+
+//#logo_dbta {
+#logo_dbta {
   position: absolute;
-  right: 0;
-  top: 0;
+  left:20px;
+  top: 10px;
+  height: 90px;
+  width: auto;
+}
+//#logo_cf_dbta {
+#logo_salesians {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  height: 90px;
+  width: auto;
 }
 
 .banner_title {
@@ -75,11 +86,32 @@ table.dataTable tbody th, table.dataTable tbody td {
     margin: 2% 25% 2% 25%;
     font-size: 9px;
   }
+
+  #logo_dbta {
+    top : 10px;
+    height: 50px;
+    width: auto;
+  }
+  #logo_salesians {
+    top : 10px;
+    height: 50px;
+    width: auto;
+  }
 }
 
 @media (max-width: 640px) {
   .banner_title {
-    display: none;
+    font-size: 8px;
+  }
+  #logo_dbta {
+    top : 10px;
+    height: 50px;
+    width: auto;
+  }
+  #logo_salesians {
+    top : 10px;
+    height: 50px;
+    width: auto;
   }
 }
 
@@ -330,6 +362,107 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .content-w {
   background-image: none;
+}
+@media (min-width: 768px) {
+  .content-i {
+    min-height: 1000px;
+  }
+}
+
+#customize_footer {
+  border-top : 2px solid #007bff;
+  background-color: #ffffff;
+  color: #007bff;
+  padding: 10px 10px;
+  margin: auto;
+
+  span {
+    font-weight: bolder;
+  }
+  #links {
+    p {
+      margin-bottom: 0!important;
+    }
+  }
+  #contact {
+    p {
+      margin-bottom: 10px;
+    }
+    p:first-child {
+      margin-top: 10px;
+    }
+  }
+
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+
+    p {
+      margin-bottom: 0;
+      margin-top: 0!important;
+
+      img {
+        height: auto;
+        width: 100%;
+        max-height: 50px;
+        max-width: 90px;
+        margin-top: 0;
+      }
+    }
+  }
+
+  p {
+    font-weight: normal;
+    font-size: 12px!important;
+    margin-top: 2px;
+
+    :first-child {
+      margin-top: 10px;
+    }
+
+    a {
+      //color: white;
+      font-size: 12px!important;
+      font-style: italic;
+      font-weight: normal;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  #customize_footer {
+    img {
+      height: 40px!important;
+      width: auto!important;
+    }
+    .logos {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;;
+    }
+    #links {
+      margin-bottom: 10px;
+    }
+    #contact {
+      p {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      p:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  #customize_footer {
+    padding: 10px 10px;
+  }
 }
 
 .last_answer_responses {
@@ -1061,53 +1194,89 @@ table#activity_founded th{
   text-decoration: none;
 }
 
-#appbundle_candidate_message {
-  width: 100%;
-  min-height: 100px;
+.jobApplyDesc {
+  p {
+    white-space: pre-wrap;
+
+    strong {
+      color: red;
+    }
+  }
 }
 
-.selection {
-  width: 50px;
-}
+  #appbundle_candidate_message {
+    width: 100%;
+    min-height: 100px;
+  }
 
-.kz_loader  {
-  opacity:0.7;
-  font-size: 35px;
-  font-weight: bolder;
-  background: #007bff;
-  z-index:999;
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100% ;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-}
+  .selection {
+    width: 50px;
+  }
 
-.purge {
-  margin-top: 30px!important;
-}
-.purge .kz-print-tools {
-  display: none;
-}
+  .kz_loader  {
+    opacity:0.7;
+    font-size: 35px;
+    font-weight: bolder;
+    background: #007bff;
+    z-index:999;
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100% ;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+
+  .purge {
+    margin-top: 30px!important;
+  }
+  .purge .kz-print-tools {
+    display: none;
+  }
 
 .userClean td {
   vertical-align: bottom!important;
   padding: 0!important;
   margin: auto!important;
 }
-.userClean td p {
-  margin: 5px;
-  text-align: center;
+.userClean td {
+  p {
+    margin: 5px;
+    text-align: center;
+  }
+  .p_city {
+    text-align: left;
+  }
+}
+
+td.cleanCity p,
+td.cleanResumed p {
+  text-align: left;
+  strong {
+    color: red;
+  }
 }
 
 .execute {
   margin-top: 20px;
-}
-.execute button {
-  margin-right: 20px;
+  display: flex;
+  button {
+    margin-right: 20px;
+  }
+  input {
+    background-color: #007bff;
+    width: auto;
+    margin-right: 20px;
+    color: white;
+    height: 30px;
+  }
+
+  input::placeholder {
+      color: white;
+      opacity: 1; /* Firefox */
+  }
 }
 
 .userCheck,

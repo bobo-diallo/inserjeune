@@ -6,3 +6,12 @@
 {#{% block navigation %}
     <li class="breadcrumb-item"><span>Ville</span></li>
 {% endblock %}#}
+
+
+{% block js %}
+  <script>
+     // Event
+     // Country -> Region -> City
+     listenChangeCountryRegion('#appbundle_city_country', '#appbundle_city_region', 'country', 'region', 'city');
+  </script>
+{% endblock %}

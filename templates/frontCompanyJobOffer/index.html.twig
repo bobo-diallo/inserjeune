@@ -45,7 +45,7 @@
                                     <td><a href="{{ path('front_company_jobOffer_show', { 'id': jobOffer.id }) }}">{{ jobOffer.id }}</a></td>
                                     <td>{{ jobOffer.title }}</td>
                                     <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
-                                    <td>{{ jobOffer.closedDate }}</td>
+                                    <td>{{ jobOffer.closedDate|date('Y/m/d') }}</td>
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>
@@ -97,7 +97,7 @@
                                     {% endif %}
                                     <td>{{ jobOffer.title }}</td>
                                     <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
-                                    <td>{{ jobOffer.closedDate }}</td>
+                                    <td>{{ jobOffer.closedDate|date('Y/m/d') }}</td>
                                     <td>{{ jobOffer.activity }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     <td>{{ jobOffer.city.name }}</td>

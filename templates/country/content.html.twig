@@ -6,3 +6,13 @@
 {% block navigation %}
     <li class="breadcrumb-item"><span> {{ 'menu.country' | trans }} </span></li>
 {% endblock %}
+
+{% block js %}
+  <script>
+     // hide inputs for adaptaion DBTA
+     if($('#struct_province_country_city').text() == "false")
+        $($('#hidden_group').removeAttr("hidden"))
+  </script>
+{% endblock %}
+
+

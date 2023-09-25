@@ -13,6 +13,7 @@
     <ul class="sub-menu">
       <li><a href="{{ path('company_index') }}">{{ 'menu.list_companies' | trans }}</a></li>
       <li><a href="{{ path('jobOffer_index') }}">{{ 'menu.the_job_offers' | trans }}</a></li>
+      <li><a href="{{ path('jobApplied_index') }}">{{ 'menu.the_job_applieded' | trans }}</a></li>
     </ul>
   </li>
   <li class="has-sub-menu"><a href="{{ path('degree_index') }}">
@@ -27,23 +28,25 @@
 {#      <li><a href="#">{{ 'menu.the_social_media'| trans }}**</a></li>#}
     </ul>
   </li>
-  <li class="has-sub-menu">
-    <a href="#">
-      <div class="icon-w">
-        <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
-      </div>
-      <span>{{ 'menu.survey'|trans }}</span>
-    </a>
-    <ul class="sub-menu">
-      <li><a href="{{ path('satisfaction_search_index') }}">{{ 'graduate.graduate_looking_for_job' | trans }}</a></li>
-      <li><a href="{{ path('satisfactionsalary_index') }}">{{ 'graduate.graduate_in_employment' | trans }}</a></li>
-      <li><a href="{{ path('satisfactioncreator_index') }}">{{ 'graduate.business_graduate' | trans }}</a></li>
-      <li><a href="{{ path('satisfactioncompany_index') }}">{{ 'menu.company' | trans }}</a></li>
+  {% if is_granted('ROLE_ADMIN') %}
+    <li class="has-sub-menu">
+      <a href="#">
+        <div class="icon-w">
+          <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="satisfaction">
+        </div>
+        <span>{{ 'menu.survey'|trans }}</span>
+      </a>
+      <ul class="sub-menu">
+        <li><a href="{{ path('satisfaction_search_index') }}">{{ 'graduate.graduate_looking_for_job' | trans }}</a></li>
+        <li><a href="{{ path('satisfactionsalary_index') }}">{{ 'graduate.graduate_in_employment' | trans }}</a></li>
+        <li><a href="{{ path('satisfactioncreator_index') }}">{{ 'graduate.business_graduate' | trans }}</a></li>
+        <li><a href="{{ path('satisfactioncompany_index') }}">{{ 'menu.company' | trans }}</a></li>
 
-      <div class="menu-line-separator"></div>
-      <li><a href="{{ path('job_not_found_reason_index') }}">{{ 'graduate.reasons_jobs_not_found' | trans }}</a></li>
-    </ul>
-  </li>
+        <div class="menu-line-separator"></div>
+        <li><a href="{{ path('job_not_found_reason_index') }}">{{ 'graduate.reasons_jobs_not_found' | trans }}</a></li>
+      </ul>
+    </li>
+  {% endif %}
   <li class="has-sub-menu">
     <a href="#">
       <div class="icon-w">
@@ -58,6 +61,7 @@
       <li><a href="{{ path('currency_index') }}">{{ 'menu.currencies' | trans }}</a></li>
     </ul>
   </li>
+  {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS') %}
   <li class="has-sub-menu">
     <a href="#">
       <div class="icon-w">
@@ -72,18 +76,23 @@
       <li><a href="{{ path('legalstatus_index') }}">{{ 'menu.legals_status' | trans }}</a></li>
     </ul>
   </li>
-  <li class="has-sub-menu">
-    <a href="index.html#">
-      <div class="icon-w">
-        <img src="{{ asset('build/images/icon/users.png') }}" alt="users">
-      </div>
-      <span>{{ 'menu.user' | trans }}s</span>
-    </a>
-    <ul class="sub-menu">
-      <li><a href="{{ path('role_index') }}">{{ 'menu.roles' | trans }}</a></li>
-      <li><a href="{{ path('user_index') }}">{{ 'menu.users' | trans }}</a></li>
-    </ul>
-  </li>
+  {% endif %}
+  {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS')  or is_granted('ROLE_ADMIN_REGIONS') %}
+    <li class="has-sub-menu">
+      <a href="index.html#">
+        <div class="icon-w">
+          <img src="{{ asset('build/images/icon/users.png') }}" alt="users">
+        </div>
+        <span>{{ 'menu.user' | trans }}s</span>
+      </a>
+      <ul class="sub-menu">
+        {% if is_granted("ROLE_ADMIN") %}
+          <li><a href="{{ path('role_index') }}">{{ 'menu.roles' | trans }}</a></li>
+        {% endif %}
+        <li><a href="{{ path('user_index') }}">{{ 'menu.users' | trans }}</a></li>
+      </ul>
+    </li>
+  {% endif %}
   <li>
     <a href="{{ path('geolocation') }}">
       <div class="icon-w">

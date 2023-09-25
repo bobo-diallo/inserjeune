@@ -22,25 +22,25 @@
 {% endblock %}
 
 
-{% block js %}
-    <script>
-       $(document).on('change', '#appbundle_city_country', function () {
-          let $field = $(this)
-          let $countryField = $('#appbundle_city_country')
-          let $form = $field.closest('form')
-          let target = '#' + $field.attr('id').replace('country', 'region')
+{#{% block js %}#}
+{#    <script>#}
+{#       $(document).on('change', '#appbundle_city_country', function () {#}
+{#          let $field = $(this)#}
+{#          let $countryField = $('#appbundle_city_country')#}
+{#          let $form = $field.closest('form')#}
+{#          let target = '#' + $field.attr('id').replace('country', 'region')#}
 
-          // Les données à envoyer en Ajax
-          let data = {}
-          data[$countryField.attr('name')] = $countryField.val()
+{#          // Les données à envoyer en Ajax#}
+{#          let data = {}#}
+{#          data[$countryField.attr('name')] = $countryField.val()#}
 
-          // On soumet les données
-          $.post($form.attr('action'), data).then(function (data) {
-             // On récupère le nouvmeeau <select>
-             let $input = $(data).find(target)
-             // On remplace notre <select> actuel
-             $(target).replaceWith($input)
-          })
-       });
-    </script>
-{% endblock %}
+{#          // On soumet les données#}
+{#          $.post($form.attr('action'), data).then(function (data) {#}
+{#             // On récupère le nouvmeeau <select>#}
+{#             let $input = $(data).find(target)#}
+{#             // On remplace notre <select> actuel#}
+{#             $(target).replaceWith($input)#}
+{#          })#}
+{#       });#}
+{#    </script>#}
+{#{% endblock %}#}

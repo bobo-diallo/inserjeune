@@ -1,6 +1,8 @@
 {% extends 'user/content.html.twig' %}
+{% set roleUser = app.user.roles | role%}
 
 {% block body %}
+    {{ roleUser }}
     <div class="content-i">
         <div class="content-box">
           {# Tableau 1 #}
@@ -28,6 +30,10 @@
                                 <th class="no-print">Actions</th>
                                 <th>Id</th>
                                 <th>{{ 'menu.country' | trans }}</th>
+                                {# adaptation DBTA #}
+                                {% if struct_province_country_city == 'true' %}
+                                    <th>{{ 'menu.region' | trans }}</th>
+                                {% endif %}
                                 <th>Téléphone</th>
                                 <th>Pseudo</th>
                                 <th>{{ 'menu.email' | trans }}</th>
@@ -43,11 +49,30 @@
                                         <a class="danger" onclick="deleteElement('{{ path('user_delete', {'id': user.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
-                                    <td>{{ user.country }}</td>
+                                    <td>{{ user.country | trans}}</td>
+
+                                    {# adaptation DBTA #}
+                                    {% if struct_province_country_city == 'true' %}
+                                        {% if user.adminCities != NULL  %}
+                                            <td>{{ user.region | trans}} [ {{ user.adminCities | trans }} ]</td>
+                                        {% elseif user.adminRegions != NULL  %}
+                                            {% set adminRegions = user.adminRegions | split(',') %}
+                                            <td>[
+                                                {% for adminRegion in adminRegions %}
+                                                    {% if loop.index > 1 %} ,{% endif %}
+                                                     {{ adminRegion | spaceless | trans }}
+                                                {% endfor %}
+                                                ]
+                                            </td>
+{#                                          <td>{{ user.adminRegions  }}</td>#}
+                                        {% else%}
+                                            <td>{{ user.region | trans }}</td>
+                                        {% endif %}
+                                    {% endif %}
                                     <td>{{ user.phone }}</td>
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.roles }}</td>
+                                    <td>{{ user.role }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -57,7 +57,11 @@
                         <table id="{{ idTable }}" class="table table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                {%  if roleUser == "Administrateur" or roleUser == "Législateur" %}
+                                {%  if roleUser == "Administrateur" or
+                                       roleUser == "Admin_pays" or
+                                       roleUser == "Admin_regions" or
+                                       roleUser == "Admin_villes" or
+                                       roleUser == "Législateur" %}
                                     <th class="no-print">Actions</th>
                                 {% elseif roleUser == "Etablissement" %}
                                     {% if app.request.attributes.get('_route') == 'front_school_all_company_index'%}
@@ -65,7 +69,10 @@
                                     {% endif %}
                                 {% endif %}
 
-                                {% if roleUser == 'Administrateur' %}
+                                {% if roleUser == 'Administrateur' or
+                                    roleUser == "Admin_pays" or
+                                    roleUser == "Admin_regions" or
+                                    roleUser == "Admin_villes" %}
                                     <th>Id</th>
                                 {% endif %}
 
@@ -75,14 +82,29 @@
                                     <th>{{ 'menu.name' | trans }}</th>
                                 {% endif %}
 
-                                {%  if roleUser == 'Administrateur' %}
-                                    <th>{{ 'menu.country' | trans }}</th>
+                                {%  if roleUser == 'Administrateur' or
+                                        roleUser == "Admin_pays" or
+                                        roleUser == "Admin_regions" %}
+                                    {% if struct_province_country_city == true %}
+                                        <th>{{ 'menu.region' | trans }}</th>
+                                    {% else %}
+                                        <th>{{ 'menu.country' | trans }}</th>
+                                    {% endif%}
                                 {% endif %}
-                                <th>{{ 'menu.city' | trans }}</th>
+                                {%  if roleUser == 'Administrateur' or
+                                    roleUser == "Législateur" or
+                                    roleUser == "Admin_pays" or
+                                    roleUser == "Admin_regions" or
+                                    roleUser == "Admin_villes" %}
+                                        <th>{{ 'menu.city' | trans }}</th>
+                                {% endif %}
                                 <th>{{ 'menu.phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
 
-                                {% if roleUser == "Administrateur" %}
+                                {% if roleUser == 'Administrateur' or
+                                    roleUser == "Admin_pays" or
+                                    roleUser == "Admin_regions" or
+                                    roleUser == "Admin_villes" %}
                                     <th>{{ 'menu.created_date' | trans }}</th>
                                 {% endif %}
 
@@ -92,20 +114,28 @@
                             <tbody>
                             {% for company in companies %}
                                 <tr>
-                                    {%  if roleUser == "Administrateur" or roleUser == "Législateur" %}
+                                    {%  if roleUser == "Administrateur" or
+                                            roleUser == "Admin_pays" or
+                                            roleUser == "Admin_regions" or
+                                            roleUser == "Admin_villes" or
+                                            roleUser == "Législateur" %}
                                         <td class="row-actions">
-                                            {%  if roleUser == "Administrateur" %}
+                                            {%  if roleUser != "Législateur" %}
                                                 <a href="{{ path('company_edit', { 'id': company.id }) }}#"><img
-                                                            src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                                        src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
                                             {% endif %}
                                             <a href="{{ path('company_show', { 'id': company.id }) }}"><img
                                                         src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                            {%  if roleUser == "Administrateur" %}
-                                            <a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                            {%  if roleUser != "Législateur" %}
+                                                <a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img
+                                                        src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                             {% endif %}
                                         </td>
                                     {% endif %}
-                                    {%  if roleUser == "Administrateur" %}
+                                    {%  if roleUser == "Administrateur" or
+                                        roleUser == "Admin_pays" or
+                                        roleUser == "Admin_regions" or
+                                        roleUser == "Admin_villes" %}
                                         <td><a href="{{ path('company_show', { 'id': company.id }) }}">{{ company.id }}</a></td>
                                     {% endif %}
                                     {% if roleUser == "Etablissement" %}
@@ -118,16 +148,25 @@
                                         {% endif %}
                                     {% endif %}
                                     <td>{{ company.name }}</td>
-                                    {%  if roleUser == "Administrateur" %}
-                                        <td>{{ company.country }}</td>
+                                    {%  if roleUser == "Administrateur" or
+                                        roleUser == "Admin_pays" or
+                                        roleUser == "Admin_regions" %}
+                                        {% if struct_province_country_city == true %}
+                                            <td>{{ company.region | trans }}</td>
+                                        {% else %}
+                                            <td>{{ company.country | trans }}</td>
+                                        {% endif%}
                                     {% endif %}
-                                    <td>{{ company.city.name }}</td>
+                                    <td>{{ company.city.name | trans }}</td>
                                     <td>{{ company.phoneStandard }}</td>
                                     <td>{{ company.email }}</td>
-                                    {% if roleUser == 'Administrateur' %}
+                                    {% if roleUser == 'Administrateur' or
+                                        roleUser == "Admin_pays" or
+                                        roleUser == "Admin_regions" or
+                                        roleUser == "Admin_villes"%}
                                         <td>{{ company.createdDate|date('d/m/Y H:i') }}</td>
                                     {% endif %}
-                                    <td>{{ company.sectorarea }}</td>
+                                    <td>{{ company.sectorarea | trans}}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

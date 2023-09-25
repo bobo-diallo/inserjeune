@@ -904,7 +904,7 @@ class DashboardExtension extends AbstractExtension {
             $html .= sprintf('  <div class="legend-value">
                                         <span >%s: (%s/%s) </span>
                                         <span>%s%%</span></div>',
-                $name,
+                $this->translator->trans($name),
                 $elements[$i][1],
                 $totalElements,
                 number_format($elementRate, 2));

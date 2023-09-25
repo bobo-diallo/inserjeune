@@ -109,6 +109,10 @@
         <source>menu.the_job_offers</source>
         <target>Job offers</target>
       </trans-unit>
+      <trans-unit id="menu.the_job_applieded">
+        <source>menu.the_job_applieded</source>
+        <target>Offers applied for</target>
+      </trans-unit>
       <trans-unit id="menu.ads">
         <source>menu.ads</source>
         <target>Ads</target>
@@ -203,7 +207,11 @@
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
-        <target>City/Town</target>
+        <target>City/town</target>
+      </trans-unit>
+      <trans-unit id="menu.cities">
+        <source>menu.cities</source>
+        <target>Cities/towns</target>
       </trans-unit>
       <trans-unit id="menu.description">
         <source>menu.description</source>
@@ -216,10 +224,6 @@
       <trans-unit id="menu.is_view">
         <source>menu.is_view</source>
         <target>Is seen</target>
-      </trans-unit>
-      <trans-unit id="menu.cities">
-        <source>menu.cities</source>
-        <target>Cities/Towns</target>
       </trans-unit>
       <trans-unit id="menu.and">
         <source>menu.and</source>
@@ -475,7 +479,7 @@
       </trans-unit>
       <trans-unit id="menu.you_are">
         <source>menu.you_are</source>
-        <target>You are</target>
+        <target>Gender</target>
       </trans-unit>
       <trans-unit id="menu.date_of_birth">
         <source>menu.date_of_birth</source>
@@ -540,6 +544,10 @@
       <trans-unit id="menu.password">
         <source>menu.password</source>
         <target>Password</target>
+      </trans-unit>
+      <trans-unit id="menu.repeat_password">
+        <source>menu.repeat_password</source>
+        <target>Repeat the password</target>
       </trans-unit>
       <trans-unit id="menu.print">
         <source>menu.print</source>
@@ -883,7 +891,7 @@
       </trans-unit>
       <trans-unit id="menu.all_regions">
         <source>menu.all_regions</source>
-        <target>All regions</target>
+        <target>All countries</target>
       </trans-unit>
       <trans-unit id="menu.connection_phone">
         <source>menu.connection_phone</source>
@@ -951,11 +959,11 @@
       </trans-unit>
       <trans-unit id="menu.select_country">
         <source>menu.select_country</source>
-        <target>Select the country</target>
+        <target>Select the province</target>
       </trans-unit>
       <trans-unit id="menu.select_region">
         <source>menu.select_region</source>
-        <target>Select the region</target>
+        <target>Select the country</target>
       </trans-unit>
       <trans-unit id="menu.select_city">
         <source>menu.select_city</source>
@@ -967,11 +975,11 @@
       </trans-unit>
       <trans-unit id="menu.a_man">
         <source>menu.a_man</source>
-        <target>a male</target>
+        <target>male</target>
       </trans-unit>
       <trans-unit id="menu.a_woman">
         <source>menu.a_woman</source>
-        <target>a female</target>
+        <target>female</target>
       </trans-unit>
       <trans-unit id="menu.web_site">
         <source>menu.web_site</source>
@@ -1063,15 +1071,15 @@
       </trans-unit>
       <trans-unit id="region.add_a_region">
         <source>region.add_a_region</source>
-        <target>Add region</target>
+        <target>Add country</target>
       </trans-unit>
       <trans-unit id="region.adding_a_region">
         <source>region.adding_a_region</source>
-        <target>Adding a region</target>
+        <target>Adding a country</target>
       </trans-unit>
       <trans-unit id="region.list_of_regions">
         <source>region.list_of_regions</source>
-        <target>List of regions</target>
+        <target>List of countries</target>
       </trans-unit>
       <trans-unit id="legal_status.editing_a_legal_status">
         <source>legal_status.editing_a_legal_status</source>
@@ -1304,6 +1312,14 @@
       <trans-unit id="job.list_of_job_offers">
         <source>job.list_of_job_offers</source>
         <target>List of job offers</target>
+      </trans-unit>
+      <trans-unit id="job.your_applications">
+        <source>job.your_applications</source>
+        <target>your applications</target>
+      </trans-unit>
+      <trans-unit id="job.list_of_job_applieded">
+        <source>job.list_of_job_applieded</source>
+        <target>list of jobs applieded</target>
       </trans-unit>
       <trans-unit id="job.type_of_contract">
         <source>job.type_of_contract</source>
@@ -2301,7 +2317,15 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="clean.offers_list">
         <source>clean.offers_list</source>
-        <target>Offers list</target>
+        <target>Job offers list</target>
+      </trans-unit>
+      <trans-unit id="clean.applied_list">
+        <source>clean.applied_list</source>
+        <target>Applied offers list</target>
+      </trans-unit>
+      <trans-unit id="clean.purge_date">
+        <source>clean.purge_date</source>
+        <target>Purge date</target>
       </trans-unit>
       <trans-unit id="clean.selection">
         <source>clean.selection</source>
@@ -2314,6 +2338,14 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="clean.number">
         <source>clean.number</source>
         <target>Number</target>
+      </trans-unit>
+      <trans-unit id="clean.applied_date">
+        <source>clean.applied_date</source>
+        <target>Response date</target>
+      </trans-unit>
+      <trans-unit id="clean.resumed_applied">
+        <source>clean.resumed_applied</source>
+        <target>Summary</target>
       </trans-unit>
       <trans-unit id="clean.type">
         <source>clean.type</source>
@@ -2359,9 +2391,41 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>clean.update_coordinates</source>
         <target>Update coordinates</target>
       </trans-unit>
+      <trans-unit id="footer.useful_links">
+        <source>footer.useful_links</source>
+        <target>Useful links</target>
+      </trans-unit>
+      <trans-unit id="footer.contact_informations">
+        <source>footer.contact_informations</source>
+        <target>Contact informations</target>
+      </trans-unit>
+      <trans-unit id="footer.partners">
+        <source>footer.partners</source>
+        <target>Partners</target>
+      </trans-unit>
+      <trans-unit id="dbtech_digital_library">
+        <source>dbtech_digital_library</source>
+        <target>DBTECH Digital Library</target>
+      </trans-unit>
+      <trans-unit id="footer.salesians_of_don_bosco">
+        <source>footer.salesians_of_don_bosco</source>
+        <target>Salesians of Don Bosco</target>
+      </trans-unit>
+      <trans-unit id="footer.salesian_formation_centre_africa_madagascar">
+        <source>footer.salesian_formation_centre_africa_madagascar</source>
+        <target>Salesian Formation Centre Africa Madagascar</target>
+      </trans-unit>
+      <trans-unit id="footer.salesian_education">
+        <source>footer.salesian_education</source>
+        <target>Salesian Education</target>
+      </trans-unit>
+      <trans-unit id="footer.ans">
+        <source>footer.ans</source>
+        <target>ANS</target>
+      </trans-unit>
       <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
-        <target>Welcome! Before answering the insertion questionnaire, please complete your profile below</target>
+        <target>Welcome! Before answering the integration questionnaire, please complete your profile below</target>
       </trans-unit>
       <trans-unit id="satisfaction_search.job">
         <source>satisfaction_search.job</source>
@@ -2497,7 +2561,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="js.select_region">
         <source>js.select_region</source>
-        <target>Select an region</target>
+        <target>Select a country</target>
       </trans-unit>
       <trans-unit id="js.select_activity">
         <source>js.select_activity</source>
@@ -2563,6 +2627,14 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.want_delete_these_offers_part2</source>
         <target>job offers ?</target>
       </trans-unit>
+      <trans-unit id="js.want_delete_these_applies_part1">
+        <source>js.want_delete_these_applies_part1</source>
+        <target>Do you want to delete these</target>
+      </trans-unit>
+      <trans-unit id="js.want_delete_these_applies_part2">
+        <source>js.want_delete_these_applies_part2</source>
+        <target>applies offers ?</target>
+      </trans-unit>
       <trans-unit id="js.sure_edit_this_entry">
         <source>js.sure_edit_this_entry</source>
         <target>Are you sure you want to edit this entry ?</target>
@@ -2622,6 +2694,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="js.error_while_deleting_the_offer">
         <source>js.error_while_deleting_the_offer</source>
         <target>error while deleting the offer</target>
+      </trans-unit>
+      <trans-unit id="js.error_while_deleting_the_apply">
+        <source>js.error_while_deleting_the_apply</source>
+        <target>error while deleting the apply</target>
       </trans-unit>
       <trans-unit id="js.you_cannot_select_everything_if_line_edit_mode">
         <source>js.you_cannot_select_everything_if_line_edit_mode</source>
@@ -2767,11 +2843,11 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="js.a_man">
         <source>js.a_man</source>
-        <target>a male</target>
+        <target>male</target>
       </trans-unit>
       <trans-unit id="js.a_woman">
         <source>js.a_woman</source>
-        <target>a female</target>
+        <target>female</target>
       </trans-unit>
       <trans-unit id="js.sure_to_delete_item">
         <source>js.sure_to_delete_item</source>
@@ -2849,6 +2925,18 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.in_traning</source>
         <target>In traning</target>
       </trans-unit>
+      <trans-unit id="js.please_select_once_profil">
+        <source>js.please_select_once_profil</source>
+        <target>Only one autorized profile</target>
+      </trans-unit>
+      <trans-unit id="js.closed">
+        <source>js.closed</source>
+        <target>Expired</target>
+      </trans-unit>
+      <trans-unit id="js.applied_again">
+        <source>js.applied_again</source>
+        <target>Reapply</target>
+      </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
         <target>Invalid phone number</target>
@@ -2880,6 +2968,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="error.invalid_email">
         <source>error.invalid_email</source>
         <target>Invalid Email</target>
+      </trans-unit>
+      <trans-unit id="error.fill_in_wording">
+        <source>error.fill_in_wording</source>
+        <target>Please fill in the wording</target>
       </trans-unit>
       <trans-unit id="datatable.processing">
         <source>datatable.processing</source>
@@ -3157,6 +3249,14 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>flashbag.error_sending_application</source>
         <target>Error sending application</target>
       </trans-unit>
+      <trans-unit id="flashbag.already_sending_application">
+        <source>flashbag.already_sending_application</source>
+        <target>You have already applied for this offer</target>
+      </trans-unit>
+      <trans-unit id="flashbag.last_application_failed_try_again">
+        <source>flashbag.last_application_failed_try_again</source>
+        <target>last application was failed, please try again</target>
+      </trans-unit>
       <trans-unit id="flashbag.remember_to_create_a_valid_email_address">
         <source>flashbag.remember_to_create_a_valid_email_address</source>
         <target>Remember to create a valid email address</target>
@@ -3196,6 +3296,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="flashbag.the_number_must_start_with_number">
         <source>flashbag.the_number_must_start_with_number</source>
         <target>The number must start with {number}</target>
+      </trans-unit>
+      <trans-unit id="flashbag.number_removed_from_jobs_applied">
+        <source>flashbag.number_removed_from_jobs_applied</source>
+        <target>offers applied before {number} have been deleted from the list</target>
       </trans-unit>
       <trans-unit id="flashbag.your_login_account_is_renamed_to_name">
         <source>flashbag.your_login_account_is_renamed_to_name</source>
@@ -3272,6 +3376,2390 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="flashbag.unable_to_delete_establishment_please_remove_its_graduates_first">
         <source>flashbag.unable_to_delete_establishment_please_remove_its_graduates_first</source>
         <target>Unable to delete TVET School, Please remove its graduates first</target>
+      </trans-unit>
+      <trans-unit id="flashbag.warning">
+        <source>flashbag.warning</source>
+        <target>Warning</target>
+      </trans-unit>
+      <trans-unit id="flashbag.please_complete_your_profile">
+        <source>flashbag.please_complete_your_profile</source>
+        <target>Please complete your profile</target>
+      </trans-unit>
+      <trans-unit id="sectors.agriculture_and_fisheries">
+        <source>sectors.agriculture_and_fisheries</source>
+        <target>agriculture and fisheries</target>
+      </trans-unit>
+      <trans-unit id="sectors.craftsmanship">
+        <source>sectors.craftsmanship</source>
+        <target>craftsmanship</target>
+      </trans-unit>
+      <trans-unit id="sectors.multimedia_communication">
+        <source>sectors.multimedia_communication</source>
+        <target>multimedia communication</target>
+      </trans-unit>
+      <trans-unit id="sectors.construction_building_and_public_works">
+        <source>sectors.construction_building_and_public_works</source>
+        <target>construction, building and public works</target>
+      </trans-unit>
+      <trans-unit id="sectors.hospitality_restaurants_tourism">
+        <source>sectors.hospitality_restaurants_tourism</source>
+        <target>hospitality - restaurants - tourism</target>
+      </trans-unit>
+      <trans-unit id="sectors.industrial_production">
+        <source>sectors.industrial_production</source>
+        <target>industrial production</target>
+      </trans-unit>
+      <trans-unit id="sectors.industrial_maintenance">
+        <source>sectors.industrial_maintenance</source>
+        <target>industrial maintenance</target>
+      </trans-unit>
+      <trans-unit id="sectors.computer_maintenance">
+        <source>sectors.computer_maintenance</source>
+        <target>computer maintenance</target>
+      </trans-unit>
+      <trans-unit id="sectors.auto_motorcycle_boat_mechanics">
+        <source>sectors.auto_motorcycle_boat_mechanics</source>
+        <target>auto / motorcycle / boat mechanics</target>
+      </trans-unit>
+      <trans-unit id="sectors.health">
+        <source>sectors.health</source>
+        <target>health</target>
+      </trans-unit>
+      <trans-unit id="sectors.personal_and_community_services">
+        <source>sectors.personal_and_community_services</source>
+        <target>personal and community services</target>
+      </trans-unit>
+      <trans-unit id="sectors.management_and_accounting_services">
+        <source>sectors.management_and_accounting_services</source>
+        <target>management and accounting services</target>
+      </trans-unit>
+      <trans-unit id="sectors.transport_and_logistics">
+        <source>sectors.transport_and_logistics</source>
+        <target>transport and logistics</target>
+      </trans-unit>
+      <trans-unit id="sectors.other_technical_services">
+        <source>sectors.other_technical_services</source>
+        <target>other technical services</target>
+      </trans-unit>
+      <trans-unit id="sectors.commerce_and_large_distribution">
+        <source>sectors.commerce_and_large_distribution</source>
+        <target>commerce and large distribution</target>
+      </trans-unit>
+      <trans-unit id="sectors.oil_and_gas">
+        <source>sectors.oil_and_gas</source>
+        <target>oil and gas</target>
+      </trans-unit>
+      <trans-unit id="sectors.mining_industry">
+        <source>sectors.mining_industry</source>
+        <target>mining industry</target>
+      </trans-unit>
+      <trans-unit id="sectors.bank_and_insurance">
+        <source>sectors.bank_and_insurance</source>
+        <target>bank and insurance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.lumbering">
+        <source>sub-sectors.lumbering</source>
+        <target>Lumbering</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.animal production / breeding">
+        <source>sub-sectors.animal production / breeding</source>
+        <target>Animal production / breeding</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.agriculture / market gardening">
+        <source>sub-sectors.agriculture / market gardening</source>
+        <target>Agriculture / market gardening</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.aquaculture / fish farming">
+        <source>sub-sectors.aquaculture / fish farming</source>
+        <target>Aquaculture / fish farming</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.fishing">
+        <source>sub-sectors.fishing</source>
+        <target>Fishing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.food processing">
+        <source>sub-sectors.food processing</source>
+        <target>Food processing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.jewelry / jewelry / goldsmithing">
+        <source>sub-sectors.jewelry / jewelry / goldsmithing</source>
+        <target>Jewelry / jewelry / goldsmithing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.bakery pastry">
+        <source>sub-sectors.bakery pastry</source>
+        <target>Bakery pastry</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.styling / fashion design">
+        <source>sub-sectors.styling / fashion design</source>
+        <target>Styling / fashion design</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.hairdressing / aesthetics">
+        <source>sub-sectors.hairdressing / aesthetics</source>
+        <target>Hairdressing / aesthetics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.sewing/tapestry cut">
+        <source>sub-sectors.sewing/tapestry cut</source>
+        <target>Sewing/tapestry cut</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.website creation">
+        <source>sub-sectors.website creation</source>
+        <target>Website creation</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.3d computer graphics / printing">
+        <source>sub-sectors.3d computer graphics / printing</source>
+        <target>3D computer graphics / printing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.masonry (formwork, reinforcement, plastering, tiling, painting)">
+        <source>sub-sectors.masonry (formwork, reinforcement, plastering, tiling, painting)</source>
+        <target>Masonry (formwork, reinforcement, plastering, tiling, painting)</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.electricity building">
+        <source>sub-sectors.electricity building</source>
+        <target>Electricity building</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.wood joinery / carpentry / roofing">
+        <source>sub-sectors.wood joinery / carpentry / roofing</source>
+        <target>Wood joinery / carpentry / roofing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.metal carpentry / metal structures">
+        <source>sub-sectors.metal carpentry / metal structures</source>
+        <target>Metal carpentry / metal structures</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.aluminum joinery">
+        <source>sub-sectors.aluminum joinery</source>
+        <target>Aluminum joinery</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.sanitary installations / plumbing">
+        <source>sub-sectors.sanitary installations / plumbing</source>
+        <target>Sanitary installations / plumbing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.home / reception">
+        <source>sub-sectors.home / reception</source>
+        <target>Home / reception</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.room service">
+        <source>sub-sectors.room service</source>
+        <target>Room Service</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.cooking/pastry">
+        <source>sub-sectors.cooking/pastry</source>
+        <target>Cooking/pastry</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.bar">
+        <source>sub-sectors.bar</source>
+        <target>Bar</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.touristic guide">
+        <source>sub-sectors.touristic guide</source>
+        <target>Touristic guide</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.travel agency management">
+        <source>sub-sectors.travel agency management</source>
+        <target>Travel agency management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.electromechanics">
+        <source>sub-sectors.electromechanics</source>
+        <target>Electromechanics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.electrical engineering">
+        <source>sub-sectors.electrical engineering</source>
+        <target>Electrical engineering</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.industrial plumbing/piping">
+        <source>sub-sectors.industrial plumbing/piping</source>
+        <target>Industrial plumbing/piping</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.health, safety, environment - hse">
+        <source>sub-sectors.health, safety, environment - hse</source>
+        <target>Health, Safety, Environment - HSE</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.machine maintenance">
+        <source>sub-sectors.machine maintenance</source>
+        <target>Machine maintenance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.elevator maintenance">
+        <source>sub-sectors.elevator maintenance</source>
+        <target>Elevator maintenance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.automation maintenance">
+        <source>sub-sectors.automation maintenance</source>
+        <target>Automation maintenance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.electronic maintenance">
+        <source>sub-sectors.electronic maintenance</source>
+        <target>Electronic maintenance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.computer/office maintenance (hardware)">
+        <source>sub-sectors.computer/office maintenance (hardware)</source>
+        <target>Computer/office maintenance (hardware)</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.software maintenance - software - network - development">
+        <source>sub-sectors.software maintenance - software - network - development</source>
+        <target>Software maintenance - software - network - development</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.automobile mechanic">
+        <source>sub-sectors.automobile mechanic</source>
+        <target>Automobile mechanic</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.bodywork/painting">
+        <source>sub-sectors.bodywork/painting</source>
+        <target>Bodywork/painting</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.motorcycle mechanics">
+        <source>sub-sectors.motorcycle mechanics</source>
+        <target>Motorcycle mechanics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.boat mechanics">
+        <source>sub-sectors.boat mechanics</source>
+        <target>Boat mechanics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.nurse/midwife">
+        <source>sub-sectors.nurse/midwife</source>
+        <target>Nurse/midwife</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.caregiver">
+        <source>sub-sectors.caregiver</source>
+        <target>Caregiver</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.maintenance/cleaning services">
+        <source>sub-sectors.maintenance/cleaning services</source>
+        <target>Maintenance/cleaning services</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.dry cleaning">
+        <source>sub-sectors.dry cleaning</source>
+        <target>Dry cleaning</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.guarding / security">
+        <source>sub-sectors.guarding / security</source>
+        <target>Guarding / security</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.accounting management">
+        <source>sub-sectors.accounting management</source>
+        <target>Accounting management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.administrative management">
+        <source>sub-sectors.administrative management</source>
+        <target>Administrative management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.office secretarial/accounting">
+        <source>sub-sectors.office secretarial/accounting</source>
+        <target>Office secretarial/accounting</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.maritime and river transport">
+        <source>sub-sectors.maritime and river transport</source>
+        <target>Maritime and river transport</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.air transport">
+        <source>sub-sectors.air transport</source>
+        <target>Air Transport</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.land transportation">
+        <source>sub-sectors.land transportation</source>
+        <target>Land transportation</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.rail transport">
+        <source>sub-sectors.rail transport</source>
+        <target>Rail transport</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.domestic and industrial cold and air conditioning">
+        <source>sub-sectors.domestic and industrial cold and air conditioning</source>
+        <target>Domestic and industrial cold and air conditioning</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.driving vehicles, machines and trucks">
+        <source>sub-sectors.driving vehicles, machines and trucks</source>
+        <target>Driving vehicles, machines and trucks</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.inventory management / logistics">
+        <source>sub-sectors.inventory management / logistics</source>
+        <target>Inventory management / logistics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.store management">
+        <source>sub-sectors.store management</source>
+        <target>Store management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.community health worker">
+        <source>sub-sectors.community health worker</source>
+        <target>Community Health Worker</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.international trade">
+        <source>sub-sectors.international trade</source>
+        <target>International trade</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.roads and sanitation">
+        <source>sub-sectors.roads and sanitation</source>
+        <target>Roads and sanitation</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.building design">
+        <source>sub-sectors.building design</source>
+        <target>Building design</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.civil engineering">
+        <source>sub-sectors.civil engineering</source>
+        <target>Civil engineering</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.shoemaking/leather goods">
+        <source>sub-sectors.shoemaking/leather goods</source>
+        <target>Shoemaking/leather goods</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.locksmith">
+        <source>sub-sectors.locksmith</source>
+        <target>Locksmith</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.local development agent">
+        <source>sub-sectors.local development agent</source>
+        <target>Local development agent</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.dyeing">
+        <source>sub-sectors.dyeing</source>
+        <target>Dyeing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.screen printing">
+        <source>sub-sectors.screen printing</source>
+        <target>Screen printing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.embroidery">
+        <source>sub-sectors.embroidery</source>
+        <target>Embroidery</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.horticulture">
+        <source>sub-sectors.horticulture</source>
+        <target>Horticulture</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.pottery/ceramics">
+        <source>sub-sectors.pottery/ceramics</source>
+        <target>Pottery/ceramics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.maintenance of hydraulic systems">
+        <source>sub-sectors.maintenance of hydraulic systems</source>
+        <target>Maintenance of hydraulic systems</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.boilermaking / welding / assembly">
+        <source>sub-sectors.boilermaking / welding / assembly</source>
+        <target>Boilermaking / welding / assembly</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.painting and sanding">
+        <source>sub-sectors.painting and sanding</source>
+        <target>Painting and sanding</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.quality control">
+        <source>sub-sectors.quality control</source>
+        <target>Quality Control</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.work at height">
+        <source>sub-sectors.work at height</source>
+        <target>Work at height</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.mechanical manufacturing">
+        <source>sub-sectors.mechanical manufacturing</source>
+        <target>Mechanical manufacturing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.industrial design">
+        <source>sub-sectors.industrial design</source>
+        <target>Industrial design</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.customs and transit">
+        <source>sub-sectors.customs and transit</source>
+        <target>Customs and transit</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.logistics and transport">
+        <source>sub-sectors.logistics and transport</source>
+        <target>Logistics and transport</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.mechatronics">
+        <source>sub-sectors.mechatronics</source>
+        <target>Mechatronics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.automotive air conditioning">
+        <source>sub-sectors.automotive air conditioning</source>
+        <target>Automotive air conditioning</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.agricultural mechanics">
+        <source>sub-sectors.agricultural mechanics</source>
+        <target>Agricultural mechanics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.beekeeping">
+        <source>sub-sectors.beekeeping</source>
+        <target>Beekeeping</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.medical representative">
+        <source>sub-sectors.medical representative</source>
+        <target>Medical representative</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.pharmacy assistant/pharmacy salesperson">
+        <source>sub-sectors.pharmacy assistant/pharmacy salesperson</source>
+        <target>Pharmacy assistant/pharmacy salesperson</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.medical secretary">
+        <source>sub-sectors.medical secretary</source>
+        <target>Medical secretary</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.driving school">
+        <source>sub-sectors.driving school</source>
+        <target>Driving school</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.bilingual office secretarial services">
+        <source>sub-sectors.bilingual office secretarial services</source>
+        <target>Bilingual office secretarial services</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.office secretarial and accounting assistance">
+        <source>sub-sectors.office secretarial and accounting assistance</source>
+        <target>Office secretarial and accounting assistance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.computerized accounting and management">
+        <source>sub-sectors.computerized accounting and management</source>
+        <target>Computerized accounting and management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.production graphics">
+        <source>sub-sectors.production graphics</source>
+        <target>Production graphics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.commercial and marketing action">
+        <source>sub-sectors.commercial and marketing action</source>
+        <target>Commercial and marketing action</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.taxation">
+        <source>sub-sectors.taxation</source>
+        <target>Taxation</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.maintenance of copiers">
+        <source>sub-sectors.maintenance of copiers</source>
+        <target>Maintenance of copiers</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.maintenance of mobile equipment">
+        <source>sub-sectors.maintenance of mobile equipment</source>
+        <target>Maintenance of mobile equipment</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.networks and telecom">
+        <source>sub-sectors.networks and telecom</source>
+        <target>Networks and telecom</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.audio-visual editing">
+        <source>sub-sectors.audio-visual editing</source>
+        <target>Audio-visual editing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.driving machines and using hitches">
+        <source>sub-sectors.driving machines and using hitches</source>
+        <target>Driving machines and using hitches</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.food crops">
+        <source>sub-sectors.food crops</source>
+        <target>Food crops</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.big cultures">
+        <source>sub-sectors.big cultures</source>
+        <target>Big cultures</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.plants and seeds">
+        <source>sub-sectors.plants and seeds</source>
+        <target>Plants and seeds</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.autocad">
+        <source>sub-sectors.autocad</source>
+        <target>AUTOCAD</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.solid works">
+        <source>sub-sectors.solid works</source>
+        <target>SOLID WORKS</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.infographics">
+        <source>sub-sectors.infographics</source>
+        <target>Infographics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.applied statistics">
+        <source>sub-sectors.applied statistics</source>
+        <target>Applied statistics</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.information and communication technology">
+        <source>sub-sectors.information and communication technology</source>
+        <target>Information and communication technology</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.equipment electricity">
+        <source>sub-sectors.equipment electricity</source>
+        <target>Equipment Electricity</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.mining operator">
+        <source>sub-sectors.mining operator</source>
+        <target>Mining Operator</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.building painting">
+        <source>sub-sectors.building painting</source>
+        <target>Building painting</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.general mechanic">
+        <source>sub-sectors.general mechanic</source>
+        <target>General mechanic</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.works manager">
+        <source>sub-sectors.works manager</source>
+        <target>Works manager</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.chemist help">
+        <source>sub-sectors.chemist help</source>
+        <target>Chemist help</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.care assistant">
+        <source>sub-sectors.care assistant</source>
+        <target>Care assistant</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.paramedic">
+        <source>sub-sectors.paramedic</source>
+        <target>Paramedic</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.first aid">
+        <source>sub-sectors.first aid</source>
+        <target>First aid</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.laboratory technical agent">
+        <source>sub-sectors.laboratory technical agent</source>
+        <target>Laboratory technical agent</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.massage therapy">
+        <source>sub-sectors.massage therapy</source>
+        <target>Massage therapy</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.radiology assistant">
+        <source>sub-sectors.radiology assistant</source>
+        <target>Radiology assistant</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.assistant laboratory technician">
+        <source>sub-sectors.assistant laboratory technician</source>
+        <target>Assistant laboratory technician</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.maintenance of biomedical devices">
+        <source>sub-sectors.maintenance of biomedical devices</source>
+        <target>Maintenance of biomedical devices</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.renewable energy">
+        <source>sub-sectors.renewable energy</source>
+        <target>renewable energy</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.preparer">
+        <source>sub-sectors.preparer</source>
+        <target>Preparer</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.non-destructive testing">
+        <source>sub-sectors.non-destructive testing</source>
+        <target>Non-destructive testing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.supervisor">
+        <source>sub-sectors.supervisor</source>
+        <target>Supervisor</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.designer">
+        <source>sub-sectors.designer</source>
+        <target>Designer</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.producer">
+        <source>sub-sectors.producer</source>
+        <target>Producer</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.refining and distribution">
+        <source>sub-sectors.refining and distribution</source>
+        <target>Refining and distribution</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.electricity and instrumentation">
+        <source>sub-sectors.electricity and instrumentation</source>
+        <target>Electricity and instrumentation</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.industrial operator">
+        <source>sub-sectors.industrial operator</source>
+        <target>Industrial operator</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.software operator">
+        <source>sub-sectors.software operator</source>
+        <target>Software operator</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.computer assisted drawing">
+        <source>sub-sectors.computer assisted drawing</source>
+        <target>Computer Assisted drawing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.digital marketing">
+        <source>sub-sectors.digital marketing</source>
+        <target>Digital marketing</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.project management">
+        <source>sub-sectors.project management</source>
+        <target>Project management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.human resource management">
+        <source>sub-sectors.human resource management</source>
+        <target>Human Resource Management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.company advice">
+        <source>sub-sectors.company advice</source>
+        <target>company advice</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.management">
+        <source>sub-sectors.management</source>
+        <target>Management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.budget management">
+        <source>sub-sectors.budget management</source>
+        <target>Budget management</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.banking and microfinance">
+        <source>sub-sectors.banking and microfinance</source>
+        <target>Banking and microfinance</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.financial analysis">
+        <source>sub-sectors.financial analysis</source>
+        <target>Financial analysis</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.advice and sale of cosmetic products">
+        <source>sub-sectors.advice and sale of cosmetic products</source>
+        <target>Advice and sale of cosmetic products</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.mechanics of motorcycles and small engines">
+        <source>sub-sectors.mechanics of motorcycles and small engines</source>
+        <target>Mechanics of motorcycles and small engines</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.agro-pastoral">
+        <source>sub-sectors.agro-pastoral</source>
+        <target>Agro-pastoral</target>
+      </trans-unit>
+      <trans-unit id="sub-sectors.agri-food">
+        <source>sub-sectors.agri-food</source>
+        <target>Agri-food</target>
+      </trans-unit>
+      <trans-unit id="country.afghanistan">
+        <source>country.afghanistan</source>
+        <target>Afghanistan</target>
+      </trans-unit>
+      <trans-unit id="country.south_africa">
+        <source>country.south_africa</source>
+        <target>South Africa</target>
+      </trans-unit>
+      <trans-unit id="country.albania">
+        <source>country.albania</source>
+        <target>Albania</target>
+      </trans-unit>
+      <trans-unit id="country.algeria">
+        <source>country.algeria</source>
+        <target>Algeria</target>
+      </trans-unit>
+      <trans-unit id="country.germany">
+        <source>country.germany</source>
+        <target>Germany</target>
+      </trans-unit>
+      <trans-unit id="country.andorra">
+        <source>country.andorra</source>
+        <target>Andorra</target>
+      </trans-unit>
+      <trans-unit id="country.angola">
+        <source>country.angola</source>
+        <target>Angola</target>
+      </trans-unit>
+      <trans-unit id="country.anguilla">
+        <source>country.anguilla</source>
+        <target>Anguilla</target>
+      </trans-unit>
+      <trans-unit id="country.antigua_and_barbuda">
+        <source>country.antigua_and_barbuda</source>
+        <target>Antigua and Barbuda</target>
+      </trans-unit>
+      <trans-unit id="country.netherlands_antilles">
+        <source>country.netherlands_antilles</source>
+        <target>Netherlands Antilles</target>
+      </trans-unit>
+      <trans-unit id="country.saudi_arabia">
+        <source>country.saudi_arabia</source>
+        <target>Saudi Arabia</target>
+      </trans-unit>
+      <trans-unit id="country.argentine">
+        <source>country.argentine</source>
+        <target>Argentine</target>
+      </trans-unit>
+      <trans-unit id="country.armenia">
+        <source>country.armenia</source>
+        <target>Armenia</target>
+      </trans-unit>
+      <trans-unit id="country.aruba">
+        <source>country.aruba</source>
+        <target>Aruba</target>
+      </trans-unit>
+      <trans-unit id="country.australia">
+        <source>country.australia</source>
+        <target>Australia</target>
+      </trans-unit>
+      <trans-unit id="country.austria">
+        <source>country.austria</source>
+        <target>Austria</target>
+      </trans-unit>
+      <trans-unit id="country.azerbaijan">
+        <source>country.azerbaijan</source>
+        <target>Azerbaijan</target>
+      </trans-unit>
+      <trans-unit id="country.bahamas">
+        <source>country.bahamas</source>
+        <target>Bahamas</target>
+      </trans-unit>
+      <trans-unit id="country.bahrain">
+        <source>country.bahrain</source>
+        <target>Bahrain</target>
+      </trans-unit>
+      <trans-unit id="country.bangladesh">
+        <source>country.bangladesh</source>
+        <target>Bangladesh</target>
+      </trans-unit>
+      <trans-unit id="country.barbados">
+        <source>country.barbados</source>
+        <target>Barbados</target>
+      </trans-unit>
+      <trans-unit id="country.belgium">
+        <source>country.belgium</source>
+        <target>Belgium</target>
+      </trans-unit>
+      <trans-unit id="country.belize">
+        <source>country.belize</source>
+        <target>Belize</target>
+      </trans-unit>
+      <trans-unit id="country.benign">
+        <source>country.benign</source>
+        <target>Benign</target>
+      </trans-unit>
+      <trans-unit id="country.bermuda">
+        <source>country.bermuda</source>
+        <target>Bermuda</target>
+      </trans-unit>
+      <trans-unit id="country.bhutan">
+        <source>country.bhutan</source>
+        <target>Bhutan</target>
+      </trans-unit>
+      <trans-unit id="country.belarus">
+        <source>country.belarus</source>
+        <target>Belarus</target>
+      </trans-unit>
+      <trans-unit id="country.burma_myanmar">
+        <source>country.burma_myanmar</source>
+        <target>Burma (Myanmar)</target>
+      </trans-unit>
+      <trans-unit id="country.bolivia">
+        <source>country.bolivia</source>
+        <target>Bolivia</target>
+      </trans-unit>
+      <trans-unit id="country.bosnia_and_herzegovina">
+        <source>country.bosnia_and_herzegovina</source>
+        <target>Bosnia and Herzegovina</target>
+      </trans-unit>
+      <trans-unit id="country.botswana">
+        <source>country.botswana</source>
+        <target>Botswana</target>
+      </trans-unit>
+      <trans-unit id="country.brazil">
+        <source>country.brazil</source>
+        <target>Brazil</target>
+      </trans-unit>
+      <trans-unit id="country.brunei">
+        <source>country.brunei</source>
+        <target>Brunei</target>
+      </trans-unit>
+      <trans-unit id="country.bulgaria">
+        <source>country.bulgaria</source>
+        <target>Bulgaria</target>
+      </trans-unit>
+      <trans-unit id="country.burkina_faso">
+        <source>country.burkina_faso</source>
+        <target>Burkina Faso</target>
+      </trans-unit>
+      <trans-unit id="country.burundi">
+        <source>country.burundi</source>
+        <target>Burundi</target>
+      </trans-unit>
+      <trans-unit id="country.cambodia">
+        <source>country.cambodia</source>
+        <target>Cambodia</target>
+      </trans-unit>
+      <trans-unit id="country.cameroon">
+        <source>country.cameroon</source>
+        <target>Cameroon</target>
+      </trans-unit>
+      <trans-unit id="country.canada">
+        <source>country.canada</source>
+        <target>Canada</target>
+      </trans-unit>
+      <trans-unit id="country.green_cap">
+        <source>country.green_cap</source>
+        <target>green cap</target>
+      </trans-unit>
+      <trans-unit id="country.chili">
+        <source>country.chili</source>
+        <target>Chili</target>
+      </trans-unit>
+      <trans-unit id="country.spine">
+        <source>country.spine</source>
+        <target>Spine</target>
+      </trans-unit>
+      <trans-unit id="country.cyprus">
+        <source>country.cyprus</source>
+        <target>Cyprus</target>
+      </trans-unit>
+      <trans-unit id="country.colombia">
+        <source>country.colombia</source>
+        <target>Colombia</target>
+      </trans-unit>
+      <trans-unit id="country.comoros">
+        <source>country.comoros</source>
+        <target>Comoros</target>
+      </trans-unit>
+      <trans-unit id="country.north_korea">
+        <source>country.north_korea</source>
+        <target>North Korea</target>
+      </trans-unit>
+      <trans-unit id="country.south_korea">
+        <source>country.south_korea</source>
+        <target>South Korea</target>
+      </trans-unit>
+      <trans-unit id="country.costa_rica">
+        <source>country.costa_rica</source>
+        <target>Costa Rica</target>
+      </trans-unit>
+      <trans-unit id="country.ivory_coast">
+        <source>country.ivory_coast</source>
+        <target>Ivory Coast</target>
+      </trans-unit>
+      <trans-unit id="country.croatia">
+        <source>country.croatia</source>
+        <target>Croatia</target>
+      </trans-unit>
+      <trans-unit id="country.cuba">
+        <source>country.cuba</source>
+        <target>Cuba</target>
+      </trans-unit>
+      <trans-unit id="country.denmark">
+        <source>country.denmark</source>
+        <target>Denmark</target>
+      </trans-unit>
+      <trans-unit id="country.djibouti">
+        <source>country.djibouti</source>
+        <target>Djibouti</target>
+      </trans-unit>
+      <trans-unit id="country.dominic">
+        <source>country.dominic</source>
+        <target>Dominic</target>
+      </trans-unit>
+      <trans-unit id="country.egypt">
+        <source>country.egypt</source>
+        <target>Egypt</target>
+      </trans-unit>
+      <trans-unit id="country.united_arab_emirates">
+        <source>country.united_arab_emirates</source>
+        <target>United Arab Emirates</target>
+      </trans-unit>
+      <trans-unit id="country.ecuador">
+        <source>country.ecuador</source>
+        <target>Ecuador</target>
+      </trans-unit>
+      <trans-unit id="country.eritrea">
+        <source>country.eritrea</source>
+        <target>Eritrea</target>
+      </trans-unit>
+      <trans-unit id="country.spain">
+        <source>country.spain</source>
+        <target>Spain</target>
+      </trans-unit>
+      <trans-unit id="country.estonia">
+        <source>country.estonia</source>
+        <target>Estonia</target>
+      </trans-unit>
+      <trans-unit id="country.eswatini">
+        <source>country.eswatini</source>
+        <target>Eswatini</target>
+      </trans-unit>
+      <trans-unit id="country.federated_states_of_micronesia">
+        <source>country.federated_states_of_micronesia</source>
+        <target>Federated States of Micronesia</target>
+      </trans-unit>
+      <trans-unit id="country.united_states">
+        <source>country.united_states</source>
+        <target>UNITED STATES</target>
+      </trans-unit>
+      <trans-unit id="country.ethiopia">
+        <source>country.ethiopia</source>
+        <target>Ethiopia</target>
+      </trans-unit>
+      <trans-unit id="country.fiji">
+        <source>country.fiji</source>
+        <target>Fiji</target>
+      </trans-unit>
+      <trans-unit id="country.finland">
+        <source>country.finland</source>
+        <target>Finland</target>
+      </trans-unit>
+      <trans-unit id="country.france">
+        <source>country.france</source>
+        <target>France</target>
+      </trans-unit>
+      <trans-unit id="country.gabon">
+        <source>country.gabon</source>
+        <target>Gabon</target>
+      </trans-unit>
+      <trans-unit id="country.gambia">
+        <source>country.gambia</source>
+        <target>Gambia</target>
+      </trans-unit>
+      <trans-unit id="country.georgia">
+        <source>country.georgia</source>
+        <target>Georgia</target>
+      </trans-unit>
+      <trans-unit id="country.south_georgia_and_the_south_sandwich_islands">
+        <source>country.south_georgia_and_the_south_sandwich_islands</source>
+        <target>South Georgia and the South Sandwich Islands</target>
+      </trans-unit>
+      <trans-unit id="country.ghana">
+        <source>country.ghana</source>
+        <target>Ghana</target>
+      </trans-unit>
+      <trans-unit id="country.gibraltar">
+        <source>country.gibraltar</source>
+        <target>Gibraltar</target>
+      </trans-unit>
+      <trans-unit id="country.greece">
+        <source>country.greece</source>
+        <target>Greece</target>
+      </trans-unit>
+      <trans-unit id="country.grenade">
+        <source>country.grenade</source>
+        <target>Grenade</target>
+      </trans-unit>
+      <trans-unit id="country.greenland">
+        <source>country.greenland</source>
+        <target>Greenland</target>
+      </trans-unit>
+      <trans-unit id="country.guadeloupe">
+        <source>country.guadeloupe</source>
+        <target>Guadeloupe</target>
+      </trans-unit>
+      <trans-unit id="country.guam">
+        <source>country.guam</source>
+        <target>Guam</target>
+      </trans-unit>
+      <trans-unit id="country.guatemala">
+        <source>country.guatemala</source>
+        <target>Guatemala</target>
+      </trans-unit>
+      <trans-unit id="country.guinea">
+        <source>country.guinea</source>
+        <target>Guinea</target>
+      </trans-unit>
+      <trans-unit id="country.equatorial_guinea">
+        <source>country.equatorial_guinea</source>
+        <target>Equatorial Guinea</target>
+      </trans-unit>
+      <trans-unit id="country.guinea-bissau">
+        <source>country.guinea-bissau</source>
+        <target>Guinea-Bissau</target>
+      </trans-unit>
+      <trans-unit id="country.guyana">
+        <source>country.guyana</source>
+        <target>Guyana</target>
+      </trans-unit>
+      <trans-unit id="country.french_guiana">
+        <source>country.french_guiana</source>
+        <target>French Guiana</target>
+      </trans-unit>
+      <trans-unit id="country.haiti">
+        <source>country.haiti</source>
+        <target>Haiti</target>
+      </trans-unit>
+      <trans-unit id="country.honduras">
+        <source>country.honduras</source>
+        <target>Honduras</target>
+      </trans-unit>
+      <trans-unit id="country.hong_kong">
+        <source>country.hong_kong</source>
+        <target>Hong Kong</target>
+      </trans-unit>
+      <trans-unit id="country.hungary">
+        <source>country.hungary</source>
+        <target>Hungary</target>
+      </trans-unit>
+      <trans-unit id="country.isle_of_man">
+        <source>country.isle_of_man</source>
+        <target>Isle of man</target>
+      </trans-unit>
+      <trans-unit id="country.christmas_island">
+        <source>country.christmas_island</source>
+        <target>Christmas Island</target>
+      </trans-unit>
+      <trans-unit id="country.norfolk_island">
+        <source>country.norfolk_island</source>
+        <target>Norfolk Island</target>
+      </trans-unit>
+      <trans-unit id="country.åland_islands">
+        <source>country.åland_islands</source>
+        <target>Åland Islands</target>
+      </trans-unit>
+      <trans-unit id="country.cayman_islands">
+        <source>country.cayman_islands</source>
+        <target>Cayman Islands</target>
+      </trans-unit>
+      <trans-unit id="country.cocos_keeling_islands">
+        <source>country.cocos_keeling_islands</source>
+        <target>Cocos (Keeling) Islands</target>
+      </trans-unit>
+      <trans-unit id="country.cook_islands">
+        <source>country.cook_islands</source>
+        <target>Cook Islands</target>
+      </trans-unit>
+      <trans-unit id="country.faroe_islands">
+        <source>country.faroe_islands</source>
+        <target>Faroe Islands</target>
+      </trans-unit>
+      <trans-unit id="country.falkland_islands">
+        <source>country.falkland_islands</source>
+        <target>Falkland Islands</target>
+      </trans-unit>
+      <trans-unit id="country.northern_mariana_islands">
+        <source>country.northern_mariana_islands</source>
+        <target>Northern Mariana Islands</target>
+      </trans-unit>
+      <trans-unit id="country.marshall_islands">
+        <source>country.marshall_islands</source>
+        <target>Marshall Islands</target>
+      </trans-unit>
+      <trans-unit id="country.pitcairn_islands">
+        <source>country.pitcairn_islands</source>
+        <target>Pitcairn Islands</target>
+      </trans-unit>
+      <trans-unit id="country.solomon_islands">
+        <source>country.solomon_islands</source>
+        <target>Solomon Islands</target>
+      </trans-unit>
+      <trans-unit id="country.turks_and_caicos_islands">
+        <source>country.turks_and_caicos_islands</source>
+        <target>Turks and Caicos Islands</target>
+      </trans-unit>
+      <trans-unit id="country.united_states_virgin_islands">
+        <source>country.united_states_virgin_islands</source>
+        <target>United States Virgin Islands</target>
+      </trans-unit>
+      <trans-unit id="country.british_virgin_islands">
+        <source>country.british_virgin_islands</source>
+        <target>British Virgin Islands</target>
+      </trans-unit>
+      <trans-unit id="country.india">
+        <source>country.india</source>
+        <target>India</target>
+      </trans-unit>
+      <trans-unit id="country.indonesia">
+        <source>country.indonesia</source>
+        <target>Indonesia</target>
+      </trans-unit>
+      <trans-unit id="country.iran">
+        <source>country.iran</source>
+        <target>Iran</target>
+      </trans-unit>
+      <trans-unit id="country.iraq">
+        <source>country.iraq</source>
+        <target>Iraq</target>
+      </trans-unit>
+      <trans-unit id="country.ireland">
+        <source>country.ireland</source>
+        <target>Ireland</target>
+      </trans-unit>
+      <trans-unit id="country.island">
+        <source>country.island</source>
+        <target>Island</target>
+      </trans-unit>
+      <trans-unit id="country.israel">
+        <source>country.israel</source>
+        <target>Israel</target>
+      </trans-unit>
+      <trans-unit id="country.italy">
+        <source>country.italy</source>
+        <target>Italy</target>
+      </trans-unit>
+      <trans-unit id="country.jamaica">
+        <source>country.jamaica</source>
+        <target>Jamaica</target>
+      </trans-unit>
+      <trans-unit id="country.japan">
+        <source>country.japan</source>
+        <target>Japan</target>
+      </trans-unit>
+      <trans-unit id="country.jordan">
+        <source>country.jordan</source>
+        <target>Jordan</target>
+      </trans-unit>
+      <trans-unit id="country.kazakhstan">
+        <source>country.kazakhstan</source>
+        <target>Kazakhstan</target>
+      </trans-unit>
+      <trans-unit id="country.kenya">
+        <source>country.kenya</source>
+        <target>Kenya</target>
+      </trans-unit>
+      <trans-unit id="country.kyrgyzstan">
+        <source>country.kyrgyzstan</source>
+        <target>Kyrgyzstan</target>
+      </trans-unit>
+      <trans-unit id="country.kiribati">
+        <source>country.kiribati</source>
+        <target>Kiribati</target>
+      </trans-unit>
+      <trans-unit id="country.kuwait">
+        <source>country.kuwait</source>
+        <target>Kuwait</target>
+      </trans-unit>
+      <trans-unit id="country.laos">
+        <source>country.laos</source>
+        <target>Laos</target>
+      </trans-unit>
+      <trans-unit id="country.the_vatican">
+        <source>country.the_vatican</source>
+        <target>The Vatican</target>
+      </trans-unit>
+      <trans-unit id="country.lesotho">
+        <source>country.lesotho</source>
+        <target>Lesotho</target>
+      </trans-unit>
+      <trans-unit id="country.latvia">
+        <source>country.latvia</source>
+        <target>Latvia</target>
+      </trans-unit>
+      <trans-unit id="country.lebanon">
+        <source>country.lebanon</source>
+        <target>Lebanon</target>
+      </trans-unit>
+      <trans-unit id="country.liberia">
+        <source>country.liberia</source>
+        <target>Liberia</target>
+      </trans-unit>
+      <trans-unit id="country.libya">
+        <source>country.libya</source>
+        <target>Libya</target>
+      </trans-unit>
+      <trans-unit id="country.liechtenstein">
+        <source>country.liechtenstein</source>
+        <target>Liechtenstein</target>
+      </trans-unit>
+      <trans-unit id="country.lithuania">
+        <source>country.lithuania</source>
+        <target>Lithuania</target>
+      </trans-unit>
+      <trans-unit id="country.luxembourg">
+        <source>country.luxembourg</source>
+        <target>Luxembourg</target>
+      </trans-unit>
+      <trans-unit id="country.macau">
+        <source>country.macau</source>
+        <target>Macau</target>
+      </trans-unit>
+      <trans-unit id="country.north_macedonia">
+        <source>country.north_macedonia</source>
+        <target>North Macedonia</target>
+      </trans-unit>
+      <trans-unit id="country.madagascar">
+        <source>country.madagascar</source>
+        <target>Madagascar</target>
+      </trans-unit>
+      <trans-unit id="country.malaysia">
+        <source>country.malaysia</source>
+        <target>Malaysia</target>
+      </trans-unit>
+      <trans-unit id="country.malawi">
+        <source>country.malawi</source>
+        <target>Malawi</target>
+      </trans-unit>
+      <trans-unit id="country.maldives">
+        <source>country.maldives</source>
+        <target>Maldives</target>
+      </trans-unit>
+      <trans-unit id="country.mali">
+        <source>country.mali</source>
+        <target>Mali</target>
+      </trans-unit>
+      <trans-unit id="country.malta">
+        <source>country.malta</source>
+        <target>Malta</target>
+      </trans-unit>
+      <trans-unit id="country.morocco">
+        <source>country.morocco</source>
+        <target>Morocco</target>
+      </trans-unit>
+      <trans-unit id="country.martinique">
+        <source>country.martinique</source>
+        <target>Martinique</target>
+      </trans-unit>
+      <trans-unit id="country.mauritius">
+        <source>country.mauritius</source>
+        <target>Mauritius</target>
+      </trans-unit>
+      <trans-unit id="country.mauritania">
+        <source>country.mauritania</source>
+        <target>Mauritania</target>
+      </trans-unit>
+      <trans-unit id="country.mayotte">
+        <source>country.mayotte</source>
+        <target>Mayotte</target>
+      </trans-unit>
+      <trans-unit id="country.mexico">
+        <source>country.mexico</source>
+        <target>Mexico</target>
+      </trans-unit>
+      <trans-unit id="country.moldova">
+        <source>country.moldova</source>
+        <target>Moldova</target>
+      </trans-unit>
+      <trans-unit id="country.mongolia">
+        <source>country.mongolia</source>
+        <target>Mongolia</target>
+      </trans-unit>
+      <trans-unit id="country.montenegro">
+        <source>country.montenegro</source>
+        <target>Montenegro</target>
+      </trans-unit>
+      <trans-unit id="country.montserrat">
+        <source>country.montserrat</source>
+        <target>Montserrat</target>
+      </trans-unit>
+      <trans-unit id="country.mozambique">
+        <source>country.mozambique</source>
+        <target>Mozambique</target>
+      </trans-unit>
+      <trans-unit id="country.namibia">
+        <source>country.namibia</source>
+        <target>Namibia</target>
+      </trans-unit>
+      <trans-unit id="country.nauru">
+        <source>country.nauru</source>
+        <target>Nauru</target>
+      </trans-unit>
+      <trans-unit id="country.nepal">
+        <source>country.nepal</source>
+        <target>Nepal</target>
+      </trans-unit>
+      <trans-unit id="country.nicaragua">
+        <source>country.nicaragua</source>
+        <target>Nicaragua</target>
+      </trans-unit>
+      <trans-unit id="country.niger">
+        <source>country.niger</source>
+        <target>Niger</target>
+      </trans-unit>
+      <trans-unit id="country.nigeria">
+        <source>country.nigeria</source>
+        <target>Nigeria</target>
+      </trans-unit>
+      <trans-unit id="country.niue">
+        <source>country.niue</source>
+        <target>Niue</target>
+      </trans-unit>
+      <trans-unit id="country.norway">
+        <source>country.norway</source>
+        <target>Norway</target>
+      </trans-unit>
+      <trans-unit id="country.new_caledonia">
+        <source>country.new_caledonia</source>
+        <target>New Caledonia</target>
+      </trans-unit>
+      <trans-unit id="country.new_zealand">
+        <source>country.new_zealand</source>
+        <target>New Zealand</target>
+      </trans-unit>
+      <trans-unit id="country.oman">
+        <source>country.oman</source>
+        <target>Oman</target>
+      </trans-unit>
+      <trans-unit id="country.uganda">
+        <source>country.uganda</source>
+        <target>Uganda</target>
+      </trans-unit>
+      <trans-unit id="country.uzbekistan">
+        <source>country.uzbekistan</source>
+        <target>Uzbekistan</target>
+      </trans-unit>
+      <trans-unit id="country.pakistan">
+        <source>country.pakistan</source>
+        <target>Pakistan</target>
+      </trans-unit>
+      <trans-unit id="country.palau">
+        <source>country.palau</source>
+        <target>Palau</target>
+      </trans-unit>
+      <trans-unit id="country.panama">
+        <source>country.panama</source>
+        <target>Panama</target>
+      </trans-unit>
+      <trans-unit id="country.papua_new_guinea">
+        <source>country.papua_new_guinea</source>
+        <target>Papua New Guinea</target>
+      </trans-unit>
+      <trans-unit id="country.paraguay">
+        <source>country.paraguay</source>
+        <target>Paraguay</target>
+      </trans-unit>
+      <trans-unit id="country.the_netherlands">
+        <source>country.the_netherlands</source>
+        <target>The Netherlands</target>
+      </trans-unit>
+      <trans-unit id="country.peru">
+        <source>country.peru</source>
+        <target>Peru</target>
+      </trans-unit>
+      <trans-unit id="country.philippines">
+        <source>country.philippines</source>
+        <target>Philippines</target>
+      </trans-unit>
+      <trans-unit id="country.poland">
+        <source>country.poland</source>
+        <target>Poland</target>
+      </trans-unit>
+      <trans-unit id="country.french_polynesia">
+        <source>country.french_polynesia</source>
+        <target>French Polynesia</target>
+      </trans-unit>
+      <trans-unit id="country.porto_rico">
+        <source>country.porto_rico</source>
+        <target>Porto Rico</target>
+      </trans-unit>
+      <trans-unit id="country.portugal">
+        <source>country.portugal</source>
+        <target>Portugal</target>
+      </trans-unit>
+      <trans-unit id="country.monaco">
+        <source>country.monaco</source>
+        <target>Monaco</target>
+      </trans-unit>
+      <trans-unit id="country.qatar">
+        <source>country.qatar</source>
+        <target>Qatar</target>
+      </trans-unit>
+      <trans-unit id="country.central_african_republic">
+        <source>country.central_african_republic</source>
+        <target>Central African Republic</target>
+      </trans-unit>
+      <trans-unit id="country.democratic_republic_of_congo">
+        <source>country.democratic_republic_of_congo</source>
+        <target>Democratic Republic of Congo</target>
+      </trans-unit>
+      <trans-unit id="country.dominican_republic">
+        <source>country.dominican_republic</source>
+        <target>Dominican Republic</target>
+      </trans-unit>
+      <trans-unit id="country.republic_of_congo">
+        <source>country.republic_of_congo</source>
+        <target>Republic of Congo</target>
+      </trans-unit>
+      <trans-unit id="country.czech_republic">
+        <source>country.czech_republic</source>
+        <target>Czech Republic</target>
+      </trans-unit>
+      <trans-unit id="country.meeting">
+        <source>country.meeting</source>
+        <target>Meeting</target>
+      </trans-unit>
+      <trans-unit id="country.romania">
+        <source>country.romania</source>
+        <target>Romania</target>
+      </trans-unit>
+      <trans-unit id="country.united_kingdom">
+        <source>country.united_kingdom</source>
+        <target>United Kingdom</target>
+      </trans-unit>
+      <trans-unit id="country.russia">
+        <source>country.russia</source>
+        <target>Russia</target>
+      </trans-unit>
+      <trans-unit id="country.rwanda">
+        <source>country.rwanda</source>
+        <target>Rwanda</target>
+      </trans-unit>
+      <trans-unit id="country.saint_barthelemy">
+        <source>country.saint_barthelemy</source>
+        <target>Saint Barthélemy</target>
+      </trans-unit>
+      <trans-unit id="country.saint_helena">
+        <source>country.saint_helena</source>
+        <target>Saint Helena</target>
+      </trans-unit>
+      <trans-unit id="country.st._lucia">
+        <source>country.st._lucia</source>
+        <target>St. LUCIA</target>
+      </trans-unit>
+      <trans-unit id="country.saint_kitts_and_nevis">
+        <source>country.saint_kitts_and_nevis</source>
+        <target>Saint Kitts and Nevis</target>
+      </trans-unit>
+      <trans-unit id="country.san_marino">
+        <source>country.san_marino</source>
+        <target>San Marino</target>
+      </trans-unit>
+      <trans-unit id="country.saint_pierre_and_miquelon">
+        <source>country.saint_pierre_and_miquelon</source>
+        <target>Saint Pierre and Miquelon</target>
+      </trans-unit>
+      <trans-unit id="country.saint_vincent_and_the_grenadines">
+        <source>country.saint_vincent_and_the_grenadines</source>
+        <target>Saint Vincent and the Grenadines</target>
+      </trans-unit>
+      <trans-unit id="country.el_salvador">
+        <source>country.el_salvador</source>
+        <target>El Salvador</target>
+      </trans-unit>
+      <trans-unit id="country.samoa">
+        <source>country.samoa</source>
+        <target>Samoa</target>
+      </trans-unit>
+      <trans-unit id="country.american_samoa">
+        <source>country.american_samoa</source>
+        <target>American Samoa</target>
+      </trans-unit>
+      <trans-unit id="country.sao_tome_and_principe">
+        <source>country.sao_tome_and_principe</source>
+        <target>Sao Tome and Principe</target>
+      </trans-unit>
+      <trans-unit id="country.senegal">
+        <source>country.senegal</source>
+        <target>Senegal</target>
+      </trans-unit>
+      <trans-unit id="country.serbia">
+        <source>country.serbia</source>
+        <target>Serbia</target>
+      </trans-unit>
+      <trans-unit id="country.seychelles">
+        <source>country.seychelles</source>
+        <target>Seychelles</target>
+      </trans-unit>
+      <trans-unit id="country.sierra_leone">
+        <source>country.sierra_leone</source>
+        <target>Sierra Leone</target>
+      </trans-unit>
+      <trans-unit id="country.singapore">
+        <source>country.singapore</source>
+        <target>Singapore</target>
+      </trans-unit>
+      <trans-unit id="country.slovakia">
+        <source>country.slovakia</source>
+        <target>Slovakia</target>
+      </trans-unit>
+      <trans-unit id="country.slovenia">
+        <source>country.slovenia</source>
+        <target>Slovenia</target>
+      </trans-unit>
+      <trans-unit id="country.somalia">
+        <source>country.somalia</source>
+        <target>Somalia</target>
+      </trans-unit>
+      <trans-unit id="country.sudan">
+        <source>country.sudan</source>
+        <target>Sudan</target>
+      </trans-unit>
+      <trans-unit id="country.south_sudan">
+        <source>country.south_sudan</source>
+        <target>South Sudan</target>
+      </trans-unit>
+      <trans-unit id="country.sri_lanka">
+        <source>country.sri_lanka</source>
+        <target>Sri Lanka</target>
+      </trans-unit>
+      <trans-unit id="country.sweden">
+        <source>country.sweden</source>
+        <target>Sweden</target>
+      </trans-unit>
+      <trans-unit id="country.swiss">
+        <source>country.swiss</source>
+        <target>Swiss</target>
+      </trans-unit>
+      <trans-unit id="country.suriname">
+        <source>country.suriname</source>
+        <target>Suriname</target>
+      </trans-unit>
+      <trans-unit id="country.svalbard_and_jan_mayen">
+        <source>country.svalbard_and_jan_mayen</source>
+        <target>Svalbard and Jan Mayen</target>
+      </trans-unit>
+      <trans-unit id="country.swaziland">
+        <source>country.swaziland</source>
+        <target>Swaziland</target>
+      </trans-unit>
+      <trans-unit id="country.syria">
+        <source>country.syria</source>
+        <target>Syria</target>
+      </trans-unit>
+      <trans-unit id="country.tajikistan">
+        <source>country.tajikistan</source>
+        <target>Tajikistan</target>
+      </trans-unit>
+      <trans-unit id="country.taiwan">
+        <source>country.taiwan</source>
+        <target>Taiwan</target>
+      </trans-unit>
+      <trans-unit id="country.tanzania">
+        <source>country.tanzania</source>
+        <target>Tanzania</target>
+      </trans-unit>
+      <trans-unit id="country.chad">
+        <source>country.chad</source>
+        <target>Chad</target>
+      </trans-unit>
+      <trans-unit id="country.french_southern_lands">
+        <source>country.french_southern_lands</source>
+        <target>French Southern Lands</target>
+      </trans-unit>
+      <trans-unit id="country.thailand">
+        <source>country.thailand</source>
+        <target>Thailand</target>
+      </trans-unit>
+      <trans-unit id="country.east_timor">
+        <source>country.east_timor</source>
+        <target>East Timor</target>
+      </trans-unit>
+      <trans-unit id="country.togo">
+        <source>country.togo</source>
+        <target>Togo</target>
+      </trans-unit>
+      <trans-unit id="country.tonga">
+        <source>country.tonga</source>
+        <target>Tonga</target>
+      </trans-unit>
+      <trans-unit id="country.trinidad_and_tobago">
+        <source>country.trinidad_and_tobago</source>
+        <target>Trinidad and Tobago</target>
+      </trans-unit>
+      <trans-unit id="country.tunisia">
+        <source>country.tunisia</source>
+        <target>Tunisia</target>
+      </trans-unit>
+      <trans-unit id="country.turkmenistan">
+        <source>country.turkmenistan</source>
+        <target>Turkmenistan</target>
+      </trans-unit>
+      <trans-unit id="country.türkiye">
+        <source>country.türkiye</source>
+        <target>Türkiye</target>
+      </trans-unit>
+      <trans-unit id="country.tuvalu">
+        <source>country.tuvalu</source>
+        <target>Tuvalu</target>
+      </trans-unit>
+      <trans-unit id="country.ukraine">
+        <source>country.ukraine</source>
+        <target>Ukraine</target>
+      </trans-unit>
+      <trans-unit id="country.uruguay">
+        <source>country.uruguay</source>
+        <target>Uruguay</target>
+      </trans-unit>
+      <trans-unit id="country.vanuatu">
+        <source>country.vanuatu</source>
+        <target>Vanuatu</target>
+      </trans-unit>
+      <trans-unit id="country.venezuela">
+        <source>country.venezuela</source>
+        <target>Venezuela</target>
+      </trans-unit>
+      <trans-unit id="country.vietnam">
+        <source>country.vietnam</source>
+        <target>Vietnam</target>
+      </trans-unit>
+      <trans-unit id="country.wallis_and_futuna">
+        <source>country.wallis_and_futuna</source>
+        <target>Wallis and futuna</target>
+      </trans-unit>
+      <trans-unit id="country.yemen">
+        <source>country.yemen</source>
+        <target>Yemen</target>
+      </trans-unit>
+      <trans-unit id="country.zambia">
+        <source>country.zambia</source>
+        <target>Zambia</target>
+      </trans-unit>
+      <trans-unit id="country.zimbabwe">
+        <source>country.zimbabwe</source>
+        <target>Zimbabwe</target>
+      </trans-unit>
+      <trans-unit id="currency.cfa_franc_bceao">
+        <source>currency.cfa_franc_bceao</source>
+        <target>CFA Franc BCEAO</target>
+      </trans-unit>
+      <trans-unit id="currency.malagasy_ariary">
+        <source>currency.malagasy_ariary</source>
+        <target>Malagasy Ariary</target>
+      </trans-unit>
+      <trans-unit id="currency.congolese_franc">
+        <source>currency.congolese_franc</source>
+        <target>Congolese franc</target>
+      </trans-unit>
+      <trans-unit id="currency.gourd">
+        <source>currency.gourd</source>
+        <target>Gourd</target>
+      </trans-unit>
+      <trans-unit id="currency.moroccan_dirham">
+        <source>currency.moroccan_dirham</source>
+        <target>Moroccan Dirham</target>
+      </trans-unit>
+      <trans-unit id="currency.tunisian_dinar">
+        <source>currency.tunisian_dinar</source>
+        <target>Tunisian Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.cape_verdean_escudo">
+        <source>currency.cape_verdean_escudo</source>
+        <target>Cape Verdean escudo</target>
+      </trans-unit>
+      <trans-unit id="currency.guinean_franc">
+        <source>currency.guinean_franc</source>
+        <target>Guinean franc</target>
+      </trans-unit>
+      <trans-unit id="currency.rwandan_franc">
+        <source>currency.rwandan_franc</source>
+        <target>Rwandan franc</target>
+      </trans-unit>
+      <trans-unit id="currency.burundian_franc">
+        <source>currency.burundian_franc</source>
+        <target>Burundian franc</target>
+      </trans-unit>
+      <trans-unit id="currency.mauritanian_ouguiya">
+        <source>currency.mauritanian_ouguiya</source>
+        <target>Mauritanian ouguiya</target>
+      </trans-unit>
+      <trans-unit id="currency.comorian_franc">
+        <source>currency.comorian_franc</source>
+        <target>Comorian franc</target>
+      </trans-unit>
+      <trans-unit id="currency.kenyan_shilling">
+        <source>currency.kenyan_shilling</source>
+        <target>Kenyan Shilling</target>
+      </trans-unit>
+      <trans-unit id="currency.djiboutian_franc">
+        <source>currency.djiboutian_franc</source>
+        <target>Djiboutian Franc</target>
+      </trans-unit>
+      <trans-unit id="currency.afghanis">
+        <source>currency.afghanis</source>
+        <target>Afghanis</target>
+      </trans-unit>
+      <trans-unit id="currency.south_african_rand">
+        <source>currency.south_african_rand</source>
+        <target>South African Rand</target>
+      </trans-unit>
+      <trans-unit id="currency.lek">
+        <source>currency.lek</source>
+        <target>Lek</target>
+      </trans-unit>
+      <trans-unit id="currency.algerian_dinar">
+        <source>currency.algerian_dinar</source>
+        <target>Algerian Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.euro">
+        <source>currency.euro</source>
+        <target>Euro</target>
+      </trans-unit>
+      <trans-unit id="currency.american_dollar">
+        <source>currency.american_dollar</source>
+        <target>American dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.kwanza">
+        <source>currency.kwanza</source>
+        <target>Kwanza</target>
+      </trans-unit>
+      <trans-unit id="currency.east_caribbean_dollar">
+        <source>currency.east_caribbean_dollar</source>
+        <target>East Caribbean Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.saudi_riyal">
+        <source>currency.saudi_riyal</source>
+        <target>Saudi Riyal</target>
+      </trans-unit>
+      <trans-unit id="currency.argentine_peso">
+        <source>currency.argentine_peso</source>
+        <target>Argentine Peso</target>
+      </trans-unit>
+      <trans-unit id="currency.dram">
+        <source>currency.dram</source>
+        <target>Dram</target>
+      </trans-unit>
+      <trans-unit id="currency.florin">
+        <source>currency.florin</source>
+        <target>Florin</target>
+      </trans-unit>
+      <trans-unit id="currency.book_of_saint_helena">
+        <source>currency.book_of_saint_helena</source>
+        <target>Book of Saint Helena</target>
+      </trans-unit>
+      <trans-unit id="currency.australian_dollar">
+        <source>currency.australian_dollar</source>
+        <target>Australian dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.manat">
+        <source>currency.manat</source>
+        <target>Manat</target>
+      </trans-unit>
+      <trans-unit id="currency.bahamian_dollar">
+        <source>currency.bahamian_dollar</source>
+        <target>Bahamian Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.bahraini_dinar">
+        <source>currency.bahraini_dinar</source>
+        <target>Bahraini Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.taka">
+        <source>currency.taka</source>
+        <target>Taka</target>
+      </trans-unit>
+      <trans-unit id="currency.barbadian_dollar">
+        <source>currency.barbadian_dollar</source>
+        <target>Barbadian dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.belize_dollar">
+        <source>currency.belize_dollar</source>
+        <target>Belize Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.bermudian_dollar">
+        <source>currency.bermudian_dollar</source>
+        <target>Bermudian dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.ngultrum">
+        <source>currency.ngultrum</source>
+        <target>Ngultrum</target>
+      </trans-unit>
+      <trans-unit id="currency.belarusian_ruble">
+        <source>currency.belarusian_ruble</source>
+        <target>Belarusian ruble</target>
+      </trans-unit>
+      <trans-unit id="currency.bolivian">
+        <source>currency.bolivian</source>
+        <target>Bolivian</target>
+      </trans-unit>
+      <trans-unit id="currency.convertible_mark">
+        <source>currency.convertible_mark</source>
+        <target>Convertible mark</target>
+      </trans-unit>
+      <trans-unit id="currency.pula">
+        <source>currency.pula</source>
+        <target>Pula</target>
+      </trans-unit>
+      <trans-unit id="currency.brazilian_real">
+        <source>currency.brazilian_real</source>
+        <target>Brazilian real</target>
+      </trans-unit>
+      <trans-unit id="currency.brunei_dollar">
+        <source>currency.brunei_dollar</source>
+        <target>Brunei Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.bulgarian_lev">
+        <source>currency.bulgarian_lev</source>
+        <target>Bulgarian lev</target>
+      </trans-unit>
+      <trans-unit id="currency.cambodian_riel">
+        <source>currency.cambodian_riel</source>
+        <target>Cambodian Riel</target>
+      </trans-unit>
+      <trans-unit id="currency.cfa_franc_beac">
+        <source>currency.cfa_franc_beac</source>
+        <target>CFA Franc BEAC</target>
+      </trans-unit>
+      <trans-unit id="currency.canadian_dollar">
+        <source>currency.canadian_dollar</source>
+        <target>Canadian dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.chilean_peso">
+        <source>currency.chilean_peso</source>
+        <target>Chilean peso</target>
+      </trans-unit>
+      <trans-unit id="currency.yuan_renminbi">
+        <source>currency.yuan_renminbi</source>
+        <target>Yuan Renminbi</target>
+      </trans-unit>
+      <trans-unit id="currency.colombian_peso">
+        <source>currency.colombian_peso</source>
+        <target>Colombian peso</target>
+      </trans-unit>
+      <trans-unit id="currency.north_korean_won">
+        <source>currency.north_korean_won</source>
+        <target>North Korean won</target>
+      </trans-unit>
+      <trans-unit id="currency.south_korean_won">
+        <source>currency.south_korean_won</source>
+        <target>South Korean won</target>
+      </trans-unit>
+      <trans-unit id="currency.colon">
+        <source>currency.colon</source>
+        <target>Colon</target>
+      </trans-unit>
+      <trans-unit id="currency.cuban_peso">
+        <source>currency.cuban_peso</source>
+        <target>Cuban peso</target>
+      </trans-unit>
+      <trans-unit id="currency.danish_crown">
+        <source>currency.danish_crown</source>
+        <target>Danish crown</target>
+      </trans-unit>
+      <trans-unit id="currency.egyptian_book">
+        <source>currency.egyptian_book</source>
+        <target>Egyptian Book</target>
+      </trans-unit>
+      <trans-unit id="currency.arab_dirham">
+        <source>currency.arab_dirham</source>
+        <target>Arab Dirham</target>
+      </trans-unit>
+      <trans-unit id="currency.nakfa">
+        <source>currency.nakfa</source>
+        <target>Nakfa</target>
+      </trans-unit>
+      <trans-unit id="currency.swazi_lilangeni">
+        <source>currency.swazi_lilangeni</source>
+        <target>Swazi Lilangeni</target>
+      </trans-unit>
+      <trans-unit id="currency.birr">
+        <source>currency.birr</source>
+        <target>Birr</target>
+      </trans-unit>
+      <trans-unit id="currency.fijian_dollar">
+        <source>currency.fijian_dollar</source>
+        <target>Fijian Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.dalasi">
+        <source>currency.dalasi</source>
+        <target>Dalasi</target>
+      </trans-unit>
+      <trans-unit id="currency.georgian_lari">
+        <source>currency.georgian_lari</source>
+        <target>Georgian lari</target>
+      </trans-unit>
+      <trans-unit id="currency.pound_sterling">
+        <source>currency.pound_sterling</source>
+        <target>Pound sterling</target>
+      </trans-unit>
+      <trans-unit id="currency.ghanaian_cedi">
+        <source>currency.ghanaian_cedi</source>
+        <target>Ghanaian cedi</target>
+      </trans-unit>
+      <trans-unit id="currency.gibraltar_pound">
+        <source>currency.gibraltar_pound</source>
+        <target>Gibraltar pound</target>
+      </trans-unit>
+      <trans-unit id="currency.quetzal">
+        <source>currency.quetzal</source>
+        <target>Quetzal</target>
+      </trans-unit>
+      <trans-unit id="currency.guyana_dollar">
+        <source>currency.guyana_dollar</source>
+        <target>Guyana dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.lempira">
+        <source>currency.lempira</source>
+        <target>Lempira</target>
+      </trans-unit>
+      <trans-unit id="currency.hong_kong_dollar">
+        <source>currency.hong_kong_dollar</source>
+        <target>Hong Kong Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.hungarian_forint">
+        <source>currency.hungarian_forint</source>
+        <target>Hungarian forint</target>
+      </trans-unit>
+      <trans-unit id="currency.isle_of_man_book">
+        <source>currency.isle_of_man_book</source>
+        <target>Isle of Man Book</target>
+      </trans-unit>
+      <trans-unit id="currency.cayman_dollar">
+        <source>currency.cayman_dollar</source>
+        <target>Cayman Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.dollar_cook">
+        <source>currency.dollar_cook</source>
+        <target>Dollar Cook</target>
+      </trans-unit>
+      <trans-unit id="currency.faroese_crown">
+        <source>currency.faroese_crown</source>
+        <target>Faroese crown</target>
+      </trans-unit>
+      <trans-unit id="currency.new_zealand_dollar">
+        <source>currency.new_zealand_dollar</source>
+        <target>New Zealand Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.solomon_islands_dollar">
+        <source>currency.solomon_islands_dollar</source>
+        <target>Solomon Islands Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.indian_rupee">
+        <source>currency.indian_rupee</source>
+        <target>Indian rupee</target>
+      </trans-unit>
+      <trans-unit id="currency.indonesian_rupiah">
+        <source>currency.indonesian_rupiah</source>
+        <target>Indonesian Rupiah</target>
+      </trans-unit>
+      <trans-unit id="currency.iraqi_dinar">
+        <source>currency.iraqi_dinar</source>
+        <target>Iraqi Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.iranian_rial">
+        <source>currency.iranian_rial</source>
+        <target>Iranian Rial</target>
+      </trans-unit>
+      <trans-unit id="currency.icelandic_crown">
+        <source>currency.icelandic_crown</source>
+        <target>Icelandic crown</target>
+      </trans-unit>
+      <trans-unit id="currency.israeli_shekel">
+        <source>currency.israeli_shekel</source>
+        <target>Israeli Shekel</target>
+      </trans-unit>
+      <trans-unit id="currency.dollar">
+        <source>currency.dollar</source>
+        <target>Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.yen">
+        <source>currency.yen</source>
+        <target>Yen</target>
+      </trans-unit>
+      <trans-unit id="currency.jordanian_dinar">
+        <source>currency.jordanian_dinar</source>
+        <target>Jordanian Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.tenge">
+        <source>currency.tenge</source>
+        <target>tenge</target>
+      </trans-unit>
+      <trans-unit id="currency.som">
+        <source>currency.som</source>
+        <target>som</target>
+      </trans-unit>
+      <trans-unit id="currency.kiribati_dollar">
+        <source>currency.kiribati_dollar</source>
+        <target>Kiribati dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.kuwaiti_dinar">
+        <source>currency.kuwaiti_dinar</source>
+        <target>Kuwaiti Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.kip">
+        <source>currency.kip</source>
+        <target>Kip</target>
+      </trans-unit>
+      <trans-unit id="currency.loti_from_lesotho">
+        <source>currency.loti_from_lesotho</source>
+        <target>Loti from Lesotho</target>
+      </trans-unit>
+      <trans-unit id="currency.lebanese_pound">
+        <source>currency.lebanese_pound</source>
+        <target>Lebanese pound</target>
+      </trans-unit>
+      <trans-unit id="currency.liberian_dollar">
+        <source>currency.liberian_dollar</source>
+        <target>Liberian Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.swiss_franc">
+        <source>currency.swiss_franc</source>
+        <target>Swiss franc</target>
+      </trans-unit>
+      <trans-unit id="currency.macau_pataca">
+        <source>currency.macau_pataca</source>
+        <target>Macau Pataca</target>
+      </trans-unit>
+      <trans-unit id="currency.macedonian_denarius">
+        <source>currency.macedonian_denarius</source>
+        <target>Macedonian denarius</target>
+      </trans-unit>
+      <trans-unit id="currency.ringgit">
+        <source>currency.ringgit</source>
+        <target>Ringgit</target>
+      </trans-unit>
+      <trans-unit id="currency.malawian_kwacha">
+        <source>currency.malawian_kwacha</source>
+        <target>Malawian Kwacha</target>
+      </trans-unit>
+      <trans-unit id="currency.maldivian_rufiyaa">
+        <source>currency.maldivian_rufiyaa</source>
+        <target>Maldivian rufiyaa</target>
+      </trans-unit>
+      <trans-unit id="currency.mauritian_rupee">
+        <source>currency.mauritian_rupee</source>
+        <target>Mauritian rupee</target>
+      </trans-unit>
+      <trans-unit id="currency.mexican_peso">
+        <source>currency.mexican_peso</source>
+        <target>Mexican Peso</target>
+      </trans-unit>
+      <trans-unit id="currency.moldovan_leu">
+        <source>currency.moldovan_leu</source>
+        <target>Moldovan Leu</target>
+      </trans-unit>
+      <trans-unit id="currency.tugrik">
+        <source>currency.tugrik</source>
+        <target>Tugrik</target>
+      </trans-unit>
+      <trans-unit id="currency.metical">
+        <source>currency.metical</source>
+        <target>Metical</target>
+      </trans-unit>
+      <trans-unit id="currency.namibian_dollar">
+        <source>currency.namibian_dollar</source>
+        <target>Namibian dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.nepalese_rupee">
+        <source>currency.nepalese_rupee</source>
+        <target>Nepalese rupee</target>
+      </trans-unit>
+      <trans-unit id="currency.gold_of_cordoba">
+        <source>currency.gold_of_cordoba</source>
+        <target>Gold of Cordoba</target>
+      </trans-unit>
+      <trans-unit id="currency.naira">
+        <source>currency.naira</source>
+        <target>Naira</target>
+      </trans-unit>
+      <trans-unit id="currency.norwegian_krone">
+        <source>currency.norwegian_krone</source>
+        <target>Norwegian Krone</target>
+      </trans-unit>
+      <trans-unit id="currency.pacific_franc">
+        <source>currency.pacific_franc</source>
+        <target>Pacific Franc</target>
+      </trans-unit>
+      <trans-unit id="currency.omani_rial">
+        <source>currency.omani_rial</source>
+        <target>Omani Rial</target>
+      </trans-unit>
+      <trans-unit id="currency.ugandan_shilling">
+        <source>currency.ugandan_shilling</source>
+        <target>Ugandan Shilling</target>
+      </trans-unit>
+      <trans-unit id="currency.uzbek_sum">
+        <source>currency.uzbek_sum</source>
+        <target>Uzbek sum</target>
+      </trans-unit>
+      <trans-unit id="currency.pakistani_rupee">
+        <source>currency.pakistani_rupee</source>
+        <target>Pakistani Rupee</target>
+      </trans-unit>
+      <trans-unit id="currency.panamanian_balboa">
+        <source>currency.panamanian_balboa</source>
+        <target>Panamanian balboa</target>
+      </trans-unit>
+      <trans-unit id="currency.kina">
+        <source>currency.kina</source>
+        <target>Kina</target>
+      </trans-unit>
+      <trans-unit id="currency.guarani">
+        <source>currency.guarani</source>
+        <target>Guarani</target>
+      </trans-unit>
+      <trans-unit id="currency.new_floor">
+        <source>currency.new_floor</source>
+        <target>New floor</target>
+      </trans-unit>
+      <trans-unit id="currency.philippine_peso">
+        <source>currency.philippine_peso</source>
+        <target>Philippine peso</target>
+      </trans-unit>
+      <trans-unit id="currency.zloty">
+        <source>currency.zloty</source>
+        <target>Zloty</target>
+      </trans-unit>
+      <trans-unit id="currency.qatari_rial">
+        <source>currency.qatari_rial</source>
+        <target>Qatari Rial</target>
+      </trans-unit>
+      <trans-unit id="currency.dominican_peso">
+        <source>currency.dominican_peso</source>
+        <target>Dominican Peso</target>
+      </trans-unit>
+      <trans-unit id="currency.czech_koruna">
+        <source>currency.czech_koruna</source>
+        <target>Czech koruna</target>
+      </trans-unit>
+      <trans-unit id="currency.romanian_leu">
+        <source>currency.romanian_leu</source>
+        <target>Romanian Leu</target>
+      </trans-unit>
+      <trans-unit id="currency.russian_ruble">
+        <source>currency.russian_ruble</source>
+        <target>Russian ruble</target>
+      </trans-unit>
+      <trans-unit id="currency.tala">
+        <source>currency.tala</source>
+        <target>Tala</target>
+      </trans-unit>
+      <trans-unit id="currency.dobra">
+        <source>currency.dobra</source>
+        <target>Dobra</target>
+      </trans-unit>
+      <trans-unit id="currency.serbian_dinar">
+        <source>currency.serbian_dinar</source>
+        <target>Serbian Dinar</target>
+      </trans-unit>
+      <trans-unit id="currency.seychellois_rupee">
+        <source>currency.seychellois_rupee</source>
+        <target>Seychellois rupee</target>
+      </trans-unit>
+      <trans-unit id="currency.leone">
+        <source>currency.leone</source>
+        <target>Leone</target>
+      </trans-unit>
+      <trans-unit id="currency.singapore_dollar">
+        <source>currency.singapore_dollar</source>
+        <target>Singapore Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.somali_shilling">
+        <source>currency.somali_shilling</source>
+        <target>Somali Shilling</target>
+      </trans-unit>
+      <trans-unit id="currency.sudanese_pound">
+        <source>currency.sudanese_pound</source>
+        <target>Sudanese pound</target>
+      </trans-unit>
+      <trans-unit id="currency.book">
+        <source>currency.book</source>
+        <target>Book</target>
+      </trans-unit>
+      <trans-unit id="currency.sri_lankan_rupee">
+        <source>currency.sri_lankan_rupee</source>
+        <target>Sri Lankan rupee</target>
+      </trans-unit>
+      <trans-unit id="currency.swedish_krona">
+        <source>currency.swedish_krona</source>
+        <target>Swedish krona</target>
+      </trans-unit>
+      <trans-unit id="currency.surinamese_dollar">
+        <source>currency.surinamese_dollar</source>
+        <target>Surinamese dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.lilangeni">
+        <source>currency.lilangeni</source>
+        <target>Lilangeni</target>
+      </trans-unit>
+      <trans-unit id="currency.syrian_pound">
+        <source>currency.syrian_pound</source>
+        <target>Syrian pound</target>
+      </trans-unit>
+      <trans-unit id="currency.somoni">
+        <source>currency.somoni</source>
+        <target>Somoni</target>
+      </trans-unit>
+      <trans-unit id="currency.new_taiwan_dollar">
+        <source>currency.new_taiwan_dollar</source>
+        <target>New Taiwan dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.tanzanian_shilling">
+        <source>currency.tanzanian_shilling</source>
+        <target>Tanzanian Shilling</target>
+      </trans-unit>
+      <trans-unit id="currency.thai_baht">
+        <source>currency.thai_baht</source>
+        <target>Thai Baht</target>
+      </trans-unit>
+      <trans-unit id="currency.pa_anga">
+        <source>currency.pa_anga</source>
+        <target>Pa'anga</target>
+      </trans-unit>
+      <trans-unit id="currency.trinidad_and_tobago_dollar">
+        <source>currency.trinidad_and_tobago_dollar</source>
+        <target>Trinidad and Tobago Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.turkmen_manat">
+        <source>currency.turkmen_manat</source>
+        <target>Turkmen Manat</target>
+      </trans-unit>
+      <trans-unit id="currency.turkish_lira">
+        <source>currency.turkish_lira</source>
+        <target>Turkish Lira</target>
+      </trans-unit>
+      <trans-unit id="currency.tuvaluan_dollar">
+        <source>currency.tuvaluan_dollar</source>
+        <target>Tuvaluan Dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.hrywnja">
+        <source>currency.hrywnja</source>
+        <target>Hrywnja</target>
+      </trans-unit>
+      <trans-unit id="currency.uruguayan_peso">
+        <source>currency.uruguayan_peso</source>
+        <target>Uruguayan peso</target>
+      </trans-unit>
+      <trans-unit id="currency.will_you">
+        <source>currency.will_you</source>
+        <target>Will you</target>
+      </trans-unit>
+      <trans-unit id="currency.bolivar_digital">
+        <source>currency.bolivar_digital</source>
+        <target>Bolivar digital</target>
+      </trans-unit>
+      <trans-unit id="currency.dong">
+        <source>currency.dong</source>
+        <target>Dong</target>
+      </trans-unit>
+      <trans-unit id="currency.yemeni_rial">
+        <source>currency.yemeni_rial</source>
+        <target>Yemeni Rial</target>
+      </trans-unit>
+      <trans-unit id="currency.zambian_kwacha">
+        <source>currency.zambian_kwacha</source>
+        <target>Zambian Kwacha</target>
+      </trans-unit>
+      <trans-unit id="currency.zimbabwe_dollar">
+        <source>currency.zimbabwe_dollar</source>
+        <target>Zimbabwe dollar</target>
+      </trans-unit>
+      <trans-unit id="currency.libyan_dinar">
+        <source>currency.libyan_dinar</source>
+        <target>Libyan Dinar</target>
+      </trans-unit>
+      <trans-unit id="legal_status.as">
+        <source>legal_status.as</source>
+        <target>AS</target>
+      </trans-unit>
+      <trans-unit id="legal_status.anonimous_society">
+        <source>legal_status.anonimous_society</source>
+        <target>Anonimous society</target>
+      </trans-unit>
+      <trans-unit id="legal_status.sarl">
+        <source>legal_status.sarl</source>
+        <target>SARL</target>
+      </trans-unit>
+      <trans-unit id="legal_status.limited_liability_company">
+        <source>legal_status.limited_liability_company</source>
+        <target>Limited liability company</target>
+      </trans-unit>
+      <trans-unit id="legal_status.public_company">
+        <source>legal_status.public_company</source>
+        <target>Public company</target>
+      </trans-unit>
+      <trans-unit id="legal_status.foreign_company">
+        <source>legal_status.foreign_company</source>
+        <target>Foreign company</target>
+      </trans-unit>
+      <trans-unit id="legal_status.foreign_company_branch">
+        <source>legal_status.foreign_company_branch</source>
+        <target>Foreign company branch</target>
+      </trans-unit>
+      <trans-unit id="legal_status.public_institution">
+        <source>legal_status.public_institution</source>
+        <target>Public institution</target>
+      </trans-unit>
+      <trans-unit id="legal_status.cooperativecooperative">
+        <source>legal_status.cooperativecooperative</source>
+        <target>CooperativeCooperative</target>
+      </trans-unit>
+      <trans-unit id="legal_status.nonprofit_organization">
+        <source>legal_status.nonprofit_organization</source>
+        <target>Nonprofit organization</target>
+      </trans-unit>
+      <trans-unit id="legal_status.individual_business">
+        <source>legal_status.individual_business</source>
+        <target>Individual business</target>
+      </trans-unit>
+      <trans-unit id="training_too_theoretical_not_practical_enough">
+        <source>training_too_theoretical_not_practical_enough</source>
+        <target>training too theoretical / not practical enough</target>
+      </trans-unit>
+      <trans-unit id="raisons_no_job.training_did_not_take_into_account_new_developments_in_the_profession">
+        <source>raisons_no_job.training_did_not_take_into_account_new_developments_in_the_profession</source>
+        <target>training did not take into account new developments in the profession</target>
+      </trans-unit>
+      <trans-unit id="raisons_no_job.incomplete_training">
+        <source>raisons_no_job.incomplete_training</source>
+        <target>incomplete training</target>
+      </trans-unit>
+      <trans-unit id="raisons_no_job.no_work_related_to_my_diploma">
+        <source>raisons_no_job.no_work_related_to_my_diploma</source>
+        <target>no work related to my diploma</target>
+      </trans-unit>
+      <trans-unit id="raisons_no_job.job_related_to_my_diploma_not_well_paid_enough">
+        <source>raisons_no_job.job_related_to_my_diploma_not_well_paid_enough</source>
+        <target>job related to my diploma not well paid enough</target>
+      </trans-unit>
+      <trans-unit id="raisons_no_job.prefer_to_work_in_my_current_job">
+        <source>raisons_no_job.prefer_to_work_in_my_current_job</source>
+        <target>I prefer to work in my current job</target>
+      </trans-unit>
+      <trans-unit id="diplomas.apprenticeship_certificate_ca">
+        <source>diplomas.apprenticeship_certificate_ca</source>
+        <target>Apprenticeship Certificate (CA)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_qualification_certificate_cqp">
+        <source>diplomas.professional_qualification_certificate_cqp</source>
+        <target>Professional Qualification Certificate (CQP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_aptitude_certificate_cap">
+        <source>diplomas.professional_aptitude_certificate_cap</source>
+        <target>Professional Aptitude Certificate (CAP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.technician_certificate_bt">
+        <source>diplomas.technician_certificate_bt</source>
+        <target>Technician Certificate (BT)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.technician_diploma_dt">
+        <source>diplomas.technician_diploma_dt</source>
+        <target>Technician Diploma (DT)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_baccalaureate_bacpro">
+        <source>diplomas.professional_baccalaureate_bacpro</source>
+        <target>Professional Baccalaureate (Bac Pro)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.technical_baccalaureate_bactechno">
+        <source>diplomas.technical_baccalaureate_bactechno</source>
+        <target>Technical Baccalaureate (Bac Techno)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.higher_technician_certificate_bts">
+        <source>diplomas.higher_technician_certificate_bts</source>
+        <target>Higher Technician Certificate (BTS)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.technological_university_diploma_dut">
+        <source>diplomas.technological_university_diploma_dut</source>
+        <target>Technological University Diploma (DUT)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_license_licpro">
+        <source>diplomas.professional_license_licpro</source>
+        <target>Professional License (Lic Pro)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.master_i">
+        <source>diplomas.master_i</source>
+        <target>Master I</target>
+      </trans-unit>
+      <trans-unit id="diplomas.master_ii">
+        <source>diplomas.master_ii</source>
+        <target>Master II</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_qualifications">
+        <source>diplomas.professional_qualifications</source>
+        <target>Professional qualifications</target>
+      </trans-unit>
+      <trans-unit id="diplomas.specialty_certificate_sc">
+        <source>diplomas.specialty_certificate_sc</source>
+        <target>Specialty Certificate (CS)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.certificate">
+        <source>diplomas.certificate</source>
+        <target>Certificate</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_title">
+        <source>diplomas.professional_title</source>
+        <target>Professional title</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_aptitude_certificate_bap">
+        <source>diplomas.professional_aptitude_certificate_bap</source>
+        <target>Professional Aptitude Certificate (BAP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_qualification_diploma_dqp">
+        <source>diplomas.professional_qualification_diploma_dqp</source>
+        <target>Professional Qualification Diploma (DQP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.higher_technician_diploma_dts">
+        <source>diplomas.higher_technician_diploma_dts</source>
+        <target>Higher Technician Diploma (DTS)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_qualification_certificate_aqp">
+        <source>diplomas.professional_qualification_certificate_aqp</source>
+        <target>Professional qualification certificate (AQP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_qualification_certificate_bqp">
+        <source>diplomas.professional_qualification_certificate_bqp</source>
+        <target>Professional qualification certificate (BQP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.specialized_technician_diploma">
+        <source>diplomas.specialized_technician_diploma</source>
+        <target>Specialized Technician Diploma</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_training_certificate_cfp">
+        <source>diplomas.professional_training_certificate_cfp</source>
+        <target>Professional Training Certificate (CFP)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.additional_mention_mc">
+        <source>diplomas.additional_mention_mc</source>
+        <target>Additional Mention (MC)</target>
       </trans-unit>
     </body>
   </file>
