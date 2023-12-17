@@ -37,6 +37,7 @@
                                   roleUser == "Admin_pays" or
                                   roleUser == "Admin_regions" or
                                   roleUser == "Admin_villes" or
+                                  roleUser == "Directeur" or
                                   roleUser =="Législateur" %}
                                     <th class="no-print">Actions</th>
                                 {% endif %}
@@ -50,6 +51,7 @@
                                   roleUser == "Admin_pays" or
                                   roleUser == "Admin_regions" or
                                   roleUser == "Admin_villes" or
+                                  roleUser == "Directeur" or
                                   roleUser =="Législateur" %}
                                     <th>Immat.</th>
                                 {% endif %}
@@ -58,13 +60,14 @@
                                 <th>{{ 'menu.city' | trans }}</th>
                                 <th>{{ 'menu.phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
-                                {%  if roleUser =="Législateur" %}
+                                {%  if roleUser =="Législateur" or roleUser == "Directeur" %}
                                     <th>{{ 'school.number_of_graduates_with_tag' | trans({'%tag_br%': '<br />'}) | raw }}</th>
                                 {% endif %}
                                 {%  if roleUser =="Administrateur" or
                                   roleUser == "Admin_pays" or
                                   roleUser == "Admin_regions" or
                                   roleUser == "Admin_villes" or
+                                  roleUser == "Directeur" or
                                   roleUser =="Législateur" %}
                                     <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br />'}) | raw }}</th>
                                 {% endif %}
@@ -89,7 +92,7 @@
                                         </td>
                                         <td>{{ school.id }}</td>
                                         <td>{{ school.registration }}</td>
-                                     {% elseif roleUser =="Législateur" %}
+                                     {% elseif roleUser =="Législateur" or roleUser == "Directeur"%}
                                         <td class="row-actions">
                                           <a href="{{ path('school_show', { 'id': school.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                         </td>
@@ -102,45 +105,102 @@
                                             roleUser == "Admin_pays" or
                                             roleUser == "Admin_regions" or
                                             roleUser == "Admin_villes" %}
-                                        <td>{{ school.city }}</td>
-                                    {%  elseif roleUser =="Législateur"%}
-                                        <td>{{ school.region.name }}, {{ school.city.name }}</td>
+                                        <td>{{ school.country.name | trans}} - {{ school.region.name }} - {{ school.city.name }}</td>
+                                    {%  elseif roleUser =="Législateur" or roleUser == "Directeur"%}
+                                        <td>{{ school.region.name | trans }}, {{ school.city.name | trans }}</td>
                                     {%  elseif roleUser =="Entreprise" %}
-                                        <td>{{ school.city.name }}</td>
+                                        <td>{{ school.city.name  | trans}}</td>
                                     {% endif %}
                                     <td>{{ school.phoneStandard }}</td>
                                     <td>{{ school.email }}</td>
-                                    {%  if roleUser =="Législateur" %}
+                                    {%  if roleUser =="Législateur" or roleUser == "Directeur" %}
                                       <td>{{ school.personDegrees | length }}</td>
                                     {% endif %}
                                     {%  if roleUser =="Administrateur" or
                                             roleUser == "Admin_pays" or
                                             roleUser == "Admin_regions" or
                                             roleUser == "Admin_villes" or
+                                            roleUser == "Directeur" or
                                             roleUser =="Législateur" %}
                                       <td>{{ school.createdDate|date('d M Y H:i') }}</td>
                                     {% endif %}
                                   {%  if roleUser =="Entreprise" %}
                                       <td>
-                                        {{ school.degrees | join('<br/>') | raw}}
+                                        {{ school.degrees  | join('<br/>') | trans | raw}}
                                       </td>
 
                                       <td>
-                                        {{ school.sectorArea1 }}
-                                        {% if school.sectorArea2|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea2 }} {% endif %}
-                                        {% if school.sectorArea3|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea3}} {% endif %}
-                                        {% if school.sectorArea4|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea4 }} {% endif %}
-                                        {% if school.sectorArea5|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea5 }} {% endif %}
-                                        {% if school.sectorArea6|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea6 }} {% endif %}
+                                        {{ school.sectorArea1 | trans }}
+                                        {% if school.sectorArea2|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea2 | trans}} {% endif %}
+                                        {% if school.sectorArea3|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea3 | trans}} {% endif %}
+                                        {% if school.sectorArea4|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea4 | trans}} {% endif %}
+                                        {% if school.sectorArea5|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea5 | trans}} {% endif %}
+                                        {% if school.sectorArea6|length > 0 %} {{ "<br>" | raw }}{{ school.sectorArea6 | trans}} {% endif %}
                                       </td>
 
                                       <td>
-                                        {{ school.activities1 | join(' / ')}}
-                                        {% if school.activities2|length > 0 %} {{ "<br>" | raw }}{{ school.activities2 | join(' / ') }} {% endif %}
-                                        {% if school.activities3|length > 0 %} {{ "<br>" | raw }}{{ school.activities3 | join(' / ')}} {% endif %}
-                                        {% if school.activities4|length > 0 %} {{ "<br>" | raw }}{{ school.activities4 | join(' / ')}} {% endif %}
-                                        {% if school.activities5|length > 0 %} {{ "<br>" | raw }}{{ school.activities5 | join(' / ')}} {% endif %}
-                                        {% if school.activities6|length > 0 %} {{ "<br>" | raw }}{{ school.activities6 | join(' / ')}} {% endif %}
+{#                                        {{ school.activities1 | join(' / ') }}#}
+{#                                        {% if school.activities2|length > 0 %} {{ "<br>" | raw }}{{ school.activities2 | join(' / ') }} {% endif %}#}
+{#                                        {% if school.activities3|length > 0 %} {{ "<br>" | raw }}{{ school.activities3 | join(' / ')}} {% endif %}#}
+{#                                        {% if school.activities4|length > 0 %} {{ "<br>" | raw }}{{ school.activities4 | join(' / ')}} {% endif %}#}
+{#                                        {% if school.activities5|length > 0 %} {{ "<br>" | raw }}{{ school.activities5 | join(' / ')}} {% endif %}#}
+{#                                        {% if school.activities6|length > 0 %} {{ "<br>" | raw }}{{ school.activities6 | join(' / ')}} {% endif %}#}
+                                        {%  set activities = ""  %}
+                                        {% for activity in school.activities1 %}
+                                          {%  set activities = activities ~ " | "  ~ activity|trans   %}
+                                        {% endfor %}
+                                        {{ activities }}
+                                        {{ " | "}}
+
+                                        {%  set activities = ""  %}
+                                        {% for activity in school.activities2 %}
+                                          {%  set activities = activities ~ " | " ~ activity|trans   %}
+                                        {% endfor %}
+                                        {%  if activities %}
+                                          {{ "<br>" | raw }}
+                                          {{ activities }}
+                                          {{ " | "}}
+                                        {% endif %}
+
+                                        {%  set activities = ""  %}
+                                        {% for activity in school.activities3 %}
+                                          {%  set activities = activities ~ " | " ~ activity|trans   %}
+                                        {% endfor %}
+                                        {%  if activities %}
+                                          {{ "<br>" | raw }}
+                                          {{ activities }}
+                                          {{ " | "}}
+                                        {% endif %}
+
+                                        {%  set activities = ""  %}
+                                        {% for activity in school.activities4 %}
+                                          {%  set activities = activities ~ " | " ~ activity|trans   %}
+                                        {% endfor %}
+                                        {%  if activities %}
+                                          {{ "<br>" | raw }}
+                                          {{ activities }}
+                                          {{ " | "}}
+                                        {% endif %}
+
+                                        {%  set activities = ""  %}
+                                        {% for activity in school.activities5 %}
+                                          {%  set activities = activities ~ " | " ~ activity|trans   %}
+                                        {% endfor %}
+                                        {%  if activities %}
+                                          {{ "<br>" | raw }}
+                                          {{ activities }}
+                                          {{ " | "}}
+                                        {% endif %}
+
+                                        {%  set activities = ""  %}
+                                        {% for activity in school.activities6 %}
+                                          {%  set activities = activities ~ " | " ~ activity|trans   %}
+                                        {% endfor %}
+                                        {%  if activities %}
+                                          {{ "<br>" | raw }}
+                                          {{ activities }}
+                                          {{ " | "}}
+                                        {% endif %}
                                       </td>
                                   {% endif %}
                                 </tr>

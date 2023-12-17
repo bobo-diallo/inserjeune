@@ -283,6 +283,22 @@ class JobOffer {
 		return $this;
 	}
 
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->city?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return JobOffer
+     */
+    public function setPrefecture(?Prefecture $prefecture): JobOffer
+    {
+        return $this;
+    }
+
 	public function setFilename(?string $filename): self {
 		$this->filename = $filename;
 

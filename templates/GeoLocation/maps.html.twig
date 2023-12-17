@@ -2,9 +2,12 @@
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% elseif is_granted('ROLE_DIPLOME') == true %} {% set base = 'base_degree.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% else %} {% set base = 'base.html.twig' %}
 {% endif %}
+{% set roleUser = app.user.roles|role %}
 
 {% extends base %}
 
@@ -28,39 +31,81 @@
                <div class="col-sm-3 form-group">
                   <label for=""> {{ 'menu.country' | trans }}</label>
                   {{ create_translated_select(form.country) }}
-{#                  {{ form_widget(form.country) }}#}
+                  {#                  {{ form_widget(form.country) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
                </div>
                <div class="col-sm-3 form-group">
                   <label for=""> {{ 'menu.region' | trans }} </label>
                   {{ create_translated_select(form.region) }}
-{#                  {{ form_widget(form.region) }}#}
+                  {#                  {{ form_widget(form.region) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
                </div>
+
+               {% if prefecture_between_region_city == "true" %}
+                  <div class="col-sm-3 form-group">
+                     <label for="">{{ 'menu.prefecture' | trans }}</label>
+                     {{ create_translated_select(form.prefecture) }}
+                     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
+                  </div>
+               {% endif %}
+
                <div class="col-sm-3 form-group">
                   <label for="">{{ 'menu.city' | trans }}</label>
                   {{ create_translated_select(form.city) }}
-{#                  {{ form_widget(form.city) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city) }}</div>
                </div>
-               <div class="col-sm-3 form-group">
-                  <label for=""> {{ 'city.other_city' | trans }} </label>
-                  {{ form_widget(form.otherCity) }}
-                  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
-               </div>
+
+               {% if prefecture_between_region_city != "true" %}
+                  <div class="col-sm-3 form-group">
+                     <label for=""> {{ 'city.other_city' | trans }} </label>
+                     {{ form_widget(form.otherCity) }}
+                     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherCity) }}</div>
+                  </div>
+               {% endif %}
             </div>
             <div class="row">
-               <div class="col-sm-6 form-group">
+               {% if roleUser == "Diplômé" or roleUser == "Entreprise" %} <div class="col-sm-6 form-group">
+               {% else %} <div class="col-sm-3 form-group"> {% endif %}
                   <label for=""> {{ 'menu.activity_area' | trans }} </label>
                   {{ create_translated_select(form.sectorArea) }}
-{#                  {{ form_widget(form.sectorArea) }}#}
+                  {#                  {{ form_widget(form.sectorArea) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
-               </div>
-               <div class="col-sm-6 form-group">
+               {% if roleUser == "Diplômé" or roleUser == "Entreprise" %}</div>{% else %}</div>{% endif %}
+
+               {% if roleUser == "Diplômé" or roleUser == "Entreprise" %} <div class="col-sm-6 form-group">
+               {% else %} <div class="col-sm-3 form-group"> {% endif %}
                   <label for="">{{ 'menu.job' | trans }} / {{ 'menu.branch' | trans }}</label>
-                  {{ form_widget(form.activity) }}
+                  {{ create_translated_select(form.activity) }}
+{#                  {{ form_widget(form.activity) }}#}
                   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
-               </div>
+               {% if roleUser == "Diplômé" or roleUser == "Entreprise" %}</div>{% else %}</div>{% endif %}
+
+               {% if roleUser != "Diplômé" and roleUser != "Entreprise" %}
+                  <div class="col-sm-3 form-group">
+                     <label for="">{{ 'menu.establishment' | trans }}</label>
+                     {% if roleUser == 'Principal' %}
+                        <select id="appbundle_geolocation_school" disabled class="form-control">
+                           <option value="">{{ school.name }} ({{ school.city.name }})</option>
+                        </select>
+                     {% elseif roleUser == 'Etablissement' %}
+                        <select id="appbundle_geolocation_school" disabled class="form-control">
+                           <option value="">{{ user.school.name }} ({{ user.school.city.name }})</option>
+                        </select>
+                     {% else %}
+                        <select id="appbundle_geolocation_school" class="form-control">
+                           <option value="">{{'menu.select' | trans}}</option>
+                        </select>
+                     {% endif %}
+                  </div>
+                  <div class="col-sm-3 form-group your_graduate">
+                     <label for="">{{ 'menu.your_graduate' | trans }}/{{ "footer.partners" | trans}}</label>
+                     <input type="checkbox" id="appbundle_geolocation_yourGraduates" class="form-control" value="0">
+                     <div class="slider round" id="sliderShowYourGraduates">
+                        <span class="non">{{ 'menu.no' | trans }}</span>
+                        <span class="oui">{{ 'menu.yes' | trans }}</span>
+                     </div>
+                  </div>
+               {% endif %}
             </div>
             <div class="row">
                <div class="col-sm-12">
@@ -83,7 +128,7 @@
                         <th><div class="table_geo_titre stddip d-flex justify-content-around">
                               <span>{{ 'graduate.study_graduate' | trans }}</span>
                               <span id="nb_other_graduate"></span>
-                        </div></th>
+                           </div></th>
                      </tr>
                      </thead>
                      <tbody>
@@ -145,6 +190,7 @@
          {%  endfor %}
       </select>
       <p id="struct_province_country_city" hidden>{{ struct_province_country_city }}</p>
+      <p id="prefecture_between_region_city" hidden>{{ prefecture_between_region_city }}</p>
    </div>
 {% endblock %}
 
@@ -156,21 +202,6 @@
    <script type="text/javascript"
            src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
    <script>
-      $(document).ready(function () {
-         //suppression des regions non utilisées par le user
-         setTimeout(function (){
-            let tab_regions = [];
-            $('#selectedRegions option').each(function () {
-               tab_regions.push($(this).text())
-            })
-            $('#appbundle_geolocation_region option').each(function (intIndex){
-               if(!tab_regions.includes($(this).text())) {
-                  if(intIndex != 0)
-                     $(this).remove();
-               }
-            })
-         },5000);
-      })
       // variables communes aux différentes scripts et functions
       let dataCompanies = [];
       let selectedDataCompanies = [];
@@ -200,7 +231,11 @@
       let otherpersondegree_markers = [];
       let otherpersondegree_markerCluster = null;
 
-       /**
+      /**
+       * initialisation de la position des inputs
+        */
+      $('#yourGraduates').prop('checked', false);
+      /**
        *  Event
        *  Mise à jour du select métiers/filières en fonction du secteur d'activités
        */
@@ -223,7 +258,7 @@
 
             // Affichage de la région choisie sur la carte googleMap
             $("#appbundle_geolocation_activity").change(function () {
-               console.log('ddddddddddddd')
+               // console.log('ddddddddddddd')
                deleteAllMarkers();
                selectData();
                viewAllMarkers();
@@ -233,84 +268,124 @@
 
       /**
        *  Event
-       *  Mise à jour des selects region et ville en fonction du pays
-       */
-      $(document).on('change', '#appbundle_geolocation_country, #appbundle_geolocation_region', function () {
-         let $field = $(this)
-         let $regionField = $('#appbundle_geolocation_country')
-         let $form = $field.closest('form')
-         let target = '#' + $field.attr('id').replace('region', 'city').replace('country', 'region')
-         // Les données à envoyer en Ajax
-         let data = {}
-         data[$regionField.attr('name')] = $regionField.val()
-         data[$field.attr('name')] = $field.val()
-
-         // On soumet les données
-         $.post($form.attr('action'), data).then(function (data) {
-
-            // On récupère le nouvmeeau <select>
-            let $input = $(data).find(target)
-
-            // On remplace notre <select> actuel
-            $(target).replaceWith($input)
-
-            // Affichage de la région choisie sur la carte googleMap
-            $("#appbundle_geolocation_region").change(function () {
-               let input_address = "";
-               if($('#struct_province_country_city').text() == "true") {
-                  input_address = $("#appbundle_geolocation_region > option:selected").text();
-                  input_address_country = input_address;
-               } else {
-                  input_address = $("#appbundle_geolocation_country > option:selected").text();
-               }
-               selectData();
-
-               if(! $("#appbundle_geolocation_region > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
-                  input_address = $("#appbundle_geolocation_region > option:selected").text();
-                  if($('#struct_province_country_city').text() == "true") {
-                     input_address_country = input_address;
-                  }
-               }
-               // console.log("--> region= " + input_address);
-               if($("#appbundle_geolocation_region > option:selected").text().toLowerCase().replace('é','e').startsWith('selectionnez')) {
-                  if($('#struct_province_country_city').text() != "true") {
-                     initMap(input_address_country + " " + input_address, 7);
-                  }
-               } else {
-                  if($('#struct_province_country_city').val() != "true") {
-                     initMap(input_address_country + " " + input_address, 12);
-                  } else {
-                     initMap(input_address_country + " " + input_address, 7);
-                  }
-               }
-            });
-
-            // Affichage de la ville choisie sur la carte googleMap
-            $("#appbundle_geolocation_city").change(function () {
-               appbundle_geolocation_city_init_map();
-            });
-         })
-      });
-
-      /**
-       *  Event
-       *  Mise à jour de Maps lors du change des villes
-       */
-      $("#appbundle_geolocation_city").change(function () {
-         appbundle_geolocation_city_init_map();
-      });
-
-      /**
-       *  Event
+       *  Mise à jour de Maps lors du change des Pays
        *  Affichage du pays choisi sur la carte googleMap
        */
       $("#appbundle_geolocation_country").change(function () {
          input_address_country = "";
          if($('#struct_province_country_city').text() != "true") {
             input_address_country = $("#appbundle_geolocation_country > option:selected").text();
+            let input_address = $("#appbundle_geolocation_country > option:selected").text();
+            findDataByCountry();
          }
-         findDataByCountry();
+
+         let idCountry = $("#appbundle_geolocation_country > option:selected").val();
+
+         changeCountry("#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city", idCountry);
+
+         getGeolocationSchools('#appbundle_geolocation_country', "#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city",
+             "#appbundle_geolocation_sectorArea", "#appbundle_geolocation_activity", "#appbundle_geolocation_school");
       });
+      
+      /**
+       *  Event
+       *  Mise à jour de Maps lors du change des régions
+       */
+      $("#appbundle_geolocation_region").change(function () {
+         let regionId = $('#appbundle_geolocation_region option:selected').val();
+         let citySelectedId = $('#appbundle_geolocation_city option:selected').val();
+         if(!regionId) {
+            $("#appbundle_geolocation_country").trigger('change');
+         } else {
+            if($('#struct_province_country_city').text() == "true") {
+               input_address_country = $("#appbundle_geolocation_region > option:selected").text();
+               findDataByRegion();
+            }
+            changeRegion("#appbundle_geolocation_prefecture", "#appbundle_geolocation_city", regionId, citySelectedId);
+            selectData();
+
+            let input_address = $("#appbundle_geolocation_country > option:selected").text() + "," + $("#appbundle_geolocation_region > option:selected").text();
+            if($('#struct_province_country_city').text() == "true") {
+               input_address = $("#appbundle_geolocation_region > option:selected").text();
+            }
+            initMap(input_address_country + " " + input_address, 11);
+
+            getGeolocationSchools('#appbundle_geolocation_country', "#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city",
+                "#appbundle_geolocation_sectorArea", "#appbundle_geolocation_activity", "#appbundle_geolocation_school");
+         }
+      });
+      /**
+       *  Event
+       *  Mise à jour de Maps lors du change des prefectures
+       */
+      if($("#appbundle_geolocation_prefecture").length) {
+         $("#appbundle_geolocation_prefecture").change(function () {
+            if ($('#appbundle_geolocation_prefecture').length) {
+               let prefectureId = $('#appbundle_geolocation_prefecture option:selected').val();
+               let citySelectedId = $('#appbundle_geolocation_city option:selected').val();
+
+               if(!prefectureId) {
+                  $("#appbundle_geolocation_region").trigger('change');
+               } else {
+                  changePrefecture("#appbundle_geolocation_city", prefectureId, citySelectedId);
+                  selectData();
+
+                  let input_address = $("#appbundle_geolocation_region  option:selected").text() + " " + $("#appbundle_geolocation_prefecture  option:selected").text();
+                  initMap(input_address, 13);
+
+                  getGeolocationSchools('#appbundle_geolocation_country', "#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city",
+                      "#appbundle_geolocation_sectorArea", "#appbundle_geolocation_activity", "#appbundle_geolocation_school");
+               }
+            }
+         });
+      }
+
+      /**
+       *  Event
+       *  Mise à jour de Maps lors du change des villes
+       */
+      $("#appbundle_geolocation_city").change(function () {
+         let cityId = $('#appbundle_geolocation_city option:selected').val();
+         let cityName = $('#appbundle_geolocation_city option:selected').text();
+
+         // chechOff myGraduates if city different of school city
+         let citySchoolSelected = extractCityFromSelectedSchool();
+         if(citySchoolSelected != cityName) {
+            $('#appbundle_geolocation_yourGraduates').prop('checked', false);
+         }
+
+         //simulate change on prefecture or region
+         if(!cityId) {
+            if($("#appbundle_geolocation_city option").length > 1) {
+               $("#appbundle_geolocation_prefecture").trigger('change');
+            } else {
+               $("#appbundle_geolocation_region").trigger('change');
+            }
+         //update datas and maps
+         } else {
+            changeCity("#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city", cityId);
+            selectData();
+            appbundle_geolocation_city_init_map();
+
+            getGeolocationSchools('#appbundle_geolocation_country', "#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city",
+                "#appbundle_geolocation_sectorArea", "#appbundle_geolocation_activity", "#appbundle_geolocation_school");
+         }
+      });
+
+
+      /**
+       *  Event
+       *  Mise à jour de Maps lors du change des établissements
+       */
+      // $("#appbundle_geolocation_school").change(function () {
+      //    let schoolId = $('#appbundle_geolocation_school option:selected').val();
+      //    deleteAllMarkers();
+      //    selectData();
+      //    viewAllMarkers();
+      //    appbundle_geolocation_city_init_map();
+      //    // console.log("test",selectedDataPersonDegrees)
+      // });
+
 
       /**
        *  Event
@@ -331,6 +406,54 @@
          selectData();
          viewAllMarkers();
       });
+
+
+      /**
+       *  Event
+       *  Filtrage des diplômés de l'établissement séléctionné
+       */
+      $('#appbundle_geolocation_school').change(function () {
+         deleteAllMarkers();
+         let citySchoolSelected = extractCityFromSelectedSchool();
+
+         $('#appbundle_geolocation_city option:selected').prop('selected',false);
+         $('#appbundle_geolocation_city option').each(function () {
+            if ($(this).text() == citySchoolSelected) {
+               $(this).prop('selected', true);
+               changeCity('#appbundle_geolocation_region', '#appbundle_geolocation_prefecture', '#appbundle_geolocation_city', $(this).val());
+            }
+         });
+
+         $('#appbundle_geolocation_yourGraduates').prop('checked', false);
+          //select the city of school and update region and prefecture
+            // if($('#appbundle_geolocation_yourGraduates').is(':checked')) {
+            /*if($('#appbundle_geolocation_school option:selected').val()) {
+               $('#appbundle_geolocation_region option:selected').prop('selected',false);
+               $('#appbundle_geolocation_region option:first').prop('selected',true);
+               $('#appbundle_geolocation_region').trigger('change');
+
+               setTimeout(function () {
+                  $('#appbundle_geolocation_city option:selected').prop('selected',false);
+                  $('#appbundle_geolocation_city option').each(function () {
+                     if ($(this).text() == citySchoolSelected) {
+                        $(this).prop('selected', true);
+                     }
+                  });
+                  setTimeout(function () {
+                     if($('#appbundle_geolocation_city option:selected')) {
+                        $('#appbundle_geolocation_city').trigger('change');
+                     }
+                  }, 1000);
+               }, 1000);
+            }*/
+            selectData();
+            viewAllMarkers();
+      })
+
+      $('#appbundle_geolocation_yourGraduates').change(function () {
+         selectData();
+         viewAllMarkers();
+      })
 
       /**
        *  Event
@@ -372,14 +495,9 @@
       // if($('#selectedRegions option').length == 0) {
          if (($('#selectedCountry').val() !== '') &&
              ($('#selectedCountry').val() !== null)) {
-            countryEvent("#selectedCountry", "geolocation");
+            $('#appbundle_geolocation_country option[value="' + $('#selectedCountry').val() + '"]').prop("selected",true);
+            $('#appbundle_geolocation_country').trigger('change');
          }
-      // } else {
-      //    if (($('#selectedRegions').val() !== '') &&
-      //        ($('#selectedRegions').val() !== null)) {
-      //       regionEvent("#selectedCountry", "#selectedRegions", "geolocation");
-      //    }
-      // }
 
       let translations = [];
       getTranslation().then (function (translation) {
@@ -387,6 +505,13 @@
          //patch for have to wait to select city for running maps
          $('#appbundle_geolocation_region option[value=""]').prop("selected", true);
          $('#appbundle_geolocation_region option[value=""]').text(translations["js.select_region"]);
+
+         if(!navigator.onLine) {
+            alert(translations["js.no_internet_connexion"])
+         }
+         window.addEventListener("offline", function() {
+            alert(translations["js.no_internet_connexion"]);
+         })
       });
 
       /**
@@ -440,11 +565,80 @@
          dataSchools = [];
 
          let idCountry = $('#appbundle_geolocation_country option:selected').val()
+
          let url = window.location.href;
          if (idCountry) {
             url += 'country/' + idCountry ;
          }
-         console.log("-->" + url);
+         // console.log("-->" + url);
+
+         if (url != window.location.href) {
+            // Recupère les entreprises en Bdd
+            await $.get((url+'/company'), function (data) {
+               dataCompanies = [];
+               dataCompanies = data;
+               console.log(url+'/company' + "  compagnies récupérées : " + dataCompanies.length)
+            })
+
+            // Recupère les établissements en Bdd
+            await $.get((url+'/school'), function (data) {
+               dataSchools = [];
+               dataSchools = data;
+
+               console.log("etablissements récupérées: " + dataSchools.length)
+            })
+
+            // Recupère les diplômés en recherche d'emploi en Bdd
+            console.log("Ajax personDegreesGeo : " + url +'/unemployedpersondegree');
+            await $.get((url+'/unemployedpersondegree'), function (data) {
+               dataPersonDegrees = [];
+               dataPersonDegrees = data;
+               console.log("diplômés récupérés: " + dataPersonDegrees.length);
+               setTimeout(function () {
+                  selectData();
+                  setTimeout(function () {
+                     initMap(input_address_country, 7);
+                     console.log("datas selected");
+                  }, 1000);
+               }, 1000);
+            })
+
+            // Recupère les autres diplômés  en Bdd
+            console.log("Ajax personDegreesGeo : " + url +'/otherpersondegree');
+            await $.get((url+'/otherpersondegree'), function (data) {
+               dataOtherPersonDegrees = [];
+               dataOtherPersonDegrees = data;
+               console.log("diplômés récupérés: " + dataOtherPersonDegrees.length);
+               setTimeout(function () {
+                  selectData();
+                  setTimeout(function () {
+                     initMap(input_address_country, 7);
+                     console.log("datas selected");
+                  }, 1000);
+               }, 1000);
+            })
+         }
+      }
+
+      /**
+       *  Adaptation DBTA (STRUCT_PROVINCE_COUNTRY_CITY)
+       *  Génère les tables entreprise, établissements et
+       *  diplômé en fonction de la région sélectionnée
+       */
+      async function findDataByRegion() {
+         // initialisation des tables de données
+         dataCompanies = [];
+         dataPersonDegrees = [];
+         dataOtherPersonDegrees = [];
+         dataSchools = [];
+
+         let idRegion = $('#appbundle_geolocation_region option:selected').val()
+
+         let url = window.location.href;
+         if (idRegion) {
+            url += 'region/' + idRegion ;
+         }
+         // console.log("-->" + url);
 
          if (url != window.location.href) {
             // Recupère les entreprises en Bdd
@@ -505,29 +699,78 @@
          selectedDataOtherPersonDegrees = [];
 
          let valueRegion = $('#appbundle_geolocation_region option:selected').text()
+         // let valuePrefecture = null
+         // if($('#prefecture_between_region_city').text() == 'true') {
+            let valuePrefecture = $('#appbundle_geolocation_prefecture option:selected').text()
+         // }
          let valueCity = $('#appbundle_geolocation_city option:selected').text()
          let valueSectorArea = $('#appbundle_geolocation_sectorArea option:selected').text()
          let valueActivity = $('#appbundle_geolocation_activity option:selected').text()
+         let valueSchool = "select";
 
-         // console.log("valueCity= " + valueCity + " valueSectorArea= " + valueSectorArea)
+         if($('#appbundle_geolocation_yourGraduates').is(':checked')) {
+            if($('#appbundle_geolocation_school').is(':enabled ')) {
+               valueSchool = $('#appbundle_geolocation_school option:selected').text();
+            } else {
+               valueSchool = $('#appbundle_geolocation_school option:first').text();
+            }
+         }
+
+         console.log("valueCity= " + valueCity + " valueSectorArea= " + valueSectorArea)
+         console.log("--->>> valueSchool= " + valueSchool )
 
          // Selection des Entreprises
          // -------------------------
          $.each(dataCompanies, function (index, value) {
             let selected = true;
+            // console.log(value)
             // console.log(index + " region=" + value.region + " city=" + value.city  + " sa=" + value.sector_area);
             // if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.sector_area != valueSectorArea)
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.sector_area]; if(!val) val = value.sector_area; if(!val) val = "";
+               if(val.toLowerCase() != valueSectorArea.toLowerCase()) {
                   selected = false;
+               }
             }
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.city != valueCity)
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.city]; if(!val) val = value.city; if(!val) val = "";
+               if(val.toLowerCase() != valueCity.toLowerCase()) {
                   selected = false;
+               }
             }
-            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('select'))) {
-               if(value.region != valueRegion)
+            if($('#prefecture_between_region_city').text() == 'true') {
+               if (selected && (!valuePrefecture.toLowerCase().replace('é', 'e').startsWith('selec'))) {
+                  let val = translations[value.prefecture]; if(!val) val = value.prefecture; if(!val) val = "";
+                  if(val.toLowerCase() != valuePrefecture.toLowerCase()) {
+                     selected = false;
+                  }
+               }
+            }
+            if($('#struct_province_country_city').text() != "true") {
+               if (selected && (!valueRegion.toLowerCase().replace('é', 'e').startsWith('selec'))) {
+                  let val = translations[value.region]; if(!val) val = value.region; if(!val) val = "";
+                  if(val.toLowerCase() != valueRegion.toLowerCase()) {
+                     selected = false;
+                  }
+               }
+            }
+
+            if (! valueSchool.toLowerCase().replace('é','e').startsWith('selec')) {
+               //console.log(value)
+               let valSchoolnames = value.schools.split(',');
+               let valSchool = valueSchool.substring(0, valueSchool.indexOf('(')).trim();
+               console.log(valSchoolnames)
+
+               let schoolExist = false;
+               for (let i=0; i<valSchoolnames.length; i++) {
+                  console.log("-->" , valSchoolnames[i] , valSchool)
+                  if(valSchoolnames[i] == valSchool) {
+                     schoolExist = true;
+                  }
+               }
+               if(schoolExist == false) {
                   selected = false;
+               }
             }
 
             if (selected) {
@@ -542,39 +785,99 @@
          $.each(dataSchools, function (index, value) {
             let selected = true;
 
-            if (! valueActivity.toLowerCase().replace('é','e').startsWith('select')) {
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selec')) {
+
                let activityexist = false;
-               $.each(value.activity1, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
-               $.each(value.activity2, function (index2, value2) { if(value2 == valueActivity) { activityexist = true; }});
-               $.each(value.activity3, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
-               $.each(value.activity4, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
-               $.each(value.activity5, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
-               $.each(value.activity6, function (index2, value2) { if(value2 == valueActivity) { activityexist = true;}});
+               $.each(value.activity1, function (index2, value2) {
+                  let val = translations[value2]; if(!val) val = value2; if(!val) val = "";
+                  if(val.toLowerCase() == valueActivity.toLowerCase()) {
+                     activityexist = true;
+                  }
+               });
+               $.each(value.activity2, function (index2, value2) {
+                  let val = translations[value2]; if(!val) val = value2; if(!val) val = "";
+                  if(val.toLowerCase() == valueActivity.toLowerCase()) {
+                     activityexist = true;
+                  }
+               });
+               $.each(value.activity3, function (index2, value2) {
+                  let val = translations[value2]; if(!val) val = value2; if(!val) val = "";
+                  if(val.toLowerCase() == valueActivity.toLowerCase()) {
+                     activityexist = true;
+                  }
+               });
+               $.each(value.activity4, function (index2, value2) {
+                  let val = translations[value2]; if(!val) val = value2; if(!val) val = "";
+                  if(val.toLowerCase() == valueActivity.toLowerCase()) {
+                     activityexist = true;
+                  }
+               });
+               $.each(value.activity5, function (index2, value2) {
+                  let val = translations[value2]; if(!val) val = value2; if(!val) val = "";
+                  if(val.toLowerCase() == valueActivity.toLowerCase()) {
+                     activityexist = true;
+                  }
+               });
+               $.each(value.activity6, function (index2, value2) {
+                  let val = translations[value2]; if(!val) val = value2; if(!val) val = "";
+                  if(val.toLowerCase() == valueActivity.toLowerCase()) {
+                     activityexist = true;
+                  }
+               });
                if (activityexist==false)
                   selected = false;
             }
 
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
-               if((value.sector_area1 != valueSectorArea) &&
-                       (value.sector_area2 != valueSectorArea) &&
-                       (value.sector_area3 != valueSectorArea) &&
-                       (value.sector_area4 != valueSectorArea) &&
-                       (value.sector_area5 != valueSectorArea) &&
-                       (value.sector_area6 != valueSectorArea))
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val1 = translations[value.sector_area1]; if(!val1) val1 = value.sector_area1; if(!val1) val1 = "";
+               let val2 = translations[value.sector_area2]; if(!val2) val2 = value.sector_area2; if(!val2) val2 = "";
+               let val3 = translations[value.sector_area3]; if(!val3) val3 = value.sector_area3; if(!val3) val3 = "";
+               let val4 = translations[value.sector_area4]; if(!val4) val4 = value.sector_area4; if(!val4) val4 = "";
+               let val5 = translations[value.sector_area5]; if(!val5) val5 = value.sector_area5; if(!val5) val5 = "";
+               let val6 = translations[value.sector_area6]; if(!val6) val6 = value.sector_area6; if(!val6) val6 = "";
+               // console.log(" |" + val1 + " | " + value.sector_area1 + " | " + valueSectorArea + " |")
+               if((val1.toLowerCase() != valueSectorArea.toLowerCase()) &&
+                       (val2.toLowerCase() != valueSectorArea.toLowerCase()) &&
+                       (val3.toLowerCase() != valueSectorArea.toLowerCase()) &&
+                       (val4.toLowerCase() != valueSectorArea.toLowerCase()) &&
+                       (val5.toLowerCase() != valueSectorArea.toLowerCase()) &&
+                       (val6.toLowerCase() != valueSectorArea.toLowerCase()))
                   selected = false;
             }
 
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.city != valueCity)
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.city]; if(!val) val = value.city; if(!val) val = "";
+               if(val.toLowerCase() != valueCity.toLowerCase())
                   selected = false;
             }
 
-            if (selected && (! valueRegion.toLowerCase().replace('é','e').startsWith('select'))) {
-               if(value.region != valueRegion)
+            if($('#prefecture_between_region_city').text() == 'true') {
+               if (selected && (!valuePrefecture.toLowerCase().replace('é', 'e').startsWith('selec'))) {
+                  let val = translations[value.prefecture]; if(!val) val = value.prefecture; if(!val) val = "";
+                  if (val.toLowerCase() != valuePrefecture.toLowerCase())
+                     selected = false;
+               }
+            }
+
+            if($('#struct_province_country_city').text() != "true") {
+               if (selected && (!valueRegion.toLowerCase().replace('é', 'e').startsWith('selec'))) {
+                  let val = translations[value.region]; if(!val) val = value.region; if(!val) val = "";
+                  if (val.toLowerCase() != valueRegion.toLowerCase())
+                     selected = false;
+               }
+            }
+
+            if (! valueSchool.toLowerCase().replace('é','e').startsWith('selec')) {
+               let valName = value.name.trim();
+               let valSchool = valueSchool.substring(0, valueSchool.indexOf('(')).trim();
+
+               if(valName.toLowerCase() != valSchool.toLowerCase()) {
                   selected = false;
+               }
             }
 
             if (selected) {
+               // console.log(dataSchools[index]);
                selectedDataSchools.push(dataSchools[index]);
             }
          })
@@ -587,25 +890,48 @@
          $.each(dataPersonDegrees, function (index, value) {
             let selected = true;
 
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.sector_area != valueSectorArea)
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.sector_area]; if(!val) val = value.sector_area; if(!val) val = "";
+               if(val.toLowerCase() != valueSectorArea.toLowerCase())
                   selected = false;
             }
 
-            if (! valueActivity.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.activity != valueActivity)
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.activity]; if(!val) val = value.activity; if(!val) val = "";
+               if(val != valueActivity)
                   selected = false;
             }
 
-            if (! valueRegion.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.region != valueRegion)
-                  selected = false;
-               // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
+            if($('#struct_province_country_city').text() != "true") {
+               if (!valueRegion.toLowerCase().replace('é', 'e').startsWith('selec')) {
+                  let val = translations[value.region]; if(!val) val = value.region; if(!val) val = "";
+                  if (val != valueRegion)
+                     selected = false;
+                  // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
+               }
             }
 
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.city != valueCity)
+            if($('#prefecture_between_region_city').text() == 'true') {
+               if (!valuePrefecture.toLowerCase().replace('é', 'e').startsWith('selec')) {
+                  let val = translations[value.prefecture]; if(!val) val = value.prefecture; if(!val) val = "";
+                  if (val != valuePrefecture)
+                     selected = false;
+               }
+            }
+
+            if (! valueCity.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.city]; if(!val) val = value.city; if(!val) val = "";
+               if(val != valueCity)
                   selected = false;
+            }
+
+            if (! valueSchool.toLowerCase().replace('é','e').startsWith('selec')) {
+               let valPersonDegreeSchool = value.school.trim();
+               let valSchool = valueSchool.substring(0, valueSchool.indexOf('(')).trim();
+
+               if(valPersonDegreeSchool.toLowerCase() != valSchool.toLowerCase()) {
+                  selected = false;
+               }
             }
 
             if (selected) {
@@ -621,25 +947,50 @@
          $.each(dataOtherPersonDegrees, function (index, value) {
             let selected = true;
 
-            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.sector_area != valueSectorArea)
+            if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.sector_area]; if(!val) val = value.sector_area; if(!val) val = "";
+               if(val.toLowerCase() != valueSectorArea.toLowerCase())
                   selected = false;
             }
 
-            if (! valueActivity.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.activity != valueActivity)
+            if (! valueActivity.toLowerCase().replace('é','e').startsWith('selec')) {
+               let val = translations[value.activity]; if(!val) val = value.activity; if(!val) val = "";
+               if(val.toLowerCase() != valueActivity.toLowerCase())
                   selected = false;
             }
 
-            if (! valueRegion.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.region != valueRegion)
-                  selected = false;
-               // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
+            if($('#appbundle_geolocation_yourGraduates').not(':checked')) {
+               if($('#struct_province_country_city').text() != "true") {
+                  if (!valueRegion.toLowerCase().replace('é', 'e').startsWith('selec')) {
+                     let val = translations[value.region]; if(!val) val = value.region; if(!val) val = "";
+                     if(val.toLowerCase() != valueRegion.toLowerCase())
+                        selected = false;
+                     // console.log("champs: |" + valueRegion + "|" + value.region + "|" );
+                  }
+               }
+
+               if ($('#prefecture_between_region_city').text() == 'true') {
+                  if (selected && (!valuePrefecture.toLowerCase().replace('é', 'e').startsWith('selec'))) {
+                     let val = translations[value.prefecture]; if(!val) val = value.prefecture; if(!val) val = "";
+                     if(val.toLowerCase() != valuePrefecture.toLowerCase())
+                        selected = false;
+                  }
+               }
+
+               if (!valueCity.toLowerCase().replace('é', 'e').startsWith('selec')) {
+                  let val = translations[value.city]; if(!val) val = value.city ; if(!val) val = "";
+                  if(val.toLowerCase() != valueCity.toLowerCase())
+                     selected = false;
+               }
             }
 
-            if (! valueCity.toLowerCase().replace('é','e').startsWith('select')) {
-               if(value.city != valueCity)
+            if (! valueSchool.toLowerCase().replace('é','e').startsWith('selec')) {
+               let valPersonDegreeSchool = value.school.trim();
+               let valSchool = valueSchool.substring(0, valueSchool.indexOf('(')).trim();
+
+               if(valPersonDegreeSchool.toLowerCase() != valSchool.toLowerCase()) {
                   selected = false;
+               }
             }
 
             if (selected) {
@@ -685,13 +1036,15 @@
                icon: icon,
                title: value.name
             });
+            let sectorsTrans = translateData(value.sector_area, ',');
+            let activitiesTrans = translateData(value.activity, ',');
             let contentString  = '<div class="infoMaps">';
             contentString += '<h3>' + value.name + '</h3>';
             contentString  += '<p> <span> email: </span> <span>' + value.email + '</span></p>';
             contentString  += '<p> <span>tel.:</span> <span>' + value.phone + '</span></p>';
-            contentString  += '<p> <span>Secteur:</span> <span>' + value.sector_area + '</span></p>';
+            contentString  += '<p> <span>Secteur:</span> <span>' + sectorsTrans + '</span></p>';
             if((value.activity != '')&&(value.activity != null)) {
-               contentString  += '<p> <span>Filière:</span> <span>' + value.activity + '</span></p>';
+               contentString  += '<p> <span>Filière:</span> <span>' + activitiesTrans + '</span></p>';
             };
             contentString += '</div>';
             let infowindow = new google.maps.InfoWindow({
@@ -706,6 +1059,36 @@
             infoWindows.push(infowindow);
          })
          return markers;
+      }
+
+      /**
+       * Traduction des données
+       */
+      function translateData(data, char) {
+         if (typeof data == "string") {
+            if (char) {
+               let dataSplit = data.split(char);
+               if (dataSplit) {
+                  let result = "";
+                  for (let i=0; i<dataSplit.length; i++) {
+                     if(translations[dataSplit[i].trim()]) {
+                        result += translations[dataSplit[i].trim()]
+                     } else {
+                        result += dataSplit[i]
+                     }
+                     if(dataSplit[i] != dataSplit.slice(-1)) {
+                        result += "<br>"
+                     }
+                  }
+                  return result;
+               }
+            }
+            if(translations[data]) {
+               return translations[data.trim()]
+            } else {
+               return data.trim();
+            }
+         }
       }
 
       /**
@@ -775,5 +1158,84 @@
             initMap(input_address_country + " " + input_address, 12);
          }
       }
+
+      function extractCityFromSelectedSchool() {
+         // let citySchoolSelected = $('#appbundle_geolocation_school option[value=""]').text();
+         let citySchoolSelected = $('#appbundle_geolocation_school option:selected').text();
+         citySchoolSelected = citySchoolSelected.substr(citySchoolSelected.indexOf('(')+1);
+         citySchoolSelected = citySchoolSelected.slice(0, citySchoolSelected.length - 1);
+         return (citySchoolSelected)
+      }
+
+      // mise à jour des établissements en fonction des autres filtres
+      function getGeolocationSchools(idCountry, idRegion, idPrefecture, idCity, idSectorArea, idActivity, idSchool) {
+         let countryId = $(idCountry).val();
+         let regionId = $(idRegion).val();
+         let prefectureId = $(idPrefecture).val();
+         let cityId = $(idCity).val();
+         let sectorAreaId = $(idSectorArea).val();
+         let activityId = $(idActivity).val();
+         let schoolId = $(idSchool).val();
+         let schools = [];
+
+         // find schools of country
+         if(countryId && !regionId) {
+            // alert("country")
+            removeOptions(idSchool);
+            let baseUrl = getUrlCurrentLocale();
+            let url = baseUrl + "getSchoolsByCountry";
+
+            let data = {"countryId" : countryId };
+            $.get(url, data).done(function (result) {
+               createSortedOptions(idSchool, result, null);
+            })
+         }
+
+         // find schools of region
+         // if($('#prefecture_between_region_city') == "true" && regionId ) {
+         if(regionId && !prefectureId && !cityId) {
+            // alert("region")
+            removeOptions(idSchool);
+            let baseUrl = getUrlCurrentLocale();
+            let url = baseUrl + "getSchoolsByRegion";
+
+            let data = {"regionId" : regionId };
+            $.get(url, data).done(function (result) {
+               createSortedOptions(idSchool, result, null);
+            })
+         }
+
+         // find schools of prefecture
+         if(prefectureId && !cityId) {
+            // alert("prefecture");
+            removeOptions(idSchool);
+            let baseUrl = getUrlCurrentLocale();
+            let url = baseUrl + "getSchoolsByPrefecture";
+
+            let data = {"prefectureId" : prefectureId };
+            $.get(url, data).done(function (result) {
+               createSortedOptions(idSchool, result, null);
+            })
+         }
+
+         if(cityId) {
+            setTimeout(function () {
+               removeOptions(idSchool);
+               let baseUrl = getUrlCurrentLocale();
+               let url = baseUrl + "getSchoolsByCity";
+
+               let data = {"cityId" : cityId };
+               $.get(url, data).done(function (result) {
+                  createSortedOptions($(idSchool), result, null);
+               })
+            }, 2000);
+         }
+      }
+      $(document).ready(function () {
+         // console.log($('#selectCountry option:first').val())
+
+         // $("#appbundle_geolocation_country").val($('#selectCountry option:first').val());
+         // $("#appbundle_geolocation_country").trigger('change');
+      })
    </script>
 {% endblock %}

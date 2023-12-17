@@ -8,16 +8,16 @@
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
                     {{ 'job.details_of_the_offer' | trans }}  {{ jobOffer.id }}
-                    {%  if app.user.roles|role == "Entreprise"%}
+                    {%  if app.user.roles|role == "Entreprise" or app.user.roles|role == "Etablissement"%}
                         <a class="btn btn-sm btn-primary float-right" href="{{ path('jobOffer_new') }}">
                             <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}
                         </a>
                     {% endif %}
-                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}
+{#                    {%  if app.user.roles|role == "Administrateur" or app.user.roles|role == "Entreprise"%}#}
                         <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('jobOffer_index') }}">
                             <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                         </a>
-                    {% endif %}
+{#                    {% endif %}#}
                 </h6>
                 <div class="element-box jobOffer">
                     <div class="form-group row jobOfferBanner">
@@ -37,12 +37,12 @@
                         {%  if jobOffer.updatedDate > jobOffer.createdDate %}
                             <p class="col-sm-12">{{ 'job.updated_on' | trans }}  {{ jobOffer.updatedDate|date('d/m/Y') }}</p>
                         {% endif %}
-                        <p class="col-sm-12">{{ 'menu.expires_on' | trans }} {{ jobOffer.closedDate|date('d/m/Y') }}</p>
-                        <p class="col-sm-12">{{ 'job.type_of_contract' | trans }} : {{ jobOffer.contract }}</p>
+                        <p class="col-sm-12">{{ 'menu.expires_on' | trans }} {{ jobOffer.closedDate }}</p>
+                        <p class="col-sm-12">{{ 'job.type_of_contract' | trans }} : {{ jobOffer.contract | trans }}</p>
                         {% if jobOffer.otherCity %}
-                            <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.otherCity }}</p>
+                            <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country | trans }}-{{ jobOffer.otherCity }}</p>
                         {% else %}
-                            <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country }}-{{ jobOffer.city.name }}</p>
+                            <p class="col-sm-12">{{ 'menu.localization' | trans }} : {{ jobOffer.country | trans }}-{{ jobOffer.city.name }}</p>
                         {% endif %}
                     </div>
 

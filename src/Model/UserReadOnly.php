@@ -66,12 +66,15 @@ final class UserReadOnly {
         return $this->roles;
     }
     public function role(): ?string {
-        $roles = explode(",",$this->roles);
-        if($this->pseudos) {
-            $pseudos = explode(",", $this->pseudos);
-            return count($pseudos)>0 ? $pseudos[0] : "";
+        if($this->roles) {
+            $roles = explode(",", $this->roles);
+            if ($this->pseudos) {
+                $pseudos = explode(",", $this->pseudos);
+                return count($pseudos) > 0 ? $pseudos[0] : "";
+            }
+            return count($roles) > 0 ? $roles[0] : "";
         }
-        return count($roles)>0 ? $roles[0] : "";
+        return null;
     }
 
     public function adminRegions(): ?string {

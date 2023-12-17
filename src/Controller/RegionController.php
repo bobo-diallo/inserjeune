@@ -8,6 +8,7 @@ use App\Repository\RegionRepository;
 use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -17,7 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/region')]
-#[IsGranted('ROLE_ADMIN')]
+// #[IsGranted('ROLE_ADMIN')]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_DIRECTEUR')")]
 class RegionController extends AbstractController {
 	private EntityManagerInterface $em;
 	private RegionRepository $regionRepository;
@@ -39,8 +43,8 @@ class RegionController extends AbstractController {
 	#[Route(path: '/', name: 'region_index', methods: ['GET'])]
 	public function indexAction(): Response {
         //adaptation dbta: mise à jour des currency_id pour les regions importées
+        $regions = $this->regionRepository->findAll();
         if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
-            $regions = $this->regionRepository->findAll();
             foreach ($regions as $region) {
                 if(!$region->getCurrency()) {
                     $region->setCurrency($region->getCountry()->getCurrency());
@@ -51,12 +55,18 @@ class RegionController extends AbstractController {
                 }
             }
         }
+        if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            $userCountry = $this->getUser()->getCountry();
+            $regions =  $this->regionRepository->findByCountry($userCountry->getId());
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $regions =  $this->getUser()->getAdminRegions();
+        }
 
 		return $this->render('region/index.html.twig', array(
-			'regions' => $this->regionRepository->findAll(),
+			'regions' => $regions,
 		));
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/new', name: 'region_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$region = new Region();
@@ -78,14 +88,14 @@ class RegionController extends AbstractController {
 			'form' => $form->createView(),
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}', name: 'region_show', methods: ['GET'])]
 	public function showAction(Region $region): Response {
 		return $this->render('region/show.html.twig', [
 			'region' => $region
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}/edit', name: 'region_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, Region $region): RedirectResponse|Response {
 
@@ -106,7 +116,7 @@ class RegionController extends AbstractController {
 			'edit_form' => $editForm->createView(),
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/delete/{id}', name: 'region_delete', methods: ['GET'])]
 	public function deleteAction(Request $request, ?Region $region): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
@@ -121,4 +131,5 @@ class RegionController extends AbstractController {
 		}
 		return $this->redirectToRoute('region_index');
 	}
+
 }

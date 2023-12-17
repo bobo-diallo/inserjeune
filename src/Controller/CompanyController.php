@@ -6,6 +6,7 @@ use App\Entity\Company;
 use App\Entity\Country;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Services\ActivityService;
 use App\Services\CompanyService;
@@ -23,14 +24,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/company')]
 #[Security("is_granted('ROLE_ADMIN') or 
             is_granted('ROLE_LEGISLATEUR') or 
+            is_granted('ROLE_DIRECTEUR') or 
             is_granted('ROLE_ADMIN_REGIONS') or 
             is_granted('ROLE_ADMIN_PAYS') or 
-            is_granted('ROLE_ADMIN_VILLES')")]
+            is_granted('ROLE_ADMIN_VILLES') or 
+            is_granted('ROLE_PRINCIPAL')")]
 class CompanyController extends AbstractController {
 	private EntityManagerInterface $em;
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
 	private CompanyRepository $companyRepository;
+    private SchoolRepository $schoolRepository;
     private CompanyService $companyService;
 	private TranslatorInterface $translator;
 
@@ -39,6 +43,7 @@ class CompanyController extends AbstractController {
 		ActivityService        $activityService,
 		UserRepository         $userRepository,
 		CompanyRepository      $companyRepository,
+        SchoolRepository       $schoolRepository,
         CompanyService         $companyService,
 		TranslatorInterface    $translator
 	) {
@@ -46,6 +51,7 @@ class CompanyController extends AbstractController {
 		$this->activityService = $activityService;
 		$this->userRepository = $userRepository;
 		$this->companyRepository = $companyRepository;
+        $this->schoolRepository = $schoolRepository;
 		$this->companyService = $companyService;
 		$this->translator = $translator;
 	}
@@ -78,6 +84,12 @@ class CompanyController extends AbstractController {
             foreach ($userCities as $city) {
                 $companies = array_merge($companies, $this->companyRepository->findByCity($city));
             }
+        }
+
+        //For principal Role
+        if($this->getUser()->getPrincipalSchool()) {
+            $school = $this->schoolRepository->find($this->getUser()->getPrincipalSchool());
+            $companies = $this->companyRepository->getBySchool($school);
         }
 
 		return $this->render('company/index.html.twig', ['companies' => $companies]);

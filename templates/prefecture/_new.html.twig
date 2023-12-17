@@ -1,0 +1,24 @@
+{{ form_widget(form._token) }}
+<div class="form-group col-sm-12">
+  <label for=""> {{ 'menu.country' | trans }} </label>
+  {{ create_translated_select(form.country) }}
+{#  {{ form_widget(form.country) }}#}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name) }}</div>
+</div>
+<div class="form-group col-sm-12">
+  <label for=""> {{ 'menu.region' | trans }} </label>
+  {{ create_translated_select(form.region) }}
+{#  {{ form_widget(form.region) }}#}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+</div>
+<div class="form-group col-sm-12">
+  <label for=""> {{ 'menu.name' | trans }} </label>
+  {{ form_widget(form.name) }}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name) }}</div>
+</div>
+{% if roleUser == "Admin_pays" %}
+  <p hidden id="selectedCountry">{{ app.user.country.id }}</p>
+{% endif %}
+<div class="form-buttons-w">
+  <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
+</div>

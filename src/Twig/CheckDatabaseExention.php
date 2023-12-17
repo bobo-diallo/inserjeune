@@ -86,6 +86,7 @@ class CheckDatabaseExention extends AbstractExtension {
 		$status = 'false';
 		$bNone = 'none';
 		$bNoir = '1px solid #0c0c0c';
+        $value = '';
 
 		$degreeMonth = "1";
 		if ($lastDegreeMonth > 0) {
@@ -103,12 +104,15 @@ class CheckDatabaseExention extends AbstractExtension {
 		if ($currentDate < $compareDate3Month) {
 			$color = $cBlanc;
 			$border = $bNoir;
+            $value = 0;
 		} elseif ($currentDate < $compareDate6Month) {
 			$color = $cOrange;
 			$border = $bNone;
+            $value = 1;
 		} else {
 			$color = $cRouge;
 			$border = $bNone;
+            $value = 2;
 		}
 
 		if ($lastDegreeMonth > 0) {
@@ -117,12 +121,14 @@ class CheckDatabaseExention extends AbstractExtension {
 					$color = $cRose;
 					$status = 'true';
 					$border = $bNone;
+                    $value = 3;
 					break;
 				case 'TYPE_EMPLOYED':
 					if ($satisfactionSalariesCount > 0) {
 						$color = $cVert;
 						$status = 'true';
 						$border = $bNone;
+                        $value = 4;
 					}
 					break;
 				case 'TYPE_CONTRACTOR':
@@ -130,6 +136,7 @@ class CheckDatabaseExention extends AbstractExtension {
 						$color = $cVert;
 						$status = 'true';
 						$border = $bNone;
+                        $value = 4;
 					}
 					break;
 				case 'TYPE_STUDY':
@@ -139,6 +146,7 @@ class CheckDatabaseExention extends AbstractExtension {
 						$color = $cVert;
 						$status = 'true';
 						$border = $bNone;
+                        $value = 4;
 					}
 					break;
 			}
@@ -148,11 +156,12 @@ class CheckDatabaseExention extends AbstractExtension {
 				$color = $cRose;
 				$status = 'true';
 				$border = $bNone;
+                $value = 3;
 			}
 		}
 
 		if ($color != $cError) {
-			$html = sprintf('<div style="width: 30px; height: 20px; background-color: %s; margin: auto; border: %s"></div><div style="display: none">%s</div>', $color, $border, $status);
+			$html = sprintf('<div style="width: 30px; height: 20px; color: %s; background-color: %s; margin: auto; border: %s">%s</div><div style="display: none">%s</div>', $color, $color, $border,$value, $status);
 
 		} else {
 			$html = 'Erreur sur mois d\'obtention';

@@ -1,4 +1,19 @@
-{% extends 'base.html.twig' %}
+{% if is_granted('ROLE_ADMIN') == true  or
+  is_granted('ROLE_ADMIN_PAYS') == true  or
+  is_granted('ROLE_ADMIN_REGIONS') == true  or
+  is_granted('ROLE_ADMIN_VILLES') == true %}
+  {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
+{% else %} {% set base = 'base_degree.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% set roleUser = app.user.roles|role %}
+
 {% block title %}
   {{ parent() }}  {{ 'menu.country' | trans }}
 {% endblock %}

@@ -103,9 +103,9 @@ class SatisfactionSearchType extends AbstractType
          ])
          ->add('jobTime', ChoiceType::class, [
             'choices' => [
-               'moins d\'un mois' => 'moins d\'un mois',
-               'entre 1 et 3 mois' => 'entre 1 et 3 mois',
-               'plus de 3 mois' => 'plus de 3 mois',
+                'satisfaction.less_than_a_month' => 'moins d\'un mois',
+                'satisfaction.between_1_and_3_months' => 'entre 1 et 3 mois',
+                'satisfaction.more_than_3_months' => 'plus de 3 mois',
             ],
             'attr' => ['class' => 'form-control']
          ])

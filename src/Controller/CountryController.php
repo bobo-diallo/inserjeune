@@ -7,6 +7,7 @@ use App\Form\CountryType;
 use App\Repository\CountryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,7 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/country')]
-#[IsGranted('ROLE_ADMIN')]
+// #[IsGranted('ROLE_ADMIN')]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_DIRECTEUR')")]
 class CountryController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
@@ -38,7 +41,7 @@ class CountryController extends AbstractController {
 			'countries' => $this->countryRepository->findAll()
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/new', name: 'country_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$country = new Country();
@@ -67,14 +70,14 @@ class CountryController extends AbstractController {
 			'form' => $form->createView(),
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}', name: 'country_show', methods: ['GET'])]
 	public function showAction(Country $country): Response {
 		return $this->render('country/show.html.twig', array(
 			'country' => $country,
 		));
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}/edit', name: 'country_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, Country $country): RedirectResponse|Response {
 		$editForm = $this->createForm(CountryType::class, $country);
@@ -90,7 +93,7 @@ class CountryController extends AbstractController {
 			'edit_form' => $editForm->createView(),
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/delete/{id}', name: 'country_delete', methods: ['GET'])]
 	public function deleteAction(Request $request, ?Country $country): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {

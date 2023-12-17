@@ -14,6 +14,7 @@ final class RoleFixtures extends AbstractFixtures
 	public const ROLE_ENTREPRISE = 'ROLE_ENTREPRISE';
 	public const ROLE_ETABLISSEMENT = 'ROLE_ETABLISSEMENT';
 	public const ROLE_LEGISLATEUR = 'ROLE_LEGISLATEUR';
+	public const ROLE_DIRECTEUR = 'ROLE_DIRECTEUR';
 
 	public function load(ObjectManager $manager): void
 	{
@@ -25,6 +26,7 @@ final class RoleFixtures extends AbstractFixtures
 			RoleFixtures::ROLE_ENTREPRISE,
 			RoleFixtures::ROLE_ETABLISSEMENT,
 			RoleFixtures::ROLE_LEGISLATEUR,
+			RoleFixtures::ROLE_DIRECTEUR,
 		];
 
 		foreach ($roles as $newRole) {

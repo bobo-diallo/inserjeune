@@ -6,6 +6,7 @@ use App\Entity\City;
 use App\Entity\Region;
 use App\Repository\UserRepository;
 use App\Repository\RoleRepository;
+use App\Repository\SchoolRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -35,6 +36,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController {
 	private EntityManagerInterface $em;
 	private UserRepository $userRepository;
+	private SchoolRepository $schoolRepository;
 	private RoleRepository $roleRepository;
 	private UserPasswordHasherInterface $hasher;
 	private RequestStack $requestStack;
@@ -44,6 +46,7 @@ class UserController extends AbstractController {
 		EntityManagerInterface      $em,
 		UserRepository              $userRepository,
 		RoleRepository              $roleRepository,
+        SchoolRepository $schoolRepository,
 		UserPasswordHasherInterface $hasher,
 		RequestStack                $requestStack,
 		TranslatorInterface $translator
@@ -51,6 +54,7 @@ class UserController extends AbstractController {
 		$this->em = $em;
 		$this->userRepository = $userRepository;
 		$this->roleRepository = $roleRepository;
+        $this->schoolRepository = $schoolRepository;
 		$this->hasher = $hasher;
 		$this->requestStack = $requestStack;
 		$this->translator = $translator;
@@ -58,8 +62,35 @@ class UserController extends AbstractController {
 
 	#[Route(path: '/', name: 'user_index', methods: ['GET'])]
 	public function indexAction(): Response {
+        $allUsers = $this->userRepository->getAllUser();
+        $users = [];
+        if($this->getUser()->hasRole('ROLE_ADMIN')) {
+            $users = $allUsers;
+        } else if($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            foreach ($allUsers as $user) {
+                if($user->roles() != 'ROLE_ADMIN_PAYS') {
+                    if ($user->country() == $this->getUser()->getCountry()->getName()) {
+                        $users[] = $user;
+                    }
+                }
+            }
+        } else if($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            foreach ($allUsers as $user) {
+                if(($user->roles() != 'ROLE_ADMIN_PAYS') && ($user->roles() != 'ROLE_ADMIN_REGIONS')) {
+                    $regions = $this->getUser()->getAdminRegions();
+                    foreach ($regions as $region) {
+                        if ($user->region()) {
+                            if ($region->getName() == $user->region()) {
+                                $users[] = $user;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 		return $this->render('user/index.html.twig', [
-			'users' => $this->userRepository->getAllUser()
+			'users' => $users
 		]);
 	}
 
@@ -74,13 +105,6 @@ class UserController extends AbstractController {
         $roles = $this->roleRepository->findAll();
 		$form->handleRequest($request);
 
-        //Change access of Roles function of current Administrator level
-        if($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
-            $this->changeRoleFormAdminPays ($form);
-        } else if($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
-            $this->changeRoleFormAdminRegions ($form);
-        }
-
 		if ($form->isSubmitted() && $form->isValid()) {
             //Adaptation for DBTA
             if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
@@ -91,14 +115,26 @@ class UserController extends AbstractController {
                 }
             }
 
+            //Only for Principal
+            if($user->hasRole(Role::ROLE_PRINCIPAL)) {
+                if($user->getSchool())
+                    $user->setPrincipalSchool($user->getSchool()->getId());
+            }
+
 			$user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
 			$user->setEnabled(true);
 
 			$this->em->persist($user);
 			$this->em->flush();
-
 			return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
 		}
+
+        //Change access of Roles function of current Administrator level
+        if($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            $this->changeRoleFormAdminPays ($form);
+        } else if($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $this->changeRoleFormAdminRegions ($form);
+        }
 
 		return $this->render('user/new.html.twig', [
 			'user' => $user,
@@ -116,11 +152,18 @@ class UserController extends AbstractController {
 
 	#[Route(path: '/{id}/edit', name: 'user_edit', methods: ['GET', 'POST', 'PUT'])]
 	public function editAction(Request $request, User $user): RedirectResponse|Response {
-        // $editForm = $this->createForm(UserType::class, $user);
-        // //Adaptation for DBTA
-        // if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
-            $editForm = $this->createForm(UserType::class, $user);
-        // }
+
+        //Only for Principal
+        if($user->hasRole(Role::ROLE_PRINCIPAL)) {
+            if($user->getPrincipalSchool()) {
+                $school = $this->schoolRepository->find($user->getPrincipalSchool());
+                if($school) {
+                    $user->setSchool($school);
+                }
+            }
+        }
+
+        $editForm = $this->createForm(UserType::class, $user);
         $roles = $this->roleRepository->findAll();
 		$editForm->handleRequest($request);
 
@@ -144,6 +187,12 @@ class UserController extends AbstractController {
                 }
             }
 
+            //Only for Principal
+            if($user->hasRole(Role::ROLE_PRINCIPAL)) {
+                if($user->getSchool())
+                    $user->setPrincipalSchool($user->getSchool()->getId());
+            }
+
 			$user->setPassword($this->hasher->hashPassword($user, $user->getPlainPassword()));
 			$this->em->flush();
 			return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
@@ -160,8 +209,16 @@ class UserController extends AbstractController {
 	public function deleteAction(Request $request, ?User $user): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($user) {
+                if($user->getSchool()) {
+                    $principals = $this->userRepository->findByPrincipalSchool($user->getSchool()->getId());
+                    foreach ($principals as $principal) {
+                        $this->em->remove($principal);
+                        // var_dump("principal:",$principal->getId());
+                    }
+                }
 				$this->removeRelations($user);
 				$this->em->remove($user);
+                // var_dump("user:",$user->getId());die();
 				$this->em->flush();
 				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {
@@ -201,7 +258,8 @@ class UserController extends AbstractController {
                 return $r->createQueryBuilder('ig')
                     ->Where('ig.role = \'ROLE_ADMIN_REGIONS\'')
                     ->orWhere('ig.role = \'ROLE_ADMIN_VILLES\'')
-                    ->orWhere('ig.role = \'ROLE_LEGISLATEUR\'');
+                    ->orWhere('ig.role = \'ROLE_LEGISLATEUR\'')
+                    ->orWhere('ig.role = \'ROLE_PRINCIPAL\'');
             },
             'attr' => ['class' => 'form-control select2',]
         ]);
@@ -214,7 +272,8 @@ class UserController extends AbstractController {
             'multiple' => true,
             'query_builder' => function (RoleRepository $r) {
                 return $r->createQueryBuilder('ig')
-                    ->Where('ig.role = \'ROLE_ADMIN_VILLES\'');
+                    ->Where('ig.role = \'ROLE_ADMIN_VILLES\'')
+                    ->orWhere('ig.role = \'ROLE_PRINCIPAL\'');
             },
             'attr' => ['class' => 'form-control select2',]
         ]);

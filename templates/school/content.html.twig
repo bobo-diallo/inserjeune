@@ -4,7 +4,9 @@
    is_granted('ROLE_ADMIN_VILLES') == true %}
       {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
 {% else %} {% set base = 'base_school.html.twig' %}
 {% endif %}
 
@@ -77,12 +79,12 @@
          // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
          if ($('#selectedRegion option').length == 0) {
             if ($('#selectedCountry').val() !== '') {
-               countryEvent("#selectedCountry", "school");
+               //countryEvent("#selectedCountry", "school");
             }
          } else {
             //adaptation DBTA pour l'environnement struct_province_country
             // (pas de sélection possible sur le country, simule un click sur la region pour accéder au city)
-            regionEvent("#selectedCountry", "#selectedRegion", "school");
+            // regionEvent("#selectedCountry", "#selectedRegion", "school");
          }
 
          let idPrefix = '#appbundle_school_';
@@ -165,15 +167,47 @@
 
          // Event
          // ecoute changement sur Pays et Region
-         listenChangeCountryRegion('#appbundle_school_country', '#appbundle_school_region', 'country', 'region', 'city')
+         // if ($('#selectedRegion option').length == 0) {
+            if (!$('#appbundle_school_prefecture').length) {
+               listenChangeCountryRegion('#appbundle_school_country', '#appbundle_school_region', 'country', 'region', 'city')
+            } else {
+               listenChangeRegionPrefecture('#appbundle_school_country', '#appbundle_school_region', '#appbundle_school_prefecture', '#appbundle_school_city');
+            }
+
+         //simule le change sur le pays ou la province pour initialiser la région (création du compte)
+         if($('#appbundle_school_region option').length <= 1 )
+            $('#appbundle_school_country').trigger('change')
+
+         //supprime les autres pays ou provinces
+         $('#appbundle_school_country').find('option').not(':selected').remove();
+
+         // Option STRUCT_PROVINCE_COUNTRY_CITY = true
+         if ($('#selectedRegion option').length > 0) {
+            setTimeout(function () {
+               // alert($('#selectedRegion option:selected').val())
+               $('#appbundle_school_region option[value="' + $('#selectedRegion option:selected').val() + '"]').prop('selected', true);
+               if($('#appbundle_school_city option').length <= 1 ) {
+                  $('#appbundle_school_region').trigger('change');
+               }
+               //supprime les autres pays
+               $('#appbundle_school_region').find('option').not(':selected').remove();
+
+               // mode edition : mets a jour la ville
+               setTimeout(function () {
+                  if($('#cityName')) {
+                     $('#appbundle_school_city option[value= ' + $('#cityName').val() + ']').prop('selected', true)
+                  }
+               }, 500);
+            }, 2000);
+         }
 
          // Event
          // Vérifie le numero de téléphone si different du userName
          {% if is_granted('ROLE_ETABLISSEMENT') == true %}
-         checkPhoneNumber($('#appbundle_school_phoneStandard').val());
-         $('#appbundle_school_phoneStandard').on('change', function () {
-            checkPhoneNumber($(this).val());
-         })
+            checkPhoneNumber($('#appbundle_school_phoneStandard').val());
+            $('#appbundle_school_phoneStandard').on('change', function () {
+               checkPhoneNumber($(this).val());
+            })
          {% endif %}
          function checkPhoneNumber($phoneNumber) {
             let usrphone = $('.logged-user-phone').html().trim();
@@ -285,8 +319,8 @@
                   // ajout de la filière dans la table
                   let $activity = "<tr><td><input " + $disabledActivity +
                       " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
-                      $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
-                      translations[this.sectorArea] + "</td></tr>";
+                      $colorActivity + "'>" + translations[this.name] + "</td><td style='color: " + $colorActivity + "'>" +
+                      this.sectorArea + "</td></tr>";
                   $('table#activity_founded').append($activity);
                });
             }
@@ -329,7 +363,7 @@
                   for (let $i = 1; $i < 7; $i++) {
                      let schoolSectorArea = "#appbundle_school_sectorArea" + $i + " option:selected";
                      $(schoolSectorArea).each(function () {
-                        if ($(this).text() == translations["js.select"]) {
+                        if ($(this).text().replaceAll('é','e') == translations["js.select"].replaceAll('é','e')) {
                            // console.log("  numSector = " + $i);
                            numSector = $i;
                            $i = 7; //sortie de la boucle
@@ -377,7 +411,11 @@
          let activities = [];
          // On met les activities selectionnées dans un tableau
          $('#allActivities option').each(function() {
-            let activityName = replaceAccents($(this).attr('name')).toLowerCase();
+            let name = translations[$(this).attr('name')]
+            if(!name) {
+               name = $(this).attr('name');
+            }
+            let activityName = replaceAccents(name).toLowerCase();
             let keyword = replaceAccents($keyword).toLowerCase();
             if (activityName.indexOf(keyword)!=-1) {
                activities.push({
@@ -398,7 +436,7 @@
          let region = $('#appbundle_school_region option:selected').text();
          let country = $('#appbundle_school_country option:selected').text();
          // adaptation dbta, annulation de la donnée de la province
-         if($('#selectedRegion option').length == 0) {
+         if($('#selectedRegion option').length > 0) {
             country = "";
          }
          console.log(number, road, locality, city, region, country);

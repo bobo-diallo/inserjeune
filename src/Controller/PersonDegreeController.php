@@ -26,9 +26,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/persondegree')]
 #[Security("is_granted('ROLE_ADMIN') or 
             is_granted('ROLE_LEGISLATEUR') or 
+            is_granted('ROLE_DIRECTEUR') or 
             is_granted('ROLE_ADMIN_REGIONS') or 
             is_granted('ROLE_ADMIN_PAYS') or 
-            is_granted('ROLE_ADMIN_VILLES')")]
+            is_granted('ROLE_ADMIN_VILLES') or 
+            is_granted('ROLE_PRINCIPAL')")]
 class PersonDegreeController extends AbstractController {
 	private EntityManagerInterface $em;
 	private PersonDegreeRepository $personDegreeRepository;
@@ -68,7 +70,10 @@ class PersonDegreeController extends AbstractController {
         // adaptation for multi administrators
         $userRegions = [];
         $userCities = [];
-        if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+        if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            $userCountry = $this->getUser()->getCountry();
+            $userRegions =  $this->regionRepository->findByCountry($userCountry->getId());
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
             $userRegions =  $this->getUser()->getAdminRegions();
         } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
             $userCities =  $this->getUser()->getAdminCities();
@@ -80,12 +85,14 @@ class PersonDegreeController extends AbstractController {
             foreach ($userRegions as $region) {
                 $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getAllCityRegionPersonDegree(null, $region->getId()));
             }
+            // dump($personDegrees); die();
         // For CountriesAdministrators
         } else if(count($userCities) >0) {
             $personDegrees = [];
             foreach ($userCities as $city) {
                 $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getAllCityRegionPersonDegree($city->getId(), null));
             }
+
         // For All administrators
         } else {
             $personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,$countryId);
@@ -97,7 +104,11 @@ class PersonDegreeController extends AbstractController {
             }
         }
 
-// var_dump($personDegrees);dump();
+        //For Principal Role
+        if($this->getUser()->getPrincipalSchool()) {
+            $personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,null, $this->getUser()->getPrincipalSchool());
+        }
+
 		return $this->render('persondegree/index.html.twig', [
 			'personDegrees' => $personDegrees
 		]);

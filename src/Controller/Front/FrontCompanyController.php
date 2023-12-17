@@ -74,6 +74,7 @@ class FrontCompanyController extends AbstractController {
         $selectedRegion = null;
         if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
             $selectedRegion = $this->getUser()->getRegion();
+            $company->setRegion($selectedRegion);
         }
 
 		$form = $this->createForm(CompanyType::class, $company);
@@ -126,7 +127,13 @@ class FrontCompanyController extends AbstractController {
             //adaptation for DBTA
             $selectedRegion = null;
             if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
-                $selectedRegion = $this->getUser()->getRegion();
+                $selectedRegion = $company->getUser()->getRegion();
+
+                if(!$selectedRegion) {
+                    if ($company->getCity()) {
+                        $selectedRegion = $company->getCity()->getRegion();
+                    }
+                }
             }
 
 			$editForm = $this->createForm(CompanyType::class, $company);

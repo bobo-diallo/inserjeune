@@ -8,7 +8,7 @@
             <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
             <h6 class="element-header">
                  {{ 'company.company_details' | trans }}
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')  or is_granted('ROLE_DIRECTEUR') %}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('company_index') }}">
                         <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>

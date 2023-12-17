@@ -42,25 +42,33 @@
   <div hidden id="selectCountry" class="col-sm-12">
     <div class="form-group">
       <label for=""> {{ 'menu.select' | trans }} {{ 'menu.country' | trans }} </label>
-{#      {{ create_translated_select(form.country) }}#}
-      {{ form_widget(form.country) }}
+      {{ create_translated_select(form.country) }}
+{#      {{ form_widget(form.country) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
     </div>
   </div>
   <div hidden id="selectRegions" class="col-sm-12">
     <div class="form-group">
       <label for=""> {{ 'menu.select' | trans }} {{ 'menu.region' | trans }}</label>
-{#      {{ create_translated_select(form.adminRegions) }}#}
-      {{ form_widget(form.adminRegions) }}
+      {{ create_translated_select(form.adminRegions) }}
+{#      {{ form_widget(form.adminRegions) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.adminRegions) }}</div>
     </div>
   </div>
   <div hidden id="selectCities" class="col-sm-12">
     <div class="form-group">
       <label for=""> {{ 'menu.select' | trans }} {{ 'menu.cities' | trans }}</label>
-{#      {{ create_translated_select(form.adminCities) }}#}
-      {{ form_widget(form.adminCities) }}
+      {{ create_translated_select(form.adminCities) }}
+{#      {{ form_widget(form.adminCities) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.adminCities) }}</div>
+    </div>
+  </div>
+  <div hidden id="selectSchool" class="col-sm-12">
+    <div class="form-group">
+      <label for=""> {{ 'menu.select' | trans }} {{ 'menu.establishment' | trans }}</label>
+{#      <select id="schools"></select>#}
+      {{ form_widget(form.school) }}
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.school) }}</div>
     </div>
   </div>
   <select hidden id="roles">
@@ -68,6 +76,28 @@
       <option value="{{ role.role }}">{{ role.pseudo }}</option>
     {% endfor %}
   </select>
+
+  {# for gestion of administrators #}
+  {% set countryName = "" %}
+  {% if app.user.adminRegions  %}
+  <select hidden id="userRegions">
+      {% for region in app.user.adminRegions  %}
+          <option value="{{ region.id }}">{{ region.name }}</option>
+          {% if countryName == "" %}
+              {% set countryName = region.country.id %}
+          {% endif %}
+      {% endfor %}
+  </select>
+  {% endif %}
+
+  <p hidden id="userRole">{{ app.user.roles|role }}</p>
+  {% if app.user.country  %}
+{#    <p hidden id="userCountry">{{ app.user.country.id }}</p>#}
+    <p hidden id="userCountry" value="{{ app.user.country.id }}">{{ app.user.country.id }}</p>
+  {% elseif countryName != "" %}
+    <p hidden id="userCountry">{{ countryName }}</p>
+  {% endif %}
+
 </div>
 <div class="form-buttons-w">
   <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>

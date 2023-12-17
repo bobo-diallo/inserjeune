@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\GeoLocation;
+use App\Entity\Prefecture;
 use App\Services\ActivityService;
 use App\Services\CityService;
 use Symfony\Component\Form\AbstractType;
@@ -52,6 +53,19 @@ class GeoLocationType extends AbstractType {
 					}
 				}
 			])
+            ->add('prefecture', EntityType::class, [
+                'required' => false,
+                'class' => Prefecture::class,
+                'placeholder' => 'menu.prefecture',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'error.unauthorized_or_unknown_prefecture',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
+            ])
 			->add('otherCity', TextType::class, [
 				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner la ville', 'placeholder' => 'menu.city'],
 				'required' => false

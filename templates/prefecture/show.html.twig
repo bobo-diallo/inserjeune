@@ -1,0 +1,52 @@
+{% extends 'prefecture/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    {{ 'menu.detail' | trans }}
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('prefecture_new') }}">
+                        <i class="fa fa-plus"></i> {{ 'prefecture.add_prefecture' | trans }}
+                    </a>
+                    <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('prefecture_index') }}">
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">Id</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ prefecture.id }}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.country' | trans }} </label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ prefecture.region.country.name | trans}}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.region' | trans }} </label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ prefecture.region.name | trans}}"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-uppercase col-form-label col-sm-4">{{ 'menu.name' | trans }}</label>
+                            <div class="col-sm-8"><input class="form-control" disabled value="{{ prefecture.name | trans }}"></div>
+                        </div>
+                    </form>
+                    <div class="controls-above-table">
+                        <div class="row" id="actions">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" href="{{ path('prefecture_edit', {'id': prefecture.id}) }}">
+                                    <img src="{{ asset('build/images/icon/edit_16_ba.png') }}" alt="edit"> {{ 'menu.edit' | trans }}</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteElement('{{ path('prefecture_delete', {'id': prefecture.id}) }}')">
+                                    <img src="{{ asset('build/images/icon/delete_16_ba.png') }}" alt="delete">{{ 'menu.delete' | trans }}</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

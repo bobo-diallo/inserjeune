@@ -117,6 +117,7 @@ class FrontPersonDegreeController extends AbstractController {
             }
             $personDegree->setRegion($user->getRegion());
             $personDegree->setCountry($user->getRegion()->getCountry());
+            $personDegree->setResidenceRegion($user->getResidenceRegion());
             $selectedRegion = $personDegree->getRegion();
         }
 
@@ -180,10 +181,17 @@ class FrontPersonDegreeController extends AbstractController {
 			$personDegree = $this->personDegreeService->getPersonDegree();
 
             $user = $this->getUser();
+            // var_dump($user->getCountry());die();
 
             //adaptation for DBTA
             $selectedRegion = null;
             if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                if(!$user->getRegion()) {
+                    if($personDegree->getRegion()) {
+                        $user->setRegion($personDegree->getRegion());
+                    }
+                }
+                // if ((!$user->getCountry()) || ($user->getCountry()->getId() != $user->getRegion()->getCountry()->getId())) {
                 if ($user->getCountry()->getId() != $user->getRegion()->getCountry()->getId()) {
                     $user->setCountry($user->getRegion()->getCountry());
                     $this->em->persist($user);
@@ -323,15 +331,15 @@ class FrontPersonDegreeController extends AbstractController {
                 // creation du journal
                 $jobApplied = $this->jobAppliedRepository->findOneByDateAndOfferAndPersonDegree($jobOffer, $personDegree->getUser());
 
-                if(!$jobApplied) {
-                    $jobApplied = new JobApplied();
-                } else {
+                if($jobApplied) {
                     if ($jobApplied->isSended()) {
                         $this->addFlash('warning', $this->translator->trans('flashbag.already_sending_application'));
                     } else {
                         $this->addFlash('warning', $this->translator->trans('flashbag.last_application_failed_try_again'));
                     }
                 }
+
+                $jobApplied = new JobApplied();
                 // $jobApplied->setIdOffer($jobOffer);
                 $jobApplied->setIdOffer($jobOffer->getId());
                 // $jobApplied->setIdUser($personDegree->getUser());
@@ -354,8 +362,8 @@ class FrontPersonDegreeController extends AbstractController {
                     "%tag_strong%Application date: %tag_end_strong%" . $jobApplied->getAppliedDate()->format(Utils::FORMAT_FR)."  By ". "%tag_strong%candidate: %tag_end_strong%" . $candidateName . "%tag_br%" .
                     "%tag_strong%Offer%tag_end_strong% (" . $jobOffer->getId() . ") %tag_strong%update date: %tag_end_strong%" . $jobOffer->getUpdatedDate()->format(Utils::FORMAT_FR). "%tag_br%".
                     "%tag_strong%From: %tag_end_strong%" . $senderType . " " . $jobSender . "%tag_br%".
-                    "    %tag_strong%contract: %tag_end_strong%" . $jobOffer->getContract()."%tag_br%".
-                    "    %tag_strong%localization: %tag_end_strong%" .$jobOffer->getCity() ."%tag_br%" .
+                    "    %tag_strong%contract: %tag_end_strong%" . $this->translator->trans($jobOffer->getContract())."%tag_br%".
+                    "    %tag_strong%localization: %tag_end_strong%" . $jobOffer->getCity()->getName() ."%tag_br%" .
                     "%tag_strong%Description: %tag_end_strong%";
 
                 $contractDescription = $this->suppressHtmlTags($jobOffer->getDescription());
@@ -378,7 +386,7 @@ class FrontPersonDegreeController extends AbstractController {
                 }
 
                 $jobApplied->setResumedApplied("%tag_p%" . $sent . $resumed . $contractDescription . "%tag_end_p%");
-// var_dump($jobApplied);die();
+
                 $this->em->persist($jobApplied);
                 $this->em->flush();
 
@@ -406,7 +414,14 @@ class FrontPersonDegreeController extends AbstractController {
 	public function deleteUserAction(PersonDegree $personDegree): RedirectResponse {
 		$user = $personDegree->getUser();
 
+        /* suppress relation between user and jobApply (JobApply is kept) */
+        $jobApplies = $this->jobAppliedRepository->findByIdUser($user->getId());
+        foreach ($jobApplies as $jobApply) {
+            $jobApply->setIdUser(null);
+        }
+
 		if ($user) {
+			$this->personDegreeService->removeRelations($user);
 			$this->personDegreeService->removeRelations($user);
 			$this->tokenStorage->setToken(null);
 			$this->em->remove($user);

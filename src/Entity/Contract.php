@@ -46,10 +46,10 @@ class Contract {
 
 	public function __toString(): string {
 		if ($this->description) {
-			return sprintf('%s - %s',
-				ucfirst($this->name),
-				ucfirst($this->description)
-			);
+			// return sprintf('%s',
+			// 	ucfirst($this->name)
+			// );
+            return $this->name;
 		}
 		return sprintf('%s', ucfirst($this->name));
 	}

@@ -30,29 +30,53 @@
   <fieldset>
     <legend><span> {{ 'menu.address' | trans }} </span></legend>
     <div class="row">
-      <div class="form-group col-sm-4">
-        <label for=""> {{ 'menu.country' | trans }} * </label>
-        {{ create_translated_select(form.country) }}
+      {# ****COUNTRY**** #}
+      {% if prefecture_between_region_city == "true" %}
+        <div class="col-sm-6 form-group">
+      {% else %}
+        <div class="col-sm-4 form-group">
+      {% endif %}
+      <label for=""> {{ 'menu.country' | trans }} * </label>
+      {{ create_translated_select(form.country) }}
 {#        {{ form_widget(form.country) }}#}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country)}}</div>
-      </div>
-      <div class="form-group col-sm-4">
-        {# adaptation DBTA#}
-        {% if struct_province_country_city == "true" %}
-          <label for=""> {{ 'menu.region' | trans }} *</label>
-        {% else %}
-          <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
-        {% endif %}
-        {{ create_translated_select(form.region) }}
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country)}}</div>
+      {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
+
+      {# ****REGION**** #}
+      {% if prefecture_between_region_city == "true" %}
+        <div class="col-sm-6 form-group">
+      {% else %}
+        <div class="col-sm-4 form-group">
+      {% endif %}
+
+      <label for=""> {{ 'menu.region' | trans }} *</label>
+      {{ create_translated_select(form.region) }}
 {#        {{ form_widget(form.region) }}#}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region)}}</div>
-      </div>
-      <div class="form-group col-sm-4">
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region)}}</div>
+      {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
+
+      {# ****PREFECTURE**** #}
+      {# adaptation for Togo #}
+      {% if prefecture_between_region_city == "true" %}
+        <div class="col-sm-6 form-group">
+          <label for=""> {{ 'menu.prefecture' | trans }} * </label>
+          {{ create_translated_select(form.prefecture) }}
+          {#        {{ form_widget(form.city) }}#}
+          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city)}}</div>
+        </div>
+      {% endif %}
+
+      {# ****CITY**** #}
+      {% if prefecture_between_region_city == "true" %}
+        <div class="col-sm-6 form-group">
+      {% else %}
+        <div class="col-sm-4 form-group">
+      {% endif %}
         <label for=""> {{ 'menu.city' | trans }} * </label>
         {{ create_translated_select(form.city) }}
 {#        {{ form_widget(form.city) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.city)}}</div>
-      </div>
+      {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
     </div>
     <div class="row">
       {%  if concat_local_address == "false" %}
@@ -124,11 +148,14 @@
   <fieldset>
     <legend><span>{{ 'school.proposed_certificates_degrees' | trans }} </span></legend>
     <div class="row">
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-12">
         <label for="">  {{ 'school.several_possible_choices' | trans }} * </label>
-        {{ form_widget(form.degrees) }}
+        {{ create_translated_select(form.degrees) }}
+{#        {{ form_widget(form.degrees) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degrees)}}</div>
       </div>
+    </div>
+    <div class="row">
       <div class="hide_flex_otherDegree col-sm-6">
         <div class="form-group col-sm-12" style="padding: 0">
           <label for="">  {{ 'school.other_degree_separated_by_a_comma_if_more_than_one' | trans }} </label>
@@ -374,14 +401,22 @@
 </select>
 
 {#adaptation DBTA#}
-<select hidden id="selectedRegion">
-  {%  if selectedRegion is not null %}
+{%  if selectedRegion is not null %}
+  <select hidden id="selectedRegion">
     <option value="{{ selectedRegion.id }}">{{ selectedRegion.name | trans | capitalize}}</option>
-  {%  endif %}
-</select>
+  </select>
+  {% if school is not null and school.region is not null %}
+    <input style="display: none" value="{{ school.region.phoneCode }}" id="countryPhoneCode">
+  {% endif %}
 
-{% if school is not null and school.country is not null %}
-  <input style="display: none" value="{{ school.country.phoneCode }}" id="countryPhoneCode">
+{% else %}
+  {% if school is not null and school.country is not null %}
+    <input style="display: none" value="{{ school.country.phoneCode }}" id="countryPhoneCode">
+  {% endif %}
+{%  endif %}
+
+{% if school is not null and school.city is not null %}
+  <input style="display: none" value="{{ school.city.id }}" id="cityName">
 {% endif %}
 
 <div><span><br>* :  {{ 'menu.required_field' | trans }} </span></div>

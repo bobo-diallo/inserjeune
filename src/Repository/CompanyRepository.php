@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Company;
+use App\Entity\Prefecture;
 use App\Model\CompanyReceiverNotification;
 use App\Model\PersonDegreeReceiverNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -210,6 +211,23 @@ class CompanyRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
+
+    public function getByPrefectureBetweenCreatedDateAndEndDate(
+        Prefecture $prefecture,
+        \DateTime $beginDate,
+        \DateTime $endDate):array {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.city', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->andWhere ('c.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'prefecture' => $prefecture,
+                'beginDate'=> $beginDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 
 	/**
 	 * @param Country $country

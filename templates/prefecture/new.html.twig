@@ -1,0 +1,46 @@
+{% extends 'prefecture/content.html.twig' %}
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+              <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    {{ 'prefecture.new_prefecture' | trans }}
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('city_index') }}">
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
+                    </a>
+                </h6>
+                <div class="element-box">
+                    <form id="" method="post" action="{{ path('prefecture_new') }}">
+                      {% include 'prefecture/_new.html.twig' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{#{% block js %}#}
+{#    <script>#}
+{#       $(document).on('change', '#appbundle_city_country', function () {#}
+{#          let $field = $(this)#}
+{#          let $countryField = $('#appbundle_city_country')#}
+{#          let $form = $field.closest('form')#}
+{#          let target = '#' + $field.attr('id').replace('country', 'region')#}
+
+{#          // Les données à envoyer en Ajax#}
+{#          let data = {}#}
+{#          data[$countryField.attr('name')] = $countryField.val()#}
+
+{#          // On soumet les données#}
+{#          $.post($form.attr('action'), data).then(function (data) {#}
+{#             // On récupère le nouvmeeau <select>#}
+{#             let $input = $(data).find(target)#}
+{#             // On remplace notre <select> actuel#}
+{#             $(target).replaceWith($input)#}
+{#          })#}
+{#       });#}
+{#    </script>#}
+{#{% endblock %}#}

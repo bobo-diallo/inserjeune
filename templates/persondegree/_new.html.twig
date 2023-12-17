@@ -29,24 +29,46 @@
   </fieldset>
   <fieldset>
     <legend><span> {{ 'menu.address' | trans }} </span></legend>
+    {# ****COUNTRY**** #}
     <div class="row">
-      <div class="col-sm-6 form-group">
-        <label for=""> {{ 'menu.country' | trans }} *</label>
+      {% if prefecture_between_region_city == "true" %}
+          <div class="col-sm-4 form-group">
+      {% else %}
+          <div class="col-sm-6 form-group">
+      {% endif %}
+      <label for=""> {{ 'menu.country' | trans }} *</label>
         {{ create_translated_select(form.country) }}
 {#        {{ form_widget(form.country) }}#}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
-      </div>
-      <div class="col-sm-6 form-group">
-        {# adaptation DBTA#}
-        {% if struct_province_country_city == "true" %}
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
+      {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
+
+      {# ****REGION**** #}
+      {% if prefecture_between_region_city == "true" %}
+          <div class="col-sm-4 form-group">
+      {% else %}
+          <div class="col-sm-6 form-group">
+      {% endif %}
+      {# adaptation DBTA#}
+      {% if struct_province_country_city == "true" %}
           <label for=""> {{ 'menu.region' | trans }} *</label>
-        {% else %}
+      {% else %}
           <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
-        {% endif %}
-        {{ create_translated_select(form.region) }}
+      {% endif %}
+      {{ create_translated_select(form.region) }}
 {#        {{ form_widget(form.region) }}#}
-        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
-      </div>
+      <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+      {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
+
+      {# ****PREFECTURE**** #}
+      {# adaptation for Togo #}
+      {% if prefecture_between_region_city == "true" %}
+         <div class="col-sm-4 form-group">
+            <label for=""> {{ 'menu.prefecture' | trans }} *</label>
+            {{ create_translated_select(form.prefecture) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.prefecture) }}</div>
+         </div>
+      {% endif %}
+
     </div>
     <div class="row">
       <div class="col-sm-6 col-xs-6 form-group">
@@ -100,10 +122,12 @@
         {# adaptation DBTA#}
         <label for="">{{ 'menu.residence_country' | trans }} </label>
         {% if struct_province_country_city == "true" %}
-          {{ form_widget(form.residenceRegion) }}
+          {{ create_translated_select(form.residenceRegion) }}
+{#          {{ form_widget(form.residenceRegion) }}#}
           <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.region) }}</div>
         {% else %}
-          {{ form_widget(form.residenceCountry) }}
+          {{ create_translated_select(form.residenceCountry) }}
+{#          {{ form_widget(form.residenceCountry) }}#}
           <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form.country) }}</div>
         {% endif %}
       </div>
@@ -180,16 +204,25 @@
   <fieldset>
     <legend><span>{{ 'menu.qualification' | trans }}</span></legend>
     <div class="row">
+      {# adaptation DBTA#}
+      {% if struct_province_country_city != "true" %}
+        <div class="col-sm-3 form-group">
+          <label for="">{{ 'degree.filter_by_region' | trans }}</label>
+          <select id="regionSchoolFilter" class="form-control"></select>
+        </div>
+      {%  endif %}
       <div class="col-sm-3 form-group">
-        <label for="">{{ 'degree.filter_by_region' | trans }}</label>
-        <select id="regionSchoolFilter" class="form-control"></select>
+        <label for="">{{ 'degree.filter_by_city' | trans }}</label>
+        <select id="citySchoolFilter" class="form-control"></select>
       </div>
-      <div class="col-sm-5 form-group">
+      <div class="col-sm-6 form-group">
         <label for="">{{ 'menu.establishment' | trans }} / {{ 'menu.school' | trans }} *</label>
         {{ form_widget(form.school) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.school) }}</div>
       </div>
-      <div class="col-sm-4 form-group hide_block_other_school">
+    </div>
+    <div class="row hide_block_other_school">
+      <div class="col-sm-12 form-group l">
         <label for="">{{ 'school.other_establishment' | trans }}</label>
         {{ form_widget(form.otherSchool) }}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.otherSchool) }}</div>
@@ -203,7 +236,8 @@
       </div>
       <div class="col-sm-4 form-group">
         <label for="">{{ 'menu.degree' | trans }} *</label>
-        {{ form_widget(form.degree) }}
+        {{ create_translated_select(form.degree) }}
+{#        {{ form_widget(form.degree) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degree) }}</div>
       </div>
       <div class="col-sm-4 form-group hide_block_other_degree">
@@ -233,7 +267,8 @@
       </div>
       <div class="col-sm-4 form-group">
         <label for="">{{ 'menu.job' | trans }} / {{ 'menu.branch' | trans }} *</label>
-        {{ form_widget(form.activity) }}
+        {{ create_translated_select(form.activity) }}
+{#        {{ form_widget(form.activity) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.activity) }}</div>
       </div>
       <div class="col-sm-4 form-group hide_block_other_activity">

@@ -158,8 +158,10 @@ class PurgeController extends AbstractController {
                     if ($user->getSchool()) {
                         // echo(count($user->getSchool()->getPersonDegrees()));die();
                         if(count($user->getSchool()->getPersonDegrees()) >0) {
-
-                            $err[] = "js.error_school_contains_graduates_and_cannot_be_deleted_part1" . " " . $userId . " " . "js.error_school_contains_graduates_and_cannot_be_deleted_part2";
+                            // $err[] = "js.error_school_contains_graduates_and_cannot_be_deleted_part1" . " " . $userId . " " . "js.error_school_contains_graduates_and_cannot_be_deleted_part2";
+                            $err[] = $this->translator->trans("js.error_school_contains_graduates_and_cannot_be_deleted_part1") .
+                                " " .  $userId . " " .
+                                $this->translator->trans("js.error_school_contains_graduates_and_cannot_be_deleted_part2");
                         } else {
                             $this->schoolService->removeRelations($user);
                         }
@@ -322,7 +324,8 @@ class PurgeController extends AbstractController {
         foreach ($jobOffers as $jobOffer) {
             $closeDate = "null";
             if($jobOffer->getClosedDate() != null) {
-                $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate()->format(Utils::FORMAT_FR));
+                // $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate()->format(Utils::FORMAT_FR));
+                $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate());
                 $closeDate = (new DateTime($closeDateStr))->format('Y-m-d');
             }
 

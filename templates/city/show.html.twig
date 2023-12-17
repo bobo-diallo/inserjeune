@@ -29,6 +29,14 @@
                             <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.region' | trans }} </label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ city.region.name | trans}}"></div>
                         </div>
+                        {%  if prefecture_between_region_city == "true" %}
+                            {% if city.prefecture %}
+                                <div class="form-group row">
+                                    <label class="text-uppercase col-form-label col-sm-4"> {{ 'menu.prefecture' | trans }} </label>
+                                    <div class="col-sm-8"><input class="form-control" disabled value="{{ city.prefecture.name | trans}}"></div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
                         <div class="form-group row">
                             <label class="text-uppercase col-form-label col-sm-4">{{ 'menu.name' | trans }}</label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ city.name | trans }}"></div>
@@ -37,6 +45,12 @@
                             <label class="text-uppercase col-form-label col-sm-4">{{ 'city.capital_city' | trans }}</label>
                             <div class="col-sm-8"><input class="form-control" disabled value="{{ (city.isCapital) ? 'Oui' : 'Non' }}"></div>
                         </div>
+                        {%  if prefecture_between_region_city == "true" %}
+                            <div class="form-group row">
+                                <label class="text-uppercase col-form-label col-sm-4">{{ 'city.prefecture_capital_city' | trans }}</label>
+                                <div class="col-sm-8"><input class="form-control" disabled value="{{ (city.isPrefectureCapital) ? 'Oui' : 'Non' }}"></div>
+                            </div>
+                        {% endif %}
                     </form>
                     <div class="controls-above-table">
                         <div class="row" id="actions">

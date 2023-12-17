@@ -4,7 +4,9 @@
     is_granted('ROLE_ADMIN_VILLES') == true %}
         {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
 {% else %} {% set base = 'base_degree.html.twig' %}
 {% endif %}
 
@@ -29,7 +31,7 @@
             let region = $('#appbundle_persondegree_region option:selected').text();
             let country = $('#appbundle_persondegree_country option:selected').text();
             // adaptation dbta, annulation de la donnée de la province
-            if($('#selectedRegion option').length == 0) {
+            if($('#selectedRegion option').length > 0) {
                 country = "";
             }
             return (createMapsAddress(number, road, locality, city, region, country));
@@ -158,6 +160,38 @@
                 regionEvent("#selectedCountry", "#selectedRegion", "persondegree");
             }
 
+            // console.log("test->" + $('#appbundle_persondegree_school option').length)
+            // création du filtre villes unique pour les établissements
+            $('#citySchoolFilter').append("<option selected>" + translations["js.all_f"] + "</option>");
+            if ($('#appbundle_persondegree_school option').length > 0) {
+
+                // Creation du <select> de #citySchoolFilter
+                let cityUnits = [];
+                $('#appbundle_persondegree_school option').each(function () {
+                    let $this = $(this);
+                    if($this.text().replaceAll('é','e') != translations['js.select'].replaceAll('é','e')) {
+
+                        // vérification d'existance
+                        let element_exist = false;
+                        for (let i = 0; i < cityUnits.length; i++) {
+                            let thisCity = $this.text().substring($this.text().indexOf(',') + 1).trim();
+                            let cityUnit = cityUnits[i].substring(cityUnits[i].indexOf(',') + 1).trim();
+                            if (thisCity === cityUnit) {
+                                element_exist = true;
+                            }
+                        }
+                        // génération des options du <select> de #citySchoolFilter
+                        if (element_exist == false) {
+                            cityUnits.push($this.text());
+                            let cityName = $this.text().substring($this.text().indexOf(',') + 1)
+                            let cityNameTrans = translations[cityName];
+                            if (!cityNameTrans) cityNameTrans = cityName;
+                            $('#citySchoolFilter').append("<option value='" + $this.val() + "'> " + cityNameTrans + "</option>");
+                        }
+                    }
+                })
+            }
+
             // création du filtre régions unique pour les établissements
             $('#regionSchoolFilter').append("<option selected>" + translations["js.all_f"] + "</option>");
             if ($('#schoolRegion option').length > 0) {
@@ -177,12 +211,33 @@
                     // génération des options du <select> de #regionSchoolFilter
                     if (element_exist == false) {
                         regionUnits.push($this.text());
-                        $('#regionSchoolFilter').append("<option value='" + $this.val() + "'> " + $this.text() + "</option>");
+                        let region = translations[$this.text()];
+                        if(!region)
+                            region = $this.text();
+                        $('#regionSchoolFilter').append("<option value='" + $this.val() + "'> " + region + "</option>");
                     }
                 })
             }
 
-            // filtage des établissement
+            // filtage des établissement par villes
+            $('#citySchoolFilter').on('change', function () {
+                let selection = $('#citySchoolFilter option:selected').text().trim();
+                // console.log("selection = " + selection);
+                if (selection == translations["js.all_f"]) {
+                    $('#appbundle_persondegree_school option').prop("hidden", false);
+                } else {
+                    $('#appbundle_persondegree_school option[value!=""]').prop("hidden", true);
+
+                    $('#appbundle_persondegree_school option').each(function () {
+                        let cityName = $(this).text().substring($(this).text().indexOf(',') +1 )
+                        if (selection.trim() == cityName.trim()) {
+                            $(this).prop("hidden", false);
+                        }
+                    })
+                }
+            })
+
+            // filtage des établissement par région
             $('#regionSchoolFilter').on('change', function () {
                 let selection = $('#regionSchoolFilter option:selected').text().trim();
                 console.log("selection = " + selection);
@@ -245,11 +300,18 @@
                     // verification de l'indicatif pays
                     // alert(" 1-> " . $('#countryPhoneCode').val());
                     let indPersonDegree = '+' + $('#countryPhoneCode').val();
-                    let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
+                    // let selectResidenceCountry = $('#appbundle_persondegree_residenceCountry').val();
+                    let selectResidenceCountry = $('#appbundle_persondegree_country option:selected').val();
 
                     // adaptation dbta (if $_env struct_province_country_city== true)
-                    if($('#appbundle_persondegree_residenceRegion').length) {
-                        selectResidenceCountry = $('#appbundle_persondegree_residenceRegion').val();
+                    if($('#selectedRegion option').length)
+                        selectResidenceCountry = $('#selectedRegion option:selected').val();
+
+                    // adaptation diaspora
+                    if($('#appbundle_persondegree_diaspora').is(":checked")) {
+                        if($('#appbundle_persondegree_residenceRegion option:selected').val()) {
+                            selectResidenceCountry = $('#appbundle_persondegree_residenceRegion option:selected').val();
+                        }
                     }
                     // console.log("test1: indPersonDegree=" + indPersonDegree + " phoneNumber=" + phoneNumber + " selectResidenceCountry=" + selectResidenceCountry);
 
@@ -320,7 +382,7 @@
                 let situationPro = "";
                 if ($(idtype).val())
                     situationPro = $(idtype).val().trim();
-                if (situationPro == 'TYPE_TRAINING') {
+                if ((situationPro == 'TYPE_TRAINING') || (situationPro == 'TYPE_DROPOUT')) {
                     $('#appbundle_persondegree_lastDegreeYear option').each(function () {
                         let currentYear = $(this).text().trim();
                         if (today.getFullYear() == currentYear) {
@@ -398,8 +460,15 @@
 
             // Event
             // Country -> Region -> City
-            listenChangeCountryRegion('#appbundle_persondegree_country', '#appbundle_persondegree_region', 'country', 'region', 'addressCity');
+            if(! $('#appbundle_persondegree_prefecture').length) {
+                listenChangeCountryRegion('#appbundle_persondegree_country', '#appbundle_persondegree_region', 'country', 'region', 'addressCity');
+            }
 
+            // Event
+            // Region -> Prefecture -> City
+            else {
+                listenChangeRegionPrefecture('#appbundle_persondegree_country', '#appbundle_persondegree_region', '#appbundle_persondegree_prefecture', '#appbundle_persondegree_addressCity');
+            }
             // Event
             //Modification test of submit button for RGPD
             if ($('#role').val() == "ROLE_DIPLOME") {
@@ -471,14 +540,17 @@
 
                     setTimeout(function () { //attente 1 seconde pour réponse google Maps geocoder avant le submit
                         console.log('Coordonnees map recupérées ....');
+                        $('#appbundle_persondegree_registrationStudentSchool').removeAttr('disabled');
                         $('#submitPersonDegree').trigger('click');
                     }, 2000)
                 } else {
                     // alert($('#appbundle_persondegree_latitude').val() + "  " + $('#appbundle_persondegree_longitude').val());
+                    $('#appbundle_persondegree_registrationStudentSchool').removeAttr('disabled');
                     $('#submitPersonDegree').trigger('click');
                 }
             } else {
                 // alert($('#appbundle_persondegree_latitude').val() + "  " + $('#appbundle_persondegree_longitude').val());
+                $('#appbundle_persondegree_registrationStudentSchool').removeAttr('disabled');
                 $('#submitPersonDegree').trigger('click');
             }
         }

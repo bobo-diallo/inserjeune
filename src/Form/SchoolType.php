@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Degree;
+use App\Entity\Prefecture;
 use App\Entity\School;
 use App\Entity\SectorArea;
 use App\Services\ActivityService;
@@ -201,6 +202,19 @@ class SchoolType extends AbstractType {
 						->orderBy('sa.name', 'ASC');
 				}
 			])
+            ->add('prefecture', EntityType::class, [
+                'required' => false,
+                'class' => Prefecture::class,
+                'placeholder' => 'menu.prefecture',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'error.unauthorized_or_unknown_prefecture',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
+            ])
 			->add('otherDegree', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_degree'], 'required' => false])
 			->add('otherActivity1', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])
 			->add('otherActivity2', TextType::class, ['attr' => ['class' => 'form-control', 'placeholder' => 'menu.other_activity'], 'required' => false])

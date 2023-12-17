@@ -41,10 +41,10 @@
                                         <a class="danger" onclick="deleteElement('{{ path('degree_delete', {'id': degree.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('degree_show', { 'id': degree.id }) }}">{{ degree.id }}</a></td>
-                                    <td>{{ degree.name }}</td>
+                                    <td>{{ degree.name | trans }}</td>
                                     <td>{% if degree.activity is not null %}{{ degree.activity.name }}{% endif %}</td>
-                                    <td>{{ degree.level }}</td>
-                                    <td>{{ degree.description }}</td>
+                                    <td>{{ degree.level | trans }}</td>
+                                    <td>{{ degree.description | trans }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

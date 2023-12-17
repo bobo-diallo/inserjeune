@@ -14,7 +14,7 @@
     {% endif %}
 
     <div class="help-block form-text with-errors text-danger form-control-feedback">{{ form_errors(form) | raw }}</div>
-    <form action="{{ path('register_create_account') }}" method="post">
+    <form id="form-register" action="{{ path('register_create_account') }}" method="post">
       {{ form_widget(form._token) }}
       <div class="form-group">
         <label for="">{{ "menu.user_type" | trans }}</label>
@@ -34,6 +34,7 @@
       <div class="form-group">
         {% if struct_province_country_city == "true" %}
           <label for="">   {{ 'menu.region' | trans }} </label>
+
           {{ create_translated_select(form.region) }}
 {#          {{ form_widget(form.region) }}#}
           <div class="pre-icon os-icon os-icon-user-male-circle"></div>
@@ -102,6 +103,11 @@
           <a class="btn btn-primary" href="{{ path('logout') }}">{{ 'menu.cancel' | trans }}</a>
         </div>
       </div>
+      <div class="row form-group footer_register">
+        <span>{{ "footer.dev_by" | trans }}</span>
+        <p><a target="_blank" href="https://ifef.francophonie.org/"><img style="width: 80px; height: auto" id="logo_ifef" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}"></a></p>
+        <p><a target="_blank" href="https://www.francophonie.org/"><img style="width: 80px; height: auto"  id="logo_oif" src="{{ asset('build/images/pinsuprem/logo_oif.jpg') }}"></a></p>
+      </div>
     </form>
     <select hidden id="indTel">
       {% for country in allCountries %}
@@ -118,7 +124,10 @@
          showResidenceCountry ();
       }
    })
-
+   // $(idSelect).removeAttr('required');
+   $('userbundle_user_residenceCountry').prop("required", false);
+   $('userbundle_user_residenceRegion').prop("required", false);
+   // console.log("test", $('userbundle_user_residenceCountry').attr("required"))
    $('#userbundle_user_typePerson').on('change', function (e) {
       if ($('#userbundle_user_typePerson option:selected').val() != 'ROLE_DIPLOME' ) {
          $('#userbundle_user_diaspora').prop('checked',false);

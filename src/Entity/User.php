@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -87,6 +88,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 	#[ORM\OneToOne(mappedBy: 'user', targetEntity: School::class, cascade: ['persist', 'remove'])]
 	private ?School $school;
+
+    /**
+     * only used for role: "principal"
+     * @var int|null
+     */
+    #[ORM\Column(name: 'principal_school', type: 'integer', nullable: true)]
+    private ?int $principalSchool = null;
 
 	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist'])]
 	#[ORM\JoinTable(name: 'user_role')]
@@ -493,5 +501,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     }
     public function removeAdminCity(City $city): void {
         $this->adminCities->removeElement($city);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPrincipalSchool(): ?int
+    {
+        return $this->principalSchool;
+    }
+
+    /**
+     * @param int|null $principalSchool
+     */
+    public function setPrincipalSchool(?int $principalSchool): void
+    {
+        $this->principalSchool = $principalSchool;
     }
 }

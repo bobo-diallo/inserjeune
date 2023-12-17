@@ -35,23 +35,46 @@
   <fieldset>
     <legend><span>{{ 'menu.address' | trans }}</span></legend>
       <div class="row">
-        <div class="col-sm-6 form-group">
+        {# ****COUNTRY**** #}
+        {% if prefecture_between_region_city == "true" %}
+          <div class="col-sm-4 form-group">
+        {% else %}
+          <div class="col-sm-6 form-group">
+        {% endif %}
           <label for=""> {{ 'menu.country' | trans }} * </label>
           {{ create_translated_select(form.country) }}
 {#          {{ form_widget(form.country) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.country) }}</div>
-        </div>
-        <div class="col-sm-6 form-group">
-          {# adaptation DBTA#}
-          {% if struct_province_country_city == "true" %}
-            <label for=""> {{ 'menu.region' | trans }} *</label>
-          {% else %}
-            <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
-          {% endif %}
-          {{ create_translated_select(form.region) }}
-{#          {{ form_widget(form.region) }}#}
-          <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
-        </div>
+        {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
+
+        {# ****REGION**** #}
+        {% if prefecture_between_region_city == "true" %}
+          <div class="col-sm-4 form-group">
+        {% else %}
+          <div class="col-sm-6 form-group">
+        {% endif %}
+
+        {# adaptation DBTA#}
+        {% if struct_province_country_city == "true" %}
+          <label for=""> {{ 'menu.region' | trans }} *</label>
+        {% else %}
+          <label for=""> {{ 'menu.region' | trans }} / {{ 'menu.province' | trans }} *</label>
+        {% endif %}
+        {{ create_translated_select(form.region) }}
+{#      {{ form_widget(form.region) }}#}
+        <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+
+        {% if prefecture_between_region_city == "true" %} </div> {% else %} </div> {% endif %}
+
+        {# ****PREFECTURE**** #}
+        {# adaptation for Togo #}
+        {% if prefecture_between_region_city == "true" %}
+          <div class="col-sm-4 form-group">
+            <label for=""> {{ 'menu.prefecture' | trans }} *</label>
+            {{ create_translated_select(form.prefecture) }}
+            <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.prefecture) }}</div>
+          </div>
+        {% endif %}
       </div>
       <div class="row">
         <div class="col-sm-6 form-group">
@@ -124,7 +147,8 @@
         </div>
         <div class="form-group col-sm-6">
           <label for=""> {{ 'menu.legals_status' | trans }} *</label>
-          {{ form_widget(form.legalStatus) }}
+          {{ create_translated_select(form.legalStatus) }}
+{#          {{ form_widget(form.legalStatus) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.legalStatus) }}</div>
         </div>
       </div>
@@ -171,8 +195,19 @@
     <option value="{{ selectedCountry.id }}">{{ selectedCountry.name | trans }}</option>
   {%  endif %}
 </select>
-{% if company.country is not null %}
-  <input style="display: none" value="{{ company.country.phoneCode }}" id="countryPhoneCode">
+
+{% if struct_province_country_city == "true" %}
+  {% if company.region is not null %}
+    <input style="display: none" value="{{ company.region.phoneCode }}" id="countryPhoneCode">
+  {% endif %}
+{% else %}
+  {% if company.country is not null %}
+    <input style="display: none" value="{{ company.country.phoneCode }}" id="countryPhoneCode">
+  {% endif %}
+{% endif %}
+
+{% if company is not null and company.city is not null %}
+  <input style="display: none" value="{{ company.city.id }}" id="cityName">
 {% endif %}
 
 {#adaptation DBTA#}

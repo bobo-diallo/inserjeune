@@ -715,4 +715,20 @@ class School {
 	public function getJobOffers(): Collection {
 		return $this->jobOffers;
 	}
+
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->city?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return School
+     */
+    public function setPrefecture(?Prefecture $prefecture): School
+    {
+        return $this;
+    }
 }

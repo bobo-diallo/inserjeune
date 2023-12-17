@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>IFEF</title>
+<head><title>Inserjeune IFEF</title>
     <meta charset="utf-8">
     <meta name="description" content="Taux d’insertion professionnelle des jeunes diplômés de l’enseignement technique et de la formation professionnelle et de la satisfaction des entreprises">
     <meta name="robots" content="index, follow">
@@ -22,11 +22,20 @@
     {% block body %}
         <h1 hidden>{{ 'referencement.base_security' | trans }}</h1>
         <div class="auth-box-w">
-            <div class="logo-w" style="padding: 25px 3px;">
-                 {{ include ('_customize_header_login.html.twig') }}
-{#                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="160"></a>#}
-{#                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>#}
+            <div id="loginHeader" class="logo-w" style="padding: 25px 3px 0 30px; margin: auto ; display: flex; justify-content: space-around;">
+{#                 {{ include ('_customize_header_login.html.twig') }}#}
+                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="135"></a>
+                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>
+
+                <button id="buttonSelectLang" class="btn btn-primary" style="height: 40px; margin: 30px auto 10px auto">{{ 'menu.language' | trans }}</button>
             </div>
+
+            <ul id="selectLang" hidden="" class="list-unstyled" style="display: flex; flex-direction: row; justify-content: space-around;">
+                <li value="lang_fr"><a href="{{ app.request.getBaseURL() }}/fr/login"> {{ 'menu.french' | trans }} <img src="{{ asset('build/images/icon/country/fr.png') }}" alt="French"></a></li>
+                <li value="lang_en"><a href="{{ app.request.getBaseURL() }}/en/login"> {{ 'menu.english' | trans }} <img src="{{ asset('build/images/icon/country/en.png') }}" alt="English"></a></li>
+                <li value="lang_es"><a href="{{ app.request.getBaseURL() }}/es/login"> {{ 'menu.spanish' | trans }} <img src="{{ asset('build/images/icon/country/es.png') }}" alt="Spanish"></a></li>
+                <li value="lang_pt"><a href="{{ app.request.getBaseURL() }}/pt/login"> {{ 'menu.portuguese' | trans }} <img src="{{ asset('build/images/icon/country/pt.png') }}" alt="Portuguese"></a></li>
+            </ul>
             {% block fos_user_title %}
             {% endblock fos_user_title %}
 
@@ -73,6 +82,14 @@
 {% endblock %}
 {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
 <script>
+    $('#buttonSelectLang').on('click', function ()  {
+        if($('#selectLang').prop('hidden') == true) {
+            $('#selectLang').prop('hidden', false);
+        } else {
+            $('#selectLang').prop('hidden', true);
+        }
+    });
+
     setTimeout(function() {
         var alertDanger = document.querySelector('.alert-danger');
         var alertSuccess = document.querySelector('.alert-success');

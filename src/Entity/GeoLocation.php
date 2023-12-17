@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\GeoLocationRepository;
+use App\Repository\SchoolRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Collection;
 
 #[ORM\Table(name: 'geo_location')]
 #[ORM\Entity(repositoryClass: GeoLocationRepository::class)]
@@ -186,6 +188,22 @@ class GeoLocation {
     public function setShowOtherPersonDegrees(bool $showOtherPersonDegrees): void
     {
         $this->showOtherPersonDegrees = $showOtherPersonDegrees;
+    }
+
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->city?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return GeoLocation
+     */
+    public function setPrefecture(?Prefecture $prefecture): GeoLocation
+    {
+        return $this;
     }
 
 }

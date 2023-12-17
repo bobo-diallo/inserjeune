@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Company;
 use App\Entity\Contract;
 use App\Entity\Country;
+use App\Entity\Prefecture;
 use App\Entity\Region;
 use App\Entity\Degree;
 use App\Entity\PersonDegree;
@@ -147,6 +148,19 @@ class PersonDegreeType extends AbstractType {
                 'attr' => [
                     'class' => 'form-control',
                     'data-error' => 'error.unauthorized_or_unknown_country',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
+            ])
+            ->add('prefecture', EntityType::class, [
+                'required' => false,
+                'class' => Prefecture::class,
+                'placeholder' => 'menu.prefecture',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'error.unauthorized_or_unknown_prefecture',
                 ],
                 'query_builder' => function (EntityRepository $entityRepository) {
                     return $entityRepository->createQueryBuilder('b')

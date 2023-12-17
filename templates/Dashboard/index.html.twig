@@ -1,6 +1,8 @@
 {% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% else %} {% set base = 'base.html.twig' %}
 {% endif %}
@@ -13,7 +15,6 @@
 
 {% set user = app.user %}
 {% set userCompany = user.company %}
-{% set userSchool = user.school %}
 
 {% block navigation %}
     <li class="breadcrumb-item"><span>{{ 'menu.dashboard' | trans }}</span></li>
@@ -30,100 +31,148 @@
             {% if idSelectedRegion == null %}
                 {% set idSelectedRegion = "0"%}
             {% endif %}
+            {% if idSelectedPrefecture == null %}
+                {% set idSelectedPrefecture = "0"%}
+            {% endif %}
 
             <div class="element-wrapper">
+                <div class="printTools">
+                    <button id="printDashboard" class="btn btn-primary btn-dashboard rounded" ><i class="fa fa-print"></i><span>Export PDF</span></button>
+                    <img src="{{ asset('build/images/loading.gif') }}" id="printDashboardLoading" hidden="hidden">
+                </div>
                 <div class="dashboardFilter">
                     <form class="form-inline justify-content-sm-end form-dashboard" action="{{ path('dashboard_index') }}" method="post">
-                        <select id="selectCountry" name="selectCountry" class="form-control form-control-sm select-dashboard rounded">
-                            {% for country in countries %}
-                                {% if country.id == idSelectedCountry %}
-                                    <option selected value="{{ country.id }}">{{ country.name }}</option>
+                        <div>
+                            <label for="">{{ "menu.country" | trans }}</label>
+                            <select id="selectCountry" name="selectCountry" class="form-control form-control-sm select-dashboard rounded">
+                                {% for country in countries %}
+                                    {% if country.id == idSelectedCountry %}
+                                        <option selected value="{{ country.id }}">{{ country.name | trans }}</option>
+                                    {% else %}
+                                        <option value="{{ country.id }}">{{ country.name | trans}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="">{{ "menu.region" | trans }}</label>
+                            <select id="selectRegion" name="selectRegion" class="form-control form-control-sm select-dashboard rounded">
+                                {% if idSelectedRegion == "" %}
+                                    <option selected value="">{{ 'menu.all_regions' | trans }}</option>
                                 {% else %}
-                                    <option value="{{ country.id }}">{{ country.name }}</option>
+                                    <option value="">{{ 'menu.all_regions' | trans }}</option>
                                 {% endif %}
-                            {% endfor %}
-                        </select>
-                        <select id="selectRegion" name="selectRegion" class="form-control form-control-sm select-dashboard rounded">
-                            {% if idSelectedRegion == "0" %}
-                                <option selected value="0">{{ 'menu.all_regions' | trans }}</option>
-                            {% else %}
-                                <option value="0">{{ 'menu.all_regions' | trans }}</option>
-                            {% endif %}
-                            {% for region in regions %}
-                                {% if struct_province_country_city != "true" %}
-                                    {% if region.country.id == idSelectedCountry %}
+                                {% for region in regions %}
+                                    {% if struct_province_country_city != "true"%}
+                                        {% if region.country.id == idSelectedCountry %}
+                                            {% if region.id == idSelectedRegion %}
+                                                <option selected value="{{ region.id }}">{{ region.name | trans }}</option>
+                                            {% else %}
+                                                <option value="{{ region.id }}">{{ region.name | trans }}</option>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    {# Adaptation struct_province_country_city :
+                                     Region become country and more than one country can be selected#}
+                                    {% else %}
                                         {% if region.id == idSelectedRegion %}
-                                            <option selected value="{{ region.id }}">{{ region.name }}</option>
+                                            <option selected value="{{ region.id }}">{{ region.name | trans }}</option>
                                         {% else %}
-                                            <option value="{{ region.id }}">{{ region.name }}</option>
+                                            <option value="{{ region.id }}">{{ region.name | trans }}</option>
                                         {% endif %}
                                     {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
 
-                                {# Adaptation struct_province_country_city :
-                                 Region become country and more than one country can be selected#}
-                                {% else %}
-                                    {% if region.id == idSelectedRegion %}
-                                        <option selected value="{{ region.id }}">{{ region.name }}</option>
+                        {% if prefecture_between_region_city == "true" %}
+                            <div>
+                                <label for="">{{ "menu.prefecture" | trans }}</label>
+                                <select id="selectPrefecture" name="selectPrefecture" class="form-control form-control-sm select-dashboard rounded">
+                                    {% if idSelectedPrefecture == "" %}
+                                        <option selected value="">{{ 'menu.all_prefectures' | trans }}</option>
                                     {% else %}
-                                        <option value="{{ region.id }}">{{ region.name }}</option>
+                                        <option value="">{{ 'menu.all_prefectures' | trans }}</option>
                                     {% endif %}
+                                </select>
+                            </div>
+                        {% endif %}
+
+                        <div>
+                            <label for="">{{ "dashboard.duration" | trans }}</label>
+                            <select id="selectDuration" name="selectDuration" class="form-control form-control-sm  select-dashboard rounded">
+                                {% if selectedDuration == "3 mois" %}
+                                    {% set durationTrans = "time.3_months" | trans %}
+                                    <option value="3 mois" selected>{{ 'time.3_months' | trans }}</option>
+                                {% else %}
+                                    <option value="3 mois">{{ 'time.3_months' | trans }}</option>
                                 {% endif %}
-                            {% endfor %}
-                        </select>
+
+                                {% if selectedDuration == "6 mois" %}
+                                    {% set durationTrans = "time.6_months" | trans %}
+                                    <option value="6 mois" selected>{{ 'time.6_months' | trans }}</option>
+                                {% else %}
+                                    <option value="6 mois">{{ 'time.6_months' | trans }}</option>
+                                {% endif %}
+
+                                {% if selectedDuration == "1 an" %}
+                                    {% set durationTrans = "time.1_year" | trans %}
+                                    <option value="1 an" selected>{{ 'time.1_year' | trans }}</option>
+                                {% else %}
+                                    <option value="1 an">{{ 'time.1_year' | trans }}</option>
+                                {% endif %}
+
+                                {% if selectedDuration == "2 ans" %}
+                                    {% set durationTrans = "time.2_years" | trans %}
+                                    <option value="2 ans" selected>{{ 'time.2_years' | trans }}</option>
+                                {% else %}
+                                    <option value="2 ans">{{ 'time.2_years' | trans }}</option>
+                                {% endif %}
+
+                                {% if selectedDuration == "3 ans" %}
+                                    {% set durationTrans = "time.3_years" | trans %}
+                                    <option value="3 ans" selected>{{ 'time.3_years' | trans }}</option>
+                                {% else %}
+                                    <option value="3 ans">{{ 'time.3_years' | trans }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="">{{ "dashboard.begin" | trans }}</label>
+                            <input type="date" name="beginDate" id="beginDate" value="{{startDate}}" class="form-control form-control-sm input-dashboard rounded">
+                        </div>
+                        <div>
+                            <label for="">{{ "dashboard.end" | trans }}</label>
+                            <input type="date" name="referenceDate" id="referenceDate" value="{{referenceDate}}" class="form-control form-control-sm input-dashboard rounded">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-dashboard rounded" > {{ 'menu.validate' | trans }} </button>
+                        </div>
 
                         {#creation du select pour le script onchange du pays#}
-                        <select hidden id="regionCountry">
-                            {% for region in regions %}
-                                <option value="{{ region.id }}">{{ region.country.id }}</option>
-                            {% endfor %}
-                        </select>
+                        <div>
+                            <select hidden id="regionCountry">
+                                {% for region in regions %}
+                                    <option value="{{ region.id }}">{{ region.country.id }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
                         {#creation du select allRegions pour le script onchange du pays#}
-                        <select hidden id="allRegion">
-                            {% for region in regions %}
-                                <option value="{{ region.id }}">{{ region.name }}</option>
-                            {% endfor %}
-                        </select>
-
-                        <select id="selectDuration" name="selectDuration" class="form-control form-control-sm  select-dashboard rounded">
-                            {% if selectedDuration == "3 mois" %}
-                                {% set durationTrans = "time.3_months" | trans %}
-                                <option value="3 mois" selected>{{ 'time.3_months' | trans }}</option>
-                            {% else %}
-                                <option value="3 mois">{{ 'time.3_months' | trans }}</option>
-                            {% endif %}
-
-                            {% if selectedDuration == "6 mois" %}
-                                {% set durationTrans = "time.6_months" | trans %}
-                                <option value="6 mois" selected>{{ 'time.6_months' | trans }}</option>
-                            {% else %}
-                                <option value="6 mois">{{ 'time.6_months' | trans }}</option>
-                            {% endif %}
-
-                            {% if selectedDuration == "1 an" %}
-                                {% set durationTrans = "time.1_year" | trans %}
-                                <option value="1 an" selected>{{ 'time.1_year' | trans }}</option>
-                            {% else %}
-                                <option value="1 an">{{ 'time.1_year' | trans }}</option>
-                            {% endif %}
-
-                            {% if selectedDuration == "2 ans" %}
-                                {% set durationTrans = "time.2_years" | trans %}
-                                <option value="2 ans" selected>{{ 'time.2_years' | trans }}</option>
-                            {% else %}
-                                <option value="2 ans">{{ 'time.2_years' | trans }}</option>
-                            {% endif %}
-                        </select>
-                        <input type="date" name="referenceDate" value="{{referenceDate}}" class="form-control form-control-sm input-dashboard rounded">
-                        <button type="submit" class="btn btn-primary btn-dashboard rounded" > {{ 'menu.validate' | trans }} </button>
+                        <div>
+                            <select hidden id="allRegion">
+                                {% for region in regions %}
+                                    <option value="{{ region.id }}">{{ region.name | trans }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% if idSelectedCountry %} <p hidden id="idSelectedCountry">{{ idSelectedCountry }}</p> {% else %} <p hidden id="idSelectedCountry">null</p> {% endif %}
+                        {% if idSelectedRegion %} <p hidden id="idSelectedRegion">{{ idSelectedRegion }}</p> {% else %} <p hidden id="idSelectedRegion">null</p> {% endif %}
+                        {% if idSelectedPrefecture %} <p hidden id="idSelectedPrefecture">{{ idSelectedPrefecture }}</p> {% else %} <p hidden id="idSelectedPrefecture">null</p> {% endif %}
                     </form>
-                    <div class="printTools">
-                        <button id="printDashboard" class="btn btn-primary btn-dashboard rounded" ><i class="fa fa-print"></i><span>Export PDF</span></button>
-                        <img src="{{ asset('build/images/loading.gif') }}" id="printDashboardLoading" hidden="hidden">
-                    </div>
                 </div>
-                {% set beginDate = convert_date_from_duration(referenceDate, selectedDuration)[0] %}
-                {% set endDate = convert_date_from_duration(referenceDate, selectedDuration)[1] %}
+                {% set beginDate = convert_date_from_duration(startDate, referenceDate, selectedDuration)[0] %}
+                {% set endDate = convert_date_from_duration(startDate, referenceDate, selectedDuration)[1] %}
             </div>
 
             <div id="dashboardToPrint">
@@ -141,7 +190,7 @@
                         {#/*******************************************************/#}
                         <div class="col-sm-12">
                             <h6>{{ 'school.schools_by_sector_of_activity' | trans }}</h6>
-                            {{ entity_barre_graph(idSelectedCountry, idSelectedRegion, "School", "SectorArea", true, beginDate, endDate) }}
+                            {{ entity_barre_graph(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "School", "SectorArea", true, beginDate, endDate) }}
                         </div>
                     </div>
                 </div>
@@ -161,27 +210,27 @@
                         {#/****************************************************/#}
                         <div class="col-sm-12">
                             <h6>{{ 'company.companies_by_sector_of_activity' | trans }}</h6>
-                            {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "Company", "SectorArea", true, null, beginDate, endDate) }}
+                            {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "Company", "SectorArea", true, null, beginDate, endDate) }}
                         </div>
                     </div>
                     {% if userCompany == null %}
-                        <div class="row">
+                        <div class="row" style="margin-top: 1rem;">
                             {#diagramme Anneau des statuts juridiques#}
                             {#/*************************************/#}
                             <div class="col-sm-12">
                                 <h6>{{ 'company.companies_by_legal_status' | trans }}</h6>
-                                {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "Company", "LegalStatus", true, null, beginDate, endDate) }}
+                                {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "Company", "LegalStatus", true, null, beginDate, endDate) }}
                             </div>
                         </div>
                     {% endif %}
                     {% if userCompany == null %}
-                        <h6>{{ 'company.measures_of_satisfaction_of_companies_that_have_hired_graduates' | trans }}</h6>
+                        <h6 style="margin-top: 1rem;">{{ 'company.measures_of_satisfaction_of_companies_that_have_hired_graduates' | trans }}</h6>
                         <div class="element-content satisfaction_value">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">{{ 'company.overall_satisfaction' | trans }}: </div>
-                                        <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", 'excellent'], beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "levelSkill", ["très insatisfaisant" | trans, "insatisfaisant" | trans, "satisfaisant ; entre les deux"  | trans, "bon" | trans, "excellent" | trans], beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-9">
@@ -189,25 +238,26 @@
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.general_knowledge' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelGlobalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "levelGlobalSkill", ["très insatisfaisant" | trans, "insatisfaisant" | trans, "satisfaisant ; entre les deux" | trans, "bon" | trans, "excellent" | trans], beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.technical_skills' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelTechnicalSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "levelTechnicalSkill", ["très insatisfaisant" | trans, "insatisfaisant" | trans, "satisfaisant ; entre les deux" | trans, "bon" | trans, "excellent" | trans], beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="element-box el-tablo">
                                                 <div class="label">{{ 'company.communication_and_hse' | trans }}:</div>
-                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant", "insatisfaisant", "satisfaisant ; entre les deux", "bon", "excellent"], beginDate, endDate) }}</div>
+                                                <div class="value">{{ company_satisfaction_skill_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "levelCommunicationHygieneHealthEnvSkill", ["très insatisfaisant" | trans, "insatisfaisant" | trans, "satisfaisant ; entre les deux" | trans, "bon" | trans, "excellent" | trans], beginDate, endDate) }}</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
                     {% endif %}
                 </div>
 
@@ -219,29 +269,30 @@
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">1-{{ 'company.worker' | trans }}: </div>
-                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "ouvrier",["0", "de 1 à 5", "de 6 à 10", "> 10"], beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "ouvrier",["0", "de 1 à 5"  | trans, "de 6 à 10" | trans, "> 10"], beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">2-{{ 'company.technician' | trans }}:</div>
-                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "technicien",["0", "de 1 à 5", "de 6 à 10", "> 10"], beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "technicien",["0", "de 1 à 5" | trans, "de 6 à 10" | trans, "> 10"], beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">3-{{ 'company.apprentice' | trans }}:</div>
-                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "apprenti",["0", "de 1 à 5", "de 6 à 10", "> 10"], beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "apprenti",["0", "de 1 à 5" | trans, "de 6 à 10" | trans, "> 10"], beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="element-box el-tablo">
                                         <div class="label">4-{{ 'company.intern' | trans }}:</div>
-                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, "stagiaire",["0", "de 1 à 5", "de 6 à 10", "> 10"], beginDate, endDate)}}</div>
+                                        <div class="value">{{ company_satisfaction_hire_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "stagiaire",["0", "de 1 à 5" | trans, "de 6 à 10" | trans, "> 10"], beginDate, endDate)}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
                     </div>
                 {% endif %}
 
@@ -276,9 +327,9 @@
                             <h6>{{ 'school.rate_of_your_graduates_by_sector_of_activity' | trans }}</h6>
                         {% endif %}
 
-                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "SectorArea", true, userSchool, beginDate, endDate) }}
+                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "PersonDegree", "SectorArea", true, userSchool, beginDate, endDate) }}
 
-                        <h6 style="margin-top: -15px; padding-left: 15px"><span >{{ 'school.detail_by_sector_profession' | trans }} </span>
+                        <h6 style="margin-top: 1rem; padding-left: 15px"><span >{{ 'school.detail_by_sector_profession' | trans }} </span>
                             <button id="job_rate_btn" class="btn-dashboard">{{ 'menu.show' | trans }}</button></h6>
                     </div>
 
@@ -296,55 +347,157 @@
                         <h6>{{ 'school.graduation_rates_by_degree' | trans }}</h6>
                     {% endif %}
                     {% if userSchool != null or userCompany != null%}
-                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Degree", true, userSchool, beginDate, endDate) }}
+                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "PersonDegree", "Degree", true, userSchool, beginDate, endDate) }}
                     {% endif %}
                 </div>
 
                 <div class="element-wrapper chartToPrint">
-                    <h6>{{ 'school.professional_integration_rate_of_graduates' | trans }}</h6>
+                    {# Taux de formation professionnelle et taux d'abandon des étudiants enrôlés #}
+                    <h6>{{ 'school.professional_traning_and_dropout_rate_of_enroll_students' | trans }}</h6>
                     <div class="element-content satisfaction_value">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="element-box el-tablo">
-                                    <div class="label">{{ 'school.graduates_in_employment' | trans }}</div>
-                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_EMPLOYED"], userSchool, beginDate, endDate) }}</div>
-                                    {#<div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                    <div class="label">{{ 'school.students_in_training' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "all", ["TYPE_TRAINING"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="element-box el-tablo">
-                                    <div class="label">{{ 'school.entrepreneurship_graduates' | trans }}</div>
-                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
-                                    {#<div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-graph-down"></i></div>#}
+                                    <div class="label">{{ 'school.students_drop' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "all", ["TYPE_DROPOUT"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-graph-down"></i></div>#}
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="element-box el-tablo">
-                                    <div class="label">{{ 'school.unemployed_graduates' | trans }}</div>
-                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, ["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], userSchool, beginDate, endDate) }}</div>
-                                    {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+                                    <div class="label">{{ 'school.studying_graduates' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "graduate", ["TYPE_STUDY"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-graph-down"></i></div>#}
                                 </div>
                             </div>
                         </div>
                         {% if userSchool == null %}
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="element-box el-tablo">
-                                        <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_related_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) | raw }}</div>
-                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, true, userSchool, beginDate, endDate) }}</div>
-                                        {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+                                        <div class="label">{{ 'school.Proportion_of_graduates_continuing_their_studies' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) | raw }}  {{ 'school.with_without_surveys_response' | trans | raw }}</div>
+                                        <div class="value">{{ person_degree_continuing_their_studies(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, userSchool, beginDate, endDate) }}</div>
+{#                                        <div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
+                                    <div class="element-box el-tablo">
+                                        <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_related_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) | raw }}</div>
+                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, true, userSchool, beginDate, endDate) }}</div>
+{#                                        <div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
                                     <div class="element-box el-tablo">
                                         <div class="label">{{ 'school.unemployed_graduates_pursuing_studies_unrelated_to_their_first_degree' | trans({'%tag_br%': '<br/>', '%tag_a_start%': '<a>', '%tag_a_end%': '</a>'}) | raw }}</div>
-                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, false, userSchool,beginDate, endDate) }}</div>
-                                        {#<div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+                                        <div class="value">{{ person_degree_unemployed_pursuit_last_degree_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, false, userSchool,beginDate, endDate) }}</div>
+{#                                        <div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
                                     </div>
                                 </div>
                             </div>
                         {% endif %}
                     </div>
+                    <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
+                </div>
+                <div class="element-wrapper chartToPrint">
+                    {# Taux d'insertion professionnelle des diplômés #}
+                    <h6>{{ 'school.professional_integration_rate_of_graduates' | trans }}</h6>
+                    <div class="element-content satisfaction_value">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div class="label">{{ 'school.graduates_in_employment' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "graduate", ["TYPE_EMPLOYED"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div class="label">{{ 'school.entrepreneurship_graduates' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "graduate", ["TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-graph-down"></i></div>#}
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div class="label">{{ 'school.unemployed_graduates' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "graduate", ["TYPE_UNEMPLOYED"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div class="label">{{ 'school.search_graduates' | trans }}</div>
+                                    <div class="value">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "graduate", ["TYPE_SEARCH"], userSchool, beginDate, endDate) }}</div>
+                                    {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.graduates_integration_rate' | trans }}</div>
+                                    <div class="value">{{ graduate_global_integration_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_UNEMPLOYED", "TYPE_SEARCH"], userSchool, beginDate, endDate) }}</div>
+{#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+{#                            <div class="col-sm-3">#}
+{#                                <div class="element-box el-tablo">#}
+{#                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.employed_rate' | trans }}</div>#}
+{#                                    <div class="value">{{ graduate_global_integration_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH"], userSchool, beginDate, endDate) }}</div>#}
+{#                                    <div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
+{#                                </div>#}
+{#                            </div>#}
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Proportion_of_self-employment_in_employment' | trans }}</div>
+                                    <div class="value">{{ person_degree_type_in_types_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "TYPE_CONTRACTOR", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
+                                    {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    {# TAUX D'AUTO EMPLOI DES DIPLÔMES #}
+                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Self-employment_rate_of_diplomas' | trans }}</div>
+                                    <div class="value">{{ person_degree_type_in_types_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "TYPE_CONTRACTOR", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
+                                    {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="element-box el-tablo">
+                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Response_rate' | trans }}</div>
+                                    <div class="value">{{ person_degree_survey_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH", "TYPE_UNEMPLOYED", "TYPE_STUDY"], userSchool, beginDate, endDate) }}</div>
+                                    {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="element-box el-tablo">
+                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years' | trans }}</div>
+                                    <input style="font-size: 10px;" type="text" id="totalCountryGraduates" class="form-control" placeholder="{{ 'school.total_country_graduates' | trans }}">
+                                    <div hidden id="totalEnrollGraduates">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "number", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH", "TYPE_UNEMPLOYED", "TYPE_STUDY"], userSchool, beginDate, endDate) }}</div>
+                                    <div id="enrollRate3Years" class="value"></div>
+{#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+                                </div>
+                            </div>
+{#                            <div class="col-sm-4">#}
+{#                                <div class="element-box el-tablo">#}
+{#                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Unemployment_rate_of_TVET_graduates' | trans }}</div>#}
+{#                                    <div class="value">{{ person_degree_type_in_types_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "TYPE_SEARCH", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH", "TYPE_UNEMPLOYED"], userSchool, beginDate, endDate) }}</div>#}
+{#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+{#                                </div>#}
+{#                            </div>#}
+                        </div>
+                    </div>
+                    <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
                 </div>
 
                 {#Graph des raisons du chômage #}
@@ -352,15 +505,16 @@
                 {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.rate_of_reasons_for_unemployment_of_unemployed_graduates' | trans }}</h6>
-                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], "PersonDegreeUnemployed" ,false, userSchool, beginDate, endDate)}}
+                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "Reason",["TYPE_SEARCH", "TYPE_STUDY", "TYPE_UNEMPLOYED"], "PersonDegreeUnemployed" ,false, userSchool, beginDate, endDate)}}
                     </div>
+                    <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
                 {% endif %}
                 {#diagramme Anneau des type de contrats #}
                 {#/************************************/#}
                 {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.employed_graduates_by_type_of_contract' | trans }}</h6>
-                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, "PersonDegree", "Contract", true, userSchool, beginDate, endDate) }}
+                        {{ entity_portion_cheese(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "PersonDegree", "Contract", true, userSchool, beginDate, endDate) }}
                     </div>
                 {% endif %}
 
@@ -369,8 +523,9 @@
                 {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.rate_of_reasons_for_employed_graduates_working_in_occupations_unrelated_to_their_degree' | trans }}</h6>
-                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason",["TYPE_EMPLOYED"], "PersonDegreeEmployed" ,false, userSchool, beginDate, endDate)}}
+                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "Reason",["TYPE_EMPLOYED"], "PersonDegreeEmployed" ,false, userSchool, beginDate, endDate)}}
                     </div>
+                    <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
                 {% endif %}
 
 
@@ -379,8 +534,9 @@
                 {% if userSchool == null and userCompany == null %}
                     <div class="element-wrapper chartToPrint">
                         <h6>{{ 'school.rate_of_reasons_why_the_professional_training_was_not_useful_to_an_entrepreneurial_graduate' | trans }}</h6>
-                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Reason", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,false, userSchool, beginDate, endDate)}}
+                        {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "Reason", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,false, userSchool, beginDate, endDate)}}
                     </div>
+                    <p class="dahboardGraphNote">{{ 'dashboard.note_result_survey' | trans }}</p>
                 {% endif %}
 
                 {#Graph des métiers occupés par les diplômés entrepreneurs #}
@@ -392,7 +548,7 @@
                                 <button id="activity_contractor_rate_btn"  class="btn-dashboard">{{ 'menu.show' | trans }}</button></h6>
                         </div>
                         <div class="activity_contractor_rate" >
-                            {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, "Activity", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,true, userSchool, beginDate, endDate)}}
+                            {{ person_degree_reason_graph(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "Activity", ["TYPE_CONTRACTOR"], "PersonDegreeContractor" ,true, userSchool, beginDate, endDate)}}
                         </div>
                     </div>
                 {% endif %}
@@ -415,7 +571,17 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
+                                                       {%  set diffYear = diff_date_ymd(startDate, referenceDate)[0] %}
+                                                       {%  set diffMonth = diff_date_ymd(startDate, referenceDate)[1]  %}
+                                                       {%  set diffDay = diff_date_ymd(startDate, referenceDate)[2]  %}
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }}
+                                                            {% if diffYear > 0 %}
+                                                                {{ diffYear }} {{ ("time.year(s)" | trans) }}
+                                                            {% endif %}
+                                                            {%  if diffMonth >0  %}
+                                                                {{ diffMonth }} {{ ("time.month(s)" | trans) }}
+                                                            {% endif %}
+                                                            {{ diffDay }} {{ ("time.day(s)" | trans) }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -424,7 +590,7 @@
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
 
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"School", "dashboard.graph_title_establisment" | trans ,selectedDuration, null, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion, idSelectedPrefecture,"School", "dashboard.graph_title_establisment" | trans ,selectedDuration, null, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfileSchool" width="300px"></canvas>
@@ -437,6 +603,7 @@
                                     <div class="el-tablo">
                                         <div class="label">
                                             {{ 'dashboard.legend' | trans }}:
+                                            XM: X {{ 'dashboard.months' | trans }} ,
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
@@ -464,8 +631,18 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-{#                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ selectedDuration }}#}
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
+                                                        {%  set diffYear = diff_date_ymd(startDate, referenceDate)[0] %}
+                                                        {%  set diffMonth = diff_date_ymd(startDate, referenceDate)[1]  %}
+                                                        {%  set diffDay = diff_date_ymd(startDate, referenceDate)[2]  %}
+
+                                                        href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }}
+                                                        {% if diffYear > 0 %}
+                                                            {{ diffYear }} {{ ("time.year(s)" | trans) }}
+                                                        {% endif %}
+                                                        {%  if diffMonth >0  %}
+                                                            {{ diffMonth }} {{ ("time.month(s)" | trans) }}
+                                                        {% endif %}
+                                                        {{ diffDay }} {{ ("time.day(s)" | trans) }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -473,7 +650,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"PersonDegree", "dashboard.graph_title_graduate" | trans, selectedDuration, userSchool, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion, idSelectedPrefecture,"PersonDegree", "dashboard.graph_title_graduate" | trans, selectedDuration, userSchool, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfilePersonDegree" width="300px"></canvas>
@@ -486,6 +663,7 @@
                                     <div class="el-tablo">
                                         <div class="label">
                                             {{ 'dashboard.legend' | trans }}:
+                                            XM: X {{ 'dashboard.months' | trans }} ,
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
@@ -510,7 +688,18 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
+                                                        {%  set diffYear = diff_date_ymd(startDate, referenceDate)[0] %}
+                                                        {%  set diffMonth = diff_date_ymd(startDate, referenceDate)[1]  %}
+                                                        {%  set diffDay = diff_date_ymd(startDate, referenceDate)[2]  %}
+
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }}
+                                                        {% if diffYear > 0 %}
+                                                            {{ diffYear }} {{ ("time.year(s)" | trans) }}
+                                                        {% endif %}
+                                                        {%  if diffMonth >0  %}
+                                                            {{ diffMonth }} {{ ("time.month(s)" | trans) }}
+                                                        {% endif %}
+                                                        {{ diffDay }} {{ ("time.day(s)" | trans) }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -518,7 +707,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion,"Company","dashboard.graph_title_company" | trans, selectedDuration, null, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution("Profile", idSelectedCountry, idSelectedRegion, idSelectedPrefecture,"Company","dashboard.graph_title_company" | trans, selectedDuration, null, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartProfileCompany" width="300px"></canvas>
@@ -531,6 +720,7 @@
                                     <div class="el-tablo">
                                         <div class="label">
                                             {{ 'dashboard.legend' | trans }}:
+                                            XM: X {{ 'dashboard.months' | trans }} ,
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
@@ -558,7 +748,18 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
+                                                        {%  set diffYear = diff_date_ymd(startDate, referenceDate)[0] %}
+                                                        {%  set diffMonth = diff_date_ymd(startDate, referenceDate)[1]  %}
+                                                        {%  set diffDay = diff_date_ymd(startDate, referenceDate)[2]  %}
+
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }}
+                                                        {% if diffYear > 0 %}
+                                                            {{ diffYear }} {{ ("time.year(s)" | trans) }}
+                                                        {% endif %}
+                                                        {%  if diffMonth >0  %}
+                                                            {{ diffMonth }} {{ ("time.month(s)" | trans) }}
+                                                        {% endif %}
+                                                        {{ diffDay }} {{ ("time.day(s)" | trans) }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -566,7 +767,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"PersonDegree", "dashboard.graph_title_graduate" | trans, selectedDuration, userSchool, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion, idSelectedPrefecture,"PersonDegree", "dashboard.graph_title_graduate" | trans, selectedDuration, userSchool, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartQuizzPersonDegree" width="300px"></canvas>
@@ -579,6 +780,7 @@
                                     <div class="el-tablo">
                                         <div class="label">
                                             {{ 'dashboard.legend' | trans }}:
+                                            XM: X {{ 'dashboard.months' | trans }} ,
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
@@ -603,7 +805,18 @@
                                             <ul class="nav nav-pills smaller hidden-sm-down">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab"
-                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }} {{ durationTrans }}
+                                                        {%  set diffYear = diff_date_ymd(startDate, referenceDate)[0] %}
+                                                        {%  set diffMonth = diff_date_ymd(startDate, referenceDate)[1]  %}
+                                                        {%  set diffDay = diff_date_ymd(startDate, referenceDate)[2]  %}
+
+                                                       href="index.html#">{{ referenceDate|date("d/m/Y") }} {{ "dashboard.for_ref_date" | trans }}
+                                                        {% if diffYear > 0 %}
+                                                            {{ diffYear }} {{ ("time.year(s)" | trans) }}
+                                                        {% endif %}
+                                                        {%  if diffMonth >0  %}
+                                                            {{ diffMonth }} {{ ("time.month(s)" | trans) }}
+                                                        {% endif %}
+                                                        {{ diffDay }} {{ ("time.day(s)" | trans) }}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -611,7 +824,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_overview">
                                                 <div class="el-tablo">
-                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion,"Company", "dashboard.graph_title_company" | trans, selectedDuration, null, beginDate, endDate)}}
+                                                    {{ nb_actor_evolution('Quizz', idSelectedCountry, idSelectedRegion, idSelectedPrefecture,"Company", "dashboard.graph_title_company" | trans, selectedDuration, null, beginDate, endDate)}}
                                                 </div>
                                                 <div class="el-chart-w">
                                                     <canvas height="90px" id="lineChartQuizzCompany" width="300px"></canvas>
@@ -624,6 +837,7 @@
                                     <div class="el-tablo">
                                         <div class="label">
                                             {{ 'dashboard.legend' | trans }}:
+                                            XM: X {{ 'dashboard.months' | trans }} ,
                                             BM: 2 {{ 'dashboard.months' | trans }} ,
                                             M: 1 {{ 'dashboard.month' | trans }} ,
                                             BS: 2 {{ 'dashboard.weeks' | trans }},
@@ -643,6 +857,69 @@
 {% block js %}
     <script type="application/javascript">
         $(document).ready(function () {
+            createRegion('#selectCountry', '#selectRegion', $('#idSelectedRegion').text());
+            setTimeout( function() {
+                createPrefecture('#selectRegion', '#selectPrefecture', $('#idSelectedPrefecture').text());
+            }, 2000 );
+
+            $('#selectCountry').on('change', function () {
+                createRegion('#selectCountry', '#selectRegion', null);
+            })
+            $('#selectRegion').on('change', function () {
+                createPrefecture('#selectRegion', '#selectPrefecture', null);
+            })
+
+            $('#totalCountryGraduates').on('change', function () {
+                $('#enrollRate3Years').empty().append(totalCountryGraduates($('#totalEnrollGraduates').text(),$('#totalCountryGraduates').val()))
+            })
+
+            $('#enrollRate3Years').empty().append(totalCountryGraduates($('#totalEnrollGraduates').text(),$('#totalCountryGraduates').val()))
+
+            function totalCountryGraduates(totalEnrollGraduates, totalCountryGraduates) {
+                let res = "null";
+                if (totalCountryGraduates > 0) {
+                    res = Number(totalEnrollGraduates / totalCountryGraduates * 100).toFixed(2);
+                }
+                return ( '<div><table><tr><td>' +
+                    '<span class="small">(' + totalEnrollGraduates +  '/' + totalCountryGraduates + ')</span></td>' +
+                    '<td><span> ' + res +  ' %</span></td>' +
+                    '</tr></table></div>')
+            }
+
+            function createRegion(idCountry, idRegion, regionId) {
+                let baseUrl = getUrlCurrentLocale();
+                removeOptions(idRegion);
+                let countryId = $(idCountry).val();
+                console.log('idCountry=' + countryId);
+                let url = baseUrl + "getRegionsByCountry";
+                let data = {"countryId": countryId}
+
+                //find regions in database
+                $.get(url, data).done(function (result) {
+                    createSortedOptions(idRegion, result["regions"], null);
+                    if(regionId) {
+                        $(idRegion + " option[value=" + regionId + "]").attr("selected", "selected");
+                    }
+                })
+            }
+
+            function createPrefecture(idRegion, idPrefecture, prefectureId) {
+                let baseUrl = getUrlCurrentLocale();
+                removeOptions(idPrefecture);
+                let regionId = $(idRegion).val();
+                console.log('idRegion=' + regionId);
+
+                //find prefectures in database
+                let url = baseUrl + "getPrefecturesByRegion";
+                let data = {"regionId" : regionId}
+                $.get(url, data).done(function (result) {
+                    createSortedOptions(idPrefecture, result["prefectures"], null);
+                    if(prefectureId) {
+                        $(idPrefecture + " option[value=" + prefectureId + "]").attr("selected", "selected");
+                    }
+                })
+            }
+
             let translations = [];
             getTranslation().then (function (translation) {
                 translations = translation;
@@ -662,7 +939,6 @@
                 timeGraphCreation("Profile", "Company", "duration");
                 timeGraphCreation("Quizz", "PersonDegree", "duration");
                 timeGraphCreation("Quizz", "Company", "duration");
-
 
                 $('.job_rate').attr('hidden', 'hidden');
                 $('#job_rate_btn').on('click', function () {
@@ -686,27 +962,38 @@
                     }
                 })
 
-                // Mise à jour du select région en fonction du pays
-                $('#selectCountry').on('change', function () {
-                    activeRegion($('#selectCountry option:selected').val(), $('#selectRegion option:selected').val());
+                // Event
+                // Mise à jour de la date de début en fonction de la durée
+                if($('#beginDate').val() == $('#referenceDate').val()) {
+                    changeBeginDateByDuration ();
+                }
+                $('#selectDuration').on('change', function () {
+                    changeBeginDateByDuration ();
                 })
 
-                function activeRegion(idCountry) {
-                    $('#selectRegion option').each(function () {
-                        $(this).remove();
-                    })
-                    $('#regionCountry option').each(function () {
-                        if ($(this).text() == idCountry) {
-                            let selectedRegion = $(this).val();
-                            $('#allRegion option').each(function () {
-                                if ($(this).val() == selectedRegion) {
-                                    $('#selectRegion').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
-                                }
-                            })
-                        }
-                    })
-                    $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));
-                }
+                // listenChangeRegionPrefecture('#selectCountry', '#selectRegion', '#selectPrefecture', null);
+
+                // Mise à jour du select région en fonction du pays
+                // $('#selectCountry').on('change', function () {
+                //     activeRegion($('#selectCountry option:selected').val(), $('#selectRegion option:selected').val());
+                // })
+
+                // function activeRegion(idCountry) {
+                //     $('#selectRegion option').each(function () {
+                //         $(this).remove();
+                //     })
+                //     $('#regionCountry option').each(function () {
+                //         if ($(this).text() == idCountry) {
+                //             let selectedRegion = $(this).val();
+                //             $('#allRegion option').each(function () {
+                //                 if ($(this).val() == selectedRegion) {
+                //                     $('#selectRegion').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
+                //                 }
+                //             })
+                //         }
+                //     })
+                //     $('#selectRegion').prepend($('<option selected value="0">Toutes Régions</option>'));
+                // }
 
                 $(".dnSlide-main").dnSlide({
                     "response": true,
@@ -718,6 +1005,31 @@
                     "verticalAlign": "bottom", // or 'bottom', 'top'
                 });
             });
+
+            function changeBeginDateByDuration () {
+                let durationSplit = $('#selectDuration option:selected').text().split(" ");
+                let referenceDateSplit  = $('#referenceDate').val().split('-');
+                let beginDate = new Date();
+                if(referenceDateSplit.length == 3 ) {
+                    beginDate = new Date(referenceDateSplit[0] + '-' + referenceDateSplit[1] + '-' + referenceDateSplit[2]);
+                }
+
+                if(durationSplit.length >1) {
+                    if (durationSplit[1].startsWith(translations['time.month'])) {
+                        beginDate.setMonth(beginDate.getMonth() - parseInt(durationSplit[0]));
+                    } else if (durationSplit[1].startsWith(translations['time.year'])) {
+                        beginDate.setFullYear(beginDate.getFullYear() - parseInt(durationSplit[0]));
+                    }
+                }
+                let Day = beginDate.getDate();
+                let Month = beginDate.getMonth()+1;
+                let Year = beginDate.getFullYear();
+                if (Day < 10) Day = "0" + Day.toString();
+                if (Month < 10) Month = "0" + Month.toString();
+                if (Year < 10) Year = "0" + Year.toString();
+
+                $('#beginDate').val(Year + "-" + Month + "-" + Day);
+            }
         })
     </script>
 {% endblock %}

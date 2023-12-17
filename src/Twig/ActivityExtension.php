@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormView;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ActivityExtension extends AbstractExtension {
 
@@ -25,19 +26,22 @@ class ActivityExtension extends AbstractExtension {
 	private ActivityRepository $activityRepository;
 	private SectorAreaRepository $sectorAreaRepository;
 	private PersonDegreeRepository $personDegreeRepository;
+    private TranslatorInterface $translator;
 
 	public function __construct(
 		EntityManagerInterface $entityManager,
 		CountryRepository $countryRepository,
 		ActivityRepository $activityRepository,
 		SectorAreaRepository $sectorAreaRepository,
-		PersonDegreeRepository $personDegreeRepository
+		PersonDegreeRepository $personDegreeRepository,
+        TranslatorInterface $translator
 	) {
 		$this->entityManager = $entityManager;
 		$this->countryRepository = $countryRepository;
 		$this->activityRepository = $activityRepository;
 		$this->sectorAreaRepository = $sectorAreaRepository;
 		$this->personDegreeRepository = $personDegreeRepository;
+        $this->translator = $translator;
 	}
 
 	public function getFunctions(): array {
@@ -222,7 +226,7 @@ class ActivityExtension extends AbstractExtension {
 				$sectorAreaPersonDegreesRate = count($sectorAreaPersonDegrees) / count($personDegrees) * 100;
 			}
 			$html .= sprintf('<div class="label"><span>%s = (%s/%s) </span><span>%s%%</span></div>',
-				$sectorArea->getName(),
+				$this->translator->trans($sectorArea->getName()),
 				count($sectorAreaPersonDegrees),
 				count($personDegrees),
 				number_format($sectorAreaPersonDegreesRate, 2, ',', ' ')
@@ -248,7 +252,7 @@ class ActivityExtension extends AbstractExtension {
 					if (count($personDegrees) > 0)
 						$activityPersonDegreesRate = count($activityPersonDegrees) / count($personDegrees) * 100;
 					$html .= sprintf('<div class="value"><span>%s = (%s/%s)</span><span>%s%%</span></div>',
-						$activity->getName(),
+						$this->translator->trans($activity->getName()),
 						count($activityPersonDegrees),
 						count($personDegrees),
 						number_format($activityPersonDegreesRate, 2, ',', ' '));

@@ -14,20 +14,17 @@ parameters:
     app.supported_locales: fr|en|pt|es
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
-    email_from: nepasrepondre@inserjeune.francophonie.org
-    email_reply_to: nepasrepondre@inserjeune.francophonie.org
+    email_from: postmaster@koderez.com
+    email_reply_to: postmaster@koderez.com
     # specific countries adaptation #
     env(EN_FIELD_TRANSLATION): en
     env(FR_FIELD_TRANSLATION): fr
     env(SP_FIELD_TRANSLATION): sp
     env(PT_FIELD_TRANSLATION): pt
     env(VI_FIELD_TRANSLATION): vi
-    env(CONCAT_LOCAL_ADDRESS): "false"
-    env(STRUCT_PROVINCE_COUNTRY_CITY): "false"
-    env(SUPER_ADMINISTRATOR): ADMIN_DBTA
-    env(GROUP_COUNTRIES_ADMIN): ADMIN_PJSO
-    env(COUNTRY_ADMIN): ADMIN_NJSO
-    env(GROUP_SCHOOLS_ADMIN): ADMIN_LJSO
+    env(CONCAT_LOCAL_ADDRESS): 'false'
+    env(STRUCT_PROVINCE_COUNTRY_CITY): 'false'
+    env(PREFECTURE_BETWEEN_REGION_CITY): 'false'
 
 services:
     # default configuration for services in *this* file

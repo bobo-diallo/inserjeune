@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Country;
 use App\Entity\Region;
 use App\Entity\City;
+use App\Entity\School;
 use App\Entity\User;
 use App\Entity\Role;
 use Doctrine\ORM\EntityRepository;
@@ -12,12 +13,14 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Tools\Utils;
+use function Sodium\add;
 
 class UserType extends AbstractType {
 
@@ -142,16 +145,16 @@ class UserType extends AbstractType {
 						'placeholder' => 'menu.confirm'
 					]],
 			])
-			// Enpecher l'admin d'ajouter des users avec un role DIPLOME ou ENTREPRISE ou ETABLISSEMENT
+			// Enpecher l'admin d'ajouter des users avec un role DIPLOME ou ENTREPRISE ou ETABLISSEMENT (realisé en js)
 			->add('profils', EntityType::class, [
 				'class' => Role::class,
 				'multiple' => true,
                 'query_builder' => function (EntityRepository $r) {
                     return $r->createQueryBuilder('ig')
-                        ->where('ig.role != :role1')
-                        ->andWhere('ig.role != :role2')
-                        ->andWhere('ig.role != :role3')
-                        ->setParameters([':role1'=> 'ROLE_DIPLOME' , ':role2'=> 'ROLE_ENTREPRISE', ':role3'=> 'ROLE_ETABLISSEMENT',])
+                        // ->where('ig.role != :role1')
+                        // ->andWhere('ig.role != :role2')
+                        // ->andWhere('ig.role != :role3')
+                        // ->setParameters([':role1'=> 'ROLE_DIPLOME' , ':role2'=> 'ROLE_ENTREPRISE', ':role3'=> 'ROLE_ETABLISSEMENT',])
                         ->orderBy('ig.pseudo', 'ASC');
                 },
 				'attr' => [
@@ -170,6 +173,7 @@ class UserType extends AbstractType {
 			])
             ->add('adminRegions', EntityType::class, [
                 'class' => Region::class,
+                'required' => false,
                 'multiple' => true,
                 'attr' => [
                     'class' => 'form-control select2',
@@ -177,11 +181,25 @@ class UserType extends AbstractType {
             ])
             ->add('adminCities', EntityType::class, [
                 'class' => City::class,
+                'required' => false,
                 'multiple' => true,
                 'attr' => [
                     'class' => 'form-control select2',
                     'id' => 'idAdminCities',
                 ]
+            ])
+            ->add('school', EntityType::class, [
+                'class' => School::class,
+                'required' => false,
+                'placeholder' => 'menu.select',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'Etablissement non autorisé ou inconnu',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('a')
+                        ->orderBy('a.name', 'ASC');
+                }
             ])
         ;
 	}

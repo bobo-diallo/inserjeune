@@ -31,8 +31,10 @@
                                   <th class="no-print">Actions</th>
                                   <th>Id</th>
                                 {% endif %}
-                                {%  if roleUser == "Etablissement" %}
+                                {%  if roleUser == "Etablissement"%}
                                   <th class="no-print">Actions</th>
+                                {% endif %}
+                                {%  if roleUser == "Etablissement" or roleUser == "Principal" %}
                                   <th>{{ 'menu.registration' | trans }}</th>
                                 {% endif %}
                                 <th>{{ 'menu.firstname' | trans }}</th>
@@ -42,24 +44,35 @@
                                 <th>{{ 'menu.cell_phone' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
                                 {%  if roleUser == 'Administrateur' or
-                                       roleUser == "Législateur" or
-                                       roleUser == "Admin_pays" or
-                                       roleUser == "Admin_regions" %}
-                                    {% if struct_province_country_city == "true" %}
-                                      <th>{{ 'menu.region' | trans }}</th>
-                                    {% else %}
-                                      <th>{{ 'menu.country' | trans }}</th>
-                                    {% endif %}
-                                    <th>{{ 'menu.establishment' | trans }}</th>
+                                  roleUser == "Législateur" or
+                                  roleUser == "Directeur" or
+                                  roleUser == "Admin_pays" %}
+                                  {% if struct_province_country_city == "true" %}
+                                    <th>{{ 'menu.region' | trans }}</th>
+                                  {% else %}
+                                    <th>{{ 'menu.country' | trans }}</th>
+                                  {% endif %}
                                 {% endif %}
                                 {%  if roleUser == 'Administrateur' or
+                                       roleUser == "Directeur" or
                                        roleUser == "Législateur" or
                                        roleUser == "Admin_pays" or
                                        roleUser == "Admin_regions" or
                                        roleUser == "Admin_villes" %}
-                                  <th>{{ 'menu.city' | trans }}</th>
+                                    <th>{{ 'menu.establishment' | trans }}</th>
                                 {% endif %}
-                                {%  if roleUser == "Etablissement" %}
+                                {%  if roleUser == 'Administrateur' or
+                                       roleUser == "Directeur" or
+                                       roleUser == "Législateur" or
+                                       roleUser == "Admin_pays" or
+                                       roleUser == "Admin_regions" or
+                                       roleUser == "Admin_villes" %}
+                                    {% if prefecture_between_region_city == "true" %}
+                                        <th>{{ 'menu.prefecture' | trans }}</th>
+                                    {%  endif %}
+                                    <th>{{ 'menu.city' | trans }}</th>
+                                {% endif %}
+                                {%  if roleUser == "Etablissement" or roleUser == "Principal" %}
                                   <th>{{ 'menu.degree' | trans }}</th>
                                   <th>{{ 'menu.branch' | trans }}</th>
                                 {% endif %}
@@ -95,6 +108,8 @@
                                                 <button class="validStudent" id="validStudent{{ personDegree.id }}" value="0" disabled> {{ 'menu.validate' | trans }} </button>
                                             {% endif %}
                                         </td>
+                                    {% endif %}
+                                    {%  if roleUser == "Etablissement" or roleUser == "Principal" %}
                                         {% if personDegree.checkSchool == true %}
                                             <td id="immat{{ personDegree.id }}" style="color:green">{{ personDegree.registrationStudentSchool }}</td>
                                         {% else %}
@@ -136,24 +151,35 @@
                                     {% endif %}
                                     {%  if roleUser == 'Administrateur' or
                                            roleUser == "Législateur" or
-                                           roleUser == "Admin_pays" or
-                                           roleUser == "Admin_regions" %}
+                                           roleUser == "Directeur" or
+                                           roleUser == "Admin_pays" %}
                                         <td>{{ personDegree.country | trans }}</td>
+                                    {% endif %}
+                                    {%  if roleUser == 'Administrateur' or
+                                           roleUser == "Législateur" or
+                                           roleUser == "Directeur" or
+                                           roleUser == "Admin_pays" or
+                                           roleUser == "Admin_region" or
+                                           roleUser == "Admin_villes" %}
                                         {% if personDegree.schoolId %} <td>{{ personDegree.school }}</td>
                                         {% elseif personDegree.otherSchool %}<td  style="color: #ee0808;">Autre : {{ personDegree.otherSchool }}</td>
                                         {% else %}  <td style="color: #0300ee;">Aucun</td>
                                         {% endif %}
                                     {% endif %}
                                     {%  if roleUser == 'Administrateur' or
+                                           roleUser == "Directeur" or
                                            roleUser == "Législateur" or
                                            roleUser == "Admin_pays" or
                                            roleUser == "Admin_regions" or
                                            roleUser == "Admin_villes" %}
+                                        {% if prefecture_between_region_city == "true" %}
+                                              <td>{{ personDegree.prefectureName | trans }}</td>
+                                        {%  endif %}
                                         <td>{{ personDegree.city | trans}}</td>
                                     {% endif %}
-                                    {%  if roleUser == "Etablissement" %}
-                                        <td>{{ personDegree.degree }}</td>
-                                        <td>{{ personDegree.activity }}</td>
+                                    {%  if roleUser == "Etablissement" or roleUser == "Principal" %}
+                                        <td>{{ personDegree.degree | trans }}</td>
+                                        <td>{{ personDegree.activity | trans }}</td>
                                     {% endif %}
                                     {#<td>{{ personDegree.lastDegreeMonth }}/{{ personDegree.lastDegreeYear }}</td>#}
                                     {%  if personDegree.type == "TYPE_TRAINING"%}

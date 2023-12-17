@@ -1,4 +1,19 @@
-{% extends 'base.html.twig' %}
+{% if is_granted('ROLE_ADMIN') == true  or
+  is_granted('ROLE_ADMIN_PAYS') == true  or
+  is_granted('ROLE_ADMIN_REGIONS') == true  or
+  is_granted('ROLE_ADMIN_VILLES') == true %}
+  {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
+{% else %} {% set base = 'base_degree.html.twig' %}
+{% endif %}
+
+{% extends base %}
+
+{% set roleUser = app.user.roles|role %}
+
 {% block title %}
   {{ parent() }} {{ 'menu.city' | trans }}
 {% endblock %}
@@ -12,6 +27,21 @@
   <script>
      // Event
      // Country -> Region -> City
-     listenChangeCountryRegion('#appbundle_city_country', '#appbundle_city_region', 'country', 'region', 'city');
+     if(! $('#appbundle_city_prefecture').length) {
+        listenChangeCountryRegion('#appbundle_city_country', '#appbundle_city_region', 'country', 'region', 'city');
+     } else {
+        listenChangeRegionPrefecture('#appbundle_city_country', '#appbundle_city_region', '#appbundle_city_prefecture');
+     }
+
+     // if role = admin_country
+     if($('#selectedCountry').text()) {
+        let selectedCountry = $('#selectedCountry').text();
+        $('#appbundle_city_country option').each(function () {
+           if($(this).val() != selectedCountry) {
+              $(this).remove();
+           }
+        })
+        $('#appbundle_city_country').trigger('change');
+     }
   </script>
 {% endblock %}

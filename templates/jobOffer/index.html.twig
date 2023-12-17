@@ -9,17 +9,22 @@
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
-                    {{ 'job.list_of_job_offers' | trans }}
+                    {% if is_granted('ROLE_ETABLISSEMENT') == true or is_granted('ROLE_PRINCIPAL') == true or is_granted('ROLE_ENTREPRISE') == true %}
+                        {{ 'job.our_job_offers' | trans }}
+                    {% else %}
+                        {{ 'job.list_of_job_offers' | trans }}
+                    {% endif %}
                 </h6>
                 <div class="element-box">
-                    {%  if roleUser == "Administrateur" or roleUser == "Entreprise"%}
-                        <div class="controls-above-table">
-                            <div class="row">
-                                <div class="col-sm-6">
-{#                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
-                                </div>
+                    {% if is_granted('ROLE_ETABLISSEMENT') == true or is_granted('ROLE_PRINCIPAL') == true or is_granted('ROLE_ENTREPRISE') == true %}
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a class="btn btn-sm btn-primary" href="{{ path('jobOffer_new') }}">
+                                    <i class="fa fa-plus"></i> {{ 'job.add_a_job_offer' | trans }}</a>
                             </div>
                         </div>
+                    </div>
                     {% endif %}
                     <div class="table-responsive">
                         <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
@@ -33,17 +38,23 @@
                                 {%  elseif roleUser == "Administrateur" or roleUser == "Entreprise"%}
                                     <th class="no-print">Actions</th>
                                 {% endif %}
-                                {%  if roleUser == "Administrateur"%}
+                                {%  if roleUser == "Administrateur" %}
                                     <th>Id</th>
                                 {% endif %}
                                 <th>{{ 'menu.title' | trans }}</th>
+                                {% if is_granted('ROLE_ETABLISSEMENT') != true and is_granted('ROLE_PRINCIPAL') != true and is_granted('ROLE_ENTREPRISE') != true%}
+                                    <th>{{ 'job.editor' | trans }}</th>
+                                {% endif %}
                                 <th>{{ 'menu.modified_on' | trans }}</th>
                                 <th>{{ 'menu.expires_on' | trans }}</th>
                                 <th>{{ 'menu.job' | trans }}</th>
                                 <th>{{ 'menu.email' | trans }}</th>
-                                <th>{{ 'menu.company' | trans }}</th>
                                 <th>{{ 'menu.city' | trans }}</th>
+                                <th>{{ 'menu.company' | trans }}</th>
                                 <th>{{ 'menu.description' | trans }} </th>
+                                {% if is_granted('ROLE_ETABLISSEMENT') == true or is_granted('ROLE_PRINCIPAL') == true or is_granted('ROLE_ENTREPRISE') == true  or is_granted('ROLE_ETABLISSEMENT') == true%}
+                                    <th>{{ 'joboffer.number_of_candidates_with_tag' | trans({'%tag_br%': '<br />'}) | raw }} </th>
+                                {% endif %}
                             </tr>
                             </thead>
                             <tbody id="jobOffers">
@@ -51,20 +62,20 @@
                                 <tr id="{{ jobOffer.id }}">
                                     {% if roleUser == "Diplômé" %}
                                         <td class="action"><a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}">{{ 'menu.apply' | trans }} </a></td>
-                                    {% endif %}
-                                    {% if roleUser == "Etablissement" or roleUser == "Diplômé"%}
+{#                                    {% endif %}#}
+{#                                    {% if roleUser == "Diplômé"%}#}
                                         <td><a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a></td>
                                     {% endif %}
-                                    {% if roleUser == "Administrateur" or roleUser == "Entreprise"%}
+                                    {% if roleUser == "Administrateur" or roleUser == "Entreprise" or roleUser == "Etablissement"%}
                                         <td class="row-actions">
-                                            {% if app.user.roles|role == "Entreprise"%}
+{#                                            {% if app.user.roles|role == "Entreprise"%}#}
                                                 <a href="{{ path('jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                            {% endif %}
+{#                                            {% endif %}#}
                                             <a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
                                             <a class="danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                         </td>
                                     {% endif %}
-                                    {% if roleUser == "Administrateur" or roleUser == "Entreprise"%}
+                                    {% if roleUser == "Administrateur" %}
                                         <td>{{ jobOffer.id }}</td>
                                     {% endif %}
                                     {% if roleUser == "Diplômé" and user.id in jobOffer.candidateSended|split(',') %}
@@ -72,11 +83,18 @@
                                     {%  else %}
                                         <td>{{ jobOffer.title }}</td>
                                     {%  endif %}
+                                    {% if is_granted('ROLE_ETABLISSEMENT') != true and is_granted('ROLE_PRINCIPAL') != true and is_granted('ROLE_ENTREPRISE') != true%}
+                                        {% if jobOffer.school %}
+                                            <td>{{ jobOffer.school.name }}</td>
+                                        {% elseif jobOffer.company %}
+                                            <td>{{ jobOffer.company.name }}</td>
+                                        {%  endif %}
+                                    {%  endif %}
                                     <td>{{ jobOffer.updatedDate|date('d/m/Y') }}</td>
                                     <td class="closeDate">{{ jobOffer.closedDate }}</td>
-                                    <td>{{ jobOffer.activity }}</td>
+                                    <td>{{ jobOffer.activity | trans}}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
-{#                                    <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }} {% endif %}</td>#}
+                                    {#                                    <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }} {% endif %}</td>#}
                                     {% if jobOffer.company is not null %}
                                         <td>{{ jobOffer.company }}</td>
                                     {% else %}
@@ -84,57 +102,109 @@
                                     {% endif %}
                                     <td>{{ jobOffer.city.name }}</td>
                                     <td>{{ jobOffer.description | striptags | slice(0, 40) ~ '...' | raw }}</td>
+                                    {% if is_granted('ROLE_ETABLISSEMENT') == true or is_granted('ROLE_PRINCIPAL') == true or is_granted('ROLE_ENTREPRISE') == true  or is_granted('ROLE_ETABLISSEMENT') == true%}
+                                        <td>{{ jobOffer.candidateSended | split(',') | length }}</td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
-                            {% if roleUser == "Diplômé"%}
-{#                              {% include %}#}
-                            {% endif %}
                             </tbody>
                         </table>
                     </div>
                 </div>
                 {% if roleUser == "Diplômé" %}
-                    <span class="mark text-success mt-5">* {{ 'job.offer_already_sended' | trans }}</span>
+                    <span style="margin-right: 5px" class="mark text-success mt-5">* {{ 'job.offer_already_sended' | trans }}</span>
                 {% endif %}
+                <span style="background-color: #e6d7db">* {{ 'job.date_of_offer' | trans }} {{ 'js.closed' | trans | lower }}</span>
             </div>
-          <hr>
-          {% if roleUser == "Diplômé" %}
-            {# Tableau 2 #}
-            <div class="element-wrapper">
-              <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
-              <h6 class="element-header">
-                {{ 'job.your_applications' | trans }}
-              </h6>
-              <div class="element-box">
-                <div class="table-responsive">
-                  <table id="kz_table_with_export" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                    <thead>
-                    <tr>
-                      <th>{{ 'menu.description' | trans }} </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for jobApplied in jobApplieds %}
-                      <tr>
-                        <td class="jobApplyDesc">{{ jobApplied.resumed_applied | trans({'%tag_br%': '<br/>', '%tag_p%': '<p>', '%tag_end_p%': '</p>', '%tag_strong%': '<strong>', '%tag_end_strong%': '</strong>'}) | raw  }}</td>
-                      </tr>
-                    {% endfor %}
-                    </tbody>
-                  </table>
+            <hr>
+            {% if is_granted('ROLE_ETABLISSEMENT') == true or
+                is_granted('ROLE_ENTREPRISE') == true or
+                is_granted('ROLE_PRINCIPAL') == true %}
+                <div class="element-wrapper">
+                    <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
+                    <h6 class="element-header">
+                        {{ 'job.other_offers' | trans }}
+                    </h6>
+                    <div class="element-box">
+                        <div class="table-responsive">
+                            <table id="kz_table_with_export" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th class="no-print">{{ 'menu.see' | trans }} </th>
+                                    <th>{{ 'menu.company' | trans }} / {{ 'menu.establishment' | trans }}</th>
+                                    <th>{{ 'menu.title' | trans }}</th>
+                                    <th>{{ 'menu.modified_on' | trans }}</th>
+                                    <th>{{ 'menu.expires_on' | trans }}</th>
+                                    <th>{{ 'menu.job' | trans }}</th>
+                                    <th>{{ 'menu.email' | trans }}</th>
+                                    <th>{{ 'menu.city' | trans }}</th>
+                                    <th>{{ 'menu.description' | trans }} </th>
+                                </tr>
+                                </thead>
+                                <tbody id="othersJobs">
+                                {% for jobOffer in othersJobs %}
+                                    <tr>
+                                        <td class="row-actions">
+                                            <a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                        </td>
+                                        {% if jobOffer.company is not null %}
+                                            <td>{{ jobOffer.company }}</td>
+                                        {% else %}
+                                            <td>{{ jobOffer.school }}</td>
+                                        {% endif %}
+                                        <td>{{ jobOffer.title }}</td>
+                                        <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
+                                        <td class="closeDate">{{ jobOffer.closedDate }}</td>
+                                        <td>{{ jobOffer.activity }}</td>
+                                        <td>{{ jobOffer.postedEmail }}</td>
+                                        <td>{{ jobOffer.city.name }}</td>
+                                        <td>{{ jobOffer.description | striptags |slice(0, 40) ~ '...' }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <span style="background-color: #e6d7db">{{ 'job.date_of_offer' | trans }} {{ 'js.closed' | trans | lower }}</span>
                 </div>
-              </div>
-            </div>
-          {%  endif %}
+            {% endif %}
+            {% if roleUser == "Diplômé" %}
+                {# Tableau 2 #}
+                <div class="element-wrapper">
+                    <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
+                    <h6 class="element-header">
+                        {{ 'job.your_applications' | trans }}
+                    </h6>
+                    <div class="element-box">
+                        <div class="table-responsive">
+                            <table id="kz_table_with_export" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>{{ 'menu.description' | trans }} </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for jobApplied in jobApplieds %}
+                                    <tr>
+                                        <td class="jobApplyDesc">{{ jobApplied.resumed_applied | trans({'%tag_br%': '<br/>', '%tag_p%': '<p>', '%tag_end_p%': '</p>', '%tag_strong%': '<strong>', '%tag_end_strong%': '</strong>'}) | raw  }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-      <select hidden id="offersApplied">
-        {% for jobApply in jobApplieds %}
-          <option val={{ jobApply.id }}> {{ jobApply.id_offer }}</option>
-        {% endfor %}
-      </select>
+        {% if roleUser == "Diplômé" %}
+            <select hidden id="offersApplied">
+                {% for jobApply in jobApplieds %}
+                    <option val={{ jobApply.id }}> {{ jobApply.id_offer }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
     </div>
 {% endblock %}
-
-
 {% block js %}
     <script>
         $(document).ready(function () {
@@ -144,29 +214,38 @@
 
         let translations = [];
         getTranslation().then (function (translation) {
-           translations = translation;
+            translations = translation;
 
-           // mark the offer job if already applied
-           $("#offersApplied option").each(function () {
-              let offerId = $(this).text().trim();
-              $("#" + offerId).find("td").addClass("mark").addClass("text-success");
-              // $("#" + offerId).find("td.action").children().remove();
-              const note = document.createElement("p");
-              // $("#" + offerId).find("td.action").append('<span>' + translations["js.applied"] + '</span>');
-              $("#" + offerId).find("td.action").find("a").text(translations["js.applied_again"]);
-           })
+            // mark the offer job if already applied
+            $("#offersApplied option").each(function () {
+                let offerId = $(this).text().trim();
+                $("#" + offerId).find("td").addClass("mark").addClass("text-success");
+                $("#" + offerId).find("td.action").find("a").text(translations["js.applied_again"]);
+            })
 
-           $("#jobOffers").find("tr").find("td.closeDate").each(function () {
-              let currentDate = new Date();
-              let closeDate = new Date($(this).text());
-              if (closeDate < currentDate) {
-                 console.log(currentDate + " -> " + closeDate);
-                 $(this).parent().find("td").css("background", "#e6d7db").addClass("text-error");
-                 $(this).parent().find("td.action").children().remove();
-                 $(this).parent().find("td.action").append('<span>' + translations["js.closed"] + '</span>');
-              }
-           })
+            $("#jobOffers").find("tr").find("td.closeDate").each(function () {
+                let currentDate = new Date();
+                let closeDateSplit = $(this).text().split('/');
+                if(closeDateSplit.length == 3) {
+                    let closeDate = new Date(closeDateSplit[2] + '-' + closeDateSplit[1] + '-' + closeDateSplit[0]);
+                    if (closeDate < currentDate) {
+                        // console.log(currentDate + " -> " + closeDate);
+                        $(this).parent().find("td").css("background", "#e6d7db").addClass("text-error");
+                        $(this).parent().find("td.action").children().remove();
+                        $(this).parent().find("td.action").append('<span>' + translations["js.closed"] + '</span>');
+                    }
+                }
+            })
+            $("#othersJobs").find("tr").find("td.closeDate").each(function () {
+                let currentDate = new Date();
+                let closeDate = new Date($(this).text());
+                if (closeDate < currentDate) {
+                    // console.log(currentDate + " -> " + closeDate);
+                    $(this).parent().find("td").css("background", "#e6d7db").addClass("text-error");
+                    $(this).parent().find("td.action").children().remove();
+                    $(this).parent().find("td.action").append('<span>' + translations["js.closed"] + '</span>');
+                }
+            })
         })
-
     </script>
 {% endblock %}

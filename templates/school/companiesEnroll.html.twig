@@ -21,12 +21,14 @@
                     {%  if app.user.roles|role =="Etablissement" %}
                         <div class="controls-above-table">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     {#                                    {% set lien_images = asset('build/images/icon/')  %}#}
                                     <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')"> {{ "company.add_company" | trans }}</button>
-                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV_excel">Import Excel CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV_utf8">Import Other CSV</a>
                                     <a class="btn btn-sm btn-primary" href="{{ asset('downloads/company_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
-                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
+                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_excel"/>
+                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_utf8"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>
                             </div>
@@ -410,7 +412,8 @@
         function changeSelectOptionByValue(selectId, textValue, callback) {
             const $select = document.querySelector(selectId);
             const $options = Array.from($select.options);
-            const optionToSelect = $options.find(item => item.text === textValue);
+            // const optionToSelect = $options.find(item => item.text === textValue);
+            const optionToSelect = $options.find(item => item.text.toLowerCase() === textValue.toLowerCase());
 
             if (optionToSelect) {
                 optionToSelect.selected = true;
@@ -429,10 +432,14 @@
             if ($('#selectRegion' + rowNumber + ' option').length == 0) {
                 $("#selectRegion" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#regions option").each(function (option) {
+                    let regionText = translations[$(this).text()];
+                    if (!regionText) {
+                        regionText = $(this).text();
+                    }
                     if ($idSelected == $(this).val())
-                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
+                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + regionText + "</option>");
                     else
-                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
+                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + regionText + "</option>");
                 });
             }
         }
@@ -447,10 +454,14 @@
             if ($('#selectSectorArea' + rowNumber + ' option').length == 0) {
                 $("#selectSectorArea" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#sectorAreas option").each(function (option) {
+                    let sectorAreaText = translations[$(this).text()];
+                    if (!sectorAreaText) {
+                        sectorAreaText = $(this).text();
+                    }
                     if ($idSelected == $(this).val())
-                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + sectorAreaText + "</option>");
                     else
-                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + sectorAreaText + "</option>");
                 });
             }
         }
@@ -465,11 +476,15 @@
             if ($('#selectLegalStatus' + rowNumber + ' option').length == 0) {
                 $("#selectLegalStatus" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#legalStatus option").each(function (option) {
+                    let legalStatusText = translations[$(this).text()];
+                    if (!legalStatusText) {
+                        legalStatusText = $(this).text();
+                    }
                     if ($idSelected == $(this).val())
 
-                        $("#selectLegalStatus" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
+                        $("#selectLegalStatus" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + legalStatusText + "</option>");
                     else
-                        $("#selectLegalStatus" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + translations[$(this).text()] + "</option>");
+                        $("#selectLegalStatus" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + legalStatusText + "</option>");
                 });
             }
         }
@@ -810,148 +825,174 @@
     </script>
     <script>
         $(document).ready(function () {
-            /* Mise à jour des options dans les selects de PersonDegrees existants */
-            /* ------------------------------------------------------------------- */
-            for (let $i = 1 ; $i <= $('#rowNumber').val(); $i++) {
-                addOptionRegion($i);
-                addOptionSectorArea($i);
-                addOptionLegalStatus($i);
-            }
+            let translations = [];
+            getTranslation().then (function (translation) {
+                translations = translation;
 
-            // Event
-            // Recherches de ville en fonction de la region
-            $('.selectRegion').on('change', function() {
-                id= $(this).attr("id").replaceAll("selectRegion","");
-                let $regionId = $('#selectRegion' + id + " option:selected" ).val();
-                if($regionId) {
-                    addOptionCity($regionId, id);
-                    $("#selectAddressCity"+id).find('option').remove();
+                /* Mise à jour des options dans les selects de PersonDegrees existants */
+                /* ------------------------------------------------------------------- */
+                for (let $i = 1 ; $i <= $('#rowNumber').val(); $i++) {
+                    addOptionRegion($i);
+                    addOptionSectorArea($i);
+                    addOptionLegalStatus($i);
                 }
-            });
+
+                // Event
+                // Recherches de ville en fonction de la region
+                $('.selectRegion').on('change', function() {
+                    id= $(this).attr("id").replaceAll("selectRegion","");
+                    let $regionId = $('#selectRegion' + id + " option:selected" ).val();
+                    if($regionId) {
+                        addOptionCity($regionId, id);
+                        $("#selectAddressCity"+id).find('option').remove();
+                    }
+                });
 
 
-            // // Gestion import CSV
-            $('#importCSV').click(function (e) {
-                e.preventDefault();
-                $('#inputImportCSV').trigger('click');
-            });
-            $('#inputImportCSV').change(function (e) {
-                e.preventDefault();
-                let file = document.getElementById("inputImportCSV").files[0];
+                // // Gestion import CSV
+                $('#importCSV_utf8').click(function (e) {
+                    e.preventDefault();
+                    $('#inputImportCSV_utf8').trigger('click');
+                });
+                $('#importCSV_excel').click(function (e) {
+                    e.preventDefault();
+                    $('#inputImportCSV_excel').trigger('click');
+                });
+                $('#inputImportCSV_utf8').change(function (e) {
+                    e.preventDefault();
+                    let file = document.getElementById("inputImportCSV_utf8").files[0];
+                    importCsv(file, "UTF-8")
+                });
+                $('#inputImportCSV_excel').change(function (e) {
+                    e.preventDefault();
+                    let file = document.getElementById("inputImportCSV_excel").files[0];
+                    importCsv(file, "windows-1252")
+                });
 
-                if (file) {
-                    let reader = new FileReader();
-                    reader.readAsText(file, 'UTF-8');
+                function importCsv(file, format) {
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.readAsText(file, format);
 
-                    reader.onload = function (evt) {
-                        let data = evt.target.result.split("\n");
-                        let errorFields = [];
+                        reader.onload = function (evt) {
+                            let data = evt.target.result.split("\n");
+                            let errorFields = [];
 
-                        // Valid file
-                        let header = data[0].replaceAll('\r',"");
-                        if(header[header.length-1] == ',')
-                            header = header.substring(0, header.length - 1);
+                            // Valid file
+                            let header = data[0].replaceAll('\r',"");
+                            if(header[header.length-1] == ';')
+                                header = header.substring(0, header.length - 1);
+                            if(header[header.length-1] == ',')
+                                header = header.substring(0, header.length - 1);
 
-                        let fields = header.split(',') ;
-                        console.log(fields);
-                        let fieldNames = {
-                            "nomField": null,
-                            "regionField": null,
-                            "villeField": null,
-                            "telephoneField": null,
-                            "emailField": null,
-                            "secteurField": null,
-                            "statutJuridiqueField": null
-                        };
-                        let fieldsOrder = [
-                            "nomField",
-                            "regionField",
-                            "villeField",
-                            "telephoneField",
-                            "emailField",
-                            "secteurField",
-                            "statutJuridiqueField"
-                        ];
+                            let fields = header.split(';') ;
+                            if(fields.length<2)
+                                fields = header.split(',') ;
+
+                            let fieldNames = {
+                                "nomField": null,
+                                "regionField": null,
+                                "villeField": null,
+                                "telephoneField": null,
+                                "emailField": null,
+                                "secteurField": null,
+                                "statutJuridiqueField": null
+                            };
+                            let fieldsOrder = [
+                                "nomField",
+                                "regionField",
+                                "villeField",
+                                "telephoneField",
+                                "emailField",
+                                "secteurField",
+                                "statutJuridiqueField"
+                            ];
 
 
-                        for(let i=0; i<fields.length; i++) {
-                            let field = fields[i].replaceAll('\"','').toLowerCase();
-
-                            // fiedNames in FR
-                            switch (field) {
-                                case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
-                                case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
-                                case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
-                                case translations['js.import_csv_phone'] : fieldNames['telephoneField'] = i; break;
-                                case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
-                                case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
-                                case translations['js.import_csv_legal_status'] : fieldNames['statutJuridiqueField'] = i; break;
-                                default :
-                                    errorFields.push(fields[i]);
-                            }
-                        }
-
-                        // check bad fieldName syntax
-                        if (errorFields.length > 0) {
-                            let errorMsg = "Mauvaise syntaxe des champs suivant : ";
-                            errorFields.forEach(function (error) {
-                                errorMsg += error + ', ';
-                            })
-                            errorMsg += "  Champs autorisés =  " +
-                                translations["js.import_csv_name"] + ", " +
-                                translations["js.import_csv_region"] + ", " +
-                                translations["js.import_csv_city"] + ", " +
-                                translations["js.import_csv_phone"] + ", " +
-                                translations["js.import_csv_email"] + ", " +
-                                translations["js.import_csv_sector"] + ", " +
-                                translations["js.import_csv_legal_status"] ;
-                            alert(errorMsg);
-                            return;
-                        }
-
-                        // check minimum data fields
-                        if ((fieldNames['nomField'] == null) ||
-                            (fieldNames['telephoneField'] ==null)) {
-                            alert(translations['js.file_invalid_fields_name_and_telephone_mandatory']);
-                            return;
-                        }
-
-                        data.shift();
-                        let errors = [];
-                        data.forEach(function (row) {
-                            if (row) {
-                                let columnData = row.split(',').map(function (item) {
-                                    return item.replace(/['"]+/g, '');
-                                });
-
-                                //Create a new ordered columnData
-                                let orderedData = [];
-                                for (let i = 0; i < fieldsOrder.length; i++) {
-                                    let fieldName = fieldsOrder[i];
-                                    let fieldNumber = fieldNames[fieldName];
-                                    // console.log(fieldNames[fieldName] + "=" + columnData[value]);
-                                    orderedData.push(columnData[fieldNumber]);
+                            for(let i=0; i<fields.length; i++) {
+                                let field = fields[i].replaceAll('\"','').toLowerCase().trim();
+                                // fiedNames in FR
+                                switch (field) {
+                                    case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
+                                    case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
+                                    case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
+                                    case translations['js.import_csv_phone'] : fieldNames['telephoneField'] = i; break;
+                                    case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
+                                    case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
+                                    case translations['js.import_csv_legal_status'] : fieldNames['statutJuridiqueField'] = i; break;
+                                    default :
+                                        errorFields.push(fields[i]);
                                 }
-                                addRowCompanyWithValue(orderedData, function (err) {
-                                    if (err.length > 0) {
-                                        errors = errors.concat(err);
-                                    }
-                                });
                             }
 
-                        });
+                            // check bad fieldName syntax
+                            if (errorFields.length > 0) {
+                                let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
+                                errorFields.forEach(function (error) {
+                                    errorMsg += error + ', ';
+                                })
+                                errorMsg += "  Champs autorisés =  " +
+                                    translations["js.import_csv_name"] + ", " +
+                                    translations["js.import_csv_region"] + ", " +
+                                    translations["js.import_csv_city"] + ", " +
+                                    translations["js.import_csv_phone"] + ", " +
+                                    translations["js.import_csv_email"] + ", " +
+                                    translations["js.import_csv_sector"] + ", " +
+                                    translations["js.import_csv_legal_status"] ;
+                                alert(errorMsg);
+                                return;
+                            }
 
-                        if (errors.length > 0) {
-                            alert(translations['js.data_not_compliant_correct_manually']);
+                            // check minimum data fields
+                            if ((fieldNames['nomField'] == null) ||
+                                (fieldNames['telephoneField'] ==null)) {
+                                alert(translations['js.file_invalid_fields_name_and_telephone_mandatory']);
+                                return;
+                            }
+
+                            data.shift();
+                            let errors = [];
+                            data.forEach(function (row) {
+                                if (row) {
+                                    let columnData = row.split(';').map(function (item) {
+                                        return item.replace(/['"]+/g, '');
+                                    });
+
+                                    if(columnData.length < 2) {
+                                        columnData = row.split(',').map(function (item) {
+                                            return item.replace(/['"]+/g, '');
+                                        });
+                                    }
+
+                                    //Create a new ordered columnData
+                                    let orderedData = [];
+                                    for (let i = 0; i < fieldsOrder.length; i++) {
+                                        let fieldName = fieldsOrder[i];
+                                        let fieldNumber = fieldNames[fieldName];
+                                        // console.log(fieldNames[fieldName] + "=" + columnData[value]);
+                                        orderedData.push(columnData[fieldNumber]);
+                                    }
+                                    addRowCompanyWithValue(orderedData, function (err) {
+                                        if (err.length > 0) {
+                                            errors = errors.concat(err);
+                                        }
+                                    });
+                                }
+
+                            });
+
+                            if (errors.length > 0) {
+                                alert(translations['js.data_not_compliant_correct_manually']);
+                            }
+
+                            $('#nbRowImported').val(data.length - 1);
                         }
-
-                        $('#nbRowImported').val(data.length - 1);
+                        reader.onerror = function (e) {
+                            alert(translations['js.file_contains_errors']);
+                        }
                     }
-                    reader.onerror = function (e) {
-                        alert(translations['js.file_contains_errors']);
-                    }
-                }
+                };
             });
-        });
+        }) ;
     </script>
 {% endblock %}

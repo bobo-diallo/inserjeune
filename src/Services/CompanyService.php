@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Entity\User;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CompanyService {
 	private TokenStorageInterface $tokenStorage;
@@ -22,6 +23,7 @@ class CompanyService {
 	private RouterInterface $router;
 	private JobOfferRepository $jobOfferRepository;
     private SatisfactionCompanyRepository $satisfactionCompanyRepository;
+    private TranslatorInterface $translator;
 
 	public function __construct(
 		TokenStorageInterface $tokenStorage,
@@ -30,7 +32,8 @@ class CompanyService {
 		RequestStack $requestStack,
 		RouterInterface $router,
 		JobOfferRepository $jobOfferRepository,
-        SatisfactionCompanyRepository $satisfactionCompanyRepository
+        SatisfactionCompanyRepository $satisfactionCompanyRepository,
+        TranslatorInterface $translator
 	) {
 		$this->tokenStorage = $tokenStorage;
 		$this->manager = $manager;
@@ -39,6 +42,7 @@ class CompanyService {
 		$this->router = $router;
 		$this->jobOfferRepository = $jobOfferRepository;
         $this->satisfactionCompanyRepository = $satisfactionCompanyRepository;
+        $this->translator = $translator;
 	}
 
 	public function getCompany(): ?Company {
@@ -64,7 +68,7 @@ class CompanyService {
 		$company = $this->getCompany();
 
 		if (!$company) {
-			$this->requestStack->getSession()->getFlashBag()->set('warning', 'Veuillez completer votre profil');
+			$this->requestStack->getSession()->getFlashBag()->set('warning', $this->translator->trans('flashbag.please_complete_your_profile'));
 
 			return new RedirectResponse($this->router->generate('front_company_new'));
 		} else {
@@ -81,13 +85,13 @@ class CompanyService {
             $remindAnnualDate = $remindAnnualDate->add(new \DateInterval('P1Y'));
 
             if($currentDate >= $remindAnnualDate) {
-                $this->requestStack->getSession()->getFlashBag()->set('warning', "Merci de créer une nouvelle enquête de satisfaction.");
+                $this->requestStack->getSession()->getFlashBag()->set('warning', $this->translator->trans('flashbag.please_create_a_new_satisfaction_survey'));
                 return false;
             } else {
                 return true;
             }
         } else {
-            $this->requestStack->getSession()->getFlashBag()->set('warning', "Merci de répondre à l'enquête de satisfaction.");
+            $this->requestStack->getSession()->getFlashBag()->set('warning', $this->translator->trans('flashbag.please_respond_to_the_satisfaction_survey'));
             return false;
         }
     }

@@ -284,6 +284,8 @@ class ImportCountiesFileFromCSVCommand extends Command
                                 $newRegion->setName(utf8_encode($row[$numRegionCapitales]));
                             }
                             $newRegion->setCountry($newCountry);
+                            $newRegion->setPhoneCode($newCountry->getPhoneCode());
+                            $newRegion->setPhoneDigit($newCountry->getPhoneDigit());
                             $csvRegions[] = $newRegion;
                         }
 
@@ -291,11 +293,13 @@ class ImportCountiesFileFromCSVCommand extends Command
                         if(utf8_encode($row[$numCapitales])) {
                             $newCity->setName(utf8_encode($row[$numCapitales]));
                             $newCity->setIsCapital(true);
+                            $newCity->setIsPrefectureCapital(false);
                             if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY']=="true") {
                                 $newCity->setRegion($newCountry);
+                                // echo $newCity->getName() . " | " . $newCountry->getName() . "\n";
                             } else {
-                                $newCity->setRegion($newRegion);
                                 $newRegion->setCountry($newCountry);
+                                $newCity->setRegion($newRegion);
                             }
                             $csvCities[] = $newCity;
                             // echo "--> " . $newCity->getName() . " | " . $newCity->getRegion()->getName() . " | " . $newCity->getRegion()->getCountry()->getName() . "\n";
@@ -616,6 +620,20 @@ echo "test fin de lecture csv" . "\n";
                 $persistedCities[] = $supCsvCity;
             }
 
+            //check same cities
+            $existMultiCities = false;
+            for ($i = 0 ; $i< count($persistedCities); $i++ ) {
+                for ($j = $i+1 ; $j< count($persistedCities); $j++ ) {
+                    if($persistedCities[$i]->getName() == $persistedCities[$j]->getName()) {
+                        $io->error(" multiple city: " . $persistedCities[$i]->getName() . "  in csv file");
+                        $existMultiCities = true;
+                    }
+                }
+            }
+            if($existMultiCities) {
+                return Command::FAILURE;
+            }
+
             $handle = fopen('import-countries-from-csv.log', "w");
             fwrite($handle, $logStr);
             fclose($handle);
@@ -638,13 +656,17 @@ echo "test fin de lecture csv" . "\n";
                 $io->error('Import countries are not created, please correct the names of countries in Inserjeune application' .
                     ' for more details, see "List of countries that do not exist in the CSV file" in import-countries-from-csv.log file');
             }
-            if (count($missingCities)>0) {
-                $io->error('Import cities are not created, please correct the names of cities in Inserjeune application' .
-                    ' for more details, see "List of cities that do not exist in the CSV file" in import-countries-from-csv.log file');
-            }
+
             return Command::INVALID;
 
         } else {
+            if (count($missingCities)>0) {
+                $io->warning('Please check the names of cities in Inserjeune application do not exist in csv file before import' .
+                    '            for more details, see "List of cities that do not exist in the CSV file" in import-countries-from-csv.log ' .
+                    'type enter to continue or Ctrl + c');
+                fgets( STDIN );
+            }
+
             echo "Update " . count($persistedCurrencies) . " currencies in currency table \n";
             foreach ($persistedCurrencies as $persistedCurrency) {
                 $this->entityManager->persist($persistedCurrency);
@@ -662,36 +684,54 @@ echo "test fin de lecture csv" . "\n";
                     $persistedCountry->setName($persistedCountryNames[1]);
                 }
                 $this->entityManager->persist($persistedCountry);
-                // echo "countries: " . $persistedCountry->getName() . "\n";
                 $this->entityManager->flush();
             }
-            // die();
-            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY']!="true") {
-                echo "Update " . count($persistedRegions) . " countries in region table \n";
-                foreach ($persistedRegions as $persistedRegion) {
-                    $dbCountry = $this->countryRepository->findOneBy(['name' => $persistedRegion->getCountry()->getName()]);
 
-                    if(!$persistedRegion->getCountry())
-                        $persistedRegion->setCountry($dbCountry);
-                    $persistedRegionNames = explode(':', $persistedRegion->getName());
-                    if(count($persistedRegionNames) >1) {
-                        $persistedRegion->setName($persistedRegionNames[1]);
+            // update country for $persistedRegions
+            foreach ($persistedRegions as $persistedRegion ) {
+                $names =  explode(':', $persistedRegion->getCountry()->getName());
+                $countries = $this->countryRepository->findAll();
+                if(count($names)>1) {
+                    foreach ($countries as $country) {
+                        if($country->getName() == $names[1]){
+                            $persistedRegion->setCountry($country);
+                        }
                     }
-
-                    $this->entityManager->persist($persistedRegion);
-                    $this->entityManager->flush();
                 }
             }
-            die();
+// die();
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY']!="true") {
+                echo "Update " . count($persistedRegions) . " regions in region table \n";
+                foreach ($persistedRegions as $persistedRegion) {
+                    $dbCountry = $this->countryRepository->findOneBy(['name' => $persistedRegion->getCountry()->getName()]);
+                    // $dbCountry = $this->countryRepository->findByName($persistedRegion->getCountry()->getName());
+                    if(!$persistedRegion->getCountry()) {
+                        $persistedRegion->setCountry($dbCountry);
+                    } else {
+                        $persistedRegionNames = explode(':', $persistedRegion->getName());
+                        if (count($persistedRegionNames) > 1) {
+                            $persistedRegion->setName($persistedRegionNames[1]);
+                        }
+
+                        $this->entityManager->persist($persistedRegion);
+                        $this->entityManager->flush();
+                    }
+                }
+            }
+
+            // die();
             echo "Update " . count($persistedCities) . " cities in city table \n";
             foreach ($persistedCities as $persistedCity) {
-                if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY']=="true") {
-                    $dbCountry = $this->regionRepository->findOneBy(['name' => $persistedCity->getRegion()->getName()]);
+                if($persistedCity->getName() == 'Jérusalem-Ouest')
+                    echo "-> " . $persistedCity->getRegion()->getName() . "(" . $persistedCity->getName() . ')';
+                $regionNames = explode(':', $persistedCity->getRegion()->getName());
+                if (count($regionNames) > 1) {
+                    $dbRegion = $this->regionRepository->findOneBy(['name' => $regionNames[1]]);
                 } else {
-                    $dbCountry = $this->countryRepository->findOneBy(['name' => $persistedCity->getRegion()->getName()]);
+                    $dbRegion = $this->regionRepository->findOneBy(['name' => $persistedCity->getRegion()->getName()]);
                 }
-                if($dbCountry) {
-                    $persistedCity->setRegion($dbCountry);
+                if($dbRegion) {
+                    $persistedCity->setRegion($dbRegion);
                     $this->entityManager->persist($persistedCity);
                     $this->entityManager->flush();
                 } else {

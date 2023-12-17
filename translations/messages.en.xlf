@@ -109,8 +109,8 @@
         <source>menu.the_job_offers</source>
         <target>Job offers</target>
       </trans-unit>
-      <trans-unit id="menu.the_job_applieded">
-        <source>menu.the_job_applieded</source>
+      <trans-unit id="menu.the_job_applied">
+        <source>menu.the_job_applied</source>
         <target>Offers applied for</target>
       </trans-unit>
       <trans-unit id="menu.ads">
@@ -128,6 +128,10 @@
       <trans-unit id="menu.your_graduate">
         <source>menu.your_graduate</source>
         <target>Your graduates</target>
+      </trans-unit>
+      <trans-unit id="menu.partners">
+        <source>menu.partners</source>
+        <target>partners</target>
       </trans-unit>
       <trans-unit id="menu.your_partners">
         <source>menu.your_partners</source>
@@ -187,11 +191,11 @@
       </trans-unit>
       <trans-unit id="menu.country">
         <source>menu.country</source>
-        <target>Province</target>
+        <target>Country</target>
       </trans-unit>
       <trans-unit id="menu.countries">
         <source>menu.countries</source>
-        <target>Provinces</target>
+        <target>Countries</target>
       </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
@@ -199,19 +203,31 @@
       </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
-        <target>Country</target>
+        <target>Region</target>
       </trans-unit>
       <trans-unit id="menu.regions">
         <source>menu.regions</source>
-        <target>Countries</target>
+        <target>Regions</target>
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
-        <target>City/town</target>
+        <target>City</target>
       </trans-unit>
       <trans-unit id="menu.cities">
         <source>menu.cities</source>
-        <target>Cities/towns</target>
+        <target>Cities</target>
+      </trans-unit>
+      <trans-unit id="menu.prefecture">
+        <source>menu.prefecture</source>
+        <target>Prefecture</target>
+      </trans-unit>
+      <trans-unit id="menu.prefectures">
+        <source>menu.prefectures</source>
+        <target>Prefectures</target>
+      </trans-unit>
+      <trans-unit id="menu.all_prefectures">
+        <source>menu.all_prefectures</source>
+        <target>All prefectures</target>
       </trans-unit>
       <trans-unit id="menu.description">
         <source>menu.description</source>
@@ -453,6 +469,10 @@
         <source>menu.user_guide</source>
         <target>User Guide</target>
       </trans-unit>
+      <trans-unit id="menu.dbta_website">
+        <source>menu.dbta_website</source>
+        <target>DBTA website</target>
+      </trans-unit>
       <trans-unit id="menu.ifef_website">
         <source>menu.ifef_website</source>
         <target>IFEF website</target>
@@ -479,7 +499,7 @@
       </trans-unit>
       <trans-unit id="menu.you_are">
         <source>menu.you_are</source>
-        <target>Gender</target>
+        <target>You are</target>
       </trans-unit>
       <trans-unit id="menu.date_of_birth">
         <source>menu.date_of_birth</source>
@@ -891,7 +911,7 @@
       </trans-unit>
       <trans-unit id="menu.all_regions">
         <source>menu.all_regions</source>
-        <target>All countries</target>
+        <target>All regions</target>
       </trans-unit>
       <trans-unit id="menu.connection_phone">
         <source>menu.connection_phone</source>
@@ -959,11 +979,11 @@
       </trans-unit>
       <trans-unit id="menu.select_country">
         <source>menu.select_country</source>
-        <target>Select the province</target>
+        <target>Select the country</target>
       </trans-unit>
       <trans-unit id="menu.select_region">
         <source>menu.select_region</source>
-        <target>Select the country</target>
+        <target>Select the region</target>
       </trans-unit>
       <trans-unit id="menu.select_city">
         <source>menu.select_city</source>
@@ -1071,15 +1091,15 @@
       </trans-unit>
       <trans-unit id="region.add_a_region">
         <source>region.add_a_region</source>
-        <target>Add country</target>
+        <target>Add region</target>
       </trans-unit>
       <trans-unit id="region.adding_a_region">
         <source>region.adding_a_region</source>
-        <target>Adding a country</target>
+        <target>Adding a region</target>
       </trans-unit>
       <trans-unit id="region.list_of_regions">
         <source>region.list_of_regions</source>
-        <target>List of countries</target>
+        <target>List of regions</target>
       </trans-unit>
       <trans-unit id="legal_status.editing_a_legal_status">
         <source>legal_status.editing_a_legal_status</source>
@@ -1112,6 +1132,10 @@
       <trans-unit id="degree.adding_a_degree">
         <source>degree.adding_a_degree</source>
         <target>Add a diploma</target>
+      </trans-unit>
+      <trans-unit id="degree.filter_by_city">
+        <source>degree.filter_by_city</source>
+        <target>Filter by city</target>
       </trans-unit>
       <trans-unit id="degree.filter_by_region">
         <source>degree.filter_by_region</source>
@@ -1277,9 +1301,53 @@
         <source>time.2_years</source>
         <target>2 years</target>
       </trans-unit>
+      <trans-unit id="time.3_years">
+        <source>time.3_years</source>
+        <target>3 years</target>
+      </trans-unit>
+      <trans-unit id="time.month">
+        <source>time.month</source>
+        <target>month</target>
+      </trans-unit>
+      <trans-unit id="time.year">
+        <source>time.year</source>
+        <target>year</target>
+      </trans-unit>
+      <trans-unit id="time.day(s)">
+        <source>time.day(s)</source>
+        <target>day(s)</target>
+      </trans-unit>
+      <trans-unit id="time.month(s)">
+        <source>time.month(s)</source>
+        <target>month(s)</target>
+      </trans-unit>
+      <trans-unit id="time.year(s)">
+        <source>time.year(s)</source>
+        <target>year(s)</target>
+      </trans-unit>
+      <trans-unit id="prefecture.add_prefecture">
+        <source>prefecture.add_prefecture</source>
+        <target>Add a prefecture</target>
+      </trans-unit>
+      <trans-unit id="prefecture.edit_prefecture">
+        <source>prefecture.edit_prefecture</source>
+        <target>Editing a prefecture</target>
+      </trans-unit>
+      <trans-unit id="prefecture.list_of_prefectures">
+        <source>prefecture.list_of_prefectures</source>
+        <target>List of prefectures</target>
+      </trans-unit>
+      <trans-unit id="prefecture.new_prefecture">
+        <source>prefecture.new_prefecture</source>
+        <target>New prefecture</target>
+      </trans-unit>
       <trans-unit id="city.capital_city">
         <source>city.capital_city</source>
         <target>Capital</target>
+      </trans-unit>
+      <trans-unit id="city.prefecture_capital_city">
+        <source>city.prefecture_capital_city</source>
+        <target>Prefecture capital</target>
       </trans-unit>
       <trans-unit id="city.new_city">
         <source>city.new_city</source>
@@ -1309,6 +1377,10 @@
         <source>job.20_offers</source>
         <target>20 Offers</target>
       </trans-unit>
+      <trans-unit id="job.editor">
+        <source>job.editor</source>
+        <target>Editor</target>
+      </trans-unit>
       <trans-unit id="job.list_of_job_offers">
         <source>job.list_of_job_offers</source>
         <target>List of job offers</target>
@@ -1317,9 +1389,9 @@
         <source>job.your_applications</source>
         <target>your applications</target>
       </trans-unit>
-      <trans-unit id="job.list_of_job_applieded">
-        <source>job.list_of_job_applieded</source>
-        <target>list of jobs applieded</target>
+      <trans-unit id="job.list_of_job_applied">
+        <source>job.list_of_job_applied</source>
+        <target>list of jobs applied</target>
       </trans-unit>
       <trans-unit id="job.type_of_contract">
         <source>job.type_of_contract</source>
@@ -1753,9 +1825,61 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>school.graduation_rates_by_degree</source>
         <target>Rate of graduates by degree</target>
       </trans-unit>
+      <trans-unit id="school.professional_traning_and_dropout_rate_of_enroll_students">
+        <source>school.professional_traning_and_dropout_rate_of_enroll_students</source>
+        <target>Rate of in professional traning and dropout rate of enroll students</target>
+      </trans-unit>
       <trans-unit id="school.professional_integration_rate_of_graduates">
         <source>school.professional_integration_rate_of_graduates</source>
         <target>Professional integration rate of graduates</target>
+      </trans-unit>
+      <trans-unit id="school.graduates_integration_rate">
+        <source>school.graduates_integration_rate</source>
+        <target>Overall integration rate of graduates</target>
+      </trans-unit>
+      <trans-unit id="school.Proportion_of_graduates_continuing_their_studies">
+        <source>school.Proportion_of_graduates_continuing_their_studies</source>
+        <target>Proportion of graduates continuing their studies</target>
+      </trans-unit>
+      <trans-unit id="school.Proportion_of_self-employment_in_employment">
+        <source>school.Proportion_of_self-employment_in_employment</source>
+        <target>Proportion of self-employment in employment</target>
+      </trans-unit>
+      <trans-unit id="school.with_without_surveys_response">
+        <source>school.with_without_surveys_response</source>
+        <target>with or without surveys response</target>
+      </trans-unit>
+      <trans-unit id="school.Self-employment_rate">
+        <source>school.Self-employment_rate</source>
+        <target>Self-employment rate</target>
+      </trans-unit>
+      <trans-unit id="school.Enrollment_rate_of_graduates_during_the_period">
+        <source>school.Enrollment_rate_of_graduates_during_the_period</source>
+        <target>Enrollment rate of graduates during the period</target>
+      </trans-unit>
+      <trans-unit id="school.Response_rate">
+        <source>school.Response_rate</source>
+        <target>Response rate</target>
+      </trans-unit>
+      <trans-unit id="school.Self-employment_rate_of_diplomas">
+        <source>school.Self-employment_rate_of_diplomas</source>
+        <target>Self-employment rate of diplomas</target>
+      </trans-unit>
+      <trans-unit id="school.Unemployment_rate_of_TVET_graduates">
+        <source>school.Unemployment_rate_of_TVET_graduates</source>
+        <target>Unemployment rate of TVET graduates</target>
+      </trans-unit>
+      <trans-unit id="school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years">
+        <source>school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years</source>
+        <target>Enrollment rate of graduates for the period considered over 3 years</target>
+      </trans-unit>
+      <trans-unit id="school.students_drop">
+        <source>school.students_drop</source>
+        <target>Student dropout</target>
+      </trans-unit>
+      <trans-unit id="school.students_in_training">
+        <source>school.students_in_training</source>
+        <target>Students in training</target>
       </trans-unit>
       <trans-unit id="school.graduates_in_employment">
         <source>school.graduates_in_employment</source>
@@ -1765,9 +1889,21 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>school.entrepreneurship_graduates</source>
         <target>Graduate Entrepreneurs</target>
       </trans-unit>
+      <trans-unit id="school.studying_graduates">
+        <source>school.studying_graduates</source>
+        <target>Graduates continuing their studies</target>
+      </trans-unit>
+      <trans-unit id="school.search_graduates">
+        <source>school.search_graduates</source>
+        <target>Graduates seeking employment</target>
+      </trans-unit>
       <trans-unit id="school.unemployed_graduates">
         <source>school.unemployed_graduates</source>
         <target>Unemployed graduates</target>
+      </trans-unit>
+      <trans-unit id="school.employed_rate">
+        <source>school.employed_rate</source>
+        <target>Employment rate</target>
       </trans-unit>
       <trans-unit id="school.unemployed_graduates_pursuing_studies_related_to_their_first_degree">
         <source>school.unemployed_graduates_pursuing_studies_related_to_their_first_degree</source>
@@ -1825,21 +1961,25 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>school.schools_by_sector_of_activity</source>
         <target>TVET School by business sector</target>
       </trans-unit>
+      <trans-unit id="school.total_country_graduates">
+        <source>school.total_country_graduates</source>
+        <target>Number of graduates in the country over the past 3 years</target>
+      </trans-unit>
       <trans-unit id="country.list_of_countries">
         <source>country.list_of_countries</source>
-        <target>List of provinces</target>
+        <target>List of countries</target>
       </trans-unit>
       <trans-unit id="country.edit_a_country">
         <source>country.edit_a_country</source>
-        <target>Editing a province</target>
+        <target>Editing a country</target>
       </trans-unit>
       <trans-unit id="country.add_a_country">
         <source>country.add_a_country</source>
-        <target>Add a province</target>
+        <target>Add a country</target>
       </trans-unit>
       <trans-unit id="country.adding_a_country">
         <source>country.adding_a_country</source>
-        <target>Adding a province</target>
+        <target>Adding a country</target>
       </trans-unit>
       <trans-unit id="country.iso_code">
         <source>country.iso_code</source>
@@ -1957,6 +2097,22 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>dashboard.graph_title_establisment</source>
         <target>TVET Schools</target>
       </trans-unit>
+      <trans-unit id="dashboard.end">
+        <source>dashboard.end</source>
+        <target>end</target>
+      </trans-unit>
+      <trans-unit id="dashboard.begin">
+        <source>dashboard.begin</source>
+        <target>begin</target>
+      </trans-unit>
+      <trans-unit id="dashboard.duration">
+        <source>dashboard.duration</source>
+        <target>duration</target>
+      </trans-unit>
+      <trans-unit id="dashboard.note_result_survey">
+        <source>dashboard.note_result_survey</source>
+        <target>note: the graph result depends on the rate of investigations</target>
+      </trans-unit>
       <trans-unit id="menu.surveys">
         <source>menu.surveys</source>
         <target>Surveys</target>
@@ -1964,6 +2120,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="menu.survey">
         <source>menu.survey</source>
         <target>Survey</target>
+      </trans-unit>
+      <trans-unit id="menu.with_survey">
+        <source>menu.with_survey</source>
+        <target>with survey</target>
       </trans-unit>
       <trans-unit id="joboffer.offer_title">
         <source>joboffer.offer_title</source>
@@ -1980,6 +2140,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="joboffer.email_apply">
         <source>joboffer.email_apply</source>
         <target>Email to apply</target>
+      </trans-unit>
+      <trans-unit id="joboffer.number_of_candidates_with_tag">
+        <source>joboffer.number_of_candidates_with_tag</source>
+        <target>Number of%tag_br%candidates</target>
       </trans-unit>
       <trans-unit id="survey.investigation_in_progress">
         <source>survey.investigation_in_progress</source>
@@ -2058,6 +2222,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="survey.indication_evaluation_satisfaction_company_with_tag">
         <source>survey.indication_evaluation_satisfaction_company_with_tag</source>
         <target>Evaluate their skills on a scale of 1 to 5 %tag_br% 1 = very unsatisfactory, 2 = unsatisfactory, 3 = satisfactory, 4 = good and 5 = excellent</target>
+      </trans-unit>
+      <trans-unit id="survey.new_survey">
+        <source>survey.new_survey</source>
+        <target>New survey</target>
       </trans-unit>
       <trans-unit id="survey.new_satisfaction_survey">
         <source>survey.new_satisfaction_survey</source>
@@ -2395,9 +2563,17 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>footer.useful_links</source>
         <target>Useful links</target>
       </trans-unit>
+      <trans-unit id="footer.informations">
+        <source>footer.informations</source>
+        <target>Informations</target>
+      </trans-unit>
       <trans-unit id="footer.contact_informations">
         <source>footer.contact_informations</source>
         <target>Contact informations</target>
+      </trans-unit>
+      <trans-unit id="footer.dev_by">
+        <source>footer.dev_by</source>
+        <target>Developed by</target>
       </trans-unit>
       <trans-unit id="footer.partners">
         <source>footer.partners</source>
@@ -2425,7 +2601,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="flashbag.Welcome_please_complete_your_profile_below">
         <source>flashbag.Welcome_please_complete_your_profile_below</source>
-        <target>Welcome! Before answering the integration questionnaire, please complete your profile below</target>
+        <target>Welcome! Before answering the insertion questionnaire, please complete your profile below</target>
       </trans-unit>
       <trans-unit id="satisfaction_search.job">
         <source>satisfaction_search.job</source>
@@ -2561,7 +2737,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="js.select_region">
         <source>js.select_region</source>
-        <target>Select a country</target>
+        <target>Select a region</target>
       </trans-unit>
       <trans-unit id="js.select_activity">
         <source>js.select_activity</source>
@@ -2634,6 +2810,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="js.want_delete_these_applies_part2">
         <source>js.want_delete_these_applies_part2</source>
         <target>applies offers ?</target>
+      </trans-unit>
+      <trans-unit id="js.number_of_applies_with_tag">
+        <source>js.number_of_applies_with_tag</source>
+        <target>Number of %tag_br% offers applied</target>
       </trans-unit>
       <trans-unit id="js.sure_edit_this_entry">
         <source>js.sure_edit_this_entry</source>
@@ -2937,6 +3117,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.applied_again</source>
         <target>Reapply</target>
       </trans-unit>
+      <trans-unit id="js.no_internet_connexion">
+        <source>js.no_internet_connexion</source>
+        <target>You are not connected to the Internet</target>
+      </trans-unit>
       <trans-unit id="error.invalid_phone">
         <source>error.invalid_phone</source>
         <target>Invalid phone number</target>
@@ -2948,6 +3132,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="error.unauthorized_or_unknown_country">
         <source>error.unauthorized_or_unknown_country</source>
         <target>Unauthorized or unknown country</target>
+      </trans-unit>
+      <trans-unit id="error.unauthorized_or_unknown_prefecture">
+        <source>error.unauthorized_or_unknown_prefecture</source>
+        <target>Unauthorized or unknown prefecture</target>
       </trans-unit>
       <trans-unit id="error.fill_in_the_name_of_the_company">
         <source>error.fill_in_the_name_of_the_company</source>
@@ -3093,6 +3281,18 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>très insatisfaisant</source>
         <target>very unsatisfactory</target>
       </trans-unit>
+      <trans-unit id="satisfaction.less_than_a_month">
+        <source>satisfaction.less_than_a_month</source>
+        <target>Less than a month</target>
+      </trans-unit>
+      <trans-unit id="satisfaction.between_1_and_3_months">
+        <source>satisfaction.between_1_and_3_months</source>
+        <target>Between 1 and 3 months</target>
+      </trans-unit>
+      <trans-unit id="satisfaction.more_than_3_months">
+        <source>satisfaction.more_than_3_months</source>
+        <target>More than 3 months</target>
+      </trans-unit>
       <trans-unit id="centre de formation professionnelle">
         <source>centre de formation professionnelle</source>
         <target>Vocational Training Center (VTC) </target>
@@ -3169,6 +3369,46 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>Sans emploi</source>
         <target>Unemployed</target>
       </trans-unit>
+      <trans-unit id="Décrochage">
+        <source>Décrochage</source>
+        <target>Dropout</target>
+      </trans-unit>
+      <trans-unit id="Admin_regions">
+        <source>Admin_regions</source>
+        <target>Regional administrator</target>
+      </trans-unit>
+      <trans-unit id="Admin_pays">
+        <source>Admin_pays</source>
+        <target>Country Administrator</target>
+      </trans-unit>
+      <trans-unit id="Admin_villes">
+        <source>Admin_villes</source>
+        <target>Cities Administrator</target>
+      </trans-unit>
+      <trans-unit id="Principal">
+        <source>Principal</source>
+        <target>School director</target>
+      </trans-unit>
+      <trans-unit id="email.Your_code_to_change_your_password_is">
+        <source>email.Your_code_to_change_your_password_is</source>
+        <target>Your code to change your password is:</target>
+      </trans-unit>
+      <trans-unit id="email.welcomes_you_to_the_InserJeune_platform">
+        <source>email.welcomes_you_to_the_InserJeune_platform</source>
+        <target>IFEF welcomes you to the InserJeune platform</target>
+      </trans-unit>
+      <trans-unit id="email.Application_via">
+        <source>email.Application_via</source>
+        <target>Application via IFEF</target>
+      </trans-unit>
+      <trans-unit id="email.Enrollment_via">
+        <source>email.Enrollment_via</source>
+        <target>Enrollment via IFEF</target>
+      </trans-unit>
+      <trans-unit id="email.Changing_your_inserjeune_password">
+        <source>email.Changing_your_inserjeune_password</source>
+        <target>Changing your inserjeune password</target>
+      </trans-unit>
       <trans-unit id="flashbag.the_deletion_is_done_successfully">
         <source>flashbag.the_deletion_is_done_successfully</source>
         <target>The deletion is done successfully</target>
@@ -3220,6 +3460,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="flashbag.unable_to_delete_city">
         <source>flashbag.unable_to_delete_city</source>
         <target>Unable to delete the city</target>
+      </trans-unit>
+      <trans-unit id="flashbag.unable_to_delete_prefecture">
+        <source>flashbag.unable_to_delete_prefecture</source>
+        <target>Unable to delete the prefecture</target>
       </trans-unit>
       <trans-unit id="flashbag.thank_you_for_responding_to_the_survey">
         <source>flashbag.thank_you_for_responding_to_the_survey</source>
@@ -3385,6 +3629,14 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>flashbag.please_complete_your_profile</source>
         <target>Please complete your profile</target>
       </trans-unit>
+      <trans-unit id="flashbag.please_respond_to_the_satisfaction_survey">
+        <source>flashbag.please_respond_to_the_satisfaction_survey</source>
+        <target>Please respond to the satisfaction survey</target>
+      </trans-unit>
+      <trans-unit id="flashbag.please_create_a_new_satisfaction_survey">
+        <source>flashbag.please_create_a_new_satisfaction_survey</source>
+        <target>Please create a new satisfaction survey</target>
+      </trans-unit>
       <trans-unit id="sectors.agriculture_and_fisheries">
         <source>sectors.agriculture_and_fisheries</source>
         <target>agriculture and fisheries</target>
@@ -3457,569 +3709,605 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>sectors.bank_and_insurance</source>
         <target>bank and insurance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.lumbering">
-        <source>sub-sectors.lumbering</source>
+      <trans-unit id="sectors.agricultural_science_and_technology">
+        <source>sectors.agricultural_science_and_technology</source>
+        <target>agricultural science and technology</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.lumbering">
+        <source>sub_sectors.lumbering</source>
         <target>Lumbering</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.animal production / breeding">
-        <source>sub-sectors.animal production / breeding</source>
+      <trans-unit id="sub_sectors.animal_production_breeding">
+        <source>sub_sectors.animal_production_breeding</source>
         <target>Animal production / breeding</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.agriculture / market gardening">
-        <source>sub-sectors.agriculture / market gardening</source>
+      <trans-unit id="sub_sectors.agriculture_market_gardening">
+        <source>sub_sectors.agriculture_market_gardening</source>
         <target>Agriculture / market gardening</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.aquaculture / fish farming">
-        <source>sub-sectors.aquaculture / fish farming</source>
+      <trans-unit id="sub_sectors.aquaculture_fish_farming">
+        <source>sub_sectors.aquaculture_fish_farming</source>
         <target>Aquaculture / fish farming</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.fishing">
-        <source>sub-sectors.fishing</source>
+      <trans-unit id="sub_sectors.fishing">
+        <source>sub_sectors.fishing</source>
         <target>Fishing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.food processing">
-        <source>sub-sectors.food processing</source>
+      <trans-unit id="sub_sectors.food_processing">
+        <source>sub_sectors.food_processing</source>
         <target>Food processing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.jewelry / jewelry / goldsmithing">
-        <source>sub-sectors.jewelry / jewelry / goldsmithing</source>
+      <trans-unit id="sub_sectors.jewelry_jewelry_goldsmithing">
+        <source>sub_sectors.jewelry_jewelry_goldsmithing</source>
         <target>Jewelry / jewelry / goldsmithing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.bakery pastry">
-        <source>sub-sectors.bakery pastry</source>
+      <trans-unit id="sub_sectors.bakery_pastry">
+        <source>sub_sectors.bakery_pastry</source>
         <target>Bakery pastry</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.styling / fashion design">
-        <source>sub-sectors.styling / fashion design</source>
+      <trans-unit id="sub_sectors.styling_fashion_design">
+        <source>sub_sectors.styling_fashion_design</source>
         <target>Styling / fashion design</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.hairdressing / aesthetics">
-        <source>sub-sectors.hairdressing / aesthetics</source>
+      <trans-unit id="sub_sectors.hairdressing_aesthetics">
+        <source>sub_sectors.hairdressing_aesthetics</source>
         <target>Hairdressing / aesthetics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.sewing/tapestry cut">
-        <source>sub-sectors.sewing/tapestry cut</source>
+      <trans-unit id="sub_sectors.sewing_tapestry_cut">
+        <source>sub_sectors.sewing_tapestry_cut</source>
         <target>Sewing/tapestry cut</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.website creation">
-        <source>sub-sectors.website creation</source>
+      <trans-unit id="sub_sectors.website_creation">
+        <source>sub_sectors.website_creation</source>
         <target>Website creation</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.3d computer graphics / printing">
-        <source>sub-sectors.3d computer graphics / printing</source>
+      <trans-unit id="sub_sectors.3d_computer_graphics_printing">
+        <source>sub_sectors.3d_computer_graphics_printing</source>
         <target>3D computer graphics / printing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.masonry (formwork, reinforcement, plastering, tiling, painting)">
-        <source>sub-sectors.masonry (formwork, reinforcement, plastering, tiling, painting)</source>
+      <trans-unit id="sub_sectors.masonry_formwork_reinforcement_plastering_tiling_painting)">
+        <source>sub_sectors.masonry_formwork_reinforcement_plastering_tiling_painting)</source>
         <target>Masonry (formwork, reinforcement, plastering, tiling, painting)</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.electricity building">
-        <source>sub-sectors.electricity building</source>
+      <trans-unit id="sub_sectors.electricity_building">
+        <source>sub_sectors.electricity_building</source>
         <target>Electricity building</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.wood joinery / carpentry / roofing">
-        <source>sub-sectors.wood joinery / carpentry / roofing</source>
+      <trans-unit id="sub_sectors.wood_joinery_carpentry_roofing">
+        <source>sub_sectors.wood_joinery_carpentry_roofing</source>
         <target>Wood joinery / carpentry / roofing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.metal carpentry / metal structures">
-        <source>sub-sectors.metal carpentry / metal structures</source>
+      <trans-unit id="sub_sectors.metal_carpentry_metal_structures">
+        <source>sub_sectors.metal_carpentry_metal_structures</source>
         <target>Metal carpentry / metal structures</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.aluminum joinery">
-        <source>sub-sectors.aluminum joinery</source>
+      <trans-unit id="sub_sectors.aluminum_joinery">
+        <source>sub_sectors.aluminum_joinery</source>
         <target>Aluminum joinery</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.sanitary installations / plumbing">
-        <source>sub-sectors.sanitary installations / plumbing</source>
+      <trans-unit id="sub_sectors.sanitary_installations_plumbing">
+        <source>sub_sectors.sanitary_installations_plumbing</source>
         <target>Sanitary installations / plumbing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.home / reception">
-        <source>sub-sectors.home / reception</source>
+      <trans-unit id="sub_sectors.home_reception">
+        <source>sub_sectors.home_reception</source>
         <target>Home / reception</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.room service">
-        <source>sub-sectors.room service</source>
+      <trans-unit id="sub_sectors.room_service">
+        <source>sub_sectors.room_service</source>
         <target>Room Service</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.cooking/pastry">
-        <source>sub-sectors.cooking/pastry</source>
+      <trans-unit id="sub_sectors.cooking_pastry">
+        <source>sub_sectors.cooking_pastry</source>
         <target>Cooking/pastry</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.bar">
-        <source>sub-sectors.bar</source>
+      <trans-unit id="sub_sectors.bar">
+        <source>sub_sectors.bar</source>
         <target>Bar</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.touristic guide">
-        <source>sub-sectors.touristic guide</source>
+      <trans-unit id="sub_sectors.touristic_guide">
+        <source>sub_sectors.touristic_guide</source>
         <target>Touristic guide</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.travel agency management">
-        <source>sub-sectors.travel agency management</source>
+      <trans-unit id="sub_sectors.travel_agency_management">
+        <source>sub_sectors.travel_agency_management</source>
         <target>Travel agency management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.electromechanics">
-        <source>sub-sectors.electromechanics</source>
+      <trans-unit id="sub_sectors.electromechanics">
+        <source>sub_sectors.electromechanics</source>
         <target>Electromechanics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.electrical engineering">
-        <source>sub-sectors.electrical engineering</source>
+      <trans-unit id="sub_sectors.electrical_engineering">
+        <source>sub_sectors.electrical_engineering</source>
         <target>Electrical engineering</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.industrial plumbing/piping">
-        <source>sub-sectors.industrial plumbing/piping</source>
+      <trans-unit id="sub_sectors.industrial_plumbing_piping">
+        <source>sub_sectors.industrial_plumbing_piping</source>
         <target>Industrial plumbing/piping</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.health, safety, environment - hse">
-        <source>sub-sectors.health, safety, environment - hse</source>
+      <trans-unit id="sub_sectors.health_safety_environment_hse">
+        <source>sub_sectors.health_safety_environment_hse</source>
         <target>Health, Safety, Environment - HSE</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.machine maintenance">
-        <source>sub-sectors.machine maintenance</source>
+      <trans-unit id="sub_sectors.machine_maintenance">
+        <source>sub_sectors.machine_maintenance</source>
         <target>Machine maintenance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.elevator maintenance">
-        <source>sub-sectors.elevator maintenance</source>
+      <trans-unit id="sub_sectors.elevator_maintenance">
+        <source>sub_sectors.elevator_maintenance</source>
         <target>Elevator maintenance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.automation maintenance">
-        <source>sub-sectors.automation maintenance</source>
+      <trans-unit id="sub_sectors.automation_maintenance">
+        <source>sub_sectors.automation_maintenance</source>
         <target>Automation maintenance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.electronic maintenance">
-        <source>sub-sectors.electronic maintenance</source>
+      <trans-unit id="sub_sectors.electronic_maintenance">
+        <source>sub_sectors.electronic_maintenance</source>
         <target>Electronic maintenance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.computer/office maintenance (hardware)">
-        <source>sub-sectors.computer/office maintenance (hardware)</source>
+      <trans-unit id="sub_sectors.computer_office_maintenance_hardware)">
+        <source>sub_sectors.computer_office_maintenance_hardware)</source>
         <target>Computer/office maintenance (hardware)</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.software maintenance - software - network - development">
-        <source>sub-sectors.software maintenance - software - network - development</source>
+      <trans-unit id="sub_sectors.software_maintenance_software_network_development">
+        <source>sub_sectors.software_maintenance_software_network_development</source>
         <target>Software maintenance - software - network - development</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.automobile mechanic">
-        <source>sub-sectors.automobile mechanic</source>
+      <trans-unit id="sub_sectors.automobile_mechanic">
+        <source>sub_sectors.automobile_mechanic</source>
         <target>Automobile mechanic</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.bodywork/painting">
-        <source>sub-sectors.bodywork/painting</source>
+      <trans-unit id="sub_sectors.bodywork_painting">
+        <source>sub_sectors.bodywork_painting</source>
         <target>Bodywork/painting</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.motorcycle mechanics">
-        <source>sub-sectors.motorcycle mechanics</source>
+      <trans-unit id="sub_sectors.motorcycle_mechanics">
+        <source>sub_sectors.motorcycle_mechanics</source>
         <target>Motorcycle mechanics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.boat mechanics">
-        <source>sub-sectors.boat mechanics</source>
+      <trans-unit id="sub_sectors.boat_mechanics">
+        <source>sub_sectors.boat_mechanics</source>
         <target>Boat mechanics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.nurse/midwife">
-        <source>sub-sectors.nurse/midwife</source>
+      <trans-unit id="sub_sectors.nurse_midwife">
+        <source>sub_sectors.nurse_midwife</source>
         <target>Nurse/midwife</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.caregiver">
-        <source>sub-sectors.caregiver</source>
+      <trans-unit id="sub_sectors.caregiver">
+        <source>sub_sectors.caregiver</source>
         <target>Caregiver</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.maintenance/cleaning services">
-        <source>sub-sectors.maintenance/cleaning services</source>
+      <trans-unit id="sub_sectors.maintenance_cleaning_services">
+        <source>sub_sectors.maintenance_cleaning_services</source>
         <target>Maintenance/cleaning services</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.dry cleaning">
-        <source>sub-sectors.dry cleaning</source>
+      <trans-unit id="sub_sectors.dry_cleaning">
+        <source>sub_sectors.dry_cleaning</source>
         <target>Dry cleaning</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.guarding / security">
-        <source>sub-sectors.guarding / security</source>
+      <trans-unit id="sub_sectors.guarding_security">
+        <source>sub_sectors.guarding_security</source>
         <target>Guarding / security</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.accounting management">
-        <source>sub-sectors.accounting management</source>
+      <trans-unit id="sub_sectors.accounting_management">
+        <source>sub_sectors.accounting_management</source>
         <target>Accounting management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.administrative management">
-        <source>sub-sectors.administrative management</source>
+      <trans-unit id="sub_sectors.administrative_management">
+        <source>sub_sectors.administrative_management</source>
         <target>Administrative management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.office secretarial/accounting">
-        <source>sub-sectors.office secretarial/accounting</source>
+      <trans-unit id="sub_sectors.office_secretarial_accounting">
+        <source>sub_sectors.office_secretarial_accounting</source>
         <target>Office secretarial/accounting</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.maritime and river transport">
-        <source>sub-sectors.maritime and river transport</source>
+      <trans-unit id="sub_sectors.maritime_and_river_transport">
+        <source>sub_sectors.maritime_and_river_transport</source>
         <target>Maritime and river transport</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.air transport">
-        <source>sub-sectors.air transport</source>
+      <trans-unit id="sub_sectors.air_transport">
+        <source>sub_sectors.air_transport</source>
         <target>Air Transport</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.land transportation">
-        <source>sub-sectors.land transportation</source>
+      <trans-unit id="sub_sectors.land_transportation">
+        <source>sub_sectors.land_transportation</source>
         <target>Land transportation</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.rail transport">
-        <source>sub-sectors.rail transport</source>
+      <trans-unit id="sub_sectors.rail_transport">
+        <source>sub_sectors.rail_transport</source>
         <target>Rail transport</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.domestic and industrial cold and air conditioning">
-        <source>sub-sectors.domestic and industrial cold and air conditioning</source>
+      <trans-unit id="sub_sectors.domestic_and_industrial_cold_and_air_conditioning">
+        <source>sub_sectors.domestic_and_industrial_cold_and_air_conditioning</source>
         <target>Domestic and industrial cold and air conditioning</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.driving vehicles, machines and trucks">
-        <source>sub-sectors.driving vehicles, machines and trucks</source>
+      <trans-unit id="sub_sectors.driving_vehicles_machines_and_trucks">
+        <source>sub_sectors.driving_vehicles_machines_and_trucks</source>
         <target>Driving vehicles, machines and trucks</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.inventory management / logistics">
-        <source>sub-sectors.inventory management / logistics</source>
+      <trans-unit id="sub_sectors.inventory_management_logistics">
+        <source>sub_sectors.inventory_management_logistics</source>
         <target>Inventory management / logistics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.store management">
-        <source>sub-sectors.store management</source>
+      <trans-unit id="sub_sectors.store_management">
+        <source>sub_sectors.store_management</source>
         <target>Store management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.community health worker">
-        <source>sub-sectors.community health worker</source>
+      <trans-unit id="sub_sectors.community_health_worker">
+        <source>sub_sectors.community_health_worker</source>
         <target>Community Health Worker</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.international trade">
-        <source>sub-sectors.international trade</source>
+      <trans-unit id="sub_sectors.international_trade">
+        <source>sub_sectors.international_trade</source>
         <target>International trade</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.roads and sanitation">
-        <source>sub-sectors.roads and sanitation</source>
+      <trans-unit id="sub_sectors.roads_and_sanitation">
+        <source>sub_sectors.roads_and_sanitation</source>
         <target>Roads and sanitation</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.building design">
-        <source>sub-sectors.building design</source>
+      <trans-unit id="sub_sectors.building_design">
+        <source>sub_sectors.building_design</source>
         <target>Building design</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.civil engineering">
-        <source>sub-sectors.civil engineering</source>
+      <trans-unit id="sub_sectors.civil_engineering">
+        <source>sub_sectors.civil_engineering</source>
         <target>Civil engineering</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.shoemaking/leather goods">
-        <source>sub-sectors.shoemaking/leather goods</source>
+      <trans-unit id="sub_sectors.shoemaking_leather_goods">
+        <source>sub_sectors.shoemaking_leather_goods</source>
         <target>Shoemaking/leather goods</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.locksmith">
-        <source>sub-sectors.locksmith</source>
+      <trans-unit id="sub_sectors.locksmith">
+        <source>sub_sectors.locksmith</source>
         <target>Locksmith</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.local development agent">
-        <source>sub-sectors.local development agent</source>
+      <trans-unit id="sub_sectors.local_development_agent">
+        <source>sub_sectors.local_development_agent</source>
         <target>Local development agent</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.dyeing">
-        <source>sub-sectors.dyeing</source>
+      <trans-unit id="sub_sectors.dyeing">
+        <source>sub_sectors.dyeing</source>
         <target>Dyeing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.screen printing">
-        <source>sub-sectors.screen printing</source>
+      <trans-unit id="sub_sectors.screen_printing">
+        <source>sub_sectors.screen_printing</source>
         <target>Screen printing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.embroidery">
-        <source>sub-sectors.embroidery</source>
+      <trans-unit id="sub_sectors.embroidery">
+        <source>sub_sectors.embroidery</source>
         <target>Embroidery</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.horticulture">
-        <source>sub-sectors.horticulture</source>
+      <trans-unit id="sub_sectors.horticulture">
+        <source>sub_sectors.horticulture</source>
         <target>Horticulture</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.pottery/ceramics">
-        <source>sub-sectors.pottery/ceramics</source>
+      <trans-unit id="sub_sectors.pottery_ceramics">
+        <source>sub_sectors.pottery_ceramics</source>
         <target>Pottery/ceramics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.maintenance of hydraulic systems">
-        <source>sub-sectors.maintenance of hydraulic systems</source>
+      <trans-unit id="sub_sectors.maintenance_of_hydraulic_systems">
+        <source>sub_sectors.maintenance_of_hydraulic_systems</source>
         <target>Maintenance of hydraulic systems</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.boilermaking / welding / assembly">
-        <source>sub-sectors.boilermaking / welding / assembly</source>
+      <trans-unit id="sub_sectors.boilermaking_welding_assembly">
+        <source>sub_sectors.boilermaking_welding_assembly</source>
         <target>Boilermaking / welding / assembly</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.painting and sanding">
-        <source>sub-sectors.painting and sanding</source>
+      <trans-unit id="sub_sectors.painting_and_sanding">
+        <source>sub_sectors.painting_and_sanding</source>
         <target>Painting and sanding</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.quality control">
-        <source>sub-sectors.quality control</source>
+      <trans-unit id="sub_sectors.quality_control">
+        <source>sub_sectors.quality_control</source>
         <target>Quality Control</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.work at height">
-        <source>sub-sectors.work at height</source>
+      <trans-unit id="sub_sectors.work_at_height">
+        <source>sub_sectors.work_at_height</source>
         <target>Work at height</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.mechanical manufacturing">
-        <source>sub-sectors.mechanical manufacturing</source>
+      <trans-unit id="sub_sectors.mechanical_manufacturing">
+        <source>sub_sectors.mechanical_manufacturing</source>
         <target>Mechanical manufacturing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.industrial design">
-        <source>sub-sectors.industrial design</source>
+      <trans-unit id="sub_sectors.industrial_design">
+        <source>sub_sectors.industrial_design</source>
         <target>Industrial design</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.customs and transit">
-        <source>sub-sectors.customs and transit</source>
+      <trans-unit id="sub_sectors.customs_and_transit">
+        <source>sub_sectors.customs_and_transit</source>
         <target>Customs and transit</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.logistics and transport">
-        <source>sub-sectors.logistics and transport</source>
+      <trans-unit id="sub_sectors.logistics_and_transport">
+        <source>sub_sectors.logistics_and_transport</source>
         <target>Logistics and transport</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.mechatronics">
-        <source>sub-sectors.mechatronics</source>
+      <trans-unit id="sub_sectors.mechatronics">
+        <source>sub_sectors.mechatronics</source>
         <target>Mechatronics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.automotive air conditioning">
-        <source>sub-sectors.automotive air conditioning</source>
+      <trans-unit id="sub_sectors.automotive_air_conditioning">
+        <source>sub_sectors.automotive_air_conditioning</source>
         <target>Automotive air conditioning</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.agricultural mechanics">
-        <source>sub-sectors.agricultural mechanics</source>
+      <trans-unit id="sub_sectors.agricultural_mechanics">
+        <source>sub_sectors.agricultural_mechanics</source>
         <target>Agricultural mechanics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.beekeeping">
-        <source>sub-sectors.beekeeping</source>
+      <trans-unit id="sub_sectors.beekeeping">
+        <source>sub_sectors.beekeeping</source>
         <target>Beekeeping</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.medical representative">
-        <source>sub-sectors.medical representative</source>
+      <trans-unit id="sub_sectors.medical_representative">
+        <source>sub_sectors.medical_representative</source>
         <target>Medical representative</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.pharmacy assistant/pharmacy salesperson">
-        <source>sub-sectors.pharmacy assistant/pharmacy salesperson</source>
+      <trans-unit id="sub_sectors.pharmacy_assistant_pharmacy_salesperson">
+        <source>sub_sectors.pharmacy_assistant_pharmacy_salesperson</source>
         <target>Pharmacy assistant/pharmacy salesperson</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.medical secretary">
-        <source>sub-sectors.medical secretary</source>
+      <trans-unit id="sub_sectors.medical_secretary">
+        <source>sub_sectors.medical_secretary</source>
         <target>Medical secretary</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.driving school">
-        <source>sub-sectors.driving school</source>
+      <trans-unit id="sub_sectors.driving_school">
+        <source>sub_sectors.driving_school</source>
         <target>Driving school</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.bilingual office secretarial services">
-        <source>sub-sectors.bilingual office secretarial services</source>
+      <trans-unit id="sub_sectors.bilingual_office_secretarial_services">
+        <source>sub_sectors.bilingual_office_secretarial_services</source>
         <target>Bilingual office secretarial services</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.office secretarial and accounting assistance">
-        <source>sub-sectors.office secretarial and accounting assistance</source>
+      <trans-unit id="sub_sectors.office_secretarial_and_accounting_assistance">
+        <source>sub_sectors.office_secretarial_and_accounting_assistance</source>
         <target>Office secretarial and accounting assistance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.computerized accounting and management">
-        <source>sub-sectors.computerized accounting and management</source>
+      <trans-unit id="sub_sectors.computerized_accounting_and_management">
+        <source>sub_sectors.computerized_accounting_and_management</source>
         <target>Computerized accounting and management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.production graphics">
-        <source>sub-sectors.production graphics</source>
+      <trans-unit id="sub_sectors.production_graphics">
+        <source>sub_sectors.production_graphics</source>
         <target>Production graphics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.commercial and marketing action">
-        <source>sub-sectors.commercial and marketing action</source>
+      <trans-unit id="sub_sectors.commercial_and_marketing_action">
+        <source>sub_sectors.commercial_and_marketing_action</source>
         <target>Commercial and marketing action</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.taxation">
-        <source>sub-sectors.taxation</source>
+      <trans-unit id="sub_sectors.taxation">
+        <source>sub_sectors.taxation</source>
         <target>Taxation</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.maintenance of copiers">
-        <source>sub-sectors.maintenance of copiers</source>
+      <trans-unit id="sub_sectors.maintenance_of_copiers">
+        <source>sub_sectors.maintenance_of_copiers</source>
         <target>Maintenance of copiers</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.maintenance of mobile equipment">
-        <source>sub-sectors.maintenance of mobile equipment</source>
+      <trans-unit id="sub_sectors.maintenance_of_mobile_equipment">
+        <source>sub_sectors.maintenance_of_mobile_equipment</source>
         <target>Maintenance of mobile equipment</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.networks and telecom">
-        <source>sub-sectors.networks and telecom</source>
+      <trans-unit id="sub_sectors.networks_and_telecom">
+        <source>sub_sectors.networks_and_telecom</source>
         <target>Networks and telecom</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.audio-visual editing">
-        <source>sub-sectors.audio-visual editing</source>
+      <trans-unit id="sub_sectors.audio_visual_editing">
+        <source>sub_sectors.audio_visual_editing</source>
         <target>Audio-visual editing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.driving machines and using hitches">
-        <source>sub-sectors.driving machines and using hitches</source>
+      <trans-unit id="sub_sectors.driving_machines_and_using_hitches">
+        <source>sub_sectors.driving_machines_and_using_hitches</source>
         <target>Driving machines and using hitches</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.food crops">
-        <source>sub-sectors.food crops</source>
+      <trans-unit id="sub_sectors.food_crops">
+        <source>sub_sectors.food_crops</source>
         <target>Food crops</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.big cultures">
-        <source>sub-sectors.big cultures</source>
+      <trans-unit id="sub_sectors.big_cultures">
+        <source>sub_sectors.big_cultures</source>
         <target>Big cultures</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.plants and seeds">
-        <source>sub-sectors.plants and seeds</source>
+      <trans-unit id="sub_sectors.plants_and_seeds">
+        <source>sub_sectors.plants_and_seeds</source>
         <target>Plants and seeds</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.autocad">
-        <source>sub-sectors.autocad</source>
+      <trans-unit id="sub_sectors.autocad">
+        <source>sub_sectors.autocad</source>
         <target>AUTOCAD</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.solid works">
-        <source>sub-sectors.solid works</source>
+      <trans-unit id="sub_sectors.solid_works">
+        <source>sub_sectors.solid_works</source>
         <target>SOLID WORKS</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.infographics">
-        <source>sub-sectors.infographics</source>
+      <trans-unit id="sub_sectors.infographics">
+        <source>sub_sectors.infographics</source>
         <target>Infographics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.applied statistics">
-        <source>sub-sectors.applied statistics</source>
+      <trans-unit id="sub_sectors.applied_statistics">
+        <source>sub_sectors.applied_statistics</source>
         <target>Applied statistics</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.information and communication technology">
-        <source>sub-sectors.information and communication technology</source>
+      <trans-unit id="sub_sectors.information_and_communication_technology">
+        <source>sub_sectors.information_and_communication_technology</source>
         <target>Information and communication technology</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.equipment electricity">
-        <source>sub-sectors.equipment electricity</source>
+      <trans-unit id="sub_sectors.equipment_electricity">
+        <source>sub_sectors.equipment_electricity</source>
         <target>Equipment Electricity</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.mining operator">
-        <source>sub-sectors.mining operator</source>
+      <trans-unit id="sub_sectors.mining_operator">
+        <source>sub_sectors.mining_operator</source>
         <target>Mining Operator</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.building painting">
-        <source>sub-sectors.building painting</source>
+      <trans-unit id="sub_sectors.building_painting">
+        <source>sub_sectors.building_painting</source>
         <target>Building painting</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.general mechanic">
-        <source>sub-sectors.general mechanic</source>
+      <trans-unit id="sub_sectors.general_mechanic">
+        <source>sub_sectors.general_mechanic</source>
         <target>General mechanic</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.works manager">
-        <source>sub-sectors.works manager</source>
+      <trans-unit id="sub_sectors.works_manager">
+        <source>sub_sectors.works_manager</source>
         <target>Works manager</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.chemist help">
-        <source>sub-sectors.chemist help</source>
+      <trans-unit id="sub_sectors.chemist_help">
+        <source>sub_sectors.chemist_help</source>
         <target>Chemist help</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.care assistant">
-        <source>sub-sectors.care assistant</source>
+      <trans-unit id="sub_sectors.care_assistant">
+        <source>sub_sectors.care_assistant</source>
         <target>Care assistant</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.paramedic">
-        <source>sub-sectors.paramedic</source>
+      <trans-unit id="sub_sectors.paramedic">
+        <source>sub_sectors.paramedic</source>
         <target>Paramedic</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.first aid">
-        <source>sub-sectors.first aid</source>
+      <trans-unit id="sub_sectors.first_aid">
+        <source>sub_sectors.first_aid</source>
         <target>First aid</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.laboratory technical agent">
-        <source>sub-sectors.laboratory technical agent</source>
+      <trans-unit id="sub_sectors.laboratory_technical_agent">
+        <source>sub_sectors.laboratory_technical_agent</source>
         <target>Laboratory technical agent</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.massage therapy">
-        <source>sub-sectors.massage therapy</source>
+      <trans-unit id="sub_sectors.massage_therapy">
+        <source>sub_sectors.massage_therapy</source>
         <target>Massage therapy</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.radiology assistant">
-        <source>sub-sectors.radiology assistant</source>
+      <trans-unit id="sub_sectors.radiology_assistant">
+        <source>sub_sectors.radiology_assistant</source>
         <target>Radiology assistant</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.assistant laboratory technician">
-        <source>sub-sectors.assistant laboratory technician</source>
+      <trans-unit id="sub_sectors.assistant_laboratory_technician">
+        <source>sub_sectors.assistant_laboratory_technician</source>
         <target>Assistant laboratory technician</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.maintenance of biomedical devices">
-        <source>sub-sectors.maintenance of biomedical devices</source>
+      <trans-unit id="sub_sectors.maintenance_of_biomedical_devices">
+        <source>sub_sectors.maintenance_of_biomedical_devices</source>
         <target>Maintenance of biomedical devices</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.renewable energy">
-        <source>sub-sectors.renewable energy</source>
+      <trans-unit id="sub_sectors.renewable_energy">
+        <source>sub_sectors.renewable_energy</source>
         <target>renewable energy</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.preparer">
-        <source>sub-sectors.preparer</source>
+      <trans-unit id="sub_sectors.preparer">
+        <source>sub_sectors.preparer</source>
         <target>Preparer</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.non-destructive testing">
-        <source>sub-sectors.non-destructive testing</source>
+      <trans-unit id="sub_sectors.non_destructive_testing">
+        <source>sub_sectors.non_destructive_testing</source>
         <target>Non-destructive testing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.supervisor">
-        <source>sub-sectors.supervisor</source>
+      <trans-unit id="sub_sectors.supervisor">
+        <source>sub_sectors.supervisor</source>
         <target>Supervisor</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.designer">
-        <source>sub-sectors.designer</source>
+      <trans-unit id="sub_sectors.designer">
+        <source>sub_sectors.designer</source>
         <target>Designer</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.producer">
-        <source>sub-sectors.producer</source>
+      <trans-unit id="sub_sectors.producer">
+        <source>sub_sectors.producer</source>
         <target>Producer</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.refining and distribution">
-        <source>sub-sectors.refining and distribution</source>
+      <trans-unit id="sub_sectors.refining_and_distribution">
+        <source>sub_sectors.refining_and_distribution</source>
         <target>Refining and distribution</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.electricity and instrumentation">
-        <source>sub-sectors.electricity and instrumentation</source>
+      <trans-unit id="sub_sectors.electricity_and_instrumentation">
+        <source>sub_sectors.electricity_and_instrumentation</source>
         <target>Electricity and instrumentation</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.industrial operator">
-        <source>sub-sectors.industrial operator</source>
+      <trans-unit id="sub_sectors.industrial_operator">
+        <source>sub_sectors.industrial_operator</source>
         <target>Industrial operator</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.software operator">
-        <source>sub-sectors.software operator</source>
+      <trans-unit id="sub_sectors.software_operator">
+        <source>sub_sectors.software_operator</source>
         <target>Software operator</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.computer assisted drawing">
-        <source>sub-sectors.computer assisted drawing</source>
+      <trans-unit id="sub_sectors.computer_assisted_drawing">
+        <source>sub_sectors.computer_assisted_drawing</source>
         <target>Computer Assisted drawing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.digital marketing">
-        <source>sub-sectors.digital marketing</source>
+      <trans-unit id="sub_sectors.digital_marketing">
+        <source>sub_sectors.digital_marketing</source>
         <target>Digital marketing</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.project management">
-        <source>sub-sectors.project management</source>
+      <trans-unit id="sub_sectors.project_management">
+        <source>sub_sectors.project_management</source>
         <target>Project management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.human resource management">
-        <source>sub-sectors.human resource management</source>
+      <trans-unit id="sub_sectors.human_resource_management">
+        <source>sub_sectors.human_resource_management</source>
         <target>Human Resource Management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.company advice">
-        <source>sub-sectors.company advice</source>
+      <trans-unit id="sub_sectors.company_advice">
+        <source>sub_sectors.company_advice</source>
         <target>company advice</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.management">
-        <source>sub-sectors.management</source>
+      <trans-unit id="sub_sectors.management">
+        <source>sub_sectors.management</source>
         <target>Management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.budget management">
-        <source>sub-sectors.budget management</source>
+      <trans-unit id="sub_sectors.budget_management">
+        <source>sub_sectors.budget_management</source>
         <target>Budget management</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.banking and microfinance">
-        <source>sub-sectors.banking and microfinance</source>
+      <trans-unit id="sub_sectors.banking_and_microfinance">
+        <source>sub_sectors.banking_and_microfinance</source>
         <target>Banking and microfinance</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.financial analysis">
-        <source>sub-sectors.financial analysis</source>
+      <trans-unit id="sub_sectors.financial_analysis">
+        <source>sub_sectors.financial_analysis</source>
         <target>Financial analysis</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.advice and sale of cosmetic products">
-        <source>sub-sectors.advice and sale of cosmetic products</source>
+      <trans-unit id="sub_sectors.advice_and_sale_of_cosmetic_products">
+        <source>sub_sectors.advice_and_sale_of_cosmetic_products</source>
         <target>Advice and sale of cosmetic products</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.mechanics of motorcycles and small engines">
-        <source>sub-sectors.mechanics of motorcycles and small engines</source>
+      <trans-unit id="sub_sectors.mechanics_of_motorcycles_and_small_engines">
+        <source>sub_sectors.mechanics_of_motorcycles_and_small_engines</source>
         <target>Mechanics of motorcycles and small engines</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.agro-pastoral">
-        <source>sub-sectors.agro-pastoral</source>
+      <trans-unit id="sub_sectors.agro_pastoral">
+        <source>sub_sectors.agro_pastoral</source>
         <target>Agro-pastoral</target>
       </trans-unit>
-      <trans-unit id="sub-sectors.agri-food">
-        <source>sub-sectors.agri-food</source>
+      <trans-unit id="sub_sectors.agri_food">
+        <source>sub_sectors.agri_food</source>
         <target>Agri-food</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.vegetable_production">
+        <source>sub_sectors.vegetable_production</source>
+        <target>vegetable production</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.animal_production">
+        <source>sub_sectors.animal_production</source>
+        <target>animal production</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.nutrition_and_food_technology">
+        <source>sub_sectors.nutrition_and_food_technology</source>
+        <target>nutrition and food technology</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.rural_development_and_equipment">
+        <source>sub_sectors.rural_development_and_equipment</source>
+        <target>rural development and equipment</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.forestry">
+        <source>sub_sectors.forestry</source>
+        <target>forestry</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.aquaculture_and_fishing">
+        <source>sub_sectors.aquaculture_and_fishing</source>
+        <target>aquaculture and fishing</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.automotive_and_motorcycle_electricity">
+        <source>sub_sectors.automotive_and_motorcycle_electricity</source>
+        <target>automobile and motorcycle electricity</target>
+      </trans-unit>
+      <trans-unit id="sub_sectors.foundry">
+        <source>sub_sectors.foundry</source>
+        <target>foundry</target>
       </trans-unit>
       <trans-unit id="country.afghanistan">
         <source>country.afghanistan</source>
@@ -4505,8 +4793,8 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>country.laos</source>
         <target>Laos</target>
       </trans-unit>
-      <trans-unit id="country.the_vatican">
-        <source>country.the_vatican</source>
+      <trans-unit id="country.vatican">
+        <source>country.vatican</source>
         <target>The Vatican</target>
       </trans-unit>
       <trans-unit id="country.lesotho">
@@ -4968,6 +5256,50 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="country.zimbabwe">
         <source>country.zimbabwe</source>
         <target>Zimbabwe</target>
+      </trans-unit>
+      <trans-unit id="country.guernesey">
+        <source>country.guernesey</source>
+        <target>Guernesey</target>
+      </trans-unit>
+      <trans-unit id="country.iles-malouines">
+        <source>country.iles-malouines</source>
+        <target>Falkland Islands</target>
+      </trans-unit>
+      <trans-unit id="country.jersey">
+        <source>country.jersey</source>
+        <target>Jersey</target>
+      </trans-unit>
+      <trans-unit id="country.palestine">
+        <source>country.palestine</source>
+        <target>Palestine</target>
+      </trans-unit>
+      <trans-unit id="country.pays-Bas-caribeens">
+        <source>country.pays-Bas-caribeens</source>
+        <target>Caribbean Netherlands</target>
+      </trans-unit>
+      <trans-unit id="country.sahara-occidental">
+        <source>country.sahara-occidental</source>
+        <target>Western Sahar</target>
+      </trans-unit>
+      <trans-unit id="country.saint-christophe-et-nieves">
+        <source>country.saint-christophe-et-nieves</source>
+        <target>Saint Christopher and Nives</target>
+      </trans-unit>
+      <trans-unit id="country.saint-martin">
+        <source>country.saint-martin</source>
+        <target>Saint-Martin</target>
+      </trans-unit>
+      <trans-unit id="country.sint-maarten">
+        <source>country.sint-maarten</source>
+        <target>Saint-Martin</target>
+      </trans-unit>
+      <trans-unit id="country.territoire-britannique-de-locéan-Indien">
+        <source>country.territoire-britannique-de-locéan-Indien</source>
+        <target>British Indian Ocean Territories</target>
+      </trans-unit>
+      <trans-unit id="country.tokelau">
+        <source>country.tokelau</source>
+        <target>Tokeleau</target>
       </trans-unit>
       <trans-unit id="currency.cfa_franc_bceao">
         <source>currency.cfa_franc_bceao</source>
@@ -5641,8 +5973,8 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>legal_status.individual_business</source>
         <target>Individual business</target>
       </trans-unit>
-      <trans-unit id="training_too_theoretical_not_practical_enough">
-        <source>training_too_theoretical_not_practical_enough</source>
+      <trans-unit id="raisons_no_job.training_too_theoretical_not_practical_enough">
+        <source>raisons_no_job.training_too_theoretical_not_practical_enough</source>
         <target>training too theoretical / not practical enough</target>
       </trans-unit>
       <trans-unit id="raisons_no_job.training_did_not_take_into_account_new_developments_in_the_profession">
@@ -5760,6 +6092,42 @@ In case of shortcomings, would you be ready to complete the training of the youn
       <trans-unit id="diplomas.additional_mention_mc">
         <source>diplomas.additional_mention_mc</source>
         <target>Additional Mention (MC)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.professional_qualifications2">
+        <source>diplomas.professional_qualifications2</source>
+        <target>Professional qualifications</target>
+      </trans-unit>
+      <trans-unit id="diplomas.diploma_in_tropical_agricultural_studies">
+        <source>diplomas.diploma_in_tropical_agricultural_studies</source>
+        <target>Diploma in Tropical Agricultural Studies (DEAT)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.tropical_agricultural_study_certificate">
+        <source>diplomas.tropical_agricultural_study_certificate</source>
+        <target>Tropical Agricultural Study Certificate (BEAT)</target>
+      </trans-unit>
+      <trans-unit id="diplomas.trade_qualification_certificate">
+        <source>diplomas.trade_qualification_certificate</source>
+        <target>Trade Qualification Certificate (CQM)</target>
+      </trans-unit>
+      <trans-unit id="contract.open-ended">
+        <source>contract.open-ended</source>
+        <target>open-ended</target>
+      </trans-unit>
+      <trans-unit id="contract.fixed term">
+        <source>contract.fixed term</source>
+        <target>fixed term</target>
+      </trans-unit>
+      <trans-unit id="contract.daily">
+        <source>contract.daily</source>
+        <target>daily</target>
+      </trans-unit>
+      <trans-unit id="contract.seasonal">
+        <source>contract.seasonal</source>
+        <target>Seasonal</target>
+      </trans-unit>
+      <trans-unit id="contract.apprentice">
+        <source>contract.apprentice</source>
+        <target>Apprentice</target>
       </trans-unit>
     </body>
   </file>

@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Repository\CountryRepository;
+use App\Repository\RegionRepository;
+use App\Repository\PrefectureRepository;
 use App\Repository\JobOfferRepository;
 use App\Repository\JobAppliedRepository;
-use App\Repository\RegionRepository;
+use App\Repository\SchoolRepository;
 use App\Services\DashboardService;
 use App\Services\CompanyService;
 use DateTime;
@@ -25,16 +28,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  or is_granted('ROLE_ADMIN_REGIONS')
  or is_granted('ROLE_ADMIN_VILLES')
  or is_granted('ROLE_LEGISLATEUR')
+ or is_granted('ROLE_DIRECTEUR')
  or is_granted('ROLE_ETABLISSEMENT')
+ or is_granted('ROLE_PRINCIPAL')
  or is_granted('ROLE_ENTREPRISE')
  or is_granted('ROLE_DIPLOME')
  ")]
 class DashboardController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
+    private RegionRepository $regionRepository;
+    private PrefectureRepository $prefectureRepository;
 	private JobOfferRepository $jobOfferRepository;
+    private SchoolRepository $schoolRepository;
     private JobAppliedRepository $jobAppliedRepository;
-	private RegionRepository $regionRepository;
 	private DashboardService $dashboardService;
     private CompanyService $companyService;
 	private TranslatorInterface $translator;
@@ -42,18 +49,22 @@ class DashboardController extends AbstractController {
 	public function __construct(
 		EntityManagerInterface $em,
 		CountryRepository      $countryRepository,
+        RegionRepository       $regionRepository,
+        PrefectureRepository   $prefectureRepository,
 		JobOfferRepository     $jobOfferRepository,
+        SchoolRepository    $schoolRepository,
         JobAppliedRepository    $jobAppliedRepository,
-		RegionRepository       $regionRepository,
 		DashboardService       $dashboardService,
         CompanyService         $companyService,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
+        $this->regionRepository = $regionRepository;
+        $this->prefectureRepository = $prefectureRepository;
 		$this->jobOfferRepository = $jobOfferRepository;
         $this->jobAppliedRepository = $jobAppliedRepository;
-		$this->regionRepository = $regionRepository;
+        $this->schoolRepository = $schoolRepository;
 		$this->dashboardService = $dashboardService;
         $this->companyService = $companyService;
 		$this->translator = $translator;
@@ -63,6 +74,8 @@ class DashboardController extends AbstractController {
 	public function indexAction(Request $request): Response {
         $this->cleanJobApplied();
         if ($this->getUser()->getCompany()) {
+            if(!$this->getUser()->getCompany()->getAgreeRgpd())
+                return $this->redirectToRoute('front_company_edit');
             if(!$this->companyService->checkSatisfaction($this->getUser()->getCompany()))
                 return $this->redirectToRoute('front_company_satisfactioncompany_new');
         }
@@ -81,6 +94,11 @@ class DashboardController extends AbstractController {
 				$regions = $this->regionRepository->findBy(['country' => $validCountry]);
 				$validRegions = array_merge($validRegions, $regions);
 			}
+            $validPrefectures = [];
+            foreach ($validRegions as $validRegion) {
+                $prefectures = $this->prefectureRepository->findBy(['region' => $validRegion]);
+                $validPrefectures = array_merge($validPrefectures, $prefectures);
+            }
 
 			// Récupération de la date de référence pour l'intervalle de temps, par défaut = date courante
 			$referenceDateTxt =  $request->request->get('referenceDate');
@@ -96,6 +114,19 @@ class DashboardController extends AbstractController {
 			$session->set('referenceDate', $referenceDateTxt);
 			$referenceDate = (new \DateTime($referenceDateTxt))->format('Y-m-d');
 
+            // Récupération de la date de début pour l'intervalle de temps, par défaut = date courante
+            $startDateTxt =  $request->request->get('beginDate');
+
+            if (!$startDateTxt && $session->has('beginDate')) {
+                $startDateTxt = $session->get('beginDate');
+            }
+
+            if (!$startDateTxt) {
+                $startDateTxt = (new DateTime())->sub(new \DateInterval('P3Y'))->format('Y-m-d');
+            }
+            $session->set('beginDate', $startDateTxt);
+            $startDate = (new \DateTime($startDateTxt))->format('Y-m-d');
+
 			// Récupération de l'intervalle de temps sélectionné par le formulaire et renvoie la date du premier jour  */
 			$selectedDuration = $request->request->get('selectDuration');
 			if ($selectedDuration) {
@@ -104,7 +135,7 @@ class DashboardController extends AbstractController {
 
 			// Sinon récupération par la variable de session, sinon paramétrage à 3 mois
 			if (!$selectedDuration) {
-				$selectedDuration = ($session->has('selectDuration')) ? $session->get('selectDuration') : '2 ans';
+				$selectedDuration = ($session->has('selectDuration')) ? $session->get('selectDuration') : '3 ans';
 			}
 
 			$idSelectCountry = $request->request->get('selectCountry');
@@ -129,10 +160,17 @@ class DashboardController extends AbstractController {
 				$session->set('region', $idSelectRegion);
 			}
 
+            $idSelectPrefecture = $request->request->get('selectPrefecture');
+            if ($idSelectPrefecture) {
+                $session->set('prefecture', $idSelectPrefecture);
+            }
+
             // adaptation aux multi administrateurs
-            if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+            if ($this->getUser()->hasRole('ROLE_ADMIN') or
+                $this->getUser()->hasRole('ROLE_DIRECTEUR')) {
                 //nothing to do, validRegions all regions
-            } else if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS') or
+                $this->getUser()->hasRole('ROLE_LEGISLATEUR')) {
                 $validRegions = $this->getUser()->getCountry()->getRegions();
 
             } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
@@ -158,17 +196,35 @@ class DashboardController extends AbstractController {
                 // adpatation for Actors
                 if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
                     $validRegions = [];
-                    $validRegions[] = $this->getUser()->getRegion();
+                    if($this->getUser()->getRegion())
+                        $validRegions[] = $this->getUser()->getRegion();
+                }
+            }
+
+            $userSchool =  $this->getUser()->getSchool() ;
+            // only for Principal Role
+            if($this->getUser()->getPrincipalSchool()) {
+                $userSchool =  $this->schoolRepository->find($this->getUser()->getPrincipalSchool());
+                if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                    if($userSchool->getCity()) {
+                        if(!$validRegions)
+                            $validRegions[] = $userSchool->getCity()->getRegion();
+                        $idSelectRegion = $userSchool->getCity()->getRegion()->getId();
+                    }
                 }
             }
 
 			return $this->render('Dashboard/index.html.twig', [
 				'countries' => $validCountries,
 				'regions' => $validRegions,
+				'prefectures' => $validPrefectures,
 				'idSelectedCountry' => $idSelectCountry,
 				'idSelectedRegion' => $idSelectRegion,
+				'idSelectedPrefecture' => $idSelectPrefecture,
 				'selectedDuration'  => $selectedDuration,
+				'startDate' => $startDate,
 				'referenceDate' => $referenceDate,
+                'userSchool' => $userSchool,
 			]);
 		});
 	}

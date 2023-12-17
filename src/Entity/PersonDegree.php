@@ -582,4 +582,20 @@ class PersonDegree {
         $this->residenceRegion = $residenceRegion;
         return $this;
     }
+
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->addressCity?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return PersonDegree
+     */
+    public function setPrefecture(?Prefecture $prefecture): PersonDegree
+    {
+        return $this;
+    }
 }

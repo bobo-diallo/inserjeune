@@ -92,7 +92,7 @@ class CityService {
 		$form->add($cityName, EntityType::class, [
 			'class' => City::class,
 			'choice_label' => 'name',
-			'placeholder' => $region ? 'menu.select_city' : 'menu.select_region',
+			'placeholder' => $region ? 'menu.select_city' : 'menu.select',
 			'choices' => $region ? $region->getCities() : [],
 			'attr' => ['class' => 'form-control']
 		]);

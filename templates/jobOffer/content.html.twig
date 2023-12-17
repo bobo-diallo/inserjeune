@@ -2,7 +2,9 @@
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% elseif is_granted('ROLE_DIPLOME') == true %} {% set base = 'base_degree.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% else %} {% set base = 'base.html.twig' %}
 {% endif %}
 
@@ -18,34 +20,54 @@
 
 {% block js %}
    <script>
-      $(document).ready(function () {
-         let translations = [];
-         getTranslation().then (function (translation) {
-            translations = translation;
-            $("#appbundle_joboffer_country").prepend("<option value='' selected='selected'>" + translations['js.select'] + "</option>");
-         });
-      });
+      // $(document).ready(function () {
+      //    let translations = [];
+      //    getTranslation().then (function (translation) {
+      //       translations = translation;
+      //       // $("#appbundle_joboffer_country").prepend("<option value='' selected='selected'>" + translations['js.select'] + "</option>");
+      //    });
+      // });
    </script>
   <script>
      // Event
-     $(document).on('change', '#appbundle_joboffer_country, #appbundle_joboffer_region', function () {
-        // alert("test")
-        let $field = $(this)
-        let $regionField = $('#appbundle_joboffer_country')
-        let $form = $field.closest('form')
-        let target = '#' + $field.attr('id').replace('region', 'city').replace('country', 'region')
-        // Les données à envoyer en Ajax
-        let data = {}
-        data[$regionField.attr('name')] = $regionField.val()
-        data[$field.attr('name')] = $field.val()
-        // On soumet les données
-        $.post($form.attr('action'), data).then(function (data) {
-           // On récupère le nouvmeeau <select>
-           let $input = $(data).find(target)
-           // On remplace notre <select> actuel
-           $(target).replaceWith($input)
-        })
-     });
+     // $(document).on('change', '#appbundle_joboffer_country, #appbundle_joboffer_region', function () {
+     //    // alert("test")
+     //    let $field = $(this)
+     //    let $regionField = $('#appbundle_joboffer_country')
+     //    let $form = $field.closest('form')
+     //    let target = '#' + $field.attr('id').replace('region', 'city').replace('country', 'region')
+     //    // Les données à envoyer en Ajax
+     //    let data = {}
+     //    data[$regionField.attr('name')] = $regionField.val()
+     //    data[$field.attr('name')] = $field.val()
+     //    // On soumet les données
+     //    $.post($form.attr('action'), data).then(function (data) {
+     //       // On récupère le nouvmeeau <select>
+     //       let $input = $(data).find(target)
+     //       // On remplace notre <select> actuel
+     //       $(target).replaceWith($input)
+     //    })
+     // });
+
+     // Event
+     // Country -> Region -> City
+     // if($('#appbundle_joboffer_prefecture').length) {
+     //    listenChangeCountryRegion('#appbundle_joboffer_country', '#appbundle_joboffer_region', 'country', 'region', 'addressCity');
+     // }
+
+     // // Event
+     // // Region -> Prefecture -> City
+     // else {
+        listenChangeRegionPrefecture('#appbundle_joboffer_country', '#appbundle_joboffer_region', '#appbundle_joboffer_prefecture', '#appbundle_joboffer_city');
+     // }
+
+     if($('#countryId').val) {
+        let countryId = $('#countryId').val();
+        if(!$('#appbundle_joboffer_country').val()) {
+           $('#appbundle_joboffer_country option[value=' + countryId + ']').prop('selected', true);
+           $('#appbundle_joboffer_country').trigger('change');
+        }
+     }
 
      $(document).on('change', '#appbundle_joboffer_sectorArea', function () {
         let $field = $(this)

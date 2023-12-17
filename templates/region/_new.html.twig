@@ -36,6 +36,8 @@
     {{ form_widget(form.valid) }}
     <div class="help-block form-text with-errors form-control-feedback"></div>
   </div>
+{% else %}
+  <div hidden>{{ form_widget(form.phoneCode) }} {{ form_widget(form.phoneDigit) }}</div>
 {% endif %}
 <div class="form-buttons-w">
   <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Degree;
 use App\Entity\PersonDegree;
+use App\Entity\Prefecture;
 use App\Entity\School;
 use App\Model\PersonDegreeReceiverNotification;
 use App\Model\PersonDegreeReadOnly;
@@ -57,6 +58,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			region.name as region_name,
 			school.id AS school_id,
 			school.name as school_name,
+			prefecture.id as prefecture_id,
+			prefecture.name as prefecture_name,
 			school_city.name as school_city_name,
 			COUNT(satisfaction_creators.id) as satisfaction_creators_count,
 			COUNT(satisfaction_salaries.id) as satisfaction_salaries_count,
@@ -68,6 +71,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
             ->leftJoin('p.activity', 'activity')
             ->leftJoin('p.school', 'school')
             ->leftJoin('school.city', 'school_city')
+            ->leftJoin('city.prefecture', 'prefecture')
             ->leftJoin('p.satisfactionCreators', 'satisfaction_creators')
             ->leftJoin('p.satisfactionSalaries', 'satisfaction_salaries')
             ->leftJoin('p.satisfactionSearches', 'satisfaction_searches')
@@ -91,6 +95,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
         $persons = $qb
             ->groupBy('
 			p.id,
+			p.firstname,
 			p.lastname,
 			p.email, 
 			p.createdDate,
@@ -112,6 +117,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			region.name,
 			school.id,
 			school.name,
+			prefecture.id,
+			prefecture.name,
 			school_city.name
 			')
             ->getQuery()
@@ -142,6 +149,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
                 $person['region_name'],
                 $person['school_id'],
                 $person['school_name'],
+                $person['prefecture_id'],
+                $person['prefecture_name'],
                 $person['school_city_name'],
                 $person['satisfaction_searches_count'],
                 $person['satisfaction_salaries_count'],
@@ -181,6 +190,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			country.name as country_name,
 			school.id AS school_id,
 			school.name as school_name,
+			prefecture.id as prefecture_id,
+			prefecture.name as prefecture_name,
 			school_city.name as school_city_name,
 			COUNT(satisfaction_creators.id) as satisfaction_creators_count,
 			COUNT(satisfaction_salaries.id) as satisfaction_salaries_count,
@@ -192,6 +203,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->leftJoin('p.activity', 'activity')
 			->leftJoin('p.school', 'school')
 			->leftJoin('school.city', 'school_city')
+            ->leftJoin('city.prefecture', 'prefecture')
 			->leftJoin('p.satisfactionCreators', 'satisfaction_creators')
 			->leftJoin('p.satisfactionSalaries', 'satisfaction_salaries')
 			->leftJoin('p.satisfactionSearches', 'satisfaction_searches')
@@ -210,6 +222,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 		$persons = $qb
 			->groupBy('
 			p.id,
+			p.firstname,
 			p.lastname,
 			p.email, 
 			p.createdDate,
@@ -231,6 +244,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			country.name,
 			school.id,
 			school.name,
+			prefecture.id,
+			prefecture.name,
 			school_city.name
 			')
 			->getQuery()
@@ -261,6 +276,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 				$person['country_name'],
 				$person['school_id'],
 				$person['school_name'],
+                $person['prefecture_id'],
+                $person['prefecture_name'],
 				$person['school_city_name'],
 				$person['satisfaction_searches_count'],
 				$person['satisfaction_salaries_count'],
@@ -503,6 +520,26 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
+    public function getByPrefectureAndSchoolBetweenCreatedDateAndEndDate (
+        Prefecture $prefecture,
+        ?School $school,
+        ?\DateTime $beginDate,
+        ?\DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.addressCity', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->andWhere ('s.school = :school ')
+            ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'prefecture' => $prefecture,
+                'school' => $school,
+                'beginDate'=> $beginDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
 	public function getByCountryAndSchoolBetweenCreatedDateAndEndDate (
 		Country $country,
 		?School $school,
@@ -534,6 +571,18 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
+    public function getByPrefectureBetweenCreatedDateAndEndDate(
+        Prefecture $prefecture,
+        ?\DateTime $beginDate,
+        ?\DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.addressCity', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters(['prefecture' => $prefecture, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+            ->getQuery()
+            ->getResult();
+    }
 
 	public function getByRegionAndSchoolBetweenCreatedDateAndEndDate(
 		Region $region,
@@ -599,6 +648,23 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
+    /**
+     * @return PersonDegree[]
+     */
+    public function getByPrefectureAndTypeBetweenCreatedDateAndEndDate(
+        Prefecture    $prefecture,
+        string    $type,
+        ?\DateTime $beginDate,
+        ?\DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.addressCity', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->andWhere('s.type = :type')
+            ->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters(['prefecture' => $prefecture, 'type' => $type, 'beginDate'=> $beginDate, 'endDate'=>$endDate])
+            ->getQuery()
+            ->getResult();
+    }
 
 	/**
 	 * @param Region $region
@@ -613,6 +679,34 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
+
+    /**
+     * @param Prefecture $prefecture
+     * @param School $school
+     * @return PersonDegree[]
+     */
+    public function getByPrefectureAndSchool(Prefecture $prefecture, School $school): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.addressCity', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->andWhere('s.school = :school')
+            ->setParameters(['prefecture' => $prefecture, 'school' => $school])
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Prefecture $prefecture
+     * @return PersonDegree[]
+     */
+    public function getByPrefecture(Prefecture $prefecture): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.addressCity', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->setParameters(['prefecture' => $prefecture])
+            ->getQuery()
+            ->getResult();
+    }
 
 	/**
 	 * @return PersonDegree[]
@@ -632,6 +726,26 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getResult();
 	}
+
+    /**
+     * @return PersonDegree[]
+     */
+    public function getByPrefectureAndTypeAndSchoolBetweenCreatedDateAndEndDate(
+        Prefecture  $prefecture,
+        string      $type,
+        School      $school,
+        ?\DateTime $beginDate,
+        ?\DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.addressCity', 'ct')
+            ->where('ct.prefecture = :prefecture ')
+            ->andWhere('s.type = :type')
+            ->andWhere('s.school = :school')
+            ->andWhere('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters(['prefecture' => $prefecture, 'type' => $type, 'school' => $school, 'beginDate' => $beginDate, 'endDate' => $endDate])
+            ->getQuery()
+            ->getResult();
+    }
 
 	/**
 	 * @return PersonDegree[]

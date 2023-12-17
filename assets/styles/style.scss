@@ -42,90 +42,84 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 .banner {
-  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
   height: 140px;
   background-color: white;
 }
 
 #loginLogo {
-  display: flex;
-  justify-content: space-around;
+  margin-left: 20px;
 }
 
-//#logo_dbta {
-#logo_dbta {
-  position: absolute;
-  left:20px;
-  top: 10px;
-  height: 90px;
-  width: auto;
+.banner_logo_left {
+  width: 25%;
+  height: auto;
+  text-align: center;
+
+  img {
+    margin-top: 20px;
+    height: 90px;
+    width: auto;
+  }
 }
-//#logo_cf_dbta {
-#logo_salesians {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  height: 90px;
-  width: auto;
+
+.banner_logo_right {
+  width: 25%;
+  height: auto;
+  text-align: center;
+
+  img {
+    margin-top: 20px;
+    height: 90px;
+    width: auto;
+  }
 }
 
 .banner_title {
+  margin: auto;
+  padding: 0 30px;
   background-color: white;
-  margin: 2% 30% 2% 30%;
   font-size: medium;
   text-align: center;
   max-height: 100px;
+  width: 50%;
 }
 
-@media (max-width: 960px) {
-  .banner {
-    height: 70px;
-  }
-  .banner_title {
-    background-color: white;
-    margin: 2% 25% 2% 25%;
-    font-size: 9px;
-  }
-
-  #logo_dbta {
-    top : 10px;
-    height: 50px;
-    width: auto;
-  }
-  #logo_salesians {
-    top : 10px;
-    height: 50px;
-    width: auto;
-  }
+#partners {
+  display : flex;
+  flex-direction: column;
 }
 
 @media (max-width: 640px) {
+  .banner {
+    height: 70px;
+  }
+  .banner_logo_left {
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
+  .banner_logo_right {
+    padding-right: 10px ;
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
   .banner_title {
+    margin: 0;
+    padding: 5px;
     font-size: 8px;
   }
-  #logo_dbta {
-    top : 10px;
-    height: 50px;
-    width: auto;
-  }
-  #logo_salesians {
-    top : 10px;
-    height: 50px;
-    width: auto;
+
+  #partners {
+    flex-direction: row;
   }
 }
-
-/*.banner .logo-w {*/
-/*padding: 0;*/
-/*height: 110px;*/
-/*}*/
-
-/*.banner .logo-w img {*/
-/*height: 100%;*/
-/*width: auto;*/
-/*right:0;*/
-/*}*/
-
 
 /* The switch - the box around the slider */
 /******************************************/
@@ -222,6 +216,14 @@ table.dataTable tbody th, table.dataTable tbody td {
   margin-left: 15px;
 }
 
+#appbundle_geolocation_yourGraduates {
+  height: 30px;
+}
+
+.form-group.your_graduate span {
+  margin-left: 0;
+}
+
 .non {
   position: relative;
   top : -28px;
@@ -232,6 +234,11 @@ table.dataTable tbody th, table.dataTable tbody td {
   position: relative;
   top : -51px;
   right: -50px;
+}
+
+#form-login,
+#form-register {
+    padding-bottom: 20px;
 }
 
 .auth-box-w .form-group span {
@@ -336,6 +343,18 @@ table.dataTable tbody th, table.dataTable tbody td {
   max-width: 90%;
 }
 
+@media (max-width: 640px) {
+  .element-wrapper .element-box-reduct {
+    padding-left: 0;
+    padding-right: 0;
+
+    .el-legend {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
 .graph_satisfactions {
   /*padding: 0 5% 0 5%;*/
   /*margin-left: 55px;*/
@@ -366,6 +385,34 @@ table.dataTable tbody th, table.dataTable tbody td {
 @media (min-width: 768px) {
   .content-i {
     min-height: 1000px;
+  }
+}
+
+.footer_login {
+  align-items: baseline;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 30px;
+  margin-top: 40px !important;
+  margin-bottom: 0 !important;
+
+  span {
+    font-size: 10px;
+    color: #007bff;
+    margin-right: 10px;
+  }
+}
+.footer_register {
+  align-items: baseline;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+  margin-bottom: 0 !important;
+
+  span {
+    font-size: 10px;
+    color: #007bff;
+    margin-right: 10px;
   }
 }
 
@@ -425,7 +472,7 @@ table.dataTable tbody th, table.dataTable tbody td {
     a {
       //color: white;
       font-size: 12px!important;
-      font-style: italic;
+      //font-style: italic;
       font-weight: normal;
     }
   }
@@ -509,8 +556,6 @@ table.dataTable tbody th, table.dataTable tbody td {
   }
 }
 
-
-
 .col_id {
   width: 2px;
 }
@@ -547,6 +592,21 @@ table.dataTable tbody th, table.dataTable tbody td {
   margin-bottom: 1.0rem;
 }
 
+@media (max-width: 768px) {
+  .job_rate .element-box {
+    max-width: 300px;
+  }
+
+  .job_rate .element-box.el-tablo {
+    text-align: left ;
+  }
+
+  .job_rate .element-box.el-tablo .value span:last-child {
+    position: absolute;
+    right: 17px;
+  }
+}
+
 .btn-dashboard {
   margin-left: 15px;
   height: 1.9rem;
@@ -561,6 +621,13 @@ table.dataTable tbody th, table.dataTable tbody td {
 #addCompany {
   margin-right: 15px!important;
   padding: 0.3rem 1.2rem !important;
+}
+
+.dahboardGraphNote {
+  font-size: 10px;
+  margin-left: 10px;
+  margin-top: 0;
+  color: red;
 }
 
 .kz-print-tools {
@@ -631,7 +698,6 @@ table.dataTable tbody th, table.dataTable tbody td {
   }
   .btn-dashboard {
     margin-left: 0;
-    width: 100%;
   }
 
   .menu-low-enroll button{
@@ -735,6 +801,7 @@ table.dataTable tbody th, table.dataTable tbody td {
   color: #EF2ED1;
 }
 
+.your_graduate .form-control[type="checkbox"],
 .table_geo .form-control[type="checkbox"] {
   //margin-left: 20%;
   margin: auto!important;
@@ -745,10 +812,8 @@ table.dataTable tbody th, table.dataTable tbody td {
   height: 30px;
 }
 
-.table_geo .slider {
-  /*text-align: center;*/
-  //margin-left: 20%;
-  //margin-top: -25px;
+.table_geo .slider,
+.your_graduate .slider {
   margin: -25px auto 0 auto;
 }
 
@@ -981,6 +1046,35 @@ table#activity_founded th{
   margin-bottom: 25px;
 }
 
+.form-dashboard > div {
+  margin-left: 7px;
+  display: flex;
+  //justify-content: flex-end !important;
+  flex-direction: column;
+
+  button {
+    margin-top: 25px;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-dashboard > div {
+    //justify-content: flex-end !important;
+    flex-direction: row;
+    label {
+      min-width: 70px;
+      margin-left: 15px;
+    }
+    select,
+    input {
+      min-width: 160px;
+    }
+    button {
+      margin-top: 0;
+    }
+  }
+}
+
 .form-dashboard select,
 .form-dashboard input,
 {
@@ -991,6 +1085,10 @@ table#activity_founded th{
 .dashboardFilter {
   display: flex;
   justify-content: space-between;
+}
+
+#printDashboard {
+  margin-bottom: 30px;
 }
 
 #printDashboard span{

@@ -13,7 +13,7 @@
     <ul class="sub-menu">
       <li><a href="{{ path('company_index') }}">{{ 'menu.list_companies' | trans }}</a></li>
       <li><a href="{{ path('jobOffer_index') }}">{{ 'menu.the_job_offers' | trans }}</a></li>
-      <li><a href="{{ path('jobApplied_index') }}">{{ 'menu.the_job_applieded' | trans }}</a></li>
+      <li><a href="{{ path('job_applied_index') }}">{{ 'menu.the_job_applied' | trans }}</a></li>
     </ul>
   </li>
   <li class="has-sub-menu"><a href="{{ path('degree_index') }}">
@@ -52,13 +52,30 @@
       <div class="icon-w">
         <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality">
       </div>
-      <span>{{ 'menu.countries' | trans }}, {{ 'menu.regions' | trans }}, {{ 'menu.cities' | trans }}<br>{{ 'menu.and' | trans }} {{ 'menu.currencies' | trans }}</span>
+      <span>{{ 'menu.countries' | trans }},
+        {{ 'menu.regions' | trans }},
+        {%  if prefecture_between_region_city == "true" %}
+            {{ 'menu.prefecture' | trans }},
+        {%  endif %}
+        {{ 'menu.cities' | trans }}<br>
+        {{ 'menu.and' | trans }} {{ 'menu.currencies' | trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a href="{{ path('country_index') }}">{{ 'menu.countries' | trans }}</a></li>
-      <li><a href="{{ path('region_index') }}">{{ 'menu.regions' | trans }}</a></li>
+      {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="{{ path('country_index') }}">{{ 'menu.countries' | trans }}</a></li>
+      {% endif %}
+      {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS') %}
+        <li><a href="{{ path('region_index') }}">{{ 'menu.regions' | trans }}</a></li>
+      {% endif %}
+      {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS') or is_granted('ROLE_ADMIN_REGIONS') %}
+        {%  if prefecture_between_region_city == "true" %}
+          <li><a href="{{ path('prefecture_index') }}">{{ 'menu.prefectures' | trans }}</a></li>
+        {%  endif %}
+      {%  endif %}
       <li><a href="{{ path('city_index') }}">{{ 'menu.cities' | trans }}</a></li>
-      <li><a href="{{ path('currency_index') }}">{{ 'menu.currencies' | trans }}</a></li>
+      {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="{{ path('currency_index') }}">{{ 'menu.currencies' | trans }}</a></li>
+      {%  endif %}
     </ul>
   </li>
   {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS') %}
@@ -117,7 +134,9 @@
       <span>{{ 'menu.information' | trans }}</span>
     </a>
     <ul class="sub-menu">
-      <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v3.2.pdf') }}>{{ 'menu.user_guide' | trans }}</a></li>
+      {% set locale_documentation =  'build/documentation/guide_utilisateur_administrateur_inserjeune_' ~ app.request.locale ~ '_v3.4.pdf'%}
+      <li><a target="_blank" href={{ asset(locale_documentation) }}>{{ 'menu.user_guide' | trans }}</a></li>
+      {{ include ('_customize_links.html.twig') }}
       <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
       <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
       <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>

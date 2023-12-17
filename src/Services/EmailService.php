@@ -14,22 +14,27 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailService {
 	private ParameterBagInterface $parameterBag;
 	private MailerInterface $mailer;
+    private TranslatorInterface $translator;
 
 	public function __construct(
 		ParameterBagInterface $parameterBag,
-		MailerInterface $mailer
+		MailerInterface $mailer,
+        TranslatorInterface $translator
 	) {
 		$this->parameterBag = $parameterBag;
 		$this->mailer = $mailer;
+        $this->translator = $translator;
 	}
 
 	public function sendMailPasswd(string $to, string $code, string $title): bool {
 		$subject = $title;
 		$messageTxt = "Votre code pour modifier votre mot de passe est : " . $code;
+		// $messageTxt = $this->translator->trans("email.Your_code_to_change_your_password_is") . $code;
 
 		// Création de la boundary.
 		$boundary = sprintf('-----=%s', md5(rand()));
@@ -49,7 +54,8 @@ class EmailService {
 		$messageTxt = "Bonjour " . $firstname . "<br><br>";
 		$messageTxt .= "Votre incription en tant que " . $actor . " est confirmé" . "<br>";
 		$messageTxt .= "Votre N° de Téléphone de connexion :" . $phone . "<br><br>";
-		$messageTxt .= "IFEF vous souhaite la bienvenue sur la plateforme InserJeune ";
+		// $messageTxt .= "IFEF vous souhaite la bienvenue sur la plateforme InserJeune ";
+		$messageTxt .= $this->translator->trans('email.welcomes_you_to_the_InserJeune_platform');
 
 		// Création de la boundary.
 		$boundary = sprintf('-----=%s', md5(rand()));
@@ -67,7 +73,8 @@ class EmailService {
 	public function sendMail(Candidate $candidate, string $title): bool {
 		$messageTxt = $candidate->getMessage();
 		$to = $candidate->getEmailDestination();
-		$subject = "Candidature via IFEF - $title";
+		// $subject = "Candidature via IFEF - $title";
+		$subject = $this->translator->trans('email.Application_via') . " - $title";
 
 		// Création de la boundary.
 		$boundary = sprintf('-----=%s', md5(rand()));
@@ -86,8 +93,10 @@ class EmailService {
 	}
 
 	private function setHeader(string $title, string $boundary, string $nextLine): string {
-		$header = "From: \"$title\"<nepasrepondre@inserjeune.francophonie.org>$nextLine";
-		$header .= "Reply-to: \"$title\" <nepasrepondre@inserjeune.francophonie.org>$nextLine";
+		// $header = "From: \"$title\"<nepasrepondre@inserjeune.francophonie.org>$nextLine";
+		$header = "From: \"$title\" " . $this->parameterBag->get('email_from') . "$nextLine";
+		// $header .= "Reply-to: \"$title\" <nepasrepondre@inserjeune.francophonie.org>$nextLine";
+		$header .= "Reply-to: \"$title\" " . $this->parameterBag->get('email_from') . "$nextLine";
 		$header .= "MIME-Version: 1.0$nextLine";
 		$header .= "Content-Type: multipart/mixed;$nextLine boundary=\"$boundary\"$nextLine";
 
@@ -133,7 +142,8 @@ class EmailService {
 
 		$email = $emailBuilder
 			->replyTo($this->parameterBag->get('email_from'))
-			->subject('Candidature via IFEF - ' . $jobOffer->getTitle())
+			// ->subject('Candidature via IFEF - ' . $jobOffer->getTitle())
+			->subject($this->translator->trans('email.Application_via') . ' - ' . $jobOffer->getTitle())
 			->html($candidate->getMessage())
 			->attachFromPath($pathCv, 'CV-' . $candidate->getCandidateName() . '.pdf', 'application/pdf')
 			->attachFromPath($pathCoverLetter, 'Cover-letter-' . $candidate->getCandidateName() . '.pdf', 'application/pdf')
@@ -152,11 +162,13 @@ class EmailService {
 	}
 
 	public function sendNotificationEnrollmentDegree(PersonDegreeReceiverNotification $personDegree, School $school): void {
-		$email = (new TemplatedEmail())
+        // var_dump($personDegree->email());
+        $email = (new TemplatedEmail())
 			->from($this->parameterBag->get('email_from'))
 			->to($personDegree->email())
 			->replyTo($this->parameterBag->get('email_from'))
-			->subject('Enrollement via IFEF')
+			// ->subject('Enrollement via IFEF')
+			->subject($this->translator->trans('email.Enrollment_via'))
 			->htmlTemplate('email/enrollement_persondegree.html.twig')
 			->context([
 				'persondegree_name' => $personDegree->firstname() . ' ' . $personDegree->lastname(),
@@ -174,7 +186,8 @@ class EmailService {
 			->from($this->parameterBag->get('email_from'))
 			->to($company->email())
 			->replyTo($this->parameterBag->get('email_from'))
-			->subject('Enrollement via IFEF')
+			// ->subject('Enrollement via IFEF')
+            ->subject($this->translator->trans('email.Enrollment_via'))
 			->htmlTemplate('email/enrollement_company.html.twig')
 			->context([
 				'company_name' => $company->name(),
@@ -192,7 +205,8 @@ class EmailService {
 			->from($this->parameterBag->get('email_from'))
 			->to($to)
 			->replyTo($this->parameterBag->get('email_from'))
-			->subject('Modification mot de passe inserjeune')
+			// ->subject('Modification mot de passe inserjeune')
+			->subject($this->translator->trans('email.Changing_your_inserjeune_password'))
 			->htmlTemplate('email/reset_password.html.twig')
 			->context(['code' => $code])
 		;

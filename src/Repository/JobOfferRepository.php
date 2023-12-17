@@ -55,6 +55,20 @@ class JobOfferRepository extends ServiceEntityRepository {
 			->getResult();
 	}
 
+    /**
+     * @param int $id
+     * @return JobOffer[]
+     */
+    public function othersDifferentOfId(int $id): array {
+        return $this->createQueryBuilder('j')
+            ->where('j.company != :id')
+            ->orWhere('j.school != :id')
+            ->setParameter('id', $id)
+            ->orderBy('j.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 	/**
 	 * @return array
 	 */

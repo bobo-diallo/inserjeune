@@ -6,6 +6,7 @@ use App\Entity\Contract;
 use App\Entity\Country;
 use App\Entity\Image;
 use App\Entity\JobOffer;
+use App\Entity\Prefecture;
 use App\Entity\SectorArea;
 use App\Services\ActivityService;
 use App\Services\CityService;
@@ -99,6 +100,19 @@ class JobOfferType extends AbstractType {
 						->orderBy('sa.name', 'ASC');
 				}
 			])
+            ->add('prefecture', EntityType::class, [
+                'required' => false,
+                'class' => Prefecture::class,
+                'placeholder' => 'menu.prefecture',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'error.unauthorized_or_unknown_prefecture',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
+            ])
 			->add('otherCity', TextType::class, [
 				'attr' => ['class' => 'form-control',
                     'data-error' => 'Minimum 3 caractères',

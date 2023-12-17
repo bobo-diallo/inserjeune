@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Region;
 use App\Services\PersonDegreeService;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\Form;
@@ -12,25 +13,30 @@ use Twig\TwigFilter;
 use App\Tools\Utils;
 use Twig\TwigFunction;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Repository\PrefectureRepository;
 
 class AppExention extends AbstractExtension {
 	private TokenStorageInterface $tokenStorage;
 	private PersonDegreeService $degreeService;
     private TranslatorInterface $translator;
+    private PrefectureRepository $prefectureRepository;
 
 	public function __construct(
         TokenStorageInterface $tokenStorage,
         PersonDegreeService $degreeService,
         TranslatorInterface $translator,
+        PrefectureRepository $prefectureRepository,
     ) {
 		$this->tokenStorage = $tokenStorage;
 		$this->degreeService = $degreeService;
         $this->translator = $translator;
+        $this->prefectureRepository = $prefectureRepository;
 	}
 
     public function getFunctions(): array {
         return [
-            new TwigFunction('create_translated_select', [$this, 'createTranslatedSelect'], ['is_safe' => ['html']])
+            new TwigFunction('create_translated_select', [$this, 'createTranslatedSelect'], ['is_safe' => ['html']]),
+            new TwigFunction('listen_change_region_prefecture', [$this, 'listenChangeRegionPrefecture'], ['is_safe' => ['html']])
         ];
     }
 	public function getFilters(): array {
@@ -41,6 +47,7 @@ class AppExention extends AbstractExtension {
 			new TwigFilter('route_persondegree', [$this, 'generateRoutePersondegree']),
 			new TwigFilter('route_school', [$this, 'generateRouteSchool']),
 			new TwigFilter('type_degree', [$this, 'getTypeDegree']),
+			new TwigFilter('trans_table_format', [$this, 'transTableFormat']),
 		];
 	}
 
@@ -56,6 +63,8 @@ class AppExention extends AbstractExtension {
 		else if (in_array('ROLE_ADMIN_REGIONS', $roles)) return 'Admin_regions';
 		else if (in_array('ROLE_ADMIN_VILLES', $roles)) return 'Admin_villes';
 		else if (in_array('ROLE_LEGISLATEUR', $roles)) return 'Législateur';
+		else if (in_array('ROLE_DIRECTEUR', $roles)) return 'Directeur';
+		else if (in_array('ROLE_PRINCIPAL', $roles)) return 'Principal';
 		else if (in_array(Utils::COMPANY, $roles)) return 'Entreprise';
 		else if (in_array(Utils::PERSON_DEGREE, $roles)) return 'Diplômé';
 		else if (in_array('ROLE_ENQUETEUR', $roles)) return 'Enquêteur';
@@ -132,6 +141,20 @@ class AppExention extends AbstractExtension {
 	}
 
     /**
+     * Retour un string formatté de chaque item de la table traduite
+     *
+     * @param $table
+     * @return string
+     */
+    public function transTableFormat($table): string {
+        $result = "" ;
+        foreach ($table as $item) {
+            $result .=  $this->translator->trans($item) . "\n";
+        }
+        return $result;
+    }
+
+    /**
      * @param FormView $data
      * @return string
      */
@@ -144,58 +167,104 @@ class AppExention extends AbstractExtension {
 
         $id = $data->vars["id"];
         $fullName = $data->vars["full_name"];
-            $required = $data->vars["required"];
-            $attr = $data->vars["attr"];
-            $choices = $data->vars["choices"];
-            $selectValue = $data->vars["value"];
+        $required = "";
+        if($data->vars["required"]) {
+            $required = "required";
+        }
+        $attr = $data->vars["attr"];
+        $choices = $data->vars["choices"];
+        $selectValues = [];
+        if(is_array($data->vars["value"])) {
+            $selectValues = $data->vars["value"];
+        } else {
+            $selectValues[] = $data->vars["value"];
+        }
+        $multiple = "";
+        if($data->vars["multiple"]) {
+            $multiple = "multiple = true";
+        }
 
-            // if without select2 class
-            // $id = "appbundle_" . $actor . "_" . $selectClass;
-            // $name = "appbundle_" . $actor . "[" . $selectClass . "]";
+        // if without select2 class
+        // $id = "appbundle_" . $actor . "_" . $selectClass;
+        // $name = "appbundle_" . $actor . "[" . $selectClass . "]";
 
-            // adaptation for select2
-            $classes = explode(" ", $attr["class"]);
-            if (in_array("select2", $classes)) {
-                    // $id = "userbundle_" . $actor . "_" . $selectClass;
-                    // $name = "userbundle_" . $actor . "[" . $selectClass . "][]";
-                    $required = '"" multiple=""';
+        // adaptation for select2
+        $classes = explode(" ", $attr["class"]);
+        if (in_array("select2", $classes)) {
+            // $id = "userbundle_" . $actor . "_" . $selectClass;
+            // $name = "userbundle_" . $actor . "[" . $selectClass . "][]";
+            $required = '"" multiple=""';
+        }
+
+        $html = sprintf('<select id="%s" name="%s" %s %s class="%s">',
+            $id, $fullName, $multiple, $required, $attr["class"]);
+
+        if (!in_array("select2", $classes)) {
+            $html .= sprintf('  <option value="">%s</option>',
+                $this->translator->trans('menu.select'));
+        }
+
+        foreach ($choices as $choice) {
+            $label = $choice->label;
+
+            $transLabel = $this->translator->trans($label);
+            if(!$transLabel) {
+                $transLabel = $label;
             }
 
-            $html = sprintf('<select id="%s" 
-                                       name="%s" 
-                                       required="%s" 
-                                       class="%s">',
-                $id, $fullName, $required, $attr["class"]);
-
-            if (!in_array("select2", $classes)) {
-                $html .= sprintf('  <option value="">%s</option>',
-                    $this->translator->trans('menu.select'));
-            }
-
-            foreach ($choices as $choice) {
-                $label = $choice->label;
-                // if ($selectClass == "adminCities") {
-                //     $actorExplode  = explode("-", $choice->label);
-                //     if(count($actorExplode) == 3) {
-                //         $countryActor = $this->translator->trans(strtolower(trim($actorExplode[0])));
-                //         $regionActor = $this->translator->trans(strtolower(trim($actorExplode[1])));
-                //         $cityActor = $this->translator->trans(strtolower(trim($actorExplode[2])));
-                //         $label = $countryActor . " - " .$regionActor . " - " . $cityActor;
-                //     }
-                // }
-                if($selectValue == $choice->value) {
+            $labelSelected = false;
+            foreach ($selectValues as $selectValue) {
+                if ($selectValue == $choice->value) {
+                    $labelSelected =true;
                     $html .= sprintf('    <option selected value="%s">%s</option>',
-                        $choice->value, ucfirst($this->translator->trans($label)));
-
-                } else {
-                    $html .= sprintf('    <option value="%s">%s</option>',
-                        $choice->value, ucfirst($this->translator->trans($label)));
+                        $choice->value, ucfirst($transLabel));
                 }
             }
 
-            $html .= sprintf('</select>');
-            return $html;
-        // }
-        // return "Error Server";
+            if (!$labelSelected) {
+                $html .= sprintf('    <option value="%s">%s</option>',
+                    $choice->value, ucfirst($transLabel));
+            }
+        }
+
+        $html .= sprintf('</select>');
+        return $html;
+    }
+
+    public function listenChangeRegionPrefecture(FormView $region, FormView $prefecture): string {
+        // $choicesRegion = $region->vars["choices"];
+        $regionValue = $region->vars["value"];
+
+        $prefectureId = $prefecture->vars["id"];
+        $prefectureFullName = $prefecture->vars["full_name"];
+        $prefectureRequired = $prefecture->vars["required"];
+        $prefectureAttr = $prefecture->vars["attr"];
+        $prefectureChoices = $prefecture->vars["choices"];
+        $prefectureValue = $prefecture->vars["value"];
+
+        // create select
+        $html = sprintf('<select id="%s" name="%s" required="%s" class="%s">',
+            $prefectureId, $prefectureFullName, $prefectureRequired, $prefectureAttr["class"]);
+
+        //create option invite to select
+        $html .= sprintf('  <option value="">%s</option>',
+            $this->translator->trans('menu.select'));
+
+        $prefecture = $this->prefectureRepository->findByRegion($regionValue);
+
+        //create others prefectures option existing in selected region
+        foreach ($prefecture as $prefecture) {
+            if($prefecture->getId() == $prefectureValue) {
+                $html .= sprintf('    <option selected value="%s">%s</option>',
+                    $prefecture->getId(), ucfirst($this->translator->trans($prefecture->getName())));
+
+            } else {
+                $html .= sprintf('    <option value="%s">%s</option>',
+                    $prefecture->getId(), ucfirst($this->translator->trans($prefecture->getName())));
+            }
+        }
+
+        $html .= sprintf('</select>');
+        return $html;
     }
 }

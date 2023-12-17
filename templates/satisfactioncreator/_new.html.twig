@@ -82,7 +82,8 @@
 <div class="row hide_flex_jobNotFound">
   <div class="col-sm-12 form-group">
     <label for=""> <br>{{ 'graduate.why_several_possible_choices' | trans }}</label>
-    {{ form_widget(form.jobNotFoundReasons) }}
+    {{ create_translated_select(form.jobNotFoundReasons) }}
+{#    {{ form_widget(form.jobNotFoundReasons) }}#}
     <div class="help-block form-text with-errors form-control-feedSi non, pourquoi ?back">{{ form_errors(form.jobNotFoundReasons) }}</div>
   </div>
   <div class="col-sm-12 form-group hide_flex_jobNotFoundOther">

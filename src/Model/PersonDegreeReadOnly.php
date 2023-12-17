@@ -24,13 +24,15 @@ final class PersonDegreeReadOnly {
     private ?string $cityName;
 	private ?int $countryId;
 	private ?string $countryName;
+
+    private ?int $prefectureId;
+    private ?string $prefectureName;
 	private ?int $schoolId;
 	private ?string $schoolName;
 	private ?string $schoolCityName;
 	private int $satisfactionSearchesCount = 0;
 	private int $satisfactionSalariesCount = 0;
 	private int $satisfactionCreators_count = 0;
-
 	public function __construct(
 		int $id,
 		?string $firstname,
@@ -55,6 +57,8 @@ final class PersonDegreeReadOnly {
 		?string $countryName,
 		?int $schoolId,
 		?string $schoolName,
+        ?int $prefectureId,
+        ?string $prefectureName,
 		?string $schoolCityName,
 		?int $satisfactionSearchesCount,
 		?int $satisfactionSalariesCount,
@@ -84,6 +88,8 @@ final class PersonDegreeReadOnly {
 		$this->schoolName = $schoolName;
 		$this->schoolCityName = $schoolCityName;
 		$this->birthDate = $birthDate;
+        $this->prefectureId = $prefectureId;
+        $this->prefectureName = $prefectureName;
 		$this->satisfactionSearchesCount = $satisfactionSearchesCount;
 		$this->satisfactionSalariesCount = $satisfactionSalariesCount;
 		$this->satisfactionCreators_count = $satisfactionCreators_count;
@@ -175,6 +181,15 @@ final class PersonDegreeReadOnly {
 	public function getSchoolName(): ?string {
 		return $this->schoolName;
 	}
+
+
+    public function getPrefectureId(): ?int {
+        return $this->prefectureId;
+    }
+
+    public function getPrefectureName(): ?string {
+        return $this->prefectureName;
+    }
 
 	public function getSchoolCityName(): ?string {
 		return $this->schoolCityName;

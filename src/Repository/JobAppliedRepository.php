@@ -52,6 +52,7 @@ class JobAppliedRepository extends ServiceEntityRepository
             ->andWhere('j.idOffer = :idOffer')
             ->andWhere('j.idUser = :idUser')
             ->setParameters(['idOffer'=>$job, 'idUser'=>$user])
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
             ;

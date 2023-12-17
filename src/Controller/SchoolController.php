@@ -22,9 +22,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/school')]
 #[Security("is_granted('ROLE_ADMIN') or 
             is_granted('ROLE_LEGISLATEUR') or 
+            is_granted('ROLE_DIRECTEUR') or 
             is_granted('ROLE_ADMIN_REGIONS') or 
             is_granted('ROLE_ADMIN_PAYS') or 
-            is_granted('ROLE_ADMIN_VILLES')")]
+            is_granted('ROLE_ADMIN_VILLES') or 
+            is_granted('ROLE_PRINCIPAL')")]
 class SchoolController extends AbstractController {
 	private EntityManagerInterface $em;
 	private SchoolRepository $schoolRepository;
@@ -128,6 +130,20 @@ class SchoolController extends AbstractController {
 		]);
 	}
 
+    // // #[IsGranted('ROLE_PRINCIPAL')]
+    #[Route(path: '/mySchool', name: 'my_school', methods: ['GET'])]
+    public function mySchoolAction(Request $request): Response {
+        $school = new School();
+        // if($this->getUser()->getPrincipalSchool()) {
+        // return $id ; die();
+            // $school = $this->schoolRepository->find(intval($id));
+            // return $this->render('school/show.html.twig', [
+            //     'school' => $school
+            // ]);
+        // }
+        return $this->redirectToRoute('dashboard_index');
+    }
+
 	#[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}/edit', name: 'school_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, School $school): Response {
@@ -139,7 +155,7 @@ class SchoolController extends AbstractController {
         //adaptation for DBTA
         $selectedRegion = null;
         if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
-            $selectedRegion = $this->getUser()->getRegion();
+            $selectedRegion = $school->getUser()->getRegion();
         }
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -183,9 +199,14 @@ class SchoolController extends AbstractController {
 	public function deleteElementAction(Request $request, ?School $school): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {
 			if ($school) {
+                // delete Principals users
+                $principals = $this->userRepository->findByPrincipalSchool($school->getId());
+                foreach ($principals as $principal) {
+                    $this->em->remove($principal);
+                }
+
                 $user = $school->getUser();
                 if($user) {
-
 					if ($school->getPersonDegrees()->count() > 0) {
 						$this->addFlash('warning', $this->translator->trans('flashbag.unable_to_delete_establishment_please_remove_its_graduates_first'));
 					} else {

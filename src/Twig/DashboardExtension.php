@@ -2,6 +2,8 @@
 
 namespace App\Twig;
 
+use App\Entity\PersonDegree;
+use App\Entity\SatisfactionSalary;
 use App\Entity\SatisfactionSearch;
 use App\Entity\School;
 use App\Repository\ActivityRepository;
@@ -14,6 +16,7 @@ use App\Repository\JobNotFoundReasonRepository;
 use App\Repository\LegalStatusRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\RegionRepository;
+use App\Repository\PrefectureRepository;
 use App\Repository\SatisfactionCompanyRepository;
 use App\Repository\SatisfactionCreatorRepository;
 use App\Repository\SatisfactionSalaryRepository;
@@ -22,6 +25,8 @@ use App\Repository\SectorAreaRepository;
 use App\Tools\Utils;
 use DateInterval;
 use DateTime;
+use phpDocumentor\Reflection\Type;
+use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
@@ -33,6 +38,7 @@ class DashboardExtension extends AbstractExtension {
      */
     private EntityManagerInterface $entityManager;
     private RegionRepository $regionRepository;
+    private PrefectureRepository $prefectureRepository;
     private CompanyRepository $companyRepository;
     private SchoolRepository $schoolRepository;
     private SatisfactionCompanyRepository $satisfactionCompanyRepository;
@@ -52,6 +58,7 @@ class DashboardExtension extends AbstractExtension {
 	public function __construct(
         EntityManagerInterface $entityManager,
         RegionRepository $regionRepository,
+        PrefectureRepository $prefectureRepository,
         CompanyRepository $companyRepository,
         SchoolRepository $schoolRepository,
         SatisfactionCompanyRepository $satisfactionCompanyRepository,
@@ -70,6 +77,7 @@ class DashboardExtension extends AbstractExtension {
     ) {
         $this->entityManager = $entityManager;
         $this->regionRepository = $regionRepository;
+        $this->prefectureRepository = $prefectureRepository;
         $this->companyRepository = $companyRepository;
         $this->schoolRepository = $schoolRepository;
         $this->satisfactionCompanyRepository = $satisfactionCompanyRepository;
@@ -93,12 +101,19 @@ class DashboardExtension extends AbstractExtension {
             new TwigFunction('company_satisfaction_hire_rate', [$this, 'companySatisfactionHireRate'], ['is_safe' => ['html']]),
             new TwigFunction('person_degree_activities_rate', [$this, 'personDegreeActivitiesRate'], ['is_safe' => ['html']]),
             new TwigFunction('person_degree_situation_rate', [$this, 'personDegreeSituationRate'], ['is_safe' => ['html']]),
+            new TwigFunction('person_degree_survey_rate', [$this, 'personDegreeSurveyRate'], ['is_safe' => ['html']]),
+            new TwigFunction('graduate_global_integration_rate', [$this, 'graduateGlobalIntegrationRate'], ['is_safe' => ['html']]),
+            new TwigFunction('employement_rate', [$this, 'employementRate'], ['is_safe' => ['html']]),
+            new TwigFunction('person_degree_period_enrollment_rate', [$this, 'personDegreePeriodEnrollmentRate'], ['is_safe' => ['html']]),
+            new TwigFunction('person_degree_type_in_types_rate', [$this, 'personDegreeTypeInTypesRate'], ['is_safe' => ['html']]),
+            new TwigFunction('person_degree_continuing_their_studies', [$this, 'personDegreeContinuingTheirStudies'], ['is_safe' => ['html']]),
             new TwigFunction('person_degree_unemployed_pursuit_last_degree_rate', [$this, 'personDegreeUnemployedPursuitLastDegreeRate'], ['is_safe' => ['html']]),
             new TwigFunction('person_degree_reason_graph', [$this, 'personDegreeReasonGraph'], ['is_safe' => ['html']]),
             new TwigFunction('entity_barre_graph', [$this, 'entityBarreGraph'], ['is_safe' => ['html']]),
             new TwigFunction('entity_portion_cheese', [$this, 'EntityPortionCheese'], ['is_safe' => ['html']]),
             new TwigFunction('convert_date_from_duration', [$this, 'convertDateFromDuration'], ['is_safe' => ['html']]),
             new TwigFunction('nb_actor_evolution', [$this, 'nbActorEvolution'], ['is_safe' => ['html']]),
+            new TwigFunction('diff_date_ymd', [$this, 'diffDateYmd'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -134,6 +149,7 @@ class DashboardExtension extends AbstractExtension {
     public function companySatisfactionHireRate(
         int $idCountry,
         int $idRegion,
+        ?int $idPrefecture,
         string $personType,
         array $skillLevels,
         DateTime $beginDate,
@@ -141,11 +157,20 @@ class DashboardExtension extends AbstractExtension {
     ): string {
         $region = $this->regionRepository->find($idRegion);
         $country = $this->countryRepository->find($idCountry);
+        $companies = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            $prefecture = $this->prefectureRepository->find($idPrefecture);
+            if($prefecture) {
+                $companies = $this->companyRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+        }
 
-        if (!$region) {
-            $companies = $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
-        } else {
-            $companies = $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+        if(!$companies) {
+            if (!$region) {
+                $companies = $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            } else {
+                $companies = $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+            }
         }
 
         $html = '';
@@ -198,6 +223,7 @@ class DashboardExtension extends AbstractExtension {
     public function companySatisfactionSkillRate(
         int $idCountry,
         int $idRegion,
+        ?int $idPrefecture,
         string $skillName,
         array $skillLevels,
         ?DateTime $beginDate,
@@ -205,9 +231,20 @@ class DashboardExtension extends AbstractExtension {
 
         $region = $this->regionRepository->find($idRegion);
         $country = $this->countryRepository->find($idCountry);
-        $companies = ($region) ?
-            $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
-            $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+        $prefecture = null;
+        $companies = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            $prefecture = $this->prefectureRepository->find($idPrefecture);
+            if($prefecture) {
+                $companies = $this->companyRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+        }
+
+        if(!$companies) {
+            $companies = ($region) ?
+                $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
+                $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+        }
 
         $html = '';
         $nbSatisfactionCompany = 0;
@@ -268,24 +305,317 @@ class DashboardExtension extends AbstractExtension {
         return $html;
     }
 
-    public function personDegreeSituationRate(
+    public function personDegreeTypeInTypesRate(
         int       $idCountry,
         int       $idRegion,
+        ?int      $idPrefecture,
+        string    $baseSituation,
+        array     $otherSituations,
+        ?School   $school,
+        DateTime  $beginDate,
+        DateTime  $endDate): string {
+        $region = $this->regionRepository->find($idRegion);
+        $country = $this->countryRepository->find($idCountry);
+        $prefecture = $this->prefectureRepository->find($idPrefecture);
+        $personDegrees = null;
+
+        //test if $situation is in array of $otherSituations
+        if (!in_array($baseSituation, $otherSituations)) {
+            return sprintf('<div><table><tr><td><span class="small">(%s)</span></td><td><span></span></td></tr></table></div>',
+                "Erreur de programmation, premier paramètre doit exister dans la table du 2ème paramètre");
+        }
+
+        $situationsPersonDegrees = [];
+        foreach ($otherSituations as $situation) {
+            $situationPersonDegrees = ($school) ?
+                $this->personDegreeRepository->getByTypeAndSchoolBetweenCreatedDateAndEndDate($situation, $school, $beginDate, $endDate) :
+                $this->personDegreeRepository->getByTypeBetweenCreatedDateAndEndDate($situation, $beginDate, $endDate);
+
+            // Stockage du diplômé
+            // if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            if ($prefecture) {
+                foreach ($situationPersonDegrees as $situationPersonDegree) {
+                    if ($situationPersonDegree->getAddressCity()) {
+                        if ($situationPersonDegree->getAddressCity()->getPrefecture()) {
+                            if ($situationPersonDegree->getAddressCity()->getPrefecture()->getId() == $idPrefecture) {
+                                $situationsPersonDegrees[] = $situationPersonDegree;
+                            }
+                        }
+                    }
+                }
+                // }
+            } else {
+                if (!$region) {
+                    foreach ($situationPersonDegrees as $situationPersonDegree) {
+                        if ($situationPersonDegree->getCountry()) {
+                            if ($situationPersonDegree->getCountry()->getId() == $idCountry) {
+                                $situationsPersonDegrees[] = $situationPersonDegree;
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($situationPersonDegrees as $situationPersonDegree) {
+                        if ($situationPersonDegree->getRegion()) {
+                            if ($situationPersonDegree->getRegion()->getId() == $idRegion) {
+                                $situationsPersonDegrees[] = $situationPersonDegree;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $nbPersonDegree = 0;
+        foreach ($situationsPersonDegrees as $situationsPersonDegree) {
+            if ($situationsPersonDegree->getType() == $baseSituation)
+                $nbPersonDegree++;
+        }
+
+        $situationsPersonDegreesRate = 0;
+        if (count($situationsPersonDegrees) > 0)
+            $situationsPersonDegreesRate = $nbPersonDegree / count($situationsPersonDegrees) * 100;
+
+        return sprintf('<div><table><tr><td><span class="small">(%s/%s)</span></td><td><span> %s%%</span></td></tr></table></div>',
+            $nbPersonDegree,
+            count($situationsPersonDegrees),
+            number_format($situationsPersonDegreesRate, 2, ',', ' '));
+    }
+
+    public function personDegreePeriodEnrollmentRate(
+        int       $idCountry,
+        int       $idRegion,
+        ?int      $idPrefecture,
+        ?School    $school,
+        DateTime $beginDate,
+        DateTime $endDate): string {
+        $region = $this->regionRepository->find($idRegion);
+        $country = $this->countryRepository->find($idCountry);
+        $prefecture = $this->prefectureRepository->find($idPrefecture);
+        $personDegrees = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            if($prefecture) {
+                $personDegrees = ($school) ?
+                    $this->personDegreeRepository->getByPrefectureAndSchoolBetweenCreatedDateAndEndDate($prefecture, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+        }
+
+        if(!$personDegrees) {
+            if (!$region) {
+                $personDegrees = ($school) ?
+                    $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            } else {
+                $personDegrees = ($school) ?
+                    $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+            }
+        }
+
+        $nbTotalPersonDegree = count($this->personDegreeRepository->findAll());
+
+        $situationsPersonDegreesRate = 0;
+        if (count($personDegrees) > 0)
+            $situationsPersonDegreesRate = count($personDegrees) / $nbTotalPersonDegree * 100;
+
+        return sprintf('<div><table><tr><td><span class="small">(%s/%s)</span></td><td><span> %s%%</span></td></tr></table></div>',
+            count($personDegrees),
+            $nbTotalPersonDegree,
+            number_format($situationsPersonDegreesRate, 2, ',', ' '));
+    }
+
+    public function employementRate(
+        int       $idCountry,
+        int       $idRegion,
+        ?int      $idPrefecture,
         array     $situations,
         ?School    $school,
         DateTime $beginDate,
         DateTime $endDate): string {
         $region = $this->regionRepository->find($idRegion);
         $country = $this->countryRepository->find($idCountry);
+        $prefecture = $this->prefectureRepository->find($idPrefecture);
 
-        if (!$region) {
+        $situationsPersonDegrees = [];
+        foreach ($situations as $situation) {
             $personDegrees = ($school) ?
-                $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
-                $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
-        } else {
+                $this->personDegreeRepository->getByTypeAndSchoolBetweenCreatedDateAndEndDate($situation, $school, $beginDate, $endDate) :
+                $this->personDegreeRepository->getByTypeBetweenCreatedDateAndEndDate($situation, $beginDate, $endDate);
+
+            if ($prefecture) {
+                foreach ($personDegrees as $personDegree) {
+                    if ($personDegree->getAddressCity()) {
+                        if ($personDegree->getAddressCity()->getPrefecture()) {
+                            if ($personDegree->getAddressCity()->getPrefecture()->getId() == $idPrefecture) {
+                                $situationsPersonDegrees[] = $personDegree;
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!$region) {
+                    foreach ($personDegrees as $personDegree) {
+                        if ($personDegree->getCountry()) {
+                            if ($personDegree->getCountry()->getId() == $idCountry) {
+                                $situationsPersonDegrees[] = $personDegree;
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($personDegrees as $personDegree) {
+                        if ($personDegree->getRegion()) {
+                            if ($personDegree->getRegion()->getId() == $idRegion) {
+                                $situationsPersonDegrees[] = $personDegree;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $nbGraduateIntegrated = 0;
+        foreach ($situationsPersonDegrees as $situationsPersonDegree) {
+            if($situationsPersonDegree->getType() == "TYPE_EMPLOYED" || $situationsPersonDegree->getType() == "TYPE_CONTRACTOR") {
+                $nbGraduateIntegrated++;
+            }
+        }
+
+        $situationsPersonDegreesRate = 0;
+        if (count($situationsPersonDegrees) > 0)
+            $situationsPersonDegreesRate = $nbGraduateIntegrated / count($situationsPersonDegrees)  * 100;
+
+        return sprintf('<div><table><tr><td><span class="small">(%s/%s)</span></td><td><span> %s%%</span></td></tr></table></div>',
+            $nbGraduateIntegrated,
+            count($situationsPersonDegrees),
+            number_format($situationsPersonDegreesRate, 2, ',', ' '));
+    }
+
+    public function graduateGlobalIntegrationRate(
+        int       $idCountry,
+        int       $idRegion,
+        ?int      $idPrefecture,
+        array     $situations,
+        ?School    $school,
+        DateTime $beginDate,
+        DateTime $endDate): string {
+        $region = $this->regionRepository->find($idRegion);
+        $country = $this->countryRepository->find($idCountry);
+        $prefecture = $this->prefectureRepository->find($idPrefecture);
+
+        $situationsPersonDegrees = [];
+        foreach ($situations as $situation) {
             $personDegrees = ($school) ?
-                $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :
-                $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+                $this->personDegreeRepository->getByTypeAndSchoolBetweenCreatedDateAndEndDate($situation, $school, $beginDate, $endDate) :
+                $this->personDegreeRepository->getByTypeBetweenCreatedDateAndEndDate($situation, $beginDate, $endDate);
+
+            if ($prefecture) {
+                foreach ($personDegrees as $personDegree) {
+                    if ($personDegree->getAddressCity()) {
+                        if ($personDegree->getAddressCity()->getPrefecture()) {
+                            if ($personDegree->getAddressCity()->getPrefecture()->getId() == $idPrefecture) {
+                                $situationsPersonDegrees[] = $personDegree;
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!$region) {
+                    foreach ($personDegrees as $personDegree) {
+                        if ($personDegree->getCountry()) {
+                            if ($personDegree->getCountry()->getId() == $idCountry) {
+                                $situationsPersonDegrees[] = $personDegree;
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($personDegrees as $personDegree) {
+                        if ($personDegree->getRegion()) {
+                            if ($personDegree->getRegion()->getId() == $idRegion) {
+                                $situationsPersonDegrees[] = $personDegree;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $nbGraduateIntegrated = 0;
+        foreach ($situationsPersonDegrees as $situationsPersonDegree) {
+            if($situationsPersonDegree->getType() == "TYPE_EMPLOYED" || $situationsPersonDegree->getType() == "TYPE_CONTRACTOR") {
+                $nbGraduateIntegrated++;
+            }
+        }
+
+        $situationsPersonDegreesRate = 0;
+        if (count($situationsPersonDegrees) > 0)
+            $situationsPersonDegreesRate = $nbGraduateIntegrated / count($situationsPersonDegrees)  * 100;
+
+        return sprintf('<div><table><tr><td><span class="small">(%s/%s)</span></td><td><span> %s%%</span></td></tr></table></div>',
+            $nbGraduateIntegrated,
+            count($situationsPersonDegrees),
+            number_format($situationsPersonDegreesRate, 2, ',', ' '));
+    }
+
+    public function personDegreeSituationRate(
+        int       $idCountry,
+        int       $idRegion,
+        ?int      $idPrefecture,
+        string    $type,
+        array     $situations,
+        ?School    $school,
+        DateTime $beginDate,
+        DateTime $endDate): string {
+        $region = $this->regionRepository->find($idRegion);
+        $country = $this->countryRepository->find($idCountry);
+        $prefecture = $this->prefectureRepository->find($idPrefecture);
+        $allPersonDegrees = null;
+        $personDegrees = [];
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            if($prefecture) {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByPrefectureAndSchoolBetweenCreatedDateAndEndDate($prefecture, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+        }
+
+        if(!$allPersonDegrees) {
+            if (!$region) {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            } else {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+            }
+        }
+
+        //purge function type of students
+        if($type == 'all') {
+            $personDegrees = $allPersonDegrees;
+        } else if($type == 'graduate') {
+            foreach ($allPersonDegrees as $personDegree) {
+                if(($personDegree->getType() != 'TYPE_TRAINING') && ($personDegree->getType() != 'TYPE_DROPOUT')) {
+                    $personDegrees[] = $personDegree;
+                }
+            }
+        } else if($type == 'auto_employment_in_employment') {
+            foreach ($allPersonDegrees as $personDegree) {
+                if(($personDegree->getType() == 'TYPE_EMPLOYED') ||
+                    ($personDegree->getType() == 'TYPE_CONTRACTOR')
+                ) {
+                    $personDegrees[] = $personDegree;
+                }
+            }
+        } else if($type == 'auto_employment') {
+            foreach ($allPersonDegrees as $personDegree) {
+                if (($personDegree->getType() == 'TYPE_EMPLOYED') ||
+                    ($personDegree->getType() == 'TYPE_CONTRACTOR') ||
+                    ($personDegree->getType() == 'TYPE_SEARCH')
+                ) {
+                    $personDegrees[] = $personDegree;
+                }
+            }
         }
 
         $situationsPersonDegrees = [];
@@ -295,17 +625,41 @@ class DashboardExtension extends AbstractExtension {
                 $this->personDegreeRepository->getByTypeBetweenCreatedDateAndEndDate($situation, $beginDate, $endDate);
 
             // Stockage du diplômé
-            if (!$region) {
+            // if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            if ($prefecture) {
                 foreach ($situationPersonDegrees as $situationPersonDegree) {
-                    if ($situationPersonDegree->getCountry()->getId() == $idCountry)
-                        $situationsPersonDegrees[] = $situationPersonDegree;
+                    if ($situationPersonDegree->getAddressCity()) {
+                        if ($situationPersonDegree->getAddressCity()->getPrefecture()) {
+                            if ($situationPersonDegree->getAddressCity()->getPrefecture()->getId() == $idPrefecture) {
+                                $situationsPersonDegrees[] = $situationPersonDegree;
+                            }
+                        }
+                    }
                 }
+                // }
             } else {
-                foreach ($situationPersonDegrees as $situationPersonDegree) {
-                    //if ($situationPersonDegree->getRegion()->getId() == $idRegion)
-                    //$situationsPersonDegrees[] = $situationPersonDegree;
+                if (!$region) {
+                    foreach ($situationPersonDegrees as $situationPersonDegree) {
+                        if ($situationPersonDegree->getCountry()) {
+                            if ($situationPersonDegree->getCountry()->getId() == $idCountry) {
+                                $situationsPersonDegrees[] = $situationPersonDegree;
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($situationPersonDegrees as $situationPersonDegree) {
+                        if ($situationPersonDegree->getRegion()) {
+                            if ($situationPersonDegree->getRegion()->getId() == $idRegion) {
+                                $situationsPersonDegrees[] = $situationPersonDegree;
+                            }
+                        }
+                    }
                 }
             }
+        }
+
+        if($type == 'number') {
+            return (count($situationsPersonDegrees));
         }
 
         $situationsPersonDegreesRate = 0;
@@ -318,9 +672,179 @@ class DashboardExtension extends AbstractExtension {
             number_format($situationsPersonDegreesRate, 2, ',', ' '));
     }
 
+    public function personDegreeSurveyRate(
+        int       $idCountry,
+        int       $idRegion,
+        ?int      $idPrefecture,
+        array     $situations,
+        ?School    $school,
+        DateTime $beginDate,
+        DateTime $endDate): string {
+        $region = $this->regionRepository->find($idRegion);
+        $country = $this->countryRepository->find($idCountry);
+        $prefecture = $this->prefectureRepository->find($idPrefecture);
+        $allPersonDegrees = null;
+        $personDegrees = [];
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            if($prefecture) {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByPrefectureAndSchoolBetweenCreatedDateAndEndDate($prefecture, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+        }
+
+        if(!$allPersonDegrees) {
+            if (!$region) {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            } else {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+            }
+        }
+
+        $typePersonDegrees = [];
+        foreach ($allPersonDegrees as $personDegree) {
+            if (in_array($personDegree->getType(), $situations)) {
+                $typePersonDegrees[] = $personDegree;
+            }
+        }
+
+        // looking for surveys from persondegree
+        foreach ($typePersonDegrees as $personSurvey) {
+            if($personSurvey->getType() == "TYPE_EMPLOYED") {
+                $satisfaction = $this->satisfactionSalaryRepository->getLastSatisfaction($personSurvey);
+                if($satisfaction) {
+                    $updateDate = $satisfaction->getUpdatedDate();
+
+                    $dateStr = '01/' . $personSurvey->getLastDegreeMonth() . '/' .  $personSurvey->getLastDegreeYear();
+                    $dateDegree = (new DateTime())->createFromFormat('d/m/Y', $dateStr);
+                    $limitDate = $dateDegree->add(new DateInterval("P12M"));
+
+                    //return "TYPE_EMPLOYED " . $updateDate->format('Y-m-d')   . " | " . $limitDate->format('Y-m-d');
+                    if ($updateDate > $limitDate) {
+                        $personDegrees[] = $personSurvey;
+                    }
+                }
+            } else if($personSurvey->getType() == "TYPE_CONTRACTOR") {
+                $satisfaction = $this->satisfactionCreatorRepository->getLastSatisfaction($personSurvey);
+                if($satisfaction) {
+                    $updateDate = $satisfaction->getUpdatedDate();
+
+                    $dateStr = '01/' . $personSurvey->getLastDegreeMonth() . '/' .  $personSurvey->getLastDegreeYear();
+                    $dateDegree = (new DateTime())->createFromFormat('d/m/Y', $dateStr);
+                    $limitDate = $dateDegree->add(new DateInterval("P12M"));
+
+                    //return "TYPE_CONTRACTOR " . $updateDate->format('Y-m-d') . " | " . $limitDate->format('Y-m-d');
+                    if ($updateDate > $limitDate) {
+                        $personDegrees[] = $personSurvey;
+                    }
+                }
+            } else if(($personSurvey->getType() == "TYPE_SEARCH") || ($personSurvey->getType() == "TYPE_STUDY") || ($personSurvey->getType() == "TYPE_UNEMPLOYED")) {
+                $satisfaction = $this->satisfactionSearchRepository->getLastSatisfaction($personSurvey);
+                if($satisfaction) {
+                    $updateDate = $satisfaction->getUpdatedDate();
+
+                    $dateStr = '01/' . $personSurvey->getLastDegreeMonth() . '/' .  $personSurvey->getLastDegreeYear();
+                    $dateDegree = (new DateTime())->createFromFormat('d/m/Y', $dateStr);
+                    $limitDate = $dateDegree;
+                    if(gettype($dateDegree) == "object") {
+                        $limitDate = clone($dateDegree);
+                    }
+                    if($dateDegree)
+                        $limitDate = $dateDegree->add(new DateInterval("P12M"));
+
+                    // return "TYPE_SEARCH " . $personSurvey->getId() . " " . $updateDate->format('Y-m-d')  . " | " . $limitDate->format('Y-m-d');
+                    if ($updateDate > $limitDate) {
+                        $personDegrees[] = $personSurvey;
+                    }
+                }
+            }
+        }
+
+        $situationsPersonDegreesRate = 0;
+        if (count($personDegrees) > 0)
+            $situationsPersonDegreesRate = count($personDegrees) / count($typePersonDegrees) * 100;
+
+        return sprintf('<div><table><tr><td><span class="small">(%s/%s)</span></td><td><span> %s%%</span></td></tr></table></div>',
+            count($personDegrees),
+            count($typePersonDegrees),
+            number_format($situationsPersonDegreesRate, 2, ',', ' '));
+    }
+
+    public function personDegreeContinuingTheirStudies(
+        int $idCountry,
+        int $idRegion,
+        ?int $idPrefecture,
+        ?School $school,
+        DateTime $beginDate,
+        DateTime $endDate
+    ): string {
+        $country = $this->countryRepository->find($idCountry);
+        $region = $this->regionRepository->find($idRegion);
+        $allPersonDegrees = null;
+        $studyPersonDegrees = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            $prefecture = $this->prefectureRepository->find($idPrefecture);
+            if($prefecture) {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByPrefectureAndSchoolBetweenCreatedDateAndEndDate($prefecture,  $school, $beginDate, $endDate):
+                    $this->personDegreeRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture,  $beginDate, $endDate);
+                $studyPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByPrefectureAndTypeAndSchoolBetweenCreatedDateAndEndDate($prefecture, 'TYPE_STUDY', $school, $beginDate, $endDate):
+                    $this->personDegreeRepository->getByPrefectureAndTypeBetweenCreatedDateAndEndDate($prefecture, 'TYPE_STUDY', $beginDate, $endDate);
+            }
+        }
+
+        if(!$studyPersonDegrees) {
+            if (!$region) {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country,  $school, $beginDate, $endDate):
+                    $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country,  $beginDate, $endDate);
+                $studyPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, 'TYPE_STUDY', $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, 'TYPE_STUDY', $beginDate, $endDate);
+            } else {
+                $allPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region,  $school, $beginDate, $endDate):
+                    $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region,  $beginDate, $endDate);
+                $studyPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, 'TYPE_STUDY', $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, 'TYPE_STUDY', $beginDate, $endDate);
+            }
+        }
+        //
+        // $SatisfactionPersonDegrees = [];
+        // $situationsPersonDegrees = [];
+        //
+        // // Recherche si la poursuite d'étude est en lien avec le premier diplôme dans le questionnaire de satisfaction
+        // foreach ($StudyPersonDegrees as $StudyPersonDegree) {
+        //     $satisfaction = $this->satisfactionSearchRepository->getLastSatisfaction($StudyPersonDegree);
+        //     if ($satisfaction) {
+        //         $SatisfactionPersonDegrees[] = $StudyPersonDegree;
+        //         // if ($satisfaction->getFormationPursuitLastDegree() == $lien) {
+        //         //     $situationsPersonDegrees[] = $StudyPersonDegree;
+        //         // }
+        //     }
+        // }
+
+        $situationsPersonDegreesRate = 0;
+        if (count($allPersonDegrees) > 0)
+            $situationsPersonDegreesRate = count($studyPersonDegrees) / count($allPersonDegrees) * 100;
+
+        return sprintf('<div><table><tr><td><span class="small">(%s/%s)</span></td><td><span> %s%%</span></td></tr></table></div>',
+            count($studyPersonDegrees),
+            count($allPersonDegrees),
+            number_format($situationsPersonDegreesRate, 2, ',', ' '));
+    }
+
+
     public function personDegreeUnemployedPursuitLastDegreeRate(
         int $idCountry,
         int $idRegion,
+        ?int $idPrefecture,
         bool $lien,
         ?School $school,
         DateTime $beginDate,
@@ -328,15 +852,26 @@ class DashboardExtension extends AbstractExtension {
     ): string {
         $country = $this->countryRepository->find($idCountry);
         $region = $this->regionRepository->find($idRegion);
+        $StudyPersonDegrees = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            $prefecture = $this->prefectureRepository->find($idPrefecture);
+            if($prefecture) {
+                $StudyPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByPrefectureAndTypeAndSchoolBetweenCreatedDateAndEndDate($prefecture, 'TYPE_STUDY', $school, $beginDate, $endDate):
+                    $this->personDegreeRepository->getByPrefectureAndTypeBetweenCreatedDateAndEndDate($prefecture, 'TYPE_STUDY', $beginDate, $endDate);
+            }
+        }
 
-        if (!$region) {
-            $StudyPersonDegrees = ($school) ?
-                $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, 'TYPE_STUDY', $school, $beginDate, $endDate) :
-                $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, 'TYPE_STUDY', $beginDate, $endDate);
-        } else {
-            $StudyPersonDegrees = ($school) ?
-                $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, 'TYPE_STUDY', $school, $beginDate, $endDate) :
-                $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, 'TYPE_STUDY', $beginDate, $endDate);
+        if(!$StudyPersonDegrees) {
+            if (!$region) {
+                $StudyPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, 'TYPE_STUDY', $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, 'TYPE_STUDY', $beginDate, $endDate);
+            } else {
+                $StudyPersonDegrees = ($school) ?
+                    $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, 'TYPE_STUDY', $school, $beginDate, $endDate) :
+                    $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, 'TYPE_STUDY', $beginDate, $endDate);
+            }
         }
 
         $SatisfactionPersonDegrees = [];
@@ -463,6 +998,7 @@ class DashboardExtension extends AbstractExtension {
     public function personDegreeReasonGraph(
         int    $idCountry,
         int    $idRegion,
+        ?int $idPrefecture,
         string $objectRateName,
         array  $situations,
         string $personTypeName,
@@ -475,14 +1011,25 @@ class DashboardExtension extends AbstractExtension {
         $region = $this->regionRepository->find($idRegion);
 
         foreach ($situations as $situation) {
-            if (!$region) {
-                $situationPersonDegrees = ($school) ?
-                    $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, $situation, $school, $beginDate, $endDate) :
-                    $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, $situation, $beginDate, $endDate);
-            } else {
-                $situationPersonDegrees = ($school) ?
-                    $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, $situation, $school, $beginDate, $endDate) :
-                    $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, $situation, $beginDate, $endDate);
+            $situationPersonDegrees = null;
+            if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+                $prefecture = $this->prefectureRepository->find($idPrefecture);
+                if($prefecture) {
+                    $situationPersonDegrees = ($school) ?
+                        $this->personDegreeRepository->getByPrefectureAndTypeAndSchoolBetweenCreatedDateAndEndDate($prefecture, $situation, $school, $beginDate, $endDate):
+                        $this->personDegreeRepository->getByPrefectureAndTypeBetweenCreatedDateAndEndDate($prefecture, $situation, $beginDate, $endDate);
+                }
+            }
+            if(!$situationPersonDegrees) {
+                if (!$region) {
+                    $situationPersonDegrees = ($school) ?
+                        $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, $situation, $school, $beginDate, $endDate) :
+                        $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, $situation, $beginDate, $endDate);
+                } else {
+                    $situationPersonDegrees = ($school) ?
+                        $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, $situation, $school, $beginDate, $endDate) :
+                        $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, $situation, $beginDate, $endDate);
+                }
             }
 
             foreach ($situationPersonDegrees as $situationPersonDegree) {
@@ -549,6 +1096,7 @@ class DashboardExtension extends AbstractExtension {
     public function entityBarreGraph(
         int    $idCountry,
         int    $idRegion,
+        ?int $idPrefecture,
         string $entityName,
         string $objectBarreName,
         bool   $multiColumn,
@@ -563,9 +1111,18 @@ class DashboardExtension extends AbstractExtension {
         $region = $this->regionRepository->find($idRegion);
 
         if ($entityName == 'School') {
-            $globalEntities = ($region) ?
-                $this->schoolRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
-                $this->schoolRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            $globalEntities = null;
+            if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+                $prefecture = $this->prefectureRepository->find($idPrefecture);
+                if($prefecture) {
+                    $globalEntities = $this->schoolRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+                }
+            }
+            if(!$globalEntities) {
+                $globalEntities = ($region) ?
+                    $this->schoolRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
+                    $this->schoolRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            }
         }
 
         if ($objectBarreName == 'SectorArea') {
@@ -646,6 +1203,7 @@ class DashboardExtension extends AbstractExtension {
     public function EntityPortionCheese(
         int    $idCountry,
         int    $idRegion,
+        ?int $idPrefecture,
         string $entityName,
         string $portionEntityName,
         bool   $multiColumn,
@@ -657,35 +1215,64 @@ class DashboardExtension extends AbstractExtension {
 
         $country = $this->countryRepository->find($idCountry);
         $region = $this->regionRepository->find($idRegion);
+        $prefecture = null;
+        $globalEntities = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            $prefecture = $this->prefectureRepository->find($idPrefecture);
+        }
 
         if ($entityName == 'School') {
-            $globalEntities = ($region) ?
-                $this->schoolRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
-                $this->schoolRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            if($prefecture) {
+                $globalEntities = $this->schoolRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+            if(!$globalEntities) {
+                $globalEntities = ($region) ?
+                    $this->schoolRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
+                    $this->schoolRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            }
         } elseif ($entityName == 'Company') {
-            $globalEntities = ($region) ?
-                $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
-                $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            if($prefecture) {
+                $globalEntities = $this->companyRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate);
+            }
+            if(!$globalEntities) {
+                $globalEntities = ($region) ?
+                    $this->companyRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate) :
+                    $this->companyRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+            }
         } elseif ($entityName == 'PersonDegree') {
             if ($portionEntityName == 'Contract') {
-                if (!$region) {
+                if($prefecture) {
                     $globalEntities = ($school) ?
-                        $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, 'TYPE_EMPLOYED', $school, $beginDate, $endDate) :
-                        $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, 'TYPE_EMPLOYED', $beginDate, $endDate);
-                } else {
-                    $globalEntities = ($school) ?
-                        $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, 'TYPE_EMPLOYED', $school, $beginDate, $endDate) :
-                        $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, 'TYPE_EMPLOYED', $beginDate, $endDate);
+                        $this->personDegreeRepository->getByPrefectureAndTypeAndSchoolBetweenCreatedDateAndEndDate($prefecture, 'TYPE_EMPLOYED', $school, $beginDate, $endDate) :
+                        $this->personDegreeRepository->getByPrefectureAndTypeBetweenCreatedDateAndEndDate($prefecture, 'TYPE_EMPLOYED', $beginDate, $endDate);
+                }
+                if(!$globalEntities) {
+                    if (!$region) {
+                        $globalEntities = ($school) ?
+                            $this->personDegreeRepository->getByCountryAndTypeAndSchoolBetweenCreatedDateAndEndDate($country, 'TYPE_EMPLOYED', $school, $beginDate, $endDate) :
+                            $this->personDegreeRepository->getByCountryAndTypeBetweenCreatedDateAndEndDate($country, 'TYPE_EMPLOYED', $beginDate, $endDate);
+                    } else {
+                        $globalEntities = ($school) ?
+                            $this->personDegreeRepository->getByRegionAndTypeAndSchoolBetweenCreatedDateAndEndDate($region, 'TYPE_EMPLOYED', $school, $beginDate, $endDate) :
+                            $this->personDegreeRepository->getByRegionAndTypeBetweenCreatedDateAndEndDate($region, 'TYPE_EMPLOYED', $beginDate, $endDate);
+                    }
                 }
             } else {
-                if (!$region) {
+                if($prefecture) {
                     $globalEntities = ($school) ?
-                        $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate):
-                        $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate) ;
-                } else {
-                    $globalEntities = ($school) ?
-                        $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :
-                        $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+                        $this->personDegreeRepository->getByPrefectureAndSchoolBetweenCreatedDateAndEndDate($prefecture, $school, $beginDate, $endDate):
+                        $this->personDegreeRepository->getByPrefectureBetweenCreatedDateAndEndDate($prefecture, $beginDate, $endDate) ;
+                }
+                if(!$globalEntities) {
+                    if (!$region) {
+                        $globalEntities = ($school) ?
+                            $this->personDegreeRepository->getByCountryAndSchoolBetweenCreatedDateAndEndDate($country, $school, $beginDate, $endDate) :
+                            $this->personDegreeRepository->getByCountryBetweenCreatedDateAndEndDate($country, $beginDate, $endDate);
+                    } else {
+                        $globalEntities = ($school) ?
+                            $this->personDegreeRepository->getByRegionAndSchoolBetweenCreatedDateAndEndDate($region, $school, $beginDate, $endDate) :
+                            $this->personDegreeRepository->getByRegionBetweenCreatedDateAndEndDate($region, $beginDate, $endDate);
+                    }
                 }
             }
         }
@@ -826,7 +1413,7 @@ class DashboardExtension extends AbstractExtension {
 
         /* Creation du select des Data pour le JS (canvas) */
         /* --------------------------------------------------- */
-        $html = sprintf('<select style="visibility: hidden" id="%s%s%sData">', $entityName, $portionEntityName, $name);
+        $html = sprintf('<select hidden id="%s%s%sData">', $entityName, $portionEntityName, $name);
         for ($i = 0; $i < count($tablePortionEntities); $i++) {
             $tablePortionEntitiesName = strtoupper($tablePortionEntities[$i][0]);
             if (strpos($tablePortionEntitiesName, ' ') != false)
@@ -843,7 +1430,7 @@ class DashboardExtension extends AbstractExtension {
 
         /* Creation du select des couleurs pour le JS (canvas) */
         /* --------------------------------------------------- */
-        $html .= sprintf('<select style="visibility: hidden" id="%s%s%sColor">', $entityName, $portionEntityName, $name);
+        $html .= sprintf('<select hidden id="%s%s%sColor">', $entityName, $portionEntityName, $name);
         $j = 0;
         for ($i = 0; $i < count($tablePortionEntities); $i++) {
             if ($j >= count($tableColors))
@@ -918,28 +1505,49 @@ class DashboardExtension extends AbstractExtension {
         return $html;
     }
 
-    public function convertDateFromDuration(string $endDate, string $duration): array {
+    public function convertDateFromDuration(string $beginDate, string $endDate, string $duration): array {
         $datas = explode(' ', $duration);
-        $beginDuration = new \DateTime($endDate);
+        // $beginDuration = new \DateTime($endDate);
+
+        $beginDuration = new \DateTime($beginDate);
         $endDuration = new \DateTime($endDate);
 
         // set $endDuration to the end of the day to have the lasted changed
         $endDuration = $endDuration->modify('+23 hour')->modify('+59 minute');
 
-        if (count($datas) == 2) {
-            if ($datas[1] == 'mois') {
-                $beginDuration = $beginDuration->sub(new DateInterval('P' . $datas[0] . 'M'));
-            } elseif (strncmp($datas[1], 'an', 2) == 0) {
-                $beginDuration = $beginDuration->sub(new DateInterval('P' . $datas[0] . 'Y'));
-            }
-        }
+
+        // if (count($datas) == 2) {
+        //     if ($datas[1] == 'mois') {
+        //         $beginDuration = $beginDuration->sub(new DateInterval('P' . $datas[0] . 'M'));
+        //     } elseif (strncmp($datas[1], 'an', 2) == 0) {
+        //         $beginDuration = $beginDuration->sub(new DateInterval('P' . $datas[0] . 'Y'));
+        //     }
+        // }
+
+        // var_dump($beginDuration, $endDuration);die();
         return [$beginDuration, $endDuration];
+    }
+
+    /**
+     * @param string $dateBegin
+     * @param string $dateEnd
+     * @return array
+     */
+    public function diffDateYmd (string $dateBegin, string $dateEnd): array {
+        $WNbJours = (strtotime($dateEnd) - strtotime($dateBegin)) / 86400;
+        $nbTotalMonths = round($WNbJours/30.43);
+        $nbYear = floor($nbTotalMonths/12);
+        $nbMonth = floor($nbTotalMonths - ($nbYear*12));
+        $nbDay = round($WNbJours - ((($nbYear*12) + $nbMonth) * 30.43));
+
+        return [$nbYear, $nbMonth, $nbDay, $WNbJours, $nbTotalMonths];
     }
 
     public function nbActorEvolution(
         string   $type,
         int      $idCountry,
         int      $idRegion,
+        ?int     $idPrefecture,
         string   $actor,
         string   $title,
         string   $duration,
@@ -947,22 +1555,34 @@ class DashboardExtension extends AbstractExtension {
         \DateTime $beginDate,
         \DateTime $endDate): string
     {
+        // var_dump($type, $idCountry, $idRegion, $actor, $title, $duration, $school, $beginDate, $endDate); die();
         $country = $this->countryRepository->find($idCountry);
         $region = $this->regionRepository->find($idRegion);
+        $prefecture = null;
+        if($_ENV['PREFECTURE_BETWEEN_REGION_CITY'] == 'true') {
+            $prefecture = $this->prefectureRepository->find($idPrefecture);
+        }
 
         $dates = [];
         $legend = [];
 
         if( $actor == "PersonDegree") {
             $personDegrees = [];
-            if ($region) {
+            if($prefecture) {
                 $personDegrees = ($school) ?
-                    $this->personDegreeRepository->getByRegionAndSchool($region, $school) :
-                    $this->personDegreeRepository->findByRegion($region);
-            } else if ($country) {
-                $personDegrees = ($school) ?
-                    $this->personDegreeRepository->getByCountryAndSchool($country, $school) :
-                    $this->personDegreeRepository->findByCountry($country);
+                    $this->personDegreeRepository->getByPrefectureAndSchool($prefecture, $school) :
+                    $this->personDegreeRepository->getByPrefecture($prefecture);
+            }
+            if(!$personDegrees) {
+                if ($region) {
+                    $personDegrees = ($school) ?
+                        $this->personDegreeRepository->getByRegionAndSchool($region, $school) :
+                        $this->personDegreeRepository->findByRegion($region);
+                } else if ($country) {
+                    $personDegrees = ($school) ?
+                        $this->personDegreeRepository->getByCountryAndSchool($country, $school) :
+                        $this->personDegreeRepository->findByCountry($country);
+                }
             }
 
             // selection des dernières satisfactions de chaque apres la date $beginDuration
@@ -1054,40 +1674,75 @@ class DashboardExtension extends AbstractExtension {
         $intervalDuration = 0; //en jours
         $nbXInterval = 0; // nombre de données sur l'axe des X
 
-        // Creation des tables pour l'affichage graphique du graphe
-        if ($duration == '3 mois') { // Affichage 12 semaines (84 jours)
-            $suffixLegend = 'S';  //semaine
-            $intervalDuration = 7; //1 semaine
-            $nbXInterval = 12;
-        } elseif ($duration == '6 mois') {
-            $suffixLegend = 'BS'; //Bi-semaine
-            $intervalDuration = 14; //2 semaines
-            $nbXInterval = 13;
-        } elseif ($duration == '1 an') {
-            $suffixLegend = 'M'; //mois
-            $intervalDuration = 30; //1 mois
-            $nbXInterval = 12;
-        } elseif ($duration == '2 ans') {
-            $suffixLegend = 'BM'; //mois
-            $intervalDuration = 60; //1 mois
-            $nbXInterval = 13;
+        //Creation des tables pour l'affichage graphique du graphe
+        // if ($duration == '3 mois') { // Affichage 12 semaines (84 jours)
+        //     $suffixLegend = 'S';  //semaine
+        //     $intervalDuration = 7; //1 semaine
+        //     $nbXInterval = 12;
+        // } elseif ($duration == '6 mois') {
+        //     $suffixLegend = 'BS'; //Bi-semaine
+        //     $intervalDuration = 14; //2 semaines
+        //     $nbXInterval = 13;
+        // } elseif ($duration == '1 an') {
+        //     $suffixLegend = 'M'; //mois
+        //     $intervalDuration = 30; //1 mois
+        //     $nbXInterval = 12;
+        // } elseif ($duration == '2 ans') {
+        //     $suffixLegend = 'BM';   //mois
+        //     $intervalDuration = 60; //2 mois
+        //     $nbXInterval = 13;
+        // }
+
+        //calcul des duration et de la légende
+        $diffDate = $this->diffDateYmd($beginDate->format('Y-m-d'), $endDate->format('Y-m-d'));
+        $nbYear = $diffDate[0];
+        $nbMonth = $diffDate[1];
+        $nbDay = $diffDate[2];
+        $nbTotalDay = $diffDate[3];
+        $nbTotalMonths = $diffDate[4];
+        $nbXInterval = 12;
+        if($nbYear < 1) {
+            if($nbMonth <= 3) {
+                $suffixLegend = 'S';  //semaine
+                $intervalDuration = 7; //1 semaine
+            } else if($nbMonth <= 6){
+                $suffixLegend = 'BS'; //Bi-semaine
+                $intervalDuration = 14; //2 semaines
+            } else {
+                $suffixLegend = 'M'; //mois
+                $intervalDuration = 30; //1 mois
+            }
+        } else if($nbYear <= 12) {
+            $suffixLegend = strval(round($nbTotalMonths/12)) . 'M'; //mois
+            $intervalDuration = round($nbTotalDay/12);
+        } else {
+            $suffixLegend = strval(round($nbYear/12)) . 'A'; //année
+            $intervalDuration = round($nbTotalDay/12);
         }
+        // ajoute 1 interval si $nbXInterval X $intervalDuration < $endDate
+        if($intervalDuration*$nbXInterval < $nbTotalDay) {
+            $nbXInterval++;
+        }
+
 
         $resultats = [];
         for ($i = 1; $i < ($nbXInterval + 1); $i++) {
             $resultats[] = 0;
             $legend[] = $suffixLegend . $i;
         }
-
         foreach ($dates as $date) {
             $startDate = clone $beginDate;
             $stopDate = (clone $beginDate)->add(new \DateInterval('P' . $intervalDuration . 'D'));
+
             for ($i = 0; $i < $nbXInterval; $i++) {
+
                 if (($date >= $startDate) && ($date <= $stopDate)) {
                     $resultats[$i]++;
                 }
+
                 $startDate = $startDate->add(new \DateInterval('P' . $intervalDuration . 'D'));
                 $stopDate = $stopDate->add(new \DateInterval('P' . $intervalDuration . 'D'));
+
             }
         }
 
@@ -1100,12 +1755,11 @@ class DashboardExtension extends AbstractExtension {
         $html .= sprintf('<div class="value">%s</div>', $nb_actors);
 
         // Ecriture du select
-        $html .= sprintf('<select id="%s%sDataChart" style="visibility: hidden" >', $type, $actor);
+        $html .= sprintf('<select id="%s%sDataChart" hidden >', $type, $actor);
         for ($i = 0; $i < $nbXInterval; $i++) {
             $html .= sprintf('<option value="%s">%s</option>', $legend[$i], $resultats[$i]);
         }
         $html .= sprintf('</select>');
-
 
         return $html;
     }

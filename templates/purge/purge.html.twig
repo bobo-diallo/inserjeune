@@ -4,6 +4,7 @@
 {% elseif is_granted('ROLE_DIPLOME') == true %} {% set base = 'base_degree.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% else %} {% set base = 'base.html.twig' %}
 {% endif %}
 
@@ -46,9 +47,9 @@
                            <option value="">{{ 'menu.select' | trans }}</option>
                            {% for country in countries %}
                               {% if country.id == idSelectedCountry %}
-                                 <option selected value="{{ country.id }}">{{ country.name }}</option>
+                                 <option selected value="{{ country.id }}">{{ country.name | trans }}</option>
                               {% else %}
-                                 <option value="{{ country.id }}">{{ country.name }}</option>
+                                 <option value="{{ country.id }}">{{ country.name | trans }}</option>
                               {% endif %}
                            {% endfor %}
                         </select>
@@ -133,7 +134,7 @@
             {# Zone Offres pustulées #}
             <div class="element-box" id="applyElement">
                <fieldset>
-                  <legend><span>{{ 'menu.the_job_applieded' | trans}}</span></legend>
+                  <legend><span>{{ 'menu.the_job_applied' | trans}}</span></legend>
                   <div class="row align-items-end">
                      <div class="form-group col-sm-8 execute">
                         <input type="text" id="applyCleanDate" class="datepicker2 form-control" placeholder="{{ 'clean.purge_date' | trans }}" value="">
@@ -236,6 +237,7 @@
             {% endif %}
          {% endfor %}
       </select>
+      <p id="struct_province_country_city" hidden>{{ struct_province_country_city }}</p>
       <p hidden id="userRole">roleUser</p>
    </div>
 {% endblock %}
@@ -745,8 +747,14 @@
          $('.localizationCheck').each(function () {
             if ($(this).is(':checked')) {
                //calcule les coodonnées avec API Google Maps
-               let address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
-                   $('#p_country' + $(this).attr('id')).text();
+               let address = "";
+               if($('#struct_province_country_city').text() != "true") {
+                  address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
+                      $('#p_country' + $(this).attr('id')).text();
+               } else {
+                  address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
+                      $('#p_region' + $(this).attr('id')).text();
+               }
                let latInputID = '#p_latitude' + $(this).attr('id');
                let lngInputID = '#p_longitude' + $(this).attr('id');
 
