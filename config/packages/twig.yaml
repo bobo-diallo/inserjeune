@@ -4,6 +4,8 @@ twig:
         locales: '%app.supported_locales%'
         dnsServer: '%dnsServer%'
         concat_local_address: '%env(CONCAT_LOCAL_ADDRESS)%'
+        struct_province_country_city: '%env(STRUCT_PROVINCE_COUNTRY_CITY)%'
+        prefecture_between_region_city: '%env(PREFECTURE_BETWEEN_REGION_CITY)%'
 
 when@test:
     twig:

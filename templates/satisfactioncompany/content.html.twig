@@ -18,8 +18,9 @@
      let idPrefix = '#appbundle_satisfactioncompany_';
      let allActivities = getAllActivities('#allActivities');
 
-     let translations = [];
+     // let translations = [];
      getTranslation().then (function (translation) {
+        translations = translation;
         // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity
         initActivities(allActivities, idPrefix, 'workerSectorArea', 'workerActivities', true, function () {
            initChampsAutre(idPrefix, "workerActivities", "otherWorkerJob", ".hide_flex_otherWorkerJob", translations["js.other_job"])

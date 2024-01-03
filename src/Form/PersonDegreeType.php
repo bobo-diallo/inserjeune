@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Company;
 use App\Entity\Contract;
 use App\Entity\Country;
+use App\Entity\Prefecture;
+use App\Entity\Region;
 use App\Entity\Degree;
 use App\Entity\PersonDegree;
 use App\Entity\School;
@@ -138,6 +140,32 @@ class PersonDegreeType extends AbstractType {
             ->add('diaspora', CheckboxType::class, [
                 'attr' => ['class' => 'form-control', 'label' => 'Diaspora ?'],
                 'required' => false
+            ])
+            ->add('residenceRegion', EntityType::class, [
+                'required' => false,
+                'class' => Region::class,
+                'placeholder' => 'graduate.select_your_residence_country',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'error.unauthorized_or_unknown_country',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
+            ])
+            ->add('prefecture', EntityType::class, [
+                'required' => false,
+                'class' => Prefecture::class,
+                'placeholder' => 'menu.prefecture',
+                'attr' => [
+                    'class' => 'form-control',
+                    'data-error' => 'error.unauthorized_or_unknown_prefecture',
+                ],
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('b')
+                        ->orderBy('b.name', 'ASC');
+                }
             ])
             ->add('residenceCountry', EntityType::class, [
                 'required' => false,

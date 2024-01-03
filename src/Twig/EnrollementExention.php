@@ -51,44 +51,56 @@ class EnrollementExention extends AbstractExtension {
 
 			$options = "";
 			foreach (['un homme', 'une femme'] as $genre) {
-				if (strcmp($genre, $personDegree->getSex()) == 0) {
-					$options .= "<option selected>" . $this->translator->trans($genre) . "</option>";
-				} else {
-					$options .= "<option>" . $this->translator->trans($genre) . "</option>";
-				}
+                if (strcmp($genre, $personDegree->getSex()) == 0) {
+                    $options .= '<option selected value="' . $genre . '">' . $this->translator->trans($genre) . '</option>';
+                } else {
+                    $options .= '<option value="' . $genre . '">' . $this->translator->trans($genre) . '</option>';
+                }
 			}
-			$html .= sprintf('    <td class="tdselect"><p id="p_selectSex%d">%s</p><select required class="sex" style="display:none" id="selectSex%d" value="" placeholder="Sélectionnez">%s</select></td>',
-				$rowNumber, $this->translator->trans($personDegree->getSex()), $rowNumber, $options);
+            $sexName = $personDegree->getSex() ?  $this->translator->trans($personDegree->getSex()) : "";
+            $regionName = $personDegree->getRegion() ?  $this->translator->trans($personDegree->getRegion()->getName()) : "";
+            $regionId = $personDegree->getRegion() ?  $personDegree->getRegion()->getId() : "";
+            $cityName = $personDegree->getAddressCity() ?  $this->translator->trans($personDegree->getAddressCity()->getName()) : "";
+            $cityId = $personDegree->getAddressCity() ?  $personDegree->getAddressCity()->getId() : "";
+            $degreeName = $personDegree->getDegree() ?  $this->translator->trans($personDegree->getDegree()->getName()) : "";
+            $degreeId = $personDegree->getDegree() ?  $personDegree->getDegree()->getId() : "";
+            $sectorName = $personDegree->getSectorArea() ?  $this->translator->trans($personDegree->getSectorArea()->getName()) : "";
+            $sectorId = $personDegree->getSectorArea() ?  $personDegree->getSectorArea()->getId() : "";
+            $activityName = $personDegree->getActivity() ?  $this->translator->trans($personDegree->getActivity()->getName()) : "";
+            $activityId = $personDegree->getActivity() ?  $personDegree->getActivity()->getId() : "";
 
-			$html .= sprintf('    <td class="tdselect"><p id="p_selectRegion%d">%s</p><select required class="selectRegion" style="display:none" id="selectRegion%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $personDegree->getRegion()->getName(), $rowNumber, $personDegree->getRegion()->getId(), $personDegree->getRegion()->getName());
+            $html .= sprintf('    <td class="tdselect"><p id="p_selectSex%d">%s</p><select required class="sex" style="display:none" id="selectSex%d" value="" placeholder="Sélectionnez">%s</select></td>',
+                $rowNumber, $sexName, $rowNumber, $options);
 
-			$html .= sprintf('    <td class="tdselect"><p id="p_selectAddressCity%d">%s</p><select required class="selectCity" style="display:none" id="selectAddressCity%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $personDegree->getAddressCity()->getName(), $rowNumber, $personDegree->getAddressCity()->getId(), $personDegree->getAddressCity()->getName());
+            $html .= sprintf('    <td class="tdselect"><p id="p_selectRegion%d">%s</p><select required class="selectRegion" style="display:none" id="selectRegion%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
+                $rowNumber, $regionName, $rowNumber, $regionId, $regionName);
 
-			$html .= sprintf('    <td class="tdinput"><input required id="phoneMobile1%d" style="display:none" value="%s" placeholder="Mobile"><p id="p_phoneMobile1%d">%s</p></td>',
-				$rowNumber, $personDegree->getPhoneMobile1(), $rowNumber, $personDegree->getPhoneMobile1());
+            $html .= sprintf('    <td class="tdselect"><p id="p_selectAddressCity%d">%s</p><select required class="selectCity" style="display:none" id="selectAddressCity%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
+                $rowNumber, $cityName, $rowNumber, $cityId, $cityName);
 
-			$html .= sprintf('    <td class="tdinput"><input id="phoneMobile2%d" style="display:none" value="%s" placeholder="Mobile Parent"><p id="p_phoneMobile2%d">%s</p></td>',
-				$rowNumber, $personDegree->getPhoneMobile2(), $rowNumber, $personDegree->getPhoneMobile2());
+            $html .= sprintf('    <td class="tdinput"><input required id="phoneMobile1%d" style="display:none" value="%s" placeholder="Mobile"><p id="p_phoneMobile1%d">%s</p></td>',
+                $rowNumber, $personDegree->getPhoneMobile1(), $rowNumber, $personDegree->getPhoneMobile1());
 
-			$html .= sprintf('    <td class="tdinput"><input id="email%d" style="display:none" value="%s"><p id="p_email%d">%s</p></td>',
-				$rowNumber, $personDegree->getEmail(), $rowNumber, $personDegree->getEmail());
+            $html .= sprintf('    <td class="tdinput"><input id="phoneMobile2%d" style="display:none" value="%s" placeholder="Mobile Parent"><p id="p_phoneMobile2%d">%s</p></td>',
+                $rowNumber, $personDegree->getPhoneMobile2(), $rowNumber, $personDegree->getPhoneMobile2());
 
-			$html .= sprintf('    <td class="tdselect"><p id="p_selectDegree%d">%s</p><select required class="selectDegree" style="display:none" id="selectDegree%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $personDegree->getDegree()->getName(), $rowNumber, $personDegree->getDegree()->getId(), $personDegree->getDegree()->getName());
+            $html .= sprintf('    <td class="tdinput"><input id="email%d" style="display:none" value="%s"><p id="p_email%d">%s</p></td>',
+                $rowNumber, $personDegree->getEmail(), $rowNumber, $personDegree->getEmail());
 
-			$html .= sprintf('    <td class="tdselect"><p id="p_selectSectorArea%d">%s</p><select required class="selectSectorArea" style="display:none" id="selectSectorArea%d" class="selectSectorArea" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $personDegree->getSectorArea()->getName(), $rowNumber, $personDegree->getSectorArea()->getId(), $personDegree->getSectorArea()->getName());
+            $html .= sprintf('    <td class="tdselect"><p id="p_selectDegree%d">%s</p><select required class="selectDegree" style="display:none" id="selectDegree%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
+                $rowNumber, $degreeName, $rowNumber, $degreeId, $degreeName);
 
-			$html .= sprintf('    <td class="tdselect"><p id="p_selectActivity%d">%s</p><select required class="selectActivity" style="display:none" id="selectActivity%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $personDegree->getActivity()->getName(), $rowNumber, $personDegree->getActivity()->getId(), $personDegree->getActivity()->getName());
+            $html .= sprintf('    <td class="tdselect"><p id="p_selectSectorArea%d">%s</p><select required class="selectSectorArea" style="display:none" id="selectSectorArea%d" class="selectSectorArea" value="" ><option selected value="%d">%s</optionselected></select></td>',
+                $rowNumber, $sectorName, $rowNumber, $sectorId, $sectorName);
 
-			$html .= sprintf('    <td class="tdinput"><p id="p_password%d">%s</p></td>', $rowNumber, $personDegree->getTemporaryPasswd());
+            $html .= sprintf('    <td class="tdselect"><p id="p_selectActivity%d">%s</p><select required class="selectActivity" style="display:none" id="selectActivity%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
+                $rowNumber, $activityName, $rowNumber, $activityId, $activityName);
 
-			$html .= sprintf('</tr>');
+            $html .= sprintf('    <td class="tdinput"><p id="p_password%d">%s</p></td>', $rowNumber, $personDegree->getTemporaryPasswd());
 
-			return $html;
+            $html .= sprintf('</tr>');
+
+            return $html;
 		}
 
 		return $html;
@@ -108,14 +120,23 @@ class EnrollementExention extends AbstractExtension {
 			$html .= sprintf('        <button style="display: none"  id="cancel%s" onclick="displayButton(\'cancel\', %s)"><img src="%scancel_16.png" alt="cancel"></button>', $rowNumber, $rowNumber, $assetLocationIcon);
 			$html .= sprintf('    </td>');
 
+            $regionName = $company->getRegion()? $this->translator->trans($company->getRegion()->getName()): "";
+            $regionId = $company->getRegion()? $company->getRegion()->getId(): "";
+            $cityName = $company->getCity()? $this->translator->trans($company->getCity()->getName()): "";
+            $cityId = $company->getCity()? $company->getCity()->getId(): "";
+            $sectorAreaName = $company->getSectorArea()? $this->translator->trans($company->getSectorArea()->getName()): "";
+            $sectorAreaId = $company->getSectorArea()? $company->getSectorArea()->getId(): "";
+            $LegalStatusName = $company->getLegalStatus()? $this->translator->trans($company->getLegalStatus()->getName()): "";
+            $LegalStatusId = $company->getLegalStatus()? $this->translator->trans($company->getLegalStatus()->getName()): "";
+
 			$html .= sprintf('    <td class="tdinput"><input required id="name%d" style="display:none" value="%s" placeholder="nom"><p id="p_name%d">%s</p></td>',
 				$rowNumber, $company->getName(), $rowNumber, $company->getName());
 
 			$html .= sprintf('    <td class="tdselect"><p id="p_selectRegion%d">%s</p><select required class="selectRegion" style="display:none" id="selectRegion%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $company->getRegion()->getName(), $rowNumber, $company->getRegion()->getId(), $company->getRegion()->getName());
+				$rowNumber, $regionName, $rowNumber, $regionId, $regionName);
 
 			$html .= sprintf('    <td class="tdselect"><p id="p_selectCity%d">%s</p><select required class="selectCity" style="display:none" id="selectCity%d" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $company->getCity()->getName(), $rowNumber, $company->getCity()->getId(), $company->getCity()->getName());
+				$rowNumber, $cityName, $rowNumber, $cityId, $cityName);
 
 			$html .= sprintf('    <td class="tdinput"><input required id="phoneStandard%d" style="display:none" value="%s" placeholder="téléphone"><p id="p_phoneStandard%d">%s</p></td>',
 				$rowNumber, $company->getPhoneStandard(), $rowNumber, $company->getPhoneStandard());
@@ -124,10 +145,10 @@ class EnrollementExention extends AbstractExtension {
 				$rowNumber, $company->getEmail(), $rowNumber, $company->getEmail());
 
 			$html .= sprintf('    <td class="tdselect"><p id="p_selectSectorArea%d">%s</p><select required class="selectSectorArea" style="display:none" id="selectSectorArea%d" class="selectSectorArea" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $company->getSectorArea()->getName(), $rowNumber, $company->getSectorArea()->getId(), $company->getSectorArea()->getName());
+				$rowNumber, $sectorAreaName, $rowNumber, $sectorAreaId, $sectorAreaName);
 
 			$html .= sprintf('    <td class="tdselect"><p id="p_selectLegalStatus%d">%s</p><select required class="selectLegalStatus" style="display:none" id="selectLegalStatus%d" class="selectLegalStatus" value="" ><option selected value="%d">%s</optionselected></select></td>',
-				$rowNumber, $company->getLegalStatus()->getName(), $rowNumber, $company->getLegalStatus()->getId(), $company->getLegalStatus()->getName());
+				$rowNumber, $LegalStatusName, $rowNumber, $LegalStatusId, $LegalStatusName);
 
 			$html .= sprintf('    <td class="tdinput"><p id="p_password%d">%s</p></td>', $rowNumber, $company->getTemporaryPasswd());
 

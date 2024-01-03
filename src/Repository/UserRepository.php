@@ -142,19 +142,29 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 				u.email,
 				u.phone,
 				country.name as countryName,
-				GROUP_CONCAT(r.role SEPARATOR \', \') as roles
+				region.name as regionName,
+				GROUP_CONCAT(r.role SEPARATOR \', \') as roles,
+				GROUP_CONCAT(r.pseudo SEPARATOR \', \') as pseudos,
+				GROUP_CONCAT(rg.name SEPARATOR \', \') as adminRegions,
+				GROUP_CONCAT(c.name SEPARATOR \', \') as adminCities
 			')
 			->from('user', 'u')
 			->leftJoin('u', 'country', 'country', 'u.country_id = country.id')
+			->leftJoin('u', 'region', 'region', 'u.region_id = region.id')
 			->leftJoin('u', 'user_role', 'user_role', 'u.id = user_role.user_id')
 			->leftJoin('user_role', 'role', 'r', 'r.id = user_role.role_id')
+            ->leftJoin('u', 'user_admin_regions', 'user_admin_regions', 'u.id = user_admin_regions.user_id')
+            ->leftJoin('user_admin_regions', 'region', 'rg', 'rg.id = user_admin_regions.region_id')
+            ->leftJoin('u', 'user_admin_cities', 'user_admin_cities', 'u.id = user_admin_cities.user_id')
+            ->leftJoin('user_admin_cities', 'city', 'c', 'c.id = user_admin_cities.city_id')
 			->groupBy(
 				'u.id,
 				u.id,
 				u.username,
 				u.email,
 				u.phone,
-				country.name'
+				country.name,
+				region.name'
 			)
 			->executeQuery()
 			->fetchAllAssociative();
@@ -166,7 +176,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 				$user['email'],
 				$user['phone'],
 				$user['countryName'],
+				$user['regionName'],
 				$user['roles'],
+				$user['pseudos'],
+				$user['adminRegions'],
+				$user['adminCities'],
 			);
 		}, $users);
 	}

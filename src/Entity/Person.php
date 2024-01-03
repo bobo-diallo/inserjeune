@@ -170,12 +170,12 @@ trait Person {
 		return $this;
 	}
 
-	/**
-	 * @return City|null
-	 */
-	public function getAddressCity(): ?City {
-		return $this->addressCity;
-	}
+    /**
+     * @return City|null
+     */
+    public function getAddressCity(): ?City {
+        return $this->addressCity;
+    }
 
 	public function setAddressCity(?City $addressCity): self {
 		$this->addressCity = $addressCity;

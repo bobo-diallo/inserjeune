@@ -55,7 +55,7 @@ class FileUploader {
 		return $fileName;
 	}
 
-	public function removeOldFile(string $oldFilename, ?string $targetDirectory = null): void {
+	public function removeOldFile(?string $oldFilename, ?string $targetDirectory = null): void {
 		if (!$targetDirectory) {
 			$targetDirectory = $this->getTargetDirectory();
 		}
@@ -63,7 +63,9 @@ class FileUploader {
 		$file_path = $targetDirectory . DIRECTORY_SEPARATOR . $oldFilename;
 
 		if (file_exists($file_path)) {
-			unlink($file_path);
+            if(!is_dir($file_path)) {
+                unlink($file_path);
+            }
 		}
 	}
 }

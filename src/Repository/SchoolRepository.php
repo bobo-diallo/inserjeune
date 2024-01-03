@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Prefecture;
 use App\Entity\School;
 use App\Entity\SectorArea;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -86,6 +87,30 @@ class SchoolRepository extends ServiceEntityRepository {
             ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
             ->setParameters([
                 'region' => $region,
+                'beginDate'=> $beginDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    /**
+     * @param Prefecture $prefecture
+     * @param \DateTime $beginDate
+     * @param \DateTime $endDate
+     * @return School[]
+     */
+    public function getByPrefectureBetweenCreatedDateAndEndDate(
+        Prefecture $prefecture,
+        \DateTime $beginDate,
+        \DateTime $endDate): array {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.city', 'c')
+            ->where('c.prefecture = :prefecture ')
+            ->andWhere ('s.createdDate BETWEEN :beginDate AND :endDate')
+            ->setParameters([
+                'prefecture' => $prefecture,
                 'beginDate'=> $beginDate,
                 'endDate' => $endDate
             ])

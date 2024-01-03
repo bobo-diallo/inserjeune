@@ -20,15 +20,19 @@ final class PersonDegreeReadOnly {
 	private ?string $activityName;
 	private ?int $degreeId;
 	private ?string $degreeName;
+    private ?int $cityId;
+    private ?string $cityName;
 	private ?int $countryId;
 	private ?string $countryName;
+
+    private ?int $prefectureId;
+    private ?string $prefectureName;
 	private ?int $schoolId;
 	private ?string $schoolName;
 	private ?string $schoolCityName;
 	private int $satisfactionSearchesCount = 0;
 	private int $satisfactionSalariesCount = 0;
 	private int $satisfactionCreators_count = 0;
-
 	public function __construct(
 		int $id,
 		?string $firstname,
@@ -47,10 +51,14 @@ final class PersonDegreeReadOnly {
 		?string $activityName,
 		?int $degreeId,
 		?string $degreeName,
+        ?int $cityId,
+        ?string $cityName,
 		?int $countryId,
 		?string $countryName,
 		?int $schoolId,
 		?string $schoolName,
+        ?int $prefectureId,
+        ?string $prefectureName,
 		?string $schoolCityName,
 		?int $satisfactionSearchesCount,
 		?int $satisfactionSalariesCount,
@@ -72,12 +80,16 @@ final class PersonDegreeReadOnly {
 		$this->activityName = $activityName;
 		$this->degreeId = $degreeId;
 		$this->degreeName = $degreeName;
+        $this->cityId = $cityId;
+        $this->cityName = $cityName;
 		$this->countryId = $countryId;
 		$this->countryName = $countryName;
 		$this->schoolId = $schoolId;
 		$this->schoolName = $schoolName;
 		$this->schoolCityName = $schoolCityName;
 		$this->birthDate = $birthDate;
+        $this->prefectureId = $prefectureId;
+        $this->prefectureName = $prefectureName;
 		$this->satisfactionSearchesCount = $satisfactionSearchesCount;
 		$this->satisfactionSalariesCount = $satisfactionSalariesCount;
 		$this->satisfactionCreators_count = $satisfactionCreators_count;
@@ -147,6 +159,13 @@ final class PersonDegreeReadOnly {
 		return $this->degreeName;
 	}
 
+    public function getCityId(): ?int {
+        return $this->cityId;
+    }
+
+    public function getCityName(): ?string {
+        return $this->cityName;
+    }
 	public function getCountryId(): ?int {
 		return $this->countryId;
 	}
@@ -163,6 +182,15 @@ final class PersonDegreeReadOnly {
 		return $this->schoolName;
 	}
 
+
+    public function getPrefectureId(): ?int {
+        return $this->prefectureId;
+    }
+
+    public function getPrefectureName(): ?string {
+        return $this->prefectureName;
+    }
+
 	public function getSchoolCityName(): ?string {
 		return $this->schoolCityName;
 	}
@@ -176,8 +204,11 @@ final class PersonDegreeReadOnly {
 	public function country(): ?string {
 		return $this->countryName;
 	}
+    public function city(): ?string {
+        return $this->cityName;
+    }
 
-	public function degree(): ?string {
+    public function degree(): ?string {
 		return $this->degreeName;
 	}
 

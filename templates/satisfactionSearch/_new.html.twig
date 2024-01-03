@@ -43,7 +43,8 @@
   <div class="row hide_flex_registered_training">
     <div class="col-sm-6 form-group">
       <label for=""> {{ 'survey.degree_sought' | trans }} * </label>
-      {{ form_widget(form.degree) }}
+      {{ create_translated_select(form.degree) }}
+{#      {{ form_widget(form.degree) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.degree) }}</div>
     </div>
     <div class="col-sm-6 form-group hide_block_other_degree_name">
@@ -57,7 +58,8 @@
       <div class="row">
         <div class="col-sm-12 form-group">
           <label for=""> {{ 'menu.activity_area' | trans }} ? </label>
-          {{ form_widget(form.sectorArea) }}
+          {{ create_translated_select(form.sectorArea) }}
+{#          {{ form_widget(form.sectorArea) }}#}
           <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
         </div>
       </div>
@@ -106,7 +108,8 @@
     </div>
     <div class="col-sm-4 form-group hide_block_sectorAreaVolunteer">
       <label for=""> {{ 'survey.if_yes_in_what_area' | trans }} ? </label>
-      {{ form_widget(form.sectorAreaVolunteer) }}
+      {{ create_translated_select(form.sectorAreaVolunteer) }}
+{#      {{ form_widget(form.sectorAreaVolunteer) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorAreaVolunteer) }}</div>
     </div>
     <div class="col-sm-4 form-group hide_block_sectorAreaVolunteer">
@@ -149,7 +152,8 @@
     </div>
     <div class="col-sm-4 form-group hide_block_jobTime">
       <label for=""> {{ 'survey.if_so_for_how_long' | trans }}</label>
-      {{ form_widget(form.jobTime) }}
+      {{ create_translated_select(form.jobTime) }}
+{#      {{ form_widget(form.jobTime) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobTime) }}</div>
     </div>
   </div>
@@ -157,7 +161,8 @@
   <div class="row">
     <div class="col-sm-12 form-group">
       <label for="">{{ 'survey.why_in_your_opinion_have_you_not_found_returned_to_a_job_several_possible_choices' | trans({'%tag_br%': '<br/>'}) | raw }}</label>
-      {{ form_widget(form.jobNotFoundReasons) }}
+      {{ create_translated_select(form.jobNotFoundReasons) }}
+{#      {{ form_widget(form.jobNotFoundReasons) }}#}
       <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.jobNotFoundReasons) }}</div>
     </div>
   </div>

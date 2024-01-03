@@ -9,7 +9,7 @@
         <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
+    <form id="form-login" action="{{ path('login') }}" method="post">
         <div class="form-group">
             <label for="">{{ 'menu.phone' | trans }}</label>
             <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="{{'menu.phone_number' | trans}}" required="required" />
@@ -36,4 +36,9 @@
             </div>
         </div>
     </form>
+    <div class="footer_login">
+        <span>{{ "footer.dev_by" | trans }}</span>
+        <p><a target="_blank" href="https://ifef.francophonie.org/"><img style="width: 80px; height: auto" id="logo_ifef" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}"></a></p>
+        <p><a target="_blank" href="https://www.francophonie.org/"><img style="width: 80px; height: auto"  id="logo_oif" src="{{ asset('build/images/pinsuprem/logo_oif.jpg') }}"></a></p>
+    </div>
 {% endblock fos_user_content %}

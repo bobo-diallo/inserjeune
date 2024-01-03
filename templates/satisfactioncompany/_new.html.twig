@@ -38,7 +38,8 @@
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_workers' | trans }} ?</label>
-        {{ form_widget(form.workerSectorArea) }}
+        {{ create_translated_select(form.workerSectorArea) }}
+{#        {{ form_widget(form.workerSectorArea) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.workerSectorArea) }}</div>
       </div>
     </div>
@@ -52,7 +53,8 @@
   </div>
   <div class="col-sm-6 form-group">
     <label for="">{{ 'survey.what_are_the_occupations_areas_of_specialization_of_your_workers_several_possible_choices' | trans }}</label>
-    {{ form_widget(form.workerActivities) }}
+    {{ create_translated_select(form.workerActivities) }}
+{#    {{ form_widget(form.workerActivities) }}#}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.workerActivities) }}</div>
   </div>
 </div>
@@ -62,7 +64,8 @@
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="">{{ 'survey.what_is_the_sector_of_activity_of_your_technicians' | trans }} ?</label>
-        {{ form_widget(form.technicianSectorArea) }}
+        {{ create_translated_select(form.technicianSectorArea) }}
+{#        {{ form_widget(form.technicianSectorArea) }}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.technicianSectorArea) }}</div>
       </div>
     </div>
@@ -76,7 +79,8 @@
   </div>
   <div class="col-sm-6 form-group">
     <label for="">{{ 'survey.what_are_the_professions_fields_of_specialization_of_your_technicians_several_possible_choices' | trans }}</label>
-    {{ form_widget(form.technicianActivities) }}
+    {{ create_translated_select(form.technicianActivities) }}
+{#    {{ form_widget(form.technicianActivities) }}#}
     <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.technicianActivities) }}</div>
   </div>
 </div>

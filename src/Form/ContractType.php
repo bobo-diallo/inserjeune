@@ -17,7 +17,7 @@ class ContractType extends AbstractType {
 		$builder
 			->add('name', TextType::class, [
 				'attr' => ['class' => 'form-control',
-                    'data-error' => 'Veuillez renseigner le libellé',
+                    'data-error' => 'error.fill_in_wording',
                     'placeholder' => 'menu.label'],
 				'required' => true
 			])

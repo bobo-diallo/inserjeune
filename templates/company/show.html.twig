@@ -8,7 +8,7 @@
             <img src="{{ asset('build/images/icon/company.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
             <h6 class="element-header">
                  {{ 'company.company_details' | trans }}
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')  or is_granted('ROLE_DIRECTEUR') %}
                     <a class="btn btn-sm btn-primary float-right" href="{{ path('company_index') }}">
                         <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
@@ -47,17 +47,17 @@
                     <div class="row">
                         <div class="col-sm-6 form-group">
                             <label for=""> {{ 'menu.country' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.country }}">
+                            <input class="form-control" disabled value="{{ company.country | trans }}">
                         </div>
                         <div class="col-sm-6 form-group">
                             <label for=""> {{ 'menu.region' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.region }}">
+                            <input class="form-control" disabled value="{{ company.region | trans }}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 form-group">
                             <label for=""> {{ 'city.city_nearest' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.city }}">
+                            <input class="form-control" disabled value="{{ company.city | trans }}">
                         </div>
                         <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
                             <label for=""> {{ 'city.other_city' | trans }} </label>
@@ -65,18 +65,25 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2 form-group">
-                            <label for=""> N° </label>
-                            <input class="form-control" disabled value="{{ company.addressNumber }}">
-                        </div>
-                        <div class="col-sm-5 form-group">
-                            <label for=""> {{ 'menu.street' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.addressRoad }}">
-                        </div>
-                        <div class="col-sm-5 form-group">
-                            <label for=""> {{ 'menu.location' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.addressLocality }}">
-                        </div>
+                        {%  if concat_local_address == "false" %}
+                            <div class="col-sm-2 form-group">
+                                <label for=""> N° </label>
+                                <input class="form-control" disabled value="{{ company.addressNumber }}">
+                            </div>
+                            <div class="col-sm-5 form-group">
+                                <label for=""> {{ 'menu.street' | trans }} </label>
+                                <input class="form-control" disabled value="{{ company.addressRoad }}">
+                            </div>
+                            <div class="col-sm-5 form-group">
+                                <label for=""> {{ 'menu.location' | trans }} </label>
+                                <input class="form-control" disabled value="{{ company.addressLocality }}">
+                            </div>
+                        {% else %}
+                            <div class="col-sm-12 form-group">
+                                <label for=""> {{ 'menu.location' | trans }} </label>
+                                <input class="form-control" disabled value="{{ company.addressLocality }}">
+                            </div>
+                        {% endif %}
                     </div>
                 </fieldset>
                 <fieldset>
@@ -84,11 +91,11 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label for=""> {{ 'menu.activity_area' | trans }}</label>
-                            <input class="form-control" disabled value="{{ company.sectorArea }}">
+                            <input class="form-control" disabled value="{{ company.sectorArea | trans }}">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for=""> {{ 'menu.legals_status' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.legalStatus }}">
+                            <input class="form-control" disabled value="{{ company.legalStatus | trans}}">
                         </div>
                     </div>
                 </fieldset>

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Entity\User;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PersonDegreeService {
 	private TokenStorageInterface $tokenStorage;
@@ -24,17 +25,20 @@ class PersonDegreeService {
 	const TYPE_CONTRACTOR = 'TYPE_CONTRACTOR';
 	const TYPE_STUDY = 'TYPE_STUDY';
 	const TYPE_SEARCH = 'TYPE_SEARCH';
+	const TYPE_DROPOUT = 'TYPE_DROPOUT';
 	const TYPE_COMPANY = 'TYPE_COMPANY';
 	private PersonDegreeRepository $personDegreeRepository;
 	private RequestStack $requestStack;
 	private RouterInterface $router;
+    private TranslatorInterface $translator;
 
 	public function __construct(
 		TokenStorageInterface $tokenStorage,
 		EntityManagerInterface $manager,
 		PersonDegreeRepository $personDegreeRepository,
 		RequestStack $requestStack,
-		RouterInterface $router
+		RouterInterface $router,
+        TranslatorInterface $translator
 	) {
 		$this->tokenStorage = $tokenStorage;
 		$this->manager = $manager;
@@ -45,10 +49,12 @@ class PersonDegreeService {
 			self::TYPE_SEARCH => "En recherche d'emploi",
 			self::TYPE_STUDY => "En poursuite d'études",
 			self::TYPE_UNEMPLOYED => "Sans emploi",
+			self::TYPE_DROPOUT => "Décrochage",
 		];
 		$this->personDegreeRepository = $personDegreeRepository;
 		$this->requestStack = $requestStack;
 		$this->router = $router;
+        $this->translator = $translator;
 	}
 
 	public function getPersonDegree(): ?PersonDegree {
@@ -80,7 +86,7 @@ class PersonDegreeService {
 		$personDegree = $this->getPersonDegree();
 
 		if (!$personDegree) {
-			$this->requestStack->getSession()->getFlashBag()->set('warning', 'Veuillez completer votre profil');
+			$this->requestStack->getSession()->getFlashBag()->set('warning', $this->translator->trans('flashbag.please_complete_your_profile'));
 
 			return new RedirectResponse($this->router->generate('front_persondegree_new'));
 		} else {

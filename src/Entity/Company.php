@@ -554,4 +554,21 @@ class Company {
 		$this->unlocked = $unlocked;
 	}
 
+
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->city?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return Company
+     */
+    public function setPrefecture(?Prefecture $prefecture): Company
+    {
+        return $this;
+    }
+
 }

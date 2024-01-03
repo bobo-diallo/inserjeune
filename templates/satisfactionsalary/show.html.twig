@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-sm-6 form-group">
                         <label for=""> {{ 'job.type_of_employment_contract' | trans }} </label>
-                        <input class="form-control" disabled value="{{ satisfactionSalary.contract }}">
+                        <input class="form-control" disabled value="{{ satisfactionSalary.contract  | trans}}">
                     </div>
                     <div class="col-sm-6 form-group hide_block_other_contract">
                         <label for=""> {{ 'menu.other_type' | trans }}</label>
@@ -66,7 +66,7 @@
                         <input class="form-control" disabled value="{{ satisfactionSalary.monthlySalary }}">
                     </div>
                     <div class="col-sm-4 form-group">
-                        <label for=""> {{ 'graduate.your_pay_per_month' | trans }} </label>
+                        <label for=""> {{ 'graduate.your_pay_per_day' | trans }} </label>
                         <input class="form-control" disabled value="{{ satisfactionSalary.daylySalary }}">
                     </div>
                     <div class="col-sm-4 form-group">
@@ -103,11 +103,11 @@
                 <div class="row">
                     <div class="col-sm-4 form-group">
                         <label for=""> {{ 'menu.field_of_activity' | trans }}</label>
-                        <input class="form-control" disabled value="{{ satisfactionSalary.sectorArea }}">
+                        <input class="form-control" disabled value="{{ satisfactionSalary.sectorArea | trans }}">
                     </div>
                     <div class="col-sm-4 form-group">
                         <label for=""> {{ 'menu.job' | trans }} / {{ 'menu.branch' | trans }}</label>
-                        <input class="form-control" disabled value="{{ satisfactionSalary.activity }}">
+                        <input class="form-control" disabled value="{{ satisfactionSalary.activity | trans }}">
                     </div>
                     <div class="col-sm-4 form-group hide_flex_otherActivityName">
                         <label for=""> {{ 'menu.other_trade' | trans }}</label>
@@ -130,7 +130,7 @@
                       {% if satisfactionSalary.trainingSatisfied==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
                         <label class="col-sm-12 col-form-label"> {{ 'survey.are_you_satisfied_with_your_training' | trans }} ?</label>
                         <div class="col-sm-12">
-                            <input type="checkbox" class="form-control" disabled {{ checked }}>
+                            <input hidden type="checkbox" class="form-control" disabled {{ checked }}>
                             <div class="slider round">
                                 <span class="non">{{ 'menu.no' | trans }}</span>
                                 <span class="oui">{{ 'menu.yes' | trans }}</span>

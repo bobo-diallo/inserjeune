@@ -11,8 +11,8 @@
             <div class="element-wrapper">
                 <h6 class="element-header">
                     {{ 'menu.detail' | trans }}
-                    <a class="btn btn-sm btn-primary float-right" href="{{ path('front_school_edit') }}">
-                        <i class="fa fa-arrow-left"></i> {{ 'menu.edit' | trans }}
+                    <a class="btn btn-sm btn-primary float-right" href="{{ path('school_index') }}">
+                        <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
                     </a>
                 </h6>
                 <div class="element-box form-show">
@@ -51,30 +51,41 @@
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <label for=""> {{ 'menu.country' | trans }} : </label>
-                                <input class="form-control" disabled value="{{ school.country }}">
+                                <input class="form-control" disabled value="{{ school.country | trans }}">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for=""> {{ 'menu.region' | trans }} : </label>
-                                <input class="form-control" disabled value="{{ school.region }}">
+                                <input class="form-control" disabled value="{{ school.region | trans  }}">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for=""> {{ 'menu.city' | trans }}: </label>
-                                <input class="form-control" disabled value="{{ school.city }}">
+                                {% if school.city %}
+                                    <input class="form-control" disabled value="{{ school.city.name | trans  }}">
+                                {% else %}
+                                    <input class="form-control" disabled value="">
+                                {% endif %}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-sm-4">
-                                <label for=""> {{ 'menu.number' | trans }}: </label>
-                                <input class="form-control" disabled value="{{ school.addressNumber }}">
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for=""> {{ 'menu.street' | trans }} : </label>
-                                <input class="form-control" disabled value="{{ school.addressRoad }}">
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for=""> {{ 'menu.location' | trans }} : </label>
-                                <input class="form-control" disabled value="{{ school.addressLocality }}">
-                            </div>
+                            {%  if concat_local_address == "false" %}
+                                <div class="form-group col-sm-4">
+                                    <label for=""> {{ 'menu.number' | trans }}: </label>
+                                    <input class="form-control" disabled value="{{ school.addressNumber }}">
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for=""> {{ 'menu.street' | trans }} : </label>
+                                    <input class="form-control" disabled value="{{ school.addressRoad }}">
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for=""> {{ 'menu.location' | trans }} : </label>
+                                    <input class="form-control" disabled value="{{ school.addressLocality }}">
+                                </div>
+                            {% else %}
+                                <div class="form-group col-sm-12">
+                                    <label for=""> {{ 'menu.location' | trans }} : </label>
+                                    <input class="form-control" disabled value="{{ school.addressLocality }}">
+                                </div>
+                            {% endif %}
                         </div>
                     </fieldset>
                     <fieldset>
@@ -98,8 +109,8 @@
                         <legend><span>{{ 'school.proposed_certificates_degrees' | trans }} </span></legend>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                {#<label for="">  plusieurs choix possibles (+ touche ctrl) </label>#}
-                                <textarea class="form-control" disabled style="height: 120px">{{ school.degrees | join('\n')}}</textarea>
+{#                                <textarea class="form-control" disabled style="height: 120px">{{ school.degrees | join('\n')}}</textarea>#}
+                                <textarea class="form-control" disabled style="height: 120px">{{ school.degrees | trans_table_format }}</textarea>
                             </div>
                             <div class="hide_flex_otherDegree col-sm-6">
                                 <div class="form-group col-sm-12" style="padding: 0">
@@ -117,7 +128,7 @@
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
                                         <label for=""> {{ 'menu.activity_area' | trans }} 1</label>
-                                        <input class="form-control" disabled value="{{ school.sectorArea1 }}">
+                                        <input class="form-control" disabled value="{{ school.sectorArea1 | trans }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity1">
                                         <label for=""> {{'activity.other_sector_profession' | trans }}</label>
@@ -127,7 +138,11 @@
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for=""> {{'menu.faculty' | trans }}s </label>
-                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities1 | join('\n')}}</textarea>
+                                {%  set act = ""  %}
+                                {% for activity in school.activities1 %}
+                                    {%  set act = act ~ '\n' ~ activity  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 120px">{{ act }}</textarea>
                             </div>
                         </div>
                       {# Secteur d'activité 2 #}
@@ -136,21 +151,21 @@
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
                                         <label for=""> {{ 'menu.activity_area' | trans }} 2</label>
-                                        <input class="form-control" disabled value="{{ school.sectorArea2 }}">
+                                        <input class="form-control" disabled value="{{ school.sectorArea2 | trans }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity2">
                                         <label for=""> {{'activity.other_sector_profession' | trans }}</label>
-                                        <input class="form-control" disabled value="{{ school.otherActivity2 }}">
+                                        <input class="form-control" disabled value="{{ school.otherActivity2 | trans }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
-                                <div class="row" style="margin:0">
-                                    <div class="col-sm-12 form-group without-margin without-padding">
-                                        <label for=""> {{'menu.faculty' | trans }}s</label>
-                                        <textarea class="form-control" disabled style="height: 120px">{{ school.activities2 | join('\n')}}</textarea>
-                                    </div>
-                                </div>
+                                <label for=""> {{'menu.faculty' | trans }}s</label>
+                                {%  set act = ""  %}
+                                {% for activity in school.activities2 %}
+                                    {%  set act = act ~ '\n' ~ activity  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 120px">{{ act }}</textarea>
                             </div>
                         </div>
                       {# Secteur d'activité 3 #}
@@ -159,17 +174,21 @@
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
                                         <label for=""> {{ 'menu.activity_area' | trans }} 3</label>
-                                        <input class="form-control" disabled value="{{ school.sectorArea3 }}">
+                                        <input class="form-control" disabled value="{{ school.sectorArea3 | trans }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity3">
                                         <label for=""> {{'activity.other_sector_profession' | trans }}</label>
-                                        <input class="form-control" disabled value="{{ school.otherActivity3 }}">
+                                        <input class="form-control" disabled value="{{ school.otherActivity3 | trans }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for=""> {{'menu.faculty' | trans }}s</label>
-                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities3 | join('\n')}}</textarea>
+                                {%  set act = ""  %}
+                                {% for activity in school.activities3 %}
+                                    {%  set act = act ~ '\n' ~ activity  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 120px">{{ act }}</textarea>
                             </div>
                         </div>
                       {# Secteur d'activité 4 #}
@@ -178,17 +197,21 @@
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
                                         <label for=""> {{ 'menu.activity_area' | trans }} 4</label>
-                                        <input class="form-control" disabled value="{{ school.sectorArea4 }}">
+                                        <input class="form-control" disabled value="{{ school.sectorArea4 | trans  }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity4">
                                         <label for=""> {{'activity.other_sector_profession' | trans }}</label>
-                                        <input class="form-control" disabled value="{{ school.otherActivity4 }}">
+                                        <input class="form-control" disabled value="{{ school.otherActivity4 | trans }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for=""> {{'menu.faculty' | trans }}s</label>
-                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities4 | join('\n')}}</textarea>
+                                {%  set act = ""  %}
+                                {% for activity in school.activities4 %}
+                                    {%  set act = act ~ '\n' ~ activity  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 120px">{{ act }}</textarea>
                             </div>
                         </div>
                       {# Secteur d'activité 5 #}
@@ -197,17 +220,21 @@
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
                                         <label for=""> {{ 'menu.activity_area' | trans }} 5</label>
-                                        <input class="form-control" disabled value="{{ school.sectorArea5 }}">
+                                        <input class="form-control" disabled value="{{ school.sectorArea5 | trans }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity5">
                                         <label for=""> {{'activity.other_sector_profession' | trans }}</label>
-                                        <input class="form-control" disabled value="{{ school.otherActivity5 }}">
+                                        <input class="form-control" disabled value="{{ school.otherActivity5 | trans }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for=""> {{'menu.faculty' | trans }}s</label>
-                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities5 | join('\n')}}</textarea>
+                                {%  set act = ""  %}
+                                {% for activity in school.activities5 %}
+                                    {%  set act = act ~ '\n' ~ activity  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 120px">{{ act }}</textarea>
                             </div>
                         </div>
                       {# Secteur d'activité 6 #}
@@ -216,17 +243,21 @@
                                 <div class="row" style="margin:0">
                                     <div class="col-sm-12 form-group without-margin without-padding">
                                         <label for=""> {{ 'menu.activity_area' | trans }} 6</label>
-                                        <input class="form-control" disabled value="{{ school.sectorArea6 }}">
+                                        <input class="form-control" disabled value="{{ school.sectorArea6 | trans }}">
                                     </div>
                                     <div class="col-sm-12 form-group without-padding hide_flex_otherActivity6">
                                         <label for=""> {{'activity.other_sector_profession' | trans }}</label>
-                                        <input class="form-control" disabled value="{{ school.otherActivity6 }}">
+                                        <input class="form-control" disabled value="{{ school.otherActivity6 | trans }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for=""> {{'menu.faculty' | trans }}s</label>
-                                <textarea class="form-control" disabled style="height: 120px">{{ school.activities6 | join('\n')}}</textarea>
+                                {%  set act = ""  %}
+                                {% for activity in school.activities6 %}
+                                    {%  set act = act ~ '\n' ~ activity  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 120px">{{ act }}</textarea>
                             </div>
                         </div>
                     </fieldset>

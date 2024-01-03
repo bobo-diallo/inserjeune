@@ -37,16 +37,23 @@ global.makeSelected = function makeSelected(name) {
 
 //affiche / cache les div concernées si checkbox sur false
 global.showHiddenDivByCheckBox = function showHiddenDivByCheckBox(idCheckBox, classDiv) {
-   if($('#idCheckBox').is('checked'))
-      alert(translations["js.checkbox_is_checked"]);
-   else
-      alert(translations["js.checkbox_is_not_checked"]);
+   if($('#idCheckBox').is('checked')) {
+      getTranslation().then(function (translations) {
+         alert(translations["js.checkbox_is_checked"]);
+      });
+   } else {
+      getTranslation().then(function (translations) {
+         alert(translations["js.checkbox_is_not_checked"]);
+      });
+   }
 }
 
 // Permet de supprimer un element
 global.deleteElement = function deleteElement(route) {
-   if (confirm(translations['js.sure_to_delete_item']))
-      window.location.href = route;
+   getTranslation().then (function (translations) {
+      if (confirm(translations['js.sure_to_delete_item']))
+         window.location.href = route;
+   });
 }
 
 /**
@@ -245,7 +252,7 @@ global.clearBlockFlex = function clearBlockFlex(idPrefix, checkbox, mode, select
  * @param optionAutre
  */
 global.initChampsAutre = function initChampsAutre (idPrefix, select, other, classHideOther, optionAutre) {
-   console.log("1 |" + idPrefix + "|" +  select + "|" +  other + "|" +  classHideOther + "|" +  optionAutre + "|")
+   //console.log("1 |" + idPrefix + "|" +  select + "|" +  other + "|" +  classHideOther + "|" +  optionAutre + "|")
    let idSelect = idPrefix + select;
    let idOther = idPrefix + other;
 
@@ -413,16 +420,42 @@ global.geocodeAddressLocation = async function geocodeAddressLocation(address, l
  * @returns {string}
  */
 global.createMapsAddress = function createMapsAddress(number, road, locality, city, region, country) {
+
+   // console.log("test1 " , number, road, locality, city, region, country )
    let address = "";
-   if (country) {
-      if (number) {address += number + ",";}
-      if (road) {address += road + ",";}
-      if (locality) {address += locality + ",";}
-      // if (city && (locality != city)) {address += city + ",";}
-      if (!locality && city) {address += city + ",";}
-      if (!city && region) {address += region + ",";}
-      if (region!=country) {address += country;}
+   if(number == "undefined") {number=''};
+   if(road == "undefined") {road=''};
+   if(locality == "undefined") {locality=''};
+   if(city == "undefined") {city=''};
+   if(region == "undefined") {region=''};
+   if(country == "undefined") {country=''};
+
+   if (number) {
+      if(!number.toLowerCase().replaceAll('é','e').startsWith('select'))
+         address += number + ",";
    }
+   if (road) {
+      if(!road.toLowerCase().replaceAll('é','e').startsWith('select'))
+         address += road + ",";
+   }
+   if (locality) {
+      if(!locality.toLowerCase().replaceAll('é','e').startsWith('select'))
+         address += locality + ",";
+   }
+
+   if((city) && (!address.includes(city))) {
+      if(!city.toLowerCase().replaceAll('é','e').startsWith('select'))
+         address += city + ",";
+   }
+   if((region) && (!address.includes(region))) {
+      if(!region.toLowerCase().replaceAll('é','e').startsWith('select'))
+         address += region + ",";
+   }
+   if((country) && (!address.includes(country))) {
+      if(!country.toLowerCase().replaceAll('é','e').startsWith('select'))
+         address += country + ",";
+   }
+   // console.log("test2 ->" , address)
    return address;
 }
 
@@ -467,7 +500,10 @@ global.initActivities = function initActivities(allActivites, idPrefix, sectorAr
    // On ajoute toutes les activités correspondantes au sectorArea
    $.each(allActivites, function () {
       if (this.sectorArea == idValueSectorArea) {
-         $(idActivities).append(new Option(this.name, this.id));
+         let activity = this.name;
+         if(translations[this.name])
+            activity = translations[this.name]
+         $(idActivities).append(new Option(activity, this.id));
       }
    })
 
@@ -521,7 +557,11 @@ global.listenChangeSectorArea = function listenChangeSectorArea(allactivities, i
       // on rajoute les activités
       $.each(allactivities, function () {
          if (this.sectorArea == idValueSectorArea) {
-            $(idActivities).append(new Option(this.name, this.id)); // Ajout activité
+            // $(idActivities).append(new Option(this.name, this.id)); // Ajout activité
+            let activity = this.name;
+            if(translations[this.name])
+               activity = translations[this.name]
+            $(idActivities).append(new Option(activity, this.id)); // Ajout activité
          }
       })
 
@@ -587,7 +627,7 @@ global.listenChangeCountryRegion = function listenChangeCountryRegion(idCountry,
       data[$field.attr('name')] = $field.val()
       // On soumet les données
       $.post($form.attr('action'), data).then(function (data) {
-         // On récupère le nouvmeeau <select>
+         // On récupère le nouveau <select>
          let $input = $(data).find(target)
          // On remplace notre <select> actuel
          $(target).replaceWith($input)
@@ -600,12 +640,11 @@ global.listenChangeCountryRegion = function listenChangeCountryRegion(idCountry,
 /**
  *  Permet de limiter le choix du pays des acteurs (company,personDegree et school)
  *  et de simuler un évênement sur le pays pour que la région se mette à jour avec le addCity
+ *  Ajout idSelectedRegion pour DBTA dans v325
  */
-global.countryEvent = function countryEvent(idSelectedCountry, type) {
+global.countryEvent = async function countryEvent(idSelectedCountry, type) {
    let idCountry = $(idSelectedCountry).val();
    let nameCountry = $(idSelectedCountry).text().replace(/\n/,'').replace(/ /g, '');
-
-   // console.log(idCountry + '| |' + nameCountry);
 
    let idAppbundleTypeCountry = "#appbundle_" + type + "_country";
    let idAppbundleTypeRegion = "#appbundle_" + type + "_region";
@@ -635,6 +674,212 @@ global.countryEvent = function countryEvent(idSelectedCountry, type) {
       // console.log(idAppbundleTypeCountry + " option[ value='"+ idCountry +"']")
    }
 }
+
+/**
+ *  Adptation DBTA pour la Structure Provine/Pays
+ *  Permet de limiter le choix de la region des acteurs (company,personDegree et school)
+ *  et de simuler un évênement sur le pays pour que la région se mette à jour avec le addCity
+ *  Ajout idSelectedRegion pour DBTA dans v235
+ */
+global.regionEvent = function regionEvent(idSelectedCountry, idSelectedRegion, type) {
+   let idCountry = $(idSelectedCountry).val();
+   let nameCountry = $(idSelectedCountry).text().replace(/\n/,'').replace(/ /g, '');
+   let idRegion = $(idSelectedRegion).val();
+   let nameRegion = $(idSelectedRegion).text().replace(/\n/,'').replace(/ /g, '');
+
+   let idAppbundleTypeCountry = "#appbundle_" + type + "_country";
+   let idAppbundleTypeRegion = "#appbundle_" + type + "_region";
+   let idAppbundleTypeCity = "#appbundle_" + type + "_city";
+   if(type=="persondegree") {
+      idAppbundleTypeCity = "#appbundle_" + type + "_addressCity";
+   }
+
+   $(idAppbundleTypeCountry + ' option').remove();
+   // $(idAppbundleTypeCountry).append("<option value=''></option>");
+   let nameCountryTrans = nameCountry;
+   if(translations[nameCountry]) nameCountryTrans = translations[nameCountry] ;
+   let nameRegionTrans = nameRegion;
+   if(translations[nameRegion]) nameRegionTrans = translations[nameRegion] ;
+   $(idAppbundleTypeCountry).append("<option value='"+ idCountry +"'>" + nameCountryTrans + "</option>");
+
+   $(idAppbundleTypeRegion + ' option').remove();
+   $(idAppbundleTypeRegion).append("<option value=''> </option>");
+   $(idAppbundleTypeRegion).append("<option value='"+ idRegion +"'>" + nameRegionTrans + "</option>");
+
+   if ($(idAppbundleTypeCity + ' option:selected').val() === "") {
+      if ($(idAppbundleTypeRegion + ' option:selected').val() == "") {
+
+         $(idAppbundleTypeRegion).change(function () {
+            let cityName = "city";
+            if(type=="persondegree") {
+               cityName = "addressCity";
+            }
+            listenChangeCountryRegion(idAppbundleTypeCountry, idAppbundleTypeRegion, 'country', 'region', cityName);
+            $(idAppbundleTypeRegion).css("appearance", "none")
+            $(idAppbundleTypeRegion).css("-webkit-appearance", "none")
+            $(idAppbundleTypeRegion).css("-moz-appearance", "none")
+         });
+         $(idAppbundleTypeRegion).val(parseInt(idRegion));
+         $(idAppbundleTypeRegion).trigger('change');
+         $(idAppbundleTypeRegion).change();
+
+        // Fin de simul
+      }
+   } else {
+      $(idAppbundleTypeRegion + " option[ value='"+ idRegion +"']").attr("selected", "selected");
+      // console.log(idAppbundleTypeCountry + " option[ value='"+ idCountry +"']")
+   }
+}
+
+global.listenChangeRegionPrefecture = function listenChangeRegionPrefecture(idCountry, idRegion, idPrefecture, idCity) {
+   let baseUrl = getUrlCurrentLocale();
+   //event on country to search regions and cities
+   $(idCountry).on('change', function () {
+      let countryId = $(idCountry + " option:selected" ).val();
+      changeCountry(idRegion, idPrefecture, idCity, countryId);
+   })
+
+   //event on region to search prefectures and cities
+   $(idRegion).on('change', function () {
+      let regionId = $(this).val();
+      changeRegion (idPrefecture, idCity, regionId, -1)
+   })
+
+   //event on prefecture to search cities
+   $(idPrefecture).on('change', function () {
+      let prefectureId = $(this).val();
+      changePrefecture (idCity, prefectureId, -1)
+   })
+
+   //event on city to update region and prefecture
+   $(idCity).on('change', function () {
+      changeCity(idRegion, idPrefecture, idCity, $(this).val());
+   })
+}
+
+global.createSortedOptions = function(idSelect, inputObject, cityId) {
+   // console.log("-->" , Object.keys(result["regions"]).length)
+   let counter = 0;
+   while (Object.keys(inputObject).length > 0) {
+      counter++;
+      $.each(inputObject, function (key, value) {
+         let minus = true;
+         $.each(inputObject, function (key2, value2) {
+            if (key != key2) {
+               // console.log(value, value2)
+               if (value2 < value) {
+                  minus = false;
+               }
+            }
+         })
+         if (minus == true) {
+            if (value.length) {
+               let newOption = new Option(value, key);
+               $(idSelect).append(newOption);
+            }
+            delete inputObject[key];
+         }
+      })
+      // console.log("counter " + counter + " length=" + Object.keys(inputObject).length)
+      if (counter > 1500) {
+         alert("Erreur système dans le triage des options")
+         break;
+      }
+   }
+
+   if (cityId) {
+      $(idSelect + ' option[value=' + cityId + ']').prop('selected', true);
+   }
+}
+
+
+global.changeCountry = function (idRegion, idPrefecture, idCity, countryId) {
+   // console.log(idRegion, idPrefecture, idCity, countryId)
+   let baseUrl = getUrlCurrentLocale();
+   let cityId = $(idCity + " option:selected").val();
+   removeOptions(idRegion);
+   removeOptions(idPrefecture);
+   removeOptions(idCity);
+   // let countryId = $(this).val();
+   let url = baseUrl + "getRegionsByCountry";
+
+   // console.log("-->",url)
+   let data = {"countryId" : countryId}
+
+   //transform objects to arrays
+   $.get(url, data).done(function (result) {
+      // console.log(result)
+      createSortedOptions(idRegion, result["regions"], null);
+      createSortedOptions(idCity, result["cities"], null);
+      $(idCity +" option[id=' " + cityId + "']").attr("selected", "selected");
+   });
+}
+
+global.changeRegion = function (idPrefecture, idCity, regionId, cityId) {
+   // alert("region")
+   //console.log(idPrefecture, idCity, regionId, cityId);
+   let baseUrl = getUrlCurrentLocale();
+   removeOptions(idPrefecture);
+   removeOptions(idCity);
+   let url = baseUrl + "getPrefecturesByRegion";
+
+   // console.log(url)
+   let data = {"regionId" : regionId}
+
+   $.get(url, data).done(function (result) {
+      createSortedOptions(idPrefecture, result["prefectures"], cityId);
+      createSortedOptions(idCity, result["cities"], cityId);
+      $(idCity +" option[id=' " + cityId + "']").attr("selected", "selected");
+   })
+}
+
+global.changePrefecture = function (idCity, prefectureId, cityId) {
+   // alert("prefecture")
+   let baseUrl = getUrlCurrentLocale();
+   let url = baseUrl + "getCitiesByPrefecture";
+   removeOptions(idCity);
+
+   // console.log(url)
+   let data = {"prefectureId" : prefectureId}
+   $.get(url, data).done(function (result) {
+      createSortedOptions(idCity, result["cities"], cityId);
+      $(idCity +" option[id=' " + cityId + "']").attr("selected", "selected");
+   })
+}
+
+global.changeCity = function (idRegion, idPrefecture, idCity, cityId) {
+   // alert("city")
+   let baseUrl = getUrlCurrentLocale();
+   let url = baseUrl + "getRegionAndPrefectureByCity";
+
+   let data = {"cityId" : cityId }
+   $.get(url, data).done(function (result) {
+      // console.log(result);
+
+      //update region select
+      $(idRegion + " option").each( async function () {
+         if(result['regionId'] == $(this).val()) {
+            // console.log("region " + result['regionId'] , "->" , $(this).val());
+            $(this).attr("selected", "selected");
+            let regionId = $(this).val();
+            await changeRegion (idPrefecture, idCity, regionId, cityId);
+
+            //update prefecture select
+            setTimeout(function () {
+               $(idPrefecture + " option").each( function () {
+                  // console.log("pref " , result['prefectureId'] , "->" , $(this).val());
+                  if (result['prefectureId'] == $(this).val()) {
+                     $(this).attr("selected", "selected");
+                     let prefectureId = $(this).val();
+                     changePrefecture (idCity, prefectureId, cityId)
+                  }
+               })
+            }, 500);
+         }
+      })
+   })
+}
+
 
 // Event pou la recupération de la liste des diplômes et secteurs d'activités d'une école
 // function listenChangeSchoolInputs(idSchoolHTML, idSectorArea, idSelectInput) {
@@ -692,6 +937,19 @@ global.changeSchoolInputs = function changeSchoolInputs(idSchoolHTML, idDegree, 
 
          // on sauvegarde les activitées de l'établissement
          $data = data[2]
+         // console.log("TEST222->", $data)
+         $(idSelectActivity + '  option').each(function () {
+            let optionExist = false
+            let optionSelectActivity = $(this);
+            $.each(data[2], function (key, value) {
+               if (optionSelectActivity.val() == value.id) {
+                  optionExist = true;
+               }
+            })
+            if(optionExist == false) {
+               optionSelectActivity.prop("hidden", true);
+            }
+         })
       })
    }
    $(document).on('change', idSectorArea, function test() {
@@ -761,9 +1019,8 @@ global.changeSchoolActivities = function changeSchoolActivities(idSchoolHTML,idS
    }
 
    else {
-      // alert("toto");
       $.each(data, function (key, value) {
-         console.log(key + '->' +value);
+         // console.log(key + '->' +value);
       })
    }
 }
@@ -1044,11 +1301,20 @@ global.getCurrentLocale = function () {
    return (locale);
 }
 
+global.getUrlCurrentLocale = function () {
+   let locale = '/'+ getCurrentLocale() + '/';
+   let baseUrl = window.location.toString();
+   let indexLocale = baseUrl.indexOf(locale) + 4;
+   baseUrl = baseUrl.substring(0,indexLocale);
+
+   return baseUrl;
+}
+
 // Récupération des données de traduction des fichiers messages.pays.xlf
 global.getTranslation  = async function () {
 
    let locale = '/'+ getCurrentLocale() + '/';
-   console.log(locale);
+   // console.log(locale);
    let url = window.location.toString();
    let indexLocale = url.indexOf(locale) + 4;
    url = url.substring(0,indexLocale) + "get_js_translation";
@@ -1058,7 +1324,7 @@ global.getTranslation  = async function () {
 
    // appel ajax en get
    await $.get(url).done(function (res) {
-      // console.log(res);
+      console.log(res);
       result =  res;
    })
 
@@ -1090,5 +1356,14 @@ global.checkInactivity = function() {
 
    })
 }
+
+global.removeOptions = function (idSelect) {
+   $(idSelect + " option").each(function () {
+      if ($(this).val()) {
+         $(this).remove();
+      }
+   })
+}
+
 
 startTimeout();

@@ -7,6 +7,7 @@ use App\Form\CurrencyType;
 use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,7 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/currency')]
-#[IsGranted('ROLE_ADMIN')]
+// #[IsGranted('ROLE_ADMIN')]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_DIRECTEUR')")]
 class CurrencyController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CurrencyRepository $currencyRepository;
@@ -38,7 +41,7 @@ class CurrencyController extends AbstractController {
 			'currencies' => $this->currencyRepository->findAll()
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/new', name: 'currency_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$currency = new Currency();
@@ -57,14 +60,14 @@ class CurrencyController extends AbstractController {
 			'form' => $form->createView()
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}', name: 'currency_show', methods: ['GET'])]
 	public function showAction(Currency $currency): Response {
 		return $this->render('currency/show.html.twig', [
 			'currency' => $currency
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}/edit', name: 'currency_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, Currency $currency): RedirectResponse|Response {
 		$editForm = $this->createForm(CurrencyType::class, $currency);
@@ -82,7 +85,7 @@ class CurrencyController extends AbstractController {
 		]);
 	}
 
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/delete/{id}', name: 'currency_delete', methods: ['GET'])]
 	public function deleteAction(Request $request, ?Currency $currency): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {

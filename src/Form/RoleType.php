@@ -13,14 +13,25 @@ class RoleType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add('role', TextType::class, [
-			'required' => true,
-			'attr' => [
-				'class' => 'form-control',
-				'placeholder' => 'Nom du rôle',
-				'data-error' => 'Minimum 7 caractères'
-			]
-		]);
+		$builder
+            ->add('role', TextType::class, [
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Nom du rôle',
+                    'data-error' => 'Minimum 7 caractères'
+                ]
+            ])
+            ->add('pseudo', TextType::class, [
+                'invalid_message' => 'Erreur de Pseudo',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Speudo',
+                    // 'data-error' => 'Minimum 7 caractères'
+                ]
+            ])
+        ;
 	}
 
 	/**

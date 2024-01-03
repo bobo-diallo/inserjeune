@@ -14,11 +14,11 @@
 
 {% block js %}
   <script>
+     let idPrefix = '#appbundle_satisfactionsearch_';
      let translations = [];
      getTranslation().then (function (translation) {
         translations = translation;
         // console.log(translations);
-        let idPrefix = '#appbundle_satisfactionsearch_';
         let allActivities = getAllActivities('#allActivities');
 
         // met toutes les options (y comprises les non sélectionnées) dans le select multiple activity

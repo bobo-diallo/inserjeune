@@ -6,19 +6,23 @@ use App\Entity\Activity;
 use App\Entity\Candidate;
 use App\Entity\Degree;
 use App\Entity\JobOffer;
+use App\Entity\JobApplied;
 use App\Entity\PersonDegree;
 use App\Form\CandidateType;
 use App\Form\PersonDegreeType;
 use App\Entity\School;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobAppliedRepository;
 use App\Repository\UserRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\CountryRepository;
+use App\Repository\RegionRepository;
 use App\Services\ActivityService;
 use App\Services\CompanyService;
 use App\Services\EmailService;
 use App\Services\FileUploader;
 use App\Services\PersonDegreeService;
+use App\Tools\Utils;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +44,7 @@ class FrontPersonDegreeController extends AbstractController {
 	private ActivityService $activityService;
 	private PersonDegreeService $personDegreeService;
 	private JobOfferRepository $jobOfferRepository;
+    private JobAppliedRepository $jobAppliedRepository;
 	private EmailService $emailService;
 	private UserRepository $userRepository;
 	private CompanyService $companyService;
@@ -47,26 +52,30 @@ class FrontPersonDegreeController extends AbstractController {
     private PersonDegreeRepository $personDegreeRepository;
 	private TokenStorageInterface $tokenStorage;
     private CountryRepository $countryRepository;
+    private RegionRepository $regionRepository;
 	private TranslatorInterface $translator;
 
 	public function __construct(
-		EntityManagerInterface $em,
-		ActivityService        $activityService,
-		PersonDegreeService    $personDegreeService,
-		JobOfferRepository     $jobOfferRepository,
-		EmailService           $emailService,
-		UserRepository         $userRepository,
-		CompanyService         $companyService,
-		FileUploader           $fileUploader,
-		PersonDegreeRepository $personDegreeRepository,
-		TokenStorageInterface  $tokenStorage,
+        EntityManagerInterface $em,
+        ActivityService        $activityService,
+        PersonDegreeService    $personDegreeService,
+        JobOfferRepository     $jobOfferRepository,
+        JobAppliedRepository   $jobAppliedRepository,
+        EmailService           $emailService,
+        UserRepository         $userRepository,
+        CompanyService         $companyService,
+        FileUploader           $fileUploader,
+        PersonDegreeRepository $personDegreeRepository,
+        TokenStorageInterface  $tokenStorage,
         CountryRepository      $countryRepository,
-		TranslatorInterface $translator
+        RegionRepository       $regionRepository,
+        TranslatorInterface    $translator
 	) {
 		$this->em = $em;
 		$this->activityService = $activityService;
 		$this->personDegreeService = $personDegreeService;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->jobAppliedRepository = $jobAppliedRepository;
 		$this->emailService = $emailService;
 		$this->userRepository = $userRepository;
 		$this->companyService = $companyService;
@@ -74,16 +83,18 @@ class FrontPersonDegreeController extends AbstractController {
         $this->personDegreeRepository = $personDegreeRepository;
 		$this->tokenStorage = $tokenStorage;
         $this->countryRepository = $countryRepository;
+        $this->regionRepository = $regionRepository;
 		$this->translator = $translator;
 	}
 
 	#[Route(path: '/new', name: 'front_persondegree_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$personDegree = new Persondegree();
+
 		/** @var User $user */
 		$user = $this->getUser();
 
-		$personDegree->setPhoneMobile1($user->getPhone());
+        $personDegree->setPhoneMobile1($user->getPhone());
 		$personDegree->setCountry($user->getCountry());
 		$personDegree->setLocationMode(true);
         $residenceCountryPhoneCode = null;
@@ -96,12 +107,29 @@ class FrontPersonDegreeController extends AbstractController {
         $personDegree->setDiaspora($user->isDiaspora());
         $personDegree->setResidenceCountry($user->getResidenceCountry());
 
+        //adaptation dbta
+        $selectedRegion = null;
+        if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            if($user->getCountry()?->getId() != $user->getRegion()->getCountry()?->getId()) {
+                $user->setCountry($user->getRegion()->getCountry());
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+            $personDegree->setRegion($user->getRegion());
+            $personDegree->setCountry($user->getRegion()->getCountry());
+            $personDegree->setResidenceRegion($user->getResidenceRegion());
+            $selectedRegion = $personDegree->getRegion();
+        }
+
 		$form = $this->createForm(PersonDegreeType::class, $personDegree, [
             'selectedCountry' => $selectedCountry->getId()
             ]);
 		$form->handleRequest($request);
 
         $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
+        if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $otherCountries = $this->regionRepository->getNameAndIndicatif($selectedCountry->getId());
+        }
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$agreeRgpd = $form->get('agreeRgpd')->getData();
@@ -129,6 +157,7 @@ class FrontPersonDegreeController extends AbstractController {
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
 			'selectedCountry' => $selectedCountry,
+			'selectedRegion' => $selectedRegion,
 			'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
             'otherCountries' => $otherCountries,
 		]);
@@ -152,6 +181,24 @@ class FrontPersonDegreeController extends AbstractController {
 			$personDegree = $this->personDegreeService->getPersonDegree();
 
             $user = $this->getUser();
+            // var_dump($user->getCountry());die();
+
+            //adaptation for DBTA
+            $selectedRegion = null;
+            if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                if(!$user->getRegion()) {
+                    if($personDegree->getRegion()) {
+                        $user->setRegion($personDegree->getRegion());
+                    }
+                }
+                // if ((!$user->getCountry()) || ($user->getCountry()->getId() != $user->getRegion()->getCountry()->getId())) {
+                if ($user->getCountry()->getId() != $user->getRegion()->getCountry()->getId()) {
+                    $user->setCountry($user->getRegion()->getCountry());
+                    $this->em->persist($user);
+                    $this->em->flush();
+                }
+                $selectedRegion = $user->getRegion();
+            }
 
 			if (!$personDegree) {
 				return $this->redirectToRoute('front_persondegree_new');
@@ -165,11 +212,14 @@ class FrontPersonDegreeController extends AbstractController {
 			}
 
             $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
-
 			$residenceCountryPhoneCode = null;
 			if ($user->getResidenceCountry()) {
 				$residenceCountryPhoneCode = $user->getResidenceCountry()->getPhoneCode();
 			}
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                $otherCountries = $this->regionRepository->getNameAndIndicatif($selectedCountry->getId());
+                $residenceCountryPhoneCode = $user->getResidenceRegion()?->getPhoneCode();
+            }
 
 			$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
 			$editForm->handleRequest($request);
@@ -178,8 +228,14 @@ class FrontPersonDegreeController extends AbstractController {
 				$agreeRgpd = $editForm->get('agreeRgpd')->getData();
 				if ($agreeRgpd) {
                     //update diaspora informations
+                    $residenceCountryPhoneCode = $personDegree->getUser()->getResidenceCountry()?->getPhoneCode();
+                    // if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                    //     $residenceCountryPhoneCode = $personDegree->getUser()->getResidenceRegion()?->getPhoneCode();
+                    // }
+
                     $user->setDiaspora($personDegree->isDiaspora());
                     $user->setResidenceCountry($personDegree->getResidenceCountry());
+                    $user->setResidenceRegion($personDegree->getResidenceRegion());
                     $this->em->persist($user);
 
 					// remove autorization to edit for School during Enrollment
@@ -217,6 +273,7 @@ class FrontPersonDegreeController extends AbstractController {
 				'edit_form' => $editForm->createView(),
 				'allActivities' => $this->activityService->getAllActivities(),
 				'selectedCountry' => $selectedCountry,
+				'selectedRegion' => $selectedRegion,
                 'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
                 'otherCountries' => $otherCountries
 			]);
@@ -271,14 +328,67 @@ class FrontPersonDegreeController extends AbstractController {
                     $personDegreeEmail = $personDegree->getEmail();
                 }
 
+                // creation du journal
+                $jobApplied = $this->jobAppliedRepository->findOneByDateAndOfferAndPersonDegree($jobOffer, $personDegree->getUser());
+
+                if($jobApplied) {
+                    if ($jobApplied->isSended()) {
+                        $this->addFlash('warning', $this->translator->trans('flashbag.already_sending_application'));
+                    } else {
+                        $this->addFlash('warning', $this->translator->trans('flashbag.last_application_failed_try_again'));
+                    }
+                }
+
+                $jobApplied = new JobApplied();
+                // $jobApplied->setIdOffer($jobOffer);
+                $jobApplied->setIdOffer($jobOffer->getId());
+                // $jobApplied->setIdUser($personDegree->getUser());
+                $jobApplied->setIdUser($personDegree->getUser()->getId());
+                $jobApplied->setIdCity($jobOffer->getCity()->getId());
+                $jobApplied->setAppliedDate(new \DateTime());
+                $candidateName = $personDegree->getLastname()." ". $personDegree->getFirstname()." (". $personDegree->getId().") " . $personDegree->getPhoneMobile1();
+                $jobSender = null;
+                $senderType = "null";
+                if ($jobOffer->getCompany()) {
+                    $jobSender = $jobOffer->getCompany()->getName() . ' (' . $jobOffer->getCompany()->getId() . ')';
+                    $senderType = "company";
+                }
+                if ($jobOffer->getSchool()) {
+                    $jobSender = $jobOffer->getSchool()->getName() . ' (' . $jobOffer->getSchool()->getId() . ')';
+                    $senderType = "school";
+                }
+
+                $resumed =
+                    "%tag_strong%Application date: %tag_end_strong%" . $jobApplied->getAppliedDate()->format(Utils::FORMAT_FR)."  By ". "%tag_strong%candidate: %tag_end_strong%" . $candidateName . "%tag_br%" .
+                    "%tag_strong%Offer%tag_end_strong% (" . $jobOffer->getId() . ") %tag_strong%update date: %tag_end_strong%" . $jobOffer->getUpdatedDate()->format(Utils::FORMAT_FR). "%tag_br%".
+                    "%tag_strong%From: %tag_end_strong%" . $senderType . " " . $jobSender . "%tag_br%".
+                    "    %tag_strong%contract: %tag_end_strong%" . $this->translator->trans($jobOffer->getContract())."%tag_br%".
+                    "    %tag_strong%localization: %tag_end_strong%" . $jobOffer->getCity()->getName() ."%tag_br%" .
+                    "%tag_strong%Description: %tag_end_strong%";
+
+                $contractDescription = $this->suppressHtmlTags($jobOffer->getDescription());
+                if(strlen($resumed) + strlen($contractDescription) > 700 ){
+                    $contractDescription = substr($contractDescription,0, 700 - strlen($resumed)) . "... ";
+                }
+
 				if ($this->emailService->sendCandidateMail($candidate, $jobOffer, $personDegreeEmail)) {
 					$this->addFlash('success', $this->translator->trans('flashbag.your_application_is_sent_successfully'));
                     $jobOffer->addCandidateSended($personDegree->getUser()->getId());
                     $this->em->persist($jobOffer);
                     $this->em->flush();
+                    $jobApplied->setIsSended(true);
 				} else {
 					$this->addFlash('warning', $this->translator->trans('flashbag.error_sending_application'));
 				}
+                $sent = "%tag_strong%Error sent, %tag_end_strong% ";
+                if($jobApplied->isSended()) {
+                    $sent = "%tag_strong%Sent OK, %tag_end_strong% ";
+                }
+
+                $jobApplied->setResumedApplied("%tag_p%" . $sent . $resumed . $contractDescription . "%tag_end_p%");
+
+                $this->em->persist($jobApplied);
+                $this->em->flush();
 
 				return $this->redirectToRoute('jobOffer_index');
 			}
@@ -304,7 +414,14 @@ class FrontPersonDegreeController extends AbstractController {
 	public function deleteUserAction(PersonDegree $personDegree): RedirectResponse {
 		$user = $personDegree->getUser();
 
+        /* suppress relation between user and jobApply (JobApply is kept) */
+        $jobApplies = $this->jobAppliedRepository->findByIdUser($user->getId());
+        foreach ($jobApplies as $jobApply) {
+            $jobApply->setIdUser(null);
+        }
+
 		if ($user) {
+			$this->personDegreeService->removeRelations($user);
 			$this->personDegreeService->removeRelations($user);
 			$this->tokenStorage->setToken(null);
 			$this->em->remove($user);
@@ -522,5 +639,16 @@ class FrontPersonDegreeController extends AbstractController {
         $result = ['personDegree_id'=> $currentId, 'coordinates' => $newCoordinates];
 
         return new JsonResponse($result);
+    }
+    private function suppressHtmlTags (string $str) : String {
+        $inputs = explode('<',$str);
+        $result = "";
+        foreach ($inputs as $input) {
+            $inputExplodes = explode('>', $input);
+            if (count($inputExplodes)>1) {
+                $result .= $inputExplodes[1];
+            }
+        }
+        return $result;
     }
 }

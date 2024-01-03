@@ -11,43 +11,55 @@
                   {#{% include '_menu.html.twig' %}#}
                 </h6>
                 <div class="element-box">
-                    <div class="controls-above-table">
-                        <div class="row">
-                            <div class="col-sm-6">
-{#                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
-                                <a class="btn btn-sm btn-primary" href="{{ path('country_new') }}">
-                                    <i class="fa fa-plus"></i> {{ 'country.add_a_country' | trans }} </a>
+                    {%  if roleUser == "Administrateur" %}
+                        <div class="controls-above-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+    {#                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
+                                    <a class="btn btn-sm btn-primary" href="{{ path('country_new') }}">
+                                        <i class="fa fa-plus"></i> {{ 'country.add_a_country' | trans }} </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div class="table-responsive">
                         <table id="kz_table_with_width_export" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                <th class="no-print">Actions</th>
-                                <th>Id</th>
+                                {%  if roleUser == "Administrateur" %}
+                                    <th class="no-print">Actions</th>
+                                    <th>Id</th>
+                                {% endif %}
                                 <th>{{ 'menu.name' | trans }}</th>
-                                <th>{{ 'currency.iso_code' | trans }} 3</th>
-                                <th> {{ 'menu.currency' | trans }} </th>
-                                <th>Ind T&eacute;l.</th>
-                                <th>Nb digit Tél.</th>
+                                {# adaptation DBTA #}
+                                {% if struct_province_country_city != 'true' %}
+                                    <th>{{ 'currency.iso_code' | trans }} 3</th>
+                                    <th> {{ 'menu.currency' | trans }} </th>
+                                    <th>Ind T&eacute;l.</th>
+                                    <th>Nb digit Tél.</th>
+                                {% endif %}
                                 <th> {{ 'menu.valid' | trans }} </th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for country in countries %}
                                 <tr>
-                                    <td class="row-actions">
-                                        <a href="{{ path('country_edit', { 'id': country.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                        <a href="{{ path('country_show', { 'id': country.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                        <a class="danger" onclick="deleteElement('{{ path('country_delete', {'id': country.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
-                                    </td>
-                                    <td><a href="{{ path('country_show', { 'id': country.id }) }}">{{ country.id }}</a></td>
-                                    <td>{{ country.name }}</td>
-                                    <td>{{ country.isoCode }}</td>
-                                    <td>{{ country.currency }}</td>
-                                    <td>{{ country.phoneCode }}</td>
-                                    <td>{{ country.phoneDigit }}</td>
+                                    {%  if roleUser == "Administrateur" %}
+                                        <td class="row-actions">
+                                            <a href="{{ path('country_edit', { 'id': country.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            <a href="{{ path('country_show', { 'id': country.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                            <a class="danger" onclick="deleteElement('{{ path('country_delete', {'id': country.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                        </td>
+                                        <td><a href="{{ path('country_show', { 'id': country.id }) }}">{{ country.id }}</a></td>
+                                    {% endif %}
+                                    <td>{{ country.name | trans }}</td>
+                                    {# adaptation DBTA #}
+                                    {% if struct_province_country_city != 'true' %}
+                                        <td>{{ country.isoCode | trans }}</td>
+                                        <td>{{ country.currency | trans  }}</td>
+                                        <td>{{ country.phoneCode }}</td>
+                                        <td>{{ country.phoneDigit }}</td>
+                                    {% endif %}
                                     {% if country.valid == true %}<td>X</td>{% else %}<td></td>{% endif %}
                                 </tr>
                             {% endfor %}

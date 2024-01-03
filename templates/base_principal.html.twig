@@ -1,0 +1,136 @@
+{% set user = app.user %}
+{% set imageName = app.user.imageName %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{{ 'menu.establishment' | trans }} {% endblock %}</title>
+  {{ include('_head.html.twig') }}
+  {% block css %}{% endblock %}
+</head>
+<body>
+<h1 hidden>{% block referencement_h1 %}{{ 'referencement.base_school' | trans }} {% endblock %}</h1>
+<div class="all-wrapper container-fluid">
+  {% include '_banner_top.html.twig' %}
+  <div class="layout-w ">
+    <div class="menu-w menu-activated-on-click">
+      <div class="logo-w logged-user-w">
+        {% include '_image_profile.html.twig' with {'imageName': imageName, 'defaultImage': 'university.jpg'} %}
+        <div class="logged-user-info-w">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if user.school is not null %}
+              <div class="logged-school-name">{{ user.school.name }}</div>
+            {% endif %}
+            <div class="logged-user-name">{{ user.username }}</div>
+            <div hidden class="logged-user-phone">{{ user.phone }} </div>
+            <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role | trans }}</div>
+            <div class="logged-user-phone" style="font-size:12px; color: #007bff">{{ user.phone}}</div>
+          {% endif %}
+        </div>
+        <div class="mobile-menu-trigger">
+          <div class="menu-title">Menu</div>
+          <div class="os-icon os-icon-hamburger-menu-1"></div>
+        </div>
+      </div>
+      <div class="menu-and-user">
+        {# Menu lateral gauche #}
+        <ul class="main-menu">
+          <li>
+            <a href="{{ path('front_school_show')}}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/users.png') }}" alt="satisfaction">
+              </div>
+              <span>{{ 'menu.account' | trans }}</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('persondegree_index') }}">
+              {#<a href="#">#}
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/degree.png') }}" alt="persondegrees">
+              </div>
+              <span>{{ 'menu.your_graduate' | trans }}</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('company_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/company.png') }}" alt="companies">
+              </div>
+              <span>{{ 'menu.your_partners' | trans }}</span>
+            </a>
+          </li>
+          <li class="has-sub-menu"><a href="{{ path('jobOffer_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
+              </div>
+              <span>{{ 'menu.job_offer'|trans }}</span></a>
+            <ul class="sub-menu">
+              <li><a href="{{ path('jobOffer_index') }}">{{ 'menu.the_job_offers' | trans }}</a></li>
+              <li><a href="{{ path('job_applied_index') }}">{{ 'menu.the_job_applied' | trans }}</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="{{ path('geolocation') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/world.png') }}" alt="maps">
+              </div>
+              <span>{{ 'menu.geolocation' | trans }}</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('dashboard_index') }}">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/dashboard.png') }}" alt="dashboard">
+              </div>
+              <span>{{ 'menu.dashboard'|trans }}</span>
+            </a>
+          </li>
+          {{ include('_menu_translation_left.html.twig') }}
+          <li class="has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/help.png') }}" alt="about">
+              </div>
+              <span>{{ 'menu.information' | trans }}</span>
+            </a>
+            <ul class="sub-menu">
+              {% set locale_documentation =  'build/documentation/guide_utilisateur_etablissement_inserjeune_' ~ app.request.locale ~ '_v3.4.pdf'%}
+              <li><a target="_blank" href={{ asset(locale_documentation) }}>{{ 'menu.user_guide' | trans }}</a></li>
+              {{ include ('_customize_links.html.twig') }}
+              <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
+              <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
+              <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>
+            </ul>
+          </li>
+          <li>
+            <div id="apropos" class="d-none text-center" style="color: #0275d8; font-size: .81rem" >
+              {% include '_apropos.html.twig' %}
+            </div>
+          </li>
+          {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <li>
+              <a href="{{ path('logout') }}">
+                <div class="icon-w">
+                  <img src="{{ asset('build/images/icon/exit.png') }}" alt="deconnexion">
+                </div>
+                <span>{{ 'menu.logout' | trans }}</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="content-w">
+      {{ falsh_bag() }}
+
+      {% block body %}{% endblock %}
+      {{ include('_footer_customize.html.twig') }}
+    </div>
+  </div>
+</div>
+{# Footer #}
+{{ include('_footer.html.twig') }}
+{% block js %}{% endblock %}
+</body>
+</html>

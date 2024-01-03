@@ -6,17 +6,14 @@
           {# Tableau 1 #}
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/satisfaction.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
-                <h6 class="element-header">Liste des enquêtes de satisfaction</h6>
+                <h6 class="element-header">{{ 'survey.list_of_surveys' | trans }}</h6>
                 <div class="element-box">
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-                                {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
-{#                                    <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
-                                {% endif %}
                                 {%  if app.user.roles|role!="ENTREPRISE" %}
                                 <a class="btn btn-sm btn-primary" href="{{ path('satisfactioncompany_new'| route_company) }}">
-                                    <i class="fa fa-plus"></i> Nouvelle enquête</a>
+                                    <i class="fa fa-plus"></i>{{ 'survey.new_survey' | trans }}</a>
                                 {% endif %}
                             </div>
                         </div>

@@ -39,7 +39,7 @@
                                         <a class="danger" onclick="deleteElement('{{ path('contract_delete', {'id': contract.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.id }}</a></td>
-                                    <td>{{ contract.name }}</td>
+                                    <td>{{ contract.name | trans }}</td>
                                     <td>{{ contract.description }}</td>
                                 </tr>
                             {% endfor %}

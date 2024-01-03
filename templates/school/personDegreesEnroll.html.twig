@@ -19,11 +19,13 @@
                     {%  if app.user.roles|role =="Etablissement" %}
                         <div class="controls-above-table">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">{{"graduate.add_a_graduate" | trans }}</button>
-                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV">Import CSV</a>
-                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
-                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV"/>
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV_excel">Import Excel CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV_utf8">Import Other CSV</a>
+                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template_'~ app.request.locale ~ '.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
+                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_excel"/>
+                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_utf8"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>
                             </div>
@@ -70,6 +72,9 @@
             </div>
             <input style="display: none" id="rowNumber" value="{{ rowNumber }}">
             <input style="display: none" id="selectedCountry" value="{{ app.user.country.id }}">
+            {% if(app.user.region) %}
+                <input style="display: none" id="selectedRegion" value="{{ app.user.region.id }}">
+            {% endif %}
             <input style="display: none" id="userRole" value="{{ app.user.roles|role }}">
             <select style="display: none"  id="regions">
                 {% for region in regions  %}
@@ -102,7 +107,6 @@
         let translations = [];
         getTranslation().then (function (translation) {
             translations = translation;
-            console.log(translations);
         });
 
         let saveMulti=false;
@@ -260,10 +264,11 @@
                 })
                 if (err.length == 0) {
                     if (mailsTo.length > 0) {
-                        if (confirm(translations["js.sure_send_notifications ?"])) {
+                        if (confirm(translations["js.sure_send_notifications"])) {
                             $('#idLoading').removeAttr('hidden');
                             $.post(getBaseUrl() + 'sendNotificationEnrollmentDegree', {'persondegree_ids': mailsTo})
                                 .done(function (data) {
+                                    console.log({'persondegree_ids': mailsTo})
                                     $('#idLoading').attr('hidden', 'hidden');
                                     alert(translations['js.emails_sent_successfully']);
                                     $('#tbodyPersonDegree input').prop('checked', false);
@@ -383,10 +388,10 @@
             html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="male">un homme</option><option value="female">une femme</option></select></td>';
+            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';    //value="un homme">' + translations["js.a_man"]
+            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="un homme">'+ translations["js.a_man"] +'</option><option value="une femme">' + translations["js.a_woman"] + '</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="' + translations["js.import_csv_city"] + ''+ rowNumber + '" placeholder="' + translations["js.select_region"] + '"></select></td>';
+            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="selectAddressCity'+ rowNumber + '" ><option>' + translations["js.select"] + '</option></select></td>';
             html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="' + translations["js.import_csv_parent_mobile_phone"] + '"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[9] + '" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
@@ -456,7 +461,7 @@
             // debugger;
             const $select = document.querySelector(selectId);
             const $options = Array.from($select.options);
-            const optionToSelect = $options.find(item => item.text === textValue);
+            const optionToSelect = $options.find(item => item.text.toLowerCase() === textValue.toLowerCase());
 
             if (optionToSelect) {
                 optionToSelect.selected = true;
@@ -637,6 +642,10 @@
                         personDegree["selectedCountry"] = $("#selectedCountry").val();
                         strPersonDegree += "id=" + $("#id" + rowNumber).text();
 
+                        if($("#selectedRegion").length && $('#selectedRegion').val().length) {
+                            personDegree["selectedRegion"]  = $("#selectedRegion").val();
+                        }
+
                         /* récupération des données saisies dans les inputs */
                         /*------------------------------------------------- */
                         $(row).each(function () {
@@ -701,7 +710,7 @@
                             if (res[1].length > 0) {
                                 // alert(res[1].length + " problèmes rencontrés lors de l'update, opération annuée");
 
-                                alert(res[1][0]);
+                                 alert(res[1][0]);
                                 return;
 
                             /* mise à jour de l'affichage des éléments en mode show */
@@ -731,12 +740,12 @@
                                             if($(this).attr("selected")=="selected") {
                                                 /*récupération du Label en enlevant le numero du rowNumber */
                                                 personDegreeId = $(this).parent().prop("id");
-                                                // let inputValue = $(this).text();
-                                                let inputValue = $(this).val();
+                                                let inputValue = $(this).text();
+                                                // let inputValue = $(this).val();
 
                                                 let p_id = "#p_" + personDegreeId;
                                                 $(p_id).text(inputValue);
-                                                console.log("p_id: " + p_id + " -> " + inputValue);
+                                                // console.log("p_id: " + p_id + " -> " + inputValue);
                                             }
                                     });
                                 })
@@ -795,10 +804,16 @@
             if ($('#selectRegion' + rowNumber + ' option').length == 0) {
                 $("#selectRegion" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#regions option").each(function (option) {
-                    if ($idSelected == $(this).val())
-                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
-                    else
-                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                    let regionText = translations[$(this).text()];
+                    if (!regionText) {
+                        regionText = $(this).text();
+                    }
+
+                    if ($idSelected == $(this).val()) {
+                        $("#selectRegion" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + regionText + "</option>");
+                    } else {
+                        $("#selectRegion" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + regionText + "</option>");
+                    }
                 });
             }
         }
@@ -812,10 +827,15 @@
             if ($('#selectDegree' + rowNumber + ' option').length == 0) {
                 $("#selectDegree" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
                 $("#degrees option").each(function (option) {
+                    let degreeText = translations[$(this).text()];
+                    // let degreeText = $(this).text();
+                    if (!degreeText) {
+                        degreeText = $(this).text();
+                    }
                     if ($idSelected == $(this).val())
-                        $("#selectDegree" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectDegree" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + degreeText + "</option>");
                     else
-                        $("#selectDegree" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectDegree" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + degreeText + "</option>");
                 });
             }
         }
@@ -830,10 +850,14 @@
             if ($('#selectSectorArea' + rowNumber + ' option').length == 0) {
                 $("#selectSectorArea" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
                 $("#sectorAreas option").each(function (option) {
+                    let sectorAreaText = translations[$(this).text()];
+                    if (!sectorAreaText) {
+                        sectorAreaText = $(this).text();
+                    }
                     if ($idSelected == $(this).val()) {
-                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + sectorAreaText + "</option>");
                     } else {
-                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + $(this).text() + "</option>");
+                        $("#selectSectorArea" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + sectorAreaText + "</option>");
                     }
                 });
             }
@@ -845,30 +869,32 @@
             for (let i = 0; i < dirs.length - 1; i++)
                 $locationRef += dirs[i] + '/';
 
-            // appel Ajax sur bdd
-            $.get($locationRef + $region + '/cityByRegion').done(function (cities) {
-                // recupere le Id du city existant
-                let $idSelected = -1;
-                if ($('#selectAddressCity' + rowNumber + ' option').length == 1) {
-                    $idSelected = $('#selectAddressCity' + rowNumber + ' option:first').val();
-                    $('#selectAddressCity' + rowNumber + ' option:first').remove();
-                }
-                $("#selectAddressCity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
-                //console.log(cities);
-                if (cities) {
-                    cities.forEach((city) => {
-                        if ($idSelected == city['id']) {
-                            $("#selectAddressCity" + rowNumber).append("<option selected value=\"" + city['id'] + "\">" + city['name'] + "</option>");
-                        } else {
-                            $("#selectAddressCity" + rowNumber).append("<option value=\"" + city['id'] + "\">" + city['name'] + "</option>");
-                        }
-                    })
-                }
-                if (optionValue !== undefined) {
-                    // changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
-                    changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue);
-                }
-            })
+            if($region) {
+                // appel Ajax sur bdd
+                $.get($locationRef + $region + '/cityByRegion').done(function (cities) {
+                    // recupere le Id du city existant
+                    let $idSelected = -1;
+                    if ($('#selectAddressCity' + rowNumber + ' option').length == 1) {
+                        $idSelected = $('#selectAddressCity' + rowNumber + ' option:first').val();
+                        $('#selectAddressCity' + rowNumber + ' option:first').remove();
+                    }
+                    $("#selectAddressCity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
+                    //console.log(cities);
+                    if (cities) {
+                        cities.forEach((city) => {
+                            if ($idSelected == city['id']) {
+                                $("#selectAddressCity" + rowNumber).append("<option selected value=\"" + city['id'] + "\">" + city['name'] + "</option>");
+                            } else {
+                                $("#selectAddressCity" + rowNumber).append("<option value=\"" + city['id'] + "\">" + city['name'] + "</option>");
+                            }
+                        })
+                    }
+                    if (optionValue !== undefined) {
+                        // changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue, () => alert(`La ville de la ligne ${rowNumber} n'existe pas dans le system.`));
+                        changeSelectOptionByValue('#selectAddressCity' + rowNumber, optionValue);
+                    }
+                })
+            }
         }
 
         function addOptionActivity($sectorArea, rowNumber, optionValue) {
@@ -878,237 +904,282 @@
                 $locationRef += dirs[i] + '/';
 
             // appel Ajax sur bdd
-            console.log($locationRef + $sectorArea + '/activityBySchoolSectorArea');
-            $.get($locationRef + $sectorArea + '/activityBySchoolSectorArea').done(function (activities) {
-                // recupere le Id de l'activity existant
-                let $idSelected = -1;
-                if ($('#selectActivity' + rowNumber + ' option').length == 1) {
-                    $idSelected = $('#selectActivity' + rowNumber + ' option:first').val();
-                    $('#selectActivity' + rowNumber + ' option:first').remove();
-                }
+            // console.log($locationRef + $sectorArea + '/activityBySchoolSectorArea');
+            if($sectorArea) {
+                $.get($locationRef + $sectorArea + '/activityBySchoolSectorArea').done(function (activities) {
+                    // recupere le Id de l'activity existant
+                    let $idSelected = -1;
+                    if ($('#selectActivity' + rowNumber + ' option').length == 1) {
+                        $idSelected = $('#selectActivity' + rowNumber + ' option:first').val();
+                        $('#selectActivity' + rowNumber + ' option:first').remove();
+                    }
 
-                $("#selectActivity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
-                if (activities) {
-                    activities.forEach((activity) => {
-                        if ($idSelected == activity['id'])
-                            $("#selectActivity" + rowNumber).append("<option selected value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
-                        else
-                            $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
-                    })
-                }
-                if (optionValue !== undefined) {
-                    // changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue, () => alert(`Le secteur d'activité de la ligne ${rowNumber} n'existe pas dans le system.`));
-                    changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue);
-                }
-            })
+                    $("#selectActivity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
+                    if (activities) {
+                        activities.forEach((activity) => {
+                            if ($idSelected == activity['id'])
+                                $("#selectActivity" + rowNumber).append("<option selected value=\"" + activity['id'] + "\">" + translations[activity['name']] + "</option>");
+                            else
+                                $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + translations[activity['name']] + "</option>");
+                                // $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
+                        })
+                    }
+                    if (optionValue !== undefined) {
+                        // changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue, () => alert(`Le secteur d'activité de la ligne ${rowNumber} n'existe pas dans le system.`));
+                        changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue);
+                    }
+                })
+            }
         }
     </script>
     <script>
         $(document).ready(function () {
-            /* Mise à jour des options dans les selects de PersonDegrees existants */
-            /* ------------------------------------------------------------------- */
-            for (let $i = 1 ; $i <= $('#rowNumber').val(); $i++) {
-                addOptionRegion($i);
-                addOptionSectorArea($i);
-                addOptionDegree($i);
+            let translations = [];
+            getTranslation().then (function (translation) {
+                translations = translation;
+                // console.log(translations);
 
-                let $region = $('#selectRegion' + $i +' option:selected').val();
-                addOptionCity($region,$i);
 
-                let $sector = $('#selectSectorArea' + $i +' option:selected').val();
-                addOptionActivity($sector,$i);
-            }
+                /* Mise à jour des options dans les selects de PersonDegrees existants */
+                /* ------------------------------------------------------------------- */
+                for (let $i = 1 ; $i <= $('#rowNumber').val(); $i++) {
+                    addOptionRegion($i);
+                    addOptionSectorArea($i);
+                    addOptionDegree($i);
 
-            // Event
-            // Recherches de ville en fonction de la region
-            $('.selectRegion').on('change', function () {
-                let id = $(this).attr("id").replaceAll("selectRegion", "");
-                let $regionId = $('#selectRegion' + id + " option:selected").val();
-                if ($regionId) {
-                    addOptionCity($regionId, id);
-                    $("#selectAddressCity" + id).find('option').remove();
+                    let $region = $('#selectRegion' + $i +' option:selected').val();
+                    addOptionCity($region,$i);
+
+                    let $sector = $('#selectSectorArea' + $i +' option:selected').val();
+                    addOptionActivity($sector,$i);
                 }
-            });
 
-            // Event
-            // Recherches des filières en fonction des secteurs
-            $('.selectSectorArea').on('change', function () {
-                let id = $(this).attr("id").replaceAll("selectSectorArea", "");
-                //console.log("Sector Activity " + id);
-                let $sectorAreaId = $('#selectSectorArea' + id + " option:selected").val();
-                if ($sectorAreaId) {
-                    addOptionActivity($sectorAreaId, id);
-                    $("#selectActivity" + id).find('option').remove();
-                }
-            });
+                // Event
+                // Recherches de ville en fonction de la region
+                $('.selectRegion').on('change', function () {
+                    let id = $(this).attr("id").replaceAll("selectRegion", "");
+                    let $regionId = $('#selectRegion' + id + " option:selected").val();
+                    if ($regionId) {
+                        addOptionCity($regionId, id);
+                        $("#selectAddressCity" + id).find('option').remove();
+                    }
+                });
+
+                // Event
+                // Recherches des filières en fonction des secteurs
+                $('.selectSectorArea').on('change', function () {
+                    let id = $(this).attr("id").replaceAll("selectSectorArea", "");
+                    //console.log("Sector Activity " + id);
+                    let $sectorAreaId = $('#selectSectorArea' + id + " option:selected").val();
+                    if ($sectorAreaId) {
+                        addOptionActivity($sectorAreaId, id);
+                        $("#selectActivity" + id).find('option').remove();
+                    }
+                });
 
 
-            // // Gestion import CSV
-            $('#importCSV').click(function (e) {
-                e.preventDefault();
-                $('#inputImportCSV').trigger('click');
-            });
-            $('#inputImportCSV').change(function (e) {
-                e.preventDefault();
-                let file = document.getElementById("inputImportCSV").files[0];
+                // // Gestion import CSV
+                $('#importCSV_utf8').click(function (e) {
+                    e.preventDefault();
+                    $('#inputImportCSV_utf8').trigger('click');
+                });
+                $('#importCSV_excel').click(function (e) {
+                    e.preventDefault();
+                    $('#inputImportCSV_excel').trigger('click');
+                });
+                $('#inputImportCSV_utf8').change(function (e) {
+                    e.preventDefault();
+                    let file = document.getElementById("inputImportCSV_utf8").files[0];
+                    importCsv(file, "UTF-8")
+                });
+                $('#inputImportCSV_excel').change(function (e) {
+                    e.preventDefault();
+                    let file = document.getElementById("inputImportCSV_excel").files[0];
+                    importCsv(file, "windows-1252")
+                });
 
-                if (file) {
-                    let reader = new FileReader();
-                    reader.readAsText(file, 'UTF-8');
+                function importCsv(file, format) {
+                    if (file) {
+                        let reader = new FileReader();
+                        // reader.readAsText(file, 'UTF-8');
+                        reader.readAsText(file, format);
 
-                    reader.onload = function (evt) {
-                        let data = evt.target.result.split("\n");
-                        let errorFields = [];
+                        reader.onload = function (evt) {
+                            let data = evt.target.result.split("\n");
+                            let errorFields = [];
 
-                        // Valid file
-                        let header = data[0].replaceAll('\r',"");
-                        if(header[header.length-1] == ',')
-                            header = header.substring(0, header.length - 1);
+                            // Valid file
+                            let header = data[0].replaceAll('\r',"");
+                            if(header[header.length-1] == ';')
+                                header = header.substring(0, header.length - 1);
+                            if(header[header.length-1] == ',')
+                                header = header.substring(0, header.length - 1);
 
-                        let fields = header.split(',') ;
-                        let fieldNames = {
-                            "immatriculationField": null,
-                            "prenomField": null,
-                            "nomField": null,
-                            "dateNaissanceField": null,
-                            "genreField": null,
-                            "regionField": null,
-                            "villeField": null,
-                            "portableField": null,
-                            "portableParentField": null,
-                            "emailField": null,
-                            "diplomeField": null,
-                            "secteurField": null,
-                            "filiereField": null,
-                        };
-                        let fieldsOrder = [
-                            "immatriculationField",
-                            "prenomField",
-                            "nomField",
-                            "dateNaissanceField",
-                            "genreField",
-                            "regionField",
-                            "villeField",
-                            "portableField",
-                            "portableParentField",
-                            "emailField",
-                            "diplomeField",
-                            "secteurField",
-                            "filiereField"
-                        ];
+                            let fields = header.split(';') ;
+                            if(fields.length<2)
+                                fields = header.split(',') ;
 
-                        for(let i=0; i<fields.length; i++) {
-                            let field = fields[i].replaceAll('\"',"").toLowerCase();
+                            let fieldNames = {
+                                "immatriculationField": null,
+                                "prenomField": null,
+                                "nomField": null,
+                                "dateNaissanceField": null,
+                                "genreField": null,
+                                "regionField": null,
+                                "villeField": null,
+                                "portableField": null,
+                                "portableParentField": null,
+                                "emailField": null,
+                                "diplomeField": null,
+                                "secteurField": null,
+                                "filiereField": null,
+                            };
+                            let fieldsOrder = [
+                                "immatriculationField",
+                                "prenomField",
+                                "nomField",
+                                "dateNaissanceField",
+                                "genreField",
+                                "regionField",
+                                "villeField",
+                                "portableField",
+                                "portableParentField",
+                                "emailField",
+                                "diplomeField",
+                                "secteurField",
+                                "filiereField"
+                            ];
 
-                            // fiedNames in Multi languages
-                            switch (field) {
-                                case translations['js.import_csv_registration'] : fieldNames['immatriculationField'] = i; break;
-                                case translations['js.import_csv_first_name'] : fieldNames['prenomField'] = i; break;
-                                case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
-                                case translations['js.import_csv_birthday'] : fieldNames['dateNaissanceField'] = i; break;
-                                case translations['js.import_csv_gender'] : fieldNames['genreField'] = i; break;
-                                case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
-                                case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
-                                case translations['js.import_csv_mobile_phone'] : fieldNames['portableField'] = i; break;
-                                case translations['js.import_csv_parent_mobile_phone'] : fieldNames['portableParentField'] = i; break;
-                                case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
-                                case translations['js.import_csv_diploma'] : fieldNames['diplomeField'] = i; break;
-                                case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
-                                case translations['js.import_csv_subsector'] : fieldNames['filiereField'] = i; break;
-                                default :
-                                    errorFields.push(fields[i]);
-                            }
-                            // fiedNames in FR
-                            // switch (field) {
-                            //     case 'immatriculation' : fieldNames['immatriculationField'] = i; break;
-                            //     case 'prénom' : fieldNames['prenomField'] = i; break;
-                            //     case 'nom' : fieldNames['nomField'] = i; break;
-                            //     case 'date naissance' : fieldNames['dateNaissanceField'] = i; break;
-                            //     case 'genre' : fieldNames['genreField'] = i; break;
-                            //     case 'région' : fieldNames['regionField'] = i; break;
-                            //     case 'ville' : fieldNames['villeField'] = i; break;
-                            //     case 'portable' : fieldNames['portableField'] = i; break;
-                            //     case 'portable parent' : fieldNames['portableParentField'] = i; break;
-                            //     case 'email' : fieldNames['emailField'] = i; break;
-                            //     case 'diplôme' : fieldNames['diplomeField'] = i; break;
-                            //     case 'secteur' : fieldNames['secteurField'] = i; break;
-                            //     case 'filière' : fieldNames['filiereField'] = i; break;
-                            //     default :
-                            //         errorFields.push(fields[i]);
-                            // }
-                        }
+                            for(let i=0; i<fields.length; i++) {
+                                let field = fields[i].replaceAll('\"',"").toLowerCase().trim();
 
-                        // let validHeader = '"Immatriculation","Prénom","Nom","DateNaissance","Genre","Région","Ville","Portable","portable parent","Email","Diplôme","Secteur","Filière"';
-                        // if (header !== validHeader) {
-                        //     alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
-                        //     return;
-                        // }
-
-                        // check bad fieldName syntax
-                        if (errorFields.length >0) {
-                            let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
-                            errorFields.forEach(function (error) {
-                                errorMsg += error + ', ';
-                            })
-                            errorMsg += translations["js.authorized_fields"] + " = " +
-                                translations["js.import_csv_registration"] + ", " +
-                                translations["js.import_csv_first_name"] + ", " +
-                                translations["js.import_csv_name"] + ", " +
-                                translations["js.import_csv_birthday"] + ", " +
-                                translations["js.import_csv_gender"] + ", " +
-                                translations["js.import_csv_region"] + ", " +
-                                translations["js.import_csv_city"] + ", " +
-                                translations["js.import_csv_mobile_phone"] + ", " +
-                                translations["js.import_csv_parent_mobile_phone"] + ", " +
-                                translations["js.import_csv_email"] + ", " +
-                                translations["js.import_csv_diploma"] + ", " +
-                                translations["js.import_csv_sector"] + ", " +
-                                translations["js.import_csv_subsector"] ;
-                            alert(errorMsg);
-                            return;
-                        }
-
-                        // check minimum data fields
-                        if ((fieldNames['prenomField'] == null) ||
-                            (fieldNames['nomField'] == null) ||
-                            (fieldNames['portableField'] ==null)) {
-                                alert(translations['js.file_invalid_fields_firstname_lastname_and_telephone_mandatory']);
-                                return;
-                        }
-
-                        data.shift();
-                        let errors = [];
-                        data.forEach(function (row) {
-                            if (row) {
-                                let columnData = row.split(',').map(function (item) {
-                                    return item.replace(/['"]+/g, '');
-                                });
-
-                                //Create a new ordered columnData
-                                let orderedData = [];
-                                for (let i = 0; i < fieldsOrder.length; i++) {
-                                    let fieldName = fieldsOrder[i];
-                                    let fieldNumber = fieldNames[fieldName];
-                                    orderedData.push(columnData[fieldNumber]);
+                                // fiedNames in Multi languages
+                                switch (field) {
+                                    case translations['js.import_csv_registration'] : fieldNames['immatriculationField'] = i; break;
+                                    case translations['js.import_csv_first_name'] : fieldNames['prenomField'] = i; break;
+                                    case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
+                                    case translations['js.import_csv_birthday'] : fieldNames['dateNaissanceField'] = i; break;
+                                    case translations['js.import_csv_gender'] : fieldNames['genreField'] = i; break;
+                                    case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
+                                    case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
+                                    case translations['js.import_csv_mobile_phone'] : fieldNames['portableField'] = i; break;
+                                    case translations['js.import_csv_parent_mobile_phone'] : fieldNames['portableParentField'] = i; break;
+                                    case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
+                                    case translations['js.import_csv_diploma'] : fieldNames['diplomeField'] = i; break;
+                                    case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
+                                    case translations['js.import_csv_subsector'] : fieldNames['filiereField'] = i; break;
+                                    default :
+                                        errorFields.push(fields[i]);
                                 }
-                                addRowPersonDegreeWithValue(orderedData, function (err) {
-                                    if (err.length > 0) {
-                                        errors = errors.concat(err);
-                                    }
-                                });
+                                // fiedNames in FR
+                                // switch (field) {
+                                //     case 'immatriculation' : fieldNames['immatriculationField'] = i; break;
+                                //     case 'prénom' : fieldNames['prenomField'] = i; break;
+                                //     case 'nom' : fieldNames['nomField'] = i; break;
+                                //     case 'date naissance' : fieldNames['dateNaissanceField'] = i; break;
+                                //     case 'genre' : fieldNames['genreField'] = i; break;
+                                //     case 'région' : fieldNames['regionField'] = i; break;
+                                //     case 'ville' : fieldNames['villeField'] = i; break;
+                                //     case 'portable' : fieldNames['portableField'] = i; break;
+                                //     case 'portable parent' : fieldNames['portableParentField'] = i; break;
+                                //     case 'email' : fieldNames['emailField'] = i; break;
+                                //     case 'diplôme' : fieldNames['diplomeField'] = i; break;
+                                //     case 'secteur' : fieldNames['secteurField'] = i; break;
+                                //     case 'filière' : fieldNames['filiereField'] = i; break;
+                                //     default :
+                                //         errorFields.push(fields[i]);
+                                // }
                             }
-                        });
 
-                        if (errors.length > 0) {
-                            alert(translations['js.data_not_compliant_correct_manually']);
+                            // let validHeader = '"Immatriculation","Prénom","Nom","DateNaissance","Genre","Région","Ville","Portable","portable parent","Email","Diplôme","Secteur","Filière"';
+                            // if (header !== validHeader) {
+                            //     alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
+                            //     return;
+                            // }
+
+                            // check bad fieldName syntax
+                            if (errorFields.length >0) {
+                                let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
+                                errorFields.forEach(function (error) {
+                                    errorMsg += error + ', ';
+                                })
+                                errorMsg += translations["js.authorized_fields"] + " = " +
+                                    translations["js.import_csv_registration"] + ", " +
+                                    translations["js.import_csv_first_name"] + ", " +
+                                    translations["js.import_csv_name"] + ", " +
+                                    translations["js.import_csv_birthday"] + ", " +
+                                    translations["js.import_csv_gender"] + ", " +
+                                    translations["js.import_csv_region"] + ", " +
+                                    translations["js.import_csv_city"] + ", " +
+                                    translations["js.import_csv_mobile_phone"] + ", " +
+                                    translations["js.import_csv_parent_mobile_phone"] + ", " +
+                                    translations["js.import_csv_email"] + ", " +
+                                    translations["js.import_csv_diploma"] + ", " +
+                                    translations["js.import_csv_sector"] + ", " +
+                                    translations["js.import_csv_subsector"] ;
+                                alert(errorMsg);
+                                return;
+                            }
+
+                            // check minimum data fields
+                            if ((fieldNames['prenomField'] == null) ||
+                                (fieldNames['nomField'] == null) ||
+                                (fieldNames['portableField'] ==null)) {
+                                    alert(translations['js.file_invalid_fields_firstname_lastname_and_telephone_mandatory']);
+                                    return;
+                            }
+
+                            data.shift();
+                            let errors = [];
+                            data.forEach(function (row) {
+                                if (row) {
+                                    let columnData = row.split(';').map(function (item) {
+                                        return item.replace(/['"]+/g, '');
+                                    });
+
+                                    if(columnData.length < 2) {
+                                        columnData = row.split(',').map(function (item) {
+                                            return item.replace(/['"]+/g, '');
+                                        });
+                                    }
+
+                                    //Create a new ordered columnData
+                                    let orderedData = [];
+                                    for (let i = 0; i < fieldsOrder.length; i++) {
+                                        let fieldName = fieldsOrder[i];
+                                        let fieldNumber = fieldNames[fieldName];
+
+                                        //replace F by "une femme" and M by "un homme"
+                                        if(fieldNumber == 4) {
+                                            if(columnData[fieldNumber] == 'F')
+                                                columnData[fieldNumber] = "une femme";
+                                            if(columnData[fieldNumber] == 'M')
+                                                columnData[fieldNumber] = "un homme";
+                                        }
+
+                                        orderedData.push(columnData[fieldNumber]);
+                                    }
+                                    addRowPersonDegreeWithValue(orderedData, function (err) {
+                                        if (err.length > 0) {
+                                            errors = errors.concat(err);
+                                        }
+                                    });
+                                }
+                            });
+
+                            if (errors.length > 0) {
+                                alert(translations['js.data_not_compliant_correct_manually']);
+                            }
+
+                            $('#nbRowImported').val(data.length - 1);
                         }
-
-                        $('#nbRowImported').val(data.length - 1);
+                        reader.onerror = function (e) {
+                            alert(translations['js.file_contains_errors']);
+                        }
+                    } else {
+                        alert("file not found, command abort")
                     }
-                    reader.onerror = function (e) {
-                        alert(translations['js.file_contains_errors']);
-                    }
-                }
+                };
             });
         });
     </script>

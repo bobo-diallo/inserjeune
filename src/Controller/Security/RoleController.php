@@ -55,6 +55,27 @@ class RoleController extends AbstractController {
 		]);
 	}
 
+    #[Route('/{id}/edit', name: 'role_edit', methods: ['GET', 'POST'])]
+    public function editAction(Request $request, Role $role): RedirectResponse|Response {
+        $form = $this->createForm(RoleType::class, $role);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($role);
+            $this->em->flush();
+
+            return $this->redirectToRoute('role_index');
+        }
+        // if ($form->isSubmitted() && !$form->isValid()) {
+        //     var_dump($form->getErrors()->current()->getMessage());die();
+        // }
+
+        return $this->render('role/edit.html.twig', [
+            'role' => $role,
+            'form' => $form->createView(),
+        ]);
+    }
+
 	private function createDeleteForm(Role $role): Form {
 		return $this->createFormBuilder()
 			->setAction($this->generateUrl('role_delete', ['id' => $role->getId()]))

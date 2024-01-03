@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -35,11 +36,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\ManyToOne(targetEntity: Country::class)]
 	private ?Country $country = null;
 
+    #[ORM\ManyToOne(targetEntity: Region::class)]
+    private ?Region $region = null;
+
     #[ORM\Column(name: 'diaspora', type: 'boolean')]
     private bool $diaspora = false;
 
     #[ORM\ManyToOne(targetEntity: Country::class)]
     private ?Country $residenceCountry = null;
+
+    #[ORM\ManyToOne(targetEntity: Region::class)]
+    private ?Region $residenceRegion = null;
 
 	#[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank]
@@ -82,17 +89,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[ORM\OneToOne(mappedBy: 'user', targetEntity: School::class, cascade: ['persist', 'remove'])]
 	private ?School $school;
 
+    /**
+     * only used for role: "principal"
+     * @var int|null
+     */
+    #[ORM\Column(name: 'principal_school', type: 'integer', nullable: true)]
+    private ?int $principalSchool = null;
+
 	#[ORM\ManyToMany(targetEntity: Role::class, cascade: ['persist'])]
 	#[ORM\JoinTable(name: 'user_role')]
 	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
 	#[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id')]
 	protected Collection $profils;
 
+	#[ORM\ManyToMany(targetEntity: Region::class)]
+	#[ORM\JoinTable(name: 'user_admin_regions')]
+	#[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+	#[ORM\InverseJoinColumn(name: 'region_id', referencedColumnName: 'id')]
+	protected Collection $adminRegions;
+
+    #[ORM\ManyToMany(targetEntity: City::class)]
+    #[ORM\JoinTable(name: 'user_admin_cities')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'city_id', referencedColumnName: 'id')]
+    protected Collection $adminCities;
+
 	#[ORM\Column(name: 'image_name', type: 'string', nullable: true)]
 	protected ?string $imageName;
 
 	public function __construct() {
 		$this->profils = new ArrayCollection();
+		$this->adminRegions = new ArrayCollection();
+		$this->adminCities = new ArrayCollection();
 	}
 
 	public function getId(): ?int {
@@ -403,4 +431,91 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         $this->diaspora = $diaspora;
     }
 
+    /**
+     * @return Region|null
+     */
+    public function getRegion(): ?Region
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param Region|null $region
+     * @return User
+     */
+    public function setRegion(?Region $region): User
+    {
+        $this->region = $region;
+        return $this;
+    }
+
+    /**
+     * @return Region|null
+     */
+    public function getResidenceRegion(): ?Region
+    {
+        return $this->residenceRegion;
+    }
+
+    /**
+     * @param Region|null $residenceRegion
+     * @return User
+     */
+    public function setResidenceRegion(?Region $residenceRegion): User
+    {
+        $this->residenceRegion = $residenceRegion;
+        return $this;
+    }
+
+    public function getAdminRegions(): Collection
+    {
+        return $this->adminRegions;
+    }
+
+    public function setAdminRegions(Collection $adminRegions): User
+    {
+        $this->adminRegions = $adminRegions;
+        return $this;
+    }
+    public function addAdminRegion(Region $region): self {
+        $this->adminRegions->add($region);
+        return $this;
+    }
+    public function removeAdminRegion(Region $region): void {
+        $this->adminRegions->removeElement($region);
+    }
+
+    public function getAdminCities(): Collection
+    {
+        return $this->adminCities;
+    }
+
+    public function setAdminCities(Collection $adminCities): User
+    {
+        $this->adminCities = $adminCities;
+        return $this;
+    }
+    public function addAdminCity(City $city): self {
+        $this->adminCities->add($city);
+        return $this;
+    }
+    public function removeAdminCity(City $city): void {
+        $this->adminCities->removeElement($city);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPrincipalSchool(): ?int
+    {
+        return $this->principalSchool;
+    }
+
+    /**
+     * @param int|null $principalSchool
+     */
+    public function setPrincipalSchool(?int $principalSchool): void
+    {
+        $this->principalSchool = $principalSchool;
+    }
 }

@@ -103,7 +103,7 @@ class JobOffer {
 		$this->createdDate = new \DateTime();
 		$this->updatedDate = new \DateTime();
 		// Closed after 3 months
-		$this->closedDate = (new \DateTime())->add(new \DateInterval('P3M'));
+		$this->closedDate = (new \DateTime())->add(new \DateInterval('P3M'));;
 	}
 
 	public function getId(): ?int {
@@ -130,17 +130,19 @@ class JobOffer {
 		return $this;
 	}
 
-	public function getClosedDate(): ?string {
-		return ($this->closedDate) ? $this->closedDate->format(Utils::FORMAT_FR): null;
-	}
+    /**
+     * @return string|null
+     */
+    public function getClosedDate(): ?string {
+        return ($this->closedDate) ? $this->closedDate->format(Utils::FORMAT_FR) : null;
+    }
 
-	public function setClosedDate(?string $closedDate): self {
-		if ($closedDate) {
-			$this->closedDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $closedDate);
-		}
-
-		return $this;
-	}
+    public function setClosedDate(?string $closedDate): self {
+        if ($closedDate) {
+            $this->closedDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $closedDate);
+        }
+        return $this;
+    }
 
 	public function getCompany(): ?Company {
 		return $this->company;
@@ -281,6 +283,22 @@ class JobOffer {
 		return $this;
 	}
 
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->city?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return JobOffer
+     */
+    public function setPrefecture(?Prefecture $prefecture): JobOffer
+    {
+        return $this;
+    }
+
 	public function setFilename(?string $filename): self {
 		$this->filename = $filename;
 
@@ -365,6 +383,5 @@ class JobOffer {
 		}
 
 		return $logo;
-
 	}
 }

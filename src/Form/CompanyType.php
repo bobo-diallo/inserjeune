@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Country;
 use App\Entity\LegalStatus;
+use App\Entity\Prefecture;
 use App\Entity\SectorArea;
 use App\Entity\SocialNetwork;
 use App\Services\CityService;
@@ -19,7 +20,9 @@ class CompanyType extends AbstractType
 {
    private CityService $cityService;
 
-   public function __construct(CityService $cityService)
+   public function __construct(
+       CityService $cityService
+   )
    {
       $this->cityService = $cityService;
    }
@@ -90,8 +93,8 @@ class CompanyType extends AbstractType
             'placeholder' => 'menu.select',
             'attr' => ['class' => 'form-control'],
             'query_builder' => function (EntityRepository $entityRepository) {
-               return $entityRepository->createQueryBuilder('sa')
-                  ->orderBy('sa.name', 'ASC');
+                return $entityRepository->createQueryBuilder('sa')
+                    ->orderBy('sa.name', 'ASC');
             }
          ])
          ->add('legalStatus', EntityType::class, [
@@ -123,16 +126,29 @@ class CompanyType extends AbstractType
 		      'required' => false
 	      ])
 	      ->add('mapsAddress', TextType::class, ['attr' => ['hidden' => 'hidden'], 'required' => false])
-         ->add('country', EntityType::class, [
-            'class' => Country::class,
-            'required' => false,
-            'attr' => ['class' => 'form-control', 'value' => ''],
-            'query_builder' => function (EntityRepository $entityRepository) {
-               return $entityRepository->createQueryBuilder('sa')
-                  ->where('sa.valid = true')
-                  ->orderBy('sa.name', 'ASC');
-            }
-         ])
+          ->add('country', EntityType::class, [
+              'class' => Country::class,
+              'required' => false,
+              'attr' => ['class' => 'form-control', 'value' => ''],
+              'query_builder' => function (EntityRepository $entityRepository) {
+                 return $entityRepository->createQueryBuilder('sa')
+                    ->where('sa.valid = true')
+                    ->orderBy('sa.name', 'ASC');
+             }
+          ])
+          ->add('prefecture', EntityType::class, [
+              'required' => false,
+              'class' => Prefecture::class,
+              'placeholder' => 'menu.prefecture',
+              'attr' => [
+                  'class' => 'form-control',
+                  'data-error' => 'error.unauthorized_or_unknown_prefecture',
+              ],
+              'query_builder' => function (EntityRepository $entityRepository) {
+                  return $entityRepository->createQueryBuilder('b')
+                      ->orderBy('b.name', 'ASC');
+              }
+          ])
       ;
 
       $this->cityService->addCity($builder, 'city', true);

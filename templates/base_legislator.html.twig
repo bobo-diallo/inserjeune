@@ -4,7 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Législateur {% endblock %}</title>
+  {% if is_granted('ROLE_LEGISLATEUR') %}
+{#    <title>{% block title %}Législateur {% endblock %}</title>#}
+    {%  set title = "Législateur" %}
+  {% elseif is_granted('ROLE_DIRECTEUR') %}
+{#    <title>{% block title %}Directeur {% endblock %}</title>#}
+    {%  set title = "Directeur" %}
+  {% endif %}
+  <title>{% block title %}{{ title }} {% endblock %}</title>
+
   {{ include('_head.html.twig') }}
   {% block css %}{% endblock %}
 </head>
@@ -19,6 +27,7 @@
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="logged-user-name">{{ user.username }}</div>
             <div class="logged-user-role" style="color: #ffffff">{{ user.roles | role | trans }}</div>
+            <div class="logged-user-phone" style="font-size:12px; color: #007bff">{{ user.phone}}</div>
           {% endif %}
         </div>
         <div class="mobile-menu-trigger">
@@ -56,15 +65,43 @@
               </div>
               <span>{{ 'menu.companies' | trans  }}</span></a>
           </li>
-
-          <li>
-            <a href="{{ path('jobOffer_index') }}">
+          <li class="has-sub-menu"><a href="{{ path('jobOffer_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
               </div>
-              <span>{{ 'menu.job_offer' | trans }}</span>
-            </a>
+              <span>{{ 'menu.job_offer'|trans }}</span></a>
+            <ul class="sub-menu">
+              <li><a href="{{ path('jobOffer_index') }}">{{ 'menu.the_job_offers' | trans }}</a></li>
+              <li><a href="{{ path('job_applied_index') }}">{{ 'menu.the_job_applied' | trans }}</a></li>
+            </ul>
           </li>
+
+          <li class="has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality">
+              </div>
+              <span>{{ 'menu.countries' | trans }},
+        {{ 'menu.regions' | trans }},
+        {%  if prefecture_between_region_city == "true" %}
+          {{ 'menu.prefecture' | trans }},
+        {%  endif %}
+        {{ 'menu.cities' | trans }}<br>
+        {{ 'menu.and' | trans }} {{ 'menu.currencies' | trans }}</span>
+            </a>
+            <ul class="sub-menu">
+              {% if is_granted('ROLE_DIRECTEUR')%}
+                <li><a href="{{ path('country_index') }}">{{ 'menu.countries' | trans }}</a></li>
+              {% endif %}
+              <li><a href="{{ path('region_index') }}">{{ 'menu.regions' | trans }}</a></li>
+              {%  if prefecture_between_region_city == "true" %}
+                <li><a href="{{ path('prefecture_index') }}">{{ 'menu.prefectures' | trans }}</a></li>
+              {%  endif %}
+              <li><a href="{{ path('city_index') }}">{{ 'menu.cities' | trans }}</a></li>
+              <li><a href="{{ path('currency_index') }}">{{ 'menu.currencies' | trans }}</a></li>
+            </ul>
+          </li>
+
 
           <li>
             <a href="{{ path('geolocation') }}">
@@ -83,7 +120,9 @@
               <span>{{ 'menu.information' | trans }}</span>
             </a>
             <ul class="sub-menu">
-              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_administrateur_inserjeune_v3.2.pdf') }}>{{ 'menu.user_guide' | trans }}</a></li>
+              {% set locale_documentation =  'build/documentation/guide_utilisateur_administrateur_inserjeune_' ~ app.request.locale ~ '_v3.4.pdf'%}
+              <li><a target="_blank" href={{ asset(locale_documentation) }}>{{ 'menu.user_guide' | trans }}</a></li>
+              {{ include ('_customize_links.html.twig') }}
               <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
               <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
               <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>

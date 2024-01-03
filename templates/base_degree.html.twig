@@ -35,7 +35,6 @@
       <div class="menu-and-user">
         {# Menu lateral gauche #}
         <ul class="main-menu">
-
           <li>
             <a href="{{ path('front_persondegree_edit') }}">
               <div class="icon-w">
@@ -61,7 +60,6 @@
             </a>
           </li>
           <li>
-            {#<a href="{{ path('front_persondegree_joboffers') }}">#}
             <a href="{{ path('jobOffer_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer">
@@ -86,7 +84,9 @@
               <span>{{ 'menu.information' | trans }}</span>
             </a>
             <ul class="sub-menu">
-              <li><a target="_blank" href={{ asset('build/documentation/guide_utilisateur_diplome_inserjeune_v3.2.pdf') }}>{{ 'menu.user_guide' | trans }}</a></li>
+              {% set locale_documentation =  'build/documentation/guide_utilisateur_diplome_inserjeune_' ~ app.request.locale ~ '_v3.4.pdf'%}
+              <li><a target="_blank" href={{ asset(locale_documentation) }}>{{ 'menu.user_guide' | trans }}</a></li>
+              {{ include ('_customize_links.html.twig') }}
               <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
               <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
               <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>

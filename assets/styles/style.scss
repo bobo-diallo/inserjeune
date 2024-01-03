@@ -42,58 +42,84 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 .banner {
-  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
   height: 140px;
   background-color: white;
 }
 
-#logo_ifef {
-  position: absolute;
-  left:0;
-  top: 0;
+#loginLogo {
+  margin-left: 20px;
 }
-#logo_oif {
-  position: absolute;
-  right: 0;
-  top: 0;
+
+.banner_logo_left {
+  width: 25%;
+  height: auto;
+  text-align: center;
+
+  img {
+    margin-top: 20px;
+    height: 90px;
+    width: auto;
+  }
+}
+
+.banner_logo_right {
+  width: 25%;
+  height: auto;
+  text-align: center;
+
+  img {
+    margin-top: 20px;
+    height: 90px;
+    width: auto;
+  }
 }
 
 .banner_title {
+  margin: auto;
+  padding: 0 30px;
   background-color: white;
-  margin: 2% 30% 2% 30%;
   font-size: medium;
   text-align: center;
   max-height: 100px;
+  width: 50%;
 }
 
-@media (max-width: 960px) {
-  .banner {
-    height: 70px;
-  }
-  .banner_title {
-    background-color: white;
-    margin: 2% 25% 2% 25%;
-    font-size: 9px;
-  }
+#partners {
+  display : flex;
+  flex-direction: column;
 }
 
 @media (max-width: 640px) {
+  .banner {
+    height: 70px;
+  }
+  .banner_logo_left {
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
+  .banner_logo_right {
+    padding-right: 10px ;
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
   .banner_title {
-    display: none;
+    margin: 0;
+    padding: 5px;
+    font-size: 8px;
+  }
+
+  #partners {
+    flex-direction: row;
   }
 }
-
-/*.banner .logo-w {*/
-/*padding: 0;*/
-/*height: 110px;*/
-/*}*/
-
-/*.banner .logo-w img {*/
-/*height: 100%;*/
-/*width: auto;*/
-/*right:0;*/
-/*}*/
-
 
 /* The switch - the box around the slider */
 /******************************************/
@@ -190,6 +216,14 @@ table.dataTable tbody th, table.dataTable tbody td {
   margin-left: 15px;
 }
 
+#appbundle_geolocation_yourGraduates {
+  height: 30px;
+}
+
+.form-group.your_graduate span {
+  margin-left: 0;
+}
+
 .non {
   position: relative;
   top : -28px;
@@ -200,6 +234,11 @@ table.dataTable tbody th, table.dataTable tbody td {
   position: relative;
   top : -51px;
   right: -50px;
+}
+
+#form-login,
+#form-register {
+    padding-bottom: 20px;
 }
 
 .auth-box-w .form-group span {
@@ -304,6 +343,18 @@ table.dataTable tbody th, table.dataTable tbody td {
   max-width: 90%;
 }
 
+@media (max-width: 640px) {
+  .element-wrapper .element-box-reduct {
+    padding-left: 0;
+    padding-right: 0;
+
+    .el-legend {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
 .graph_satisfactions {
   /*padding: 0 5% 0 5%;*/
   /*margin-left: 55px;*/
@@ -330,6 +381,135 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .content-w {
   background-image: none;
+}
+@media (min-width: 768px) {
+  .content-i {
+    min-height: 1000px;
+  }
+}
+
+.footer_login {
+  align-items: baseline;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 30px;
+  margin-top: 40px !important;
+  margin-bottom: 0 !important;
+
+  span {
+    font-size: 10px;
+    color: #007bff;
+    margin-right: 10px;
+  }
+}
+.footer_register {
+  align-items: baseline;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+  margin-bottom: 0 !important;
+
+  span {
+    font-size: 10px;
+    color: #007bff;
+    margin-right: 10px;
+  }
+}
+
+#customize_footer {
+  border-top : 2px solid #007bff;
+  background-color: #ffffff;
+  color: #007bff;
+  padding: 10px 10px;
+  margin: auto;
+
+  span {
+    font-weight: bolder;
+  }
+  #links {
+    p {
+      margin-bottom: 0!important;
+    }
+  }
+  #contact {
+    p {
+      margin-bottom: 10px;
+    }
+    p:first-child {
+      margin-top: 10px;
+    }
+  }
+
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+
+    p {
+      margin-bottom: 0;
+      margin-top: 0!important;
+
+      img {
+        height: auto;
+        width: 100%;
+        max-height: 50px;
+        max-width: 90px;
+        margin-top: 0;
+      }
+    }
+  }
+
+  p {
+    font-weight: normal;
+    font-size: 12px!important;
+    margin-top: 2px;
+
+    :first-child {
+      margin-top: 10px;
+    }
+
+    a {
+      //color: white;
+      font-size: 12px!important;
+      //font-style: italic;
+      font-weight: normal;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  #customize_footer {
+    img {
+      height: 40px!important;
+      width: auto!important;
+    }
+    .logos {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;;
+    }
+    #links {
+      margin-bottom: 10px;
+    }
+    #contact {
+      p {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      p:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  #customize_footer {
+    padding: 10px 10px;
+  }
 }
 
 .last_answer_responses {
@@ -376,8 +556,6 @@ table.dataTable tbody th, table.dataTable tbody td {
   }
 }
 
-
-
 .col_id {
   width: 2px;
 }
@@ -414,6 +592,21 @@ table.dataTable tbody th, table.dataTable tbody td {
   margin-bottom: 1.0rem;
 }
 
+@media (max-width: 768px) {
+  .job_rate .element-box {
+    max-width: 300px;
+  }
+
+  .job_rate .element-box.el-tablo {
+    text-align: left ;
+  }
+
+  .job_rate .element-box.el-tablo .value span:last-child {
+    position: absolute;
+    right: 17px;
+  }
+}
+
 .btn-dashboard {
   margin-left: 15px;
   height: 1.9rem;
@@ -428,6 +621,13 @@ table.dataTable tbody th, table.dataTable tbody td {
 #addCompany {
   margin-right: 15px!important;
   padding: 0.3rem 1.2rem !important;
+}
+
+.dahboardGraphNote {
+  font-size: 10px;
+  margin-left: 10px;
+  margin-top: 0;
+  color: red;
 }
 
 .kz-print-tools {
@@ -498,7 +698,6 @@ table.dataTable tbody th, table.dataTable tbody td {
   }
   .btn-dashboard {
     margin-left: 0;
-    width: 100%;
   }
 
   .menu-low-enroll button{
@@ -602,6 +801,7 @@ table.dataTable tbody th, table.dataTable tbody td {
   color: #EF2ED1;
 }
 
+.your_graduate .form-control[type="checkbox"],
 .table_geo .form-control[type="checkbox"] {
   //margin-left: 20%;
   margin: auto!important;
@@ -612,10 +812,8 @@ table.dataTable tbody th, table.dataTable tbody td {
   height: 30px;
 }
 
-.table_geo .slider {
-  /*text-align: center;*/
-  //margin-left: 20%;
-  //margin-top: -25px;
+.table_geo .slider,
+.your_graduate .slider {
   margin: -25px auto 0 auto;
 }
 
@@ -848,6 +1046,35 @@ table#activity_founded th{
   margin-bottom: 25px;
 }
 
+.form-dashboard > div {
+  margin-left: 7px;
+  display: flex;
+  //justify-content: flex-end !important;
+  flex-direction: column;
+
+  button {
+    margin-top: 25px;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-dashboard > div {
+    //justify-content: flex-end !important;
+    flex-direction: row;
+    label {
+      min-width: 70px;
+      margin-left: 15px;
+    }
+    select,
+    input {
+      min-width: 160px;
+    }
+    button {
+      margin-top: 0;
+    }
+  }
+}
+
 .form-dashboard select,
 .form-dashboard input,
 {
@@ -858,6 +1085,10 @@ table#activity_founded th{
 .dashboardFilter {
   display: flex;
   justify-content: space-between;
+}
+
+#printDashboard {
+  margin-bottom: 30px;
 }
 
 #printDashboard span{
@@ -1061,53 +1292,89 @@ table#activity_founded th{
   text-decoration: none;
 }
 
-#appbundle_candidate_message {
-  width: 100%;
-  min-height: 100px;
+.jobApplyDesc {
+  p {
+    white-space: pre-wrap;
+
+    strong {
+      color: red;
+    }
+  }
 }
 
-.selection {
-  width: 50px;
-}
+  #appbundle_candidate_message {
+    width: 100%;
+    min-height: 100px;
+  }
 
-.kz_loader  {
-  opacity:0.7;
-  font-size: 35px;
-  font-weight: bolder;
-  background: #007bff;
-  z-index:999;
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100% ;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-}
+  .selection {
+    width: 50px;
+  }
 
-.purge {
-  margin-top: 30px!important;
-}
-.purge .kz-print-tools {
-  display: none;
-}
+  .kz_loader  {
+    opacity:0.7;
+    font-size: 35px;
+    font-weight: bolder;
+    background: #007bff;
+    z-index:999;
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100% ;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+
+  .purge {
+    margin-top: 30px!important;
+  }
+  .purge .kz-print-tools {
+    display: none;
+  }
 
 .userClean td {
   vertical-align: bottom!important;
   padding: 0!important;
   margin: auto!important;
 }
-.userClean td p {
-  margin: 5px;
-  text-align: center;
+.userClean td {
+  p {
+    margin: 5px;
+    text-align: center;
+  }
+  .p_city {
+    text-align: left;
+  }
+}
+
+td.cleanCity p,
+td.cleanResumed p {
+  text-align: left;
+  strong {
+    color: red;
+  }
 }
 
 .execute {
   margin-top: 20px;
-}
-.execute button {
-  margin-right: 20px;
+  display: flex;
+  button {
+    margin-right: 20px;
+  }
+  input {
+    background-color: #007bff;
+    width: auto;
+    margin-right: 20px;
+    color: white;
+    height: 30px;
+  }
+
+  input::placeholder {
+      color: white;
+      opacity: 1; /* Firefox */
+  }
 }
 
 .userCheck,

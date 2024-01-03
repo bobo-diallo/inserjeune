@@ -60,13 +60,13 @@
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
                    {{ 'menu.country' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.addressCity.region.country }}">
+                  <input class="form-control" disabled value="{{ personDegree.addressCity.region.country | trans }}">
                 </label>
               </div>
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
                    {{ 'menu.region' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.addressCity.region }}">
+                  <input class="form-control" disabled value="{{ personDegree.addressCity.region | trans }}">
                 </label>
               </div>
             </div>
@@ -74,7 +74,7 @@
               <div class="col-sm-6">
                 <label class="col-form-label col-sm-12">
                     {{ 'city.city_nearest' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.addressCity.name }}">
+                  <input class="form-control" disabled value="{{ personDegree.addressCity.name | trans }}">
                 </label>
               </div>
               <div class="col-sm-6">
@@ -85,36 +85,50 @@
               </div>
             </div>
             <div class="row">
+              {%  if concat_local_address == "false" %}
+                <div class="col-sm-2">
+                  <label class="col-form-label col-sm-12">
+                    {{ 'menu.number' | trans }} :
+                    <input class="form-control" disabled value="{{ personDegree.addressNumber }}">
+                  </label>
+                </div>
+                <div class="col-sm-5">
+                  <label class="col-form-label col-sm-12">
+                    {{ 'menu.street' | trans }} :
+                    <input class="form-control" disabled value="{{ personDegree.addressRoad }}">
+                  </label>
+                </div>
+                <div class="col-sm-5">
+                  <label class="col-form-label col-sm-12">
+                    {{ 'menu.location' | trans }} :
+                    <input class="form-control" disabled value="{{ personDegree.addressLocality }}">
+                  </label>
+                </div>
+              {% else %}
+                <div class="col-sm-12">
+                  <label class="col-form-label col-sm-12">
+                    {{ 'menu.location' | trans }} :
+                    <input class="form-control" disabled value="{{ personDegree.addressLocality }}">
+                  </label>
+                </div>
+              {% endif %}
+            </div>
+            <div class="row">
               <div class="col-sm-3">
                 <label class="col-form-label col-sm-12">
                   {{ 'menu.residence_country' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.residenceCountry }}">
+                  {% if struct_province_country_city == "true" %}
+                    <input class="form-control" disabled value="{{ personDegree.residenceRegion }}">
+                  {% else %}
+                    <input class="form-control" disabled value="{{ personDegree.residenceCountry }}">
+                  {% endif %}
+
                 </label>
               </div>
               <div class="col-sm-9">
                 <label class="col-form-label col-sm-12">
                   {{ 'menu.address_diaspora' | trans }} :
                   <input class="form-control" disabled value="{{ personDegree.addressDiaspora }}">
-                </label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-2">
-                <label class="col-form-label col-sm-12">
-                  {{ 'menu.number' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.addressNumber }}">
-                </label>
-              </div>
-              <div class="col-sm-5">
-                <label class="col-form-label col-sm-12">
-                   {{ 'menu.street' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.addressRoad }}">
-                </label>
-              </div>
-              <div class="col-sm-5">
-                <label class="col-form-label col-sm-12">
-                   {{ 'menu.location' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.addressLocality }}">
                 </label>
               </div>
             </div>
@@ -169,7 +183,7 @@
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
                   {{ 'menu.activity_area' | trans }} :
-                  <input class="form-control" disabled value="{{ personDegree.sectorArea }}">
+                  <input class="form-control" disabled value="{{ personDegree.sectorArea | trans }}">
                 </label>
               </div>
               <div class="col-sm-4">

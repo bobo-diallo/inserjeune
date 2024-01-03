@@ -6,7 +6,8 @@
 </div>
 <div class="form-group">
   <label for=""> {{ 'menu.activity_area' | trans }}</label>
-  {{ form_widget(form.sectorArea) }}
+  {{ create_translated_select(form.sectorArea) }}
+{#  {{ form_widget(form.sectorArea) }}#}
   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.sectorArea) }}</div>
 </div>
 <div class="form-buttons-w">

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\JobOffer;
 use App\Entity\PersonDegree;
+use App\Repository\CityRepository;
 use App\Entity\Role;
 use App\Entity\School;
 use App\Services\SchoolService;
@@ -16,6 +17,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobAppliedRepository;
 use App\Tools\Utils;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,15 +32,20 @@ use DateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/purge')]
-#[Security("is_granted('ROLE_ADMIN')")]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
 class PurgeController extends AbstractController {
 	private EntityManagerInterface $em;
 	private CountryRepository $countryRepository;
+    private CityRepository $cityRepository;
 	private SchoolRepository $schoolRepository;
     private CompanyRepository $companyRepository;
 	private PersonDegreeRepository $personDegreeRepository;
 	private UserRepository $userRepository;
 	private JobOfferRepository $jobOfferRepository;
+    private JobAppliedRepository $jobAppliedRepository;
     private SchoolService $schoolService;
     private CompanyService $companyService;
     private PersonDegreeService $personDegreeService;
@@ -46,7 +53,8 @@ class PurgeController extends AbstractController {
 
 	public function __construct(
 		EntityManagerInterface $em,
-        CountryRepository        $countryRepository,
+        CountryRepository       $countryRepository,
+        CityRepository          $cityRepository,
 		SchoolRepository        $schoolRepository,
         CompanyRepository       $companyRepository,
         PersonDegreeRepository  $personDegreeRepository,
@@ -55,21 +63,25 @@ class PurgeController extends AbstractController {
         PersonDegreeService     $personDegreeService,
 		UserRepository          $userRepository,
 		JobOfferRepository      $jobOfferRepository,
-		TranslatorInterface $translator
+        JobAppliedRepository    $jobAppliedRepository,
+		TranslatorInterface     $translator
 	) {
 		$this->em = $em;
 		$this->countryRepository = $countryRepository;
+        $this->cityRepository = $cityRepository;
 		$this->schoolRepository = $schoolRepository;
         $this->companyRepository = $companyRepository;
         $this->personDegreeRepository = $personDegreeRepository;
 		$this->userRepository = $userRepository;
 		$this->jobOfferRepository = $jobOfferRepository;
+        $this->jobAppliedRepository = $jobAppliedRepository;
         $this->schoolService = $schoolService;
         $this->companyService = $companyService;
         $this->personDegreeService = $personDegreeService;
 		$this->translator = $translator;
 	}
 
+    // #[Security("is_granted('ROLE_ADMIN')")]
     #[Route(path: '/', name: 'purge', methods: ['GET'])]
     public function purgeAction(Request $request): Response {
         $session = $request->getSession();
@@ -77,6 +89,7 @@ class PurgeController extends AbstractController {
         if ($session->has('pays')) {
             $idSelectedCountry = $session->get('pays');
         }
+
         $countries = $this->countryRepository->findAll();
         return $this->render('purge/purge.html.twig', [
             'countries' => $countries,
@@ -87,10 +100,12 @@ class PurgeController extends AbstractController {
 	/**
 	 * @throws Exception
 	 */
+    #[Security("is_granted('ROLE_ADMIN')")]
 	#[Route(path: '/findActor', name: 'find_actor', methods: ['GET'])]
     public function findActorAction(Request $request): JsonResponse|Response {
         $phone=$request->query->get('userPhone');
         $res = [];
+        $err = [];
         /* list of Users with a part of phone number */
 		if ($phone) {
 			$users = $this->userRepository->getByBeginPhoneNumber('%' . $phone . '%');
@@ -123,9 +138,9 @@ class PurgeController extends AbstractController {
 					$res[] = ['id' => $user['id'], 'name' => $user['phone'], 'type' => $type];
 			}
 		}
-        return new JsonResponse($res);
+        return new JsonResponse([$res, $err]);
     }
-
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route(path: '/removeActors', name: 'remove_actors', methods: ['GET'])]
     public function removeActors(Request $request): JsonResponse|Response
     {
@@ -143,8 +158,10 @@ class PurgeController extends AbstractController {
                     if ($user->getSchool()) {
                         // echo(count($user->getSchool()->getPersonDegrees()));die();
                         if(count($user->getSchool()->getPersonDegrees()) >0) {
-
-                            $err[] = "js.error_school_contains_graduates_and_cannot_be_deleted_part1" . " " . $userId . " " . "js.error_school_contains_graduates_and_cannot_be_deleted_part2";
+                            // $err[] = "js.error_school_contains_graduates_and_cannot_be_deleted_part1" . " " . $userId . " " . "js.error_school_contains_graduates_and_cannot_be_deleted_part2";
+                            $err[] = $this->translator->trans("js.error_school_contains_graduates_and_cannot_be_deleted_part1") .
+                                " " .  $userId . " " .
+                                $this->translator->trans("js.error_school_contains_graduates_and_cannot_be_deleted_part2");
                         } else {
                             $this->schoolService->removeRelations($user);
                         }
@@ -170,6 +187,10 @@ class PurgeController extends AbstractController {
         return new JsonResponse([$res, $err]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
     #[Route(path: '/removeOffers', name: 'remove_offers', methods: ['GET'])]
     public function removeOffers(Request $request): JsonResponse|Response
     {
@@ -198,7 +219,43 @@ class PurgeController extends AbstractController {
         }
         return new JsonResponse([$res, $err]);
     }
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
+    #[Route(path: '/removeApplies', name: 'remove_applies', methods: ['GET'])]
+    public function removeApplies(Request $request): JsonResponse|Response
+    {
+        $ids = $request->query->all();
+        $appliesId = explode(',',$ids['ids']);
+        $res=[];
+        $err=[];
 
+        foreach ($appliesId as $applyId) {
+            $apply = $this->jobAppliedRepository->find((int)$applyId);
+
+            if ($apply) {
+                try {
+                    if(count($err)==0) {
+                        $this->em->remove($apply);
+                        $this->em->flush();
+                    }
+
+                    $res[] = $applyId;
+                } catch (Exception $e){
+                    $err[] = "js.error_while_deleting_the_apply" . " " . $applyId . ": " . $e->getMessage();
+                }
+            } else {
+                $res[] = $applyId . ' non trouvé ';
+            }
+        }
+        return new JsonResponse([$res, $err]);
+    }
+
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
     #[Route(path: '/findJobOffer', name: 'find_job_offer', methods: ['GET', 'POST'])]
     public function findJobOfferAction(Request $request): JsonResponse|Response {
 
@@ -212,7 +269,21 @@ class PurgeController extends AbstractController {
         $check = [];
         $jobOffers = [];
 
-        $jobOffers = $this->jobOfferRepository->findAll();
+        if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            $jobOffers = $this->jobOfferRepository->findByCountry($this->getUser()->getCountry());
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $regions = $this->getUser()->getAdminRegions();
+            foreach ($regions as $region) {
+                $jobOffers = array_merge($jobOffers, $this->jobOfferRepository->findByRegion($region));
+            }
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+            $cities = $this->getUser()->getAdminCities();
+            foreach ($cities as $city) {
+                $jobOffers = array_merge($jobOffers, $this->jobOfferRepository->findByCity($city));
+            }
+        } else {
+            $jobOffers = $this->jobOfferRepository->findAll();
+        }
 
         if($action == "closedDate") {
             $jobOffers = $this->jobOfferRepository->getByEmptyEndedDate();
@@ -234,7 +305,7 @@ class PurgeController extends AbstractController {
 
         if($action == "findObsoleteOffers") {
             foreach ($jobOffers as $jobOffer) {
-                $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate());
+                $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate()->format(Utils::FORMAT_FR));
                 $closeDate = new DateTime($closeDateStr);
 
                 //date courante moins 6 mois
@@ -253,6 +324,7 @@ class PurgeController extends AbstractController {
         foreach ($jobOffers as $jobOffer) {
             $closeDate = "null";
             if($jobOffer->getClosedDate() != null) {
+                // $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate()->format(Utils::FORMAT_FR));
                 $closeDateStr = str_replace("/", "-", $jobOffer->getClosedDate());
                 $closeDate = (new DateTime($closeDateStr))->format('Y-m-d');
             }
@@ -268,12 +340,71 @@ class PurgeController extends AbstractController {
             }
             $res[] = [
                 'id' => $jobOffer->getId(),
-                'country' => $jobOffer->getCountry()->getName(),
+                'city' => $jobOffer->getCity()->__toString(),
                 'type' => $type,
                 'name' => $name,
                 'title' => $jobOffer->getTitle(),
                 'updateDate' => $jobOffer->getUpdatedDate()->format('Y-m-d'),
                 'closedDate' => $closeDate
+            ];
+        }
+        return new JsonResponse([$res, $err, $check]);
+    }
+
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
+    #[Route(path: '/findJobApplies', name: 'find_job_applies', methods: ['GET', 'POST'])]
+    public function findJobAppliesAction(Request $request): JsonResponse|Response {
+
+        $query = $request->query->all();
+        $action = "";
+        $dateSuppress = "";
+        if($query)
+            $dateSuppress = $query['date'];
+
+        $res = [];
+        $err = [];
+        $check = [];
+        $jobApplieds = [];
+
+        if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            $country = $this->getUser()->getCountry();
+            $jobApplieds = $this->jobAppliedRepository->findBeforeDateByCountry(new DateTime($dateSuppress), $country);
+
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $regions = $this->getUser()->getAdminRegions();
+            foreach ($regions as $region) {
+                $jobApplieds = array_merge($jobApplieds, $this->jobAppliedRepository->findBeforeDateByRegion(new DateTime($dateSuppress), $region));
+            }
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+            $cities = $this->getUser()->getAdminCities();
+            foreach ($cities as $city) {
+                $jobApplieds = array_merge($jobApplieds, $this->jobAppliedRepository->findBeforeDateByCity(new DateTime($dateSuppress), $city));
+            }
+        } else {
+            $jobApplieds = $this->jobAppliedRepository->findBeforeDate(new DateTime($dateSuppress));
+        }
+
+        //filter by localization
+        // $localization
+
+        foreach ($jobApplieds as $jobApplied) {
+            $applyDateStr = "";
+            if($jobApplied->getAppliedDate() != null) {
+                $applyDateStr = $jobApplied->getAppliedDate()->format('Y-m-d');
+            }
+
+            $cityName = "";
+            if($jobApplied->getIdCity()) {
+                $cityName = $this->cityRepository->find($jobApplied->getIdCity())->__toString();
+            }
+            $res[] = [
+                'id' => $jobApplied->getId(),
+                'apply_date' => $applyDateStr,
+                'job_city' => $cityName,
+                'resumed' => $jobApplied->getResumedApplied()
             ];
         }
         return new JsonResponse([$res, $err, $check]);
@@ -296,12 +427,34 @@ class PurgeController extends AbstractController {
 		return ($type);
 	}
 
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
     #[Route(path: '/getAllActorsWithoutCoordinate', name: 'get_all_actors_without_coordinate', methods: ['GET'])]
     public function getAllActorsWithoutCoordinate(Request $request): JsonResponse {
         $actorType = $request->get('actor');
         $result= [];
         if($actorType == 'persondegree') {
-            $actors = $this->personDegreeRepository->getWithoutCoordinate();
+            $actors = [];
+            if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+                $country = $this->getUser()->getCountry();
+                $actors = $this->personDegreeRepository->getWithoutCoordinateByCountry($country);
+
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+                $regions = $this->getUser()->getAdminRegions();
+                foreach ($regions as $region) {
+                    $actors = array_merge($actors, $this->personDegreeRepository->getWithoutCoordinateByRegion($region));
+                }
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+                $cities = $this->getUser()->getAdminCities();
+                foreach ($cities as $city) {
+                    $actors = array_merge($actors, $this->personDegreeRepository->getWithoutCoordinateByCity($city));
+                }
+            } else {
+                $actors = $this->personDegreeRepository->getWithoutCoordinate();
+            }
+
             foreach ($actors as $actor) {
                 $persondegree = $this->personDegreeRepository->find($actor);
                 $city = null; $country = null; $createdDate=null; $updatedDate=null;
@@ -376,6 +529,10 @@ class PurgeController extends AbstractController {
         return new JsonResponse([$result]);
     }
 
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
     #[Route(path: '/updateLocalizationActors', name: 'update_localization_actors', methods: ['GET'])]
     public function updateLocalizationActors(Request $request): JsonResponse {
         $actorIds = explode(',',$request->get('ids'));
@@ -420,6 +577,11 @@ class PurgeController extends AbstractController {
         }
         return new JsonResponse("Incorrect Data Input");
     }
+
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
     private function getNewCoordinatesNearActorsInCountry (
         string $actorType,
         int $currentId,
@@ -494,7 +656,11 @@ class PurgeController extends AbstractController {
             return ['latitude' => $newLatitude, 'longitude' => $newLongitude];
         }
 
-    // private function getByDuplicatesCoordinates (
+
+    #[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_ADMIN_PAYS') or
+            is_granted('ROLE_ADMIN_REGIONS') or
+            is_granted('ROLE_ADMIN_VILLES')")]
     #[Route(path: '/getAllActorsWithDuplicateCoordinate', name: 'get_all_actors_with_duplicate_coordinate', methods: ['GET'])]
     public function getAllActorsWithDuplicateCoordinate(Request $request): JsonResponse {
         $actorType = $request->get('actor');
@@ -503,7 +669,24 @@ class PurgeController extends AbstractController {
         $errors = [];
 
         if($actorType == 'persondegree') {
-            $actors = $this->personDegreeRepository->getSameCordinates();
+            if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+                $country = $this->getUser()->getCountry();
+                $actors = $this->personDegreeRepository->getSameCordinatesByCountry($country->getId());
+
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+                $regions = $this->getUser()->getAdminRegions();
+                foreach ($regions as $region) {
+                    $actors = array_merge($actors, $this->personDegreeRepository->getSameCordinatesByRegion($region->getId()));
+                }
+            } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+                $cities = $this->getUser()->getAdminCities();
+                foreach ($cities as $city) {
+                    $actors = array_merge($actors, $this->personDegreeRepository->getSameCordinatesByCity($city->getId()));
+                }
+            } else {
+                $actors = $this->personDegreeRepository->getSameCordinates();
+            }
+
         } elseif ($actorType == 'school') {
             $actors = $this->schoolRepository->getSameCordinates();
         } elseif ($actorType == 'company') {

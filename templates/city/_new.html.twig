@@ -1,26 +1,44 @@
 {{ form_widget(form._token) }}
 <div class="form-group col-sm-12">
   <label for=""> {{ 'menu.country' | trans }} </label>
-  {{ form_widget(form.country) }}
+  {{ create_translated_select(form.country) }}
+{#  {{ form_widget(form.country) }}#}
   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name) }}</div>
 </div>
 <div class="form-group col-sm-12">
   <label for=""> {{ 'menu.region' | trans }} </label>
-  {{ form_widget(form.region) }}
+  {{ create_translated_select(form.region) }}
+{#  {{ form_widget(form.region) }}#}
   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
 </div>
+{%  if prefecture_between_region_city == "true" %}
+  <div class="form-group col-sm-12">
+    <label for=""> {{ 'menu.prefecture' | trans }} </label>
+    {{ listen_change_region_prefecture(form.region, form.prefecture) }}
+{#      {{ form_widget(form.prefecture) }}#}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.region) }}</div>
+  </div>
+{% endif %}
 <div class="form-group col-sm-12">
   <label for=""> {{ 'menu.name' | trans }} </label>
   {{ form_widget(form.name) }}
   <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.name) }}</div>
 </div>
-<div class="row">
-  <div class="form-group col-sm-12">
-    <label for=""> {{ 'city.capital_city' | trans }} ?</label>
-      {{ form_widget(form.isCapital) }}
-    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.isCapital) }}</div>
-  </div>
+<div class="form-group col-sm-12">
+  <label for=""> {{ 'city.capital_city' | trans }} ?</label>
+  {{ form_widget(form.isCapital) }}
+  <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.isCapital) }}</div>
 </div>
+{%  if prefecture_between_region_city == "true" %}
+  <div class="form-group col-sm-12">
+    <label for=""> {{ 'city.prefecture_capital_city' | trans }} ?</label>
+    {{ form_widget(form.isPrefectureCapital) }}
+    <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.isPrefectureCapital) }}</div>
+  </div>
+{% endif %}
+{% if roleUser == "Admin_pays" %}
+  <p hidden id="selectedCountry">{{ app.user.country.id }}</p>
+{% endif %}
 <div class="form-buttons-w">
   <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>

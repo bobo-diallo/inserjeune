@@ -1,6 +1,11 @@
-{% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% if is_granted('ROLE_ADMIN') == true  or
+    is_granted('ROLE_ADMIN_PAYS') == true  or
+    is_granted('ROLE_ADMIN_REGIONS') == true  or
+    is_granted('ROLE_ADMIN_VILLES') == true %} {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
+{% elseif is_granted('ROLE_PRINCIPAL') == true %} {% set base = 'base_principal.html.twig' %}
 {% else %} {% set base = 'base_company.html.twig' %}
 {% endif %}
 
@@ -33,27 +38,70 @@
 
                 //Mise à jour des coordonnées géographique en mode auto
                 if ($('#appbundle_company_locationMode').is(":checked")) {
-                    $('#appbundle_company_latitude').val("");
-                    $('#appbundle_company_longitude').val("");
+                    let mapAdresse = getCompanyMapAddress();
+                    if (($('#appbundle_company_mapsAddress').val() != mapAdresse) ||
+                        ($('#appbundle_company_latitude').val().length == 0) ||
+                        ($('#appbundle_company_longitude').val().length == 0)) {
+                        $('#appbundle_company_mapsAddress').val(mapAdresse);
 
-                    //recherche des coordonnées avec l'adresse complète
-                    if (await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude') == true) {
-                        //recherche des coordonnées avec uniquement l'adresse de la ville
-                        await geocodeAddressLocation(getCompanyCityMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
+                        //recherche des coordonnées avec l'adresse complète
+                        if (await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude') == true) {
+                            //recherche des coordonnées avec uniquement l'adresse de la ville
+                            await geocodeAddressLocation(getCompanyMapAddress(), '#appbundle_company_latitude', '#appbundle_company_longitude')
+                        }
                     }
                 }
             });
 
             // Si la ville n'est pas déja sélectionnée, simule un click sur le Pays pour accéder aux Regions
-            if ($('#selectedCountry').val() !== '') {
-                countryEvent("#selectedCountry", "company");
+            if ($('#selectedRegion option').length == 0) {
+                if ($('#selectedCountry').val() !== '') {
+                    //countryEvent("#selectedCountry", "company");
+                }
+            } else {
+                //adaptation DBTA pour l'environnement struct_province_country
+                // (pas de sélection possible sur le country, simule un click sur la region pour accéder au city)
+                //regionEvent("#selectedCountry", "#selectedRegion", "company");
             }
 
             let idPrefix = '#appbundle_company_';
             let allActivities = getAllActivities('#allActivities');
 
             // Ecoute changement sur Pays et Region
+            if(! $('#appbundle_company_prefecture').length) {
             listenChangeCountryRegion('#appbundle_company_country', '#appbundle_company_region', 'country', 'region', 'city')
+            }
+
+            // Event
+            // Region -> Prefecture -> City
+            else {
+                listenChangeRegionPrefecture('#appbundle_company_country', '#appbundle_company_region', '#appbundle_company_prefecture', '#appbundle_company_city');
+            }
+
+            //simule le change sur le pays ou la province
+            if(!$('#appbundle_company_city').val())
+                $('#appbundle_company_country').trigger('change')
+            //supprime les autres pays ou provinces
+            $('#appbundle_company_country').find('option').not(':selected').remove();
+
+            // Option STRUCT_PROVINCE_COUNTRY_CITY = true
+            if ($('#selectedRegion option').length > 0) {
+                setTimeout(function () {
+                    // alert($('#selectedRegion option:selected').val())
+                    $('#appbundle_company_region option[value="' + $('#selectedRegion option:selected').val() + '"]').prop('selected', true);
+                    if(!$('#appbundle_company_city').val())
+                        $('#appbundle_company_region').trigger('change');
+                    //supprime les autres pays
+                    $('#appbundle_company_region').find('option').not(':selected').remove();
+
+                    // mode edition : mets a jour la ville
+                    setTimeout(function () {
+                        if($('#cityName')) {
+                            $('#appbundle_company_city option[value= ' + $('#cityName').val() + ']').prop('selected', true)
+                        }
+                    }, 500);
+                }, 1000);
+            }
 
             // Event
             // Vérifie le numero de téléphone si different du userName
@@ -126,9 +174,16 @@
             let number = $('#appbundle_company_addressNumber').val();
             let road = $('#appbundle_company_addressRoad').val();
             let locality = $('#appbundle_company_addressLocality').val();
-            let city = $('#appbundle_company_addressCity option:selected').text();
+            let city = $('#appbundle_company_city option:selected').text();
             let region = $('#appbundle_company_region option:selected').text();
             let country = $('#appbundle_company_country option:selected').text();
+
+            // console.log("test", $('#appbundle_company_country option'));
+            // adaptation dbta, annulation de la donnée de la province
+            if($('#selectedRegion option').length > 0) {
+                country = "";
+            }
+            // console.log(number, road, locality, city, region, country);
             return (createMapsAddress(number, road, locality, city, region, country));
         }
 

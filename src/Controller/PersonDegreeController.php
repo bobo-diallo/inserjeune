@@ -8,6 +8,7 @@ use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
 use App\Repository\CountryRepository;
+use App\Repository\RegionRepository;
 use App\Services\ActivityService;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,13 +24,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 #[Route(path: '/persondegree')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_LEGISLATEUR')")]
+#[Security("is_granted('ROLE_ADMIN') or 
+            is_granted('ROLE_LEGISLATEUR') or 
+            is_granted('ROLE_DIRECTEUR') or 
+            is_granted('ROLE_ADMIN_REGIONS') or 
+            is_granted('ROLE_ADMIN_PAYS') or 
+            is_granted('ROLE_ADMIN_VILLES') or 
+            is_granted('ROLE_PRINCIPAL')")]
 class PersonDegreeController extends AbstractController {
 	private EntityManagerInterface $em;
 	private PersonDegreeRepository $personDegreeRepository;
 	private ActivityService $activityService;
 	private UserRepository $userRepository;
     private CountryRepository $countryRepository;
+    private RegionRepository $regionRepository;
     private PersonDegreeService $personDegreeService;
 	private TranslatorInterface $translator;
 
@@ -40,6 +48,7 @@ class PersonDegreeController extends AbstractController {
 		UserRepository         $userRepository,
 		PersonDegreeService    $personDegreeService,
         CountryRepository      $countryRepository,
+        RegionRepository      $regionRepository,
 		TranslatorInterface $translator
 	) {
 		$this->em = $em;
@@ -48,6 +57,7 @@ class PersonDegreeController extends AbstractController {
 		$this->userRepository = $userRepository;
         $this->personDegreeService = $personDegreeService;
         $this->countryRepository = $countryRepository;
+        $this->regionRepository = $regionRepository;
 		$this->translator = $translator;
 	}
 
@@ -56,39 +66,128 @@ class PersonDegreeController extends AbstractController {
 		$userCountry = $this->getUser()->getCountry();
 		$countryId = $userCountry ? $userCountry->getId() : null;
 
+
+        // adaptation for multi administrators
+        $userRegions = [];
+        $userCities = [];
+        if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+            $userCountry = $this->getUser()->getCountry();
+            $userRegions =  $this->regionRepository->findByCountry($userCountry->getId());
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+            $userRegions =  $this->getUser()->getAdminRegions();
+        } else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+            $userCities =  $this->getUser()->getAdminCities();
+        }
+
+        // For RegionsAdministrators
+        if(count($userRegions) >0) {
+            $personDegrees = [];
+            foreach ($userRegions as $region) {
+                $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getAllCityRegionPersonDegree(null, $region->getId()));
+            }
+            // dump($personDegrees); die();
+        // For CountriesAdministrators
+        } else if(count($userCities) >0) {
+            $personDegrees = [];
+            foreach ($userCities as $city) {
+                $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getAllCityRegionPersonDegree($city->getId(), null));
+            }
+
+        // For All administrators
+        } else {
+            $personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,$countryId);
+            // adaptation dbta for diaspora
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+                $userRegion = $this->getUser()->getRegion();
+                $regionId = $userRegion ? $userRegion->getId() : null;
+                $personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree(null,$regionId);
+            }
+        }
+
+        //For Principal Role
+        if($this->getUser()->getPrincipalSchool()) {
+            $personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,null, $this->getUser()->getPrincipalSchool());
+        }
+
 		return $this->render('persondegree/index.html.twig', [
-			'personDegrees' => $this->personDegreeRepository->getAllPersonDegree($countryId)
+			'personDegrees' => $personDegrees
 		]);
 	}
 
-	#[Route(path: '/new', name: 'persondegree_new', methods: ['GET', 'POST'])]
+	#[Route(path: '/new_asup', name: 'persondegree_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$personDegree = new Persondegree();
-		$personDegree->setLocationMode(true);
-		$selectedCountry = $personDegree->getCountry();
+        $user = $this->getUser();
 
-		$form = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
+        $personDegree->setPhoneMobile1($user->getPhone());
+        // $personDegree->setCountry($user->getCountry());
+		$personDegree->setLocationMode(true);
+        $residenceCountryPhoneCode = null;
+
+		$selectedCountry = $personDegree->getCountry();
+        if($this->getUser()->getResidenceCountry()) {
+            $residenceCountryPhoneCode = $this->getUser()->getResidenceCountry()->getPhoneCode();
+        }
+
+        $personDegree->setDiaspora($user->isDiaspora());
+        $personDegree->setResidenceCountry($user->getResidenceCountry());
+
+        //adaptation dbta
+        $selectedRegion = null;
+        if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            if($user->getCountry()?->getId() != $user->getRegion()->getCountry()?->getId()) {
+                $user->setCountry($user->getRegion()->getCountry());
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+            $personDegree->setRegion($user->getRegion());
+            // $personDegree->setCountry($user->getRegion()->getCountry());
+            $selectedRegion = $personDegree->getRegion();
+        }
+
+        $form = $this->createForm(PersonDegreeType::class, $personDegree, [
+            'selectedCountry' => $selectedCountry->getId()
+        ]);
 		$form->handleRequest($request);
 
+        $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
+        if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $otherCountries = $this->regionRepository->getNameAndIndicatif($selectedCountry->getId());
+        }
+
 		if ($form->isSubmitted() && $form->isValid()) {
-			$personDegree->setCreatedDate(new \DateTime());
-			$personDegree->setUpdatedDate(new \DateTime());
+            $agreeRgpd = $form->get('agreeRgpd')->getData();
+            if ($agreeRgpd) {
+                $user->setEmail($personDegree->getEmail());
+                $user->setDiaspora($personDegree->isDiaspora());
+                $user->setResidenceCountry($personDegree->getResidenceCountry());
 
-			$dnsServer = $this->getParameter('dnsServer');
-            if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null))
-				$personDegree->setClientUpdateDate(new \DateTime());
+                $personDegree->setUser($user);
+                $personDegree->setCreatedDate(new \DateTime());
+                $personDegree->setUpdatedDate(new \DateTime());
+                $personDegree->setPhoneMobile1($user->getPhone());
+                $personDegree->setUnlocked(false);
 
-			$this->em->persist($personDegree);
-			$this->em->flush();
+                $dnsServer = $this->getParameter('dnsServer');
+                if ((php_uname('n') != $dnsServer) && (php_uname('n') != null))
+                    $personDegree->setClientUpdateDate(new \DateTime());
 
-			return $this->redirectToRoute('persondegree_show', ['id' => $personDegree->getId()]);
-		}
+                $this->em->persist($user);
+                $this->em->persist($personDegree);
+                $this->em->flush();
+
+                return $this->redirectToRoute('persondegree_show', ['id' => $personDegree->getId()]);
+            }
+        }
 
 		return $this->render('persondegree/new.html.twig', [
 			'personDegree' => $personDegree,
 			'form' => $form->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
-			'selectedCountry' => $selectedCountry
+			'selectedCountry' => $selectedCountry,
+            'selectedRegion' => $selectedRegion,
+            'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
+            'otherCountries' => $otherCountries,
 		]);
 	}
 
@@ -99,22 +198,43 @@ class PersonDegreeController extends AbstractController {
 		]);
 	}
 
-	#[IsGranted('ROLE_ADMIN')]
+    #[Security("is_granted('ROLE_ADMIN') or 
+                is_granted('ROLE_ADMIN_PAYS') or
+                is_granted('ROLE_ADMIN_REGIONS') or
+                is_granted('ROLE_ADMIN_VILLES')")]
 	#[Route(path: '/{id}/edit', name: 'persondegree_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, PersonDegree $personDegree): RedirectResponse|Response {
-		$selectedCountry = $personDegree->getCountry();
 		$createdDate = $personDegree->getCreatedDate();
+        $currentUser = $personDegree->getUser();
+        $selectedCountry = $currentUser->getCountry();
 
-		$editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
-		$editForm->handleRequest($request);
+        if (!$selectedCountry) {
+            $selectedCountry = $personDegree->getCountry();
+        }
 
-        $currentUser = $this->userRepository->getFromPersonDegree($personDegree->getId());
         $otherCountries = $this->countryRepository->getNameAndIndicatif($selectedCountry->getId());
+        $residenceCountryPhoneCode = null;
+        if ($currentUser->getResidenceCountry()) {
+            $residenceCountryPhoneCode = $currentUser->getResidenceCountry()->getPhoneCode();
+        }
+
+        //adaptation for DBTA
+        $selectedRegion = null;
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $otherCountries = $this->regionRepository->getNameAndIndicatif($selectedCountry->getId());
+            $residenceCountryPhoneCode = $currentUser->getResidenceRegion()?->getPhoneCode();
+            $selectedRegion = $currentUser->getRegion();
+        }
+
+        $editForm = $this->createForm(PersonDegreeType::class, $personDegree, ['selectedCountry' => $selectedCountry->getId()]);
+        $editForm->handleRequest($request);
 
 		if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-            $currentUser->setDiaspora($personDegree->getDiaspora());
+            $currentUser->setDiaspora($personDegree->isDiaspora());
             $currentUser->setResidenceCountry($personDegree->getResidenceCountry());
+            $currentUser->setResidenceRegion($personDegree->getResidenceRegion());
+            $this->em->persist($currentUser);
 
 			// Patch if no createdDate found
 			$personDegree->setCreatedDate($createdDate);
@@ -131,18 +251,18 @@ class PersonDegreeController extends AbstractController {
             if ((php_uname('n') != $dnsServer)&&(php_uname('n') != null))
 				$personDegree->setClientUpdateDate(new \DateTime());
 
-			if (count($currentUser) > 0) {
-				$personDegree->setUser($currentUser[0]);
-			}
+            $personDegree->setUser($currentUser);
 			$this->em->persist($currentUser);
 			$this->em->persist($personDegree);
 			$this->em->flush();
 			return $this->redirectToRoute('persondegree_show', ['id' => $personDegree->getId()]);
 		}
+        $personDegree->setDiaspora($currentUser->isDiaspora());
+        $personDegree->setResidenceCountry($currentUser->getResidenceCountry());
 
-        if (count($currentUser) > 0) {
-            $personDegree->setDiaspora($currentUser[0]->isDiaspora());
-            $personDegree->setResidenceCountry($currentUser[0]->getResidenceCountry());
+        $residenceCountryPhoneCode = $personDegree->getUser()->getResidenceCountry()?->getPhoneCode();
+        if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+            $residenceCountryPhoneCode = $personDegree->getUser()->getResidenceRegion()?->getPhoneCode();
         }
 
 		return $this->render('persondegree/edit.html.twig', [
@@ -150,7 +270,8 @@ class PersonDegreeController extends AbstractController {
 			'edit_form' => $editForm->createView(),
 			'allActivities' => $this->activityService->getAllActivities(),
 			'selectedCountry' => $selectedCountry,
-			'residenceCountryPhoneCode' => $personDegree->getUser()->getResidenceCountry()?->getPhoneCode(),
+            'selectedRegion' => $selectedRegion,
+			'residenceCountryPhoneCode' => $residenceCountryPhoneCode,
             'otherCountries' => $otherCountries
 		]);
 	}

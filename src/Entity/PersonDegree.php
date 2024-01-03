@@ -39,6 +39,9 @@ class PersonDegree {
     #[ORM\ManyToOne(targetEntity: Country::class)]
     private ?Country $residenceCountry = null;
 
+    #[ORM\ManyToOne(targetEntity: Region::class)]
+    private ?Region $residenceRegion = null;
+
     #[ORM\Column(name: 'address_diaspora', type: 'string', length: 255, nullable: true)]
     private ?string $addressDiaspora;
 	#[ORM\Column(name: 'created_date', type: 'datetime', nullable: true)]
@@ -562,4 +565,37 @@ class PersonDegree {
         return $this;
     }
 
+    /**
+     * @return Region|null
+     */
+    public function getResidenceRegion(): ?Region
+    {
+        return $this->residenceRegion;
+    }
+
+    /**
+     * @param Region|null $residenceRegion
+     * @return PersonDegree
+     */
+    public function setResidenceRegion(?Region $residenceRegion): PersonDegree
+    {
+        $this->residenceRegion = $residenceRegion;
+        return $this;
+    }
+
+    /**
+     * @return Prefecture|null
+     */
+    public function getPrefecture(): ?Prefecture {
+        return $this->addressCity?->getPrefecture();
+    }
+
+    /**
+     * @param Prefecture|null $prefecture
+     * @return PersonDegree
+     */
+    public function setPrefecture(?Prefecture $prefecture): PersonDegree
+    {
+        return $this;
+    }
 }

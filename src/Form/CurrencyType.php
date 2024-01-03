@@ -16,25 +16,25 @@ class CurrencyType extends AbstractType {
 		$builder
 			->add('name', TextType::class, [
 				'attr' => ['class' => 'form-control',
-                    'data-error' => 'Veuillez renseigner le libellé',
+                    'data-error' => 'error.fill_in_wording',
                     'placeholder' => 'menu.name'],
 				'required' => true
 			])
 			->add('isoName', TextType::class, [
 				'attr' => ['class' => 'form-control',
-                    'data-error' => 'Veuillez renseigner le libellé',
+                    'data-error' => 'error.fill_in_wording',
                     'placeholder' => 'currency.iso_name'],
 				'required' => true
 			])
 			->add('isoNum', TextType::class, [
 				'attr' => ['class' => 'form-control',
-                    'data-error' => 'Veuillez renseigner le libellé',
+                    'data-error' => 'error.fill_in_wording',
                     'placeholder' => 'currency.iso_number'],
 				'required' => true
 			])
 			->add('isoSymbol', TextType::class, [
 				'attr' => ['class' => 'form-control',
-                    'data-error' => 'Veuillez renseigner le libellé',
+                    'data-error' => 'error.fill_in_wording',
                     'placeholder' => 'currency.iso_symbol'],
 				'required' => true
 			]);

@@ -7,6 +7,7 @@ class Utils {
    const PERSON_DEGREE = 'ROLE_DIPLOME';
    const SCHOOL = 'ROLE_ETABLISSEMENT';
    const LEGISLATOR = 'ROLE_LEGISLATEUR';
+   const DIRECTOR = 'ROLE_DIRECTEUR';
    const ADMINISTRATOR = 'ROLE_ADMIN';
 
    // Type flashbag

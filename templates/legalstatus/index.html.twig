@@ -41,8 +41,8 @@
                                         </a>
                                     </td>
                                     <td><a href="{{ path('legalstatus_show', { 'id': legalstatus.id }) }}">{{ legalstatus.id }}</a></td>
-                                    <td>{{ legalstatus.name }}</td>
-                                    <td>{{ legalstatus.description }}</td>
+                                    <td>{{ legalstatus.name | trans }}</td>
+                                    <td>{{ legalstatus.description | trans }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -1,13 +1,45 @@
 {{ form_widget(form._token) }}
 <div class="form-group">
   <label for=""> {{ 'menu.country' | trans }} </label>
-  {{ form_widget(form.country) }}
+  {{ create_translated_select(form.country) }}
+{#  {{ form_widget(form.country) }}#}
 </div>
 <div class="form-group">
   <label for=""> {{ 'menu.name' | trans }} </label>
   {{ form_widget(form.name) }}
   <div class="help-block form-text with-errors form-control-feedback"></div>
 </div>
+{#dbta adaptation#}
+{% if struct_province_country_city == "true" %}
+  <div class="form-group">
+    <label for=""> {{ 'currency.iso_code' | trans }} </label>
+    {{ form_widget(form.isoCode) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for="">   {{ 'menu.currency' | trans }} </label>
+    {{ form_widget(form.currency) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for=""> {{ 'menu.phone_indicator' | trans }} </label>
+    {{ form_widget(form.phoneCode) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for=""> {{ 'menu.number_phone_digit' | trans }} </label>
+    {{ form_widget(form.phoneDigit) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+  <div class="form-group">
+    <label for=""> {{ 'menu.valid' | trans }} </label>
+    {{ form_widget(form.valid) }}
+    <div class="help-block form-text with-errors form-control-feedback"></div>
+  </div>
+{% else %}
+  <div hidden>{{ form_widget(form.phoneCode) }} {{ form_widget(form.phoneDigit) }}</div>
+{% endif %}
 <div class="form-buttons-w">
   <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>
+<p hidden id="struct_province_country_city">{{ struct_province_country_city }}</p>

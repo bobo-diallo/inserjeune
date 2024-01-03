@@ -6,3 +6,246 @@
 {% block navigation %}
     <li class="breadcrumb-item"><span>Utilisateur</span></li>
 {% endblock %}
+
+{% block js %}
+  <script>
+     let translations = [];
+     getTranslation().then (function (translation) {
+        translations = translation;
+
+        //cache le choix des 3 acteurs diplome, entreprise et établissement
+        $('#userbundle_user_profils option').each(function () {
+           if (($(this).text() == 'ROLE_DIPLOME') ||
+               ($(this).text() == 'ROLE_ETABLISSEMENT') ||
+               ($(this).text() == 'ROLE_ENTREPRISE')) {
+                    // $(this).parent().prop('disabled', true);
+                    // $(this).prop('disabled', true);
+           }
+        })
+
+        displayCountryRegionCity($('#userbundle_user_profils'));
+        $('#userbundle_user_profils').on('change', function (e) {
+           cleanRequired();
+           displayCountryRegionCity ($(this));
+           // displayCountryRegionCity($('#userbundle_user_profils'));
+           })
+     })
+
+     // initialisation du select des schools
+     let userRole = $('#userRole').text();
+
+     // initialisation des pays(province) en fonction des rôles
+     if((userRole == 'Admin_pays') || (userRole == 'Admin_regions')) {
+        let adminCountry = $('#userCountry').text();
+        console.log("-> " + adminCountry + " | " + $('#userCountry').val())
+        $('#userbundle_user_country option').each(function () {
+           if($(this).val()) {
+              if($(this).val() != adminCountry) {
+                 $(this).remove();
+              }
+           }
+        })
+     }
+     // if(userRole == 'Admin_regions') {
+     //    // $('#selectCities option').remove();
+     //    $('#userbundle_user_adminCities option').remove();
+     // }
+
+     $('#userbundle_user_country').change(function () {
+        let countryId = $(this).val();
+        if ((userRole != 'Admin_regions') && (userRole != 'Admin_villes')) {
+           if (countryId) {
+              getSchoolsByCountry(countryId);
+           }
+        } else if (userRole == 'Admin_regions') {
+           let idSchool = '#userbundle_user_school';
+
+           removeOptions(idSchool);
+           let regionIds = [];
+           $('#userRegions option').each(function () {
+              regionIds.push($(this).val());
+           })
+
+           for(let i=0; i<regionIds.length; i++) {
+              if (regionIds[i]) {
+                 getSchoolsByRegion(idSchool, regionIds[i])
+              }
+           }
+        }
+     })
+
+     //setup cities function of role
+     if(userRole == 'Admin_pays') {
+        let idCity = '#userbundle_user_adminCities';
+        removeOptions(idCity);
+        let countryId = $('#userCountry').text();
+        // console.log('|' + countryId + '|')
+        getCitiesByCountry(idCity,countryId);
+     }
+
+     if(userRole == 'Admin_regions') {
+        let idCity = '#userbundle_user_adminCities';
+        removeOptions(idCity)
+        $('#userRegions option').each(function () {
+           let regionId = $(this).val();
+           getCitiesByRegion(idCity, regionId);
+        })
+     }
+
+     function getSchoolsByCountry(countryId) {
+        let idSchool = '#userbundle_user_school';
+        removeOptions(idSchool);
+        let baseUrl = getUrlCurrentLocale();
+        let url = baseUrl + "getSchoolsByCountry";
+        //
+        let data = {"countryId" : countryId };
+        $.get(url, data).done(function (result) {
+           createSortedOptions(idSchool, result, null);
+        })
+     }
+
+     function getSchoolsByRegion(idSchool, regionId) {
+        let baseUrl = getUrlCurrentLocale();
+        let url = baseUrl + "getSchoolsByRegion1";
+        let data = {"regionId" : regionId };
+        $.get(url, data).done(function (result) {
+           createSortedOptions(idSchool, result, null);
+        })
+     }
+
+     function getCitiesByCountry(idCity, countryId) {
+        // let idCity = '#userbundle_user_city';
+        // removeOptions(idCity);
+        let baseUrl = getUrlCurrentLocale();
+        let url = baseUrl + "getCitiesByCountry";
+        //
+        let data = {"countryId" : countryId };
+        $.get(url, data).done(function (result) {
+           console.log(result)
+           createSortedOptions(idCity, result, null);
+        })
+     }
+
+     function getCitiesByRegion(idCity, regionId) {
+        let baseUrl = getUrlCurrentLocale();
+        let url = baseUrl + "getCitiesByRegion";
+        let data = {"regionId" : regionId };
+        $.get(url, data).done(function (result) {
+           createSortedOptions(idCity, result, null);
+        })
+     }
+
+     function displayCountryRegionCity (id) {
+        if (id.find(':selected').length > 1) {
+           alert(translations["js.please_select_once_profil"]);
+           $(id).val(null).trigger("change");
+        }
+
+        if (id.find(':selected').length == 0) {
+           hideAllDatas ();
+           cleanRequired ();
+           $('#userbundle_user_region ').val("");
+           $('#userbundle_user_adminRegions').val(null).trigger("change");
+           $('#userbundle_user_adminCities').val(null).trigger("change");
+        }
+
+        id.find(':selected').each(function () {
+           let ROLE_ADMIN_PAYS = $('#roles option[value="ROLE_ADMIN_PAYS"]').text();
+           let ROLE_ADMIN_REGIONS = $('#roles option[value="ROLE_ADMIN_REGIONS"]').text();
+           let ROLE_ADMIN_VILLES = $('#roles option[value="ROLE_ADMIN_VILLES"]').text();
+           let ROLE_LEGISLATEUR = $('#roles option[value="ROLE_LEGISLATEUR"]').text();
+           let ROLE_DIRECTEUR = $('#roles option[value="ROLE_DIRECTEUR"]').text();
+           let ROLE_PRINCIPAL = $('#roles option[value="ROLE_PRINCIPAL"]').text();
+
+           if ($(this).text() == ROLE_LEGISLATEUR ) {
+              hideAllDatas ();
+              // console.log("test1")
+              showData ($('#selectCountry'));
+              $('#userbundle_user_adminRegions').val(null).trigger("change");
+              $('#userbundle_user_adminCities').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_country').prop('required',true);
+           }
+           if ($(this).text() == ROLE_ADMIN_PAYS ) {
+              hideAllDatas ();
+              // console.log("test1")
+              showData ($('#selectCountry'));
+              $('#userbundle_user_adminRegions').val(null).trigger("change");
+              $('#userbundle_user_adminCities').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_country').prop('required',true);
+           }
+           if ($(this).text() == ROLE_ADMIN_REGIONS ) {
+              hideAllDatas ();
+              // console.log("test2")
+              showData ($('#selectRegions'));
+              $('#userbundle_user_region ').val("");
+              $('#userbundle_user_adminCities').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_adminRegions').prop('required',true);
+           }
+           if ($(this).text() == ROLE_ADMIN_VILLES ) {
+              hideAllDatas ();
+              // console.log("test3")
+              showData ($('#selectCities'));
+              $('#userbundle_user_region ').val("");
+              $('#userbundle_user_adminRegions').val(null).trigger("change");
+              cleanRequired ();
+              $('#userbundle_user_adminCities').prop('required',true);
+           }
+           if ($(this).text() == ROLE_PRINCIPAL ) {
+              hideAllDatas ();
+              // console.log("test3")
+              showData ($('#selectCountry'));
+              showData ($('#selectSchool'));
+              // $('#userbundle_user_country').change(function () {
+              //
+              // })
+
+              // $('#userbundle_user_region ').val("");
+              // $('#userbundle_user_adminRegions').val(null).trigger("change");
+              cleanRequired ();
+           }
+        })
+     }
+
+     // mise à jour des établissements en fonction des autres filtres
+     function getUserSchools(idCountry, idSchool, $idSchool) {
+        let countryId = $(idCountry).val();
+
+        // find schools of country
+        if(countryId) {
+           removeOptions(idSchool);
+           let baseUrl = getUrlCurrentLocale();
+
+           let url = baseUrl + "getSchoolsByCountry";
+
+           let data = {"countryId" : countryId };
+           $.get(url, data).done(function (result) {
+              createSortedOptions(idSchool, result, null);
+           })
+
+           if($idSchool) {
+              alert($idSchool);
+              $(idCountry + ' option[value="' + $idSchool + '"]').prop("selected", true);
+           }
+        }
+     }
+
+     function hideAllDatas () {
+        $('#selectCountry').attr("hidden",true);
+        $('#selectRegions').attr("hidden",true);
+        $('#selectCities').attr("hidden",true);
+        $('#selectSchool').attr("hidden",true);
+     }
+     function showData (idData) {
+        idData.removeAttr('hidden');
+     }
+     function cleanRequired () {
+        $('#userbundle_user_country').removeAttr('required');
+        $('#userbundle_user_adminCities').removeAttr('required');
+        $('#userbundle_user_adminRegions').removeAttr('required');
+        $('#userbundle_user_school').removeAttr('required');
+     }
+  </script>
+{%  endblock %}

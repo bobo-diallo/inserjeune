@@ -1,14 +1,18 @@
 {% if is_granted('ROLE_ADMIN') == true %} {% set base = 'base.html.twig' %}
+{% elseif is_granted('ROLE_ADMIN_PAYS') == true %} {% set base = 'base.html.twig' %}
 {% elseif is_granted('ROLE_ENTREPRISE') == true %} {% set base = 'base_company.html.twig' %}
 {% elseif is_granted('ROLE_DIPLOME') == true %} {% set base = 'base_degree.html.twig' %}
 {% elseif is_granted('ROLE_ETABLISSEMENT') == true %} {% set base = 'base_school.html.twig' %}
 {% elseif is_granted('ROLE_LEGISLATEUR') == true %} {% set base = 'base_legislator.html.twig' %}
+{% elseif is_granted('ROLE_DIRECTEUR') == true %} {% set base = 'base_legislator.html.twig' %}
 {% else %} {% set base = 'base.html.twig' %}
 {% endif %}
 
 {% extends base %}
 
 {% block title %}AppBundle:Nettoyage:index{% endblock %}
+
+{% set roleUser = app.user.roles | role %}
 
 {% block body %}
    <div class="content-i">
@@ -18,9 +22,11 @@
             <h6 class="element-header"> {{ 'menu.cleaning' | trans}} </h6>
 
             <div class="row cleanMenu">
-               <div class="col-3 menuDown" id="menuActor" onclick="activateActorMenu()">
-                  <p>{{ 'menu.actor' | trans}}</p>
-               </div>
+               {%  if roleUser == "Administrateur" %}
+                  <div class="col-3 menuDown" id="menuActor" onclick="activateActorMenu()">
+                     <p>{{ 'menu.actor' | trans}}</p>
+                  </div>
+               {%  endif %}
                <div class="col-3 menuUp" id="menuOffer" onclick="activateOfferMenu()">
                   <p>{{ 'menu.offer' | trans}}</p>
                </div>
@@ -30,6 +36,7 @@
             </div>
 
             {# Zone Acteurs #}
+            {%  if roleUser == "Administrateur" %}
             <div class="element-box" id="actorElement">
                <fieldset>
                   <legend><span>{{ 'menu.actor' | trans}}</span></legend>
@@ -40,9 +47,9 @@
                            <option value="">{{ 'menu.select' | trans }}</option>
                            {% for country in countries %}
                               {% if country.id == idSelectedCountry %}
-                                 <option selected value="{{ country.id }}">{{ country.name }}</option>
+                                 <option selected value="{{ country.id }}">{{ country.name | trans }}</option>
                               {% else %}
-                                 <option value="{{ country.id }}">{{ country.name }}</option>
+                                 <option value="{{ country.id }}">{{ country.name | trans }}</option>
                               {% endif %}
                            {% endfor %}
                         </select>
@@ -82,6 +89,7 @@
                   </div>
                </fieldset>
             </div>
+            {% endif %}
 
             {# Zone Offres emplois #}
             <div class="element-box" id="offerElement">
@@ -101,7 +109,7 @@
                            <tr>
                               <th class="no-print selection">{{ 'clean.selection' | trans }}</th>
                               <th>{{ 'clean.id' | trans }}</th>
-                              <th>{{ 'menu.country' | trans  }}</th>
+                              <th>{{ 'menu.city' | trans  }}</th>
                               <th>{{ 'clean.type' | trans }}</th>
                               <th>{{ 'menu.name' | trans  }}</th>
                               <th>{{ 'menu.title' | trans  }}</th>
@@ -123,13 +131,49 @@
                   </div>
                </fieldset>
             </div>
+            {# Zone Offres pustulées #}
+            <div class="element-box" id="applyElement">
+               <fieldset>
+                  <legend><span>{{ 'menu.the_job_applied' | trans}}</span></legend>
+                  <div class="row align-items-end">
+                     <div class="form-group col-sm-8 execute">
+                        <input type="text" id="applyCleanDate" class="datepicker2 form-control" placeholder="{{ 'clean.purge_date' | trans }}" value="">
+                        <button class="btn btn-sm btn-primary" id="findApplieds" onclick="findApplieds()">{{ 'clean.applied_list' | trans }}</button>
+                        <button class="btn btn-sm btn-primary" id="clearAppliedsTable" onclick="clearAppliedsTable()">{{ 'clean.clear_table' | trans }}</button>
+                     </div>
+                  </div>
+                  <div class="purge row align-items-end"  style="position: relative">
+                     <div class="kz_loader" id="kz_loader_applied">{{ 'clean.note_loading_table' | trans }}</div>
+                     <div class="table-responsive">
+                        <table id="kz_apply_table" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                           <thead>
+                           <tr>
+                              <th class="no-print selection">{{ 'clean.selection' | trans }}</th>
+                              <th>{{ 'clean.id' | trans }}</th>
+                              <th>{{ 'clean.applied_date' | trans  }}</th>
+                              <th>{{ 'menu.city' | trans  }}</th>
+                              <th>{{ 'clean.resumed_applied' | trans }}</th>
+                           </tr>
+                           </thead>
+                           <tbody id="tbodyApply">
+
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="execute">
+                     <button class="btn btn-sm btn-primary" id="selectAllApplies" onclick="selectAllApplies()">{{ 'menu.select_all' | trans }}</button>
+                     <button class="btn btn-sm btn-primary" id="removeSelectedApplies" onclick="removeSelectedApplies()">{{ 'menu.delete' | trans}}</button>
+                  </div>
+               </fieldset>
+            </div>
 
             {# Zone Localisation calcul coordonnées #}
             <div class="element-box" id="localizationElement">
                <fieldset>
                   <legend><span>{{ 'menu.localization' | trans}}</span></legend>
                   <div class="row align-items-end">
-                     <div class="form-group col-sm-12 execute">
+                     <div class="form-group col-sm-12">
                         <p class="mt-1 font-weight-bold">{{ 'clean.search_for_actors_without_location' | trans }}</p>
                         <button class="btn btn-sm btn-primary" id="findPersonDegreesWithoutCoordinate" onclick="findActorWithoutLocation('persondegree')">{{ 'clean.list_of_graduates' | trans }}</button>
                         <button class="btn btn-sm btn-primary" id="findSchoolsWithoutCoordinate" onclick="findActorWithoutLocation('school')">{{ 'clean.list_of establishments' | trans }}</button>
@@ -193,6 +237,8 @@
             {% endif %}
          {% endfor %}
       </select>
+      <p id="struct_province_country_city" hidden>{{ struct_province_country_city }}</p>
+      <p hidden id="userRole">roleUser</p>
    </div>
 {% endblock %}
 
@@ -206,6 +252,7 @@
            type="text/javascript">
    </script>
    <script>
+
       let translations = [];
       getTranslation().then (function (translation) {
          translations = translation
@@ -215,7 +262,12 @@
       /* Menu selection */
       $('#actorElement').show();
       $('#offerElement').hide();
+      $('#applyElement').hide();
       $('#localizationElement').hide();
+
+      if ($('#userRole').text() != "Administrateur") {
+         activateOfferMenu();
+      }
       function activateActorMenu() {
          $('#menuActor').removeClass('menuUp');
          $('#menuActor').addClass('menuDown');
@@ -225,6 +277,7 @@
          $('#menuLocalization').addClass('menuUp');
          $('#actorElement').show();
          $('#offerElement').hide();
+         $('#applyElement').hide();
          $('#localizationElement').hide();
       }
       function activateOfferMenu() {
@@ -236,6 +289,7 @@
          $('#menuLocalization').addClass('menuUp');
          $('#actorElement').hide();
          $('#offerElement').show();
+         $('#applyElement').show();
          $('#localizationElement').hide();
       }
       function activateLocalizationMenu() {
@@ -247,11 +301,16 @@
          $('#menuLocalization').addClass('menuDown');
          $('#actorElement').hide();
          $('#offerElement').hide();
+         $('#applyElement').hide();
          $('#localizationElement').show();
       }
 
-      /* set $locationRef pourles appels Ajax */
-      /* ------------------------------------ */
+      /* format en pour la date de nettoyage des offres postulées */
+      $('#applyCleanDate').datepicker({ format: 'yyyy-mm-dd' });
+
+
+      /* set $locationRef pour les appels Ajax */
+      /* ------------------------------------- */
       let dirs = window.location.href.split('/');
       let $locationRef = "";
       for (let i = 0; i < dirs.length - 1; i++)
@@ -273,6 +332,14 @@
          }
       }
 
+      function selectAllApplies() {
+         if($('.applyCheck').first().is(':checked')) {
+            $('.applyCheck').prop('checked', false);
+         } else {
+            $('.applyCheck').prop('checked', true);
+         }
+      }
+
       function selectAlllocalization() {
          if($('.localizationCheck').first().is(':checked')) {
             $('.localizationCheck').prop('checked', false);
@@ -289,6 +356,11 @@
       function clearOfferTable() {
          $('#kz_offer_table').DataTable().clear();
          $('#kz_offer_table').DataTable().destroy();
+      }
+
+      function clearAppliedsTable() {
+         $('#kz_apply_table').DataTable().clear();
+         $('#kz_apply_table').DataTable().destroy();
       }
 
       function clearLocalizationTable() {
@@ -360,6 +432,38 @@
             }
       }
 
+      function removeSelectedApplies() {
+         let nbApplies = 0;
+         let strapply = "";
+         $('.applyCheck').each(function () {
+            if($(this).is(':checked')) {
+               if(nbApplies>0)
+                  strapply+=',';
+               strapply += $(this).attr('id');
+               nbApplies++;
+            }
+         });
+         if(nbApplies > 0)
+            if(confirm(translations["js.want_delete_these_applies_part1"] + " " + nbApplies + " " + translations["js.want_delete_these_applies_part2"])) {
+               datas = new Object();
+               datas['ids'] = strapply;
+
+               $.get($locationRef + 'removeApplies/', datas).done(function (res) {
+                  console.log("nb erreurs " + res[1].length);
+                  if(res[1].length>0) {
+                     console.log("erreurs rencontrées " + res[1]);
+                     alert(res[1]);
+                  } else {
+                     console.log("suppression des Offres postulées : "+ res[0]);
+                     res[0].forEach(function (id) {
+                        //console.log("  --> " + id);
+                        $('#'+ id).parents('tr').remove().draw;
+                     })
+                  }
+               })
+            }
+      }
+
       function findUser() {
          /* appel ajax en get pour sauvegarder le Diplômé */
          /* --------------------------------------------- */
@@ -374,7 +478,7 @@
             $('#kz_actor_table').DataTable().clear();
             $('#kz_actor_table').DataTable().destroy();
 
-            res.forEach(function (user) {
+            res[0].forEach(function (user) {
                // console.log(user.name);
                let html = '<tr class="userClean" role="row">';
                html += '    <td class="row-actions sorting_1">';
@@ -390,7 +494,7 @@
                $('#kz_loader_actor').css("display", "none")
             })
 
-            if(res.length == 0)
+            if(res[0].length == 0)
                $('#kz_loader_actor').css("display", "none")
 
             // $("#kz_actor_table").dataTable().draw;
@@ -431,16 +535,16 @@
                // if(res[2].includes(offer.id))
                //    html += '       <input checked type="checkbox" class="offerCheck" id="' + offer.id + '" >';
                // else
-                  html += '       <input type="checkbox" class="offerCheck" id="' + offer.id + '" >';
+               html += '       <input type="checkbox" class="offerCheck" id="' + offer.id + '" >';
 
                html += '    </td>';
-               html += '    <td class="tdinput"><p id="p_id' + offer.id + '">' + offer.id + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_country' + offer.id + '">' + offer.country + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_type' + offer.id + '">' + offer.type + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_name' + offer.id + '">' + offer.name + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_title' + offer.id + '">' + offer.title + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_update_date' + offer.id + '">' + offer.updateDate + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_ended_date' + offer.id + '">' + offer.closedDate + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_id" id="p_id' + offer.id + '">' + offer.id + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_city" id="p_city' + offer.id + '">' + offer.city + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_type" id="p_type' + offer.id + '">' + offer.type + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_name" id="p_name' + offer.id + '">' + offer.name + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_title" id="p_title' + offer.id + '">' + offer.title + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_update_date" id="p_update_date' + offer.id + '">' + offer.updateDate + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_ended_date" id="p_ended_date' + offer.id + '">' + offer.closedDate + '</p></td>';
                html += '</tr>';
                $('#tbodyOffer').append(html);
                $('#kz_loader_offer').css("display", "none")
@@ -456,6 +560,72 @@
             if(res[0].length > 0) {
                //$("#kz_offer_table").dataTable().draw;
                $('#kz_offer_table').dataTable({
+                  'columnDefs': [
+                     {'max-width': '10%', 'selection': 0}
+                  ],
+               });
+            }
+
+            //console.log (res );
+
+         }, "json");
+      }
+
+      function findApplieds(action) {
+         let datas = [];
+         datas = new Object();
+         datas['date'] = $("#applyCleanDate").val();
+         console.log("date de suppression" , datas['date']);
+         $('#kz_loader_applied').css("display", "flex");
+         $.get($locationRef + 'findJobApplies/', datas).done(function (res) {
+
+            $('#kz_apply_table').DataTable().clear();
+            $('#kz_apply_table').DataTable().destroy();
+            //
+            // if(res[2].length > 0) {
+            //    console.log(res[3]);
+            // }
+
+            if(res[0].length == 0) {
+               $('#kz_loader_applied').css("display", "none")
+            }
+
+            res[0].forEach(function (apply) {
+               // console.log(user.name);
+               let html = '<tr class="userClean" role="row">';
+               let strResume = apply.resumed.replaceAll('%tag_br%','<br/>')
+                   .replaceAll('%tag_p%','<p>')
+                   .replaceAll('%tag_end_p%','</p>')
+                   .replaceAll('%tag_strong%','<strong>')
+                   .replaceAll('%tag_end_strong%','</strong>');
+               let cityName = apply.job_city.replaceAll(' - ', '<br/><br/>')
+
+               html += '    <td class="row-actions sorting_1">';
+               // if(res[2].includes(apply.id))
+               //    html += '       <input checked type="checkbox" class="applyCheck" id="' + apply.id + '" >';
+               // else
+               html += '       <input type="checkbox" class="applyCheck" id="' + apply.id + '" >';
+
+               html += '    </td>';
+               html += '    <td class="tdinput"><p id="p_id' + apply.id + '">' + apply.id + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_country' + apply.id + '">' + apply.apply_date + '</p></td>';
+               html += '    <td class="tdinput cleanCity"><p id="p_city' + apply.id + '">' + cityName + '</p></td>';
+               html += '    <td class="tdinput cleanResumed"><p id="p_country' + apply.id + '">' + strResume + '</p></td>';
+               html += '</tr>';
+               $('#tbodyApply').append(html);
+               $('#kz_loader_applied').css("display", "none")
+            })
+
+            /* Mise à jour des checks */
+            $('.applyCheck').each(function () {
+               if(res[2].includes(parseInt($(this).attr('id')))) {
+                  $(this).prop('checked', true);
+               }
+            })
+
+            if(res[0].length > 0) {
+               //$("#kz_offer_table").dataTable().draw;
+               $('#kz_apply_table').dataTable({
                   'columnDefs': [
                      {'max-width': '10%', 'selection': 0}
                   ],
@@ -577,8 +747,14 @@
          $('.localizationCheck').each(function () {
             if ($(this).is(':checked')) {
                //calcule les coodonnées avec API Google Maps
-               let address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
-                   $('#p_country' + $(this).attr('id')).text();
+               let address = "";
+               if($('#struct_province_country_city').text() != "true") {
+                  address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
+                      $('#p_country' + $(this).attr('id')).text();
+               } else {
+                  address = $('#p_city' + $(this).attr('id')).text() + ',' + '' +
+                      $('#p_region' + $(this).attr('id')).text();
+               }
                let latInputID = '#p_latitude' + $(this).attr('id');
                let lngInputID = '#p_longitude' + $(this).attr('id');
 

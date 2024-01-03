@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\City;
 use App\Entity\Country;
+use App\Entity\Prefecture;
 use App\Entity\Region;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -36,13 +37,26 @@ class CityType extends AbstractType
             ],
             'attr' => ['class' => 'form-control']
          ])
+          ->add('isPrefectureCapital', ChoiceType::class, [
+              'choices' => [
+                  'Non' => false,
+                  'Oui' => true,
+              ],
+              'attr' => ['class' => 'form-control']
+          ])
          ->add('country', EntityType::class, [
             'class' => Country::class,
             'choice_label' => 'name',
             'mapped' => false,
             'required' => false,
             'attr' => ['class' => 'form-control']
-         ]);
+         ])
+          ->add('prefecture', EntityType::class, [
+              'class' => Prefecture::class,
+              'choice_label' => 'name',
+              'required' => false,
+              'attr' => ['class' => 'form-control']
+          ]);
 
       $builder->get('country')->addEventListener(
          FormEvents::POST_SUBMIT,

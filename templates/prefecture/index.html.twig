@@ -1,0 +1,71 @@
+{% extends 'prefecture/content.html.twig' %}
+
+{% block body %}
+    <div class="content-i">
+        <div class="content-box">
+          {# Tableau 1 #}
+            <div class="element-wrapper">
+                <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
+                <h6 class="element-header">
+                    {{ 'prefecture.list_of_prefectures' | trans }}
+                  {#{% include '_menu.html.twig' %}#}
+                </h6>
+                <div class="element-box">
+                    {%  if roleUser == "Administrateur" or roleUser == "Admin_pays" %}
+                        <div class="controls-above-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+    {#                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
+                                    <a class="btn btn-sm btn-primary" href="{{ path('prefecture_new') }}">
+                                        <i class="fa fa-plus"></i> {{ 'prefecture.new_prefecture' | trans }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table id="kz_table_with_width_export" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                {%  if roleUser == "Administrateur" or roleUser == "Admin_pays" %}
+                                    <th class="no-print">Actions</th>
+                                    <th>Id</th>
+                                {% endif %}
+                                <th>{{ 'menu.name' | trans }}</th>
+                                <th>{{ 'menu.region' | trans}}</th>
+                                <th>{{ 'menu.country' | trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for prefecture in prefectures %}
+                                <tr>
+                                    {%  if roleUser == "Administrateur" or roleUser == "Admin_pays" %}
+                                        <td class="row-actions">
+                                            <a href="{{ path('prefecture_edit', { 'id': prefecture.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            <a href="{{ path('prefecture_show', { 'id': prefecture.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                            <a class="danger" onclick="deleteElement('{{ path('prefecture_delete', {'id': prefecture.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                        </td>
+                                        <td><a href="{{ path('prefecture_show', { 'id': prefecture.id }) }}">{{ prefecture.id }}</a></td>
+                                    {% endif %}
+                                    <td>{{ prefecture.name  | trans }}</td>
+                                    <td>{{ prefecture.region | trans}}</td>
+                                    <td>{{ prefecture.country.name | trans }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+       // $(document).ready(function () {
+       //    let table = datatable()
+       // });
+       makeSelected('prefecture')
+    </script>
+{% endblock %}
