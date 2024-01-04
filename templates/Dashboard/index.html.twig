@@ -481,7 +481,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="element-box el-tablo">
-                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years' | trans }}</div>
+                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Enrollment_rate_of_graduates_for_the_period_considered' | trans }}</div>
                                     <input style="font-size: 10px;" type="text" id="totalCountryGraduates" class="form-control" placeholder="{{ 'school.total_country_graduates' | trans }}">
                                     <div hidden id="totalEnrollGraduates">{{ person_degree_situation_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "number", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH", "TYPE_UNEMPLOYED", "TYPE_STUDY"], userSchool, beginDate, endDate) }}</div>
                                     <div id="enrollRate3Years" class="value"></div>

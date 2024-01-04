@@ -37,7 +37,7 @@
                                         <a class="danger" onclick="deleteElement('{{ path('job_not_found_reason_delete', {'id': reason.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                     </td>
                                     <td><a href="{{ path('job_not_found_reason_show', { 'id': reason.id }) }}">{{ reason.id }}</a></td>
-                                    <td>{{ reason.name }}</td>
+                                    <td>{{ reason.name | trans }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -1865,6 +1865,10 @@
         <source>school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years</source>
         <target>Tasa de matrícula de graduados para el período considerado durante 3 años</target>
       </trans-unit>
+      <trans-unit id="school.Enrollment_rate_of_graduates_for_the_period_considered">
+        <source>school.Enrollment_rate_of_graduates_for_the_period_considered</source>
+        <target>Tasa de matrícula de graduados para el período considerado</target>
+      </trans-unit>
       <trans-unit id="school.students_drop">
         <source>school.students_drop</source>
         <target>Abandono estudiantil</target>
@@ -1955,7 +1959,7 @@
       </trans-unit>
       <trans-unit id="school.total_country_graduates">
         <source>school.total_country_graduates</source>
-        <target>Número de graduados en el país en los últimos 3 años</target>
+        <target>Número de graduados en el país en el período considerado</target>
       </trans-unit>
       <trans-unit id="country.list_of_countries">
         <source>country.list_of_countries</source>
