@@ -23,6 +23,7 @@
       <div class="col-sm-6 form-group">
         <label for=""> {{ 'menu.date_of_birth' | trans }} *</label>
         {{ form_widget(form.birthDate) }}
+{#        {{ form_widget(form.birthDate) | date("d/m/Y")}}#}
         <div class="help-block form-text with-errors form-control-feedback">{{ form_errors(form.birthDate) }}</div>
       </div>
     </div>

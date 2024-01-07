@@ -1869,6 +1869,10 @@
         <source>school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years</source>
         <target>Taxa de matrícula de diplomados no período considerado superior a 3 anos</target>
       </trans-unit>
+      <trans-unit id="school.Enrollment_rate_of_graduates_for_the_period_considered">
+        <source>school.Enrollment_rate_of_graduates_for_the_period_considered</source>
+        <target>Taxa de matrícula de diplomados no período considerado superior</target>
+      </trans-unit>
       <trans-unit id="school.students_drop">
         <source>school.students_drop</source>
         <target>Abandono estudantil</target>
@@ -1959,7 +1963,7 @@
       </trans-unit>
       <trans-unit id="school.total_country_graduates">
         <source>school.total_country_graduates</source>
-        <target>Número de graduados no país nos últimos 3 anos</target>
+        <target>Número de graduados no país no período considerado</target>
       </trans-unit>
       <trans-unit id="country.list_of_countries">
         <source>country.list_of_countries</source>

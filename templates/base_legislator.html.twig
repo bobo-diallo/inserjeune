@@ -76,23 +76,23 @@
             </ul>
           </li>
 
+          {% if is_granted('ROLE_DIRECTEUR')%}
           <li class="has-sub-menu">
             <a href="#">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/locality.png') }}" alt="locality">
               </div>
               <span>{{ 'menu.countries' | trans }},
-        {{ 'menu.regions' | trans }},
-        {%  if prefecture_between_region_city == "true" %}
-          {{ 'menu.prefecture' | trans }},
-        {%  endif %}
-        {{ 'menu.cities' | trans }}<br>
-        {{ 'menu.and' | trans }} {{ 'menu.currencies' | trans }}</span>
+                {{ 'menu.regions' | trans }},
+                {%  if prefecture_between_region_city == "true" %}
+                  {{ 'menu.prefecture' | trans }},
+                {%  endif %}
+                {{ 'menu.cities' | trans }}<br>
+                {{ 'menu.and' | trans }} {{ 'menu.currencies' | trans }}
+              </span>
             </a>
             <ul class="sub-menu">
-              {% if is_granted('ROLE_DIRECTEUR')%}
                 <li><a href="{{ path('country_index') }}">{{ 'menu.countries' | trans }}</a></li>
-              {% endif %}
               <li><a href="{{ path('region_index') }}">{{ 'menu.regions' | trans }}</a></li>
               {%  if prefecture_between_region_city == "true" %}
                 <li><a href="{{ path('prefecture_index') }}">{{ 'menu.prefectures' | trans }}</a></li>
@@ -101,6 +101,7 @@
               <li><a href="{{ path('currency_index') }}">{{ 'menu.currencies' | trans }}</a></li>
             </ul>
           </li>
+          {% endif %}
 
 
           <li>

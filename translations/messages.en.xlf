@@ -1873,6 +1873,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years</source>
         <target>Enrollment rate of graduates for the period considered over 3 years</target>
       </trans-unit>
+      <trans-unit id="school.Enrollment_rate_of_graduates_for_the_period_considered">
+        <source>school.Enrollment_rate_of_graduates_for_the_period_considered</source>
+        <target>Enrollment rate of graduates for the period considered</target>
+      </trans-unit>
       <trans-unit id="school.students_drop">
         <source>school.students_drop</source>
         <target>Student dropout</target>
@@ -1963,7 +1967,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="school.total_country_graduates">
         <source>school.total_country_graduates</source>
-        <target>Number of graduates in the country over the past 3 years</target>
+        <target>Number of graduates in the country in the period considered</target>
       </trans-unit>
       <trans-unit id="country.list_of_countries">
         <source>country.list_of_countries</source>

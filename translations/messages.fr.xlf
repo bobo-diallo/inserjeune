@@ -1873,6 +1873,10 @@
         <source>school.Enrollment_rate_of_graduates_for_the_period_considered_over_3_years</source>
         <target>Taux d'enrôlement des diplômés de la période considérée sur 3 ans</target>
       </trans-unit>
+      <trans-unit id="school.Enrollment_rate_of_graduates_for_the_period_considered">
+        <source>school.Enrollment_rate_of_graduates_for_the_period_considered</source>
+        <target>Taux d'enrôlement des diplômés de la période considérée</target>
+      </trans-unit>
       <trans-unit id="school.students_drop">
         <source>school.students_drop</source>
         <target>Abandon des étudiants</target>
@@ -1963,7 +1967,7 @@
       </trans-unit>
       <trans-unit id="school.total_country_graduates">
         <source>school.total_country_graduates</source>
-        <target>Nombre  de diplômés du pays depuis 3 ans</target>
+        <target>Nombre  de diplômés du pays dans la période considérée</target>
       </trans-unit>
       <trans-unit id="country.list_of_countries">
         <source>country.list_of_countries</source>
@@ -6099,7 +6103,7 @@
       </trans-unit>
       <trans-unit id="diplomas.professional_qualifications2">
         <source>diplomas.professional_qualifications2</source>
-        <target>Brevet  d'études professionnelles2</target>
+        <target>Brevet  d'études professionnelles</target>
       </trans-unit>
       <trans-unit id="diplomas.diploma_in_tropical_agricultural_studies">
         <source>diplomas.diploma_in_tropical_agricultural_studies</source>

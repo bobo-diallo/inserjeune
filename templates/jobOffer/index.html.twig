@@ -208,22 +208,12 @@
 {% block js %}
     <script>
         $(document).ready(function () {
-            let table = datatable(true)
+            let table = datatable(true);
         });
         makeSelected('jobOffer');
 
-        let translations = [];
-        getTranslation().then (function (translation) {
-            translations = translation;
-
-            // mark the offer job if already applied
-            $("#offersApplied option").each(function () {
-                let offerId = $(this).text().trim();
-                $("#" + offerId).find("td").addClass("mark").addClass("text-success");
-                $("#" + offerId).find("td.action").find("a").text(translations["js.applied_again"]);
-            })
-
-            $("#jobOffers").find("tr").find("td.closeDate").each(function () {
+        const changeColor  = function (idJobOffers) {
+            $(idJobOffers).find("tr").find("td.closeDate").each(function () {
                 let currentDate = new Date();
                 let closeDateSplit = $(this).text().split('/');
                 if(closeDateSplit.length == 3) {
@@ -236,16 +226,31 @@
                     }
                 }
             })
-            $("#othersJobs").find("tr").find("td.closeDate").each(function () {
-                let currentDate = new Date();
-                let closeDate = new Date($(this).text());
-                if (closeDate < currentDate) {
-                    // console.log(currentDate + " -> " + closeDate);
-                    $(this).parent().find("td").css("background", "#e6d7db").addClass("text-error");
-                    $(this).parent().find("td.action").children().remove();
-                    $(this).parent().find("td.action").append('<span>' + translations["js.closed"] + '</span>');
-                }
+        }
+
+        $('#jobOffers').on('order.dt', function () {
+            console.log("test bobo1")
+            changeColor('#jobOffers');
+        });
+
+        $('#othersJobs').on('order.dt', function () {
+            console.log("test bobo2")
+            changeColor('#othersJobs');
+        });
+
+        let translations = [];
+        getTranslation().then (function (translation) {
+            translations = translation;
+
+            // mark the offer job if already applied
+            $("#offersApplied option").each(function () {
+                let offerId = $(this).text().trim();
+                $("#" + offerId).find("td").addClass("mark").addClass("text-success");
+                $("#" + offerId).find("td.action").find("a").text(translations["js.applied_again"]);
             })
+
+            changeColor("#jobOffers");
+            changeColor("#othersJobs");
         })
     </script>
 {% endblock %}
