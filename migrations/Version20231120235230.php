@@ -20,10 +20,11 @@ final class Version20231120235230 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE job_applied DROP FOREIGN KEY FK_BC11400D6B3CA4B');
-        $this->addSql('ALTER TABLE job_applied DROP FOREIGN KEY FK_BC11400DC753C60E');
-        $this->addSql('DROP INDEX FK_BC11400D6B3CA4B ON job_applied');
-        $this->addSql('DROP INDEX FK_BC11400DC753C60E ON job_applied');
+        // $this->addSql('ALTER TABLE job_applied DROP FOREIGN KEY FK_BC11400D6B3CA4B');
+        // $this->addSql('ALTER TABLE job_applied DROP FOREIGN KEY FK_BC11400DC753C60E');
+        // $this->addSql('DROP INDEX FK_BC11400D6B3CA4B ON job_applied');
+        // $this->addSql('DROP INDEX FK_BC11400DC753C60E ON job_applied');
+
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649A1BE284D');
         $this->addSql('DROP INDEX IDX_8D93D649A1BE284D ON user');
         $this->addSql('ALTER TABLE user CHANGE school_id_id principal_school INT DEFAULT NULL');

@@ -133,7 +133,7 @@ trait Person {
 	 * @return string|null
 	 */
 	public function getBirthDate(): ?string {
-		return ($this->birthDate) ? $this->birthDate->format(Utils::FORMAT_US) : null;
+		return ($this->birthDate) ? $this->birthDate->format(Utils::FORMAT_FR) : null;
 	}
 
 	public function setBirthDate(?string $birthDate): self {
