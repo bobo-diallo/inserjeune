@@ -66,7 +66,7 @@ class SchoolType extends AbstractType {
 			->add('addressLocality', TextType::class, [
 				'attr' => ['class' => 'form-control',
                     'data-error' => 'Minimum 3 ' . 'menu.characters',
-                    'placeholder' => 'menu.location'],
+                    'placeholder' => 'menu.address'],
 				'required' => false
 			])
 			->add('addressRoad', TextType::class, [
