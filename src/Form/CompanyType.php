@@ -62,7 +62,7 @@ class CompanyType extends AbstractType
          ->add('addressLocality', TextType::class, [
             'attr' => ['class' => 'form-control',
                 'data-error' => 'Minimum 4 caractères', 'data-minlength' => '4',
-                'placeholder' => 'menu.location'],
+                'placeholder' => 'menu.address'],
             'required' => false
          ])
          ->add('otherCity', TextType::class, [

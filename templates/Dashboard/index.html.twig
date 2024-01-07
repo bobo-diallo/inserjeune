@@ -441,7 +441,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="element-box el-tablo">
                                     <div style="color: red; font-weight: bold" class="label">{{ 'school.graduates_integration_rate' | trans }}</div>
                                     <div class="value">{{ graduate_global_integration_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_UNEMPLOYED", "TYPE_SEARCH"], userSchool, beginDate, endDate) }}</div>
@@ -455,31 +455,31 @@
 {#                                    <div class="trending trending-up"><span>12%</span><i class="os-icon os-icon-arrow-up2"></i></div>#}
 {#                                </div>#}
 {#                            </div>#}
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="element-box el-tablo">
                                     <div style="color: red; font-weight: bold" class="label">{{ 'school.Proportion_of_self-employment_in_employment' | trans }}</div>
                                     <div class="value">{{ person_degree_type_in_types_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "TYPE_CONTRACTOR", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
                                     {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="element-box el-tablo">
                                     {# TAUX D'AUTO EMPLOI DES DIPLÔMES #}
                                     <div style="color: red; font-weight: bold" class="label">{{ 'school.Self-employment_rate_of_diplomas' | trans }}</div>
-                                    <div class="value">{{ person_degree_type_in_types_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "TYPE_CONTRACTOR", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR"], userSchool, beginDate, endDate) }}</div>
+                                    <div class="value">{{ person_degree_type_in_types_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, "TYPE_CONTRACTOR", ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH"], userSchool, beginDate, endDate) }}</div>
                                     {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="element-box el-tablo">
-                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Response_rate' | trans }}</div>
-                                    <div class="value">{{ person_degree_survey_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH", "TYPE_UNEMPLOYED", "TYPE_STUDY"], userSchool, beginDate, endDate) }}</div>
-                                    {#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
-                                </div>
-                            </div>
+{#                            <div class="col-sm-3">#}
+{#                                <div class="element-box el-tablo">#}
+{#                                    <div style="color: red; font-weight: bold" class="label">{{ 'school.Response_rate' | trans }}</div>#}
+{#                                    <div class="value">{{ person_degree_survey_rate(idSelectedCountry, idSelectedRegion, idSelectedPrefecture, ["TYPE_EMPLOYED", "TYPE_CONTRACTOR", "TYPE_SEARCH", "TYPE_UNEMPLOYED", "TYPE_STUDY"], userSchool, beginDate, endDate) }}</div>#}
+{#                                    #}{#                                    <div class="trending trending-down-basic"><span>12%</span><i class="os-icon os-icon-arrow-2-down"></i></div>#}
+{#                                </div>#}
+{#                            </div>#}
                         </div>
                         <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-12">
                                 <div class="element-box el-tablo">
                                     <div style="color: red; font-weight: bold" class="label">{{ 'school.Enrollment_rate_of_graduates_for_the_period_considered' | trans }}</div>
                                     <input style="font-size: 10px;" type="text" id="totalCountryGraduates" class="form-control" placeholder="{{ 'school.total_country_graduates' | trans }}">
