@@ -228,6 +228,17 @@
             })
         }
 
+        const applyColor = function (translations) {
+            $("#offersApplied option").each(function () {
+                let offerId = $(this).text().trim();
+                $("#" + offerId).find("td").addClass("mark").addClass("text-success");
+                $("#" + offerId).find("td.action").find("a").text(translations["js.applied_again"]);
+            })
+
+            changeColor("#jobOffers");
+            changeColor("#othersJobs");
+        }
+
         $('#jobOffers').on('order.dt', function () {
             console.log("test bobo1")
             changeColor('#jobOffers');
@@ -242,15 +253,12 @@
         getTranslation().then (function (translation) {
             translations = translation;
 
+            applyColor(translations);
             // mark the offer job if already applied
-            $("#offersApplied option").each(function () {
-                let offerId = $(this).text().trim();
-                $("#" + offerId).find("td").addClass("mark").addClass("text-success");
-                $("#" + offerId).find("td.action").find("a").text(translations["js.applied_again"]);
+            $('#kz_table').on('draw.dt', function() {
+                applyColor(translations);
             })
-
-            changeColor("#jobOffers");
-            changeColor("#othersJobs");
         })
+
     </script>
 {% endblock %}

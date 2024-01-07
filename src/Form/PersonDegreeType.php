@@ -116,9 +116,11 @@ class PersonDegreeType extends AbstractType {
 				'required' => true
 			])
 			->add('birthDate', TextType::class, [
-				'attr' => ['class' => 'datepicker form-control',
-                    'placeholder' => 'menu.date_of_birth'],
-				'required' => true
+				'attr' => [
+					'class' => 'datepicker form-control',
+					'placeholder' => 'menu.date_of_birth'
+				],
+				'required' => true,
 			])
 			->add('addressNumber', IntegerType::class, [
 				'attr' => ['class' => 'form-control',
