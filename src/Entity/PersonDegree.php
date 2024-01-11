@@ -145,6 +145,8 @@ class PersonDegree {
 		$this->satisfactionSearches = new ArrayCollection();
 		$this->satisfactionSalaries = new ArrayCollection();
 		$this->satisfactionCreators = new ArrayCollection();
+		$this->birthDate = new \DateTime();
+		$this->birthDate->modify('-12 years');
 	}
 
 	#[ORM\PrePersist]
