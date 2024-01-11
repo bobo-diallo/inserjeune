@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Candidate;
+use App\Entity\Company;
 use App\Entity\JobOffer;
 use App\Entity\PersonDegree;
 use App\Entity\School;
@@ -200,19 +201,55 @@ class EmailService {
 		$this->mailer->send($email);
 	}
 
-	public function sendCodeChangePassword(string $to, string $code): void {
-		$email = (new TemplatedEmail())
-			->from($this->parameterBag->get('email_from'))
-			->to($to)
-			->replyTo($this->parameterBag->get('email_from'))
-			// ->subject('Modification mot de passe inserjeune')
-			->subject($this->translator->trans('email.Changing_your_inserjeune_password'))
-			->htmlTemplate('email/reset_password.html.twig')
-			->context(['code' => $code])
-		;
+    public function sendCodeChangePassword(string $to, string $code): void {
+        $email = (new TemplatedEmail())
+            ->from($this->parameterBag->get('email_from'))
+            ->to($to)
+            ->replyTo($this->parameterBag->get('email_from'))
+            // ->subject('Modification mot de passe inserjeune')
+            ->subject($this->translator->trans('email.Changing_your_inserjeune_password'))
+            ->htmlTemplate('email/reset_password.html.twig')
+            ->context(['code' => $code])
+        ;
 
-		$this->mailer->send($email);
-	}
+        $this->mailer->send($email);
+    }
+
+    public function sendRelaunchPersonDegree(PersonDegree $personDegree, string $duration, string $type): void {
+        $email = (new TemplatedEmail())
+            ->from($this->parameterBag->get('email_from'))
+            ->to($personDegree->getEmail())
+            ->replyTo($this->parameterBag->get('email_from'))
+            ->subject($this->translator->trans('email.AutoRelaunch'))
+            ->htmlTemplate('email/relaunch_graduate.html.twig')
+            ->context([
+                'name' => $personDegree->getFirstname() . ' ' . $personDegree->getLastname(),
+                'duration' => $duration,
+                'type' => $type,
+                'phone' => $personDegree->getPhoneMobile1()
+            ])
+        ;
+
+        $this->mailer->send($email);
+    }
+    public function sendRelaunchCompany(Company $company, string $duration, string $type): void {
+        // echo $company->getId() . " | " . $duration . " | " . $type; die();
+        $email = (new TemplatedEmail())
+            ->from($this->parameterBag->get('email_from'))
+            ->to($company->getEmail())
+            ->replyTo($this->parameterBag->get('email_from'))
+            ->subject($this->translator->trans('email.AutoRelaunch'))
+            ->htmlTemplate('email/relaunch_company.html.twig')
+            ->context([
+                'name' => $company->getName(),
+                'duration' => $duration,
+                'type' => $type,
+                'phone' => $company->getPhoneStandard()
+            ])
+        ;
+
+        $this->mailer->send($email);
+    }
 
 	/**
 	 * Permet de joindre un fichier
