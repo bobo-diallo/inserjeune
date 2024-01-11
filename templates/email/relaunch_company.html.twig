@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>relance : réponse au questionnaire {{ type }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        h1 {
+            background-color: #264459;
+            color: #ffffff;
+            padding: 30px 0 50px 0;
+            font-weight: normal;
+        }
+        hr {
+            border: none;
+            border-top: 3px solid #264459;
+            margin: 20px;
+        }
+        .container {
+            background-color: #fefefe;
+            width: 580px;
+            margin: 0 auto;
+        }
+        .bottom {
+            background-color: #efefee;
+        }
+        .block {
+            margin: 0;
+            padding: 10px 20px 20px 20px;
+        }
+        .logo {
+            width: 100%;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #264459;
+            color: #fefefe;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="body">
+    <div class="container">
+        <div class="content">
+            <h1 class="text-center">Bonjour {{ name }}!</h1>
+            <div class="block">
+                <p>{{ "relaunch.You_are_registered_on_Inserjeune_platform_with_phone_number" | trans }} : <strong>{{ phone }}</strong></p>
+                {%  if duration == "Y" %}
+                    <p>{{ "relaunch.You_have_responded_to_the_questionnaire_for_over_a_year." | trans }}</p>
+                {% else %}
+                    <p>{{ "relaunch.You_have_responded_to_the_questionnaire_for_over_a_year." | trans }}</p>
+                {% endif %}
+                <p><strong>{{ "relaunch.Can_you_please_answer_the_questionnaire" | trans }}</strong></p>
+                <p>{{ "relaunch.left_menu_Surveys_then_New_survey"  }}</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p class="block">
+                <em>{{ "relaunch.Best_regards" | trans }}</em>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

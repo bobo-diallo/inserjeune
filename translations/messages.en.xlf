@@ -3413,6 +3413,50 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>email.Changing_your_inserjeune_password</source>
         <target>Changing your inserjeune password</target>
       </trans-unit>
+      <trans-unit id="email.AutoRelaunch">
+        <source>email.AutoRelaunch</source>
+        <target>Automatic relaunch of the Inserjeune questionnaire</target>
+      </trans-unit>
+      <trans-unit id="relaunch.You_are_registered_on_Inserjeune_platform_with_phone_number">
+        <source>relaunch.You_are_registered_on_Inserjeune_platform_with_phone_number</source>
+        <target>You are registered on the Inserjeune platform with the telephone number</target>
+      </trans-unit>
+      <trans-unit id="relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable.">
+        <source>relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable.</source>
+        <target>You have graduated for more than 3 months, if your situation is stable.</target>
+      </trans-unit>
+      <trans-unit id="relaunch.You_have_graduated_for_more_than_6_months,_your_professional_situation_has_changed.">
+        <source>relaunch.You_have_graduated_for_more_than_6_months,_your_professional_situation_has_changed.</source>
+        <target>You have been qualified for more than 6 months, and/or your professional situation has changed.</target>
+      </trans-unit>
+      <trans-unit id="relaunch.You_have_responded_to_the_questionnaire_for_over_a_year.">
+        <source>relaunch.You_have_responded_to_the_questionnaire_for_over_a_year.</source>
+        <target>You have responded to the questionnaire for over a year.</target>
+      </trans-unit>
+      <trans-unit id="relaunch.You_have_not_yet_answered_the_questionnaire">
+        <source>relaunch.You_have_not_yet_answered_the_questionnaire</source>
+        <target>You have not yet answered the questionnaire</target>
+      </trans-unit>
+      <trans-unit id="relaunch.Can_you_please_answer_the_questionnaire">
+        <source>relaunch.Can_you_please_answer_the_questionnaire</source>
+        <target>Can you please answer the questionnaire?</target>
+      </trans-unit>
+      <trans-unit id="relaunch.Can_you_please_answer_the_questionnaire_again">
+        <source>relaunch.Can_you_please_answer_the_questionnaire_again</source>
+        <target>Can you please answer the questionnaire again?</target>
+      </trans-unit>
+      <trans-unit id="relaunch.left_menu_Surveys_then_New_survey">
+        <source>relaunch.left_menu_Surveys_then_New_survey</source>
+        <target>left menu: Surveys, then: New survey</target>
+      </trans-unit>
+      <trans-unit id="relaunch.left_menu_Current_investigations">
+        <source>relaunch.left_menu_Current_investigations</source>
+        <target>left menu: Current investigations</target>
+      </trans-unit>
+      <trans-unit id="relaunch.Best_regards">
+        <source>relaunch.Best_regards</source>
+        <target>Best regards</target>
+      </trans-unit>
       <trans-unit id="flashbag.the_deletion_is_done_successfully">
         <source>flashbag.the_deletion_is_done_successfully</source>
         <target>The deletion is done successfully</target>
