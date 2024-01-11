@@ -88,9 +88,19 @@ global.datatable = function datatable(retrieve=false) {
 
 // Datepicker
 global.datepicker = function datepicker() {
-   $('.datepicker').datepicker({
-      language: 'fr'
+   var today = new Date();
+   today.setFullYear(today.getFullYear() - 12);
+
+   $('.birthdate').datepicker({
+      language: 'fr',
+      startDate: new Date(today.getFullYear() - 100, today.getMonth(), today.getDate()), // 100 ans en arrière
+      endDate: today,
    });
+
+   $('.datepicker').datepicker({
+      language: 'fr',
+   });
+
    $('.datepicker').css('padding', '9px');
 }
 
