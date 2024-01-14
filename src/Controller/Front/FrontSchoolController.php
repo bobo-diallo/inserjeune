@@ -28,6 +28,7 @@ use App\Services\ActivityService;
 use App\Services\EmailService;
 use App\Services\SchoolService;
 use App\Services\PersonDegreeService;
+use App\Tools\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionClass;
@@ -621,9 +622,9 @@ class FrontSchoolController extends AbstractController {
 
                 } else if ($setProp == "setBirthDate") {
                     $res[$key] = $value;
-                    $birthDate = new DateTime($value);
+	                $birthDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $value);
                     if ($birthDate) {
-                        $personDegree->$setProp($birthDate->format('m/d/Y'));
+                        $personDegree->$setProp($birthDate->format(Utils::FORMAT_US));
                         $this->em->persist($personDegree);
                     } else {
                         $err[] = "No BirthDate found for Id:" . $value;

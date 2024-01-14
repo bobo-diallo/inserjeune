@@ -104,6 +104,14 @@
 
 {% block js %}
     <script>
+        function initDatepicker(startDate) {
+            $('.datepicker-birthDate').datepicker({
+                language: 'fr',
+                startDate: new Date(startDate.getFullYear() - 100, startDate.getMonth(), startDate.getDate()), // 100 ans en arrière
+                endDate: startDate,
+            });
+        }
+
         let translations = [];
         getTranslation().then (function (translation) {
             translations = translation;
@@ -305,7 +313,7 @@
             html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" type="Date" style="display:none" value="" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
+            html += '    <td class="tdinput"><input class="datepicker-birthDate" required id="birthDate'+ rowNumber + '"  style="display:none" value="" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
             //html += '    <td class="tdinput"><input id="sex'+ rowNumber + '" style="display:none" placeholder="genre"><p></p></td>';
             // html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option >un homme</option><option >une femme</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="un homme">' + translations["js.a_man"] + '</option><option value="une femme">' + translations["js.a_woman"] + '</option></select></td>';
@@ -362,6 +370,12 @@
             if($('#selectActivity' + rowNumber + " option").length == 0)
                 $("#selectActivity"+rowNumber).append("<option value=\"\">" + translations["js.select_sector"] + "</option>");
 
+
+            var today = new Date();
+            today.setFullYear(today.getFullYear() - 12);
+            //
+            initDatepicker(today);
+
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
         }
@@ -388,7 +402,7 @@
             html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
             html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';    //value="un homme">' + translations["js.a_man"]
+            html += '    <td class="tdinput"><input class="datepicker-birthDate" required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';    //value="un homme">' + translations["js.a_man"]
             html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option value="un homme">'+ translations["js.a_man"] +'</option><option value="une femme">' + translations["js.a_woman"] + '</option></select></td>';
             html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
             html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="selectAddressCity'+ rowNumber + '" ><option>' + translations["js.select"] + '</option></select></td>';
@@ -454,7 +468,14 @@
             //Lancement du mode édition
             $("#edit" + rowNumber).click();
             // console.log('BrithDay', values[3]);
-            $('#birthDate' + rowNumber).datepicker('update', values[3]);
+
+            var today = new Date();
+            today.setFullYear(today.getFullYear() - 12);
+            //
+            initDatepicker(today);
+
+            debugger;
+            // $('#birthDate' + rowNumber).datepicker('update', values[3]);
         }
 
         function changeSelectOptionByValue(selectId, textValue, callback) {
@@ -931,6 +952,13 @@
                 })
             }
         }
+
+        var today = new Date();
+        today.setFullYear(today.getFullYear() - 12);
+        $(document).ready(function () {
+            initDatepicker(today);
+        })
+
     </script>
     <script>
         $(document).ready(function () {
