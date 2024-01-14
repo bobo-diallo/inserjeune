@@ -172,11 +172,13 @@ global.hideBlockFlexListener = function hideBlockFlexListener(idPrefix, select, 
    let classHideFlex = '.hide_flex_' + classOther;
    let classHideBlock = '.hide_block_' + classOther;
 
+   console.log("idSelect=" + idSelect);
+
    function hideBlockFlex() {
       let valCheckbox = "non";
       if($(idSelect).is(":checked"))
          valCheckbox = "oui";
-      // console.log("hideBlockFlexListener --> checkbox=" + valCheckbox + " | mode=" + mode);
+      console.log("hideBlockFlexListener --> checkbox=" + valCheckbox + " | mode=" + mode);
 
       if (valCheckbox ==  mode) {
          $(classHideFlex).removeAttr('hidden');

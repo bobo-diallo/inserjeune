@@ -216,6 +216,7 @@ class EmailService {
     }
 
     public function sendRelaunchPersonDegree(PersonDegree $personDegree, string $duration, string $type): void {
+        echo $personDegree->getId() . " | " . $personDegree->getName() . " | " . $duration . " | " . $type . " | " . $personDegree->getPhoneMobile1(). " | " . $personDegree->getEmail() . "\n";
         $email = (new TemplatedEmail())
             ->from($this->parameterBag->get('email_from'))
             ->to($personDegree->getEmail())
@@ -233,7 +234,7 @@ class EmailService {
         $this->mailer->send($email);
     }
     public function sendRelaunchCompany(Company $company, string $duration, string $type): void {
-        // echo $company->getId() . " | " . $duration . " | " . $type; die();
+        echo $company->getId() . " | " . $company->getName() . " | " . $duration . " | " . $type . " | " . $company->getPhoneStandard() . " | " . $company->getEmail() . "\n";
         $email = (new TemplatedEmail())
             ->from($this->parameterBag->get('email_from'))
             ->to($company->getEmail())
