@@ -3425,13 +3425,13 @@
         <source>relaunch.You_are_registered_on_Inserjeune_platform_with_phone_number</source>
         <target>Vous êtes inscrit sur la plateforme Inserjeune avec le numéro de téléphone</target>
       </trans-unit>
-      <trans-unit id="relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable.">
-        <source>relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable.</source>
-        <target>Vous êtes diplômé plus de 3 mois, si votre situation est stable.</target>
+      <trans-unit id="relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable,">
+        <source>relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable,</source>
+        <target>Vous êtes diplômé depuis plus de 3 mois, si votre situation est stable,</target>
       </trans-unit>
       <trans-unit id="relaunch.You_have_graduated_for_more_than_6_months,_your_professional_situation_has_changed.">
         <source>relaunch.You_have_graduated_for_more_than_6_months,_your_professional_situation_has_changed.</source>
-        <target>Vous êtes diplômé plus de 6 mois, et/ou votre situation professionnelle a changé.</target>
+        <target>Vous êtes diplômé depuis plus de 6 mois, et/ou votre situation professionnelle a changé.</target>
       </trans-unit>
       <trans-unit id="relaunch.You_have_responded_to_the_questionnaire_for_over_a_year.">
         <source>relaunch.You_have_responded_to_the_questionnaire_for_over_a_year.</source>
@@ -3441,13 +3441,13 @@
         <source>relaunch.You_have_not_yet_answered_the_questionnaire</source>
         <target>Vous n'avez pas encore répondu au questionnaire</target>
       </trans-unit>
-      <trans-unit id="relaunch.Can_you_please_answer_the_questionnaire">
-        <source>relaunch.Can_you_please_answer_the_questionnaire</source>
-        <target>Pouvez vous s'il vous plait répondre au questionnaire ?</target>
+      <trans-unit id="relaunch.Can_you_please_answer_it">
+        <source>relaunch.Can_you_please_answer_it</source>
+        <target>Pouvez vous s'il vous plait y répondre ?</target>
       </trans-unit>
-      <trans-unit id="relaunch.Can_you_please_answer_the_questionnaire_again">
-        <source>relaunch.Can_you_please_answer_the_questionnaire_again</source>
-        <target>Pouvez vous s'il vous plait répondre à nouveau au questionnaire ?</target>
+      <trans-unit id="relaunch.Can_you_please_answer_it_again">
+        <source>relaunch.Can_you_please_answer_it_again</source>
+        <target>Pouvez vous s'il vous plait y répondre à nouveau ?</target>
       </trans-unit>
       <trans-unit id="relaunch.left_menu_Surveys_then_New_survey">
         <source>relaunch.left_menu_Surveys_then_New_survey</source>
@@ -3460,6 +3460,10 @@
       <trans-unit id="relaunch.Best_regards">
         <source>relaunch.Best_regards</source>
         <target>Bien cordialement</target>
+      </trans-unit>
+      <trans-unit id="relaunch.app_inserjeune_link">
+        <source>relaunch.app_inserjeune_link</source>
+        <target>https://inserjeune-v30.koderez.fr/inserjeune-v342_formation/public/fr/</target>
       </trans-unit>
       <trans-unit id="flashbag.the_deletion_is_done_successfully">
         <source>flashbag.the_deletion_is_done_successfully</source>
@@ -3703,11 +3707,11 @@
       </trans-unit>
       <trans-unit id="sectors.construction_building_and_public_works">
         <source>sectors.construction_building_and_public_works</source>
-        <target>bâtiment, bâtiment et travaux publics</target>
+        <target>construction, bâtiment et travaux publics</target>
       </trans-unit>
       <trans-unit id="sectors.hospitality_restaurants_tourism">
         <source>sectors.hospitality_restaurants_tourism</source>
-        <target>hôtellerie - restaurants - tourisme</target>
+        <target>hôtellerie - restauration - tourisme</target>
       </trans-unit>
       <trans-unit id="sectors.industrial_production">
         <source>sectors.industrial_production</source>
@@ -3731,11 +3735,11 @@
       </trans-unit>
       <trans-unit id="sectors.personal_and_community_services">
         <source>sectors.personal_and_community_services</source>
-        <target>services personnels et communautaires</target>
+        <target>services à la personne et à la collectivité</target>
       </trans-unit>
       <trans-unit id="sectors.management_and_accounting_services">
         <source>sectors.management_and_accounting_services</source>
-        <target>services de gestion et de comptabilité</target>
+        <target>services gestion et comptabilité</target>
       </trans-unit>
       <trans-unit id="sectors.transport_and_logistics">
         <source>sectors.transport_and_logistics</source>
@@ -3755,7 +3759,7 @@
       </trans-unit>
       <trans-unit id="sectors.mining_industry">
         <source>sectors.mining_industry</source>
-        <target>industrie minière</target>
+        <target>secteur minier</target>
       </trans-unit>
       <trans-unit id="sectors.bank_and_insurance">
         <source>sectors.bank_and_insurance</source>
@@ -6163,11 +6167,11 @@
       </trans-unit>
       <trans-unit id="contract.open-ended">
         <source>contract.open-ended</source>
-        <target>à durée indéterminée</target>
+        <target>CDI</target>
       </trans-unit>
       <trans-unit id="contract.fixed term">
         <source>contract.fixed term</source>
-        <target>à durée déterminée</target>
+        <target>CDD</target>
       </trans-unit>
       <trans-unit id="contract.daily">
         <source>contract.daily</source>

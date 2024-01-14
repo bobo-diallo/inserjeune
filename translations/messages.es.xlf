@@ -3409,9 +3409,9 @@
         <source>relaunch.You_are_registered_on_Inserjeune_platform_with_phone_number</source>
         <target>Estás registrado en la plataforma Inserjeune con el número de teléfono</target>
       </trans-unit>
-      <trans-unit id="relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable.">
-        <source>relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable.</source>
-        <target>Te has graduado por más de 3 meses, si tu situación es estable.</target>
+      <trans-unit id="relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable,">
+        <source>relaunch.You_have_graduated_for_more_than_3_months_if_your_situation_is_stable,</source>
+        <target>Te has graduado por más de 3 meses, si tu situación es estable,</target>
       </trans-unit>
       <trans-unit id="relaunch.You_have_graduated_for_more_than_6_months,_your_professional_situation_has_changed.">
         <source>relaunch.You_have_graduated_for_more_than_6_months,_your_professional_situation_has_changed.</source>
@@ -3425,13 +3425,13 @@
         <source>relaunch.You_have_not_yet_answered_the_questionnaire</source>
         <target>Aún no has respondido el cuestionario</target>
       </trans-unit>
-      <trans-unit id="relaunch.Can_you_please_answer_the_questionnaire">
-        <source>relaunch.Can_you_please_answer_the_questionnaire</source>
-        <target>¿Puedes por favor responder el cuestionario?</target>
+      <trans-unit id="relaunch.Can_you_please_answer_it">
+        <source>relaunch.Can_you_please_answer_it</source>
+        <target>¿Puedes responderla?</target>
       </trans-unit>
-      <trans-unit id="relaunch.Can_you_please_answer_the_questionnaire_again">
-        <source>relaunch.Can_you_please_answer_the_questionnaire_again</source>
-        <target>¿Puedes responder el cuestionario nuevamente?</target>
+      <trans-unit id="relaunch.Can_you_please_answer_it_again">
+        <source>relaunch.Can_you_please_answer_it_again</source>
+        <target>¿Puedes responderla de nuevo?</target>
       </trans-unit>
       <trans-unit id="relaunch.left_menu_Surveys_then_New_survey">
         <source>relaunch.left_menu_Surveys_then_New_survey</source>
@@ -3444,6 +3444,10 @@
       <trans-unit id="relaunch.Best_regards">
         <source>relaunch.Best_regards</source>
         <target>Muy cordialmente</target>
+      </trans-unit>
+      <trans-unit id="relaunch.app_inserjeune_link">
+        <source>relaunch.app_inserjeune_link</source>
+        <target>https://inserjeune-v30.koderez.fr/inserjeune-v342_formation/public/es/</target>
       </trans-unit>
       <trans-unit id="flashbag.the_deletion_is_done_successfully">
         <source>flashbag.the_deletion_is_done_successfully</source>

@@ -72,7 +72,7 @@ class SendMailRelaunchCommand extends Command
     {
         $this
             // ->addArgument('id', InputArgument::OPTIONAL, 'Country ID')
-            // ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Country ID')
+            ->addOption('log_dir', null, InputOption::VALUE_REQUIRED, 'log file directory')
         ;
     }
 
@@ -80,6 +80,7 @@ class SendMailRelaunchCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $logDir = $input->getOption('log_dir');
         $logStr = "";
 
         // $graduates = [];
@@ -194,7 +195,7 @@ class SendMailRelaunchCommand extends Command
 
             // if satisfaction does not exist
             if (!$satisfaction) {
-                $noSurvey = "NULL;" . $company->getId() . ";" . "null" . "\n";
+                $noSurvey = "NULL;" . $company->getId() . ";" . "null";
 
             // if satisfaction date has more than one year
             } else {
@@ -356,7 +357,7 @@ class SendMailRelaunchCommand extends Command
         }
 
         //Write log file
-        $handle = fopen('SendMailRelaunchCommand_' . (new \DateTime())->format("Ymd") . ".log", "w");
+        $handle = fopen($logDir .'/SendMailRelaunchCommand_' . (new \DateTime())->format("Ymd") . ".log", "w");
         fwrite($handle, $logStr);
         fclose($handle);
 

@@ -57,16 +57,17 @@
 <div class="body">
     <div class="container">
         <div class="content">
-            <h1 class="text-center">Bonjour {{ name }}!</h1>
+            <h1 class="text-center">{{ "Bonjour" | trans }} {{ name }}!</h1>
             <div class="block">
                 <p>{{ "relaunch.You_are_registered_on_Inserjeune_platform_with_phone_number" | trans }} : <strong>{{ phone }}</strong></p>
                 {%  if duration == "Y" %}
                     <p>{{ "relaunch.You_have_responded_to_the_questionnaire_for_over_a_year." | trans }}</p>
                 {% else %}
-                    <p>{{ "relaunch.You_have_responded_to_the_questionnaire_for_over_a_year." | trans }}</p>
+                    <p>{{ "relaunch.You_have_not_yet_answered_the_questionnaire" | trans }}</p>
                 {% endif %}
-                <p><strong>{{ "relaunch.Can_you_please_answer_the_questionnaire" | trans }}</strong></p>
-                <p>{{ "relaunch.left_menu_Surveys_then_New_survey"  }}</p>
+                <p><strong>{{ "relaunch.Can_you_please_answer_it" | trans }}</strong></p>
+                <p>{{ "relaunch.app_inserjeune_link" | trans  }}</p>
+                <p>{{ "relaunch.left_menu_Surveys_then_New_survey" | trans }}</p>
             </div>
         </div>
         <div class="footer">
