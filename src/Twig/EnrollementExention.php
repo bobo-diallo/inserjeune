@@ -46,8 +46,8 @@ class EnrollementExention extends AbstractExtension {
 			$html .= sprintf('    <td class="tdinput"><input required id="firstname%d" style="display:none" value="%s" placeholder="prénom"><p id="p_firstname%d">%s</p></td>', $rowNumber, $personDegree->getFirstname(), $rowNumber, $personDegree->getFirstname());
 			$html .= sprintf('    <td class="tdinput"><input required id="lastname%d" style="display:none" value="%s" placeholder="nom"><p id="p_lastname%d">%s</p></td>', $rowNumber, $personDegree->getLastname(), $rowNumber, $personDegree->getLastname());
 
-			$birthDay = new DateTime($personDegree->getBirthDate());
-			$html .= sprintf('    <td class="tdinput"><input required id="birthDate%d" type="Date" style="display:none" value="%s" placeholder="dd/mm/yyyy"><p id="p_birthDate%d">%s</p></td>', $rowNumber, $birthDay->format('Y-m-d'), $rowNumber, $birthDay->format(Utils::FORMAT_FR));
+			$birthDay = DateTime::createFromFormat(Utils::FORMAT_FR, $personDegree->getBirthDate());
+			$html .= sprintf('    <td class="tdinput"><input class="datepicker-birthDate" required id="birthDate%d" style="display:none" value="%s" placeholder="dd/mm/yyyy"><p id="p_birthDate%d">%s</p></td>', $rowNumber, $birthDay->format('Y-m-d'), $rowNumber, $birthDay->format(Utils::FORMAT_FR));
 
 			$options = "";
 			foreach (['un homme', 'une femme'] as $genre) {
