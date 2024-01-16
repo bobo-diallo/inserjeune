@@ -218,10 +218,8 @@ class SendMailRelaunchCommand extends Command
         }
 
         function sendMailPersonDegree(string $data, PersonDegreeRepository $repos, $mail):string {
-
             $dataExplode = explode(';',$data);
             $graduate = $repos->find(intval($dataExplode[1]));
-
             if($graduate) {
                 $mail->sendRelaunchPersonDegree($graduate, $dataExplode[0],$dataExplode[2]);
                 return "  " . $graduate->getPhoneMobile1()  . "; ". $graduate->getEmail()  . " (" . $graduate->getName()  . " " . $graduate->getFirstName() . ")\n";

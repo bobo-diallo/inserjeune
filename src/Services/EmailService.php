@@ -215,8 +215,8 @@ class EmailService {
         $this->mailer->send($email);
     }
 
-    public function sendRelaunchPersonDegree(PersonDegree $personDegree, string $duration, string $type): void {
-        echo $personDegree->getId() . " | " . $personDegree->getName() . " | " . $duration . " | " . $type . " | " . $personDegree->getPhoneMobile1(). " | " . $personDegree->getEmail() . "\n";
+    public function sendRelaunchPersonDegree(PersonDegree $personDegree, string $duration, string $created_date): void {
+        echo $personDegree->getId() . " | " . $personDegree->getName() . " | " . $duration . " | " . $created_date . " | " . $personDegree->getPhoneMobile1(). " | " . $personDegree->getEmail() . "\n";
         $email = (new TemplatedEmail())
             ->from($this->parameterBag->get('email_from'))
             ->to($personDegree->getEmail())
@@ -226,15 +226,15 @@ class EmailService {
             ->context([
                 'name' => $personDegree->getFirstname() . ' ' . $personDegree->getLastname(),
                 'duration' => $duration,
-                'type' => $type,
+                'created_date' => $created_date,
                 'phone' => $personDegree->getPhoneMobile1()
             ])
         ;
 
         $this->mailer->send($email);
     }
-    public function sendRelaunchCompany(Company $company, string $duration, string $type): void {
-        echo $company->getId() . " | " . $company->getName() . " | " . $duration . " | " . $type . " | " . $company->getPhoneStandard() . " | " . $company->getEmail() . "\n";
+    public function sendRelaunchCompany(Company $company, string $duration, string $created_date): void {
+        echo $company->getId() . " | " . $company->getName() . " | " . $duration . " | " . $created_date . " | " . $company->getPhoneStandard() . " | " . $company->getEmail() . "\n";
         $email = (new TemplatedEmail())
             ->from($this->parameterBag->get('email_from'))
             ->to($company->getEmail())
@@ -244,7 +244,7 @@ class EmailService {
             ->context([
                 'name' => $company->getName(),
                 'duration' => $duration,
-                'type' => $type,
+                'created_date' => $created_date,
                 'phone' => $company->getPhoneStandard()
             ])
         ;
