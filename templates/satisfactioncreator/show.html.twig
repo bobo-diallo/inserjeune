@@ -72,7 +72,11 @@
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
                 {{ 'graduate.what_job_do_you_do_in_your_company' | trans }} ?
-                <textarea class="form-control" disabled >{{ satisfactionCreator.activities | join('\n')}}</textarea>
+                {%  set activities = "" %}
+                {% for activity in satisfactionCreator.activities %}
+                  {%  set activities = activities ~ activity|trans ~ '\n' %}
+                {% endfor %}
+                <textarea class="form-control" disabled >{{ activities }}</textarea>
               </label>
             </div>
           </div>
@@ -82,7 +86,7 @@
               {% if satisfactionCreator.legalCompany==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
               <label class="col-sm-12 col-form-label"> {{ 'graduate.does_your_company_have_a_legal_existence' | trans }} ?</label>
               <div class="col-sm-12">
-                <input type="checkbox" class="form-control" disabled {{ checked }}>
+                <input hidden type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
                   <span class="non">{{ 'menu.no' | trans }}</span>
                   <span class="oui">{{ 'menu.yes' | trans }}</span>
@@ -112,7 +116,7 @@
               {% if satisfactionCreator.usefulTraining==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
               <label class="col-sm-12 col-form-label"> {{ 'graduate.has_your_training_been_useful_for_the_job_you_do' | trans }} ?</label>
               <div class="col-sm-12">
-                <input type="checkbox" class="form-control" disabled {{ checked }}>
+                <input hidden type="checkbox" class="form-control" disabled {{ checked }}>
                 <div class="slider round">
                   <span class="non">{{ 'menu.no' | trans }}</span>
                   <span class="oui">{{ 'menu.yes' | trans }}</span>

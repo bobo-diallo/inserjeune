@@ -34,7 +34,7 @@
                                 <th><div><span>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
                                 <th><div><span>{{ 'menu.updated_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
                                 <th><div><span>{{ 'company.company_business_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}}</span></div></th>
-                                <th><div><span>{{ 'legals_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} </span></div></th>
+                                <th><div><span>{{ 'menu.legals_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} </span></div></th>
                                 <th><div><span>{{ 'menu.training_useful_with_tag' | trans({'%tag_br%': '<br/>'}) | raw}} ?</span></div></th>
                             </tr>
                             </thead>
@@ -61,7 +61,21 @@
                                     <td>{{ satisfaction.createdDate|date('d M Y H:i') }}</td>
                                     <td>{{ satisfaction.updatedDate|date('d M Y H:i') }}</td>
 
-                                    <td>{{ satisfaction.activities | join(' | ') }}</td>
+                                    {%  set activities = "" %}
+                                    {% for activity in satisfaction.activities %}
+                                        {% if loop.index > 1 %}
+                                            {%  set activities = activities ~ '\n' %}
+                                        {% endif %}
+                                        {%  set activities = activities ~ (activity|trans) %}
+                                    {% endfor %}
+                                    <td><textarea disabled style="
+                                            background-color: unset;
+                                            border: none; resize: both;
+                                            min-width: 300px; height: 60px;
+                                            margin: 0; padding: 0" >{{ activities }}
+                                        </textarea>
+                                    </td>
+
                                     <td>{% if satisfaction.legalCompany %}{{ 'menu.yes' | trans }}{% else %}{{ 'menu.no' | trans }}{% endif %}</td>
                                     <td>{% if satisfaction.usefulTraining %}{{ 'menu.yes' | trans }}{% else %}{{ 'menu.no' | trans }}{% endif %}</td>
                                 </tr>
