@@ -49,8 +49,8 @@ class SatisfactionSearch {
 	#[ORM\Column(name: "job_from_formation", type: "boolean")]
 	private bool $jobFromFormation = false;
 
-	#[ORM\Column(name: "job_time", type: "string", length: 255)]
-	private string $jobTime;
+	#[ORM\Column(name: "job_time", type: "string", length: 255, nullable: true)]
+	private ?string $jobTime;
 
 	#[ORM\ManyToOne(targetEntity: SectorArea::class)]
 	private ?SectorArea $sectorAreaVolunteer = null;
