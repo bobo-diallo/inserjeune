@@ -924,16 +924,16 @@
             getTranslation().then (function (translation) {
                 translations = translation;
 
-                graphCreation("School", "SectorArea");
-                donutCreation("Company", "SectorArea");
-                donutCreation("Company", "LegalStatus");
-                donutCreation("PersonDegree", "SectorArea");
-                donutCreation("PersonDegree", "Contract");
-                donutCreation("PersonDegree", "Degree");
-                graphCreation("PersonDegreeUnemployed", "Reason");
-                graphCreation("PersonDegreeEmployed", "Reason");
-                graphCreation("PersonDegreeContractor", "Reason");
-                graphCreation("PersonDegreeContractor", "Activity");
+                graphCreation("School", "SectorArea", translations);
+                donutCreation("Company", "SectorArea", translations);
+                donutCreation("Company", "LegalStatus", translations);
+                donutCreation("PersonDegree", "SectorArea", translations);
+                donutCreation("PersonDegree", "Contract", translations);
+                donutCreation("PersonDegree", "Degree", translations);
+                graphCreation("PersonDegreeUnemployed", "Reason", translations);
+                graphCreation("PersonDegreeEmployed", "Reason", translations);
+                graphCreation("PersonDegreeContractor", "Reason", translations);
+                graphCreation("PersonDegreeContractor", "Activity", translations);
                 timeGraphCreation("Profile", "School", "duration");
                 timeGraphCreation("Profile", "PersonDegree", "duration");
                 timeGraphCreation("Profile", "Company", "duration");

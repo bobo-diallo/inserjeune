@@ -1415,7 +1415,8 @@ class DashboardExtension extends AbstractExtension {
         /* --------------------------------------------------- */
         $html = sprintf('<select hidden id="%s%s%sData">', $entityName, $portionEntityName, $name);
         for ($i = 0; $i < count($tablePortionEntities); $i++) {
-            $tablePortionEntitiesName = strtoupper($tablePortionEntities[$i][0]);
+            // $tablePortionEntitiesName = strtoupper($tablePortionEntities[$i][0]);
+            $tablePortionEntitiesName = $tablePortionEntities[$i][0];
             if (strpos($tablePortionEntitiesName, ' ') != false)
                 $tablePortionEntitiesName = substr($tablePortionEntitiesName, 0, strpos($tablePortionEntitiesName, ' '));
 
