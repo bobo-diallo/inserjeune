@@ -109,6 +109,7 @@ class DefaultController extends AbstractController {
                        (strpos($body->source,"sectors.") > -1 ) ||
                        (strpos($body->source,"sub_sectors.") > -1 ) ||
                        (strpos($body->source,"legal_status.") > -1 ) ||
+                       (strpos($body->source,"raisons_no_job.") > -1 ) ||
                        (strpos($body->source,"diplomas.") > -1 )
                     ) {
                         $src = (string)$body->source;

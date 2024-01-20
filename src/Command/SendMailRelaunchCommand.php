@@ -241,7 +241,7 @@ class SendMailRelaunchCommand extends Command
         //check all actors satisfaction survey
         //------------------------------------
         foreach ($graduatesSearch as $graduate) {
-            if(($graduate->getEmail() == "denispailler1@yopmail.com") || ($graduate->getEmail() == "denispailler2@yopmail.com") || ($graduate->getEmail() == "denispailler3@yopmail.com") || ($graduate->getEmail() == "denispailler4@yopmail.com") || ($graduate->getEmail() == "denispailler5@yopmail.com") || ($graduate->getEmail() == "denispailler6@yopmail.com")) {
+            if(str_contains($graduate->getEmail(), "@yopmail.com")) {
                 $satisfaction = $this->satisfactionSearchRepository->getLastSatisfaction($graduate);
                 $res = checkPersonDegreeSatisfaction($graduate, $satisfaction);
                 if ($res[0]) {
@@ -254,7 +254,7 @@ class SendMailRelaunchCommand extends Command
         }
 
         foreach ($graduatesContractor as $graduate) {
-            if(($graduate->getEmail() == "denispailler1@yopmail.com") || ($graduate->getEmail() == "denispailler2@yopmail.com") || ($graduate->getEmail() == "denispailler3@yopmail.com") || ($graduate->getEmail() == "denispailler4@yopmail.com") || ($graduate->getEmail() == "denispailler5@yopmail.com") || ($graduate->getEmail() == "denispailler6@yopmail.com")) {
+            if(str_contains($graduate->getEmail(), "@yopmail.com")) {
                 $satisfaction = $this->satisfactionCreatorRepository->getLastSatisfaction($graduate);
                 $res = checkPersonDegreeSatisfaction($graduate, $satisfaction);
                 if ($res[0]) {
@@ -267,7 +267,7 @@ class SendMailRelaunchCommand extends Command
         }
 
         foreach ($graduatesEmployed as $graduate) {
-            if(($graduate->getEmail() == "denispailler1@yopmail.com") || ($graduate->getEmail() == "denispailler2@yopmail.com") || ($graduate->getEmail() == "denispailler3@yopmail.com") || ($graduate->getEmail() == "denispailler4@yopmail.com") || ($graduate->getEmail() == "denispailler5@yopmail.com") || ($graduate->getEmail() == "denispailler6@yopmail.com")) {
+            if(str_contains($graduate->getEmail(), "@yopmail.com")) {
                 $satisfaction = $this->satisfactionSalaryRepository->getLastSatisfaction($graduate);
                 $res = checkPersonDegreeSatisfaction($graduate, $satisfaction);
                 if ($res[0]) {
@@ -280,7 +280,7 @@ class SendMailRelaunchCommand extends Command
         }
 
         foreach ($companies as $company) {
-            if(($company->getEmail() == "denispailler7@yopmail.com") || ($company->getEmail() == "denispailler8@yopmail.com") || ($company->getEmail() == "denispailler9@yopmail.com")) {
+            if(str_contains($company->getEmail(), "@yopmail.com")) {
                 $satisfaction = $this->satisfactionCompanyRepository->getLastSatisfaction($company);
                 $res = checkCompanySatisfaction($company, $satisfaction);
                 if ($res[0]) {

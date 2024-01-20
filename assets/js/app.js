@@ -1042,17 +1042,19 @@ global.changeSchoolActivities = function changeSchoolActivities(idSchoolHTML,idS
  * @param actorName
  * @param tableName
  */
-global.donutCreation = function donutCreation(actorName, tableName) {
-
+global.donutCreation = function donutCreation(actorName, tableName, translations) {
    let labelsTableDataName = [];
+
    $('#' + actorName + tableName + 'CheeseData' + ' option').each(function () {
-      labelsTableDataName.push($(this).text());
+      let text = $(this).text();
+      if(translations[text]) text = translations[text];
+      labelsTableDataName.push(text);
    });
 
    let labelsTableDataValue = [];
    $('#' + actorName + tableName + 'CheeseData' + ' option').each(function () {
       labelsTableDataValue.push($(this).val());
-      // console.log($(this).val());
+      // console.log("value=" + $(this).val());
    });
 
    let labelsTableColorBack = [];
@@ -1090,11 +1092,13 @@ global.donutCreation = function donutCreation(actorName, tableName) {
  * @param actorName
  * @param tableName
  */
-global.graphCreation = function graphCreation(actorName, tableName) {
+global.graphCreation = function graphCreation(actorName, tableName, translations) {
 
    let labelsTableDataName = [];
    $('#' + actorName + tableName + 'GraphData' + ' option').each(function () {
-      labelsTableDataName.push($(this).text());
+      let text = $(this).text();
+      if(translations[text]) text = translations[text];
+      labelsTableDataName.push(text);
    });
 
    let labelsTableDataValue = [];
