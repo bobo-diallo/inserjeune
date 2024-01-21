@@ -69,7 +69,8 @@
                             </div>
                             <div class="col-sm-7">
                               {% if satisfactionSearch.formationPursuitLastDegree==true %} {% set checked = 'checked' %} {% else %} {% set checked = '' %} {% endif %}
-                                <label class="col-sm-12 col-form-label"> Est-ce que cette formation est une poursuite<br>d’études en lien avec votre dernier diplôme ?</label>
+                                <label class="col-sm-12 col-form-label">
+                                    {{ "survey.is_this_training_a_continuation_of_your_last_degree" | trans({'%tag_br%': '<br/>'}) | raw }} ?</label>
                                 <div class="col-sm-12">
                                     <div class="slider round">
                                         <span class="non">{{ 'menu.no' | trans }}</span>
@@ -82,8 +83,8 @@
                         <div class="line-separator"></div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <label class="col-form-label col-sm-12"> Diplôme recherché ?</label>
-                                <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.degree }}">
+                                <label class="col-form-label col-sm-12"> {{ "survey.degree_sought" | trans }} ?</label>
+                                <input class="form-control col-sm-12" disabled value="{{ satisfactionSearch.degree | trans }}">
                             </div>
                             <div class="col-sm-6">
                                 <label class="col-form-label col-sm-12"> {{ 'menu.other_degree' | trans }} ?</label>
