@@ -129,7 +129,11 @@
             <div class="col-sm-6 form-group">
               <label class="col-form-label col-sm-12">
                 {{ 'graduate.if_not_why_not' | trans }} ?
-                <textarea class="form-control" disabled>{{ satisfactionCreator.jobNotFoundReasons | join('\n')}}</textarea>
+                {%  set reasons = ""  %}
+                {% for reason in satisfactionCreator.jobNotFoundReasons %}
+                  {%  set reasons = reasons ~ '\n' ~ reason  | trans   %}
+                {% endfor %}
+                <textarea class="form-control" disabled>{{ reasons)}}</textarea>
               </label>
               <div class="help-block form-text with-errors form-control-feedSi non, pourquoi ?back"></div>
             </div>

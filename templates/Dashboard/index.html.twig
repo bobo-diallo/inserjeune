@@ -878,7 +878,7 @@
             function totalCountryGraduates(totalEnrollGraduates, totalCountryGraduates) {
                 let res = "null";
                 if (totalCountryGraduates > 0) {
-                    res = Number(totalEnrollGraduates / totalCountryGraduates * 100).toFixed(2);
+                    res = Number(totalEnrollGraduates / totalCountryGraduates * 100).toFixed(2).toString().replace('.',',');
                 }
                 return ( '<div><table><tr><td>' +
                     '<span class="small">(' + totalEnrollGraduates +  '/' + totalCountryGraduates + ')</span></td>' +
