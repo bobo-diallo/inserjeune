@@ -108,7 +108,11 @@
                                 <label class="col-form-label col-sm-12">
                                     {{ 'survey.chosen_field_of_study' | trans }}
                                 </label>
-                                <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSearch.activities | join('\n')}}</textarea>
+                                {%  set activities = "" %}
+                                {% for activity in satisfactionSearch.activities %}
+                                    {%  set activities = activities ~ activity|trans ~ '\n' %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 80px">{{ activities }}</textarea>
                             </div>
                         </div>
                         <div class="line-separator"></div>
@@ -196,7 +200,11 @@
                                 <label class="col-form-label col-sm-12">
                                     {{ 'survey.why_do_you_think_you_haven_found_returned_to_work' | trans }}
                                 </label>
-                                <textarea class="form-control" disabled style="height: 80px">{{ satisfactionSearch.jobNotFoundReasons | join('\n')}}</textarea>
+                                {%  set reasons = ""  %}
+                                {% for reason in satisfactionSearch.jobNotFoundReasons %}
+                                    {%  set reasons = reasons ~ '\n' ~ reason  | trans   %}
+                                {% endfor %}
+                                <textarea class="form-control" disabled style="height: 80px">{{ reasons}}</textarea>
                             </div>
                             <div class="col-sm-6">
                                 <label class="col-form-label col-sm-12"> {{ 'menu.other_reason' | trans }}</label>
