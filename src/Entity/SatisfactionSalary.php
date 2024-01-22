@@ -187,7 +187,7 @@ class SatisfactionSalary {
 		return $this->jobName;
 	}
 
-	public function getJobStatus(): string {
+	public function getJobStatus(): ?string {
 		return $this->jobStatus;
 	}
 

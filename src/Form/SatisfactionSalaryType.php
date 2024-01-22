@@ -74,6 +74,7 @@ class SatisfactionSalaryType extends AbstractType {
 					'satisfaction_company.qualified_worker' => 'Ouvrier qualifié',
 					'satisfaction_company.technician' => 'Technicien',
 					'satisfaction_company.senior_technician' => 'Technicien supérieur',
+					'js.other_position' => 'Autre poste',
 				],
 				'placeholder' => 'menu.select',
 				'attr' => ['class' => 'form-control']
