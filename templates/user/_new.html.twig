@@ -100,5 +100,6 @@
 
 </div>
 <div class="form-buttons-w">
-  <button class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
+  <button class="btn btn-primary" type="button" id="buttonUser" onclick="preventDefaultSubmit()"> {{ 'menu.validate' | trans }} </button>
+  <button hidden id="submitUser" class="btn btn-primary" type="submit"> {{ 'menu.validate' | trans }} </button>
 </div>

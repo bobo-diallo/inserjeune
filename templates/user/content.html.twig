@@ -247,5 +247,33 @@
         $('#userbundle_user_adminRegions').removeAttr('required');
         $('#userbundle_user_school').removeAttr('required');
      }
+
+     async function preventDefaultSubmit() {
+        let data = {
+           "userPhone": $('#userbundle_user_phone').val(),
+           "userPseudo": $('#userbundle_user_username').val(),
+           "userEmail": $('#userbundle_user_email').val(),
+        };
+
+        let url = getUrlCurrentLocale() + "getExistUser";
+        // console.log(url);
+
+        await $.get(url, data).done(function (result) {
+           if(result.length == 0) {
+              // console.log("success")
+              $('#submitUser').trigger('click');
+           } else {
+              if (result["phone"]) {
+                 alert(result["phone"])
+              }
+              if (result["pseudo"]) {
+                 alert(result["pseudo"])
+              }
+              if (result["email"]) {
+                 alert(result["email"])
+              }
+           }
+        });
+     }
   </script>
 {%  endblock %}

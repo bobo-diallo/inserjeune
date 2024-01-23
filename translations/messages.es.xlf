@@ -2845,6 +2845,10 @@
         <source>js.error_phone_number_already_used</source>
         <target>Fallo: Número de teléfono ya utilizado</target>
       </trans-unit>
+      <trans-unit id="js.error_pseudo_already_used">
+        <source>js.error_pseudo_already_used</source>
+        <target>Fallo: Pseudo ya utilizado</target>
+      </trans-unit>
       <trans-unit id="js.error_email_already_used">
         <source>js.error_email_already_used</source>
         <target>Error: Correo electrónico ya utilizado</target>

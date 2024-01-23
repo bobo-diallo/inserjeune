@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AvatarDTO;
 use App\Entity\User;
 use App\Entity\School;
+use App\Repository\UserRepository;
 use App\Repository\CityRepository;
 use App\Repository\RegionRepository;
 use App\Repository\PrefectureRepository;
@@ -27,6 +28,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DefaultController extends AbstractController {
     private PrefectureRepository $prefectureRepository;
+    private UserRepository $userRepository;
     private CityRepository $cityRepository;
     private RegionRepository $regionRepository;
     private SchoolRepository $schoolRepository;
@@ -34,12 +36,14 @@ class DefaultController extends AbstractController {
 
     public function __construct(
         PrefectureRepository    $prefectureRepository,
+        UserRepository         $userRepository,
         CityRepository          $cityRepository,
         RegionRepository        $regionRepository,
         SchoolRepository        $schoolRepository,
         TranslatorInterface     $translator
     ) {
         $this->prefectureRepository = $prefectureRepository;
+        $this->userRepository = $userRepository;
         $this->cityRepository = $cityRepository;
         $this->regionRepository = $regionRepository;
         $this->schoolRepository = $schoolRepository;
@@ -270,5 +274,35 @@ class DefaultController extends AbstractController {
         }
 
         return new JsonResponse($schools);
+    }
+
+    /**
+     * check in phoneNumber, pseudo or email already used in user
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    #[Route(path: '/getExistUser', name: 'get_exist_user', methods: ['GET'])]
+    public function getExistUser(Request $request): JsonResponse|Response {
+        $userPhone = $request->query->get("userPhone");
+        $userPseudo = $request->query->get("userPseudo");
+        $userEmail = $request->query->get("userEmail");
+        $result = [];
+
+        $users = $this->userRepository->findByPhone($userPhone);
+        if($users) {
+            $result["phone"] = $this->translator->trans("js.error_phone_number_already_used");
+        }
+
+        $users = $this->userRepository->findByUsername($userPseudo);
+        if($users) {
+            $result["pseudo"] = $this->translator->trans("js.error_pseudo_already_used");
+        }
+
+        $users = $this->userRepository->findByEmail($userEmail);
+        if($users) {
+            $result["email"] = $this->translator->trans("js.error_email_already_used");
+        }
+
+        return new JsonResponse($result);
     }
 }

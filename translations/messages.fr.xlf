@@ -2861,6 +2861,10 @@
         <source>js.error_phone_number_already_used</source>
         <target>Erreur: Num tel déjà utilisé</target>
       </trans-unit>
+      <trans-unit id="js.error_pseudo_already_used">
+        <source>js.error_pseudo_already_used</source>
+        <target>Erreur: Pseudo déjà utilisé</target>
+      </trans-unit>
       <trans-unit id="js.error_email_already_used">
         <source>js.error_email_already_used</source>
         <target>Erreur: Email déjà utilisé</target>

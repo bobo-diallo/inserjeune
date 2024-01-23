@@ -2855,6 +2855,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>js.error_phone_number_already_used</source>
         <target>Error: Phone number already in use</target>
       </trans-unit>
+      <trans-unit id="js.error_pseudo_already_used">
+        <source>js.error_pseudo_already_used</source>
+        <target>Error: Pseudo already in use</target>
+      </trans-unit>
       <trans-unit id="js.error_email_already_used">
         <source>js.error_email_already_used</source>
         <target>Error: Email already in use</target>

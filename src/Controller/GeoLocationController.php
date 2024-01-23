@@ -218,8 +218,9 @@ class GeoLocationController extends AbstractController {
     #[Route(path: '/region/{id}/unemployedpersondegree', name: 'geolocation_map_region_unemployed_persondegrees', methods: ['GET'])]
     public function getUnemployedPersonDegreesRegionAction(Request $request, Region $region): JsonResponse|Response {
         // $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH');
-        $personDegrees = $this->personDegreeRepository->getByRegionAndType($region,'TYPE_UNEMPLOYED');
-        $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByRegionAndType($region,'TYPE_SEARCH'));
+        // $personDegrees = $this->personDegreeRepository->getByRegionAndType($region,'TYPE_UNEMPLOYED');
+        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByRegionAndType($region,'TYPE_SEARCH'));
+        $personDegrees = $this->personDegreeRepository->getByRegionAndType($region,'TYPE_SEARCH');
         return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
     }
 
@@ -247,8 +248,9 @@ class GeoLocationController extends AbstractController {
 	#[Route(path: '/country/{id}/unemployedpersondegree', name: 'geolocation_map_country_unemployed_persondegrees', methods: ['GET'])]
 	public function getUnemployedPersonDegreesCountryAction(Request $request, Country $country): JsonResponse|Response {
 		// $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH');
-		$personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_UNEMPLOYED');
-        $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH'));
+		// $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_UNEMPLOYED');
+        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH'));
+        $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH');
 		return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
 	}
 
