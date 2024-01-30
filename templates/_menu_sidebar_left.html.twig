@@ -24,7 +24,9 @@
     <ul class="sub-menu">
       <li><a href="{{ path('persondegree_index') }}">{{ 'menu.the_graduates' | trans }}</a></li>
       <li><a href="{{ path('school_index') }}">{{ 'menu.the_establishments' | trans }}</a></li>
-      <li><a href="{{ path('degree_index') }}">{{ 'menu.the_degrees'| trans }}</a></li>
+      {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="{{ path('degree_index') }}">{{ 'menu.the_degrees'| trans }}</a></li>
+      {% endif %}
 {#      <li><a href="#">{{ 'menu.the_social_media'| trans }}**</a></li>#}
     </ul>
   </li>
@@ -78,7 +80,8 @@
       {%  endif %}
     </ul>
   </li>
-  {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS') %}
+{#  {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_PAYS') %}#}
+  {% if is_granted('ROLE_ADMIN') %}
   <li class="has-sub-menu">
     <a href="#">
       <div class="icon-w">

@@ -115,6 +115,19 @@ class UserController extends AbstractController {
                 }
             }
 
+            // TO BE CHECK FOR DBTA
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'false') {
+                if ($user->hasRole(Role::ROLE_ADMIN_REGIONS)) {
+                    if($user->getAdminRegions()) {
+                        $user->setCountry($user->getAdminRegions()[0]->getCountry());
+                    }
+                }
+
+                if ($user->hasRole(Role::ROLE_ADMIN_VILLES)) {
+                    $user->setCountry($user->getAdminCities()[0]->getRegion()->getCountry());
+                }
+            }
+
             //Only for Principal
             if($user->hasRole(Role::ROLE_PRINCIPAL)) {
                 if($user->getSchool())
@@ -165,6 +178,7 @@ class UserController extends AbstractController {
 
         $editForm = $this->createForm(UserType::class, $user);
         $roles = $this->roleRepository->findAll();
+
 		$editForm->handleRequest($request);
 
         //Change access of Roles function of current Administrator level
@@ -184,6 +198,19 @@ class UserController extends AbstractController {
                 } elseif (count($user->getAdminCities())>0) {
                     $user->setRegion($this->getFirstRegionCityNotNull($user->getAdminCities())->getRegion());
                     $user->setCountry($user->getRegion()->getCountry());
+                }
+            }
+
+            // TO BE CHECK FOR DBTA
+            if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'false') {
+                if ($user->hasRole(Role::ROLE_ADMIN_REGIONS)) {
+                    if($user->getAdminRegions()) {
+                        $user->setCountry($user->getAdminRegions()[0]->getCountry());
+                    }
+                }
+
+                if ($user->hasRole(Role::ROLE_ADMIN_VILLES)) {
+                    $user->setCountry($user->getAdminCities()[0]->getRegion()->getCountry());
                 }
             }
 
@@ -218,7 +245,6 @@ class UserController extends AbstractController {
                 }
 				$this->removeRelations($user);
 				$this->em->remove($user);
-                // var_dump("user:",$user->getId());die();
 				$this->em->flush();
 				$this->addFlash('success', $this->translator->trans('flashbag.the_deletion_is_done_successfully'));
 			} else {

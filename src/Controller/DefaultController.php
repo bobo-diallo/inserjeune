@@ -283,24 +283,49 @@ class DefaultController extends AbstractController {
      */
     #[Route(path: '/getExistUser', name: 'get_exist_user', methods: ['GET'])]
     public function getExistUser(Request $request): JsonResponse|Response {
+
+        $userId = null;
+        $dbUserPhone = $request->query->get("dbUserPhone");
         $userPhone = $request->query->get("userPhone");
         $userPseudo = $request->query->get("userPseudo");
         $userEmail = $request->query->get("userEmail");
         $result = [];
 
+        if($dbUserPhone) {
+            $users = $this->userRepository->findByPhone($dbUserPhone);
+            if($users) {
+                $userId = $users[0]->getId();
+            }
+        }
+
         $users = $this->userRepository->findByPhone($userPhone);
         if($users) {
-            $result["phone"] = $this->translator->trans("js.error_phone_number_already_used");
+            if($userId != $users[0]->getId()) {
+                $result["phone"] = $this->translator->trans("js.error_phone_number_already_used");
+                $userId = $users[0]->getId();
+            }
         }
 
-        $users = $this->userRepository->findByUsername($userPseudo);
-        if($users) {
-            $result["pseudo"] = $this->translator->trans("js.error_pseudo_already_used");
+        if(!$result) {
+            $users = $this->userRepository->findByUsername($userPseudo);
+            if ($users) {
+                if ($userId != $users[0]->getId()) {
+                    if ($users[0]->getId() != $userId) {
+                        $result["pseudo"] = $this->translator->trans("js.error_pseudo_already_used");
+                    }
+                }
+            }
         }
 
-        $users = $this->userRepository->findByEmail($userEmail);
-        if($users) {
-            $result["email"] = $this->translator->trans("js.error_email_already_used");
+        if(!$result) {
+            $users = $this->userRepository->findByEmail($userEmail);
+            if ($users) {
+                if ($userId != $users[0]->getId()) {
+                    if ($users[0]->getId() != $userId) {
+                        $result["email"] = $this->translator->trans("js.error_email_already_used");
+                    }
+                }
+            }
         }
 
         return new JsonResponse($result);
