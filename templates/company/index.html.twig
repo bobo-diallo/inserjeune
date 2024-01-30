@@ -58,6 +58,7 @@
                             <thead>
                             <tr>
                                 {%  if roleUser == "Administrateur" or
+                                       roleUser == "Directeur" or
                                        roleUser == "Admin_pays" or
                                        roleUser == "Admin_regions" or
                                        roleUser == "Admin_villes" or
@@ -113,18 +114,19 @@
                             {% for company in companies %}
                                 <tr>
                                     {%  if roleUser == "Administrateur" or
+                                            roleUser == "Directeur" or
                                             roleUser == "Admin_pays" or
                                             roleUser == "Admin_regions" or
                                             roleUser == "Admin_villes" or
                                             roleUser == "Législateur" %}
                                         <td class="row-actions">
-                                            {%  if roleUser != "Législateur" %}
+                                            {%  if roleUser != "Législateur" and roleUser != "Directeur" %}
                                                 <a href="{{ path('company_edit', { 'id': company.id }) }}#"><img
                                                         src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
                                             {% endif %}
                                             <a href="{{ path('company_show', { 'id': company.id }) }}"><img
                                                         src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                            {%  if roleUser != "Législateur" %}
+                                            {%  if roleUser != "Législateur" and roleUser != "Directeur" %}
                                                 <a class="danger" onclick="deleteElement('{{ path('company_delete', {'id': company.id}) }}')"><img
                                                         src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
                                             {% endif %}

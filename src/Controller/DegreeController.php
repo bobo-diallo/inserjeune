@@ -7,6 +7,7 @@ use App\Form\DegreeType;
 use App\Repository\DegreeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,7 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/degree')]
-#[IsGranted('ROLE_ADMIN')]
+#[Security("is_granted('ROLE_ADMIN')
+ or is_granted('ROLE_DIRECTEUR')
+ ")]
 class DegreeController extends AbstractController {
 	private EntityManagerInterface $em;
 	private DegreeRepository $degreeRepository;
@@ -39,6 +42,7 @@ class DegreeController extends AbstractController {
 		]);
 	}
 
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/new', name: 'degree_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$degree = new Degree();
@@ -57,14 +61,14 @@ class DegreeController extends AbstractController {
 			'form' => $form->createView()
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}', name: 'degree_show', methods: ['GET'])]
 	public function showAction(Degree $degree): Response {
 		return $this->render('degree/show.html.twig', [
 			'degree' => $degree,
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}/edit', name: 'degree_edit', methods: ['GET', 'POST'])]
 	public function editAction(Request $request, Degree $degree): RedirectResponse|Response {
 		$editForm = $this->createForm(DegreeType::class, $degree);
@@ -81,7 +85,7 @@ class DegreeController extends AbstractController {
 			'edit_form' => $editForm->createView(),
 		]);
 	}
-
+    #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/delete/{id}', name: 'degree_delete', methods: ['GET'])]
 	public function deleteAction(Request $request, ?Degree $degree): RedirectResponse {
 		if (array_key_exists('HTTP_REFERER', $request->server->all())) {

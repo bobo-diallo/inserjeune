@@ -9,6 +9,8 @@
 
 {% block js %}
   <script>
+     let dbUserPhone = $('#userbundle_user_phone').val();
+     //console.log(dbUserPhone);
      let translations = [];
      getTranslation().then (function (translation) {
         translations = translation;
@@ -106,7 +108,7 @@
 
      function getSchoolsByRegion(idSchool, regionId) {
         let baseUrl = getUrlCurrentLocale();
-        let url = baseUrl + "getSchoolsByRegion1";
+        let url = baseUrl + "getSchoolsByRegion";
         let data = {"regionId" : regionId };
         $.get(url, data).done(function (result) {
            createSortedOptions(idSchool, result, null);
@@ -250,6 +252,7 @@
 
      async function preventDefaultSubmit() {
         let data = {
+           "dbUserPhone": dbUserPhone,
            "userPhone": $('#userbundle_user_phone').val(),
            "userPseudo": $('#userbundle_user_username').val(),
            "userEmail": $('#userbundle_user_email').val(),

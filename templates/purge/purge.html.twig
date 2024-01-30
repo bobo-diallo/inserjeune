@@ -535,11 +535,24 @@
                // if(res[2].includes(offer.id))
                //    html += '       <input checked type="checkbox" class="offerCheck" id="' + offer.id + '" >';
                // else
+
+               //translate elements of offer.city
+               let city = offer.city;
+               if(offer.city) {
+                  let citySplit = offer.city.split(' - ');
+                  if(citySplit.length == 3) {
+                     let country = citySplit[0].toLowerCase();
+                     if(translations[country]) {
+                        country = translations[country];
+                     }
+                     city = country + ' - ' + citySplit[1] + ' - ' + citySplit[2];
+                  }
+               }
                html += '       <input type="checkbox" class="offerCheck" id="' + offer.id + '" >';
 
                html += '    </td>';
                html += '    <td class="tdinput"><p class="p_id" id="p_id' + offer.id + '">' + offer.id + '</p></td>';
-               html += '    <td class="tdinput"><p class="p_city" id="p_city' + offer.id + '">' + offer.city + '</p></td>';
+               html += '    <td class="tdinput"><p class="p_city" id="p_city' + offer.id + '">' + city + '</p></td>';
                html += '    <td class="tdinput"><p class="p_type" id="p_type' + offer.id + '">' + offer.type + '</p></td>';
                html += '    <td class="tdinput"><p class="p_name" id="p_name' + offer.id + '">' + offer.name + '</p></td>';
                html += '    <td class="tdinput"><p class="p_title" id="p_title' + offer.id + '">' + offer.title + '</p></td>';
@@ -662,7 +675,7 @@
                html += '       <input type="checkbox" class="localizationCheck" id="' + localization.id + '" >';
                html += '    </td>';
                html += '    <td class="tdinput"><p id="p_id' + localization.id + '">' + localization.id + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_country' + localization.id + '">' + localization.country + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_country' + localization.id + '">' + translations[localization.country] + '</p></td>';
                html += '    <td class="tdinput"><p id="p_city' + localization.id + '">' + localization.city + '</p></td>';
                html += '    <td class="tdinput"><p id="p_actor' + localization.id + '">' + localization.actor + '</p></td>';
                html += '    <td class="tdinput"><p id="p_error' + localization.id + '">' + localization.error + '</p></td>';
@@ -717,7 +730,7 @@
                html += '       <input type="checkbox" class="localizationCheck" id="' + localization.id + '" >';
                html += '    </td>';
                html += '    <td class="tdinput"><p id="p_id' + localization.id + '">' + localization.id + '</p></td>';
-               html += '    <td class="tdinput"><p id="p_country' + localization.id + '">' + localization.country + '</p></td>';
+               html += '    <td class="tdinput"><p id="p_country' + localization.id + '">' + translations[localization.country] + '</p></td>';
                html += '    <td class="tdinput"><p id="p_city' + localization.id + '">' + localization.city + '</p></td>';
                html += '    <td class="tdinput"><p id="p_actor' + localization.id + '">' + localization.actor + '</p></td>';
                html += '    <td class="tdinput"><p id="p_error' + localization.id + '">' + localization.error + '</p></td>';

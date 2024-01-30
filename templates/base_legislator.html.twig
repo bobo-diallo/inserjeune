@@ -59,6 +59,15 @@
               <span>{{ 'menu.graduates' | trans  }}</span></a>
           </li>
 
+          {% if is_granted('ROLE_DIRECTEUR')%}
+            <li><a href="{{ path('degree_index') }}">
+                <div class="icon-w">
+                  <img src="{{ asset('build/images/icon/certificate.png') }}" alt="certificate">
+                </div>
+                <span>{{ 'menu.the_degrees' | trans  }}</span></a>
+            </li>
+          {% endif %}
+
           <li><a href="{{ path('company_index') }}">
               <div class="icon-w">
                 <img src="{{ asset('build/images/icon/company.png') }}" alt="company">

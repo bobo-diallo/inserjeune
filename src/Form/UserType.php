@@ -175,6 +175,12 @@ class UserType extends AbstractType {
                 'class' => Region::class,
                 'required' => false,
                 'multiple' => true,
+
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('r')
+                        ->leftJoin('r.country', 'c')
+                        ->where('c.valid = true');
+                },
                 'attr' => [
                     'class' => 'form-control select2',
                 ]

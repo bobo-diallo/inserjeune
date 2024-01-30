@@ -1,4 +1,6 @@
 {% extends 'degree/content.html.twig' %}
+{% set user = app.user %}
+{% set roleUser = user.roles|role %}
 
 {% block body %}
     <div class="content-i">
@@ -12,6 +14,7 @@
                 </h6>
                 <div class="element-box">
                     <div class="controls-above-table">
+                        {% if is_granted('ROLE_ADMIN') %}
                         <div class="row">
                             <div class="col-sm-6">
 {#                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
@@ -19,13 +22,16 @@
                                     <i class="fa fa-plus"></i> {{ 'degree.add_a_degree' | trans }}</a>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="table-responsive">
                         <table id="kz_table_with_width_export" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                <th class="no-print">Actions</th>
-                                <th>Id</th>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <th class="no-print">Actions</th>
+                                    <th>Id</th>
+                                {% endif %}
                                 <th>{{ 'menu.heading' | trans }}</th>
                                 <th>{{ 'menu.job' | trans }}</th>
                                 <th>{{ 'menu.level' | trans }}</th>
@@ -35,12 +41,14 @@
                             <tbody>
                             {% for degree in degrees %}
                                 <tr>
-                                    <td class="row-actions">
-                                        <a href="{{ path('degree_edit', { 'id': degree.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                        <a href="{{ path('degree_show', { 'id': degree.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                        <a class="danger" onclick="deleteElement('{{ path('degree_delete', {'id': degree.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
-                                    </td>
-                                    <td><a href="{{ path('degree_show', { 'id': degree.id }) }}">{{ degree.id }}</a></td>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <td class="row-actions">
+                                            <a href="{{ path('degree_edit', { 'id': degree.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+                                            <a href="{{ path('degree_show', { 'id': degree.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+                                            <a class="danger" onclick="deleteElement('{{ path('degree_delete', {'id': degree.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                        </td>
+                                        <td><a href="{{ path('degree_show', { 'id': degree.id }) }}">{{ degree.id }}</a></td>
+                                    {% endif %}
                                     <td>{{ degree.name | trans }}</td>
                                     <td>{% if degree.activity is not null %}{{ degree.activity.name }}{% endif %}</td>
                                     <td>{{ degree.level | trans }}</td>

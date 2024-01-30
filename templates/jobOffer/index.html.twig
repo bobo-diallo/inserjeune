@@ -35,7 +35,8 @@
                                 {% endif %}
                                 {%  if roleUser == "Etablissement" or roleUser == "Diplômé"%}
                                     <th class="no-print">Détail</th>
-                                {%  elseif roleUser == "Administrateur" or roleUser == "Entreprise"%}
+{#                                {%  elseif roleUser == "Administrateur" or roleUser == "Entreprise"%}#}
+                                {% else %}
                                     <th class="no-print">Actions</th>
                                 {% endif %}
                                 {%  if roleUser == "Administrateur" %}
@@ -66,15 +67,17 @@
 {#                                    {% if roleUser == "Diplômé"%}#}
                                         <td><a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a></td>
                                     {% endif %}
-                                    {% if roleUser == "Administrateur" or roleUser == "Entreprise" or roleUser == "Etablissement"%}
+{#                                    {% if roleUser == "Administrateur" or roleUser == "Entreprise" or roleUser == "Etablissement"%}#}
                                         <td class="row-actions">
-{#                                            {% if app.user.roles|role == "Entreprise"%}#}
+                                            {% if roleUser == "Administrateur" or roleUser == "Entreprise" or roleUser == "Etablissement"%}
                                                 <a href="{{ path('jobOffer_edit', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-{#                                            {% endif %}#}
+                                            {% endif %}
                                             <a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                            <a class="danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                            {% if roleUser == "Administrateur" or roleUser == "Entreprise" or roleUser == "Etablissement"%}
+                                                <a class="danger" onclick="deleteElement('{{ path('jobOffer_delete', {'id': jobOffer.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+                                            {% endif %}
                                         </td>
-                                    {% endif %}
+{#                                    {% endif %}#}
                                     {% if roleUser == "Administrateur" %}
                                         <td>{{ jobOffer.id }}</td>
                                     {% endif %}
