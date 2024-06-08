@@ -22,6 +22,9 @@ symfony.lock
 .env
 .env.test
 .env.dist
+Makefile
+backup/
+env/
 
 ###> phpunit/phpunit ###
 /phpunit.xml
