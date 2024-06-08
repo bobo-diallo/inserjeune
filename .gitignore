@@ -30,3 +30,6 @@ env/
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+package-lock.json
+composer.lock
