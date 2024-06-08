@@ -1,4 +1,7 @@
 const Encore = require('@symfony/webpack-encore');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -8,9 +11,9 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 
 Encore
     // directory where compiled assets will be stored
-    .setOutputPath('public/build/')
+    .setOutputPath(process.env.OUTPUT_PATH || 'public/build/')
     // public path used by the web server to access the output path
-    .setPublicPath('/inserjeune-v342/public/build')
+    .setPublicPath(process.env.PUBLIC_PATH || '/build')
     .copyFiles({
         from: './assets/images',
         // optional target path, relative to the output dir
