@@ -8,14 +8,6 @@
         <img src="{{ asset('build/images/icon/degree.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
         <h6 class="element-header">
           {{ 'menu.detail' | trans }}
-{#          {% if is_granted('ROLE_ADMIN') %}#}
-{#            <a class="btn btn-sm btn-primary float-right" href="{{ path('persondegree_new') }}">#}
-{#              <i class="fa fa-plus"></i> {{ 'graduate.add_a_graduate' | trans }}#}
-{#            </a>#}
-{#            <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('persondegree_index') }}">#}
-{#              <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}#}
-{#            </a>#}
-{#          {% endif %}#}
           <a class="btn btn-sm btn-primary float-right kz_back" href="{{ path('persondegree_index') }}">
             <i class="fa fa-arrow-left"></i> {{ 'menu.back_to_the_list' | trans }}
           </a>
@@ -218,7 +210,7 @@
               <div class="col-sm-4">
                 <label class="col-form-label col-sm-12">
                   {{ 'graduate.month_year_of_graduation' | trans }} :
-                  <input class="form-control" disabled value="{{ "%02d"|format(personDegree.lastDegreeMonth) }} / {{ personDegree.lastDegreeYear }}">
+                  <input class="form-control" disabled value="{{ personDegree.lastDegreeMonth is not empty and personDegree.lastDegreeMonth != 0 ? "%02d"|format(personDegree.lastDegreeMonth) ~ ' / ' : '' }}{{ personDegree.lastDegreeYear is not empty ? personDegree.lastDegreeYear : '' }}">
                 </label>
               </div>
             </div>
