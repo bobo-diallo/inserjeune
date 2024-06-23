@@ -96,38 +96,38 @@ class DefaultController extends AbstractController {
 			'username' => $user->getUserIdentifier(),
 		]);
 	}
-    #[Route(path: '/get_js_translation', name: 'get_js_translation', methods: ['GET'])]
-    public function getJsTranslation(Request $request): JsonResponse {
-        //Read xml file
-        $fichier = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR . 'messages.' . $request->getLocale() . '.xlf';
-        $contenu = simplexml_load_file($fichier);
-        $result = array();
 
-        foreach($contenu as $files) {
-            foreach($files as $file)
-                foreach($file as $body)
-                    // echo strpos($body->source,"menu.") . '<br>' ;
-                    if((strpos($body->source,"js.") > -1 ) ||
-                       (strpos($body->source,"time.") > -1 ) ||
-                       (strpos($body->source,"country.") > -1 ) ||
-                       (strpos($body->source,"sectors.") > -1 ) ||
-                       (strpos($body->source,"sub_sectors.") > -1 ) ||
-                       (strpos($body->source,"legal_status.") > -1 ) ||
-                       (strpos($body->source,"raisons_no_job.") > -1 ) ||
-                       (strpos($body->source,"diplomas.") > -1 )
-                    ) {
-                        $src = (string)$body->source;
-                        $target = str_replace("'", "\"",$body->target);
+	#[Route(path: '/get_js_translation', name: 'get_js_translation', methods: ['GET'])]
+	public function getJsTranslation(Request $request): JsonResponse {
+		// Read xml file
+		$xmlFile = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'translations' . DIRECTORY_SEPARATOR . 'messages.' . $request->getLocale() . '.xlf';
+		$content = simplexml_load_file($xmlFile);
+		$result = array();
 
-                        if(strlen($target) == 0) {
-                            $target = $src;
-                        }
-                        $result[$src] = $target;
-                    }
-        }
+		foreach ($content as $files) {
+			foreach ($files as $file)
+				foreach ($file as $body)
+					if ((strpos($body->source, "js.") > -1) ||
+						(strpos($body->source, "time.") > -1) ||
+						(strpos($body->source, "country.") > -1) ||
+						(strpos($body->source, "sectors.") > -1) ||
+						(strpos($body->source, "sub_sectors.") > -1) ||
+						(strpos($body->source, "legal_status.") > -1) ||
+						(strpos($body->source, "raisons_no_job.") > -1) ||
+						(strpos($body->source, "diplomas.") > -1)
+					) {
+						$src = (string)$body->source;
+						$target = str_replace("'", "\"", $body->target);
 
-        return new JsonResponse($result);
-    }
+						if (strlen($target) == 0) {
+							$target = $src;
+						}
+						$result[$src] = $target;
+					}
+		}
+
+		return new JsonResponse($result);
+	}
 
     #[Route(path: '/getRegionsByCountry', name: 'get_regions_by_country', methods: ['GET'])]
     public function getRegionsByCountry(Request $request): JsonResponse|Response {

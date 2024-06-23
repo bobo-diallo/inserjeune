@@ -50,3 +50,12 @@
 
 ## Last branch deployed in OIF
 - IFEF-081
+
+
+## Note sur CKeditor
+ckeditor est devenu payant à partir de la version 4.23
+
+Donc après installation du bundle par ` composer require friendsofsymfony/ckeditor-bundle`, il faut preciser la version js à installer avec 
+
+`php bin/console ckeditor:install --tag=4.22.1 ` et faire `php bin/console assets:install public `
+

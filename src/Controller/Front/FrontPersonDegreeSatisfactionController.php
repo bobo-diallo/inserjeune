@@ -158,7 +158,7 @@ class FrontPersonDegreeSatisfactionController extends AbstractController {
 					break;
 				default:
 				{
-					$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.you_must_be_a_graduate_to_create_a_survey'));
+					$this->addFlash(Utils::FB_WARNING, $this->translator->trans('flashbag.no_survey_available'));
 					return $this->redirectToRoute('front_persondegree_show');
 				}
 			}

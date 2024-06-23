@@ -3559,6 +3559,10 @@
         <source>flashbag.you_must_be_a_graduate_to_create_a_survey</source>
         <target>Você deve ser graduado para criar uma pesquisa</target>
       </trans-unit>
+      <trans-unit id="flashbag.no_survey_available">
+        <source>flashbag.no_survey_available</source>
+        <target>Não há nenhuma pesquisa disponível no momento</target>
+      </trans-unit>
       <trans-unit id="flashbag.you_have_to_answer_a_new_survey_since_date">
         <source>flashbag.you_have_to_answer_a_new_survey_since_date</source>
         <target>Você precisa responder a uma nova pesquisa desde {data}</target>

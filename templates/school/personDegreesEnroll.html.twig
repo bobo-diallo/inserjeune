@@ -388,7 +388,6 @@
             $('#rowNumber').val(rowNumber);
             let colorBack = "odd";
 
-            // debugger;
             let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree'+ rowNumber + '" role="row">';
             html += '    <td class="row-actions sorting_1">';
             html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
@@ -465,21 +464,15 @@
                 callback(errors);
             }
 
-            //Lancement du mode édition
+            // Lancement du mode édition
             $("#edit" + rowNumber).click();
-            // console.log('BrithDay', values[3]);
 
             var today = new Date();
             today.setFullYear(today.getFullYear() - 12);
-            //
             initDatepicker(today);
-
-            debugger;
-            // $('#birthDate' + rowNumber).datepicker('update', values[3]);
         }
 
         function changeSelectOptionByValue(selectId, textValue, callback) {
-            // debugger;
             const $select = document.querySelector(selectId);
             const $options = Array.from($select.options);
             const optionToSelect = $options.find(item => item.text.toLowerCase() === textValue.toLowerCase());
@@ -924,11 +917,10 @@
             for (let i = 0; i < dirs.length - 1; i++)
                 $locationRef += dirs[i] + '/';
 
-            // appel Ajax sur bdd
-            // console.log($locationRef + $sectorArea + '/activityBySchoolSectorArea');
-            if($sectorArea) {
+            // Call ajax to get the activities
+            if ($sectorArea) {
                 $.get($locationRef + $sectorArea + '/activityBySchoolSectorArea').done(function (activities) {
-                    // recupere le Id de l'activity existant
+                    // Get the Id of the existing activity
                     let $idSelected = -1;
                     if ($('#selectActivity' + rowNumber + ' option').length == 1) {
                         $idSelected = $('#selectActivity' + rowNumber + ' option:first').val();
@@ -938,15 +930,15 @@
                     $("#selectActivity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
                     if (activities) {
                         activities.forEach((activity) => {
-                            if ($idSelected == activity['id'])
-                                $("#selectActivity" + rowNumber).append("<option selected value=\"" + activity['id'] + "\">" + translations[activity['name']] + "</option>");
-                            else
-                                $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + translations[activity['name']] + "</option>");
-                                // $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
+                            // On devrait traduire les activités comme translations[activity['name']]
+                            if ($idSelected == activity['id']) {
+                                $("#selectActivity" + rowNumber).append("<option selected value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
+                            } else {
+                                $("#selectActivity" + rowNumber).append("<option value=\"" + activity['id'] + "\">" + activity['name'] + "</option>");
+                            }
                         })
                     }
                     if (optionValue !== undefined) {
-                        // changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue, () => alert(`Le secteur d'activité de la ligne ${rowNumber} n'existe pas dans le system.`));
                         changeSelectOptionByValue('#selectActivity' + rowNumber, optionValue);
                     }
                 })

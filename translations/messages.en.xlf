@@ -3565,6 +3565,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>flashbag.you_must_be_a_graduate_to_create_a_survey</source>
         <target>You must be a graduate to create a survey</target>
       </trans-unit>
+      <trans-unit id="flashbag.no_survey_available">
+        <source>flashbag.no_survey_available</source>
+        <target>There is currently no survey available</target>
+      </trans-unit>
       <trans-unit id="flashbag.you_have_to_answer_a_new_survey_since_date">
         <source>flashbag.you_have_to_answer_a_new_survey_since_date</source>
         <target>You have to answer a new survey since {date}</target>
