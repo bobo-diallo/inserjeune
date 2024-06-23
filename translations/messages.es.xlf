@@ -3553,6 +3553,10 @@
         <source>flashbag.you_must_be_a_graduate_to_create_a_survey</source>
         <target>Debes ser licenciado para crear una encuesta</target>
       </trans-unit>
+      <trans-unit id="flashbag.no_survey_available">
+        <source>flashbag.no_survey_available</source>
+        <target>No hay ninguna encuesta disponible actualmente</target>
+      </trans-unit>
       <trans-unit id="flashbag.you_have_to_answer_a_new_survey_since_date">
         <source>flashbag.you_have_to_answer_a_new_survey_since_date</source>
         <target>Tienes que responder una nueva encuesta desde {fecha}</target>

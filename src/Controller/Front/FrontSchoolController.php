@@ -308,7 +308,7 @@ class FrontSchoolController extends AbstractController {
 	public function personDegreesIndexAction(): Response {
 		return $this->schoolService->checkUnCompletedAccountBefore(function () {
 			$school = $this->schoolService->getSchool();
-			$schoolId = $school ? $school->getId() : null;
+			$schoolId = $school?->getId();
 			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,null, $schoolId);
             $types = $this->degreeService->getTypes();
 
@@ -319,7 +319,7 @@ class FrontSchoolController extends AbstractController {
 		});
 	}
 
-    #[IsGranted('ROLE_ETABLISSEMENT')]
+	#[IsGranted('ROLE_ETABLISSEMENT')]
 	#[Route(path: '/persondegreesEnroll', name: 'front_school_persondegrees_enroll', methods: ['GET'])]
 	public function personDegreesEnrollAction(): Response {
 		return $this->schoolService->checkUnCompletedAccountBefore(function () {
@@ -331,10 +331,11 @@ class FrontSchoolController extends AbstractController {
 
 			return $this->render('school/personDegreesEnroll.html.twig', [
 				'personDegrees' => $personDegrees,
-				'regions' =>$regions,
+				'regions' => $regions,
 			]);
 		});
 	}
+
     #[IsGranted('ROLE_ETABLISSEMENT')]
 	#[Route(path: '/companiesEnroll', name: 'front_school_companies_enroll', methods: ['GET'])]
 	public function companiesEnrollAction(): Response {
@@ -976,13 +977,13 @@ class FrontSchoolController extends AbstractController {
         return new JsonResponse($result);
     }
 
-    #[Route(path: '/{id}/cityByRegion/', name: 'front_school_city_by_region', methods: ['GET'])]
-    public function cityByRegionAction(int $id): JsonResponse|Response {
+	#[Route(path: '/{id}/cityByRegion/', name: 'front_school_city_by_region', methods: ['GET'])]
+	public function cityByRegionAction(int $id): JsonResponse|Response {
 		return $this->schoolService->checkUnCompletedAccountBefore(function () use ($id) {
 			$cities = $this->cityRepository->getByRegionId($id);
 			return new JsonResponse($cities);
 		});
-    }
+	}
 
     #[Route(path: '/{id}/activityBySchoolSectorArea/', name: 'front_school_activity_by_school_sector_area', methods: ['GET'])]
     public function activityBySchoolSectorArea(int $id): JsonResponse|Response {
@@ -1011,7 +1012,6 @@ class FrontSchoolController extends AbstractController {
 			    $res[] = $data;
 		    }
 
-		    //dump($res);
 		    return new JsonResponse($res);
 	    });
     }
