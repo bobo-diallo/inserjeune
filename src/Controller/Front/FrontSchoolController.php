@@ -892,7 +892,6 @@ class FrontSchoolController extends AbstractController {
 			if (count($personDegreeIds)) {
 				$personDegrees = $this->personDegreeRepository->getPersonDegreeWithIds($personDegreeIds);
 				foreach ($personDegrees as $personDegree) {
-                    // var_dump($personDegree);
 					$this->emailService->sendNotificationEnrollmentDegree($personDegree, $school);
 				}
 

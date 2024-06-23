@@ -87,7 +87,6 @@ class JobOfferController extends AbstractController {
 			}
 		}
 
-		// test if account is created for company and school
 		if ($company == null && $school == null) {
 			if ($this->getUser()->hasRole('ROLE_ENTREPRISE')) {
 				return $this->redirectToRoute('front_company_new');
@@ -103,7 +102,6 @@ class JobOfferController extends AbstractController {
 		]);
 	}
 
-	// #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/jobApplied', name: 'job_applied_index', methods: ['GET'])]
 	public function jobAppliedAction(): Response {
 		$jobApplieds = $this->jobAppliedRepository->getAll();
@@ -112,7 +110,6 @@ class JobOfferController extends AbstractController {
 
 		if (($this->getUser()->hasRole('ROLE_ETABLISSEMENT')) || ($this->getUser()->hasRole('ROLE_PRINCIPAL'))) {
 			$school = $this->schoolService->getSchool();
-			// only for Principal role
 			if (!$school) {
 				$school = $this->schoolRepository->find($this->getUser()->getPrincipalSchool());
 			}
@@ -126,7 +123,6 @@ class JobOfferController extends AbstractController {
 			$jobApplieds = $this->jobAppliedRepository->getByUserPersonDegree($this->getUser()->getId());
 		}
 
-		// test if account is created for company and school
 		if ($company == null && $school == null) {
 			if ($this->getUser()->hasRole('ROLE_ENTREPRISE')) {
 				return $this->redirectToRoute('front_company_new');

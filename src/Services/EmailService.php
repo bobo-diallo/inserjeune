@@ -163,12 +163,10 @@ class EmailService {
 	}
 
 	public function sendNotificationEnrollmentDegree(PersonDegreeReceiverNotification $personDegree, School $school): void {
-        // var_dump($personDegree->email());
         $email = (new TemplatedEmail())
 			->from($this->parameterBag->get('email_from'))
 			->to($personDegree->email())
 			->replyTo($this->parameterBag->get('email_from'))
-			// ->subject('Enrollement via IFEF')
 			->subject($this->translator->trans('email.Enrollment_via'))
 			->htmlTemplate('email/enrollement_persondegree.html.twig')
 			->context([

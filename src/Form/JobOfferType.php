@@ -126,6 +126,7 @@ class JobOfferType extends AbstractType {
 				'constraints' => [
 					new File([
 						'maxSize' => '2048k',
+						'maxSizeMessage' => 'Le fichier est trop grand ({{ size }} {{ suffix }}). La taille maximale autorisée est de {{ limit }} {{ suffix }}.',
 						'mimeTypes' => [
 							'application/pdf',
 							'application/x-pdf',
