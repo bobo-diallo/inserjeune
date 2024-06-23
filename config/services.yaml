@@ -14,8 +14,8 @@ parameters:
     app.supported_locales: fr|en|pt|es
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
-    email_from: postmaster@koderez.com
-    email_reply_to: postmaster@koderez.com
+    email_from: '%env(EMAIL_FROM)%'
+    email_reply_to: '%env(EMAIL_REPLY_TO)%'
     # specific countries adaptation #
     env(EN_FIELD_TRANSLATION): en
     env(FR_FIELD_TRANSLATION): fr
