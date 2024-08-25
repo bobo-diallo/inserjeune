@@ -3635,7 +3635,7 @@
       </trans-unit>
       <trans-unit id="flashbag.welcome_please_complete_your_profile_below">
         <source>flashbag.welcome_please_complete_your_profile_below</source>
-        <target>Bienvenue ! merci de compléter votre profil ci-dessous., merci de compléter votre profil ci-dessous.</target>
+        <target>Bienvenue ! merci de compléter votre profil ci-dessous.</target>
       </trans-unit>
       <trans-unit id="flashbag.unable_to_create_an_account">
         <source>flashbag.unable_to_create_an_account</source>

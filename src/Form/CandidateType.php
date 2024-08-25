@@ -24,7 +24,7 @@ class CandidateType extends AbstractType
 		      'required' => true,
 		      'constraints' => [
 			      new File([
-				      'maxSize' => '2048k',
+				      'maxSize' => '2M',
 				      'mimeTypes' => [
 					      'application/pdf',
 					      'application/x-pdf',
@@ -39,7 +39,7 @@ class CandidateType extends AbstractType
 		      'required' => true,
 		      'constraints' => [
 			      new File([
-				      'maxSize' => '2048k',
+				      'maxSize' => '2M',
 				      'mimeTypes' => [
 					      'application/pdf',
 					      'application/x-pdf',
