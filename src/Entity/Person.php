@@ -138,7 +138,7 @@ trait Person {
 
 	public function setBirthDate(?string $birthDate): self {
 		if ($birthDate) {
-			$this->birthDate = \DateTime::createFromFormat(Utils::FORMAT_US, $birthDate);
+			$this->birthDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $birthDate);
 		}
 		return $this;
 	}

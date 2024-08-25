@@ -625,7 +625,7 @@ class FrontSchoolController extends AbstractController {
                     $res[$key] = $value;
 	                $birthDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $value);
                     if ($birthDate) {
-                        $personDegree->$setProp($birthDate->format(Utils::FORMAT_US));
+                        $personDegree->$setProp($birthDate->format(Utils::FORMAT_FR));
                         $this->em->persist($personDegree);
                     } else {
                         $err[] = "No BirthDate found for Id:" . $value;
