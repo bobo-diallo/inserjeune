@@ -45,12 +45,18 @@
                 url: jsonLangage
             },
             initComplete: function () {
-                $('#kz_table_wrapper input').addClass('form-control form-control-sm ')
-                $('#kz_table_wrapper select').addClass('form-control form-control-sm ')
-                $('#kz_table_wrapper .row').css('width', '100%')
-                $('#kz_table').parent().css('width', '100%')
+                $('#kz_table_wrapper input').addClass('form-control form-control-sm ');
+                $('#kz_table_wrapper select').addClass('form-control form-control-sm ');
+                $('#kz_table_wrapper .row').css('width', '100%');
+                $('#kz_table').parent().css('width', '100%');
+
+                $('#knp_table_wrapper input').addClass('form-control form-control-sm ')
+                $('#knp_table_wrapper select').addClass('form-control form-control-sm ')
+                $('#knp_table_wrapper .row').css('width', '100%')
+                $('#knp_table').parent().css('width', '100%')
             },
             dom: 'Blfrtip',
+            paging: true,
             buttons: {
                 buttons: [{
                     extend: 'csv',
@@ -126,6 +132,10 @@
         $('#kz_table_retrieve').DataTable(optionsWithRetrieve);
         $('#kz_table_with_export').DataTable(options);
         $('#kz_table_with_width_export').DataTable(options);
+
+        // disable jquery datatable pagination
+        options.paging = false;
+        $('#knp_table').DataTable(options);
 
         // Export Dashboard to PDF
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\PersonDegree;
+use App\Entity\Region;
 use App\Entity\School;
 use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
@@ -15,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,9 +63,10 @@ class PersonDegreeController extends AbstractController {
 	}
 
 	#[Route(path: '/', name: 'persondegree_index', methods: ['GET'])]
-	public function indexAction(): Response {
+	public function indexAction(Request $request): Response {
 		$userCountry = $this->getUser()->getCountry();
 		$countryId = $userCountry ? $userCountry->getId() : null;
+		$page = $request->query->get('page', 1);
 
 		// adaptation for multi administrators
 		$userRegions = [];
@@ -79,32 +82,47 @@ class PersonDegreeController extends AbstractController {
 
 		// For RegionsAdministrators
 		if (count($userRegions) > 0) {
-			$personDegrees = [];
-			foreach ($userRegions as $region) {
-				$personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getAllCityRegionPersonDegree(null, $region->getId()));
-			}
-			// dump($personDegrees); die();
+			$personDegrees = $this
+				->personDegreeRepository
+				->getAllCityRegionPersonDegree(
+					$page,
+					[],
+					array_map(
+						function (Region $region) {
+							return $region->getId();
+						},
+						$userRegions
+					),
+				);
 			// For CountriesAdministrators
 		} else if (count($userCities) > 0) {
-			$personDegrees = [];
-			foreach ($userCities as $city) {
-				$personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getAllCityRegionPersonDegree($city->getId(), null));
-			}
+			$personDegrees = $this
+				->personDegreeRepository
+				->getAllCityRegionPersonDegree(
+					$page,
+					array_map(
+						function ($city): int {
+							return $city->getId();
+						},
+						$userCities
+					),
+				);
 
 			// For All administrators
 		} else {
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, $countryId);
 			// adaptation dbta for diaspora
 			if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
 				$userRegion = $this->getUser()->getRegion();
-				$regionId = $userRegion ? $userRegion->getId() : null;
-				$personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree(null, $regionId);
+				$regionIds = $userRegion ? [$userRegion->getId()] : [];
+				$personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree($page, [], $regionIds);
+			} else {
+				$personDegrees = $this->personDegreeRepository->getAllPersonDegree($page, null, $countryId);
 			}
 		}
 
 		// For Principal Role
 		if ($this->getUser()->getPrincipalSchool()) {
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, null, $this->getUser()->getPrincipalSchool());
+			$personDegrees = $this->personDegreeRepository->getAllPersonDegree($page, null, null, $this->getUser()->getPrincipalSchool());
 		}
 
 		return $this->render('persondegree/index.html.twig', [
@@ -118,7 +136,6 @@ class PersonDegreeController extends AbstractController {
 		$user = $this->getUser();
 
 		$personDegree->setPhoneMobile1($user->getPhone());
-		// $personDegree->setCountry($user->getCountry());
 		$personDegree->setLocationMode(true);
 		$residenceCountryPhoneCode = null;
 
@@ -130,7 +147,7 @@ class PersonDegreeController extends AbstractController {
 		$personDegree->setDiaspora($user->isDiaspora());
 		$personDegree->setResidenceCountry($user->getResidenceCountry());
 
-		//adaptation dbta
+		// adaptation dbta
 		$selectedRegion = null;
 		if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
 			if ($user->getCountry()?->getId() != $user->getRegion()->getCountry()?->getId()) {
@@ -139,7 +156,6 @@ class PersonDegreeController extends AbstractController {
 				$this->em->flush();
 			}
 			$personDegree->setRegion($user->getRegion());
-			// $personDegree->setCountry($user->getRegion()->getCountry());
 			$selectedRegion = $personDegree->getRegion();
 		}
 

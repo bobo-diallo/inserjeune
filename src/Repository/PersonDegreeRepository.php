@@ -15,6 +15,9 @@ use App\Entity\Country;
 use App\Entity\Region;
 use App\Entity\SectorArea;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * PersonDegreeRepository
@@ -23,16 +26,32 @@ use Doctrine\Persistence\ManagerRegistry;
  * repository methods below.
  */
 class PersonDegreeRepository extends ServiceEntityRepository {
-	public function __construct(ManagerRegistry $registry) {
+	private ParameterBagInterface $_parameter;
+	private PaginatorInterface $_paginator;
+
+	public function __construct(
+		ManagerRegistry $registry,
+		ParameterBagInterface $parameter,
+		PaginatorInterface $paginator
+	) {
 		parent::__construct($registry, PersonDegree::class);
+		$this->_parameter = $parameter;
+		$this->_paginator = $paginator;
 	}
 
-    /**
-     * @param int|null $cityId
-     * @param int|null $regionId
-     * @return PersonDegreeReadOnly[]
-     */
-    public function getAllCityRegionPersonDegree(?int $cityId = null, ?int $regionId = null, ?int $schoolId = null): array {
+	/**
+	 * @param int $page
+	 * @param int[] $cities
+	 * @param int[] $regions
+	 * @param int[] $schools
+	 * @return PaginationInterface
+	 */
+    public function getAllCityRegionPersonDegree(
+		int $page,
+		array $cities = [],
+		array $regions = [],
+		array $schools = []
+    ): PaginationInterface {
         $qb = $this->createQueryBuilder('p')
             ->select('
 			p.id,
@@ -77,19 +96,17 @@ class PersonDegreeRepository extends ServiceEntityRepository {
             ->leftJoin('p.satisfactionSearches', 'satisfaction_searches')
         ;
 
-        if ($regionId) {
-            $qb = $qb->where('region.id = :region')
-                ->setParameter('region', $regionId);
+		$expr = $qb->expr();
+        if (count($regions)) {
+            $qb = $qb->andWhere($expr->in('region.id', $regions));
         }
 
-        if ($cityId) {
-            $qb = $qb->where('city.id = :city')
-                ->setParameter('city', $cityId);
+        if (count($cities)) {
+			$qb = $qb->andWhere($expr->in('city.id', $cities));
         }
 
-        if ($schoolId){
-            $qb = $qb->where('school.id = :school')
-                ->setParameter('school', $schoolId);
+        if (count($schools)) {
+			$qb = $qb->andWhere($expr->in('school.id', $schools));
         }
 
         $persons = $qb
@@ -124,7 +141,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
             ->getQuery()
             ->getArrayResult();
 
-        return array_map(function ($person) {
+        $data = array_map(function ($person) {
             return new PersonDegreeReadOnly(
                 $person['id'],
                 $person['firstname'],
@@ -157,14 +174,23 @@ class PersonDegreeRepository extends ServiceEntityRepository {
                 $person['satisfaction_creators_count'],
             );
         }, $persons);
+
+		return $this->_paginator->paginate($data, $page, $this->_parameter->get('default_pagination_limit'));
     }
 
 	/**
+	 * @param int $page
 	 * @param int|null $addressCity
-     * @param int|null $countryId
-	 * @return PersonDegreeReadOnly[]
+	 * @param int|null $countryId
+	 * @param int|null $schoolId
+	 * @return PaginationInterface
 	 */
-	public function getAllPersonDegree(?int $addressCity = null, ?int $countryId = null, ?int $schoolId = null): array {
+	public function getAllPersonDegree(
+		int $page,
+		?int $addressCity = null,
+		?int $countryId = null,
+		?int $schoolId = null
+	): PaginationInterface {
 		$qb = $this->createQueryBuilder('p')
 			->select('
 			p.id,
@@ -251,7 +277,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getArrayResult();
 
-		return array_map(function ($person) {
+		$data = array_map(function ($person) {
 			return new PersonDegreeReadOnly(
 				$person['id'],
 				$person['firstname'],
@@ -284,6 +310,8 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 				$person['satisfaction_creators_count'],
 			);
 		}, $persons);
+
+		return $this->_paginator->paginate($data, $page, $this->_parameter->get('default_pagination_limit'));
 	}
 
 	/**
