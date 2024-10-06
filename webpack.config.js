@@ -14,6 +14,7 @@ Encore
     .setOutputPath(process.env.OUTPUT_PATH || 'public/build/')
     // public path used by the web server to access the output path
     .setPublicPath(process.env.PUBLIC_PATH || '/build')
+    .setManifestKeyPrefix(process.env.PUBLIC_PATH)
     .copyFiles({
         from: './assets/images',
         // optional target path, relative to the output dir

@@ -305,11 +305,16 @@ class FrontSchoolController extends AbstractController {
 	}
     #[IsGranted('ROLE_ETABLISSEMENT')]
 	#[Route(path: '/persondegrees', name: 'front_school_persondegree_index', methods: ['GET'])]
-	public function personDegreesIndexAction(): Response {
-		return $this->schoolService->checkUnCompletedAccountBefore(function () {
+	public function personDegreesIndexAction(Request $request): Response {
+		return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request) {
 			$school = $this->schoolService->getSchool();
 			$schoolId = $school?->getId();
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null,null, $schoolId);
+			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(
+				$request->query->get('page', 1),
+				null,
+				null,
+				$schoolId
+			);
             $types = $this->degreeService->getTypes();
 
 			return $this->render('persondegree/index.html.twig', [

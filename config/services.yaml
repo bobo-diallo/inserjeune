@@ -25,6 +25,7 @@ parameters:
     env(CONCAT_LOCAL_ADDRESS): 'false'
     env(STRUCT_PROVINCE_COUNTRY_CITY): 'false'
     env(PREFECTURE_BETWEEN_REGION_CITY): 'false'
+    default_pagination_limit: 10
 
 services:
     # default configuration for services in *this* file

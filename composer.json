@@ -14,6 +14,7 @@
         "doctrine/orm": "^2.12",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "helios-ag/fm-elfinder-bundle": "^12.1",
+        "knplabs/knp-paginator-bundle": "^5.0",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.5",
         "sensio/framework-extra-bundle": "^6.1",

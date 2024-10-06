@@ -10,10 +10,12 @@ use App\Repository\SchoolRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -61,7 +63,11 @@ class UserController extends AbstractController {
 	}
 
 	#[Route(path: '/', name: 'user_index', methods: ['GET'])]
-	public function indexAction(): Response {
+	public function indexAction(
+		ParameterBagInterface $parameter,
+		PaginatorInterface $paginator,
+		Request $request
+	): Response {
         $allUsers = $this->userRepository->getAllUser();
         $users = [];
         if($this->getUser()->hasRole('ROLE_ADMIN')) {
@@ -90,7 +96,11 @@ class UserController extends AbstractController {
         }
 
 		return $this->render('user/index.html.twig', [
-			'users' => $users
+			'users' => $paginator->paginate(
+				$users,
+				$request->query->getInt('page', 1),
+				$parameter->get('default_pagination_limit')
+			)
 		]);
 	}
 
