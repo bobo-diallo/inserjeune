@@ -1,0 +1,47 @@
+<footer class="footer-custom">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <p>IFEF &copy;2024 - Inserjeune {{ app_version }} - {{ "footer.copyright" | trans }}.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Pied de page personnalisé */
+  .footer-custom {
+    background-color: #f8f9fa; /* Couleur de fond claire */
+    padding: 10px 0; /* Réduction du padding pour un design plus compact */
+    border-top: 1px solid #0066cc; /* Bordure fine pour séparer le pied de page */
+  }
+
+  .footer-custom p {
+    margin: 0;
+    color: #555; /* Couleur un peu plus foncée mais douce */
+    font-size: 12px; /* Taille de texte réduite */
+    line-height: 1.2; /* Moins d'espacement vertical entre les lignes */
+  }
+
+
+  .footer-custom .col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .footer-custom p:first-child {
+    font-weight: bold; /* Accentuation du copyright */
+  }
+
+  .footer-custom p:last-child {
+    font-style: italic; /* Mettre la version en italique */
+    color: #666; /* Couleur un peu plus douce */
+  }
+
+  /* Transition douce au survol */
+  .footer-custom p:hover {
+    color: #0066cc;
+    transition: color 0.2s ease;
+  }
+
+</style>

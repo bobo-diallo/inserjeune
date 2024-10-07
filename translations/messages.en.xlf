@@ -2575,6 +2575,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>footer.contact_informations</source>
         <target>Contact informations</target>
       </trans-unit>
+      <trans-unit id="footer.copyright">
+        <source>footer.copyright</source>
+        <target>All rights reserved</target>
+      </trans-unit>
       <trans-unit id="footer.dev_by">
         <source>footer.dev_by</source>
         <target>Developed by</target>
