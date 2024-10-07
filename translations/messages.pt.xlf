@@ -2565,6 +2565,10 @@
         <source>footer.informations</source>
         <target>Informação</target>
       </trans-unit>
+      <trans-unit id="footer.copyright">
+        <source>footer.copyright</source>
+        <target>Todos os direitos reservados</target>
+      </trans-unit>
       <trans-unit id="footer.contact_informations">
         <source>footer.contact_informations</source>
         <target>informações de contato</target>
