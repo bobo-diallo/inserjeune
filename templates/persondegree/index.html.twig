@@ -20,7 +20,7 @@
                         </div>
                     {% endif %}
                     <div class="table-responsive">
-                        <table id="knp_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
                                 {%  if roleUser == "Administrateur" or
@@ -220,7 +220,7 @@
                             </tbody>
                         </table>
                         {#<table style="margin-top: 20px">#}
-                        <table id="knp_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; max-width: 600px;">
+                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; max-width: 600px;">
                           <thead><tr>
                             <th style="text-align: center" >{{ 'menu.legend' | trans }}</th>
                             <th style="text-align: center" >{{ 'menu.under_study' | trans }}</th>
@@ -239,9 +239,9 @@
                           </tr></tbody>
                         </table>
                     </div>
-                    <div class="navigation flex text-center mb-8">
-                        {{ knp_pagination_render(personDegrees) }}
-                    </div>
+{#                    <div class="navigation flex text-center mb-8">#}
+{#                        {{ knp_pagination_render(personDegrees) }}#}
+{#                    </div>#}
                 </div>
             </div>
         </div>

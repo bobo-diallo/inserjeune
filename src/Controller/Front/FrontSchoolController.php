@@ -310,7 +310,6 @@ class FrontSchoolController extends AbstractController {
 			$school = $this->schoolService->getSchool();
 			$schoolId = $school?->getId();
 			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(
-				$request->query->get('page', 1),
 				null,
 				null,
 				$schoolId

@@ -66,7 +66,7 @@ class PersonDegreeController extends AbstractController {
 	public function indexAction(Request $request): Response {
 		$userCountry = $this->getUser()->getCountry();
 		$countryId = $userCountry ? $userCountry->getId() : null;
-		$page = $request->query->get('page', 1);
+		// $page = $request->query->get('page', 1);
 
 		// adaptation for multi administrators
 		$userRegions = [];
@@ -85,7 +85,6 @@ class PersonDegreeController extends AbstractController {
 			$personDegrees = $this
 				->personDegreeRepository
 				->getAllCityRegionPersonDegree(
-					$page,
 					[],
 					array_map(
 						function (Region $region) {
@@ -99,7 +98,6 @@ class PersonDegreeController extends AbstractController {
 			$personDegrees = $this
 				->personDegreeRepository
 				->getAllCityRegionPersonDegree(
-					$page,
 					array_map(
 						function ($city): int {
 							return $city->getId();
@@ -114,15 +112,15 @@ class PersonDegreeController extends AbstractController {
 			if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
 				$userRegion = $this->getUser()->getRegion();
 				$regionIds = $userRegion ? [$userRegion->getId()] : [];
-				$personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree($page, [], $regionIds);
+				$personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree([], $regionIds);
 			} else {
-				$personDegrees = $this->personDegreeRepository->getAllPersonDegree($page, null, $countryId);
+				$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, $countryId);
 			}
 		}
 
 		// For Principal Role
 		if ($this->getUser()->getPrincipalSchool()) {
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree($page, null, null, $this->getUser()->getPrincipalSchool());
+			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, null, $this->getUser()->getPrincipalSchool());
 		}
 
 		return $this->render('persondegree/index.html.twig', [

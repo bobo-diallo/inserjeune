@@ -40,18 +40,16 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 	}
 
 	/**
-	 * @param int $page
 	 * @param int[] $cities
 	 * @param int[] $regions
 	 * @param int[] $schools
-	 * @return PaginationInterface
+	 * @return PersonDegreeReadOnly[]
 	 */
     public function getAllCityRegionPersonDegree(
-		int $page,
 		array $cities = [],
 		array $regions = [],
 		array $schools = []
-    ): PaginationInterface {
+    ): array {
         $qb = $this->createQueryBuilder('p')
             ->select('
 			p.id,
@@ -141,7 +139,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
             ->getQuery()
             ->getArrayResult();
 
-        $data = array_map(function ($person) {
+        return array_map(function ($person) {
             return new PersonDegreeReadOnly(
                 $person['id'],
                 $person['firstname'],
@@ -175,22 +173,20 @@ class PersonDegreeRepository extends ServiceEntityRepository {
             );
         }, $persons);
 
-		return $this->_paginator->paginate($data, $page, $this->_parameter->get('default_pagination_limit'));
+		// return $this->_paginator->paginate($data, $page, $this->_parameter->get('default_pagination_limit'));
     }
 
 	/**
-	 * @param int $page
 	 * @param int|null $addressCity
 	 * @param int|null $countryId
 	 * @param int|null $schoolId
-	 * @return PaginationInterface
+	 * @return PersonDegreeReadOnly[]
 	 */
 	public function getAllPersonDegree(
-		int $page,
 		?int $addressCity = null,
 		?int $countryId = null,
 		?int $schoolId = null
-	): PaginationInterface {
+	): array {
 		$qb = $this->createQueryBuilder('p')
 			->select('
 			p.id,
@@ -277,7 +273,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			->getQuery()
 			->getArrayResult();
 
-		$data = array_map(function ($person) {
+		return array_map(function ($person) {
 			return new PersonDegreeReadOnly(
 				$person['id'],
 				$person['firstname'],
@@ -311,7 +307,7 @@ class PersonDegreeRepository extends ServiceEntityRepository {
 			);
 		}, $persons);
 
-		return $this->_paginator->paginate($data, $page, $this->_parameter->get('default_pagination_limit'));
+		// return $this->_paginator->paginate($data, $page, $this->_parameter->get('default_pagination_limit'));
 	}
 
 	/**
