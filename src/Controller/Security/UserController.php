@@ -96,11 +96,7 @@ class UserController extends AbstractController {
         }
 
 		return $this->render('user/index.html.twig', [
-			'users' => $paginator->paginate(
-				$users,
-				$request->query->getInt('page', 1),
-				$parameter->get('default_pagination_limit')
-			)
+			'users' => $users
 		]);
 	}
 
