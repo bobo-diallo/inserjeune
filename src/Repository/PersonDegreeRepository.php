@@ -15,7 +15,6 @@ use App\Entity\Country;
 use App\Entity\Region;
 use App\Entity\SectorArea;
 use Doctrine\Persistence\ManagerRegistry;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
@@ -26,7 +25,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class PersonDegreeRepository extends ServiceEntityRepository {
 	private ParameterBagInterface $_parameter;
-	private PaginatorInterface $_paginator;
 
 	public function __construct(
 		ManagerRegistry $registry,

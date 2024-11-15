@@ -10,7 +10,6 @@ use App\Repository\SchoolRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,7 +64,6 @@ class UserController extends AbstractController {
 	#[Route(path: '/', name: 'user_index', methods: ['GET'])]
 	public function indexAction(
 		ParameterBagInterface $parameter,
-		PaginatorInterface $paginator,
 		Request $request
 	): Response {
         $allUsers = $this->userRepository->getAllUser();
