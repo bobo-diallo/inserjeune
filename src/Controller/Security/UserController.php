@@ -10,6 +10,9 @@ use App\Repository\SchoolRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
+use Omines\DataTablesBundle\Column\TextColumn;
+use Omines\DataTablesBundle\DataTableFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +27,7 @@ use App\Entity\Role;
 use App\Form\UserType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\Validator\Constraints\Collection;
-use Doctrine\ORM\PersistentCollection;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/user')]
@@ -61,51 +63,101 @@ class UserController extends AbstractController {
 		$this->translator = $translator;
 	}
 
-	#[Route(path: '/', name: 'user_index', methods: ['GET'])]
+	#[Route(path: '/', name: 'user_index', methods: ['GET', 'POST'])]
 	public function indexAction(
-		ParameterBagInterface $parameter,
-		Request $request
+		Request $request,
+		DataTableFactory $dataTableFactory,
+		UrlGeneratorInterface $urlGenerator,
+		TranslatorInterface $translator,
+		ParameterBagInterface $parameter
 	): Response {
-        $allUsers = $this->userRepository->getAllUser();
-        $users = [];
-        if($this->getUser()->hasRole('ROLE_ADMIN')) {
-            $users = $allUsers;
-        } else if($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
-            foreach ($allUsers as $user) {
-                if($user->roles() != 'ROLE_ADMIN_PAYS') {
-                    if ($user->country() == $this->getUser()->getCountry()->getName()) {
-                        $users[] = $user;
-                    }
-                }
-            }
-        } else if($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
-            foreach ($allUsers as $user) {
-                if(($user->roles() != 'ROLE_ADMIN_PAYS') && ($user->roles() != 'ROLE_ADMIN_REGIONS')) {
-                    $regions = $this->getUser()->getAdminRegions();
-                    foreach ($regions as $region) {
-                        if ($user->region()) {
-                            if ($region->getName() == $user->region()) {
-                                $users[] = $user;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
+		/** @var User $currentUser */
+		$currentUser = $this->getUser();
+
+		$table = $dataTableFactory->create()
+			->add('actions', TextColumn::class, [
+				'label' => 'Actions',
+				'className' => 'no-print',
+				'render' => function ($value, $context) use ($urlGenerator) {
+					return sprintf(
+						'
+				 <a href="%s"><img src="/build/images/icon/edit_16.png" alt="edit" class="action-icon"></a>
+                 <a href="%s"><img src="/build/images/icon/show_16.png" alt="show" class="action-icon"></a>
+                 <a class="danger" onclick="deleteElement(\'%s\')"><img src="/build/images/icon/delete_16.png" alt="delete" class="action-icon"></a>',
+						$urlGenerator->generate('user_edit', ['id' => $context->getId()]),
+						$urlGenerator->generate('user_show', ['id' => $context->getId()]),
+						$urlGenerator->generate('user_delete', ['id' => $context->getId()])
+					);
+				},
+				'orderable' => false,
+				'searchable' => false,
+			])
+			->add('id', TextColumn::class, ['label' => 'ID'])
+			->add('country', TextColumn::class, [
+				'label' => $translator->trans('menu.country'),
+				'field' => 'country.name'
+			]);
+
+		// For DBTA
+		if ($parameter->get('env(STRUCT_PROVINCE_COUNTRY_CITY)') == 'true') {
+			$table->add('region', TextColumn::class, [
+				'label' => $translator->trans('menu.region'),
+				'field' => 'region.name',
+			]);
+		}
+
+		$table
+			->add('phone', TextColumn::class, ['label' => $translator->trans('menu.phone')])
+			->add('username', TextColumn::class, ['label' => $translator->trans('menu.pseudo')])
+			->add('email', TextColumn::class, ['label' => $translator->trans('menu.email')])
+			->add('profils', TextColumn::class, [
+				'label' => $translator->trans('menu.roles'),
+				'render' => function ($value, $context) use ($currentUser) {
+					return implode(', ', $context->getRoles());
+				}
+			])
+			->createAdapter(ORMAdapter::class, [
+				'entity' => User::class,
+				'query' => function (QueryBuilder $builder) use($currentUser) {
+					$builder
+						// ->select('u.id, u.phone, u.username, u.email, country.name, region.name')
+						->select('u, country, region')
+						->from(User::class, 'u')
+						->leftJoin('u.country', 'country')
+						->leftJoin('u.region', 'region');
+
+					if ($currentUser->hasRole('ROLE_ADMIN_PAYS')) {
+						$builder
+							->andWhere('u.country = :country')
+							->setParameter('country', $currentUser->getCountry()->getId());
+					} else if ($currentUser->hasRole('ROLE_ADMIN_REGIONS')) {
+						$regionIds = $currentUser
+							->getAdminRegions()
+							->map(function (Region $region) {
+								return $region->getId();
+							});
+						$builder
+							->andWhere('u.region IN (:regionIds)')
+							->setParameter('regionIds', $regionIds);
+					}
+				},
+			])
+			->handleRequest($request);
+
+		if ($table->isCallback()) {
+			return $table->getResponse();
+		}
 
 		return $this->render('user/index.html.twig', [
-			'users' => $users
+			'datatable' => $table
 		]);
 	}
 
 	#[Route(path: '/new', name: 'user_new', methods: ['POST', 'GET'])]
 	public function newAction(Request $request): RedirectResponse|Response {
 		$user = new User();
-        // $form = $this->createForm(UserType::class, $user);
-        // //Adaptation for DBTA
-        // if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
-            $form = $this->createForm(UserType::class, $user);
-        // }
+        $form = $this->createForm(UserType::class, $user);
         $roles = $this->roleRepository->findAll();
 		$form->handleRequest($request);
 

@@ -1,10 +1,27 @@
 {% extends 'user/content.html.twig' %}
+{% block css %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+{% endblock %}
+
 {% set roleUser = app.user.roles | role%}
 
 {% block body %}
+    <style>
+        .clearfix {
+            height: 15px;
+            display: block;
+        }
+        .btn-primary {
+            color: #fff !important;
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+        }
+    </style>
     <div class="content-i">
         <div class="content-box">
-          {# Tableau 1 #}
+            {# Tableau 1 #}
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/users.png') }}" alt="locality" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
@@ -14,73 +31,15 @@
                     <div class="controls-above-table">
                         <div class="row">
                             <div class="col-sm-6">
-{#                                <a class="btn btn-sm btn-primary" href="#">{{ 'menu.archive' | trans }}</a>#}
                                 <a class="btn btn-sm btn-primary" href="{{ path('user_new') }}">
                                     <i class="fa fa-plus"></i> {{ 'menu.new_user' | trans }}</a>
-{#                                    <i class="fa fa-plus"></i> {% trans %}app.userbundle.new-user{% endtrans %}#}
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th class="no-print">Actions</th>
-                                <th>Id</th>
-                                <th>{{ 'menu.country' | trans }}</th>
-                                {# adaptation DBTA #}
-                                {% if struct_province_country_city == 'true' %}
-                                    <th>{{ 'menu.region' | trans }}</th>
-                                {% endif %}
-                                <th>Téléphone</th>
-                                <th>Pseudo</th>
-                                <th>{{ 'menu.email' | trans }}</th>
-                                <th>Roles</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for user in users %}
-                                <tr>
-                                    <td class="row-actions">
-                                        <a href="{{ path('user_edit', { 'id': user.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
-                                        <a href="{{ path('user_show', { 'id': user.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
-                                        <a class="danger" onclick="deleteElement('{{ path('user_delete', {'id': user.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
-                                    </td>
-                                    <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
-                                    <td>{{ user.country | trans}}</td>
-
-                                    {# adaptation DBTA #}
-                                    {% if struct_province_country_city == 'true' %}
-                                        {% if user.adminCities != NULL  %}
-                                            <td>{{ user.region | trans}} [ {{ user.adminCities | trans }} ]</td>
-                                        {% elseif user.adminRegions != NULL  %}
-                                            {% set adminRegions = user.adminRegions | split(',') %}
-                                            <td>[
-                                                {% for adminRegion in adminRegions %}
-                                                    {% if loop.index > 1 %} ,{% endif %}
-                                                     {{ adminRegion | spaceless | trans }}
-                                                {% endfor %}
-                                                ]
-                                            </td>
-{#                                          <td>{{ user.adminRegions  }}</td>#}
-                                        {% else%}
-                                            <td>{{ user.region | trans }}</td>
-                                        {% endif %}
-                                    {% endif %}
-                                    <td>{{ user.phone }}</td>
-                                    <td>{{ user.username }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.role }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                        <div id="users">Loading...</div>
                     </div>
-
-{#                    <div class="navigation flex text-center mb-8">#}
-{#                        {{ knp_pagination_render(users) }}#}
-{#                    </div>#}
                 </div>
             </div>
         </div>
@@ -89,4 +48,66 @@
 
 
 {% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            let title = $('h6.element-header').first().text();
+            $('#users').addClass('table table-striped table-bordered dt-responsive nowrap dataTable no-footer')
+            $('#users').initDataTables({{ datatable_settings(datatable) }}, {
+                searching: true,
+                dom: '<"row"<"col-12 text-center"B>>' +
+                    '<"row"<"col-12"><"clearfix">>' +
+                    'lfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: '<i class="fas fa-file-csv"></i> Export CSV',
+                        className: 'btn btn-primary btn-dashboard rounded buttons-csv buttons-html5',
+                        title: title,
+                        exportOptions: {
+                            columns: ':not(.no-print)',
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa fa-file-excel"></i> Export Excel',
+                        className: 'btn btn-primary btn-dashboard rounded buttons-excel buttons-html5',
+                        title: title,
+                        exportOptions: {
+                            columns: ':not(.no-print)',
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fas fa-file-pdf"></i> Export PDF',
+                        className: 'btn btn-primary btn-dashboard rounded buttons-pdf buttons-html5',
+                        title: title,
+                        exportOptions: {
+                            columns: ':not(.no-print)',
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i> Print',
+                        className: 'btn btn-primary btn-dashboard rounded buttons-print buttons-html5',
+                        title: title,
+                        exportOptions: {
+                            columns: ':not(.no-print)',
+                        }
+                    }
+                ]
+            });
+
+        })
+    </script>
 {% endblock %}

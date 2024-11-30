@@ -17,5 +17,6 @@ return [
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
     FM\ElfinderBundle\FMElfinderBundle::class => ['all' => true],
+	Omines\DataTablesBundle\DataTablesBundle::class  => ['all' => true],
     // Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
 ];
