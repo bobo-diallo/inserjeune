@@ -156,6 +156,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		return array_merge($profiles, [self::ROLE_DEFAULT]);
 	}
 
+	public function getOriginalRoles(): array {
+		return $this->profils->map(function (Role $role) {
+			return $role->getRole();
+		})->toArray();
+	}
+
 	public function removeRole(string $role): void {
 		$role = $this->profils->filter(function (Role $roleItem) use ($role) {
 			return $roleItem->getRole() == $role;
@@ -196,6 +202,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 		if ($this->getRole($role)) {
 			return true;
 		}
+		return false;
+	}
+
+	public function hasAnyRole(string $role1, string ...$roles): bool {
+		$roles = array_merge([$role1], $roles);
+
+		foreach ($roles as $role) {
+			if ($this->hasRole($role)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

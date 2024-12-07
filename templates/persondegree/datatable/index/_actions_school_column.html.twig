@@ -1,0 +1,11 @@
+<td class="row-actions d-flex justify-content-between">
+    {% if row.registrationStudentSchool|length > 0 %}
+        {% if row.checkSchool == true %}
+            <button class="validStudent" id="validStudent{{ row.id }}" value="1">Dévalider</button>
+        {% else %}
+            <button class="validStudent" id="validStudent{{ row.id }}" value="0"> {{ 'menu.validate' | trans }} </button>
+        {% endif %}
+    {% else %}
+        <button class="validStudent" id="validStudent{{ row.id }}" value="0" disabled> {{ 'menu.validate' | trans }} </button>
+    {% endif %}
+</td>

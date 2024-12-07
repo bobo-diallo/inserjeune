@@ -1,0 +1,5 @@
+{% if row.checkSchool == true %}
+    <td><span id="immat{{ row.id }}" style="color:green">{{ row.registrationStudentSchool }}</span></td>
+{% else %}
+    <td><span id="immat{{ row.id }}" style="color:red">{{ row.registrationStudentSchool }}</span></td>
+{% endif %}

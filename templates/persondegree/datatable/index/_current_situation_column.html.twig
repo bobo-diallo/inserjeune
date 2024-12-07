@@ -1,0 +1,29 @@
+{% set roleUser = app.user.roles|role %}
+
+{%  if roleUser == "Etablissement" %}
+    <td style="width: 200px" id="type{{ row.id }}">
+        <button style="margin:0"class="no-print typeStudent m-0 p-0  border-0" id="changeType{{ row.id }}" onclick="changeType('{{ row.id}}')" value="0"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></button>
+        <button style="display: none;" class="no-print typeStudent m-0 p-0 border-0" id="saveType{{ row.id }}" onclick="saveType('{{ row.id}}')" value="0"><img src="{{ asset('build/images/icon/save_16.png') }}" alt="save"></button>
+        <button style="display: none;" class="no-print typeStudent m-0 p-0 border-0" id="cancelType{{ row.id }}" onclick="cancelType('{{ row.id}}')" value="0"><img src="{{ asset('build/images/icon/cancel_16.png') }}" alt="cancel"></button>
+        <span class="" id="spanType{{ row.id }}">{{ row.type | type_degree | trans }}</span>
+        <select style="display: none;" class="selectType no-print typeStudent mt-3" id="selectType{{ row.id }}">
+            {%  for key, value in persondegree_types.getTypes() %} <option value="{{ key }}">{{ value | trans }}</option> {% endfor %}
+        </select>
+        <div style="margin: 10px auto auto 0;" class="row">
+            {#                                        <span class="" style="visibility: hidden" id="spanDip"> {{ "graduate.month_year_of_graduation" | trans }} </span>#}
+            <span class="col-12" style="display: none;" id="spanDip{{ row.id }}"> {{ "graduate.month_year_of_graduation" | trans }} </span>
+            <select class="col-6" style="display: none; margin-top: 0 !important; width: 60px" class="no-print typeStudent mt-3" id="selectMonth{{ row.id }}">
+                <option selected>{{ "menu.select" | trans }}</option>
+                {%  for i in 1..12 %} <option value="{{ i }}">{{ i }}</option> {% endfor %}
+            </select>
+            <select class="col-6" style="display: none; margin-top: 0 !important; ; width: 120px" class="no-print typeStudent mt-3" id="selectYear{{ row.id }}">
+                {% set currentYear = 'now' | date('Y')  %}
+                {% set beginYear = currentYear - 10  %}
+                <option selected>{{ "menu.select" | trans }}</option>
+                {%  for i in beginYear..currentYear %} <option value="{{ i }}">{{ i }}</option> {% endfor %}
+            </select>
+        </div>
+    </td>
+{%  else %}
+    <td>{{ row.type | type_degree | trans }}</td>
+{% endif %}

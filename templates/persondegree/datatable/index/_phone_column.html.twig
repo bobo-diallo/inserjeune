@@ -1,0 +1,15 @@
+{% set roleUser = app.user.roles|role %}
+
+{%  if roleUser == "Etablissement" %}
+    <td>
+        <span id="phoneMobile1{{ row.id }}">
+             <button style="margin:0"class="no-print phoneMobile1Student m-0 p-0  border-0" id="changePhoneMobile1{{ row.id }}" onclick="changePhoneMobile1('{{ row.id}}')" value="0"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></button>
+            <button style="display: none;" class="no-print phoneMobile1Student m-0 p-0 border-0" id="savePhoneMobile1{{ row.id }}" onclick="savePhoneMobile1('{{ row.id}}')" value="0"><img src="{{ asset('build/images/icon/save_16.png') }}" alt="save"></button>
+            <button style="display: none;" class="no-print phoneMobile1Student m-0 p-0 border-0" id="cancelPhoneMobile1{{ row.id }}" onclick="cancelPhoneMobile1('{{ row.id}}')" value="0"><img src="{{ asset('build/images/icon/cancel_16.png') }}" alt="cancel"></button>
+            <span class="" id="spanPhoneMobile1{{ row.id }}">{{ row.phoneMobile1 }}</span>
+            <input style="display: none;" class="no-print phoneMobile1Student mt-3" id="inputPhoneMobile1{{ row.id }}">
+        </span>
+    </td>
+{% else %}
+    <td>{{ row.phoneMobile1 }}</td>
+{% endif %}

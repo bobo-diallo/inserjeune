@@ -26,6 +26,7 @@ use App\Repository\SectorAreaRepository;
 use App\Repository\ActivityRepository;
 use App\Services\ActivityService;
 use App\Services\EmailService;
+use App\Services\PersonDegreeDatatableService;
 use App\Services\SchoolService;
 use App\Services\PersonDegreeService;
 use App\Tools\Utils;
@@ -303,22 +304,45 @@ class FrontSchoolController extends AbstractController {
 			]);
 		});
 	}
-    #[IsGranted('ROLE_ETABLISSEMENT')]
-	#[Route(path: '/persondegrees', name: 'front_school_persondegree_index', methods: ['GET'])]
-	public function personDegreesIndexAction(Request $request): Response {
-		return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request) {
+    // #[IsGranted('ROLE_ETABLISSEMENT')]
+	// #[Route(path: '/persondegrees', name: 'front_school_persondegree_index', methods: ['GET'])]
+	// public function personDegreesIndexAction(Request $request): Response {
+	// 	return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request) {
+	// 		$school = $this->schoolService->getSchool();
+	// 		$schoolId = $school?->getId();
+	// 		$personDegrees = $this->personDegreeRepository->getAllPersonDegree(
+	// 			null,
+	// 			null,
+	// 			$schoolId
+	// 		);
+    //         $types = $this->degreeService->getTypes();
+	//
+	// 		return $this->render('persondegree/index.html.twig', [
+	// 			'personDegrees' => $personDegrees,
+    //             'types' => $types
+	// 		]);
+	// 	});
+	// }
+
+	#[IsGranted('ROLE_ETABLISSEMENT')]
+	#[Route(path: '/persondegrees', name: 'front_school_persondegree_index', methods: ['GET', 'POST'])]
+	public function indexDatatableAction(Request $request, PersonDegreeDatatableService $datatableService): Response {
+		return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request, $datatableService) {
+			/** @var User $currentUser */
+			$currentUser = $this->getUser();
 			$school = $this->schoolService->getSchool();
 			$schoolId = $school?->getId();
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(
-				null,
-				null,
-				$schoolId
-			);
-            $types = $this->degreeService->getTypes();
 
-			return $this->render('persondegree/index.html.twig', [
-				'personDegrees' => $personDegrees,
-                'types' => $types
+			$table = $datatableService->generateDatatable($request, $currentUser, $schoolId);
+			$table->handleRequest($request);
+
+			if ($table->isCallback()) {
+				return $table->getResponse();
+			}
+
+			return $this->render('persondegree/index_datatable.html.twig', [
+				'datatable' => $table,
+				'types' => $this->degreeService->getTypes()
 			]);
 		});
 	}

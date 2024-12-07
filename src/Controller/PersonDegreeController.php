@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\PersonDegree;
-use App\Entity\Region;
 use App\Entity\School;
+use App\Entity\User;
 use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
 use App\Repository\CountryRepository;
 use App\Repository\RegionRepository;
 use App\Services\ActivityService;
+use App\Services\PersonDegreeDatatableService;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -62,69 +63,87 @@ class PersonDegreeController extends AbstractController {
 		$this->translator = $translator;
 	}
 
-	#[Route(path: '/', name: 'persondegree_index', methods: ['GET'])]
-	public function indexAction(Request $request): Response {
-		$userCountry = $this->getUser()->getCountry();
-		$countryId = $userCountry ? $userCountry->getId() : null;
-		// $page = $request->query->get('page', 1);
+	// #[Route(path: '/', name: 'persondegree_index', methods: ['GET'])]
+	// public function indexAction(Request $request): Response {
+	// 	$userCountry = $this->getUser()->getCountry();
+	// 	$countryId = $userCountry ? $userCountry->getId() : null;
+	//
+	// 	// adaptation for multi administrators
+	// 	$userRegions = [];
+	// 	$userCities = [];
+	// 	if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
+	// 		$userCountry = $this->getUser()->getCountry();
+	// 		$userRegions = $this->regionRepository->findByCountry($userCountry->getId());
+	// 	} else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
+	// 		$userRegions = $this->getUser()->getAdminRegions();
+	// 	} else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
+	// 		$userCities = $this->getUser()->getAdminCities();
+	// 	}
+	//
+	// 	// For RegionsAdministrators
+	// 	if (count($userRegions) > 0) {
+	// 		$personDegrees = $this
+	// 			->personDegreeRepository
+	// 			->getAllCityRegionPersonDegree(
+	// 				[],
+	// 				array_map(
+	// 					function (Region $region) {
+	// 						return $region->getId();
+	// 					},
+	// 					$userRegions
+	// 				),
+	// 			);
+	// 		// For CountriesAdministrators
+	// 	} else if (count($userCities) > 0) {
+	// 		$personDegrees = $this
+	// 			->personDegreeRepository
+	// 			->getAllCityRegionPersonDegree(
+	// 				array_map(
+	// 					function ($city): int {
+	// 						return $city->getId();
+	// 					},
+	// 					$userCities
+	// 				),
+	// 			);
+	//
+	// 		// For All administrators
+	// 	} else {
+	// 		// adaptation dbta for diaspora
+	// 		if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
+	// 			$userRegion = $this->getUser()->getRegion();
+	// 			$regionIds = $userRegion ? [$userRegion->getId()] : [];
+	// 			$personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree([], $regionIds);
+	// 		} else {
+	// 			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, $countryId);
+	// 		}
+	// 	}
+	//
+	// 	// For Principal Role
+	// 	if ($this->getUser()->getPrincipalSchool()) {
+	// 		$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, null, $this->getUser()->getPrincipalSchool());
+	// 	}
+	//
+	// 	return $this->render('persondegree/index.html.twig', [
+	// 		'personDegrees' => $personDegrees
+	// 	]);
+	// }
 
-		// adaptation for multi administrators
-		$userRegions = [];
-		$userCities = [];
-		if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
-			$userCountry = $this->getUser()->getCountry();
-			$userRegions = $this->regionRepository->findByCountry($userCountry->getId());
-		} else if ($this->getUser()->hasRole('ROLE_ADMIN_REGIONS')) {
-			$userRegions = $this->getUser()->getAdminRegions();
-		} else if ($this->getUser()->hasRole('ROLE_ADMIN_VILLES')) {
-			$userCities = $this->getUser()->getAdminCities();
+	#[Route(path: '/', name: 'persondegree_index', methods: ['GET', 'POST'])]
+	public function indexDatatableAction(
+		Request $request,
+		PersonDegreeDatatableService $datatableService
+	): Response {
+		/** @var User $currentUser */
+		$currentUser = $this->getUser();
+		$table = $datatableService->generateDatatable($request, $currentUser, null);
+		$table->handleRequest($request);
+
+		if ($table->isCallback()) {
+			return $table->getResponse();
 		}
 
-		// For RegionsAdministrators
-		if (count($userRegions) > 0) {
-			$personDegrees = $this
-				->personDegreeRepository
-				->getAllCityRegionPersonDegree(
-					[],
-					array_map(
-						function (Region $region) {
-							return $region->getId();
-						},
-						$userRegions
-					),
-				);
-			// For CountriesAdministrators
-		} else if (count($userCities) > 0) {
-			$personDegrees = $this
-				->personDegreeRepository
-				->getAllCityRegionPersonDegree(
-					array_map(
-						function ($city): int {
-							return $city->getId();
-						},
-						$userCities
-					),
-				);
-
-			// For All administrators
-		} else {
-			// adaptation dbta for diaspora
-			if ($_ENV['STRUCT_PROVINCE_COUNTRY_CITY'] == 'true') {
-				$userRegion = $this->getUser()->getRegion();
-				$regionIds = $userRegion ? [$userRegion->getId()] : [];
-				$personDegrees = $this->personDegreeRepository->getAllCityRegionPersonDegree([], $regionIds);
-			} else {
-				$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, $countryId);
-			}
-		}
-
-		// For Principal Role
-		if ($this->getUser()->getPrincipalSchool()) {
-			$personDegrees = $this->personDegreeRepository->getAllPersonDegree(null, null, $this->getUser()->getPrincipalSchool());
-		}
-
-		return $this->render('persondegree/index.html.twig', [
-			'personDegrees' => $personDegrees
+		return $this->render('persondegree/index_datatable.html.twig', [
+			'datatable' => $table
 		]);
 	}
 

@@ -1,0 +1,5 @@
+{%  if row.type == "TYPE_TRAINING"%}
+    <td><span id="degreeDate{{ row.id }}"> {{ "En cours" | trans }}</span></td>
+{%  else %}
+    <td><span id="degreeDate{{ row.id }}">{{ "%02d"|format(row.lastDegreeMonth) }}/{{ row.lastDegreeYear }}</span></td>
+{% endif %}

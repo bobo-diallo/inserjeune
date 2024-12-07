@@ -1,0 +1,4 @@
+{% if row.schoolId %} <td>{{ row.school }}</td>
+{% elseif row.otherSchool %}<td><span class="red-color" style="color: #ee0808;">Autre : {{ row.otherSchool }}</span></td>
+{% else %}  <td><span class="blue-color" style="color: #0300ee;">Aucun</span></td>
+{% endif %}

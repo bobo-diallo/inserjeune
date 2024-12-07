@@ -1,0 +1,5 @@
+<td class="row-actions">
+    <a href="{{ path('persondegree_edit', { 'id': row.id }) }}#"><img src="{{ asset('build/images/icon/edit_16.png') }}" alt="edit"></a>
+    <a href="{{ path('persondegree_show', { 'id': row.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a>
+    <a class="danger" onclick="deleteElement('{{ path('persondegree_delete', {'id': row.id}) }}')"><img src="{{ asset('build/images/icon/delete_16.png') }}" alt="delete"></a>
+</td>

@@ -511,7 +511,7 @@
       </trans-unit>
       <trans-unit id="menu.date_of_birth_with_tag">
         <source>menu.date_of_birth_with_tag</source>
-        <target>Date%tag_br%Naissance</target>
+        <target>Date Naissance</target>
       </trans-unit>
       <trans-unit id="menu.coordinates">
         <source>menu.coordinates</source>
@@ -663,7 +663,7 @@
       </trans-unit>
       <trans-unit id="menu.current_situation_with_tag">
         <source>menu.current_situation_with_tag</source>
-        <target>Situation%tag_br%professionelle</target>
+        <target>Situation professionelle</target>
       </trans-unit>
       <trans-unit id="menu.about">
         <source>menu.about</source>
@@ -807,7 +807,7 @@
       </trans-unit>
       <trans-unit id="menu.created_date_with_tag">
         <source>menu.created_date_with_tag</source>
-        <target>Date%tag_br%Création</target>
+        <target>Date Création</target>
       </trans-unit>
       <trans-unit id="menu.updated_date_with_tag">
         <source>menu.updated_date_with_tag</source>
@@ -1167,7 +1167,7 @@
       </trans-unit>
       <trans-unit id="degree.month_year_degree_with_tag">
         <source>degree.month_year_degree_with_tag</source>
-        <target>mois/année%tag_br%diplôme</target>
+        <target>mois/année diplôme</target>
       </trans-unit>
       <trans-unit id="graduate.select_your_residence_country">
         <source>graduate.select_your_residence_country</source>
@@ -2179,7 +2179,7 @@
       </trans-unit>
       <trans-unit id="survey.survey_status_with_tag">
         <source>survey.survey_status_with_tag</source>
-        <target>Statut de%tag_br%l'enquête</target>
+        <target>Statut de l'enquête</target>
       </trans-unit>
       <trans-unit id="survey.how_many_employees_do_you_have">
         <source>survey.how_many_employees_do_you_have</source>
