@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use App\Entity\City;
 use App\Entity\Region;
+use App\Model\DTO\UserDTO;
 use App\Repository\UserRepository;
 use App\Repository\RoleRepository;
 use App\Repository\SchoolRepository;
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
+use Omines\DataTablesBundle\Column\TwigColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -76,22 +78,10 @@ class UserController extends AbstractController {
 		$currentUser = $this->getUser();
 
 		$table = $dataTableFactory->create()
-			->add('actions', TextColumn::class, [
+			->add('actions', TwigColumn::class, [
 				'label' => 'Actions',
 				'className' => 'no-print',
-				'render' => function ($value, $context) use ($urlGenerator) {
-					return sprintf(
-						'
-				 <a href="%s"><img src="/build/images/icon/edit_16.png" alt="edit" class="action-icon"></a>
-                 <a href="%s"><img src="/build/images/icon/show_16.png" alt="show" class="action-icon"></a>
-                 <a class="danger" onclick="deleteElement(\'%s\')"><img src="/build/images/icon/delete_16.png" alt="delete" class="action-icon"></a>',
-						$urlGenerator->generate('user_edit', ['id' => $context->getId()]),
-						$urlGenerator->generate('user_show', ['id' => $context->getId()]),
-						$urlGenerator->generate('user_delete', ['id' => $context->getId()])
-					);
-				},
-				'orderable' => false,
-				'searchable' => false,
+				'template' => 'user/datatable/index/_actions_column.html.twig',
 			])
 			->add('id', TextColumn::class, ['label' => 'ID'])
 			->add('country', TextColumn::class, [
@@ -114,14 +104,16 @@ class UserController extends AbstractController {
 			->add('profils', TextColumn::class, [
 				'label' => $translator->trans('menu.roles'),
 				'render' => function ($value, $context) use ($currentUser) {
-					return implode(', ', $context->getRoles());
-				}
+					/** @var User $context */
+					return implode(', ', $context->getOriginalRoles());
+				},
+				'orderable' => false,
+				'searchable' => false,
 			])
 			->createAdapter(ORMAdapter::class, [
 				'entity' => User::class,
 				'query' => function (QueryBuilder $builder) use($currentUser) {
 					$builder
-						// ->select('u.id, u.phone, u.username, u.email, country.name, region.name')
 						->select('u, country, region')
 						->from(User::class, 'u')
 						->leftJoin('u.country', 'country')

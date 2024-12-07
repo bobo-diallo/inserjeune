@@ -507,7 +507,7 @@
       </trans-unit>
       <trans-unit id="menu.date_of_birth_with_tag">
         <source>menu.date_of_birth_with_tag</source>
-        <target>Date%tag_br%Birth</target>
+        <target>Date Birth</target>
       </trans-unit>
       <trans-unit id="menu.coordinates">
         <source>menu.coordinates</source>
@@ -659,7 +659,7 @@
       </trans-unit>
       <trans-unit id="menu.current_situation_with_tag">
         <source>menu.current_situation_with_tag</source>
-        <target>%tag_br%professional situation</target>
+        <target>professional situation</target>
       </trans-unit>
       <trans-unit id="menu.about">
         <source>menu.about</source>
@@ -803,7 +803,7 @@
       </trans-unit>
       <trans-unit id="menu.created_date_with_tag">
         <source>menu.created_date_with_tag</source>
-        <target>Date%tag_br%Creation</target>
+        <target>Date Creation</target>
       </trans-unit>
       <trans-unit id="menu.updated_date_with_tag">
         <source>menu.updated_date_with_tag</source>
@@ -1163,7 +1163,7 @@
       </trans-unit>
       <trans-unit id="degree.month_year_degree_with_tag">
         <source>degree.month_year_degree_with_tag</source>
-        <target>month/year%tag_br%diploma</target>
+        <target>month/year diploma</target>
       </trans-unit>
       <trans-unit id="graduate.select_your_residence_country">
         <source>graduate.select_your_residence_country</source>
@@ -2181,7 +2181,7 @@ In case of shortcomings, would you be ready to complete the training of the youn
       </trans-unit>
       <trans-unit id="survey.survey_status_with_tag">
         <source>survey.survey_status_with_tag</source>
-        <target>Status of %tag_br%survey</target>
+        <target>Status of survey</target>
       </trans-unit>
       <trans-unit id="survey.how_many_employees_do_you_have">
         <source>survey.how_many_employees_do_you_have</source>

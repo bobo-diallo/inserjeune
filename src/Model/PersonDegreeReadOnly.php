@@ -3,36 +3,36 @@
 namespace App\Model;
 
 final class PersonDegreeReadOnly {
-	private int $id;
-	private ?string $firstname;
-	private ?string $lastname;
-	private ?string $email;
-	private ?\DateTime $createdDate;
-	private ?bool $checkSchool;
-	private ?int $lastDegreeYear;
-	private ?int $lastDegreeMonth;
-	private ?string $type;
-	private ?string $otherSchool;
-	private ?string $phoneMobile1;
-	private ?string $registrationStudentSchool;
-	private ?\DateTime $birthDate;
-	private ?int $activityId;
-	private ?string $activityName;
-	private ?int $degreeId;
-	private ?string $degreeName;
-    private ?int $cityId;
-    private ?string $cityName;
-	private ?int $countryId;
-	private ?string $countryName;
+	public int $id;
+	public ?string $firstname;
+	public ?string $lastname;
+	public ?string $email;
+	public ?\DateTime $createdDate;
+	public ?bool $checkSchool;
+	public ?int $lastDegreeYear;
+	public ?int $lastDegreeMonth;
+	public ?string $type;
+	public ?string $otherSchool;
+	public ?string $phoneMobile1;
+	public ?string $registrationStudentSchool;
+	public ?\DateTime $birthDate;
+	public ?int $activityId;
+	public ?string $activityName;
+	public ?int $degreeId;
+	public ?string $degreeName;
+    public ?int $cityId;
+    public ?string $cityName;
+	public ?int $countryId;
+	public ?string $countryName;
 
-    private ?int $prefectureId;
-    private ?string $prefectureName;
-	private ?int $schoolId;
-	private ?string $schoolName;
-	private ?string $schoolCityName;
-	private int $satisfactionSearchesCount = 0;
-	private int $satisfactionSalariesCount = 0;
-	private int $satisfactionCreators_count = 0;
+    public ?int $prefectureId;
+    public ?string $prefectureName;
+	public ?int $schoolId;
+	public ?string $schoolName;
+	public ?string $schoolCityName;
+	public int $satisfactionSearchesCount = 0;
+	public int $satisfactionSalariesCount = 0;
+	public int $satisfactionCreators_count = 0;
 	public function __construct(
 		int $id,
 		?string $firstname,
