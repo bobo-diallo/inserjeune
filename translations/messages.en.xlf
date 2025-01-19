@@ -3237,6 +3237,18 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>datatable.aria.sortDescending</source>
         <target>: activate to sort the column in descending order</target>
       </trans-unit>
+      <trans-unit id="menu.sex">
+        <source>menu.sex</source>
+        <target>Sex</target>
+      </trans-unit>
+      <trans-unit id="menu.man">
+        <source>menu.man</source>
+        <target>Man</target>
+      </trans-unit>
+      <trans-unit id="menu.woman">
+        <source>menu.woman</source>
+        <target>Woman</target>
+      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target>a male</target>

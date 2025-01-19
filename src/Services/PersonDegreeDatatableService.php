@@ -115,6 +115,12 @@ class PersonDegreeDatatableService {
 				'orderable' => true,
 				'searchable' => true,
 			])
+			->add('sex', TwigColumn::class, [
+				'label' => $this->translator->trans('menu.gender'),
+				'template' => 'persondegree/datatable/index/_sex_column.html.twig',
+				'orderable' => true,
+				'field' => 'p.sex'
+			])
 			->add('check_person_degree_satisfaction', TwigColumn::class, [
 				'label' => $this->translator->trans('survey.survey_status_with_tag'),
 				'template' => 'persondegree/datatable/index/_check_satisfaction_column.html.twig',
@@ -261,6 +267,7 @@ class PersonDegreeDatatableService {
 					    p.id,
 					    p.firstname,
 					    p.lastname,
+					    p.sex,
 					    p.email, 
 					    p.createdDate,
 					    p.checkSchool,
@@ -306,6 +313,7 @@ class PersonDegreeDatatableService {
 					$builder
 						->leftJoin('p.addressCity', 'city')
 						->leftJoin('p.degree', 'degree')
+						// ->leftJoin('p.sectorArea', 'sectorArea')
 						->leftJoin('p.activity', 'activity')
 						->leftJoin('p.school', 'school')
 						->leftJoin('school.city', 'school_city')
@@ -355,6 +363,7 @@ class PersonDegreeDatatableService {
 								$builder->expr()->like('p.otherSchool', ':search'),
 								$builder->expr()->like('degree.name', ':search'),
 								$builder->expr()->like('activity.name', ':search'),
+								// $builder->expr()->like('sectorArea.name', ':search'),
 								$builder->expr()->like('city.name', ':search'),
 								$builder->expr()->like('school.name', ':search'),
 								$builder->expr()->like('prefecture.name', ':search'),

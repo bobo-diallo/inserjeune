@@ -3225,6 +3225,18 @@
         <source>datatable.aria.sortDescending</source>
         <target>activar para ordenar la columna en orden descendente</target>
       </trans-unit>
+      <trans-unit id="menu.sex">
+        <source>menu.sex</source>
+        <target>Sexo</target>
+      </trans-unit>
+      <trans-unit id="menu.man">
+        <source>menu.man</source>
+        <target>Homem</target>
+      </trans-unit>
+      <trans-unit id="menu.woman">
+        <source>menu.woman</source>
+        <target>Mulher</target>
+      </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
         <target>un hombre</target>

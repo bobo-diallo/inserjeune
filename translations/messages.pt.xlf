@@ -3035,6 +3035,14 @@
         <source>js.a_woman</source>
         <target>uma mulher</target>
       </trans-unit>
+      <trans-unit id="menu.man">
+        <source>menu.man</source>
+        <target>Homem</target>
+      </trans-unit>
+      <trans-unit id="menu.woman">
+        <source>menu.woman</source>
+        <target>Mulher</target>
+      </trans-unit>
       <trans-unit id="js.sure_to_delete_item">
         <source>js.sure_to_delete_item</source>
         <target>Tem certeza de que deseja excluir o item?</target>
@@ -3230,6 +3238,10 @@
       <trans-unit id="datatable.aria.sortDescending">
         <source>datatable.aria.sortDescending</source>
         <target>: ative para classificar a coluna em ordem decrescente</target>
+      </trans-unit>
+      <trans-unit id="menu.sex">
+        <source>menu.sex</source>
+        <target>Sexo</target>
       </trans-unit>
       <trans-unit id="un homme">
         <source>un homme</source>
