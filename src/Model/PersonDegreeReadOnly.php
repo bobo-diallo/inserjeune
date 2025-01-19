@@ -6,6 +6,7 @@ final class PersonDegreeReadOnly {
 	public int $id;
 	public ?string $firstname;
 	public ?string $lastname;
+	public ?string $sex;
 	public ?string $email;
 	public ?\DateTime $createdDate;
 	public ?bool $checkSchool;
@@ -16,6 +17,8 @@ final class PersonDegreeReadOnly {
 	public ?string $phoneMobile1;
 	public ?string $registrationStudentSchool;
 	public ?\DateTime $birthDate;
+	// public ?int $sectorAreaId;
+	// public ?string $sectorAreaName;
 	public ?int $activityId;
 	public ?string $activityName;
 	public ?int $degreeId;
@@ -37,6 +40,7 @@ final class PersonDegreeReadOnly {
 		int $id,
 		?string $firstname,
 		?string $lastname,
+		?string $sex,
 		?string $email,
 		?\DateTime $createdDate,
 		?bool $checkSchool,
@@ -49,6 +53,8 @@ final class PersonDegreeReadOnly {
 		?\DateTime $birthDate,
 		?int $activityId,
 		?string $activityName,
+		// ?int $sectorAreaId,
+		// ?string $sectorAreaName,
 		?int $degreeId,
 		?string $degreeName,
         ?int $cityId,
@@ -67,6 +73,7 @@ final class PersonDegreeReadOnly {
 		$this->id = $id;
 		$this->firstname = $firstname;
 		$this->lastname = $lastname;
+		$this->sex = $sex;
 		$this->email = $email;
 		$this->createdDate = $createdDate;
 		$this->checkSchool = $checkSchool;
@@ -76,6 +83,8 @@ final class PersonDegreeReadOnly {
 		$this->otherSchool = $otherSchool;
 		$this->phoneMobile1 = $phoneMobile1;
 		$this->registrationStudentSchool = $registrationStudentSchool;
+		// $this->sectorAreaId = $sectorAreaId;
+		// $this->sectorAreaName = $sectorAreaName;
 		$this->activityId = $activityId;
 		$this->activityName = $activityName;
 		$this->degreeId = $degreeId;
@@ -93,6 +102,8 @@ final class PersonDegreeReadOnly {
 		$this->satisfactionSearchesCount = $satisfactionSearchesCount;
 		$this->satisfactionSalariesCount = $satisfactionSalariesCount;
 		$this->satisfactionCreators_count = $satisfactionCreators_count;
+
+		$this->sex = $this->getSex();
 	}
 
 	public function getId(): int {
@@ -105,6 +116,17 @@ final class PersonDegreeReadOnly {
 
 	public function getLastname(): ?string {
 		return $this->lastname;
+	}
+
+	public function getSex(): ?string {
+		$sex = $this->sex;
+		if ($sex == 'un homme') {
+			$sex = 'menu.man';
+		}
+		if ($sex == 'une femme') {
+			$sex = 'menu.woman';
+		}
+		return $sex;
 	}
 
 	public function getEmail(): ?string {
@@ -150,6 +172,14 @@ final class PersonDegreeReadOnly {
 	public function getActivityName(): ?string {
 		return $this->activityName;
 	}
+
+	/*public function getSectorAreaId(): ?int {
+		return $this->sectorAreaId;
+	}
+
+	public function getSectorAreaName(): ?string {
+		return $this->sectorAreaName;
+	}*/
 
 	public function getDegreeId(): ?int {
 		return $this->degreeId;
