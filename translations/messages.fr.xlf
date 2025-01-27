@@ -1101,6 +1101,18 @@
         <source>region.adding_a_region</source>
         <target>Ajout d'une region</target>
       </trans-unit>
+      <trans-unit id="region.import_region">
+        <source>region.import_region</source>
+        <target>Importer regions</target>
+      </trans-unit>
+      <trans-unit id="city.import_city">
+        <source>city.import_city</source>
+        <target>Importer villes</target>
+      </trans-unit>
+      <trans-unit id="menu.generate_template">
+        <source>menu.generate_template</source>
+        <target>Generer template</target>
+      </trans-unit>
       <trans-unit id="region.list_of_regions">
         <source>region.list_of_regions</source>
         <target>Liste des régions</target>

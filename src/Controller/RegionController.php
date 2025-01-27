@@ -4,16 +4,22 @@ namespace App\Controller;
 
 use App\Entity\Region;
 use App\Form\RegionType;
+use App\Model\FlashBag\FlashBag;
+use App\Repository\CountryRepository;
 use App\Repository\RegionRepository;
 use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -66,6 +72,96 @@ class RegionController extends AbstractController {
 			'regions' => $regions,
 		));
 	}
+
+	#[Route(path: '/generate', name: 'region_generate_template', methods: ['GET'])]
+	public function generateExcelTemplate(CountryRepository $countryRepository): Response
+	{
+		$countries = $countryRepository->getCountriesByName();
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+
+		$sheet->setCellValue('A1', $this->translator->trans('menu.country'));
+		$sheet->setCellValue('B1', $this->translator->trans('menu.region'));
+
+		for ($row = 2; $row <= 100; $row++) {
+			$countryValidation = $sheet->getCell('A' . $row)->getDataValidation();
+			$countryValidation->setType(DataValidation::TYPE_LIST);
+			$countryValidation->setErrorStyle(DataValidation::STYLE_INFORMATION);
+			$countryValidation->setAllowBlank(false);
+			$countryValidation->setShowDropDown(true);
+			$countryValidation->setFormula1(sprintf('"%s"', implode(',', $countries)));
+			$sheet->getCell('A' . $row)->setDataValidation($countryValidation);
+		}
+
+		$response = new StreamedResponse(function() use ($spreadsheet) {
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');
+		});
+
+		$response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		$response->headers->set('Content-Disposition', 'attachment;filename="template_regions.xlsx"');
+		$response->headers->set('Cache-Control', 'max-age=0');
+
+		return $response;
+	}
+
+	#[Route(path: '/import', name: 'region_import', methods: ['POST'])]
+	public function import(
+		Request $request,
+		CountryRepository $countryRepository,
+		RegionRepository $regionRepository,
+		EntityManagerInterface $entityManager
+	): Response
+	{
+		$file = $request->files->get('importFile');
+
+		if (!$file) {
+			$this->addFlash(FlashBag::TYPE_WARNING, 'No file uploaded.');
+			return $this->redirectToRoute('region_index');
+		}
+
+		$spreadsheet = IOFactory::load($file->getPathname());
+		$worksheet = $spreadsheet->getActiveSheet();
+
+		foreach ($worksheet->getRowIterator(2) as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(false);
+
+			$data = [];
+			foreach ($cellIterator as $cell) {
+				$data[] = $cell->getValue();
+			}
+
+			$countryName = $data[0];
+			$regionName = $data[1];
+
+			$country = $countryRepository->findOneBy(['name' => $countryName]);
+
+			if (!$country) {
+				$this->addFlash(FlashBag::TYPE_WARNING, "Country $countryName not exist.");
+				continue;
+			}
+
+			$existingRegion = $regionRepository->findOneBy(['name' => $regionName, 'country' => $country]);
+
+			if (!$existingRegion) {
+				$region = new Region();
+				$region->setName($regionName);
+				$region->setCountry($country);
+				$region->setValid(true);
+				$region->setPhoneDigit(0);
+				$region->setPhoneDigit(0);
+				$entityManager->persist($region);
+			}
+		}
+
+		$entityManager->flush();
+
+		$this->addFlash(FlashBag::TYPE_SUCCESS, 'Regions imported successfully.');
+		return $this->redirectToRoute('region_index');
+	}
+
     #[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/new', name: 'region_new', methods: ['GET', 'POST'])]
 	public function newAction(Request $request): RedirectResponse|Response {
