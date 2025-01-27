@@ -3035,6 +3035,18 @@
         <source>js.a_woman</source>
         <target>uma mulher</target>
       </trans-unit>
+      <trans-unit id="region.import_region">
+        <source>region.import_region</source>
+        <target>Regiones de importación</target>
+      </trans-unit>
+      <trans-unit id="city.import_city">
+        <source>city.import_city</source>
+        <target>Cidades importadoras</target>
+      </trans-unit>
+      <trans-unit id="menu.generate_template">
+        <source>menu.generate_template</source>
+        <target>Gerar modelo</target>
+      </trans-unit>
       <trans-unit id="menu.man">
         <source>menu.man</source>
         <target>Homem</target>

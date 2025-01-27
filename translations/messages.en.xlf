@@ -769,6 +769,18 @@
         <source>menu.address</source>
         <target>Address</target>
       </trans-unit>
+      <trans-unit id="region.import_region">
+        <source>region.import_region</source>
+        <target>Import regions</target>
+      </trans-unit>
+      <trans-unit id="city.import_city">
+        <source>city.import_city</source>
+        <target>Import cities</target>
+      </trans-unit>
+      <trans-unit id="menu.generate_template">
+        <source>menu.generate_template</source>
+        <target>Generate template</target>
+      </trans-unit>
       <trans-unit id="menu.address_diaspora">
         <source>menu.address_diaspora</source>
         <target>Diaspora address</target>

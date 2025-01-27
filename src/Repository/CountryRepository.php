@@ -28,4 +28,28 @@ class CountryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+	/**
+	 * @return string[]
+	 */
+    function getCountriesByName(): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.name')
+	        ->orderBy('c.name')
+            ->getQuery()
+            ->getSingleColumnResult();
+
+    }
+
+	/**
+	 * @return string[]
+	 */
+    function getCountriesBySanitizedName(): array {
+        return $this->createQueryBuilder('c')
+            ->select('c.sanitizedName')
+	        ->orderBy('c.sanitizedName')
+            ->getQuery()
+            ->getSingleColumnResult();
+
+    }
 }

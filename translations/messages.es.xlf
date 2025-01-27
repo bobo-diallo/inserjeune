@@ -3229,6 +3229,18 @@
         <source>menu.sex</source>
         <target>Sexo</target>
       </trans-unit>
+      <trans-unit id="region.import_region">
+        <source>region.import_region</source>
+        <target>Regiones de importación</target>
+      </trans-unit>
+      <trans-unit id="city.import_city">
+        <source>city.import_city</source>
+        <target>Ciudades importadoras</target>
+      </trans-unit>
+      <trans-unit id="menu.generate_template">
+        <source>menu.generate_template</source>
+        <target>Generar plantilla</target>
+      </trans-unit>
       <trans-unit id="menu.man">
         <source>menu.man</source>
         <target>Homem</target>
