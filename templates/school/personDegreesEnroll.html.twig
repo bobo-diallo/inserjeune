@@ -22,9 +22,8 @@
                                 <div class="col-sm-12">
                                     <button class="btn btn-sm btn-primary" id="addPersonDegree" onclick="addRowPersonDegree('{{ lien_images }}')">{{"graduate.add_a_graduate" | trans }}</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV_excel">Import Excel CSV</a>
-                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV_utf8">Import Other CSV</a>
-                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/person_degree_enrollment_template_'~ app.request.locale ~ '.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
-                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_excel"/>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('front_school_enroll_generate_template') }}"><i class="fa fa-download" aria-hidden="true"></i> Template Excel CSV</a>
+                                    <input type="file" accept=".csv, .xls, .xlsx" hidden="hidden" id="inputImportCSV_excel"/>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_utf8"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>
@@ -301,40 +300,89 @@
             $('#rowNumber').val(rowNumber);
             let colorBack = "odd";
 
-            let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree'+ rowNumber + '" role="row">';
-            html += '    <td class="row-actions sorting_1">';
-            html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
-            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            // html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
-            html += '        <input style="display: none" type="checkbox" class="enrolCheck" id="remove'+ rowNumber + '" >';
-            html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
-            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
-            html += '    </td>';
-            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input class="datepicker-birthDate" required id="birthDate'+ rowNumber + '"  style="display:none" value="" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';
-            //html += '    <td class="tdinput"><input id="sex'+ rowNumber + '" style="display:none" placeholder="genre"><p></p></td>';
-            // html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option>' + translations["js.select"] + '</option><option >un homme</option><option >une femme</option></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option value="">' + translations["js.select"] + '</option><option value="un homme">' + translations["js.a_man"] + '</option><option value="une femme">' + translations["js.a_woman"] + '</option></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" value="" id="selectAddressCity'+ rowNumber + '" placeholder="' + translations["js.import_csv_region"] + '"></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_parent_mobile_phone"] + '"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required value="" id="selectDegree'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required value="" id="selectSectorArea'+ rowNumber + '"  placeholder="' + translations["js.import_csv_sector"] + '"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required value="" id="selectActivity'+ rowNumber + '"  placeholder="' + translations["js.import_csv_subsector"] + '"></select></td>';
-            html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
-
-            html += '</tr>';
+            let html = `
+            <tr class="enrollpersondegree ${colorBack}" id="personDegree${rowNumber}" role="row">
+                <td class="row-actions sorting_1">
+                    <span style="display: none" id="id${rowNumber}"></span>
+                    <button id="edit${rowNumber}" onclick="displayButton('edit', ${rowNumber}, 'one')">
+                        <img src="${assetLocationIcon}edit_16.png">
+                    </button>
+                    <input style="display: none" type="checkbox" class="enrolCheck" id="remove${rowNumber}">
+                    <button style="display: none" class="savePersonDegree" id="save${rowNumber}" onclick="displayButton('save', ${rowNumber}, 'one')">
+                        <img src="${assetLocationIcon}save_16.png">
+                    </button>
+                    <button style="display: none" id="cancel${rowNumber}" onclick="displayButton('cancel', ${rowNumber}, 'one')">
+                        <img src="${assetLocationIcon}cancel_16.png">
+                    </button>
+                </td>
+                <td class="tdinput">
+                    <input id="registrationStudentSchool${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_registration"]}">
+                    <p id="p_registrationStudentSchool${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input required id="firstname${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_first_name"]}">
+                    <p id="p_firstname${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input required id="lastname${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_name"]}">
+                    <p id="p_lastname${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input class="datepicker-birthDate" required id="birthDate${rowNumber}" style="display:none" value="" placeholder="dd/mm/yyyy">
+                    <p id="p_birthDate${rowNumber}"></p>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectSex${rowNumber}"></p>
+                    <select required class="sex" style="display:none" id="selectSex${rowNumber}">
+                        <option value="">${translations["js.select"]}</option>
+                        <option value="un homme">${translations["js.a_man"]}</option>
+                        <option value="une femme">${translations["js.a_woman"]}</option>
+                    </select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectRegion${rowNumber}"></p>
+                    <select required class="region" style="display:none" id="selectRegion${rowNumber}"></select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectAddressCity${rowNumber}"></p>
+                    <select required class="city" style="display:none" id="selectAddressCity${rowNumber}" placeholder="${translations["js.import_csv_region"]}">
+                        <option>${translations["js.select"]}</option>
+                    </select>
+                </td>
+                <td class="tdinput">
+                    <input required id="phoneMobile1${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_mobile_phone"]}">
+                    <p id="p_phoneMobile1${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input id="phoneMobile2${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_parent_mobile_phone"]}">
+                    <p id="p_phoneMobile2${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input id="email${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_email"]}">
+                    <p id="p_email${rowNumber}"></p>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectDegree${rowNumber}"></p>
+                    <select style="display:none" required id="selectDegree${rowNumber}"></select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectSectorArea${rowNumber}"></p>
+                    <select style="display:none" required id="selectSectorArea${rowNumber}" placeholder="${translations["js.import_csv_sector"]}"></select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectActivity${rowNumber}"></p>
+                    <select style="display:none" required id="selectActivity${rowNumber}" placeholder="${translations["js.import_csv_subsector"]}"></select>
+                </td>
+                <td class="tdinput">
+                    <p id="p_password${rowNumber}"></p>
+                </td>
+            </tr>`;
 
             $('#tbodyPersonDegree').append(html);
             let idtest = "#edit"+ rowNumber;
             $( idtest ).addClass( "editPersonDegree" );
             addOptionRegion(rowNumber);
 
-            // Event
             // Recherches de ville en fonction de la region
             $('#selectRegion' + rowNumber).on('change', function() {
                 $regionId = $('#selectRegion' + rowNumber + " option:selected" ).val();
@@ -344,7 +392,6 @@
                 }
             });
 
-            // Event
             // Recherches des filières en fonction des secteurs
             $('#selectSectorArea' + rowNumber).on('change', function() {
                 $sectorAreaId = $('#selectSectorArea' + rowNumber + " option:selected" ).val();
@@ -388,33 +435,84 @@
             $('#rowNumber').val(rowNumber);
             let colorBack = "odd";
 
-            let html = '<tr class="enrollpersondegree ' + colorBack + '" id="personDegree'+ rowNumber + '" role="row">';
-            html += '    <td class="row-actions sorting_1">';
-            html += '        <span style="display: none" id="id'+ rowNumber + '"></span>';
-            html += '        <button id="edit'+ rowNumber + '" onclick="displayButton(\'edit\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'edit_16.png"></button>';
-            // html += '        <button style="display: none"  id="remove'+ rowNumber + '" onclick="displayButton(\'remove\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'delete.png"></button>';
-            html += '        <input style="display: none" type="checkbox" class="enrolCheck" id="remove'+ rowNumber + '" >';
-
-            html += '        <button style="display: none" class="savePersonDegree" id="save'+ rowNumber + '" onclick="displayButton(\'save\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'save_16.png"></button>';
-            html += '        <button style="display: none"  id="cancel'+ rowNumber + '" onclick="displayButton(\'cancel\','+ rowNumber + ', \'one\')"><img src="'+ assetLocationIcon + 'cancel_16.png"></button>';
-            html += '    </td>';
-            html += '    <td class="tdinput"><input id="registrationStudentSchool'+ rowNumber + '" style="display:none" value="' + values[0] + '" placeholder="' + translations["js.import_csv_registration"] + '"><p id="p_registrationStudentSchool'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="firstname'+ rowNumber + '" style="display:none" value="' + values[1] + '" placeholder="' + translations["js.import_csv_first_name"] + '"><p id="p_firstname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input required id="lastname'+ rowNumber + '" style="display:none" value="' + values[2] + '" placeholder="' + translations["js.import_csv_name"] + '"><p id="p_lastname'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input class="datepicker-birthDate" required id="birthDate'+ rowNumber + '" style="display:none" value="' + values[3] + '" placeholder="dd/mm/yyyy"><p id="p_birthDate'+ rowNumber + '"></p></td>';    //value="un homme">' + translations["js.a_man"]
-            html += '    <td class="tdselect"><p id="p_selectSex'+ rowNumber + '"></p><select required class="sex" style="display:none" value="" id="selectSex'+ rowNumber + '" ><option value="">' + translations["js.select"] + '</option><option value="un homme">'+ translations["js.a_man"] +'</option><option value="une femme">' + translations["js.a_woman"] + '</option></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectRegion'+ rowNumber + '"></p><select required class="region" style="display:none" value="" id="selectRegion'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectAddressCity'+ rowNumber + '"></p><select required class="city" style="display:none" id="selectAddressCity'+ rowNumber + '" ><option>' + translations["js.select"] + '</option></select></td>';
-            html += '    <td class="tdinput"><input required id="phoneMobile1'+ rowNumber + '" style="display:none" value="' + values[7] + '" placeholder="' + translations["js.import_csv_mobile_phone"] + '"><p id="p_phoneMobile1'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="phoneMobile2'+ rowNumber + '" style="display:none" value="' + values[8] + '" placeholder="' + translations["js.import_csv_parent_mobile_phone"] + '"><p id="p_phoneMobile2'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdinput"><input id="email'+ rowNumber + '" style="display:none" value="' + values[9] + '" placeholder="' + translations["js.import_csv_email"] + '"><p id="p_email'+ rowNumber + '"></p></td>';
-            html += '    <td class="tdselect"><p id="p_selectDegree'+ rowNumber + '"></p><select style="display:none" required id="selectDegree'+ rowNumber + '" ></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectSectorArea'+ rowNumber + '"></p><select style="display:none" required id="selectSectorArea'+ rowNumber + '"  placeholder="' + translations["js.select_sector"] + '"></select></td>';
-            html += '    <td class="tdselect"><p id="p_selectActivity'+ rowNumber + '"></p><select style="display:none" required id="selectActivity'+ rowNumber + '"  placeholder="' + translations["js.select_activity"] + '"></select></td>';
-            html += '    <td class="tdinput"><p id="p_password'+ rowNumber + '"></p></td>';
-
-            html += '</tr>';
-
+            let html = `
+            <tr class="enrollpersondegree ${colorBack}" id="personDegree${rowNumber}" role="row">
+                <td class="row-actions sorting_1">
+                    <span style="display: none" id="id${rowNumber}"></span>
+                    <button id="edit${rowNumber}" onclick="displayButton('edit', ${rowNumber}, 'one')">
+                        <img src="${assetLocationIcon}edit_16.png">
+                    </button>
+                    <input style="display: none" type="checkbox" class="enrolCheck" id="remove${rowNumber}">
+                    <button style="display: none" class="savePersonDegree" id="save${rowNumber}" onclick="displayButton('save', ${rowNumber}, 'one')">
+                        <img src="${assetLocationIcon}save_16.png">
+                    </button>
+                    <button style="display: none" id="cancel${rowNumber}" onclick="displayButton('cancel', ${rowNumber}, 'one')">
+                        <img src="${assetLocationIcon}cancel_16.png">
+                    </button>
+                </td>
+                <td class="tdinput">
+                    <input id="registrationStudentSchool${rowNumber}" style="display:none" value="${values[0]}" placeholder="${translations["js.import_csv_registration"]}">
+                    <p id="p_registrationStudentSchool${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input required id="firstname${rowNumber}" style="display:none" value="${values[1]}" placeholder="${translations["js.import_csv_first_name"]}">
+                    <p id="p_firstname${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input required id="lastname${rowNumber}" style="display:none" value="${values[2]}" placeholder="${translations["js.import_csv_name"]}">
+                    <p id="p_lastname${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input class="datepicker-birthDate" required id="birthDate${rowNumber}" style="display:none" value="${values[3]}" placeholder="dd/mm/yyyy">
+                    <p id="p_birthDate${rowNumber}"></p>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectSex${rowNumber}"></p>
+                    <select required class="sex" style="display:none" id="selectSex${rowNumber}">
+                        <option value="">${translations["js.select"]}</option>
+                        <option value="un homme">${translations["js.a_man"]}</option>
+                        <option value="une femme">${translations["js.a_woman"]}</option>
+                    </select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectRegion${rowNumber}"></p>
+                    <select required class="region" style="display:none" id="selectRegion${rowNumber}"></select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectAddressCity${rowNumber}"></p>
+                    <select required class="city" style="display:none" id="selectAddressCity${rowNumber}">
+                        <option>${translations["js.select"]}</option>
+                    </select>
+                </td>
+                <td class="tdinput">
+                    <input required id="phoneMobile1${rowNumber}" style="display:none" value="${values[7]}" placeholder="${translations["js.import_csv_mobile_phone"]}">
+                    <p id="p_phoneMobile1${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input id="phoneMobile2${rowNumber}" style="display:none" value="${values[8]}" placeholder="${translations["js.import_csv_parent_mobile_phone"]}">
+                    <p id="p_phoneMobile2${rowNumber}"></p>
+                </td>
+                <td class="tdinput">
+                    <input id="email${rowNumber}" style="display:none" value="${values[9]}" placeholder="${translations["js.import_csv_email"]}">
+                    <p id="p_email${rowNumber}"></p>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectDegree${rowNumber}"></p>
+                    <select style="display:none" required id="selectDegree${rowNumber}"></select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectSectorArea${rowNumber}"></p>
+                    <select style="display:none" required id="selectSectorArea${rowNumber}" placeholder="${translations["js.select_sector"]}"></select>
+                </td>
+                <td class="tdselect">
+                    <p id="p_selectActivity${rowNumber}"></p>
+                    <select style="display:none" required id="selectActivity${rowNumber}" placeholder="${translations["js.select_activity"]}"></select>
+                </td>
+                <td class="tdinput">
+                    <p id="p_password${rowNumber}"></p>
+                </td>
+            </tr>
+        `;
             $('#tbodyPersonDegree').append(html);
             let idtest = "#edit"+ rowNumber;
             $( idtest ).addClass( "editPersonDegree" );
@@ -776,7 +874,7 @@
                 for (let i = 0; i < dirs.length - 1; i++)
                     $locationRef += dirs[i] + '/';
 
-                // if(confirm ("Etes vous sûr de supprimer cette entrée ?" )) {
+                    // if(confirm ("Etes vous sûr de supprimer cette entrée ?" )) {
                     /* creation de la table des données */
                     /* -------------------------------- */
                     let personDegree = [];
@@ -833,23 +931,30 @@
         }
 
         function addOptionDegree(rowNumber) {
-            let $idSelected = -1;
-            if ($('#selectDegree' + rowNumber + ' option').length == 1) {
-                $idSelected = $('#selectDegree' + rowNumber + ' option:first').val();
-                $('#selectDegree' + rowNumber + ' option:first').remove();
+            const degreeSelect = $(`#selectDegree${rowNumber}`);
+            const degrees = $("#degrees option");
+            let idSelected = -1;
+
+            // Si un seul option existe, on le sauvegarde et on le supprime
+            if (degreeSelect.find("option").length === 1) {
+                idSelected = degreeSelect.find("option:first").val();
+                degreeSelect.find("option:first").remove();
             }
-            if ($('#selectDegree' + rowNumber + ' option').length == 0) {
-                $("#selectDegree" + rowNumber).append("<option value=\"\">" + translations["js.select"] + "</option>");
-                $("#degrees option").each(function (option) {
-                    let degreeText = translations[$(this).text()];
-                    // let degreeText = $(this).text();
-                    if (!degreeText) {
-                        degreeText = $(this).text();
-                    }
-                    if ($idSelected == $(this).val())
-                        $("#selectDegree" + rowNumber).append("<option selected value=\"" + $(this).val() + "\">" + degreeText + "</option>");
-                    else
-                        $("#selectDegree" + rowNumber).append("<option value=\"" + $(this).val() + "\">" + degreeText + "</option>");
+
+            // Si aucun option n'existe, on ajoute les options
+            if (degreeSelect.find("option").length === 0) {
+                degreeSelect.append(`<option value="">${translations["js.select"]}</option>`);
+
+                degrees.each(function () {
+                    const option = $(this);
+                    const degreeText = translations[option.text()] || option.text();
+                    const isSelected = idSelected == option.val();
+
+                    degreeSelect.append(`
+                <option ${isSelected ? "selected" : ""} value="${option.val()}">
+                    ${degreeText}
+                </option>
+            `);
                 });
             }
         }
@@ -1010,196 +1115,211 @@
                 $('#inputImportCSV_utf8').change(function (e) {
                     e.preventDefault();
                     let file = document.getElementById("inputImportCSV_utf8").files[0];
-                    importCsv(file, "UTF-8")
+                    importCsvExcelFile(file, "UTF-8")
                 });
                 $('#inputImportCSV_excel').change(function (e) {
                     e.preventDefault();
                     let file = document.getElementById("inputImportCSV_excel").files[0];
-                    importCsv(file, "windows-1252")
+                    importCsvExcelFile(file, "windows-1252")
                 });
 
-                function importCsv(file, format) {
-                    if (file) {
+                function importCsvExcelFile(file, format) {
+                    if (!file) {
+                        alert("File not found, command aborted");
+                        return;
+                    }
+
+                    // Check file extension
+                    const fileName = file.name.toLowerCase();
+                    const isCsv = fileName.endsWith('.csv');
+                    const isExcel = fileName.endsWith('.xls') || fileName.endsWith('.xlsx');
+
+                    console.log('isCsv, isExcel', isCsv, isExcel);
+
+                    if (!isCsv && !isExcel) {
+                        alert("Unsupported file type. Please upload a CSV or Excel file.");
+                        return;
+                    }
+
+                    if (isCsv) {
+                        // Handle CSV files
                         let reader = new FileReader();
-                        // reader.readAsText(file, 'UTF-8');
                         reader.readAsText(file, format);
 
                         reader.onload = function (evt) {
-                            let data = evt.target.result.split("\n");
-                            let errorFields = [];
+                            processData(evt.target.result);
+                        };
 
-                            // Valid file
-                            let header = data[0].replaceAll('\r',"");
-                            if(header[header.length-1] == ';')
-                                header = header.substring(0, header.length - 1);
-                            if(header[header.length-1] == ',')
-                                header = header.substring(0, header.length - 1);
-
-                            let fields = header.split(';') ;
-                            if(fields.length<2)
-                                fields = header.split(',') ;
-
-                            let fieldNames = {
-                                "immatriculationField": null,
-                                "prenomField": null,
-                                "nomField": null,
-                                "dateNaissanceField": null,
-                                "genreField": null,
-                                "regionField": null,
-                                "villeField": null,
-                                "portableField": null,
-                                "portableParentField": null,
-                                "emailField": null,
-                                "diplomeField": null,
-                                "secteurField": null,
-                                "filiereField": null,
-                            };
-                            let fieldsOrder = [
-                                "immatriculationField",
-                                "prenomField",
-                                "nomField",
-                                "dateNaissanceField",
-                                "genreField",
-                                "regionField",
-                                "villeField",
-                                "portableField",
-                                "portableParentField",
-                                "emailField",
-                                "diplomeField",
-                                "secteurField",
-                                "filiereField"
-                            ];
-
-                            for(let i=0; i<fields.length; i++) {
-                                let field = fields[i].replaceAll('\"',"").toLowerCase().trim();
-
-                                // fiedNames in Multi languages
-                                switch (field) {
-                                    case translations['js.import_csv_registration'] : fieldNames['immatriculationField'] = i; break;
-                                    case translations['js.import_csv_first_name'] : fieldNames['prenomField'] = i; break;
-                                    case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
-                                    case translations['js.import_csv_birthday'] : fieldNames['dateNaissanceField'] = i; break;
-                                    case translations['js.import_csv_gender'] : fieldNames['genreField'] = i; break;
-                                    case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
-                                    case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
-                                    case translations['js.import_csv_mobile_phone'] : fieldNames['portableField'] = i; break;
-                                    case translations['js.import_csv_parent_mobile_phone'] : fieldNames['portableParentField'] = i; break;
-                                    case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
-                                    case translations['js.import_csv_diploma'] : fieldNames['diplomeField'] = i; break;
-                                    case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
-                                    case translations['js.import_csv_subsector'] : fieldNames['filiereField'] = i; break;
-                                    default :
-                                        errorFields.push(fields[i]);
-                                }
-                                // fiedNames in FR
-                                // switch (field) {
-                                //     case 'immatriculation' : fieldNames['immatriculationField'] = i; break;
-                                //     case 'prénom' : fieldNames['prenomField'] = i; break;
-                                //     case 'nom' : fieldNames['nomField'] = i; break;
-                                //     case 'date naissance' : fieldNames['dateNaissanceField'] = i; break;
-                                //     case 'genre' : fieldNames['genreField'] = i; break;
-                                //     case 'région' : fieldNames['regionField'] = i; break;
-                                //     case 'ville' : fieldNames['villeField'] = i; break;
-                                //     case 'portable' : fieldNames['portableField'] = i; break;
-                                //     case 'portable parent' : fieldNames['portableParentField'] = i; break;
-                                //     case 'email' : fieldNames['emailField'] = i; break;
-                                //     case 'diplôme' : fieldNames['diplomeField'] = i; break;
-                                //     case 'secteur' : fieldNames['secteurField'] = i; break;
-                                //     case 'filière' : fieldNames['filiereField'] = i; break;
-                                //     default :
-                                //         errorFields.push(fields[i]);
-                                // }
-                            }
-
-                            // let validHeader = '"Immatriculation","Prénom","Nom","DateNaissance","Genre","Région","Ville","Portable","portable parent","Email","Diplôme","Secteur","Filière"';
-                            // if (header !== validHeader) {
-                            //     alert(`Le fichier n'est pas valide. Le fichier doit avoir une entête comme: \n ${validHeader} `);
-                            //     return;
-                            // }
-
-                            // check bad fieldName syntax
-                            if (errorFields.length >0) {
-                                let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
-                                errorFields.forEach(function (error) {
-                                    errorMsg += error + ', ';
-                                })
-                                errorMsg += translations["js.authorized_fields"] + " = " +
-                                    translations["js.import_csv_registration"] + ", " +
-                                    translations["js.import_csv_first_name"] + ", " +
-                                    translations["js.import_csv_name"] + ", " +
-                                    translations["js.import_csv_birthday"] + ", " +
-                                    translations["js.import_csv_gender"] + ", " +
-                                    translations["js.import_csv_region"] + ", " +
-                                    translations["js.import_csv_city"] + ", " +
-                                    translations["js.import_csv_mobile_phone"] + ", " +
-                                    translations["js.import_csv_parent_mobile_phone"] + ", " +
-                                    translations["js.import_csv_email"] + ", " +
-                                    translations["js.import_csv_diploma"] + ", " +
-                                    translations["js.import_csv_sector"] + ", " +
-                                    translations["js.import_csv_subsector"] ;
-                                alert(errorMsg);
-                                return;
-                            }
-
-                            // check minimum data fields
-                            if ((fieldNames['prenomField'] == null) ||
-                                (fieldNames['nomField'] == null) ||
-                                (fieldNames['portableField'] ==null)) {
-                                    alert(translations['js.file_invalid_fields_firstname_lastname_and_telephone_mandatory']);
-                                    return;
-                            }
-
-                            data.shift();
-                            let errors = [];
-                            data.forEach(function (row) {
-                                if (row) {
-                                    let columnData = row.split(';').map(function (item) {
-                                        return item.replace(/['"]+/g, '');
-                                    });
-
-                                    if(columnData.length < 2) {
-                                        columnData = row.split(',').map(function (item) {
-                                            return item.replace(/['"]+/g, '');
-                                        });
-                                    }
-
-                                    //Create a new ordered columnData
-                                    let orderedData = [];
-                                    for (let i = 0; i < fieldsOrder.length; i++) {
-                                        let fieldName = fieldsOrder[i];
-                                        let fieldNumber = fieldNames[fieldName];
-
-                                        //replace F by "une femme" and M by "un homme"
-                                        if(fieldNumber == 4) {
-                                            if(columnData[fieldNumber] == 'F')
-                                                columnData[fieldNumber] = "une femme";
-                                            if(columnData[fieldNumber] == 'M')
-                                                columnData[fieldNumber] = "un homme";
-                                        }
-
-                                        orderedData.push(columnData[fieldNumber]);
-                                    }
-                                    addRowPersonDegreeWithValue(orderedData, function (err) {
-                                        if (err.length > 0) {
-                                            errors = errors.concat(err);
-                                        }
-                                    });
-                                }
-                            });
-
-                            if (errors.length > 0) {
-                                alert(translations['js.data_not_compliant_correct_manually']);
-                            }
-
-                            $('#nbRowImported').val(data.length - 1);
-                        }
                         reader.onerror = function (e) {
                             alert(translations['js.file_contains_errors']);
-                        }
-                    } else {
-                        alert("file not found, command abort")
+                        };
+                    } else if (isExcel) {
+                        // Handle Excel files
+                        let reader = new FileReader();
+                        reader.readAsArrayBuffer(file);
+
+                        reader.onload = function (evt) {
+                            const data = new Uint8Array(evt.target.result);
+                            const workbook = XLSX.read(data, { type: 'array' });
+
+                            // Assuming the first sheet is the one to process
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
+
+                            // Convert the sheet to CSV and process it
+                            const csvData = XLSX.utils.sheet_to_csv(worksheet);
+                            processData(csvData);
+                        };
+
+                        reader.onerror = function (e) {
+                            alert(translations['js.file_contains_errors']);
+                        };
                     }
-                };
+                }
+
+                function processData(data) {
+                    let rows = data.split("\n");
+                    let errorFields = [];
+
+                    // Valid file
+                    let header = rows[0].replaceAll('\r', "");
+                    if (header[header.length - 1] == ';') header = header.substring(0, header.length - 1);
+                    if (header[header.length - 1] == ',') header = header.substring(0, header.length - 1);
+
+                    console.log('header:::', header);
+                    let fields = header.split(';');
+                    if (fields.length < 2) fields = header.split(',');
+
+                    let fieldNames = {
+                        "immatriculationField": null,
+                        "prenomField": null,
+                        "nomField": null,
+                        "dateNaissanceField": null,
+                        "genreField": null,
+                        "regionField": null,
+                        "villeField": null,
+                        "portableField": null,
+                        "portableParentField": null,
+                        "emailField": null,
+                        "diplomeField": null,
+                        "secteurField": null,
+                        "filiereField": null,
+                    };
+
+                    let fieldsOrder = [
+                        "immatriculationField",
+                        "prenomField",
+                        "nomField",
+                        "dateNaissanceField",
+                        "genreField",
+                        "regionField",
+                        "villeField",
+                        "portableField",
+                        "portableParentField",
+                        "emailField",
+                        "diplomeField",
+                        "secteurField",
+                        "filiereField"
+                    ];
+
+                    for (let i = 0; i < fields.length; i++) {
+                        let field = fields[i].replaceAll('\"', "").toLowerCase().trim();
+
+                        // Field names in multiple languages
+                        switch (field) {
+                            case translations['js.import_csv_registration']: fieldNames['immatriculationField'] = i; break;
+                            case translations['js.import_csv_first_name']: fieldNames['prenomField'] = i; break;
+                            case translations['js.import_csv_name']: fieldNames['nomField'] = i; break;
+                            case translations['js.import_csv_birthday']: fieldNames['dateNaissanceField'] = i; break;
+                            case translations['js.import_csv_gender']: fieldNames['genreField'] = i; break;
+                            case translations['js.import_csv_region']: fieldNames['regionField'] = i; break;
+                            case translations['js.import_csv_city']: fieldNames['villeField'] = i; break;
+                            case translations['js.import_csv_mobile_phone']: fieldNames['portableField'] = i; break;
+                            case translations['js.import_csv_parent_mobile_phone']: fieldNames['portableParentField'] = i; break;
+                            case translations['js.import_csv_email']: fieldNames['emailField'] = i; break;
+                            case translations['js.import_csv_diploma']: fieldNames['diplomeField'] = i; break;
+                            case translations['js.import_csv_sector']: fieldNames['secteurField'] = i; break;
+                            case translations['js.import_csv_subsector']: fieldNames['filiereField'] = i; break;
+                            default:
+                                errorFields.push(fields[i]);
+                        }
+                    }
+
+                    // Check bad fieldName syntax
+                    if (errorFields.length > 0) {
+                        let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
+                        errorFields.forEach(function (error) {
+                            errorMsg += error + ', ';
+                        });
+                        errorMsg += translations["js.authorized_fields"] + " = " +
+                            translations["js.import_csv_registration"] + ", " +
+                            translations["js.import_csv_first_name"] + ", " +
+                            translations["js.import_csv_name"] + ", " +
+                            translations["js.import_csv_birthday"] + ", " +
+                            translations["js.import_csv_gender"] + ", " +
+                            translations["js.import_csv_region"] + ", " +
+                            translations["js.import_csv_city"] + ", " +
+                            translations["js.import_csv_mobile_phone"] + ", " +
+                            translations["js.import_csv_parent_mobile_phone"] + ", " +
+                            translations["js.import_csv_email"] + ", " +
+                            translations["js.import_csv_diploma"] + ", " +
+                            translations["js.import_csv_sector"] + ", " +
+                            translations["js.import_csv_subsector"];
+                        alert(errorMsg);
+                        return;
+                    }
+
+                    // Check minimum data fields
+                    if ((fieldNames['prenomField'] == null) ||
+                        (fieldNames['nomField'] == null) ||
+                        (fieldNames['portableField'] == null)) {
+                        alert(translations['js.file_invalid_fields_firstname_lastname_and_telephone_mandatory']);
+                        return;
+                    }
+
+                    rows.shift();
+                    let errors = [];
+                    rows.forEach(function (row) {
+                        if (row) {
+                            let columnData = row.split(';').map(function (item) {
+                                return item.replace(/['"]+/g, '');
+                            });
+
+                            if (columnData.length < 2) {
+                                columnData = row.split(',').map(function (item) {
+                                    return item.replace(/['"]+/g, '');
+                                });
+                            }
+
+                            // Create a new ordered columnData
+                            let orderedData = [];
+                            for (let i = 0; i < fieldsOrder.length; i++) {
+                                let fieldName = fieldsOrder[i];
+                                let fieldNumber = fieldNames[fieldName];
+
+                                // Replace F by "une femme" and M by "un homme"
+                                if (fieldNumber == 4) {
+                                    if (columnData[fieldNumber] == 'F') columnData[fieldNumber] = "une femme";
+                                    if (columnData[fieldNumber] == 'M') columnData[fieldNumber] = "un homme";
+                                }
+
+                                orderedData.push(columnData[fieldNumber]);
+                            }
+                            addRowPersonDegreeWithValue(orderedData, function (err) {
+                                if (err.length > 0) {
+                                    errors = errors.concat(err);
+                                }
+                            });
+                        }
+                    });
+
+                    if (errors.length > 0) {
+                        alert(translations['js.data_not_compliant_correct_manually']);
+                    }
+
+                    $('#nbRowImported').val(rows.length - 1);
+                }
+
             });
         });
     </script>

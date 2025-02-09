@@ -17,4 +17,14 @@ class DegreeRepository extends ServiceEntityRepository
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, Degree::class);
 	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getNames(): array {
+		return $this->createQueryBuilder('d')
+			->select('d.name')
+			->getQuery()
+			->getSingleColumnResult();
+	}
 }

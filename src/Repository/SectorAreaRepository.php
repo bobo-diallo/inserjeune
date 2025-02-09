@@ -17,4 +17,14 @@ class SectorAreaRepository extends ServiceEntityRepository
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, SectorArea::class);
 	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getNames(): array {
+		return $this->createQueryBuilder('sector')
+			->select('sector.name')
+			->getQuery()
+			->getSingleColumnResult();
+	}
 }

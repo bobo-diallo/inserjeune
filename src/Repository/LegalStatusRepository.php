@@ -17,4 +17,14 @@ class LegalStatusRepository extends ServiceEntityRepository
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, LegalStatus::class);
 	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getNames(): array {
+		return $this->createQueryBuilder('legal_status')
+			->select('legal_status.name')
+			->getQuery()
+			->getSingleColumnResult();
+	}
 }

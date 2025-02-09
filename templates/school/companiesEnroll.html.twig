@@ -25,9 +25,8 @@
                                     {#                                    {% set lien_images = asset('build/images/icon/')  %}#}
                                     <button class="btn btn-sm btn-primary" id="addCompany" onclick="addRowCompany('{{ lien_images }}')"> {{ "company.add_company" | trans }}</button>
                                     <a class="btn btn-sm btn-primary" href="#" id="importCSV_excel">Import Excel CSV</a>
-                                    <a class="btn btn-sm btn-primary" href="#" id="importCSV_utf8">Import Other CSV</a>
-                                    <a class="btn btn-sm btn-primary" href="{{ asset('downloads/company_enrollment_template_'~ app.request.locale ~ '.csv') }}" download><i class="fa fa-download" aria-hidden="true"></i> Template CSV</a>
-                                    <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_excel"/>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('front_school_company_enroll_generate_template') }}"><i class="fa fa-download" aria-hidden="true"></i> Template Excel CSV</a>
+                                    <input type="file" accept=".csv, .xls, .xlsx" hidden="hidden"  id="inputImportCSV_excel"/>
                                     <input type="file" accept=".csv" hidden="hidden"  id="inputImportCSV_utf8"/>
                                     <img src="{{ asset('build/images/loading.gif') }}" alt="loading" id="idLoading" hidden="hidden">
                                 </div>
@@ -861,137 +860,175 @@
                 $('#inputImportCSV_utf8').change(function (e) {
                     e.preventDefault();
                     let file = document.getElementById("inputImportCSV_utf8").files[0];
-                    importCsv(file, "UTF-8")
+                    importCsvExcelFile(file, "UTF-8")
                 });
                 $('#inputImportCSV_excel').change(function (e) {
                     e.preventDefault();
                     let file = document.getElementById("inputImportCSV_excel").files[0];
-                    importCsv(file, "windows-1252")
+                    importCsvExcelFile(file, "windows-1252")
                 });
 
-                function importCsv(file, format) {
-                    if (file) {
+                function importCsvExcelFile(file, format) {
+                    if (!file) {
+                        alert("File not found, command aborted");
+                        return;
+                    }
+
+                    // Check file extension
+                    const fileName = file.name.toLowerCase();
+                    const isCsv = fileName.endsWith('.csv');
+                    const isExcel = fileName.endsWith('.xls') || fileName.endsWith('.xlsx');
+
+                    if (!isCsv && !isExcel) {
+                        alert("Unsupported file type. Please upload a CSV or Excel file.");
+                        return;
+                    }
+
+                    if (isCsv) {
+                        // Handle CSV files
                         let reader = new FileReader();
                         reader.readAsText(file, format);
 
                         reader.onload = function (evt) {
-                            let data = evt.target.result.split("\n");
-                            let errorFields = [];
+                            processData(evt.target.result);
+                        };
 
-                            // Valid file
-                            let header = data[0].replaceAll('\r',"");
-                            if(header[header.length-1] == ';')
-                                header = header.substring(0, header.length - 1);
-                            if(header[header.length-1] == ',')
-                                header = header.substring(0, header.length - 1);
-
-                            let fields = header.split(';') ;
-                            if(fields.length<2)
-                                fields = header.split(',') ;
-
-                            let fieldNames = {
-                                "nomField": null,
-                                "regionField": null,
-                                "villeField": null,
-                                "telephoneField": null,
-                                "emailField": null,
-                                "secteurField": null,
-                                "statutJuridiqueField": null
-                            };
-                            let fieldsOrder = [
-                                "nomField",
-                                "regionField",
-                                "villeField",
-                                "telephoneField",
-                                "emailField",
-                                "secteurField",
-                                "statutJuridiqueField"
-                            ];
-
-
-                            for(let i=0; i<fields.length; i++) {
-                                let field = fields[i].replaceAll('\"','').toLowerCase().trim();
-                                // fiedNames in FR
-                                switch (field) {
-                                    case translations['js.import_csv_name'] : fieldNames['nomField'] = i; break;
-                                    case translations['js.import_csv_region'] : fieldNames['regionField'] = i; break;
-                                    case translations['js.import_csv_city'] : fieldNames['villeField'] = i; break;
-                                    case translations['js.import_csv_phone'] : fieldNames['telephoneField'] = i; break;
-                                    case translations['js.import_csv_email'] : fieldNames['emailField'] = i; break;
-                                    case translations['js.import_csv_sector'] : fieldNames['secteurField'] = i; break;
-                                    case translations['js.import_csv_legal_status'] : fieldNames['statutJuridiqueField'] = i; break;
-                                    default :
-                                        errorFields.push(fields[i]);
-                                }
-                            }
-
-                            // check bad fieldName syntax
-                            if (errorFields.length > 0) {
-                                let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
-                                errorFields.forEach(function (error) {
-                                    errorMsg += error + ', ';
-                                })
-                                errorMsg += "  Champs autorisés =  " +
-                                    translations["js.import_csv_name"] + ", " +
-                                    translations["js.import_csv_region"] + ", " +
-                                    translations["js.import_csv_city"] + ", " +
-                                    translations["js.import_csv_phone"] + ", " +
-                                    translations["js.import_csv_email"] + ", " +
-                                    translations["js.import_csv_sector"] + ", " +
-                                    translations["js.import_csv_legal_status"] ;
-                                alert(errorMsg);
-                                return;
-                            }
-
-                            // check minimum data fields
-                            if ((fieldNames['nomField'] == null) ||
-                                (fieldNames['telephoneField'] ==null)) {
-                                alert(translations['js.file_invalid_fields_name_and_telephone_mandatory']);
-                                return;
-                            }
-
-                            data.shift();
-                            let errors = [];
-                            data.forEach(function (row) {
-                                if (row) {
-                                    let columnData = row.split(';').map(function (item) {
-                                        return item.replace(/['"]+/g, '');
-                                    });
-
-                                    if(columnData.length < 2) {
-                                        columnData = row.split(',').map(function (item) {
-                                            return item.replace(/['"]+/g, '');
-                                        });
-                                    }
-
-                                    //Create a new ordered columnData
-                                    let orderedData = [];
-                                    for (let i = 0; i < fieldsOrder.length; i++) {
-                                        let fieldName = fieldsOrder[i];
-                                        let fieldNumber = fieldNames[fieldName];
-                                        // console.log(fieldNames[fieldName] + "=" + columnData[value]);
-                                        orderedData.push(columnData[fieldNumber]);
-                                    }
-                                    addRowCompanyWithValue(orderedData, function (err) {
-                                        if (err.length > 0) {
-                                            errors = errors.concat(err);
-                                        }
-                                    });
-                                }
-
-                            });
-
-                            if (errors.length > 0) {
-                                alert(translations['js.data_not_compliant_correct_manually']);
-                            }
-
-                            $('#nbRowImported').val(data.length - 1);
-                        }
                         reader.onerror = function (e) {
                             alert(translations['js.file_contains_errors']);
+                        };
+                    } else if (isExcel) {
+                        // Handle Excel files
+                        let reader = new FileReader();
+                        reader.readAsArrayBuffer(file);
+
+                        reader.onload = function (evt) {
+                            const data = new Uint8Array(evt.target.result);
+                            const workbook = XLSX.read(data, { type: 'array' });
+
+                            // Assuming the first sheet is the one to process
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
+
+                            // Convert the sheet to CSV and process it
+                            const csvData = XLSX.utils.sheet_to_csv(worksheet);
+                            processData(csvData);
+                        };
+
+                        reader.onerror = function (e) {
+                            alert(translations['js.file_contains_errors']);
+                        };
+                    }
+                }
+
+                function processData(data) {
+                    let rows = data.split("\n");
+                    let errorFields = [];
+
+                    // Valid file
+                    let header = rows[0].replaceAll('\r', "");
+                    if (header[header.length - 1] == ';') header = header.substring(0, header.length - 1);
+                    if (header[header.length - 1] == ',') header = header.substring(0, header.length - 1);
+
+                    let fields = header.split(';');
+                    if (fields.length < 2) fields = header.split(',');
+
+                    let fieldNames = {
+                        "nomField": null,
+                        "regionField": null,
+                        "villeField": null,
+                        "telephoneField": null,
+                        "emailField": null,
+                        "secteurField": null,
+                        "statutJuridiqueField": null,
+                    };
+
+                    let fieldsOrder = [
+                        "nomField",
+                        "regionField",
+                        "villeField",
+                        "telephoneField",
+                        "emailField",
+                        "secteurField",
+                        "statutJuridiqueField"
+                    ];
+
+                    for (let i = 0; i < fields.length; i++) {
+                        let field = fields[i].replaceAll('\"', "").toLowerCase().trim();
+
+                        // Field names in FR
+                        switch (field) {
+                            case translations['js.import_csv_name']: fieldNames['nomField'] = i; break;
+                            case translations['js.import_csv_region']: fieldNames['regionField'] = i; break;
+                            case translations['js.import_csv_city']: fieldNames['villeField'] = i; break;
+                            case translations['js.import_csv_phone']: fieldNames['telephoneField'] = i; break;
+                            case translations['js.import_csv_email']: fieldNames['emailField'] = i; break;
+                            case translations['js.import_csv_sector']: fieldNames['secteurField'] = i; break;
+                            case translations['js.import_csv_legal_status']: fieldNames['statutJuridiqueField'] = i; break;
+                            default:
+                                errorFields.push(fields[i]);
                         }
                     }
-                };
+
+                    // Check bad fieldName syntax
+                    if (errorFields.length > 0) {
+                        let errorMsg = translations["js.bad_syntax_of_following_fields"] + " ";
+                        errorFields.forEach(function (error) {
+                            errorMsg += error + ', ';
+                        });
+                        errorMsg += "  Champs autorisés =  " +
+                            translations["js.import_csv_name"] + ", " +
+                            translations["js.import_csv_region"] + ", " +
+                            translations["js.import_csv_city"] + ", " +
+                            translations["js.import_csv_phone"] + ", " +
+                            translations["js.import_csv_email"] + ", " +
+                            translations["js.import_csv_sector"] + ", " +
+                            translations["js.import_csv_legal_status"];
+                        alert(errorMsg);
+                        return;
+                    }
+
+                    // Check minimum data fields
+                    if ((fieldNames['nomField'] == null) ||
+                        (fieldNames['telephoneField'] == null)) {
+                        alert(translations['js.file_invalid_fields_name_and_telephone_mandatory']);
+                        return;
+                    }
+
+                    rows.shift();
+                    let errors = [];
+                    rows.forEach(function (row) {
+                        if (row) {
+                            let columnData = row.split(';').map(function (item) {
+                                return item.replace(/['"]+/g, '');
+                            });
+
+                            if (columnData.length < 2) {
+                                columnData = row.split(',').map(function (item) {
+                                    return item.replace(/['"]+/g, '');
+                                });
+                            }
+
+                            // Create a new ordered columnData
+                            let orderedData = [];
+                            for (let i = 0; i < fieldsOrder.length; i++) {
+                                let fieldName = fieldsOrder[i];
+                                let fieldNumber = fieldNames[fieldName];
+                                orderedData.push(columnData[fieldNumber]);
+                            }
+                            addRowCompanyWithValue(orderedData, function (err) {
+                                if (err.length > 0) {
+                                    errors = errors.concat(err);
+                                }
+                            });
+                        }
+                    });
+
+                    if (errors.length > 0) {
+                        alert(translations['js.data_not_compliant_correct_manually']);
+                    }
+
+                    $('#nbRowImported').val(rows.length - 1);
+                }
             });
         }) ;
     </script>

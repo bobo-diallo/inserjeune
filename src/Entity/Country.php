@@ -26,7 +26,7 @@ class Country {
 	#[Assert\NotBlank]
 	private ?string $name = null;
 
-	#[ORM\Column(name: 'sanitized_name', type: 'string', length: 255, unique: false)]
+	#[ORM\Column(name: 'sanitized_name', type: 'string', length: 255, unique: false, nullable: true)]
 	#[Assert\NotBlank]
 	private ?string $sanitizedName = null;
 

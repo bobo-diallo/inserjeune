@@ -43,4 +43,19 @@ class RegionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleColumnResult();
     }
+
+	/**
+	 * @param int $countryId
+	 * @return string[]
+	 */
+    function getNamesByCountry(int $countryId): array {
+        return $this->createQueryBuilder('r')
+            ->select('r.name')
+            ->where('r.country = :countryId')
+            ->setParameters([
+                'countryId' => $countryId,
+            ])
+            ->getQuery()
+            ->getSingleColumnResult();
+    }
 }

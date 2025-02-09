@@ -27,4 +27,37 @@ class CityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+	/**
+	 * @param int $countryId
+	 * @return string[]
+	 */
+	function getNamesByCountry(int $countryId): array {
+		return $this->createQueryBuilder('city')
+			->select('city.name')
+			->join('city.region', 'region')
+			->join('region.country', 'country')
+			->where('region.country = :countryId')
+			->setParameters([
+				'countryId' => $countryId,
+			])
+			->getQuery()
+			->getSingleColumnResult();
+	}
+
+	/**
+	 * @param int $regionId
+	 * @return string[]
+	 */
+	function getNamesByRegion(int $regionId): array {
+		return $this->createQueryBuilder('city')
+			->select('city.name')
+			->join('city.region', 'region')
+			->where('region.id = :regionId')
+			->setParameters([
+				'regionId' => $regionId,
+			])
+			->getQuery()
+			->getSingleColumnResult();
+	}
 }

@@ -1,9 +1,11 @@
 const {jsPDF} = require('jspdf');
+const XLSX = require("xlsx");
 const domToImage = require('dom-to-image');
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 global.jsPDF = jsPDF;
+global.XLSX = XLSX;
 global.domToImage = domToImage;
 
 // import
