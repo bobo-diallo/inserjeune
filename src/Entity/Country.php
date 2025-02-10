@@ -26,10 +26,6 @@ class Country {
 	#[Assert\NotBlank]
 	private ?string $name = null;
 
-	#[ORM\Column(name: 'sanitized_name', type: 'string', length: 255, unique: false, nullable: true)]
-	#[Assert\NotBlank]
-	private ?string $sanitizedName = null;
-
 	#[ORM\Column(name: 'iso_code', type: 'string', length: 3, unique: false, nullable: true)]
 	private ?string $isoCode = null;
 
@@ -151,17 +147,6 @@ class Country {
 
 	public function setName(string $name): self {
 		$this->name = $name;
-
-		$this->setSanitizedName(Utils::sanitizeName(name: $name));
-		return $this;
-	}
-
-	public function getSanitizedName(): ?string {
-		return $this->sanitizedName;
-	}
-
-	public function setSanitizedName(string $name): self {
-		$this->sanitizedName = $name;
 
 		return $this;
 	}
