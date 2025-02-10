@@ -62,4 +62,31 @@ class ActivityRepository extends ServiceEntityRepository
          ->getQuery()
          ->getResult();
    }
+
+	/**
+	 * @return string[]
+	 */
+	public function getNames(): array {
+		return $this->createQueryBuilder('activity')
+			->select('activity.name')
+			->getQuery()
+			->getSingleColumnResult();
+	}
+
+
+
+	/**
+	 * @param int[] $sectorIds
+	 * @return string[]
+	 */
+	function getNamesBySector(array $sectorIds): array {
+		return $this->createQueryBuilder('activity')
+			->select('activity.name')
+			->join('activity.sectorArea', 'sectorArea')
+			->where('sectorArea.id IN (:sectorIds)')
+			->setParameter('sectorIds', $sectorIds)
+			->getQuery()
+			->getSingleColumnResult();
+	}
+
 }

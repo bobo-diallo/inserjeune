@@ -76,7 +76,7 @@ class CityController extends AbstractController {
 	}
 
 	#[Route(path: '/generate', name: 'city_generate_template', methods: ['GET'])]
-	public function generateVilleTemplate2(CountryRepository $countryRepository, RegionRepository $regionRepository): Response {
+	public function generateVilleTemplate(CountryRepository $countryRepository, RegionRepository $regionRepository): Response {
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
 		$dataSheet = $spreadsheet->createSheet();

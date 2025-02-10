@@ -221,6 +221,8 @@ class PersonDegreeDatatableService {
 		if ($currentUser->hasAnyRole(
 			Role::ROLE_ETABLISSEMENT,
 			Role::ROLE_PRINCIPAL,
+			Role::ROLE_ADMIN,
+			Role::ROLE_LEGISLATOR,
 		)) {
 			$table
 				->add('degree', TextColumn::class, [

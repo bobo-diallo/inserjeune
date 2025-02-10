@@ -5,43 +5,58 @@
 {% block body %}
     <div class="content-i">
         <div class="content-box">
-            {# Tableau 1 #}
             <div class="element-wrapper">
                 <img src="{{ asset('build/images/icon/job.png') }}" alt="joboffer" class="title-icon" style="margin-bottom: -35px;">
                 <h6 class="element-header">
                     {{ 'job.list_of_job_applied' | trans }}
                 </h6>
-                <div class="element-box">
-                    <div class="table-responsive">
-                        <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>{{ 'Id' }} </th>
-                                <th>{{ 'menu.description' | trans }} </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for jobApplied in jobApplieds %}
-                                <tr>
-                                    <td>{{ jobApplied.id  }}</td>
-                                    <td class="jobApplyDesc">{{ jobApplied.resumed_applied | trans({'%tag_br%': '<br/>', '%tag_p%': '<p>', '%tag_end_p%': '</p>', '%tag_strong%': '<strong>', '%tag_end_strong%': '</strong>'}) | raw  }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+
+                <div class="row g-3">
+                    {% for jobApplied in jobApplieds %}
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 rounded-3 p-3">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark">
+                                        <i class="fas fa-id-badge me-2 text-primary"></i> ID Candidature : {{ jobApplied.id }}
+                                    </h5>
+                                    <p class="text-muted mb-2">
+                                        <i class="fas fa-calendar-alt me-2 text-secondary"></i> Date de candidature : {{ jobApplied.applied_date|date('d/m/Y') }}
+                                    </p>
+                                    <p class="text-muted">
+                                        <i class="fas fa-file-alt me-2 text-secondary"></i> Description : <br>
+                                        {{ jobApplied.resumed_applied
+                                        | replace({
+                                            '%tag_br%': '<br/>',
+                                            '%tag_p%': '<p>',
+                                            '%tag_end_p%': '</p>',
+                                            '%tag_strong%': '<strong>',
+                                            '%tag_end_strong%': '</strong>',
+                                            'Sent OK, ': ''
+                                        })
+                                        | raw
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center">
+                                {{ 'Aucune candidature trouvée.' | trans }}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
-
 {% block js %}
     <script>
         $(document).ready(function () {
-            let table = datatable(true)
+            let table = datatable(true);
         });
-        makeSelected('jobOffer')
+        makeSelected('jobOffer');
     </script>
 {% endblock %}

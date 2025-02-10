@@ -25,17 +25,28 @@ class Utils {
 
 	public static function sanitizeName(string $name): string
 	{
+		$name = strtr($name, [
+			'à' => 'a', 'â' => 'a', 'ä' => 'a', 'á' => 'a', 'ã' => 'a', 'å' => 'a',
+			'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+			'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+			'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+			'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+			'ý' => 'y', 'ÿ' => 'y',
+			'ç' => 'c', 'ñ' => 'n'
+		]);
+
 		// Supprime les accents en conservant les caractères non modifiés
 		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
 
 		// Remplace les caractères non alphanumériques (sauf les espaces) par rien
-		$name = preg_replace('/[^A-Za-z0-9 ]/', '', $name);
+		$name = preg_replace('/[^A-Za-z0-9 ]/', ' ', $name);
 
 		// Remplacer les espaces par des tirets
-		$name = preg_replace('/\s+/', '', $name);
+		// $name = preg_replace('/\s+/', '', $name);
 
 		// Supprimer les tirets au début et à la fin
-		return trim($name, '-');
+		$name = trim($name, '-');
+		return trim($name);
 	}
 
 

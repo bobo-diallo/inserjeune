@@ -2,15 +2,14 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Degree;
 use App\Entity\PersonDegree;
 use App\Entity\Company;
 use App\Entity\Region;
-use App\Entity\Role;
-use App\Entity\SatisfactionSchool;
 use App\Entity\Country;
 use App\Entity\School;
+use App\Entity\SectorArea;
 use App\Form\SchoolType;
-use App\Form\SatisfactionSchoolType;
 use App\Repository\CompanyRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\PersonDegreeRepository;
@@ -32,15 +31,19 @@ use App\Services\PersonDegreeService;
 use App\Tools\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use ReflectionClass;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
@@ -364,6 +367,164 @@ class FrontSchoolController extends AbstractController {
 		});
 	}
 
+	#[IsGranted('ROLE_ETABLISSEMENT')]
+	#[Route(path: '/persondegreesEnroll/generate', name: 'front_school_enroll_generate_template', methods: ['GET'])]
+	public function generatePersonDegreeEnrolmentTemplate(
+		CityRepository $cityRepository,
+		ActivityRepository $activityRepository
+	): Response {
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$dataSheet = $spreadsheet->createSheet();
+		$dataSheet->setTitle('Data');
+
+		/** @var User $currentUser */
+		$currentUser = $this->getUser();
+		/** @var School $school */
+		$school = $currentUser->getSchool();
+
+		$countryId = $currentUser->getCountry()->getId();
+
+		$sheet->setCellValue('A1', $this->translator->trans('js.import_csv_registration'));
+		$sheet->setCellValue('B1', $this->translator->trans('js.import_csv_first_name'));
+		$sheet->setCellValue('C1', $this->translator->trans('js.import_csv_name'));
+		$sheet->setCellValue('D1', $this->translator->trans('js.import_csv_birthday'));
+		$sheet->setCellValue('E1', $this->translator->trans('js.import_csv_gender'));
+		$sheet->setCellValue('F1', $this->translator->trans('js.import_csv_region'));
+		$sheet->setCellValue('G1', $this->translator->trans('js.import_csv_city'));
+		$sheet->setCellValue('H1', $this->translator->trans('js.import_csv_mobile_phone'));
+		$sheet->setCellValue('I1', $this->translator->trans('js.import_csv_parent_mobile_phone'));
+		$sheet->setCellValue('J1', $this->translator->trans('js.import_csv_email'));
+		$sheet->setCellValue('K1', $this->translator->trans('js.import_csv_diploma'));
+		$sheet->setCellValue('L1', $this->translator->trans('js.import_csv_sector'));
+		$sheet->setCellValue('M1', $this->translator->trans('js.import_csv_subsector'));
+
+		$sectorIds = [];
+		$sectorNames = [];
+
+		$addSectorCallback = function (SectorArea $sector) use (&$sectorIds, &$sectorNames) {
+			$sectorIds[] = $sector->getId();
+			$sectorNames[] = $sector->getName();
+		};
+
+		$school->getSectorArea1() ? $addSectorCallback($school->getSectorArea1()) : null;
+		$school->getSectorArea2() ? $addSectorCallback($school->getSectorArea2()) : null;
+		$school->getSectorArea3() ? $addSectorCallback($school->getSectorArea3()) : null;
+		$school->getSectorArea4() ? $addSectorCallback($school->getSectorArea4()) : null;
+		$school->getSectorArea5() ? $addSectorCallback($school->getSectorArea5()) : null;
+		$school->getSectorArea6() ? $addSectorCallback($school->getSectorArea6()) : null;
+
+		$degrees = $school->getDegrees()->map(function (Degree $degree) {
+			return $degree->getName();
+		})->toArray();
+
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'E', [$this->translator->trans('menu.a_man'), $this->translator->trans('menu.a_woman')]);
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'F', $this->regionRepository->getNamesByCountry($countryId));
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'G', $cityRepository->getNamesByCountry($countryId));
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'K', $degrees);
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'L', $sectorNames);
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'M', $activityRepository->getNamesBySector($sectorIds));
+
+
+		$response = new StreamedResponse(function () use ($spreadsheet) {
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');
+		});
+
+		$response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		$response->headers->set('Content-Disposition', 'attachment;filename="person_degree_enrollment_template.xlsx"');
+		$response->headers->set('Cache-Control', 'max-age=0');
+
+		return $response;
+	}
+
+	#[IsGranted('ROLE_ETABLISSEMENT')]
+	#[Route(path: '/companiesEnroll/generate', name: 'front_school_company_enroll_generate_template', methods: ['GET'])]
+	public function generateCompanyEnrolmentTemplate(
+		CityRepository $cityRepository,
+		LegalStatusRepository $legalStatusRepository
+	): Response {
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$dataSheet = $spreadsheet->createSheet();
+		$dataSheet->setTitle('Data');
+
+		/** @var User $currentUser */
+		$currentUser = $this->getUser();
+		/** @var School $school */
+		$school = $currentUser->getSchool();
+
+		$countryId = $currentUser->getCountry()->getId();
+
+		$sheet->setCellValue('A1', $this->translator->trans('js.import_csv_name'));
+		$sheet->setCellValue('B1', $this->translator->trans('js.import_csv_region'));
+		$sheet->setCellValue('C1', $this->translator->trans('js.import_csv_city'));
+		$sheet->setCellValue('D1', $this->translator->trans('js.import_csv_phone'));
+		$sheet->setCellValue('E1', $this->translator->trans('js.import_csv_email'));
+		$sheet->setCellValue('F1', $this->translator->trans('js.import_csv_sector'));
+		$sheet->setCellValue('G1', $this->translator->trans('js.import_csv_legal_status'));
+
+		$sectorNames = [];
+
+		$school->getSectorArea1() ? array_push($sectorNames, $school->getSectorArea1()->getName()) : null;
+		$school->getSectorArea2() ? array_push($sectorNames, $school->getSectorArea2()->getName()) : null;
+		$school->getSectorArea3() ? array_push($sectorNames, $school->getSectorArea3()->getName()) : null;
+		$school->getSectorArea4() ? array_push($sectorNames, $school->getSectorArea4()->getName()) : null;
+		$school->getSectorArea5() ? array_push($sectorNames, $school->getSectorArea5()->getName()) : null;
+		$school->getSectorArea6() ? array_push($sectorNames, $school->getSectorArea6()->getName()) : null;
+
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'B', $this->regionRepository->getNamesByCountry($countryId));
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'C', $cityRepository->getNamesByCountry($countryId));
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'F', $sectorNames);
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'G', $legalStatusRepository->getNames());
+
+
+		$response = new StreamedResponse(function () use ($spreadsheet) {
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');
+		});
+
+		$response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		$response->headers->set('Content-Disposition', 'attachment;filename="person_degree_enrollment_template.xlsx"');
+		$response->headers->set('Cache-Control', 'max-age=0');
+
+		return $response;
+	}
+
+	private function _columnTemplateExcelValidation(
+		Worksheet $sheet,
+		Worksheet $dataSheet,
+		string $columnLetter,
+		$values
+	): void {
+		$row = 1;
+		$count = count($values);
+
+		// Add list option on DATA sheet
+		foreach ($values as $value) {
+			$dataSheet->setCellValue($columnLetter . $row, $value);
+			$row++;
+		}
+
+		// add options
+		$range = sprintf('Data!$%s$1:$%s$%s', $columnLetter, $columnLetter, $count);
+		for ($i = 2; $i <= 200; $i++) {
+			$cell = $columnLetter . $i;
+
+			$validation = $sheet->getCell($cell)->getDataValidation();
+			$validation->setType(DataValidation::TYPE_LIST);
+			$validation->setErrorStyle(DataValidation::STYLE_STOP);
+			$validation->setAllowBlank(false);
+			$validation->setShowDropDown(true);
+			$validation->setFormula1($range);
+			$validation->setErrorTitle($this->translator->trans('clean.error'));
+			$validation->setError('The value entered is not valid.');
+			$validation->setPromptTitle('Choisir dans la liste');
+			$validation->setPrompt('Veuillez choisir une valeur dans la liste.');
+			$sheet->getCell($cell)->setDataValidation(clone $validation);
+		}
+	}
+
     #[IsGranted('ROLE_ETABLISSEMENT')]
 	#[Route(path: '/companiesEnroll', name: 'front_school_companies_enroll', methods: ['GET'])]
 	public function companiesEnrollAction(): Response {
@@ -591,7 +752,6 @@ class FrontSchoolController extends AbstractController {
         return $this->schoolService->checkUnCompletedAccountBefore(function () use ($request, $id) {
 	        $school = $this->schoolService->getSchool();
 	        $datas = $request->query->all();
-            // var_dump($datas);die();
 	        $phoneNumber = "";
 	        $res = [];
 	        $err = [];
@@ -977,16 +1137,8 @@ class FrontSchoolController extends AbstractController {
             $schoolLongitude = floatval($coordinate['longitude']);
 
             if($schoolId != $currentId) {
-                // echo (strval($currentId) . " CUR(" .
-                //     strval($currentLatitude) . "," . strval($currentLongitude) ."  ) ".
-                //     strval($schoolId) . " -> MAX(" .
-                //     strval($currentLatitude + $gap * 10) . "," . strval($currentLongitude + $gap * 10) . ") -> SCH(" .
-                //     strval($schoolLatitude) . "," . strval($schoolLongitude) .')<br>');
-
-                // Recherche de l'établissement le plus éloigné dans la zone $gap*10
                 if((($schoolLatitude >= $currentLatitude ) && ($schoolLatitude <= $currentLatitude + $gap * 10)) &&
                    (($schoolLongitude >= $currentLongitude ) && ($schoolLongitude <= $currentLongitude + $gap * 10))) {
-                    // echo('--->OK<br>');
                     if($newLatitude < $schoolLatitude) $newLatitude = $schoolLatitude;
                     if($newLongitude < $schoolLongitude) $newLongitude = $schoolLongitude;
                 }
