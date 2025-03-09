@@ -25,6 +25,7 @@ use App\Repository\SectorAreaRepository;
 use App\Repository\ActivityRepository;
 use App\Services\ActivityService;
 use App\Services\EmailService;
+use App\Services\EnrollmentTemplateService;
 use App\Services\PersonDegreeDatatableService;
 use App\Services\SchoolService;
 use App\Services\PersonDegreeService;
@@ -32,6 +33,8 @@ use App\Tools\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use PhpOffice\PhpSpreadsheet\Exception;
+use PhpOffice\PhpSpreadsheet\NamedRange;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -370,20 +373,21 @@ class FrontSchoolController extends AbstractController {
 	#[IsGranted('ROLE_ETABLISSEMENT')]
 	#[Route(path: '/persondegreesEnroll/generate', name: 'front_school_enroll_generate_template', methods: ['GET'])]
 	public function generatePersonDegreeEnrolmentTemplate(
+		RegionRepository $regionRepository,
 		CityRepository $cityRepository,
-		ActivityRepository $activityRepository
+		ActivityRepository $activityRepository,
+		SectorAreaRepository $sectorAreaRepository,
+		EnrollmentTemplateService $enrollmentTemplateService
 	): Response {
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
 		$dataSheet = $spreadsheet->createSheet();
-		$dataSheet->setTitle('Data');
+		$dataSheet->setTitle($worksheetName = 'Data');
 
 		/** @var User $currentUser */
 		$currentUser = $this->getUser();
 		/** @var School $school */
 		$school = $currentUser->getSchool();
-
-		$countryId = $currentUser->getCountry()->getId();
 
 		$sheet->setCellValue('A1', $this->translator->trans('js.import_csv_registration'));
 		$sheet->setCellValue('B1', $this->translator->trans('js.import_csv_first_name'));
@@ -399,31 +403,32 @@ class FrontSchoolController extends AbstractController {
 		$sheet->setCellValue('L1', $this->translator->trans('js.import_csv_sector'));
 		$sheet->setCellValue('M1', $this->translator->trans('js.import_csv_subsector'));
 
-		$sectorIds = [];
-		$sectorNames = [];
-
-		$addSectorCallback = function (SectorArea $sector) use (&$sectorIds, &$sectorNames) {
-			$sectorIds[] = $sector->getId();
-			$sectorNames[] = $sector->getName();
-		};
-
-		$school->getSectorArea1() ? $addSectorCallback($school->getSectorArea1()) : null;
-		$school->getSectorArea2() ? $addSectorCallback($school->getSectorArea2()) : null;
-		$school->getSectorArea3() ? $addSectorCallback($school->getSectorArea3()) : null;
-		$school->getSectorArea4() ? $addSectorCallback($school->getSectorArea4()) : null;
-		$school->getSectorArea5() ? $addSectorCallback($school->getSectorArea5()) : null;
-		$school->getSectorArea6() ? $addSectorCallback($school->getSectorArea6()) : null;
-
 		$degrees = $school->getDegrees()->map(function (Degree $degree) {
 			return $degree->getName();
 		})->toArray();
 
+		// Region & city
+		$enrollmentTemplateService->createColumnMappings(
+			$spreadsheet,
+			$cityRepository,
+			$regionRepository,
+			'F',
+			'G',
+			$worksheetName
+		);
+
+		// Sector & activity
+		$enrollmentTemplateService->createColumnMappings(
+			$spreadsheet,
+			$activityRepository,
+			$sectorAreaRepository,
+			'L',
+			'M',
+			$worksheetName
+		);
+
 		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'E', [$this->translator->trans('menu.a_man'), $this->translator->trans('menu.a_woman')]);
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'F', $this->regionRepository->getNamesByCountry($countryId));
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'G', $cityRepository->getNamesByCountry($countryId));
 		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'K', $degrees);
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'L', $sectorNames);
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'M', $activityRepository->getNamesBySector($sectorIds));
 
 
 		$response = new StreamedResponse(function () use ($spreadsheet) {
@@ -438,23 +443,28 @@ class FrontSchoolController extends AbstractController {
 		return $response;
 	}
 
+
+	/**
+	 * @throws Exception
+	 */
 	#[IsGranted('ROLE_ETABLISSEMENT')]
 	#[Route(path: '/companiesEnroll/generate', name: 'front_school_company_enroll_generate_template', methods: ['GET'])]
 	public function generateCompanyEnrolmentTemplate(
 		CityRepository $cityRepository,
-		LegalStatusRepository $legalStatusRepository
+		LegalStatusRepository $legalStatusRepository,
+		RegionRepository $regionRepository,
+		SectorAreaRepository $sectorAreaRepository,
+		EnrollmentTemplateService $enrollmentTemplateService
 	): Response {
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
 		$dataSheet = $spreadsheet->createSheet();
-		$dataSheet->setTitle('Data');
+		$dataSheet->setTitle($worksheetName = 'Data');
 
 		/** @var User $currentUser */
 		$currentUser = $this->getUser();
 		/** @var School $school */
 		$school = $currentUser->getSchool();
-
-		$countryId = $currentUser->getCountry()->getId();
 
 		$sheet->setCellValue('A1', $this->translator->trans('js.import_csv_name'));
 		$sheet->setCellValue('B1', $this->translator->trans('js.import_csv_region'));
@@ -464,18 +474,17 @@ class FrontSchoolController extends AbstractController {
 		$sheet->setCellValue('F1', $this->translator->trans('js.import_csv_sector'));
 		$sheet->setCellValue('G1', $this->translator->trans('js.import_csv_legal_status'));
 
-		$sectorNames = [];
+		// Region & city
+		$enrollmentTemplateService->createColumnMappings(
+			$spreadsheet,
+			$cityRepository,
+			$regionRepository,
+			'B',
+			'C',
+			$worksheetName
+		);
 
-		$school->getSectorArea1() ? array_push($sectorNames, $school->getSectorArea1()->getName()) : null;
-		$school->getSectorArea2() ? array_push($sectorNames, $school->getSectorArea2()->getName()) : null;
-		$school->getSectorArea3() ? array_push($sectorNames, $school->getSectorArea3()->getName()) : null;
-		$school->getSectorArea4() ? array_push($sectorNames, $school->getSectorArea4()->getName()) : null;
-		$school->getSectorArea5() ? array_push($sectorNames, $school->getSectorArea5()->getName()) : null;
-		$school->getSectorArea6() ? array_push($sectorNames, $school->getSectorArea6()->getName()) : null;
-
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'B', $this->regionRepository->getNamesByCountry($countryId));
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'C', $cityRepository->getNamesByCountry($countryId));
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'F', $sectorNames);
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'F', $sectorAreaRepository->getNames());
 		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'G', $legalStatusRepository->getNames());
 
 
@@ -1165,33 +1174,9 @@ class FrontSchoolController extends AbstractController {
 	}
 
     #[Route(path: '/{id}/activityBySchoolSectorArea/', name: 'front_school_activity_by_school_sector_area', methods: ['GET'])]
-    public function activityBySchoolSectorArea(int $id): JsonResponse|Response {
-	    return $this->schoolService->checkUnCompletedAccountBefore(function () use ($id) {
-		    $school = $this->schoolService->getSchool();
-
-		    // find which school sectorarea (1 to 6) used by $id
-		    $sectorAreaNumber = 0;
-		    for ($i = 1; $i <= 6; $i++) {
-			    $getSectorArea = "getSectorArea" . (string)$i;
-
-			    if ($school->$getSectorArea()) {
-				    if ($school->$getSectorArea()->getId() == $id) {
-					    $sectorAreaNumber = $i;
-					    $i = 7; //end of loop
-				    }
-			    }
-		    }
-
-		    // Find Activities used by School
-		    $getActivities = "getActivities" . $sectorAreaNumber;
-		    $activities = $school->$getActivities();
-		    $res = [];
-		    foreach ($activities as $activity) {
-			    $data = array('name' => $activity->getName(), 'id' => $activity->getId());
-			    $res[] = $data;
-		    }
-
-		    return new JsonResponse($res);
+    public function activityBySchoolSectorArea(int $id, ActivityRepository $activityRepository): JsonResponse|Response {
+	    return $this->schoolService->checkUnCompletedAccountBefore(function () use ($id, $activityRepository) {
+		    return new JsonResponse($activityRepository->getActivitiesOfSector($id));
 	    });
     }
 
