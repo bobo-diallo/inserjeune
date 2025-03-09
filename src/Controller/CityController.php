@@ -8,12 +8,11 @@ use App\Model\FlashBag\FlashBag;
 use App\Repository\CountryRepository;
 use App\Repository\RegionRepository;
 use App\Repository\CityRepository;
+use App\Services\EnrollmentTemplateService;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\NamedRange;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,20 +74,32 @@ class CityController extends AbstractController {
 		));
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	#[Route(path: '/generate', name: 'city_generate_template', methods: ['GET'])]
-	public function generateVilleTemplate(CountryRepository $countryRepository, RegionRepository $regionRepository): Response {
+	public function generateVilleTemplate(
+		CountryRepository $countryRepository,
+		RegionRepository $regionRepository,
+		EnrollmentTemplateService $enrollmentTemplateService
+	): Response {
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
 		$dataSheet = $spreadsheet->createSheet();
-		$dataSheet->setTitle('Data');
+		$dataSheet->setTitle($worksheetName = 'Data');
 
 		$sheet->setCellValue('A1', $this->translator->trans('menu.country'));
 		$sheet->setCellValue('B1', $this->translator->trans('menu.region'));
 		$sheet->setCellValue('C1', $this->translator->trans('menu.city'));
 
-		$this->populateCountriesAndRegions($countryRepository, $regionRepository, $spreadsheet, $dataSheet);
-
-		$this->applyDataValidations($sheet);
+		$enrollmentTemplateService->createColumnMappings(
+			$spreadsheet,
+			$regionRepository,
+			$countryRepository,
+			'A',
+			'B',
+			$worksheetName
+		);
 
 		$response = new StreamedResponse(function () use ($spreadsheet) {
 			$writer = new Xlsx($spreadsheet);
@@ -215,106 +226,6 @@ class CityController extends AbstractController {
 			}
 		}
 		return $this->redirectToRoute('city_index');
-	}
-
-	private function populateCountriesAndRegions(
-		CountryRepository $countryRepository,
-		RegionRepository $regionRepository,
-		Spreadsheet $spreadsheet,
-		Worksheet $dataSheet
-	): void {
-		$countries = $countryRepository->findAll();
-
-		$row = 1;
-		$regionStartRow = 1;
-		$countryMappings = [];
-
-		foreach ($countries as $country) {
-			$name = $country->getName();
-
-			// Générer un nom sûr pour Excel (sans accents, espaces ou caractères spéciaux)
-			$safeName = preg_replace('/[^A-Za-z0-9]/', '_', $name);
-			$safeName = ltrim($safeName, '0123456789'); // S'assurer qu'il ne commence pas par un chiffre
-
-			// Sauvegarder la correspondance entre nom original et nom sécurisé
-			$countryMappings[$name] = $safeName;
-
-			// Ajouter le nom original dans la colonne A
-			$dataSheet->setCellValue('A' . $row, $name);
-
-			$regionNames = $regionRepository->getRegionNamesByCountry((int) $country->getId());
-
-			if (!empty($regionNames)) {
-				$regionEndRow = $regionStartRow + count($regionNames) - 1;
-
-				foreach ($regionNames as $index => $regionName) {
-					$dataSheet->setCellValue('B' . ($regionStartRow + $index), $regionName);
-				}
-
-				// Créer une plage nommée avec le nom sécurisé
-				if (ctype_alpha(substr($safeName, 0, 1))) { // Vérifie qu'il commence par une lettre
-					$spreadsheet->addNamedRange(
-						new NamedRange($safeName, $dataSheet, 'B' . $regionStartRow . ':B' . $regionEndRow)
-					);
-				}
-
-				$regionStartRow = $regionEndRow + 1;
-			}
-
-			$row++;
-		}
-
-		// Ajouter une feuille cachée pour stocker les correspondances
-		$this->createCountryMappingSheet($spreadsheet, $countryMappings);
-	}
-
-	private function createCountryMappingSheet(Spreadsheet $spreadsheet, array $countryMappings): void {
-		$mappingSheet = new Worksheet($spreadsheet, 'Mappings');
-		$spreadsheet->addSheet($mappingSheet);
-		$mappingSheet->setSheetState(Worksheet::SHEETSTATE_HIDDEN); // Cache la feuille pour éviter les erreurs utilisateur
-
-		$row = 1;
-		foreach ($countryMappings as $originalName => $safeName) {
-			$mappingSheet->setCellValue('A' . $row, $originalName);
-			$mappingSheet->setCellValue('B' . $row, $safeName);
-			$row++;
-		}
-	}
-
-	private function applyDataValidations(Worksheet $sheet): void {
-		$countryRange = 'Data!$A$1:$A$100'; // Ajuster selon le nombre de pays
-		for ($i = 2; $i <= 100; $i++) {
-			// Validation des pays
-			$countryCell = 'A' . $i;
-
-			$validation = $sheet->getCell($countryCell)->getDataValidation();
-			$validation->setType(DataValidation::TYPE_LIST);
-			$validation->setErrorStyle(DataValidation::STYLE_STOP);
-			$validation->setAllowBlank(false);
-			$validation->setShowDropDown(true);
-			$validation->setFormula1($countryRange);
-			$validation->setErrorTitle($this->translator->trans('clean.error'));
-			$validation->setError('The value entered is not valid.');
-			$validation->setPromptTitle('Choisir dans la liste');
-			$validation->setPrompt('Veuillez choisir une valeur dans la liste.');
-			$sheet->getCell($countryCell)->setDataValidation(clone $validation);
-
-			// Validation des régions en fonction du pays
-			$regionCell = 'B' . $i;
-
-			$validation = $sheet->getCell($regionCell)->getDataValidation();
-			$validation->setType(DataValidation::TYPE_LIST);
-			$validation->setErrorStyle(DataValidation::STYLE_STOP);
-			$validation->setAllowBlank(false);
-			$validation->setShowDropDown(true);
-			// Correction : Utilisation de RECHERCHEV pour trouver le nom sécurisé
-			$validation->setFormula1('INDIRECT(VLOOKUP(' . $countryCell . ', Mappings!$A$1:$B$100, 2, FALSE))');
-			$validation->setErrorTitle($this->translator->trans('clean.error'));
-			$validation->setError('The value entered is not valid.');
-			$validation->setPromptTitle('Choisir dans la liste');
-			$validation->setPrompt('Veuillez choisir une valeur dans la liste.');
-			$sheet->getCell($regionCell)->setDataValidation(clone $validation);
-		}
 	}
 
 }
