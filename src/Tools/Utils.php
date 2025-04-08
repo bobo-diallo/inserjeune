@@ -49,5 +49,25 @@ class Utils {
 		return trim($name);
 	}
 
+	public static function parseFlexibleDate(string $value): ?\DateTime
+	{
+		$formats = [
+			self::FORMAT_FR,   // ex: 'd/m/Y'
+			self::FORMAT_US,   // ex: 'Y/m/d'
+			'd-m-Y',
+			'Y-m-d',
+		];
+
+		foreach ($formats as $format) {
+			$date = \DateTime::createFromFormat($format, $value);
+
+			$errors = \DateTime::getLastErrors();
+			if ($date) {
+				return $date;
+			}
+		}
+
+		return null;
+	}
 
 }

@@ -820,7 +820,7 @@ class FrontSchoolController extends AbstractController {
 
                 } else if ($setProp == "setBirthDate") {
                     $res[$key] = $value;
-	                $birthDate = \DateTime::createFromFormat(Utils::FORMAT_FR, $value);
+	                $birthDate = Utils::parseFlexibleDate($value);
                     if ($birthDate) {
                         $personDegree->$setProp($birthDate->format(Utils::FORMAT_FR));
                         $this->em->persist($personDegree);
