@@ -319,7 +319,7 @@
                   // ajout de la filière dans la table
                   let $activity = "<tr><td><input " + $disabledActivity +
                       " type='checkbox' name='select' id='" + idCheckbox + "'></td><td style='color: " +
-                      $colorActivity + "'>" + translations[this.name] + "</td><td style='color: " + $colorActivity + "'>" +
+                      $colorActivity + "'>" + this.name + "</td><td style='color: " + $colorActivity + "'>" +
                       this.sectorArea + "</td></tr>";
                   $('table#activity_founded').append($activity);
                });
