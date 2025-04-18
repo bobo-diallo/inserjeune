@@ -217,9 +217,6 @@ class GeoLocationController extends AbstractController {
 
     #[Route(path: '/region/{id}/unemployedpersondegree', name: 'geolocation_map_region_unemployed_persondegrees', methods: ['GET'])]
     public function getUnemployedPersonDegreesRegionAction(Request $request, Region $region): JsonResponse|Response {
-        // $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH');
-        // $personDegrees = $this->personDegreeRepository->getByRegionAndType($region,'TYPE_UNEMPLOYED');
-        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByRegionAndType($region,'TYPE_SEARCH'));
         $personDegrees = $this->personDegreeRepository->getByRegionAndType($region,'TYPE_SEARCH');
         return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
     }
@@ -228,8 +225,6 @@ class GeoLocationController extends AbstractController {
     public function getOtherPersonDegreesRegionAction(Request $request, Region $region): JsonResponse|Response {
         $personDegrees = $this->personDegreeRepository->getByRegionAndType($region,'TYPE_STUDY');
         $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByRegionAndType($region,'TYPE_TRAINING'));
-        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_EMPLOYED'));
-        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_CONTRACTOR'));
         return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
     }
 
@@ -247,9 +242,6 @@ class GeoLocationController extends AbstractController {
 	 */
 	#[Route(path: '/country/{id}/unemployedpersondegree', name: 'geolocation_map_country_unemployed_persondegrees', methods: ['GET'])]
 	public function getUnemployedPersonDegreesCountryAction(Request $request, Country $country): JsonResponse|Response {
-		// $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH');
-		// $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_UNEMPLOYED');
-        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH'));
         $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_SEARCH');
 		return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
 	}
@@ -258,8 +250,6 @@ class GeoLocationController extends AbstractController {
     public function getOtherPersonDegreesCountryAction(Request $request, Country $country): JsonResponse|Response {
         $personDegrees = $this->personDegreeRepository->getByCountryAndType($country,'TYPE_STUDY');
         $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_TRAINING'));
-        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_EMPLOYED'));
-        // $personDegrees = array_merge($personDegrees, $this->personDegreeRepository->getByCountryAndType($country,'TYPE_CONTRACTOR'));
         return new JsonResponse($this->createArrayPersonDegreeData($personDegrees));
     }
 
@@ -510,13 +500,17 @@ class GeoLocationController extends AbstractController {
                 }
 
                 $school = "";
-                if($personDegree->getSchool()) {
-                    $school = $personDegree->getSchool()->getName();
+                $schoolIPresentation = '';
+                $schoolObject = $personDegree->getSchool();
+                if ($schoolObject) {
+                    $school = $schoolObject->getName();
+                    $schoolIPresentation = $schoolObject->schoolPresentation();
                 }
 
                 $array[] = [
                     'type' => 'personDegree',
                     'school' => $school,
+                    'school_presentation' => $schoolIPresentation,
                     'name' => $personDegree->getName(),
                     'phone' => $personDegree->getPhoneMobile1(),
                     'email' => $personDegree->getEmail(),
