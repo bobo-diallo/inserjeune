@@ -85,7 +85,7 @@
                      <label for="">{{ 'menu.establishment' | trans }}</label>
                      {% if roleUser == 'Principal' %}
                         <select id="appbundle_geolocation_school" disabled class="form-control">
-                           <option value="">{{ school.name }} ({{ school.city.name }})</option>
+                           <option value="">{{ school.schoolPresentation }}</option>
                         </select>
                      {% elseif roleUser == 'Etablissement' %}
                         <select id="appbundle_geolocation_school" disabled class="form-control">
@@ -726,9 +726,6 @@
          // -------------------------
          $.each(dataCompanies, function (index, value) {
             let selected = true;
-            // console.log(value)
-            // console.log(index + " region=" + value.region + " city=" + value.city  + " sa=" + value.sector_area);
-            // if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selectionnez')) {
             if (! valueSectorArea.toLowerCase().replace('é','e').startsWith('selec')) {
                let val = translations[value.sector_area]; if(!val) val = value.sector_area; if(!val) val = "";
                if(val.toLowerCase() != valueSectorArea.toLowerCase()) {
@@ -759,7 +756,6 @@
             }
 
             if (! valueSchool.toLowerCase().replace('é','e').startsWith('selec')) {
-               //console.log(value)
                let valSchoolnames = value.schools.split(',');
                let valSchool = valueSchool.substring(0, valueSchool.indexOf('(')).trim();
                console.log(valSchoolnames)
@@ -889,7 +885,6 @@
 
          // Selection des Dipômés en recherche
          // ----------------------------------
-         // console.log("dataPersonDegrees = " + dataPersonDegrees.length);
          $.each(dataPersonDegrees, function (index, value) {
             let selected = true;
 
@@ -988,10 +983,7 @@
             }
 
             if (! valueSchool.toLowerCase().replace('é','e').startsWith('selec')) {
-               let valPersonDegreeSchool = value.school.trim();
-               let valSchool = valueSchool.substring(0, valueSchool.indexOf('(')).trim();
-
-               if(valPersonDegreeSchool.toLowerCase() != valSchool.toLowerCase()) {
+               if(value.school_presentation.trim().toLowerCase() != valueSchool.trim().toLowerCase()) {
                   selected = false;
                }
             }
@@ -1000,7 +992,6 @@
                selectedDataOtherPersonDegrees.push(dataOtherPersonDegrees[index]);
             }
          })
-         console.log("autres diplômés sélectionnées: " + selectedDataOtherPersonDegrees.length);
          $('#nb_other_graduate').text(selectedDataOtherPersonDegrees.length);
          console.log("--------------------------");
       }

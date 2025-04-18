@@ -731,4 +731,12 @@ class School {
     {
         return $this;
     }
+
+    public function schoolPresentation(): string {
+        if ($this->city) {
+            return sprintf('%s (%s)', $this->getName(), $this->city->getName());
+        }
+
+        return $this->getName();
+    }
 }
