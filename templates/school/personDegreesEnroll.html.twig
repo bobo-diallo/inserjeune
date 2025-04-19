@@ -350,11 +350,11 @@
                     </select>
                 </td>
                 <td class="tdinput">
-                    <input required id="phoneMobile1${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_mobile_phone"]}">
+                    <input type="text" required id="phoneMobile1${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_mobile_phone"]}">
                     <p id="p_phoneMobile1${rowNumber}"></p>
                 </td>
                 <td class="tdinput">
-                    <input id="phoneMobile2${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_parent_mobile_phone"]}">
+                    <input type="text" id="phoneMobile2${rowNumber}" style="display:none" value="" placeholder="${translations["js.import_csv_parent_mobile_phone"]}">
                     <p id="p_phoneMobile2${rowNumber}"></p>
                 </td>
                 <td class="tdinput">
@@ -485,11 +485,11 @@
                     </select>
                 </td>
                 <td class="tdinput">
-                    <input required id="phoneMobile1${rowNumber}" style="display:none" value="${values[7]}" placeholder="${translations["js.import_csv_mobile_phone"]}">
+                    <input type="text" required id="phoneMobile1${rowNumber}" style="display:none" value="${values[7]}" placeholder="${translations["js.import_csv_mobile_phone"]}">
                     <p id="p_phoneMobile1${rowNumber}"></p>
                 </td>
                 <td class="tdinput">
-                    <input id="phoneMobile2${rowNumber}" style="display:none" value="${values[8]}" placeholder="${translations["js.import_csv_parent_mobile_phone"]}">
+                    <input type="text" id="phoneMobile2${rowNumber}" style="display:none" value="${values[8]}" placeholder="${translations["js.import_csv_parent_mobile_phone"]}">
                     <p id="p_phoneMobile2${rowNumber}"></p>
                 </td>
                 <td class="tdinput">
@@ -594,7 +594,6 @@
 
             /* récupération de l'id du diplômé si existant */
             let personDegreeId = $("#id" + rowNumber).text();
-            //console.log("Init personDegreeId = " + personDegreeId ) ;
 
             /* test si tout les champs sont remplis */
             /* ------------------------------------ */
@@ -622,7 +621,6 @@
                                 $(this).css({"background-color": "#ffd5d5"});
                                 errorNumber++;
                             } else {
-                                //console.log($(this).val())
                                 $(this).css({"background-color": "white"});
                             }
                         }
@@ -654,7 +652,6 @@
             /* Affichage des inputs, select et des p */
             /* ------------------------------------- */
             row = $( edit ).attr('id').replace("edit","#personDegree");
-            //console.log(row);
             $(row).each(function() {
                 if (action == "edit") {
                     $(this).find('input').each(function () {
@@ -719,14 +716,12 @@
                                     check = false;
                                     $(this).css({"background-color": "#ffd5d5"});
                                 } else {
-                                    //console.log($(this).val())
                                     $(this).css({"background-color": "white"});
                                 }
                             }
                         })
                     })
                 }
-                //console.log("check=" + check);
                 /* sauvegarde */
                 /* ---------- */
                 if(check == true) {
@@ -745,7 +740,6 @@
                         /* creation de la table des données */
                         /* -------------------------------- */
                         let personDegree = [];
-                        //console.log("row=" + row);
                         personDegree = new Object();
                         let strPersonDegree = "";
 
@@ -782,13 +776,11 @@
 
                                 let selectLabel = $(this).attr('id');
                                 selectLabel = selectLabel.substring(0, selectLabel.length - nbDigitsRowNumber);
-                                //console.log(inputLabel + " | " + nbDigitsRowNumber + " | " + rowNumber);
 
                                 let label = selectLabel;
                                 label = label.replace('select', '');
                                 //personDegree[selectLabel] = $(this).val();
                                 personDegree[label] = $(this).val();
-                                //console.log(label + '->' + $(this).val() + ' | ' + $(this).text() + ' | ')
                                 if($(this).val().length>0) {
                                     strPersonDegree += "&" + label + "=" + $(this).val();
                                 }
@@ -813,7 +805,6 @@
                         for (let i = 0; i < dirs.length - 1; i++)
                             $locationRef += dirs[i] + '/';
 
-                        //console.log("Id persondegree=" + personDegree["id"]);
                         if(personDegreeId == "") personDegreeId = -1;
                         $.get($locationRef + personDegreeId + '/enrollPersonDegreeUpdate/', personDegree).done(function (res) {
 
@@ -998,7 +989,6 @@
                         $('#selectAddressCity' + rowNumber + ' option:first').remove();
                     }
                     $("#selectAddressCity" + rowNumber).append("<option selected value=\"\">" + translations["js.select"] + "</option>");
-                    //console.log(cities);
                     if (cities) {
                         cities.forEach((city) => {
                             if ($idSelected == city['id']) {
@@ -1094,7 +1084,6 @@
                 // Recherches des filières en fonction des secteurs
                 $('.selectSectorArea').on('change', function () {
                     let id = $(this).attr("id").replaceAll("selectSectorArea", "");
-                    //console.log("Sector Activity " + id);
                     let $sectorAreaId = $('#selectSectorArea' + id + " option:selected").val();
                     if ($sectorAreaId) {
                         addOptionActivity($sectorAreaId, id);
@@ -1178,15 +1167,17 @@
                 }
 
                 function processData(data) {
-                    let rows = data.split("\n");
                     let errorFields = [];
+                    let rows = data.split("\n")
+                        .map(row => row.replaceAll('\r', ""))
+                        .filter((row, index) => {
+                            // Garde l'en-tête (index 0) mais filtre les lignes vides pour les autres
+                            if (index === 0) return true;
+                            const trimmed = row.trim();
+                            return trimmed !== '' && !/^[,;]+$/.test(trimmed);
+                        });
+                    let header = rows[0];
 
-                    // Valid file
-                    let header = rows[0].replaceAll('\r', "");
-                    if (header[header.length - 1] == ';') header = header.substring(0, header.length - 1);
-                    if (header[header.length - 1] == ',') header = header.substring(0, header.length - 1);
-
-                    console.log('header:::', header);
                     let fields = header.split(';');
                     if (fields.length < 2) fields = header.split(',');
 
@@ -1303,7 +1294,7 @@
                                     if (columnData[fieldNumber] == 'M') columnData[fieldNumber] = "un homme";
                                 }
 
-                                orderedData.push(columnData[fieldNumber]);
+                                orderedData.push(String(columnData[fieldNumber]));
                             }
                             addRowPersonDegreeWithValue(orderedData, function (err) {
                                 if (err.length > 0) {
