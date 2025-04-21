@@ -32,10 +32,12 @@ use App\Services\PersonDegreeService;
 use App\Tools\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\NamedRange;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use ReflectionClass;
@@ -403,6 +405,10 @@ class FrontSchoolController extends AbstractController {
 		$sheet->setCellValue('L1', $this->translator->trans('js.import_csv_sector'));
 		$sheet->setCellValue('M1', $this->translator->trans('js.import_csv_subsector'));
 
+		$this->setTextColumnFormat($sheet, 'H');
+		$this->setTextColumnFormat($sheet, 'I');
+		$this->setTextColumnFormat($sheet, 'J');
+
 		$degrees = $school->getDegrees()->map(function (Degree $degree) {
 			return $degree->getName();
 		})->toArray();
@@ -443,6 +449,13 @@ class FrontSchoolController extends AbstractController {
 		return $response;
 	}
 
+	private function setTextColumnFormat(Worksheet $sheet, string $column, int $startRow = 2, int $endRow = 100): void {
+		for ($row = $startRow; $row <= $endRow; $row++) {
+			$cell = $column . $row;
+			$sheet->getStyle($cell)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_TEXT);
+			$sheet->setCellValueExplicit($cell, '', DataType::TYPE_STRING);
+		}
+	}
 
 	/**
 	 * @throws Exception
