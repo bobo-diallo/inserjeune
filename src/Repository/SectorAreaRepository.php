@@ -10,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * SectorAreaRepository
@@ -20,20 +21,31 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class SectorAreaRepository extends ServiceEntityRepository implements ParentColumTemplateRepository
 {
 	private TokenStorageInterface $tokenStorage;
+    private TranslatorInterface $translator;
 
-	public function __construct(ManagerRegistry $registry, TokenStorageInterface $tokenStorage) {
+	public function __construct(
+        ManagerRegistry $registry,
+        TokenStorageInterface $tokenStorage,
+        TranslatorInterface $translator
+    ) {
 		parent::__construct($registry, SectorArea::class);
 		$this->tokenStorage = $tokenStorage;
+        $this->translator = $translator;
 	}
 
 	/**
 	 * @return string[]
 	 */
 	public function getNames(): array {
-		return $this->createQueryBuilder('sector')
-			->select('sector.name')
-			->getQuery()
-			->getSingleColumnResult();
+		return array_map(
+            function (string $name): string {
+                return $this->translator->trans($name);
+            },
+            $this->createQueryBuilder('sector')
+                ->select('sector.name')
+                ->getQuery()
+                ->getSingleColumnResult()
+        );
 	}
 
 	public function getTemplateData(): array {
@@ -58,7 +70,7 @@ class SectorAreaRepository extends ServiceEntityRepository implements ParentColu
 
 
 			return array_map(function (array $item): TemplateEntity {
-					return new TemplateEntity((int)$item['id'], $item['name']);
+					return new TemplateEntity((int)$item['id'],$this->translator->trans($item['name']) );
 				},
 				$qb->getQuery()->getResult());
 		}

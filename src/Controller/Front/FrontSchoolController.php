@@ -410,7 +410,7 @@ class FrontSchoolController extends AbstractController {
 		$this->setTextColumnFormat($sheet, 'J');
 
 		$degrees = $school->getDegrees()->map(function (Degree $degree) {
-			return $degree->getName();
+			return $this->translator->trans($degree->getName());
 		})->toArray();
 
 		// Region & city
