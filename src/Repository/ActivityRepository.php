@@ -7,6 +7,7 @@ use App\Entity\SectorArea;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * ActivityRepository
@@ -16,9 +17,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ActivityRepository extends ServiceEntityRepository implements ChildColumTemplateRepository
 {
-	public function __construct(ManagerRegistry $registry) {
-		parent::__construct($registry, Activity::class);
-	}
+
+    private TranslatorInterface $translator;
+
+    public function __construct(ManagerRegistry $registry, TranslatorInterface $translator)
+    {
+        parent::__construct($registry, Activity::class);
+        $this->translator = $translator;
+    }
 
    /**
     * @param PersistentCollection $activities
@@ -91,11 +97,16 @@ class ActivityRepository extends ServiceEntityRepository implements ChildColumTe
 	 * @return string[]
 	 */
 	public function getNameByParentId(int $id): array {
-		return $this->createQueryBuilder('activity')
-			->select('activity.name')
-			->where('activity.sectorArea = :sectorId')
-			->setParameter('sectorId', $id)
-			->getQuery()
-			->getSingleColumnResult();
+		return array_map(
+            function (string $name): string {
+                return $this->translator->trans($name);
+            },
+            $this->createQueryBuilder('activity')
+                ->select('activity.name')
+                ->where('activity.sectorArea = :sectorId')
+                ->setParameter('sectorId', $id)
+                ->getQuery()
+                ->getSingleColumnResult()
+        );
 	}
 }
