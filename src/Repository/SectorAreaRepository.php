@@ -69,10 +69,15 @@ class SectorAreaRepository extends ServiceEntityRepository implements ParentColu
 				->setParameter('schoolId', $school->getId());
 
 
-			return array_map(function (array $item): TemplateEntity {
+            $result = $qb->getQuery()->getResult();
+            $result = array_filter($result, function (array $item) {
+                return $item['name'] != null && $item['name'] != '';
+            });
+
+            return array_map(function (array $item): TemplateEntity {
 					return new TemplateEntity((int)$item['id'],$this->translator->trans($item['name']) );
 				},
-				$qb->getQuery()->getResult());
+                $result);
 		}
 		return [];
 	}
