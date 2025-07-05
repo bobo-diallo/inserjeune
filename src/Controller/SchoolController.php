@@ -174,10 +174,6 @@ class SchoolController extends AbstractController {
 				$school->setClientUpdateDate(new \DateTime());
 			}
 
-			$currentUser = $this->userRepository->getFromCompany($school->getId());
-			if (count($currentUser) > 0) {
-				$school->setUser($currentUser[0]);
-			}
 			$school->setMapsAddress(null);
 
 			$this->em->persist($school);
