@@ -149,9 +149,7 @@ class DashboardController extends AbstractController {
 
 			if (!$idSelectCountry) {
 				foreach ($validCountries as $country) {
-					if ($country->isValid()) {
-						$idSelectCountry = $country->getId();
-					}
+                    $idSelectCountry = $country->getId();
 				}
 			}
 

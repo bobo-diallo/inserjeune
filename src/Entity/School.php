@@ -414,7 +414,7 @@ class School {
 	}
 
 	public function __toString() {
-		return $this->name . ', ' . $this->city ? $this->city->getName() : null;
+		return $this->name . ', ' . ($this->city?->getName());
 	}
 
 	public function setUser(User $user = null): self {
