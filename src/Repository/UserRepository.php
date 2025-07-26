@@ -90,7 +90,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 	public function getFromSchool($id): array {
 		return $this->createQueryBuilder('u')
 			->addSelect('s')
-			->leftJoin('u.company', 's')
+			->leftJoin('u.school', 's')
 			->where('s.id = :id ')
 			->setParameter('id', $id)
 			->setMaxResults(1)
