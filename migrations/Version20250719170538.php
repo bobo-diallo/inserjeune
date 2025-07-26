@@ -48,21 +48,21 @@ final class Version20250719170538 extends AbstractMigration
                 s.id_region AS region_id,
                 s.id_country AS residence_country_id,
                 s.id_region AS residence_region_id,
-                s.phone_standard AS username,
+                CAST(s.phone_standard AS CHAR) AS username,
                 'a:0:{}' AS roles,
                 ? AS password,
-                s.phone_standard AS phone,
+                CAST(s.phone_standard AS CHAR) AS phone,
                 1 AS enabled,
-                s.email AS email,
-                s.email AS email_canonical,
-                s.phone_standard AS username_canonical,
+                CAST(s.email AS CHAR) AS email,
+                CAST(s.email AS CHAR) AS email_canonical,
+                CAST(s.phone_standard AS CHAR) AS username_canonical,
                 0 AS diaspora
             FROM school s
-            WHERE s.phone_standard NOT IN (
-                SELECT DISTINCT u.username FROM user u WHERE u.username IS NOT NULL
+            WHERE BINARY s.phone_standard NOT IN (
+                SELECT DISTINCT BINARY u.username FROM user u WHERE u.username IS NOT NULL
             )
-            AND s.email NOT IN (
-                SELECT DISTINCT u.email FROM user u WHERE u.email IS NOT NULL
+            AND BINARY s.email NOT IN (
+                SELECT DISTINCT BINARY u.email FROM user u WHERE u.email IS NOT NULL
             )
             AND s.phone_standard IS NOT NULL
             AND s.phone_standard != ''
@@ -73,15 +73,15 @@ final class Version20250719170538 extends AbstractMigration
         // 2. Retrieving IDs of newly created users (with temporary password)
         $this->addSql("
             INSERT INTO temp_new_users (id, phone_standard)
-            SELECT u.id, u.phone
+            SELECT u.id, CAST(u.phone AS CHAR)
             FROM user u
-            WHERE u.password = ?
+            WHERE BINARY u.password = ?
         ", [$tempPassword]);
 
         // 3. Update with real password
         $this->addSql("
             UPDATE user u
-            JOIN temp_new_users t ON t.id = u.id
+            JOIN temp_new_users t ON BINARY t.phone_standard = BINARY u.phone
             SET u.password = ?
         ", [$finalPassword]);
 
@@ -102,7 +102,7 @@ final class Version20250719170538 extends AbstractMigration
         // 5. Updating schools with corresponding user IDs
         $this->addSql("
             UPDATE school s
-            JOIN temp_new_users t ON t.phone_standard = s.phone_standard
+            JOIN temp_new_users t ON BINARY t.phone_standard = BINARY s.phone_standard
             SET s.user_id = t.id
         ");
 
@@ -121,17 +121,16 @@ final class Version20250719170538 extends AbstractMigration
             INSERT INTO temp_users_to_delete (id)
             SELECT DISTINCT u.id 
             FROM user u
-            JOIN school s ON u.phone = s.phone_standard
-            WHERE u.password = ?
+            JOIN school s ON BINARY u.phone = BINARY s.phone_standard
+            WHERE BINARY u.password = ?
             AND EXISTS (
                 SELECT 1 FROM user_role ur 
                 JOIN role r ON ur.role_id = r.id 
                 WHERE ur.user_id = u.id 
                 AND r.role = 'ROLE_ETABLISSEMENT'
             )
-            AND u.username = u.phone
-            AND u.email_canonical = u.email
-            AND s.user_id = u.id
+            AND BINARY u.username = BINARY u.phone
+            AND BINARY u.email_canonical = BINARY u.email
         ", [$finalPassword]);
 
         $this->addSql("
