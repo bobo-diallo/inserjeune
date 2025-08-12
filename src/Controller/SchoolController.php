@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\School;
+use App\Event\School\SchoolWasUpdatedEvent;
 use App\Form\SchoolType;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
@@ -13,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -146,7 +148,7 @@ class SchoolController extends AbstractController {
 
 	#[IsGranted('ROLE_ADMIN')]
 	#[Route(path: '/{id}/edit', name: 'school_edit', methods: ['GET', 'POST'])]
-	public function editAction(Request $request, School $school): Response {
+	public function editAction(Request $request, School $school, EventDispatcherInterface $dispatcher): Response {
 		$createdDate = $school->getCreatedDate();
 		$editForm = $this->createForm(SchoolType::class, $school);
 		$editForm->handleRequest($request);
@@ -183,6 +185,11 @@ class SchoolController extends AbstractController {
 
 			$this->em->persist($school);
 			$this->em->flush();
+
+            $dispatcher->dispatch(
+                new SchoolWasUpdatedEvent($school->getId()),
+                SchoolWasUpdatedEvent::NAME
+            );
 
 			return $this->redirectToRoute('school_show', ['id' => $school->getId()]);
 		}

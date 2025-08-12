@@ -92,7 +92,9 @@
                                         {% endif %}
                                     {% endif %}
                                     <td>{{ jobOffer.updatedDate|date('d/m/Y') }}</td>
-                                    <td class="closeDate">{{ jobOffer.closedDate }}</td>
+                                    <td class="closeDate {% if is_past_date(jobOffer.closedDate) %}text-danger{% endif %}">
+                                        {{ jobOffer.closedDate }}
+                                    </td>
                                     <td>{{ jobOffer.activity | trans }}</td>
                                     <td>{{ jobOffer.postedEmail }}</td>
                                     {#                                    <td>{% if jobOffer.company is not empty %}{{ jobOffer.company }} {% endif %}</td> #}
@@ -154,13 +156,15 @@
                                                         alt="show"></a>
                                         </td>
                                         {% if jobOffer.company is not null %}
-                                            <td>{{ jobOffer.company }}</td>
+                                            <td>{{ jobOffer.company.name }}</td>
                                         {% else %}
-                                            <td>{{ jobOffer.school }}</td>
+                                            <td>{{ jobOffer.school.name }}</td>
                                         {% endif %}
                                         <td>{{ jobOffer.title }}</td>
-                                        <td>{{ jobOffer.updatedDate|date('Y/m/d') }}</td>
-                                        <td class="closeDate">{{ jobOffer.closedDate }}</td>
+                                        <td>{{ jobOffer.updatedDate|date('d/m/Y') }}</td>
+                                        <td class="closeDate {% if is_past_date(jobOffer.closedDate) %}text-danger{% endif %}">
+                                            {{ jobOffer.closedDate }}
+                                        </td>
                                         <td>{{ jobOffer.activity }}</td>
                                         <td>{{ jobOffer.postedEmail }}</td>
                                         <td>{{ jobOffer.city.name }}</td>

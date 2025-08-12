@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\Country;
+use App\Event\Company\CompanyWasUpdatedEvent;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\SchoolRepository;
@@ -11,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Services\ActivityService;
 use App\Services\CompanyService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -140,7 +142,11 @@ class CompanyController extends AbstractController {
 	}
 
 	#[Route(path: '/{id}/edit', name: 'company_edit', methods: ['GET', 'POST'])]
-	public function editAction(Request $request, Company $company): RedirectResponse|Response {
+	public function editAction(
+        Request $request,
+        Company $company,
+        EventDispatcherInterface $eventDispatcher
+    ): RedirectResponse|Response {
 		$createdDate = $company->getCreatedDate();
 		$editForm = $this->createForm(CompanyType::class, $company);
 		$editForm->handleRequest($request);
@@ -174,6 +180,11 @@ class CompanyController extends AbstractController {
 
 			$this->em->persist($company);
 			$this->em->flush();
+
+            $eventDispatcher->dispatch(
+                new CompanyWasUpdatedEvent($company->getId()),
+                CompanyWasUpdatedEvent::NAME
+            );
 
 			return $this->redirectToRoute('company_show', array('id' => $company->getId()));
 		}

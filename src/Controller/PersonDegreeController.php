@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\PersonDegree;
 use App\Entity\School;
 use App\Entity\User;
+use App\Event\PersonDegree\PersonDegreeWasUpdatedEvent;
 use App\Form\PersonDegreeType;
 use App\Repository\PersonDegreeRepository;
 use App\Repository\UserRepository;
@@ -14,6 +15,7 @@ use App\Services\ActivityService;
 use App\Services\PersonDegreeDatatableService;
 use App\Services\PersonDegreeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -169,7 +171,11 @@ class PersonDegreeController extends AbstractController {
                 is_granted('ROLE_ADMIN_REGIONS') or
                 is_granted('ROLE_ADMIN_VILLES')")]
 	#[Route(path: '/{id}/edit', name: 'persondegree_edit', methods: ['GET', 'POST'])]
-	public function editAction(Request $request, PersonDegree $personDegree): RedirectResponse|Response {
+	public function editAction(
+        Request $request,
+        PersonDegree $personDegree,
+        EventDispatcherInterface $eventDispatcher
+    ): RedirectResponse|Response {
 		$createdDate = $personDegree->getCreatedDate();
 		$currentUser = $personDegree->getUser();
 		$selectedCountry = $currentUser->getCountry();
@@ -221,6 +227,12 @@ class PersonDegreeController extends AbstractController {
 			$this->em->persist($currentUser);
 			$this->em->persist($personDegree);
 			$this->em->flush();
+
+            $eventDispatcher->dispatch(
+                new PersonDegreeWasUpdatedEvent($personDegree->getId()),
+                PersonDegreeWasUpdatedEvent::NAME
+            );
+
 			return $this->redirectToRoute('persondegree_show', ['id' => $personDegree->getId()]);
 		}
 		$personDegree->setDiaspora($currentUser->isDiaspora());
