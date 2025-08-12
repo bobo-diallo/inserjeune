@@ -36,7 +36,8 @@ class AppExention extends AbstractExtension {
     public function getFunctions(): array {
         return [
             new TwigFunction('create_translated_select', [$this, 'createTranslatedSelect'], ['is_safe' => ['html']]),
-            new TwigFunction('listen_change_region_prefecture', [$this, 'listenChangeRegionPrefecture'], ['is_safe' => ['html']])
+            new TwigFunction('listen_change_region_prefecture', [$this, 'listenChangeRegionPrefecture'], ['is_safe' => ['html']]),
+            new TwigFunction('is_past_date', [$this, 'isPastDate'], ['is_safe' => ['html']])
         ];
     }
 	public function getFilters(): array {
@@ -152,6 +153,10 @@ class AppExention extends AbstractExtension {
             $result .=  $this->translator->trans($item) . "\n";
         }
         return $result;
+    }
+
+    public function isPastDate($date): string {
+        return $date < new \DateTime();
     }
 
     /**
