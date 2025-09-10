@@ -61,7 +61,7 @@
                             </thead>
                             <tbody id="jobOffers">
                             {% for jobOffer in jobOffers %}
-                                <tr id="{{ jobOffer.id }}">
+                                <tr id="{{ jobOffer.id }}" {% if is_past_date(jobOffer.closedDate) %} style="background-color: #e6d7db" {% endif %}>
                                     {% if roleUser == "Diplômé" %}
                                         <td class="action"><a href="{{ path('front_persondegree_candidate', { 'id': jobOffer.id }) }}">{{ 'menu.apply' | trans }} </a></td>
                                         <td><a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img src="{{ asset('build/images/icon/show_16.png') }}" alt="show"></a></td>
@@ -92,7 +92,7 @@
                                         {% endif %}
                                     {% endif %}
                                     <td>{{ jobOffer.updatedDate|date('d/m/Y') }}</td>
-                                    <td class="closeDate {% if is_past_date(jobOffer.closedDate) %}text-danger{% endif %}">
+                                    <td class="closeDate">
                                         {{ jobOffer.closedDate }}
                                     </td>
                                     <td>{{ jobOffer.activity | trans }}</td>
@@ -149,7 +149,7 @@
                                 </thead>
                                 <tbody id="othersJobs">
                                 {% for jobOffer in othersJobs %}
-                                    <tr>
+                                    <tr  {% if is_past_date(jobOffer.closedDate) %} style="background-color: #e6d7db" {% endif %}>
                                         <td class="row-actions">
                                             <a href="{{ path('jobOffer_show', { 'id': jobOffer.id }) }}"><img
                                                         src="{{ asset('build/images/icon/show_16.png') }}"
@@ -162,7 +162,7 @@
                                         {% endif %}
                                         <td>{{ jobOffer.title }}</td>
                                         <td>{{ jobOffer.updatedDate|date('d/m/Y') }}</td>
-                                        <td class="closeDate {% if is_past_date(jobOffer.closedDate) %}text-danger{% endif %}">
+                                        <td class="closeDate">
                                             {{ jobOffer.closedDate }}
                                         </td>
                                         <td>{{ jobOffer.activity }}</td>

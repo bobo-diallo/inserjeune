@@ -89,6 +89,19 @@
     <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
     <script>
 
+        /**
+         * Export only the text content of a node
+         * @param node
+         * @returns {*|jQuery}
+         */
+        function extractExportText(node) {
+            let span = $(node).find('span[id^="spanType"]');
+            if (span.length) {
+                return span.text().trim();
+            }
+            return $(node).text().trim();
+        }
+
         // Datatables
         $(document).ready(function () {
             let title = $('h6.element-header').first().text();
@@ -106,6 +119,7 @@
                         title: title,
                         exportOptions: {
                             columns: ':not(.no-print)',
+                            format: { body: function (data, row, column, node) { return extractExportText(node); } }
                         }
                     },
                     {
@@ -115,6 +129,7 @@
                         title: title,
                         exportOptions: {
                             columns: ':not(.no-print)',
+                            format: { body: function (data, row, column, node) { return extractExportText(node); } }
                         }
                     },
                     {
@@ -124,6 +139,7 @@
                         title: title,
                         exportOptions: {
                             columns: ':not(.no-print)',
+                            format: { body: function (data, row, column, node) { return extractExportText(node); } }
                         }
                     },
                     {
@@ -133,6 +149,7 @@
                         title: title,
                         exportOptions: {
                             columns: ':not(.no-print)',
+                            format: { body: function (data, row, column, node) { return extractExportText(node); } }
                         }
                     }
                 ]

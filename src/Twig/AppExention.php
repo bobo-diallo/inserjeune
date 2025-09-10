@@ -156,7 +156,13 @@ class AppExention extends AbstractExtension {
     }
 
     public function isPastDate($date): string {
-        return $date < new \DateTime();
+        $dateTime = \DateTime::createFromFormat(Utils::FORMAT_FR, $date);
+
+        if (!$dateTime) {
+            throw new \InvalidArgumentException("Format de date invalide : $date");;
+        }
+
+        return $dateTime <  new \DateTime();
     }
 
     /**
