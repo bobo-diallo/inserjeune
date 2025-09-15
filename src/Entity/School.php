@@ -128,7 +128,7 @@ class School {
 
 	#[ORM\ManyToMany(targetEntity: Degree::class)]
 	#[ORM\JoinTable(name: 'school_degrees1')]
-	#[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id')]
+	#[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[ORM\InverseJoinColumn(name: 'degree_id', referencedColumnName: 'id')]
 	private Collection $degrees;
 
@@ -158,7 +158,7 @@ class School {
 
 	#[ORM\ManyToMany(targetEntity: Activity::class)]
 	#[ORM\JoinTable(name: 'school_activities1')]
-	#[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id')]
+	#[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[ORM\InverseJoinColumn(name: 'activity_id', referencedColumnName: 'id')]
 	private Collection $activities1;
 
