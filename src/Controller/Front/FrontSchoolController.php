@@ -405,6 +405,7 @@ class FrontSchoolController extends AbstractController {
 		$sheet->setCellValue('L1', $this->translator->trans('js.import_csv_sector'));
 		$sheet->setCellValue('M1', $this->translator->trans('js.import_csv_subsector'));
 
+		$this->setTextColumnFormat($sheet, 'D');
 		$this->setTextColumnFormat($sheet, 'H');
 		$this->setTextColumnFormat($sheet, 'I');
 		$this->setTextColumnFormat($sheet, 'J');
