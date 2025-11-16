@@ -199,12 +199,30 @@
 
 
 {% block js %}
-   <script async defer
-           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"
-           type="text/javascript"></script>
-   <script type="text/javascript"
-           src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-   <script>
+{#   <script async defer#}
+{#           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy9WBkxvkGzs4tQN-RilyvV6WvWnTInUM&callback"#}
+{#           type="text/javascript"></script>#}
+{#   <script type="text/javascript"#}
+{#           src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>#}
+
+    <!-- ✅ CSS Leaflet sans integrity -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <!-- ✅ JS Leaflet sans integrity -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- ✅ Plugin MarkerCluster après Leaflet -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+    />
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+
+    <script>
       // variables communes aux différentes scripts et functions
       let dataCompanies = [];
       let selectedDataCompanies = [];
@@ -522,7 +540,7 @@
        *  Definition initMap
        *  Paramètres d'initiations de l'API Google Maps
        */
-      function initMap(input_address, zoomSize) {
+      function initMapOld(input_address, zoomSize) {
          if(input_address) {
             console.log('Adresse Choisie: ' + input_address);
             // console.log('Zoom: ' + zoomSize);
@@ -555,6 +573,79 @@
             viewAllMarkers();
          }
       }
+
+      /**
+       * Initialisation de la carte Leaflet (OpenStreetMap)
+       * @param {string} input_address - Adresse à géocoder (optionnelle)
+       * @param {number} zoomSize - Niveau de zoom initial
+       */
+      async function initMap(input_address, zoomSize) {
+          const mapContainer = document.getElementById('map');
+          if (!mapContainer) {
+              console.error('Erreur : élément #map introuvable.');
+              return;
+          }
+
+          // Création de la carte avec une position par défaut (ex. Dakar)
+          map = L.map(mapContainer).setView([14.6937, -17.4441], zoomSize || 7);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19,
+              attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(map);
+
+          // Si une adresse est fournie
+          if (input_address) {
+              console.log('Adresse choisie :', input_address);
+
+              try {
+                  const coords = await geocodeAddress(input_address);
+
+                  if (coords && coords.lat && coords.lng) {
+                      map.setView([coords.lat, coords.lng], zoomSize || 13);
+
+                      L.marker([coords.lat, coords.lng])
+                          .addTo(map)
+                          .bindPopup(`<b>${input_address}</b>`)
+                          .openPopup();
+                  } else {
+                      console.warn('Adresse introuvable, centrage par défaut.');
+                      alert('Adresse non trouvée.');
+                  }
+              } catch (err) {
+                  console.error('Erreur de géocodage :', err);
+                  alert('Erreur de géocodage.');
+              }
+          }
+
+          // ... (tes clusters ici)
+      }
+
+
+      /**
+       * Géocode une adresse via Nominatim (OpenStreetMap)
+       * @param {string} address
+       * @returns {Promise<{lat: number, lng: number}>}
+       */
+      async function geocodeAddress(address) {
+          const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+
+          const response = await fetch(url);
+          if (!response.ok) throw new Error('Erreur réseau');
+
+          const results = await response.json();
+
+          if (results && results.length > 0) {
+              return {
+                  lat: parseFloat(results[0].lat),
+                  lng: parseFloat(results[0].lon)
+              };
+          } else {
+              console.warn('Aucun résultat pour cette adresse.');
+              return null;
+          }
+      }
+
 
       /**
        *  Génère les tables entreprise, établissements et
@@ -1019,7 +1110,7 @@
        *  Creation des Markers pour Maps
        *  en fonction des données sélectionnées
        */
-      function createMarkersData(SelectedData, icon) {
+      function createMarkersDataOld(SelectedData, icon) {
          markers = [];
          infoWindows = [];
          $.each(SelectedData, function (index, value) {
@@ -1055,6 +1146,57 @@
          return markers;
       }
 
+      function createMarkersData(data, iconUrl) {
+          const markers = [];
+
+          if (!Array.isArray(data) || data.length === 0) {
+              console.warn('Aucune donnée à afficher sur la carte.');
+              return markers;
+          }
+
+          const markerIcon = L.icon({
+              iconUrl: iconUrl,
+              iconSize: [32, 32],     // taille de l'icône
+              iconAnchor: [16, 32],   // point d'ancrage de l'icône
+              popupAnchor: [0, -32]   // décalage de la popup
+          });
+
+          data.forEach((value, index) => {
+              // ✅ Vérifie que lat/lng existent et sont des nombres valides
+              const lat = parseFloat(value.lat);
+              const lng = parseFloat(value.lng);
+
+              if (isNaN(lat) || isNaN(lng)) {
+                  console.warn(`Coordonnées invalides pour l'élément #${index} (${value.name || 'sans nom'})`, value);
+                  return; // on saute cet élément
+              }
+
+              const marker = L.marker([lat, lng], { icon: markerIcon });
+
+              const sectorsTrans = translateData(value.sector_area, ',');
+              const activitiesTrans = translateData(value.activity, ',');
+
+              const contentString = `
+      <div class="infoMaps">
+        <h3>${value.name || 'Nom non disponible'}</h3>
+        <p><strong>Email:</strong> ${value.email || '—'}</p>
+        <p><strong>Téléphone:</strong> ${value.phone || '—'}</p>
+        <p><strong>Secteur:</strong> ${sectorsTrans || ''}</p>
+        ${value.activity ? `<p><strong>Filière:</strong> ${activitiesTrans}</p>` : ''}
+      </div>
+    `;
+
+              marker.bindPopup(contentString);
+              marker.addTo(map);
+
+              markers.push(marker);
+          });
+
+          return markers;
+      }
+
+
+
       /**
        * Traduction des données
        */
@@ -1088,16 +1230,21 @@
       /**
        *  Suppression des Markers pour Maps
        */
-      function deleteMarkersData(markers) {
+      function deleteMarkersDataOld(markers) {
          $.each(markers , function (index, value) {
             markers[index].setMap(null);
          })
       }
 
+      function deleteMarkersData(markers) {
+          markers.forEach(marker => map.removeLayer(marker));
+      }
+
+
       /**
        *  Creation des Clusters de Markers pour Maps
        */
-      function createClusterData(markers, icon) {
+      function createClusterDataOld(markers, icon) {
          let markerClusterOptions = {
             maxZoom: 9,
             imagePath: icon
@@ -1108,15 +1255,69 @@
       }
 
       /**
+       *  Création des clusters pour Leaflet (OpenStreetMap)
+       *  @param {Array} markers - Liste des marqueurs Leaflet
+       *  @param {string} iconPath - (Optionnel) chemin des icônes de cluster
+       *  @return {L.MarkerClusterGroup} Le groupe de clusters
+       */
+      function createClusterData(markers, iconPath) {
+          // Options du cluster (équivalent à markerClusterOptions)
+          const clusterOptions = {
+              maxClusterRadius: 80, // distance de regroupement
+              disableClusteringAtZoom: 9, // correspond à ton maxZoom:9
+              iconCreateFunction: function(cluster) {
+                  // Création de l’icône du cluster
+                  const count = cluster.getChildCount();
+                  let size = 'small';
+
+                  if (count > 50) {
+                      size = 'large';
+                  } else if (count > 20) {
+                      size = 'medium';
+                  }
+
+                  // Si tu veux utiliser ton propre sprite d’icônes :
+                  // tu peux injecter iconPath ici
+                  return L.divIcon({
+                      html: `<div><span>${count}</span></div>`,
+                      className: `marker-cluster marker-cluster-${size}`,
+                      iconSize: L.point(40, 40)
+                  });
+              }
+          };
+
+          // Création du groupe de cluster
+          const markerCluster = L.markerClusterGroup(clusterOptions);
+
+          // Ajout des marqueurs
+          markers.forEach(marker => {
+              markerCluster.addLayer(marker);
+          });
+
+          // Ajout du cluster sur la carte globale
+          map.addLayer(markerCluster);
+
+          return markerCluster;
+      }
+
+
+      /**
        *  Suppression des Clusters de Markers pour Maps
        */
-      function deleteClusterData(clusterData) {
+      function deleteClusterDataOld(clusterData) {
          if(clusterData != null) {
             if(clusterData.getMarkers().length) {
                clusterData.clearMarkers();
             }
          }
       }
+
+      function deleteClusterData(clusterGroup) {
+          if (clusterGroup && map.hasLayer(clusterGroup)) {
+              map.removeLayer(clusterGroup);
+          }
+      }
+
 
       /**
        *  Affiche tous les markeurs et clusters
