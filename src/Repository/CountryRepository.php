@@ -52,6 +52,7 @@ class CountryRepository extends ServiceEntityRepository implements ParentColumTe
 			},
 			$this->createQueryBuilder('c')
 				->select('c.id, c.name')
+                ->orderBy('c.name', 'ASC')
 				->getQuery()
 				->getResult()
 		);

@@ -488,6 +488,7 @@ class FrontSchoolController extends AbstractController {
 		$sheet->setCellValue('F1', $this->translator->trans('js.import_csv_sector'));
 		$sheet->setCellValue('G1', $this->translator->trans('js.import_csv_legal_status'));
 
+        $this->setTextColumnFormat($sheet, 'D');
 		// Region & city
 		$enrollmentTemplateService->createColumnMappings(
 			$spreadsheet,
@@ -499,7 +500,9 @@ class FrontSchoolController extends AbstractController {
 		);
 
 		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'F', $sectorAreaRepository->getNames());
-		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'G', $legalStatusRepository->getNames());
+		$this->_columnTemplateExcelValidation($sheet, $dataSheet, 'G', array_map(function (string $legalStatusName): string {
+            return $this->translator->trans($legalStatusName);
+        }, $legalStatusRepository->getNames()));
 
 
 		$response = new StreamedResponse(function () use ($spreadsheet) {
