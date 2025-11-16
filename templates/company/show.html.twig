@@ -57,7 +57,7 @@
                     <div class="row">
                         <div class="col-sm-6 form-group">
                             <label for=""> {{ 'city.city_nearest' | trans }} </label>
-                            <input class="form-control" disabled value="{{ company.city | trans }}">
+                            <input class="form-control" disabled value="{{ company.city.name | trans }}">
                         </div>
                         <div class="col-sm-6 col-xs-6 form-group hide_block_other_city">
                             <label for=""> {{ 'city.other_city' | trans }} </label>

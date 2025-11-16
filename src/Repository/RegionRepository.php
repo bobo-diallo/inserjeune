@@ -70,6 +70,7 @@ class RegionRepository extends ServiceEntityRepository implements ChildColumTemp
 			$this->createQueryBuilder('r')
 				->select('r.id, r.name')
 				->where('r.country = :countryId')
+                ->orderBy('r.name', 'ASC')
 				->setParameter('countryId', $countryId)
 				->getQuery()
 				->getResult()

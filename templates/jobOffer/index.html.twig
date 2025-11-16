@@ -106,7 +106,7 @@
                                     <td>{{ jobOffer.city.name }}</td>
                                     <td>{{ jobOffer.description | striptags | slice(0, 40) ~ '...' | raw }}</td>
                                     {% if is_granted('ROLE_ETABLISSEMENT') == true or is_granted('ROLE_PRINCIPAL') == true or is_granted('ROLE_ENTREPRISE') == true  or is_granted('ROLE_ETABLISSEMENT') == true %}
-                                        <td>{{ jobOffer.candidateSended | split(',') | length }}</td>
+                                        <td>{{ jobOffer.candidateSended }}</td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}

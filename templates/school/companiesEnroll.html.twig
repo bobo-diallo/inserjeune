@@ -921,13 +921,16 @@
                 }
 
                 function processData(data) {
-                    let rows = data.split("\n");
                     let errorFields = [];
-
-                    // Valid file
-                    let header = rows[0].replaceAll('\r', "");
-                    if (header[header.length - 1] == ';') header = header.substring(0, header.length - 1);
-                    if (header[header.length - 1] == ',') header = header.substring(0, header.length - 1);
+                    let rows = data.split("\n")
+                        .map(row => row.replaceAll('\r', ""))
+                        .filter((row, index) => {
+                            // Garde l'en-tête (index 0) mais filtre les lignes vides pour les autres
+                            if (index === 0) return true;
+                            const trimmed = row.trim();
+                            return trimmed !== '' && !/^[,;]+$/.test(trimmed);
+                        });
+                    let header = rows[0];
 
                     let fields = header.split(';');
                     if (fields.length < 2) fields = header.split(',');

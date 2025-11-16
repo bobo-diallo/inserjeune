@@ -342,7 +342,16 @@ class JobOffer {
      */
     public function getCandidateSended(): ?string
     {
-        return $this->candidateSended;
+        if ($this->candidateSended === null) {
+            return 0;
+        }
+
+        $result = explode(',', $this->candidateSended);
+        $numericElements = array_filter($result, function($item) {
+            return is_numeric(trim($item));
+        });
+
+        return count($numericElements);
     }
 
     /**
