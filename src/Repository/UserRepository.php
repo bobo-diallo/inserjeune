@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Role;
 use App\Entity\User;
 use App\Model\UserReadOnly;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -107,6 +108,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('u')
             ->where('u.phone LIKE :beginPhoneNumber')
             ->setParameter('beginPhoneNumber', $beginPhoneNumber)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function getOrphanUsers(string $beginPhoneNumber, string $unSelectedRole = Role::ROLE_ADMIN): array {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.profils', 'p')
+            ->andWhere('u.phone LIKE :beginPhoneNumber')
+            ->andWhere('(p.role IS NULL OR p.role NOT LIKE :unSelectedRole)')
+            ->setParameter('beginPhoneNumber', $beginPhoneNumber . '%')
+            ->setParameter('unSelectedRole', $unSelectedRole)
             ->getQuery()
             ->getResult();
     }
