@@ -108,7 +108,7 @@ class PurgeController extends AbstractController {
         $err = [];
         /* list of Users with a part of phone number */
 		if ($phone) {
-			$users = $this->userRepository->getByBeginPhoneNumber('%' . $phone . '%');
+			$users = $this->userRepository->getOrphanUsers('%' . $phone . '%');
 			$res = [];
 			foreach ($users as $user) {
 				$res[] = ['id' => $user->getId(), 'name' => $user->getPhone(), 'type' => $this->findOrphansUser($user)];
@@ -432,10 +432,11 @@ class PurgeController extends AbstractController {
             is_granted('ROLE_ADMIN_REGIONS') or
             is_granted('ROLE_ADMIN_VILLES')")]
     #[Route(path: '/getAllActorsWithoutCoordinate', name: 'get_all_actors_without_coordinate', methods: ['GET'])]
-    public function getAllActorsWithoutCoordinate(Request $request): JsonResponse {
+    public function getAllActorsWithoutCoordinate(Request $request): JsonResponse
+    {
         $actorType = $request->get('actor');
-        $result= [];
-        if($actorType == 'persondegree') {
+        $result = [];
+        if ($actorType == 'persondegree') {
             $actors = [];
             if ($this->getUser()->hasRole('ROLE_ADMIN_PAYS')) {
                 $country = $this->getUser()->getCountry();
@@ -457,72 +458,82 @@ class PurgeController extends AbstractController {
 
             foreach ($actors as $actor) {
                 $persondegree = $this->personDegreeRepository->find($actor);
-                $city = null; $country = null; $createdDate=null; $updatedDate=null;
-                if($persondegree->getAddressCity())
+                $city = null;
+                $country = null;
+                $createdDate = null;
+                $updatedDate = null;
+                if ($persondegree->getAddressCity())
                     $city = $persondegree->getAddressCity()->getName();
-                if($persondegree->getCountry())
+                if ($persondegree->getCountry())
                     $country = $persondegree->getCountry()->getName();
-                if($persondegree->getCreatedDate())
+                if ($persondegree->getCreatedDate())
                     $createdDate = $persondegree->getCreatedDate()->format(Utils::FORMAT_FR);
-                if($persondegree->getUpdatedDate())
+                if ($persondegree->getUpdatedDate())
                     $updatedDate = $persondegree->getUpdatedDate()->format(Utils::FORMAT_FR);
 
                 $result[] = [
-                    'id'=>$persondegree->getId(),
-                    'country'=>$country,
-                    'city'=>$city,
-                    'actor'=>$actorType,
-                    'error'=>"No Coordinate",
-                    'created_date'=>$createdDate,
-                    'updated_date'=>$updatedDate,
+                    'id' => $persondegree->getId(),
+                    'country' => $this->translator->trans($country),
+                    'city' => $city,
+                    'actor' => $actorType,
+                    'error' => "No Coordinate",
+                    'created_date' => $createdDate,
+                    'updated_date' => $updatedDate,
                 ];
             }
         } elseif ($actorType == 'school') {
             $actors = $this->schoolRepository->getWithoutCoordinate();
             foreach ($actors as $actor) {
                 $school = $this->schoolRepository->find($actor);
-                $city = null; $country = null; $createdDate=null; $updatedDate=null;
-                if($school->getCity())
+                $city = null;
+                $country = null;
+                $createdDate = null;
+                $updatedDate = null;
+                if ($school->getCity())
                     $city = $school->getCity()->getName();
-                if($school->getCountry())
+                if ($school->getCountry())
                     $country = $school->getCountry()->getName();
-                if($school->getCreatedDate())
+                if ($school->getCreatedDate())
                     $createdDate = $school->getCreatedDate()->format(Utils::FORMAT_FR);
-                if($school->getUpdatedDate())
+                if ($school->getUpdatedDate())
                     $updatedDate = $school->getUpdatedDate()->format(Utils::FORMAT_FR);
 
                 $result[] = [
-                    'id'=>$school->getId(),
-                    'country'=>$country,
-                    'city'=>$city,
-                    'actor'=>$actorType,
-                    'error'=>"No Coordinate",
-                    'created_date'=>$createdDate,
-                    'updated_date'=>$updatedDate,
+                    'id' => $school->getId(),
+                    'country' => $this->translator->trans($country),
+                    'city' => $city,
+                    'actor' => $actorType,
+                    'error' => "No Coordinate",
+                    'created_date' => $createdDate,
+                    'updated_date' => $updatedDate,
                 ];
             }
         } elseif ($actorType == 'company') {
             $actors = $this->companyRepository->getWithoutCoordinate();
             foreach ($actors as $actor) {
                 $company = $this->companyRepository->find($actor);
-                $city = null; $country = null; $createdDate=null; $updatedDate=null;
-                if($company->getCity())
+                $city = null;
+                $country = null;
+                $createdDate = null;
+                $updatedDate = null;
+                if ($company->getCity())
                     $city = $company->getCity()->getName();
-                if($company->getCountry())
+                if ($company->getCountry())
                     $country = $company->getCountry()->getName();
-                if($company->getCreatedDate())
+                if ($company->getCreatedDate())
                     $createdDate = $company->getCreatedDate()->format(Utils::FORMAT_FR);
-                if($company->getUpdatedDate())
+                if ($company->getUpdatedDate())
                     $updatedDate = $company->getUpdatedDate()->format(Utils::FORMAT_FR);
 
                 $result[] = [
-                    'id'=>$company->getId(),
-                    'country'=>$country,
-                    'city'=>$city,
-                    'actor'=>$actorType,
-                    'error'=>"No Coordinate",
-                    'created_date'=>$createdDate,
-                    'updated_date'=>$updatedDate,
+                    'id' => $company->getId(),
+                    'country' => $this->translator->trans($country),
+                    'city' => $city,
+                    'actor' => $actorType,
+                    'latitude' => $actorType,
+                    'error' => "No Coordinate",
+                    'created_date' => $createdDate,
+                    'updated_date' => $updatedDate,
                 ];
             }
         }
