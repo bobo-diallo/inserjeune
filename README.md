@@ -59,3 +59,16 @@ Donc après installation du bundle par ` composer require friendsofsymfony/ckedi
 
 `php bin/console ckeditor:install --tag=4.22.1 ` et faire `php bin/console assets:install public `
 
+## Configuration google analytics
+Ajouter dans le fichier `templates/_head.html.twig`, juste avant la ligne `{{ encore_entry_link_tags('app') }}`,
+le code suivant:
+```php
+<script async src="https://www.googletagmanager.com/gtag/js?id=XXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'XXXXXXX');
+</script>
+```
+Remplacer `XXXXXXX` par le code spécifique qui vous sera donné par l'IFEF.

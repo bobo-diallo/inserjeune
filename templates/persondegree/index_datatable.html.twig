@@ -137,9 +137,11 @@
                         text: '<i class="fas fa-file-pdf"></i> Export PDF',
                         className: 'btn btn-primary btn-dashboard rounded buttons-pdf buttons-html5',
                         title: title,
+                        pageSize: 'A3',
+                        orientation: 'landscape',
                         exportOptions: {
-                            columns: ':not(.no-print)',
-                            format: { body: function (data, row, column, node) { return extractExportText(node); } }
+                            columns: ':not(.no-print):not(.no-print-pdf)',
+                            format: { body: function (data, row, column, node) { console.log('export pdf:::'); return extractExportText(node); } }
                         }
                     },
                     {

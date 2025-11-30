@@ -38,18 +38,18 @@
                                 {% endif %}
                                 <th>{{ 'menu.firstname' | trans }}</th>
                                 <th>{{ 'menu.name' | trans }}</th>
-                                <th>{{ 'survey.survey_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
+                                <th class="no-print-pdf">{{ 'survey.survey_status_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
                                 <th>{{ 'menu.date_of_birth_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
-                                <th>{{ 'menu.cell_phone' | trans }}</th>
-                                <th>{{ 'menu.email' | trans }}</th>
+                                <th class="no-print-pdf">{{ 'menu.cell_phone' | trans }}</th>
+                                <th class="no-print-pdf">{{ 'menu.email' | trans }}</th>
                                 {%  if roleUser == 'Administrateur' or
                                   roleUser == "Législateur" or
                                   roleUser == "Directeur" or
                                   roleUser == "Admin_pays" %}
                                   {% if struct_province_country_city == "true" %}
-                                    <th>{{ 'menu.region' | trans }}</th>
+                                    <th class="no-print-pdf">{{ 'menu.region' | trans }}</th>
                                   {% else %}
-                                    <th>{{ 'menu.country' | trans }}</th>
+                                    <th class="no-print-pdf">{{ 'menu.country' | trans }}</th>
                                   {% endif %}
                                 {% endif %}
                                 {%  if roleUser == 'Administrateur' or
@@ -67,16 +67,16 @@
                                        roleUser == "Admin_regions" or
                                        roleUser == "Admin_villes" %}
                                     {% if prefecture_between_region_city == "true" %}
-                                        <th>{{ 'menu.prefecture' | trans }}</th>
+                                        <th class="no-print-pdf">{{ 'menu.prefecture' | trans }}</th>
                                     {%  endif %}
-                                    <th>{{ 'menu.city' | trans }}</th>
+                                    <th class="no-print-pdf">{{ 'menu.city' | trans }}</th>
                                 {% endif %}
                                 {%  if roleUser == "Etablissement" or roleUser == "Principal" %}
                                   <th>{{ 'menu.degree' | trans }}</th>
                                   <th>{{ 'menu.branch' | trans }}</th>
                                 {% endif %}
-                                <th>{{ 'degree.month_year_degree_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
-                                <th>{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw  }}</th>
+                                <th class="no-print-pdf">{{ 'degree.month_year_degree_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
+                                <th class="no-print-pdf">{{ 'menu.created_date_with_tag' | trans({'%tag_br%': '<br/>'}) | raw  }}</th>
                                 <th>{{ 'menu.current_situation_with_tag' | trans({'%tag_br%': '<br/>'}) | raw }}</th>
                             </tr>
                             </thead>
