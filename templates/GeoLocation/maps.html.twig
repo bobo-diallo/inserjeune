@@ -307,7 +307,7 @@
          getGeolocationSchools('#appbundle_geolocation_country', "#appbundle_geolocation_region", "#appbundle_geolocation_prefecture", "#appbundle_geolocation_city",
              "#appbundle_geolocation_sectorArea", "#appbundle_geolocation_activity", "#appbundle_geolocation_school");
       });
-      
+
       /**
        *  Event
        *  Mise à jour de Maps lors du change des régions
@@ -574,6 +574,12 @@
          }
       }
 
+      function resetMap(container) {
+          if (container._leaflet_id !== undefined) {
+              container._leaflet_id = null;
+          }
+      }
+
       /**
        * Initialisation de la carte Leaflet (OpenStreetMap)
        * @param {string} input_address - Adresse à géocoder (optionnelle)
@@ -587,6 +593,7 @@
           }
 
           // Création de la carte avec une position par défaut (ex. Dakar)
+          resetMap(mapContainer);
           map = L.map(mapContainer).setView([14.6937, -17.4441], zoomSize || 7);
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -617,8 +624,6 @@
                   alert('Erreur de géocodage.');
               }
           }
-
-          // ... (tes clusters ici)
       }
 
 
@@ -1092,58 +1097,19 @@
        *  L'affichage se fait soit par pays, region ou ville
        */
       function showMapData(idCheckbox, markers, markerIcon, markerCluster, markerClusterIcon, selectedData) {
-         if(map) {
-            let isChecked = $(idCheckbox + ':checked').val();
-            if (isChecked == 1) {
-               markers = createMarkersData(selectedData, markerIcon);
-               markerCluster = createClusterData(markers, markerClusterIcon);
+          if (!map) return markerCluster;
 
-            } else {
-               deleteMarkersData(markers);
-               deleteClusterData(markerCluster);
-            }
-            return markerCluster;
-         }
-      }
+          let isChecked = $(idCheckbox + ':checked').val();
+          if (isChecked == 1) {
+              markers = createMarkersData(selectedData, markerIcon);
+              markerCluster = createClusterData(markers, markerClusterIcon);
 
-      /**
-       *  Creation des Markers pour Maps
-       *  en fonction des données sélectionnées
-       */
-      function createMarkersDataOld(SelectedData, icon) {
-         markers = [];
-         infoWindows = [];
-         $.each(SelectedData, function (index, value) {
-            // console.log("|" + value.name + " -> " + value.lat + ',' + value.lng + "|");
-            let marker = new google.maps.Marker({
-               map: map,
-               position: new google.maps.LatLng(value.lat, value.lng),
-               icon: icon,
-               title: value.name
-            });
-            let sectorsTrans = translateData(value.sector_area, ',');
-            let activitiesTrans = translateData(value.activity, ',');
-            let contentString  = '<div class="infoMaps">';
-            contentString += '<h3>' + value.name + '</h3>';
-            contentString  += '<p> <span> email: </span> <span>' + value.email + '</span></p>';
-            contentString  += '<p> <span>tel.:</span> <span>' + value.phone + '</span></p>';
-            contentString  += '<p> <span>Secteur:</span> <span>' + sectorsTrans + '</span></p>';
-            if((value.activity != '')&&(value.activity != null)) {
-               contentString  += '<p> <span>Filière:</span> <span>' + activitiesTrans + '</span></p>';
-            };
-            contentString += '</div>';
-            let infowindow = new google.maps.InfoWindow({
-               content: contentString
-            });
-
-            marker.addListener('click', function() {
-               infowindow.open(map, marker);
-            });
-
-            markers.push(marker);
-            infoWindows.push(infowindow);
-         })
-         return markers;
+          } else {
+              deleteClusterData(markerCluster);
+              markers.length = 0;
+              markerCluster = null;
+          }
+          return markerCluster;
       }
 
       function createMarkersData(data, iconUrl) {
@@ -1162,7 +1128,6 @@
           });
 
           data.forEach((value, index) => {
-              // ✅ Vérifie que lat/lng existent et sont des nombres valides
               const lat = parseFloat(value.lat);
               const lng = parseFloat(value.lng);
 
@@ -1187,15 +1152,12 @@
     `;
 
               marker.bindPopup(contentString);
-              marker.addTo(map);
 
               markers.push(marker);
           });
 
           return markers;
       }
-
-
 
       /**
        * Traduction des données
@@ -1228,40 +1190,12 @@
       }
 
       /**
-       *  Suppression des Markers pour Maps
-       */
-      function deleteMarkersDataOld(markers) {
-         $.each(markers , function (index, value) {
-            markers[index].setMap(null);
-         })
-      }
-
-      function deleteMarkersData(markers) {
-          markers.forEach(marker => map.removeLayer(marker));
-      }
-
-
-      /**
-       *  Creation des Clusters de Markers pour Maps
-       */
-      function createClusterDataOld(markers, icon) {
-         let markerClusterOptions = {
-            maxZoom: 9,
-            imagePath: icon
-         };
-         let markerCluster = new MarkerClusterer(map, markers, markerClusterOptions);
-
-         return markerCluster;
-      }
-
-      /**
        *  Création des clusters pour Leaflet (OpenStreetMap)
        *  @param {Array} markers - Liste des marqueurs Leaflet
        *  @param {string} iconPath - (Optionnel) chemin des icônes de cluster
        *  @return {L.MarkerClusterGroup} Le groupe de clusters
        */
       function createClusterData(markers, iconPath) {
-          // Options du cluster (équivalent à markerClusterOptions)
           const clusterOptions = {
               maxClusterRadius: 80, // distance de regroupement
               disableClusteringAtZoom: 9, // correspond à ton maxZoom:9
@@ -1300,20 +1234,11 @@
           return markerCluster;
       }
 
-
-      /**
-       *  Suppression des Clusters de Markers pour Maps
-       */
-      function deleteClusterDataOld(clusterData) {
-         if(clusterData != null) {
-            if(clusterData.getMarkers().length) {
-               clusterData.clearMarkers();
-            }
-         }
-      }
-
       function deleteClusterData(clusterGroup) {
           if (clusterGroup && map.hasLayer(clusterGroup)) {
+              // Supprime tous les markers du cluster
+              clusterGroup.clearLayers();
+              // Puis enlève le groupe de la carte
               map.removeLayer(clusterGroup);
           }
       }
@@ -1330,13 +1255,9 @@
       }
 
       function deleteAllMarkers() {
-         deleteMarkersData(persondegree_markers);
          deleteClusterData(persondegree_markerCluster);
-         deleteMarkersData(otherpersondegree_markers);
          deleteClusterData(otherpersondegree_markerCluster);
-         deleteMarkersData(company_markers);
          deleteClusterData(company_markerCluster);
-         deleteMarkersData(school_markers);
          deleteClusterData(school_markerCluster);
       }
 
