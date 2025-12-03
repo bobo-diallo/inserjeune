@@ -86,7 +86,10 @@ class UserController extends AbstractController {
 			->add('id', TextColumn::class, ['label' => 'ID'])
 			->add('country', TextColumn::class, [
 				'label' => $translator->trans('menu.country'),
-				'field' => 'country.name'
+				'field' => 'country.name',
+                'render' => function ($value, $context) use ($translator) {
+                    return $translator->trans($value);
+                },
 			]);
 
 		// For DBTA

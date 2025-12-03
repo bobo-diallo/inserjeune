@@ -26,7 +26,7 @@ parameters:
     env(STRUCT_PROVINCE_COUNTRY_CITY): 'false'
     env(PREFECTURE_BETWEEN_REGION_CITY): 'false'
     default_pagination_limit: 10
-    app_version: v.362-sept25
+    app_version: v.362-dec25
 
 services:
     # default configuration for services in *this* file
