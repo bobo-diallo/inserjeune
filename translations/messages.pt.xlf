@@ -6211,6 +6211,10 @@
         <source>contract.apprentice</source>
         <target>Aprendiz</target>
       </trans-unit>
+      <trans-unit id="user.orphan">
+        <source>user.orphan</source>
+        <target>Órfão</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

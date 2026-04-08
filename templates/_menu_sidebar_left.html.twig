@@ -138,8 +138,9 @@
     </a>
     <ul class="sub-menu">
       {% set locale_documentation =  'build/documentation/guide_utilisateur_administrateur_inserjeune_' ~ app.request.locale ~ '_v3.4.pdf'%}
-      <li><a target="_blank" href={{ asset(locale_documentation) }}>{{ 'menu.user_guide' | trans }}</a></li>
+      <li><a target="_blank" href={{ asset(locale_documentation) }}>{{ 'menu.user_guide' | trans }} </a></li>
       {{ include ('_customize_links.html.twig') }}
+      <li><a target="_blank" href="https://dbtechafrica.org/">{{ 'menu.dbta_website' | trans }}</a></li>
       <li><a target="_blank" href="https://ifef.francophonie.org/">{{ 'menu.ifef_website' | trans }}</a></li>
       <li><a target="_blank" href="https://www.francophonie.org/">{{ 'menu.oif_website' | trans }}</a></li>
       <li><a id="lnkapropos" style="color: #0275d8; cursor: pointer;">{{ 'menu.about' | trans }}</a></li>

@@ -80,10 +80,13 @@ class DashboardController extends AbstractController {
                 return $this->redirectToRoute('front_company_satisfactioncompany_new');
         }
 		return $this->dashboardService->checkAccountBefore(function () use ($request) {
-			$validCountries = $this->countryRepository->findBy(['valid' => 'true']);
+			$validCountries = $this->countryRepository->findBy(
+                ['valid' => 'true'],
+                ['name' => 'ASC']
+            );
 
 			if (!$validCountries) {
-				$validCountries = $this->countryRepository->findAll();
+				$validCountries = $this->countryRepository->findBy([], ['name' => 'ASC']);
 			} else {
 				$userCountry = $this->getUser()->getCountry();
 				if ($userCountry)
@@ -96,7 +99,7 @@ class DashboardController extends AbstractController {
 			}
             $validPrefectures = [];
             foreach ($validRegions as $validRegion) {
-                $prefectures = $this->prefectureRepository->findBy(['region' => $validRegion]);
+                $prefectures = $this->prefectureRepository->findBy(['region' => $validRegion], ['name' => 'ASC']);
                 $validPrefectures = array_merge($validPrefectures, $prefectures);
             }
 

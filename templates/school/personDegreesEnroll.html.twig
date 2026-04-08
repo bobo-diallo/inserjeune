@@ -1,4 +1,9 @@
 {% extends 'school/content.html.twig' %}
+{% set dateFormat = 'dd/mm/yyyy' %}
+{% if app.request.locale == 'en' %}
+    {% set dateFormat = 'mm/dd/yyyy' %}
+{% endif %}
+
 {% block referencement_h1 %}
     {{ parent() }} {{ 'referencement.school_enrollment' | trans }}
 {% endblock%}
@@ -103,9 +108,14 @@
 
 {% block js %}
     <script>
+        // Récupère la langue actuelle de l'utilisateur depuis Symfony
+        const userLanguage = '{{ app.request.locale }}';
+        // Format de date selon la locale
+        const dateFormat = '{{ dateFormat }}';
+
         function initDatepicker(startDate) {
             $('.datepicker-birthDate').datepicker({
-                language: 'fr',
+                language: userLanguage,
                 startDate: new Date(startDate.getFullYear() - 100, startDate.getMonth(), startDate.getDate()), // 100 ans en arrière
                 endDate: startDate,
             });
@@ -328,7 +338,7 @@
                     <p id="p_lastname${rowNumber}"></p>
                 </td>
                 <td class="tdinput">
-                    <input class="datepicker-birthDate" required id="birthDate${rowNumber}" style="display:none" value="" placeholder="dd/mm/yyyy">
+                    <input class="datepicker-birthDate" required id="birthDate${rowNumber}" style="display:none" value="" placeholder="${dateFormat}">
                     <p id="p_birthDate${rowNumber}"></p>
                 </td>
                 <td class="tdselect">
@@ -463,7 +473,7 @@
                     <p id="p_lastname${rowNumber}"></p>
                 </td>
                 <td class="tdinput">
-                    <input class="datepicker-birthDate" required id="birthDate${rowNumber}" style="display:none" value="${values[3]}" placeholder="dd/mm/yyyy">
+                    <input class="datepicker-birthDate" required id="birthDate${rowNumber}" style="display:none" value="${values[3]}" placeholder="${dateFormat}">
                     <p id="p_birthDate${rowNumber}"></p>
                 </td>
                 <td class="tdselect">
@@ -855,40 +865,40 @@
                             }
                         }, "json");
                     };
+                } else if(action=="remove") {
+                    /* appel ajax en get pour supprimer le Diplômé */
+                    /* ------------------------------------------- */
+                    //data = {"firstname":"Raoul", "lastname":"Dupont"};
+                    let dirs = window.location.href.split('/');
+                    let $locationRef = "";
+                    for (let i = 0; i < dirs.length - 1; i++)
+                        $locationRef += dirs[i] + '/';
+
+                        // if(confirm ("Etes vous sûr de supprimer cette entrée ?" )) {
+                        /* creation de la table des données */
+                        /* -------------------------------- */
+                        let personDegree = [];
+                        personDegree = new Object();
+
+                        /* récupération de l'id du diplômé si existant */
+                        personDegreeId = $("#id" + rowNumber).text();
+
+                        if(personDegreeId) {
+                            $.get($locationRef + personDegreeId + '/personDegreeDelete/').done(function (res) {
+                                /* affichage des erreurs rencontrées */
+                                /* --------------------------------- */
+                                if (res[1].length > 0) {
+                                    alert(res[1].length + " " + translations["js.problems_encountered_during_update_operation_canceled"]);
+                                } else {
+                                    //alert( "Diplômé supprimé avec succès");
+                                    $("#personDegree" + rowNumber).remove();
+                                }
+                            }, "json");
+                        } else {
+                            $("#personDegree" + rowNumber).remove();
+                        }
+                    // }
                 }
-            } else if(action=="remove") {
-                /* appel ajax en get pour supprimer le Diplômé */
-                /* ------------------------------------------- */
-                //data = {"firstname":"Raoul", "lastname":"Dupont"};
-                let dirs = window.location.href.split('/');
-                let $locationRef = "";
-                for (let i = 0; i < dirs.length - 1; i++)
-                    $locationRef += dirs[i] + '/';
-
-                    // if(confirm ("Etes vous sûr de supprimer cette entrée ?" )) {
-                    /* creation de la table des données */
-                    /* -------------------------------- */
-                    let personDegree = [];
-                    personDegree = new Object();
-
-                    /* récupération de l'id du diplômé si existant */
-                    personDegreeId = $("#id" + rowNumber).text();
-
-                    if(personDegreeId) {
-                        $.get($locationRef + personDegreeId + '/personDegreeDelete/').done(function (res) {
-                            /* affichage des erreurs rencontrées */
-                            /* --------------------------------- */
-                            if (res[1].length > 0) {
-                                alert(res[1].length + " " + translations["js.problems_encountered_during_update_operation_canceled"]);
-                            } else {
-                                //alert( "Diplômé supprimé avec succès");
-                                $("#personDegree" + rowNumber).remove();
-                            }
-                        }, "json");
-                    } else {
-                        $("#personDegree" + rowNumber).remove();
-                    }
-                // }
             }
             if(errorNumber > 0) {
                 if (saveMulti == false) {

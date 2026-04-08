@@ -6217,6 +6217,10 @@ In case of shortcomings, would you be ready to complete the training of the youn
         <source>contract.apprentice</source>
         <target>Apprentice</target>
       </trans-unit>
+      <trans-unit id="user.orphan">
+        <source>user.orphan</source>
+        <target>Orphan</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

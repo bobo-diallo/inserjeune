@@ -411,13 +411,13 @@ class PurgeController extends AbstractController {
     }
 
 	public function findOrphansUser(User $user): string {
-		$type = 'Orphelin: ';
+		$type = $this->translator->trans('user.orphan') . ': ';
 		if ($user->getCompany()) {
-			$type = 'Entreprise';
+            $type = $this->translator->trans('menu.company');
 		} elseif ($user->getPersonDegree()) {
-			$type = 'Diplômé';
+            $type = $this->translator->trans('menu.degree');
 		} elseif ($user->getSchool()) {
-			$type = 'Etablissement';
+            $type = $this->translator->trans('menu.school');;
 		} else {
 			foreach ($user->getRoles() as $role) {
 				if ($role != 'ROLE_USER')

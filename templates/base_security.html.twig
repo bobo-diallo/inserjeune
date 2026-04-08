@@ -24,8 +24,9 @@
         <div class="auth-box-w">
             <div id="loginHeader" class="logo-w" style="padding: 25px 3px 0 30px; margin: auto ; display: flex; justify-content: space-around;">
 {#                 {{ include ('_customize_header_login.html.twig') }}#}
-                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_ifef.jpg') }}" width="135"></a>
-                <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_oif.png') }}" width="160"></a>
+                <div id="loginLogo">
+                    <a href="#"><img alt="" src="{{ asset('build/images/pinsuprem/logo_dbta.png') }}" width="135"></a>
+                </div>
 
                 <button id="buttonSelectLang" class="btn btn-primary" style="height: 40px; margin: 30px auto 10px auto">{{ 'menu.language' | trans }}</button>
             </div>
