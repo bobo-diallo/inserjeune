@@ -6215,6 +6215,18 @@
         <source>user.orphan</source>
         <target>Órfão</target>
       </trans-unit>
+      <trans-unit id="menu.initialize">
+        <source>menu.initialize</source>
+        <target>Inicializar</target>
+      </trans-unit>
+      <trans-unit id="menu.initialize_your_password">
+        <source>menu.initialize_your_password</source>
+        <target>Inicializar a sua palavra-passe</target>
+      </trans-unit>
+      <trans-unit id="menu.request_code">
+        <source>menu.request_code</source>
+        <target>Solicitar o código</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

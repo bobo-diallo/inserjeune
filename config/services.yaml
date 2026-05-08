@@ -16,7 +16,7 @@ parameters:
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
     email_from: '%env(EMAIL_FROM)%'
     email_reply_to: '%env(EMAIL_REPLY_TO)%'
-    # specific countries adaptation #
+    # specific countries adaptation #F
     env(EN_FIELD_TRANSLATION): en
     env(FR_FIELD_TRANSLATION): fr
     env(SP_FIELD_TRANSLATION): sp

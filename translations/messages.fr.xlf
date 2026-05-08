@@ -6225,6 +6225,50 @@
         <source>user.orphan</source>
         <target>Orphelin</target>
       </trans-unit>
-    </body>
-  </file>
-</xliff>
+      <trans-unit id="menu.initialize">
+        <source>menu.initialize</source>
+        <target>Initialiser</target>
+      </trans-unit>
+      <trans-unit id="menu.initialize_your_password">
+        <source>menu.initialize_your_password</source>
+        <target>Initialiser votre mot de passe</target>
+      </trans-unit>
+       <trans-unit id="menu.request_code">
+         <source>menu.request_code</source>
+         <target>Demander le code</target>
+       </trans-unit>
+       <trans-unit id="menu.actions">
+         <source>menu.actions</source>
+         <target>Actions</target>
+       </trans-unit>
+       <trans-unit id="menu.url">
+         <source>menu.url</source>
+         <target>Url</target>
+       </trans-unit>
+       <trans-unit id="menu.file">
+         <source>menu.file</source>
+         <target>Fichier</target>
+       </trans-unit>
+       <trans-unit id="menu.selection">
+         <source>menu.selection</source>
+         <target>Sélection</target>
+       </trans-unit>
+       <trans-unit id="menu.id">
+         <source>menu.id</source>
+         <target>Id</target>
+       </trans-unit>
+       <trans-unit id="menu.auto">
+         <source>menu.auto</source>
+         <target>Auto</target>
+       </trans-unit>
+       <trans-unit id="menu.menu">
+         <source>menu.menu</source>
+         <target>Menu</target>
+       </trans-unit>
+       <trans-unit id="menu.enrollement">
+         <source>menu.enrollement</source>
+         <target>Enrollement</target>
+       </trans-unit>
+     </body>
+   </file>
+ </xliff>

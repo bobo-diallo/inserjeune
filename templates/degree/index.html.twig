@@ -29,7 +29,7 @@
                             <thead>
                             <tr>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <th class="no-print">Actions</th>
+                                    <th class="no-print">{{ 'menu.actions' | trans }}</th>
                                     <th>Id</th>
                                 {% endif %}
                                 <th>{{ 'menu.heading' | trans }}</th>

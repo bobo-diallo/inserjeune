@@ -27,11 +27,11 @@
                                         roleUser == "Admin_pays" or
                                         roleUser == "Admin_regions" or
                                         roleUser == "Admin_villes" %}
-                                  <th class="no-print">Actions</th>
-                                  <th>Id</th>
+                                  <th class="no-print">{{ 'menu.actions' | trans }}</th>
+                                  <th>{{ 'menu.id' | trans }}</th>
                                 {% endif %}
                                 {%  if roleUser == "Etablissement"%}
-                                  <th class="no-print">Actions</th>
+                                  <th class="no-print">{{ 'menu.actions' | trans }}</th>
                                 {% endif %}
                                 {%  if roleUser == "Etablissement" or roleUser == "Principal" %}
                                   <th>{{ 'menu.registration' | trans }}</th>

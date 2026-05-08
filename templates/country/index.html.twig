@@ -27,8 +27,8 @@
                             <thead>
                             <tr>
                                 {%  if roleUser == "Administrateur" %}
-                                    <th class="no-print">Actions</th>
-                                    <th>Id</th>
+                                    <th class="no-print">{{ 'menu.actions' | trans }}</th>
+                                    <th>{{ 'menu.id' | trans }}</th>
                                 {% endif %}
                                 <th>{{ 'menu.name' | trans }}</th>
                                 {# adaptation DBTA #}

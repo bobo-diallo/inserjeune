@@ -21,7 +21,7 @@
                         <table id="kz_table" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
-                                <th class="no-print">Actions</th>
+                                <th class="no-print">{{ 'menu.actions' | trans }}</th>
 
                                 {%  if app.user.roles|role!="ENTREPRISE" and app.user.roles|role!="DIPLOME" %}
                                   <th><div><span>N°</span></div></th>

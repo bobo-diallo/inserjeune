@@ -125,7 +125,7 @@
                     {% endif %}
                     {% if attribute(jobOffer.file.vars, 'data') is defined and jobOffer.file.vars.data is not empty %}
                         <div class="form-group row">
-                            <label class="col-form-label col-sm-4">Fichier</label>
+                            <label class="col-form-label col-sm-4">{{ 'menu.file' | trans }}</label>
                             <div class="col-sm-8">
                                 <img src="{{ asset(jobOffer.file.path ~ '/' ~ jobOffer.file.filename) }}" alt="image" style="max-width: 200px; max-height: 150px;">
                             </div>

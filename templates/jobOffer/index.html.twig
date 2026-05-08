@@ -38,8 +38,8 @@
                                 {% if roleUser == "Etablissement" or roleUser == "Diplômé" %}
                                     <th class="no-print">Détail</th>
                                 {% else %}
-                                    <th class="no-print">Actions</th>
-                                {% endif %}
+                                    <th class="no-print">{{ 'menu.actions' | trans }}</th>
+                                    <th>{{ 'menu.id' | trans }}</th>
                                 {% if roleUser == "Administrateur" %}
                                     <th>Id</th>
                                 {% endif %}
