@@ -110,7 +110,7 @@ class UserType extends AbstractType {
 					'data-error' => 'Minimum 4 caractère',
 					'placeholder' => 'Pseudo'
 				],
-				'required' => false
+				'required' => true
 			])
 			->add('email', TextType::class, [
 				'attr' => [
@@ -118,7 +118,7 @@ class UserType extends AbstractType {
 					'data-error' => 'Email invalide',
 					'placeholder' => 'menu.email'
 				],
-				'required' => false
+				'required' => true
 			])
 			->add('password', PasswordType::class, [
 				'attr' => [

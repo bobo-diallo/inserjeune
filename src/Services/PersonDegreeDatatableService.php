@@ -229,7 +229,7 @@ class PersonDegreeDatatableService {
 					'label' => $this->translator->trans('menu.degree'),
 					'field' => 'degree.name',
 					'render' => function ($value, PersonDegreeReadOnly $context) {
-						return $context->degreeName;
+						return $this->translator->trans($context->degreeName);
 					},
 					'orderable' => true,
 				])
@@ -237,7 +237,7 @@ class PersonDegreeDatatableService {
 					'label' => $this->translator->trans('menu.branch'),
 					'field' => 'activity.name',
 					'render' => function ($value, PersonDegreeReadOnly $context) {
-						return $context->activityName;
+						return $this->translator->trans($context->activityName);
 					},
 					'orderable' => true,
 					// 'searchable' => true,
