@@ -67,7 +67,7 @@ class GeoLocationType extends AbstractType {
                 }
             ])
 			->add('otherCity', TextType::class, [
-				'attr' => ['class' => 'form-control', 'data-error' => 'Veuillez renseigner la ville', 'placeholder' => 'menu.city'],
+				'attr' => ['class' => 'form-control', 'data-error' => 'error.please_enter_city', 'placeholder' => 'menu.city'],
 				'required' => false
 			])
 			->add('sectorArea', EntityType::class, [
@@ -82,22 +82,22 @@ class GeoLocationType extends AbstractType {
 			])
 			->add('showCompanies', CheckboxType::class, ['attr' => [
 				'class' => 'form-control',
-				'label' => 'Afficher les entreprises ?'],
+				'label' => 'menu.show_companies'],
 				'required' => false
 			])
 			->add('showSchools', CheckboxType::class, ['attr' => [
 				'class' => 'form-control',
-				'label' => 'Afficher les établissement ?'],
+				'label' => 'menu.show_establishments'],
 				'required' => false
 			])
             ->add('showSearchPersonDegrees', CheckboxType::class, ['attr' => [
                 'class' => 'form-control',
-                'label' => 'Afficher les diplômés en recherche ?'],
+                'label' => 'menu.show_search_person_degrees'],
                 'required' => false
             ])
 			->add('showOtherPersonDegrees', CheckboxType::class, ['attr' => [
 				'class' => 'form-control',
-				'label' => 'Afficher les autres diplômés ?'],
+				'label' => 'menu.show_other_person_degrees'],
 				'required' => false
 			]);
 		$this->cityService->addCity($builder, 'city', true);

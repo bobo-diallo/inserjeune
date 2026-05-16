@@ -6,6 +6,7 @@ use App\Entity\Country;
 use App\Model\Template\TemplateEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CountryRepository
@@ -15,8 +16,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CountryRepository extends ServiceEntityRepository implements ParentColumTemplateRepository
 {
-	public function __construct(ManagerRegistry $registry) {
+    private TranslatorInterface $translator;
+
+    public function __construct(ManagerRegistry $registry, TranslatorInterface $translator) {
 		parent::__construct($registry, Country::class);
+		$this->translator = $translator;
 	}
 
     function getNameAndIndicatif(int $id): array {
@@ -34,11 +38,16 @@ class CountryRepository extends ServiceEntityRepository implements ParentColumTe
 	 * @return string[]
 	 */
     function getCountriesByName(): array {
-        return $this->createQueryBuilder('c')
-            ->select('c.name')
-	        ->orderBy('c.name')
-            ->getQuery()
-            ->getSingleColumnResult();
+        return array_map(
+            function (string $name): string {
+                return $this->translator->trans($name);
+            },
+            $this->createQueryBuilder('c')
+                ->select('c.name')
+                ->orderBy('c.name')
+                ->getQuery()
+                ->getSingleColumnResult()
+        );
 
     }
 
@@ -48,7 +57,7 @@ class CountryRepository extends ServiceEntityRepository implements ParentColumTe
 	public function getTemplateData(): array {
 		return array_map(
 			function (array $row): TemplateEntity {
-				return new TemplateEntity((int) $row['id'], $row['name']);
+				return new TemplateEntity((int) $row['id'], $this->translator->trans($row['name']));
 			},
 			$this->createQueryBuilder('c')
 				->select('c.id, c.name')

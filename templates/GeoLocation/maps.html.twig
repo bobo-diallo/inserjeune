@@ -516,6 +516,7 @@
       // if($('#selectedRegions option').length == 0) {
          if (($('#selectedCountry').val() !== '') &&
              ($('#selectedCountry').val() !== null)) {
+             debugger;
             $('#appbundle_geolocation_country option[value="' + $('#selectedCountry').val() + '"]').prop("selected",true);
             $('#appbundle_geolocation_country').trigger('change');
          }

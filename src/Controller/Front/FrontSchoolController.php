@@ -511,7 +511,7 @@ class FrontSchoolController extends AbstractController {
 		});
 
 		$response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		$response->headers->set('Content-Disposition', 'attachment;filename="person_degree_enrollment_template.xlsx"');
+		$response->headers->set('Content-Disposition', 'attachment;filename="company_enrollment_template.xlsx"');
 		$response->headers->set('Cache-Control', 'max-age=0');
 
 		return $response;
@@ -987,16 +987,8 @@ class FrontSchoolController extends AbstractController {
 			    return (["", ["erreur serveur de country"]]);
 
             if($_ENV['STRUCT_PROVINCE_COUNTRY_CITY']=="true") {
-                if($datas["selectedRegion"]) {
-                    $selectedRegion = $this->regionRepository->find($datas["selectedRegion"]);
-                    $company->setRegion($selectedRegion);
-                }
-
                 if (!$selectedRegion)
                     return (["", ["erreur serveur de region (country DBTA)"]]);
-            } else {
-                $selectedRegion = $this->regionRepository->find($datas["Region"]);
-                $company->setRegion($selectedRegion);
             }
 
             foreach ($datas as $key => $value) {

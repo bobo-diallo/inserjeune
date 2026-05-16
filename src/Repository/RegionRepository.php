@@ -8,6 +8,7 @@ use App\Model\Template\TemplateEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * RegionRepository
@@ -18,10 +19,16 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class RegionRepository extends ServiceEntityRepository implements ChildColumTemplateRepository, ParentColumTemplateRepository
 {
 	private TokenStorageInterface $tokenStorage;
+    private TranslatorInterface $translator;
 
-	public function __construct(ManagerRegistry $registry, TokenStorageInterface $tokenStorage) {
+    public function __construct(
+        ManagerRegistry $registry,
+        TokenStorageInterface $tokenStorage,
+        TranslatorInterface $translator
+    ) {
 		parent::__construct($registry, Region::class);
 		$this->tokenStorage = $tokenStorage;
+		$this->translator = $translator;
 	}
 
     function getNameAndIndicatif(int $id): array {
@@ -40,12 +47,17 @@ class RegionRepository extends ServiceEntityRepository implements ChildColumTemp
 	 * @return string[]
 	 */
     function getNamesByCountry(int $countryId): array {
-        return $this->createQueryBuilder('r')
-            ->select('r.name')
-            ->where('r.country = :countryId')
-	        ->setParameter('countryId', $countryId)
-            ->getQuery()
-            ->getSingleColumnResult();
+        return array_map(
+            function (string $name): string {
+                return $this->translator->trans($name);
+            },
+            $this->createQueryBuilder('r')
+                ->select('r.name')
+                ->where('r.country = :countryId')
+                ->setParameter('countryId', $countryId)
+                ->getQuery()
+                ->getSingleColumnResult()
+        );
     }
 
 	/**
@@ -65,7 +77,7 @@ class RegionRepository extends ServiceEntityRepository implements ChildColumTemp
 		$countryId = $currentUser->getCountry()->getId();
 
 		return array_map(function (array $item): TemplateEntity {
-			return new TemplateEntity((int) $item['id'], $item['name']);
+			return new TemplateEntity((int) $item['id'], $this->translator->trans($item['name']));
 		},
 			$this->createQueryBuilder('r')
 				->select('r.id, r.name')

@@ -191,11 +191,11 @@
       </trans-unit>
       <trans-unit id="menu.country">
         <source>menu.country</source>
-        <target>Country</target>
+        <target>Province</target>
       </trans-unit>
       <trans-unit id="menu.countries">
         <source>menu.countries</source>
-        <target>Countries</target>
+        <target>Provinces</target>
       </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
@@ -203,11 +203,11 @@
       </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
-        <target>Region</target>
+        <target>Country</target>
       </trans-unit>
       <trans-unit id="menu.regions">
         <source>menu.regions</source>
-        <target>Regions</target>
+        <target>Countries</target>
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
@@ -6261,10 +6261,30 @@ In case of shortcomings, would you be ready to complete the training of the youn
          <source>menu.menu</source>
          <target>Menu</target>
        </trans-unit>
-       <trans-unit id="menu.enrollement">
-         <source>menu.enrollement</source>
-         <target>Enrollment</target>
-       </trans-unit>
-     </body>
-   </file>
- </xliff>
+        <trans-unit id="menu.enrollement">
+          <source>menu.enrollement</source>
+          <target>Enrollment</target>
+        </trans-unit>
+        <trans-unit id="menu.show_companies">
+          <source>menu.show_companies</source>
+          <target>Show companies?</target>
+        </trans-unit>
+        <trans-unit id="menu.show_establishments">
+          <source>menu.show_establishments</source>
+          <target>Show establishments?</target>
+        </trans-unit>
+        <trans-unit id="menu.show_search_person_degrees">
+          <source>menu.show_search_person_degrees</source>
+          <target>Show graduates looking for job?</target>
+        </trans-unit>
+        <trans-unit id="menu.show_other_person_degrees">
+          <source>menu.show_other_person_degrees</source>
+          <target>Show other graduates?</target>
+        </trans-unit>
+        <trans-unit id="error.please_enter_city">
+          <source>error.please_enter_city</source>
+          <target>Please enter the city</target>
+        </trans-unit>
+      </body>
+    </file>
+  </xliff>

@@ -191,11 +191,11 @@
       </trans-unit>
       <trans-unit id="menu.country">
         <source>menu.country</source>
-        <target>Pays</target>
+        <target>Province</target>
       </trans-unit>
       <trans-unit id="menu.countries">
         <source>menu.countries</source>
-        <target>Pays</target>
+        <target>Provinces</target>
       </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
@@ -203,11 +203,11 @@
       </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
-        <target>Région</target>
+        <target>Pays</target>
       </trans-unit>
       <trans-unit id="menu.regions">
         <source>menu.regions</source>
-        <target>Régions</target>
+        <target>Pays</target>
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
@@ -6265,10 +6265,30 @@
          <source>menu.menu</source>
          <target>Menu</target>
        </trans-unit>
-       <trans-unit id="menu.enrollement">
-         <source>menu.enrollement</source>
-         <target>Enrollement</target>
-       </trans-unit>
-     </body>
-   </file>
- </xliff>
+        <trans-unit id="menu.enrollement">
+          <source>menu.enrollement</source>
+          <target>Enrollement</target>
+        </trans-unit>
+        <trans-unit id="menu.show_companies">
+          <source>menu.show_companies</source>
+          <target>Afficher les entreprises ?</target>
+        </trans-unit>
+        <trans-unit id="menu.show_establishments">
+          <source>menu.show_establishments</source>
+          <target>Afficher les établissements ?</target>
+        </trans-unit>
+        <trans-unit id="menu.show_search_person_degrees">
+          <source>menu.show_search_person_degrees</source>
+          <target>Afficher les diplômés en recherche ?</target>
+        </trans-unit>
+        <trans-unit id="menu.show_other_person_degrees">
+          <source>menu.show_other_person_degrees</source>
+          <target>Afficher les autres diplômés ?</target>
+        </trans-unit>
+        <trans-unit id="error.please_enter_city">
+          <source>error.please_enter_city</source>
+          <target>Veuillez renseigner la ville</target>
+        </trans-unit>
+      </body>
+    </file>
+  </xliff>

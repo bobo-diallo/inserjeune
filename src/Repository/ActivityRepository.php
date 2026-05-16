@@ -73,10 +73,15 @@ class ActivityRepository extends ServiceEntityRepository implements ChildColumTe
 	 * @return string[]
 	 */
 	public function getNames(): array {
-		return $this->createQueryBuilder('activity')
-			->select('activity.name')
-			->getQuery()
-			->getSingleColumnResult();
+        return array_map(
+            function (string $name): string {
+                return $this->translator->trans($name);
+            },
+            $this->createQueryBuilder('activity')
+                ->select('activity.name')
+                ->getQuery()
+                ->getSingleColumnResult()
+        );
 	}
 
 	/**
@@ -84,12 +89,21 @@ class ActivityRepository extends ServiceEntityRepository implements ChildColumTe
 	 * @return array
 	 */
 	function getActivitiesOfSector(int $sectorId): array {
-		return $this->createQueryBuilder('ac')
-			->select('ac.id, ac.name')
-			->where('ac.sectorArea = :sectorId')
-			->setParameter('sectorId', $sectorId)
-			->getQuery()
-			->getResult();
+        return array_map(
+            function (array $item): array {
+                return [
+                    'id' => $item['id'],
+                    'name' => $this->translator->trans($item['name'])
+                ];
+            },
+            $this->createQueryBuilder('activity')
+                ->select('activity.id, activity.name')
+                ->where('activity.sectorArea = :sectorId')
+                ->setParameter('sectorId', $sectorId)
+                ->orderBy('activity.name', 'ASC')
+                ->getQuery()
+                ->getResult()
+        );
 	}
 
 	/**

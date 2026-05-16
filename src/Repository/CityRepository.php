@@ -6,6 +6,7 @@ use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use http\QueryString;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CityRepository
@@ -15,17 +16,27 @@ use http\QueryString;
  */
 class CityRepository extends ServiceEntityRepository implements ChildColumTemplateRepository
 {
-	public function __construct(ManagerRegistry $registry) {
+    private TranslatorInterface $translator;
+
+    public function __construct(ManagerRegistry $registry, TranslatorInterface $translator) {
 		parent::__construct($registry, City::class);
+		$this->translator = $translator;
 	}
 
     public function getByRegionId(int $regionId): array {
-        return $this->createQueryBuilder('c')
-            ->select('c.id, c.name')
-            ->where('c.region = :region')
-            ->setParameter('region',$regionId)
-            ->getQuery()
-            ->getResult();
+        return array_map(
+            function (City $city): array {
+                return [
+                    'id' => $city->getId(),
+                    'name' => $this->translator->trans($city->getName()),
+                ];
+            },
+            $this->createQueryBuilder('c')
+                ->where('c.region = :region')
+                ->setParameter('region', $regionId)
+                ->getQuery()
+                ->getResult()
+        );
     }
 
 	/**
@@ -48,12 +59,17 @@ class CityRepository extends ServiceEntityRepository implements ChildColumTempla
 	 * @return string[]
 	 */
 	function getNamesByRegion(int $regionId): array {
-		return $this->createQueryBuilder('city')
-			->select('city.name')
-			->where('city.region = :regionId')
-			->setParameter('regionId', $regionId)
-			->getQuery()
-			->getSingleColumnResult();
+        return array_map(
+            function (string $name): string {
+                return $this->translator->trans($name);
+            },
+            $this->createQueryBuilder('city')
+                ->select('city.name')
+                ->where('city.region = :regionId')
+                ->setParameter('regionId', $regionId)
+                ->getQuery()
+                ->getSingleColumnResult()
+        );
 	}
 
 	/**

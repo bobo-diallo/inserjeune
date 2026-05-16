@@ -65,7 +65,8 @@ class SchoolService {
 
 			return new RedirectResponse($this->router->generate('front_school_new'));
 		} else {
-			return $executionActionController();
+            $response = $executionActionController();
+			return $response;
 		}
 	}
 }

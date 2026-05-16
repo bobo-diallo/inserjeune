@@ -191,11 +191,11 @@
       </trans-unit>
       <trans-unit id="menu.country">
         <source>menu.country</source>
-        <target>País</target>
+        <target>Provincia</target>
       </trans-unit>
       <trans-unit id="menu.countries">
         <source>menu.countries</source>
-        <target>País</target>
+        <target>Provincias</target>
       </trans-unit>
       <trans-unit id="menu.residence_country">
         <source>menu.residence_country</source>
@@ -203,11 +203,11 @@
       </trans-unit>
       <trans-unit id="menu.region">
         <source>menu.region</source>
-        <target>Región</target>
+        <target>País</target>
       </trans-unit>
       <trans-unit id="menu.regions">
         <source>menu.regions</source>
-        <target>Regiones</target>
+        <target>País</target>
       </trans-unit>
       <trans-unit id="menu.city">
         <source>menu.city</source>
@@ -6217,10 +6217,30 @@
         <source>menu.initialize_your_password</source>
         <target>Inicializar su contraseña</target>
       </trans-unit>
-      <trans-unit id="menu.request_code">
-        <source>menu.request_code</source>
-        <target>Solicitar el código</target>
-      </trans-unit>
-    </body>
-  </file>
-</xliff>
+       <trans-unit id="menu.request_code">
+         <source>menu.request_code</source>
+         <target>Solicitar el código</target>
+       </trans-unit>
+       <trans-unit id="menu.show_companies">
+         <source>menu.show_companies</source>
+         <target>¿Mostrar empresas?</target>
+       </trans-unit>
+       <trans-unit id="menu.show_establishments">
+         <source>menu.show_establishments</source>
+         <target>¿Mostrar establecimientos?</target>
+       </trans-unit>
+       <trans-unit id="menu.show_search_person_degrees">
+         <source>menu.show_search_person_degrees</source>
+         <target>¿Mostrar graduados buscando trabajo?</target>
+       </trans-unit>
+       <trans-unit id="menu.show_other_person_degrees">
+         <source>menu.show_other_person_degrees</source>
+         <target>¿Mostrar otros graduados?</target>
+       </trans-unit>
+       <trans-unit id="error.please_enter_city">
+         <source>error.please_enter_city</source>
+         <target>Por favor ingrese la ciudad</target>
+       </trans-unit>
+     </body>
+   </file>
+ </xliff>

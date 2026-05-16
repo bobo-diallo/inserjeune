@@ -43,7 +43,7 @@
                 <div class="dashboardFilter">
                     <form class="form-inline justify-content-sm-end form-dashboard" action="{{ path('dashboard_index') }}" method="post">
                         <div>
-                            <label for="">{{ "menu.province" | trans }}</label>
+                            <label for="">{{ "menu.country" | trans }}</label>
                             <select id="selectCountry" name="selectCountry" class="form-control form-control-sm select-dashboard rounded">
                                 {% for country in countries %}
                                     {% if country.id == idSelectedCountry %}
@@ -55,7 +55,7 @@
                             </select>
                         </div>
                         <div>
-                            <label for="">{{ "menu.country" | trans }}</label>
+                            <label for="">{{ "menu.region" | trans }}</label>
                             <select id="selectRegion" name="selectRegion" class="form-control form-control-sm select-dashboard rounded">
                                 {% if idSelectedRegion == "" %}
                                     <option selected value="">{{ 'menu.all_regions' | trans }}</option>
